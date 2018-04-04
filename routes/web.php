@@ -16,11 +16,13 @@ Route::get('/', function () {
 });
 
 
-Auth::routes();
+// Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+// Route::get('/home', 'HomeController@index');
 
 
+Route::get('admin/login', ['as'=> 'admin.login', 'uses' => 'Admin\UserController@viewLogin']);
+Route::post('admin/authenticate', ['as'=> 'admin.users.authenticate', 'uses' => 'Admin\UserController@authenticate']);
 Route::get('admin/users', ['as'=> 'admin.users.index', 'uses' => 'Admin\UserController@index']);
 Route::post('admin/users', ['as'=> 'admin.users.store', 'uses' => 'Admin\UserController@store']);
 Route::get('admin/users/create', ['as'=> 'admin.users.create', 'uses' => 'Admin\UserController@create']);
@@ -29,6 +31,8 @@ Route::patch('admin/users/{users}', ['as'=> 'admin.users.update', 'uses' => 'Adm
 Route::delete('admin/users/{users}', ['as'=> 'admin.users.destroy', 'uses' => 'Admin\UserController@destroy']);
 Route::get('admin/users/{users}', ['as'=> 'admin.users.show', 'uses' => 'Admin\UserController@show']);
 Route::get('admin/users/{users}/edit', ['as'=> 'admin.users.edit', 'uses' => 'Admin\UserController@edit']);
+
+Route::get('admin/dashboard', ['as'=> 'admin.dasboard', 'uses' => 'Admin\DashboardController@index']);
 
 
 Route::get('admin/userRoles', ['as'=> 'admin.userRoles.index', 'uses' => 'Admin\UserRoleController@index']);

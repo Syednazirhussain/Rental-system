@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Auth;
+
 
 class UserController extends AppBaseController
 {
@@ -151,5 +153,29 @@ class UserController extends AppBaseController
         Flash::success('User deleted successfully.');
 
         return redirect(route('admin.users.index'));
+    }
+
+
+    // view login
+    public function viewLogin()
+    {
+        return view('admin.auth.login');
+    }
+
+
+    // authenticate user
+    public function authenticate(Request $request)
+    {
+        if (Auth::attempt(array('email'=>$request->input('email'), 'password'=>$request->input('password'),'user_role_code'=>'admin'))) {
+
+            return redirect()->route('admin.dasboard');
+                    
+
+        } else {
+
+            return redirect()->route('admin.login')
+            ->with('errorLogin', 'Ooops! Invalid Email or Password')
+            ->withInput();
+        }
     }
 }
