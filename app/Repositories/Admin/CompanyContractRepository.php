@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Repositories\Admin;
+
+use App\Models\CompanyContract;
+use InfyOm\Generator\Common\BaseRepository;
+
+/**
+ * Class CompanyContractRepository
+ * @package App\Repositories\Admin
+ * @version April 4, 2018, 1:33 pm UTC
+ *
+ * @method CompanyContract findWithoutFail($id, $columns = ['*'])
+ * @method CompanyContract find($id, $columns = ['*'])
+ * @method CompanyContract first($columns = ['*'])
+*/
+class CompanyContractRepository extends BaseRepository
+{
+    /**
+     * @var array
+     */
+    protected $fieldSearchable = [
+        'company_id',
+        'number',
+        'content',
+        'start_date',
+        'end_date',
+        'termindation_date',
+        'payment_method',
+        'payment_cycle',
+        'discount',
+        'discount_type'
+    ];
+
+    /**
+     * Configure the Model
+     **/
+    public function model()
+    {
+        return CompanyContract::class;
+    }
+}
