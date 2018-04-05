@@ -21,7 +21,7 @@
       @endif
 
         <div class="text-right m-b-3">
-            <a href="{{ route('admin.userStatuses.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Role</a>
+            <a href="{{ route('admin.userStatuses.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Status</a>
         </div>
 
         <div class="table-primary">

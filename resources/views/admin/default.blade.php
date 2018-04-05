@@ -43,23 +43,23 @@
                             <li class="dropdown-toggle">
                                 <a href>Modules</a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="{{ route('admin.modules.create') }}"><i class="fa fa-plus"></i> Add Module</a></li>
-                                    <li><a href="{{ route('admin.modules.index') }}"><i class="fa fa-list-ul"></i> Modules</a></li>
+                                    <li><a href="{{ route('admin.modules.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Module</a></li>
+                                    <li><a href="{{ route('admin.modules.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Modules</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown-toggle">
                                 <a href>Companies</a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="{{ route('admin.companies.create') }}"><i class="fa fa-plus"></i> Add Company</a></li>
-                                    <li><a href="{{ route('admin.companies.index') }}"><i class="fa fa-list-ul"></i> Companies</a></li>
+                                    <li><a href="{{ route('admin.companies.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Company</a></li>
+                                    <li><a href="{{ route('admin.companies.index') }}"><i class="fa fa-building-o"></i>&nbsp;&nbsp;Companies</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown-toggle">
                                 <a href>Settings</a>
                                 <ul class="dropdown-menu">
-                                   <li><a href="{{ route('admin.userRoles.index') }}"><i class="fa fa-list-ul"></i> User Roles</a></li>
+                                   <li><a href="{{ route('admin.userRoles.index') }}"><i class="fa fa-users"></i>&nbsp;&nbsp;User Roles</a></li>
                                    <li class="divider"></li>
-                                   <li><a href="{{ route('admin.userStatuses.index') }}"><i class="fa fa-list-ul"></i> User Status</a></li>
+                                   <li><a href="{{ route('admin.userStatuses.index') }}"><i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;User Status</a></li>
                                 </ul>
                              </li>
                             <li class="divider"></li>
@@ -69,7 +69,7 @@
                 </ul>
                 <!-- Header -->
                 <div class="navbar-header">
-                    <a class="navbar-brand px-demo-brand" href="{{ route('admin.dasboard') }}"><span class="px-demo-logo bg-primary"><span class="px-demo-logo-1"></span><span class="px-demo-logo-2"></span><span class="px-demo-logo-3"></span><span class="px-demo-logo-4"></span><span class="px-demo-logo-5"></span><span class="px-demo-logo-6"></span><span class="px-demo-logo-7"></span><span class="px-demo-logo-8"></span><span class="px-demo-logo-9"></span></span>HIGHNOX</a>
+                    <a class="navbar-brand px-demo-brand" href="{{ route('admin.dashboard') }}"><span class="px-demo-logo bg-primary"><span class="px-demo-logo-1"></span><span class="px-demo-logo-2"></span><span class="px-demo-logo-3"></span><span class="px-demo-logo-4"></span><span class="px-demo-logo-5"></span><span class="px-demo-logo-6"></span><span class="px-demo-logo-7"></span><span class="px-demo-logo-8"></span><span class="px-demo-logo-9"></span></span>HIGHNOX</a>
                 </div>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">

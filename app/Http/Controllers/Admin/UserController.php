@@ -168,7 +168,7 @@ class UserController extends AppBaseController
     {
         if (Auth::attempt(array('email'=>$request->input('email'), 'password'=>$request->input('password'),'user_role_code'=>'admin'))) {
 
-            return redirect()->route('admin.dasboard');
+            return redirect()->route('admin.dashboard');
                     
 
         } else {
