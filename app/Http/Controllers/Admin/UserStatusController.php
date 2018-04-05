@@ -77,7 +77,7 @@ class UserStatusController extends AppBaseController
         $userStatus = $this->userStatusRepository->findWithoutFail($id);
 
         if (empty($userStatus)) {
-            Flash::error('User Status not found');
+            session()->flash('msg.error', 'User Status not found');
 
             return redirect(route('admin.userStatuses.index'));
         }
@@ -97,7 +97,7 @@ class UserStatusController extends AppBaseController
         $userStatus = $this->userStatusRepository->findWithoutFail($id);
 
         if (empty($userStatus)) {
-            Flash::error('User Status not found');
+            session()->flash('msg.error', 'User Status not found');
 
             return redirect(route('admin.userStatuses.index'));
         }
@@ -118,7 +118,7 @@ class UserStatusController extends AppBaseController
         $userStatus = $this->userStatusRepository->findWithoutFail($id);
 
         if (empty($userStatus)) {
-            Flash::error('User Status not found');
+            session()->flash('msg.error', 'User Status not found');
 
             return redirect(route('admin.userStatuses.index'));
         }
@@ -138,19 +138,19 @@ class UserStatusController extends AppBaseController
      *
      * @return Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
         $userStatus = $this->userStatusRepository->findWithoutFail($id);
 
         if (empty($userStatus)) {
-            Flash::error('User Status not found');
+            session()->flash('msg.error', 'User Status not found');
 
             return redirect(route('admin.userStatuses.index'));
         }
 
         $this->userStatusRepository->delete($id);
 
-        $request->session()->flash('msg.success', 'User Status deleted successfully.');
+        session()->flash('msg.success', 'User Status deleted successfully.');
 
 
         return redirect(route('admin.userStatuses.index'));

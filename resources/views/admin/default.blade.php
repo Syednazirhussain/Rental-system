@@ -78,11 +78,7 @@
                         <span class="hidden-md">{{ ucfirst(Auth::user()->name) }}</span>
                         </a>
                         <ul class="dropdown-menu">
-<<<<<<< HEAD
                             <li><a href="pages-account.html">Account</a></li>
-=======
-                            <li><a href="">Account</a></li>
->>>>>>> a979d23c3d7e381745c7dc76880cb9de816745bc
                             <li class="divider"></li>
                             <li><a href="{{ route('admin.logout') }}"><i class="dropdown-icon fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
                         </ul>

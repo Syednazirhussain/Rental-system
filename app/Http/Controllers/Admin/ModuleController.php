@@ -59,7 +59,8 @@ class ModuleController extends AppBaseController
 
         $module = $this->moduleRepository->create($input);
 
-        Flash::success('Module saved successfully.');
+        $request->session()->flash('msg.success', 'Module saved successfully.');
+
 
         return redirect(route('admin.modules.index'));
     }
@@ -76,7 +77,7 @@ class ModuleController extends AppBaseController
         $module = $this->moduleRepository->findWithoutFail($id);
 
         if (empty($module)) {
-            Flash::error('Module not found');
+            session()->flash('msg.error', 'Module not found');
 
             return redirect(route('admin.modules.index'));
         }
@@ -96,7 +97,7 @@ class ModuleController extends AppBaseController
         $module = $this->moduleRepository->findWithoutFail($id);
 
         if (empty($module)) {
-            Flash::error('Module not found');
+            session()->flash('msg.error', 'Module not found');
 
             return redirect(route('admin.modules.index'));
         }
@@ -117,14 +118,15 @@ class ModuleController extends AppBaseController
         $module = $this->moduleRepository->findWithoutFail($id);
 
         if (empty($module)) {
-            Flash::error('Module not found');
+            session()->flash('msg.error', 'Module not found');
 
             return redirect(route('admin.modules.index'));
         }
 
         $module = $this->moduleRepository->update($request->all(), $id);
 
-        Flash::success('Module updated successfully.');
+        $request->session()->flash('msg.success', 'Module updated successfully.');
+
 
         return redirect(route('admin.modules.index'));
     }
@@ -141,14 +143,16 @@ class ModuleController extends AppBaseController
         $module = $this->moduleRepository->findWithoutFail($id);
 
         if (empty($module)) {
-            Flash::error('Module not found');
+
+            session()->flash('msg.error', 'Module not found');
 
             return redirect(route('admin.modules.index'));
+
         }
 
         $this->moduleRepository->delete($id);
 
-        Flash::success('Module deleted successfully.');
+        session()->flash('msg.success', 'Module deleted successfully.');
 
         return redirect(route('admin.modules.index'));
     }

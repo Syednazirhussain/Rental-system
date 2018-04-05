@@ -77,7 +77,7 @@ class UserRoleController extends AppBaseController
         $userRole = $this->userRoleRepository->findWithoutFail($id);
 
         if (empty($userRole)) {
-            Flash::error('User Role not found');
+            session()->flash('msg.error', 'User Role not found');
 
             return redirect(route('admin.userRoles.index'));
         }
@@ -97,7 +97,7 @@ class UserRoleController extends AppBaseController
         $userRole = $this->userRoleRepository->findWithoutFail($id);
 
         if (empty($userRole)) {
-            Flash::error('User Role not found');
+            session()->flash('msg.error', 'User Role not found');
 
             return redirect(route('admin.userRoles.index'));
         }
@@ -118,7 +118,7 @@ class UserRoleController extends AppBaseController
         $userRole = $this->userRoleRepository->findWithoutFail($id);
 
         if (empty($userRole)) {
-            Flash::error('User Role not found');
+            session()->flash('msg.error', 'User Role not found');
 
             return redirect(route('admin.userRoles.index'));
         }
@@ -143,7 +143,7 @@ class UserRoleController extends AppBaseController
         $userRole = $this->userRoleRepository->findWithoutFail($id);
 
         if (empty($userRole)) {
-            Flash::error('User Role not found');
+            session()->flash('msg.error', 'User Role not found');
 
             return redirect(route('admin.userRoles.index'));
         }
