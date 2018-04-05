@@ -19,6 +19,8 @@ class UserRole extends Model
 
     public $table = 'user_roles';
 
+    public $timestamps = false;
+
 
     public $fillable = [
         'code',

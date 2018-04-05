@@ -1,26 +1,48 @@
-@extends('layouts.app')
+@extends('admin.default')
 
 @section('content')
-    <section class="content-header">
-        <h1 class="pull-left">Modules</h1>
-        <h1 class="pull-right">
-           <a class="btn btn-primary pull-right" style="margin-top: -10px;margin-bottom: 5px" href="{!! route('admin.modules.create') !!}">Add New</a>
-        </h1>
-    </section>
-    <div class="content">
-        <div class="clearfix"></div>
 
-        @include('flash::message')
 
-        <div class="clearfix"></div>
-        <div class="box box-primary">
-            <div class="box-body">
-                    @include('admin.modules.table')
-            </div>
-        </div>
-        <div class="text-center">
-        
-        </div>
+
+  <div class="px-content">
+    <div class="page-header">
+      <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i>Modules / </span></h1>
     </div>
+
+    <div class="panel">
+      <div class="panel-body">
+
+      @if (session()->has('msg.success'))
+        @include('layouts.success_msg')
+      @endif
+
+        <div class="text-right m-b-3">
+            <a href="{{ route('admin.modules.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Module</a>
+        </div>
+
+        <div class="table-primary">
+          @include('admin.modules.table')
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+@endsection
+
+
+
+@section('js')
+        <script type="text/javascript">
+            // -------------------------------------------------------------------------
+            // Initialize DataTables
+
+            $(function() {
+              $('#datatables').dataTable();
+              $('#datatables_wrapper .table-caption').text('Modules');
+              $('#datatables_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
+            });
+        </script>
 @endsection
 

@@ -43,8 +43,8 @@
                             <li class="dropdown-toggle">
                                 <a href>Modules</a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="{{ route('admin.companyModules.create') }}"><i class="fa fa-plus"></i> Add Module</a></li>
-                                    <li><a href="{{ route('admin.companyModules.index') }}"><i class="fa fa-list-ul"></i> Modules</a></li>
+                                    <li><a href="{{ route('admin.modules.create') }}"><i class="fa fa-plus"></i> Add Module</a></li>
+                                    <li><a href="{{ route('admin.modules.index') }}"><i class="fa fa-list-ul"></i> Modules</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown-toggle">
@@ -57,10 +57,8 @@
                             <li class="dropdown-toggle">
                                 <a href>Settings</a>
                                 <ul class="dropdown-menu">
-                                   <li><a href="{{ route('admin.userRoles.create') }}"><i class="fa fa-plus"></i> Add User Role</a></li>
                                    <li><a href="{{ route('admin.userRoles.index') }}"><i class="fa fa-list-ul"></i> User Roles</a></li>
                                    <li class="divider"></li>
-                                   <li><a href="{{ route('admin.userStatuses.create') }}"><i class="fa fa-plus"></i> Add User Status</a></li>
                                    <li><a href="{{ route('admin.userStatuses.index') }}"><i class="fa fa-list-ul"></i> User Status</a></li>
                                 </ul>
                              </li>
@@ -80,10 +78,9 @@
                         <span class="hidden-md">John Doe</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="pages-profile-v2.html"><span class="label label-warning pull-xs-right"><i class="fa fa-asterisk"></i></span>Profile</a></li>
                             <li><a href="pages-account.html">Account</a></li>
                             <li class="divider"></li>
-                            <li><a href="pages-signin-v1.html"><i class="dropdown-icon fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
+                            <li><a href="{{ route('admin.logout') }}"><i class="dropdown-icon fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
                         </ul>
                     </li>
                 </ul>

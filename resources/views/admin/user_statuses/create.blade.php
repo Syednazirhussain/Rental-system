@@ -15,15 +15,13 @@
                             <div class="panel-title">Add User Status</div>
                         </div>
                         <div class="panel-body">
-                            <form>
-
-                            {!! Form::open(['route' => 'admin.userStatuses.store']) !!}
+                            <form action="{{ route('admin.userStatuses.store') }}" method="POST" id="userStatusForm">
 
                                 @include('admin.user_statuses.fields')
-
-                            {!! Form::close() !!}
                                 
                             </form>
+
+
                         </div>
                     </div>
                 </div>

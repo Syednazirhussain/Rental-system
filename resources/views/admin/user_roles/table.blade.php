@@ -15,7 +15,6 @@
                 <td>{!! ucfirst($userRole->name) !!}</td>
                 <td  width="200px" class="center">
                     {!! Form::open(['route' => ['admin.userRoles.destroy', $userRole->id], 'method' => 'delete']) !!}
-                      <a href="{!! route('admin.userRoles.show', [$userRole->id]) !!}"><i class="fa fa-search fa-lg text-primary"></i></a>
                       <a href="{!! route('admin.userRoles.edit', [$userRole->id]) !!}"><i class="fa fa-edit fa-lg text-info"></i></a>
                       {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
                     {!! Form::close() !!}

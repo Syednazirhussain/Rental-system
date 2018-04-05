@@ -59,7 +59,8 @@ class UserRoleController extends AppBaseController
 
         $userRole = $this->userRoleRepository->create($input);
 
-        Flash::success('User Role saved successfully.');
+        // Flash::success('User Role saved successfully.');
+        $request->session()->flash('msg.success', 'User Role saved successfully.');
 
         return redirect(route('admin.userRoles.index'));
     }
@@ -124,7 +125,8 @@ class UserRoleController extends AppBaseController
 
         $userRole = $this->userRoleRepository->update($request->all(), $id);
 
-        Flash::success('User Role updated successfully.');
+        $request->session()->flash('msg.success', 'User Role updated successfully.');
+
 
         return redirect(route('admin.userRoles.index'));
     }
@@ -148,7 +150,8 @@ class UserRoleController extends AppBaseController
 
         $this->userRoleRepository->delete($id);
 
-        Flash::success('User Role deleted successfully.');
+        session()->flash('msg.success', 'User Role deleted successfully.');
+
 
         return redirect(route('admin.userRoles.index'));
     }

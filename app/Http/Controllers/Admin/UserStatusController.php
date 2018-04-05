@@ -59,7 +59,8 @@ class UserStatusController extends AppBaseController
 
         $userStatus = $this->userStatusRepository->create($input);
 
-        Flash::success('User Status saved successfully.');
+        $request->session()->flash('msg.success', 'User Status saved successfully.');
+
 
         return redirect(route('admin.userStatuses.index'));
     }
@@ -124,7 +125,8 @@ class UserStatusController extends AppBaseController
 
         $userStatus = $this->userStatusRepository->update($request->all(), $id);
 
-        Flash::success('User Status updated successfully.');
+        $request->session()->flash('msg.success', 'User Status updated successfully.');
+
 
         return redirect(route('admin.userStatuses.index'));
     }
@@ -136,7 +138,7 @@ class UserStatusController extends AppBaseController
      *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $userStatus = $this->userStatusRepository->findWithoutFail($id);
 
@@ -148,7 +150,8 @@ class UserStatusController extends AppBaseController
 
         $this->userStatusRepository->delete($id);
 
-        Flash::success('User Status deleted successfully.');
+        $request->session()->flash('msg.success', 'User Status deleted successfully.');
+
 
         return redirect(route('admin.userStatuses.index'));
     }

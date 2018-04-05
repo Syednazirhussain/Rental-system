@@ -20,6 +20,9 @@ class UserStatus extends Model
 {
 
     public $table = 'user_status';
+
+    public $timestamps = false;
+    
     
 
     public $fillable = [

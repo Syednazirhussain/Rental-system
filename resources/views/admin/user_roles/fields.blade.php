@@ -23,3 +23,41 @@
 	</div>
 
 </div>
+
+
+@section('js')
+
+  <script type="text/javascript">
+      
+      // Initialize validator
+      $('#userRolesForm').pxValidate({
+        focusInvalid: false,
+        rules: {
+          'code': {
+            required: true,
+            maxlength: 50,
+
+          },
+          'name': {
+            required: true,
+            maxlength: 100,
+          },
+        },
+
+        messages: {
+          'code': {
+            required: "please enter code",
+          },
+          'name': {
+            required: "please enter name",
+          }
+        }
+
+      });
+
+
+  </script>
+
+
+@endsection
+

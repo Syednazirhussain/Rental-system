@@ -12,7 +12,9 @@
     <div class="panel">
       <div class="panel-body">
 
-        @include('flash::message')
+      @if (session()->has('msg.success'))
+        @include('layouts.success_msg')
+      @endif
 
         <div class="text-right m-b-3">
             <a href="{{ route('admin.userRoles.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Role</a>

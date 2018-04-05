@@ -1,23 +1,26 @@
-@extends('layouts.app')
+@extends('admin.default')
 
 @section('content')
-    <section class="content-header">
-        <h1>
-            Module
-        </h1>
-   </section>
-   <div class="content">
-       @include('adminlte-templates::common.errors')
-       <div class="box box-primary">
-           <div class="box-body">
-               <div class="row">
-                   {!! Form::model($module, ['route' => ['admin.modules.update', $module->id], 'method' => 'patch']) !!}
 
-                        @include('admin.modules.fields')
+     <div class="px-content">
+        <div class="page-header">
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Modules / </span>{{ $module->name }}</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div class="panel-title">{{ $module->name }}</div>
+                    </div>
+                    <div class="panel-body">
+                        <form action="{{ route('admin.modules.update', [$module->id]) }}" method="POST" id="moduleForm">
+                        
+                            @include('admin.modules.fields')
 
-                   {!! Form::close() !!}
-               </div>
-           </div>
-       </div>
-   </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
