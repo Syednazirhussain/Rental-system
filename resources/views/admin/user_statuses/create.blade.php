@@ -1,24 +1,34 @@
-@extends('layouts.app')
+@extends('admin.default')
 
 @section('content')
-    <section class="content-header">
-        <h1>
-            User Status
-        </h1>
-    </section>
-    <div class="content">
-        @include('adminlte-templates::common.errors')
-        <div class="box box-primary">
 
-            <div class="box-body">
-                <div class="row">
-                    {!! Form::open(['route' => 'admin.userStatuses.store']) !!}
 
-                        @include('admin.user_statuses.fields')
 
-                    {!! Form::close() !!}
+        <div class="px-content">
+            <div class="page-header">
+                <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Settings / </span>Add User Status</h1>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <div class="panel-title">Add User Status</div>
+                        </div>
+                        <div class="panel-body">
+                            <form>
+
+                            {!! Form::open(['route' => 'admin.userStatuses.store']) !!}
+
+                                @include('admin.user_statuses.fields')
+
+                            {!! Form::close() !!}
+                                
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+
+
 @endsection

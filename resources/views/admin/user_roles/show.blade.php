@@ -1,19 +1,24 @@
-@extends('layouts.app')
+@extends('admin.default')
 
 @section('content')
-    <section class="content-header">
-        <h1>
-            User Role
-        </h1>
-    </section>
-    <div class="content">
-        <div class="box box-primary">
-            <div class="box-body">
-                <div class="row" style="padding-left: 20px">
-                    @include('admin.user_roles.show_fields')
-                    <a href="{!! route('admin.userRoles.index') !!}" class="btn btn-default">Back</a>
-                </div>
-            </div>
-        </div>
+
+
+  <div class="px-content">
+    <div class="page-header">
+      <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i>Settings / User Roles / </span>{!! $userRole->id !!}</h1>
     </div>
+
+    <div class="panel">
+      <div class="panel-body">
+
+       @include('admin.user_roles.show_fields')
+
+
+      </div>
+    </div>
+  </div>
+
+
+
+
 @endsection
