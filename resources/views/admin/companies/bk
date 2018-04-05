@@ -1,0 +1,5 @@
+{!! Form::open(['route' => 'admin.companies.store']) !!}
+
+        @include('admin.companies.fields')
+
+    {!! Form::close() !!}
