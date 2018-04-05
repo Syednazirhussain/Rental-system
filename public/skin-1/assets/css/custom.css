@@ -52,7 +52,26 @@
 
 
 
-
+.wizard-step-number {
+    position: absolute;
+    top: 50%;
+    left: 16px;
+    display: block;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    -webkit-transform: translateY(-14px);
+    -ms-transform: translateY(-14px);
+    transform: translateY(-14px);
+    text-align: center;
+    color: #919191;
+    border: 2px solid rgba(0,0,0,.05);
+    border-radius: 9999px;
+    font-weight: 700;
+    line-height: 20px;
+}
 
 
 
