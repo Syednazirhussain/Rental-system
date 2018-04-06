@@ -15,9 +15,9 @@
 	color: #ffffff !important;
 }
 
+.display-n { display: none; }
 
-
-
+.cursor-p { cursor: pointer; }
 
 
 .px-navbar .navbar-header {

@@ -6,6 +6,18 @@
 
 
 
+@section('css')
+
+        <!-- styles -->
+        <link href="{{ asset('/skin-1/assets/draganddrop/jquery.fileuploader.css') }}" media="all" rel="stylesheet">
+        <link href="{{ asset('/skin-1/assets/draganddrop/css/jquery.fileuploader-theme-dragdrop.css') }}" media="all" rel="stylesheet">
+        
+
+
+@endsection
+
+
+
         <div class="px-content">
             <div class="page-header">
                 <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Companies / </span>Add Company</h1>
@@ -85,24 +97,29 @@
                                 <h3 class="m-t-0">Company Basic Information</h3>
 
                                 <div class="row">
-                                    <div class="col-sm-6 form-group">
+
+                                    <div class="col-md-8">
                                         <fieldset class="form-group">
                                             <label for="name">Name</label>
                                             <input type="text" name="name" id="name" class="form-control" placeholder="john">
                                         </fieldset>
-                                    </div>
-                                    <div class="col-sm-6 form-group">
+
                                         <fieldset class="form-group">
                                             <label for="second_name">Second Name</label>
                                             <input type="text" name="second_name" id="second_name" class="form-control" placeholder="doe">
                                         </fieldset>
-                                    </div>
-                                    <div class="col-sm-12 form-group">
+
                                         <fieldset class="form-group">
                                             <label for="description">Description</label>
-                                            <textarea name="description" id="description" class="form-control" placeholder="between 20 to 150 characters"></textarea>
+                                            <textarea name="description" id="description" class="form-control" rows="4" placeholder="between 20 to 150 characters"></textarea>
                                         </fieldset>
                                     </div>
+
+                                    <div class="col-md-4">
+                                        <input type="file" name="files">
+                                    </div>
+
+
                                     <div class="col-sm-4 form-group">
                                         <fieldset class="form-group">
                                             <label for="country_id">Country</label>
@@ -193,7 +210,7 @@
                                 </div>
 
                             <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
-                              <button type="button" class="btn btn-primary btn-lg" data-wizard-action="next">STEP 2 <i class="fa fa-arrow-right m-l-1"></i></button>
+                              <button type="button" class="btn btn-primary" data-wizard-action="next">STEP 2 <i class="fa fa-arrow-right m-l-1"></i></button>
                             </div>
 
                           </form>
@@ -214,68 +231,75 @@
                             <h3 class="m-t-0">Company Contact Person Information</h3>
 
 
-                            <div class="row">
-                                <div class="col-md-12">
-                                    
-                                        <h5 class="m-t-0">Person # 1</h5>
-                                        <div class="row">
-                                            <div class="col-sm-6 form-group">
-                                                <fieldset class="form-group">
-                                                    <label for="person-name">Name</label>
-                                                    <input type="text" name="person_name" id="person-name" class="form-control" placeholder="john doe">
-                                                </fieldset>
-                                            </div>
-                                            <div class="col-sm-6 form-group">
-                                                <fieldset class="form-group">
-                                                    <label for="person-email">Email</label>
-                                                    <input type="email" name="person_email" id="person-email" class="form-control" placeholder="john@example.com">
-                                                </fieldset>
-                                            </div>
-                                            <div class="col-sm-6 form-group">
-                                                <fieldset class="form-group">
-                                                    <label for="person-phone">Phone</label>
-                                                    <input type="text" name="person_phone" id="person-phone" class="form-control" placeholder="0987654321">
-                                                </fieldset>
-                                            </div>
-                                            <div class="col-sm-6 form-group">
-                                                <fieldset class="form-group">
-                                                    <label for="person-fax">Fax</label>
-                                                    <input type="text" name="person_fax" id="person-fax" class="form-control" placeholder="0987654321">
-                                                </fieldset>
-                                            </div>
-                                            <div class="col-sm-12 form-group">
-                                                <fieldset class="form-group">
-                                                    <label for="person-address">Address</label>
-                                                    <input type="text" name="person_address" id="person-address" class="form-control" placeholder="ST-12 Phase-3/B Crown Center Alaska.">
-                                                </fieldset>
-                                            </div>
-                                            <div class="col-sm-6 form-group">
-                                                <fieldset class="form-group">
-                                                    <label for="person-department">Department</label>
-                                                    <input type="text" name="person_department" id="person-department" class="form-control" placeholder="Human Resource Department">
-                                                </fieldset>
-                                            </div>
-                                            <div class="col-sm-6 form-group">
-                                                <fieldset class="form-group">
-                                                    <label for="person-designation">Designation</label>
-                                                    <input type="text" name="person_designation" id="person-designation" class="form-control" placeholder="Asst. Manager">
-                                                </fieldset>
-                                            </div>
-                                        </div>
+                            <button type="button" class="btn btn-primary" id="addFieldBtn"> <i class="fa fa-plus"></i> Add More </button>
 
+                            <br><br>
+
+                            <div class="row">
+                                <div class="col-md-12" id="sectionContactPerson">
+
+                                        <div id="person-1">
+
+                                            <div id="contactPersonFields">
+
+                                                <h5 class="bg-success p-x-1 p-y-1 m-t-0" >Person <i class="fa fa-times fa-lg remove-contact-person pull-right cursor-p"></i></h5>
+
+                                                <div class="row">
+                                                    <div class="col-sm-6 form-group">
+                                                        <fieldset class="form-group">
+                                                            <label for="person-name">Name</label>
+                                                            <input type="text" name="person_name[]" class="person-name form-control" placeholder="john doe">
+                                                        </fieldset>
+                                                    </div>
+                                                    <div class="col-sm-6 form-group">
+                                                        <fieldset class="form-group">
+                                                            <label for="person-email">Email</label>
+                                                            <input type="email" name="person_email[]" class="person-email form-control" placeholder="john@example.com">
+                                                        </fieldset>
+                                                    </div>
+                                                    <div class="col-sm-6 form-group">
+                                                        <fieldset class="form-group">
+                                                            <label for="person-phone">Phone</label>
+                                                            <input type="text" name="person_phone[]" class="person-phone form-control" placeholder="0987654321">
+                                                        </fieldset>
+                                                    </div>
+                                                    <div class="col-sm-6 form-group">
+                                                        <fieldset class="form-group">
+                                                            <label for="person-fax">Fax</label>
+                                                            <input type="text" name="person_fax[]" class="person-fax form-control" placeholder="0987654321">
+                                                        </fieldset>
+                                                    </div>
+                                                    <div class="col-sm-12 form-group">
+                                                        <fieldset class="form-group">
+                                                            <label for="person-address">Address</label>
+                                                            <input type="text" name="person_address[]" class="person-address form-control" placeholder="ST-12 Phase-3/B Crown Center Alaska.">
+                                                        </fieldset>
+                                                    </div>
+                                                    <div class="col-sm-6 form-group">
+                                                        <fieldset class="form-group">
+                                                            <label for="person-department">Department</label>
+                                                            <input type="text" name="person_department[]" class="person-department form-control" placeholder="Human Resource Department">
+                                                        </fieldset>
+                                                    </div>
+                                                    <div class="col-sm-6 form-group">
+                                                        <fieldset class="form-group">
+                                                            <label for="person-designation">Designation</label>
+                                                            <input type="text" name="person_designation[]" class="person-designation form-control" placeholder="Asst. Manager">
+                                                        </fieldset>
+                                                    </div>
+                                                </div>    
+                                            </div>
+                                            
+                                        </div>
 
                                 </div>
                             </div>
 
 
-
-
-
                             <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
-                              <button type="button" class="btn btn-lg" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp;
-                              <button type="button" class="btn btn-primary btn-lg" data-wizard-action="next">STEP 3 <i class="fa fa-arrow-right m-l-1"></i></button>
+                              <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp;
+                              <button type="button" class="btn btn-primary" data-wizard-action="next">STEP 3 <i class="fa fa-arrow-right m-l-1"></i></button>
                             </div>
-
 
 
                           </form>
@@ -293,38 +317,63 @@
 
                           <form class="wizard-pane" id="wizard-3">
                             
-
                                 <h3 class="m-t-0">Building Information</h3>
 
-                                <div class="row">
-                                    <div class="col-sm-6 form-group">
-                                        <label for="building-name">Building Name</label>
-                                        <input type="text" name="building_name" id="building-name" class="form-control" placeholder="Crown Towers">
-                                    </div>
-                                    <div class="col-sm-6 form-group">
-                                        <label for="building-address">Address</label>
-                                        <input type="text" name="building_address" id="building-address" class="form-control" placeholder="ST-12 Phase-3/B Crown Center Alaska.">
-                                    </div>
-                                    <div class="col-sm-6 form-group">
-                                        <label for="building-zip">Zip Code</label>
-                                        <input type="text" name="building_zip" id="building-zip" class="form-control" placeholder="ABC-999">
-                                    </div>
-                                    <div class="col-sm-6 form-group">
-                                        <label for="building-no-of-floors">No. of Floors</label>
-                                        <input type="number" name="building_no_of_floors" id="building-no-of-floors" class="form-control" min="1">
+                                <button type="button" class="btn btn-primary" id="addBuildingBtn"> <i class="fa fa-plus"></i> Add More </button>
+
+                                <div id="sectionBuilding">
+                                    <div id="building-1">
+                                        <div id="buildingFields">
+
+                                            <h5 class="bg-success p-x-1 p-y-1" >Building <i class="fa fa-times fa-lg remove-building pull-right cursor-p"></i></h5>
+                                            
+                                            <div class="row">
+                                                <div class="col-sm-6 form-group">
+                                                    <label for="building-name">Building Name</label>
+                                                    <input type="text" name="building_name" id="building-name" class="form-control" placeholder="Crown Towers">
+                                                </div>
+                                                <div class="col-sm-6 form-group">
+                                                    <label for="building-address">Address</label>
+                                                    <input type="text" name="building_address" id="building-address" class="form-control" placeholder="ST-12 Phase-3/B Crown Center Alaska.">
+                                                </div>
+                                                <div class="col-sm-6 form-group">
+                                                    <label for="building-zip">Zip Code</label>
+                                                    <input type="text" name="building_zip" id="building-zip" class="form-control" placeholder="ABC-999">
+                                                </div>
+                                                <div class="col-sm-6 form-group">
+                                                    <label for="building-no-of-floors">No. of Floors</label>
+                                                    <input type="number" name="building_no_of_floors" id="building-no-of-floors" class="form-control" min="1">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <h3 class="m-t-0">Floor Information</h3>
 
-                                <div class="row">
-                                    <div class="col-sm-6 form-group">
-                                        <label for="building-floor-no">Floor No.</label>
-                                        <input type="number" name="building_floor_no" id="building-floor-no" class="form-control" min="1" >
-                                    </div>
-                                    <div class="col-sm-6 form-group">
-                                        <label for="building-floor-no-of-rooms">No. of Rooms</label>
-                                        <input type="number" name="building_floor_no_of_rooms" id="building-floor-no-of-rooms" class="form-control" min="1" >
+
+
+                                <h3 >Floor Information</h3>
+
+                                <button type="button" class="btn btn-primary" id="addFloorBtn"> <i class="fa fa-plus"></i> Add More </button>
+
+                                <div id="sectionFloor">
+                                    <div id="floor-1">
+                                        <div id="floorFields">
+
+                                            <h5 class="bg-success p-x-1 p-y-1" >Floor <i class="fa fa-times fa-lg remove-floor pull-right cursor-p"></i></h5>
+
+                                            <div class="row">
+                                                <div class="col-sm-6 form-group">
+                                                    <label for="building-floor-no">Floor No.</label>
+                                                    <input type="number" name="building_floor_no" id="building-floor-no" class="form-control" min="1" >
+                                                </div>
+                                                <div class="col-sm-6 form-group">
+                                                    <label for="building-floor-no-of-rooms">No. of Rooms</label>
+                                                    <input type="number" name="building_floor_no_of_rooms" id="building-floor-no-of-rooms" class="form-control" min="1" >
+                                                </div>
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>
 
@@ -332,8 +381,8 @@
 
 
                             <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
-                              <button type="button" class="btn btn-lg" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp;
-                              <button type="button" class="btn btn-primary btn-lg" data-wizard-action="next">STEP 4 <i class="fa fa-arrow-right m-l-1"></i></button>
+                              <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp;
+                              <button type="button" class="btn btn-primary" data-wizard-action="next">STEP 4 <i class="fa fa-arrow-right m-l-1"></i></button>
                             </div>
 
 
@@ -348,10 +397,7 @@
 
 
                           <form class="wizard-pane" id="wizard-4">
-                            
-
-                                
-
+                           
                                 <h3 class="m-t-0">Company Contract Information</h3>
 
                                 <div class="row">
@@ -402,13 +448,10 @@
                                 </div>
 
 
-
-
                             <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
-                              <button type="button" class="btn btn-lg" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp;
-                              <button type="button" class="btn btn-primary btn-lg" data-wizard-action="next">STEP 5 <i class="fa fa-arrow-right m-l-1"></i></button>
+                              <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp;
+                              <button type="button" class="btn btn-primary" data-wizard-action="next">STEP 5 <i class="fa fa-arrow-right m-l-1"></i></button>
                             </div>
-
 
 
                           </form>
@@ -420,31 +463,39 @@
 
                           <form class="wizard-pane" id="wizard-5">
                             
-
-
                                 <h3 class="m-t-0">Company Modules Information</h3>
 
-                                <div class="row">
-                                    <div class="col-sm-6 form-group">
-                                        <label for="module">Module</label>
-                                        <select name="module" class="form-control select2-status" style="width: 100%" data-allow-clear="true">
-                                            <option></option>
-                                            <option value="1">Module</option>
-                                            <option value="2">Module 2</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-6 form-group">
-                                        <label for="price">Price</label>
-                                        <input type="number" name="price" id="price" class="form-control" min="1" >
+                                <button type="button" class="btn btn-primary" id="addModuleBtn"> <i class="fa fa-plus"></i> Add More </button>
+
+                                <div id="sectionModule">
+                                    <div id="module-1">
+                                        <div id="moduleFields">
+
+                                            <h5 class="bg-success p-x-1 p-y-1" >Module <i class="fa fa-times fa-lg remove-module pull-right cursor-p"></i></h5>
+
+                                            <div class="row">
+                                                <div class="col-sm-6 form-group">
+                                                    <label for="module">Module</label>
+                                                    <select name="module" class="form-control select2-status" style="width: 100%" data-allow-clear="true">
+                                                        <option></option>
+                                                        <option value="1">Module</option>
+                                                        <option value="2">Module 2</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-6 form-group">
+                                                    <label for="price">Price</label>
+                                                    <input type="number" name="price" id="price" class="form-control" min="1" >
+                                                </div>
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>
 
 
-
-
                             <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
-                              <button type="button" class="btn btn-lg" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp;
-                              <button type="button" class="btn btn-primary btn-lg" data-wizard-action="next">STEP 6 <i class="fa fa-arrow-right m-l-1"></i></button>
+                              <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp;
+                              <button type="button" class="btn btn-primary" data-wizard-action="next">STEP 6 <i class="fa fa-arrow-right m-l-1"></i></button>
                             </div>
 
 
@@ -461,27 +512,39 @@
                             
 
                                 <h3 class="m-t-0">Company Admin Information</h3>
+                                
+                                <button type="button" class="btn btn-primary" id="addAdminBtn"> <i class="fa fa-plus"></i> Add More </button>
 
-                                <div class="row">
-                                    <div class="col-sm-12 form-group">
-                                        <label for="admin-name">Name</label>
-                                        <input type="text" name="admin_name" id="admin-name"  class="form-control" placeholder="john doe">
-                                    </div>
-                                    <div class="col-sm-12 form-group">
-                                        <label for="admin-email">Email</label>
-                                        <input type="email" name="admin_email" id="admin-email" class="form-control" placeholder="john@example.com">
-                                    </div>
-                                    <div class="col-sm-12 form-group">
-                                        <label for="admin-password">Password</label>
-                                        <input type="password" name="admin_password" id="admin-password" class="form-control" placeholder="testingpass123">
+                                <div id="sectionAdmin">
+                                    <div id="admin-1">
+                                        <div id="adminFields">
+
+                                            <h5 class="bg-success p-x-1 p-y-1" >Admin <i class="fa fa-times fa-lg remove-admin pull-right cursor-p"></i></h5>
+                                
+                                            <div class="row">
+                                                <div class="col-sm-12 form-group">
+                                                    <label for="admin-name">Name</label>
+                                                    <input type="text" name="admin_name" id="admin-name"  class="form-control" placeholder="john doe">
+                                                </div>
+                                                <div class="col-sm-12 form-group">
+                                                    <label for="admin-email">Email</label>
+                                                    <input type="email" name="admin_email" id="admin-email" class="form-control" placeholder="john@example.com">
+                                                </div>
+                                                <div class="col-sm-12 form-group">
+                                                    <label for="admin-password">Password</label>
+                                                    <input type="password" name="admin_password" id="admin-password" class="form-control" placeholder="testingpass123">
+                                                </div>
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>
 
 
 
                             <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
-                              <button type="button" class="btn btn-lg" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp;
-                              <button type="submit" class="btn btn-primary btn-lg" data-wizard-action="next"><i class="fa fa-plus m-r-1"></i> Add Company </button>
+                              <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp;
+                              <button type="submit" class="btn btn-primary" data-wizard-action="next"><i class="fa fa-plus m-r-1"></i> Add Company </button>
                             </div>
 
 
@@ -546,11 +609,19 @@
 
 @section('js')
 
+        <!-- js -->
+        <!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script> -->
+        <script src="{{ asset('/skin-1/assets/draganddrop/jquery.fileuploader.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('/skin-1/assets/draganddrop/js/custom.js') }}" type="text/javascript"></script>
+
 
 <script type="text/javascript">
 
 
-           // -------------------------------------------------------------------------
+
+
+
+            // -------------------------------------------------------------------------
             // Initialize Markdown
             
             $(function() {
@@ -639,7 +710,7 @@
 
       // Rules
 
-      /*$('#wizard-1').pxValidate({
+/*      $('#wizard-1').pxValidate({
         ignore: '.ignore',
         focusInvalid: false,
         rules: {
@@ -700,56 +771,94 @@
           },
 
         },
-      });*/
+      });
+*/
 
 
 
 
 
 
+    
 
 
 
 
 
 
-
-
-      /*$("#wizard-2").pxValidate({
+/*      $("#wizard-2").pxValidate({
         ignore: '.ignore, .select2-input',
         focusInvalid: true,
         rules: {
-          'person-name': {
+
+        },
+      });
+
+        $(".person-name").rules("add", { 
+          required:true
+        });
+
+        $(".person-email").rules("add", { 
+          required:true
+        });
+
+        $(".person-phone").rules("add", { 
+          required:true
+        });
+
+        $(".person-fax").rules("add", { 
+          required:true
+        });
+
+        $(".person-address").rules("add", { 
+          required:true
+        });
+
+        $(".person-department").rules("add", { 
+          required:true
+        });
+
+        $(".person-designation").rules("add", { 
+          required:true
+        });*/
+
+
+
+
+
+
+
+
+/*      $("#wizard-3").pxValidate({
+        ignore: '.ignore',
+        focusInvalid: true,
+        rules: {
+          'building-name': {
             required:  true,
             minlength: 3,
             maxlength: 20,
           },
-          'person-email': {
+          'building-address': {
             required:  true,
             minlength: 3,
             maxlength: 20,
           },
-          'person-phone': {
+          'building-zip': {
             required:  true,
             minlength: 3,
             maxlength: 20,
           },
-          'person-fax': {
+          'building-no-of-floors': {
             required:  true,
             minlength: 3,
             maxlength: 20,
           },
-          'person-address': {
+          'building-floor-no': {
             required:  true,
             minlength: 3,
             maxlength: 20,
           },
-          'person-department': {
-            required:  true,
-            minlength: 3,
-            maxlength: 20,
-          },
-          'person-designation': {
+          'building-floor-no-of-rooms': {
             required:  true,
             minlength: 3,
             maxlength: 20,
@@ -762,104 +871,58 @@
 
 
 
-
-
-
-
-      // $("#wizard-3").pxValidate({
-      //   ignore: '.ignore',
-      //   focusInvalid: true,
-      //   rules: {
-      //     'building-name': {
-      //       required:  true,
-      //       minlength: 3,
-      //       maxlength: 20,
-      //     },
-      //     'building-address': {
-      //       required:  true,
-      //       minlength: 3,
-      //       maxlength: 20,
-      //     },
-      //     'building-zip': {
-      //       required:  true,
-      //       minlength: 3,
-      //       maxlength: 20,
-      //     },
-      //     'building-no-of-floors': {
-      //       required:  true,
-      //       minlength: 3,
-      //       maxlength: 20,
-      //     },
-      //     'building-floor-no': {
-      //       required:  true,
-      //       minlength: 3,
-      //       maxlength: 20,
-      //     },
-      //     'building-floor-no-of-rooms': {
-      //       required:  true,
-      //       minlength: 3,
-      //       maxlength: 20,
-      //     },
-      //   },
-      // });
-
-
-
-
-
-
-        // $("#wizard-4").pxValidate({
-        //     ignore: '.ignore',
-        //     focusInvalid: true,
-        //     rules: {
-        //       'contract-no': {
-        //         required:  true,
-        //         minlength: 3,
-        //         maxlength: 20,
-        //       },
-        //       'contract-description': {
-        //         required:  true,
-        //         minlength: 3,
-        //         maxlength: 20,
-        //       },
-        //       'start-date': {
-        //         required:  true,
-        //         minlength: 3,
-        //         maxlength: 20,
-        //       },
-        //       'end-date': {
-        //         required:  true,
-        //         minlength: 3,
-        //         maxlength: 20,
-        //       },
-        //       'payment-method': {
-        //         required:  true,
-        //         minlength: 3,
-        //         maxlength: 20,
-        //       },
-        //       'payment-cycle': {
-        //         required:  true,
-        //         minlength: 3,
-        //         maxlength: 20,
-        //       },
-        //       'discount': {
-        //         required:  true,
-        //         minlength: 3,
-        //         maxlength: 20,
-        //       },
-        //       'discount-type': {
-        //         required:  true,
-        //         minlength: 3,
-        //         maxlength: 20,
-        //       }
-        //     },
-        //   });
+/*        $("#wizard-4").pxValidate({
+            ignore: '.ignore',
+            focusInvalid: true,
+            rules: {
+              'contract-no': {
+                required:  true,
+                minlength: 3,
+                maxlength: 20,
+              },
+              'contract-description': {
+                required:  true,
+                minlength: 3,
+                maxlength: 20,
+              },
+              'start-date': {
+                required:  true,
+                minlength: 3,
+                maxlength: 20,
+              },
+              'end-date': {
+                required:  true,
+                minlength: 3,
+                maxlength: 20,
+              },
+              'payment-method': {
+                required:  true,
+                minlength: 3,
+                maxlength: 20,
+              },
+              'payment-cycle': {
+                required:  true,
+                minlength: 3,
+                maxlength: 20,
+              },
+              'discount': {
+                required:  true,
+                minlength: 3,
+                maxlength: 20,
+              },
+              'discount-type': {
+                required:  true,
+                minlength: 3,
+                maxlength: 20,
+              }
+            },
+          });*/
 
 
 
 
 
-        $("#wizard-5").pxValidate({
+/*        $("#wizard-5").pxValidate({
             ignore: '.ignore',
             focusInvalid: true,
             rules: {
@@ -872,11 +935,11 @@
                 maxlength: 20,
               },
             },
-          });
+          });*/
 
 
 
-        $("#wizard-6").pxValidate({
+/*        $("#wizard-6").pxValidate({
             ignore: '.ignore',
             focusInvalid: true,
             rules: {
@@ -899,7 +962,7 @@
             },
           });
 
-
+*/
 
 
 
@@ -939,6 +1002,152 @@
     });
 
 
+
+
+
+
+    
+
+
+            // Add More Contact Persons
+            var i = 1;
+            $('#addFieldBtn').on('click', function() {
+
+                var personData = $('#contactPersonFields').clone(true);
+
+                i = i+1;
+
+                dataForAppend = '<div id="person-'+i+'"';
+                dataForAppend += "></div>";
+
+                $('#sectionContactPerson').prepend(dataForAppend);
+
+                $('#person-'+i).html(personData);
+
+            });
+
+
+            $('#contactPersonFields').on('click', '.remove-contact-person', function() {
+
+                $(this).closest('#contactPersonFields').remove();
+
+            });
+
+
+
+            // Add More Buildings
+
+            var j = 1;
+            $('#addBuildingBtn').on('click', function() {
+
+                var buildingData = $('#buildingFields').clone(true);
+
+                j = j+1;
+
+                dataForBuildingAppend = '<div id="building-'+j+'"';
+                dataForBuildingAppend += "></div>";
+
+                $('#sectionBuilding').prepend(dataForBuildingAppend);
+
+                $('#building-'+j).html(buildingData);
+
+            });
+
+
+            $('#buildingFields').on('click', '.remove-building', function() {
+
+                $(this).closest('#buildingFields').remove();
+
+            });
+
+
+            // Add More Floors
+
+            var k = 1;
+            $('#addFloorBtn').on('click', function() {
+
+                var floorData = $('#floorFields').clone(true);
+
+                k = k+1;
+
+                dataForFloorAppend = '<div id="floor-'+k+'"';
+                dataForFloorAppend += "></div>";
+
+                $('#sectionFloor').prepend(dataForFloorAppend);
+
+                $('#floor-'+k).html(floorData);
+
+            });
+
+
+            $('#floorFields').on('click', '.remove-floor', function() {
+
+                $(this).closest('#floorFields').remove();
+
+            });
+
+
+            // Add More Module
+
+            var m = 1;
+            $('#addModuleBtn').on('click', function() {
+
+                var moduleData = $('#moduleFields').clone(true);
+
+                m = m+1;
+
+                dataForModuleAppend = '<div id="module-'+m+'"';
+                dataForModuleAppend += "></div>";
+
+                $('#sectionModule').prepend(dataForModuleAppend);
+
+                $('#module-'+m).html(moduleData);
+
+            });
+
+
+            $('#moduleFields').on('click', '.remove-module', function() {
+
+                $(this).closest('#moduleFields').remove();
+
+            });
+
+
+
+            // Add More Admin
+
+            var n = 1;
+            $('#addAdminBtn').on('click', function() {
+
+                var adminData = $('#adminFields').clone(true);
+
+                n = n+1;
+
+                if (n < 4) {
+
+                    dataForAdminAppend = '<div id="admin-'+n+'"';
+                    dataForAdminAppend += "></div>";
+
+                    $('#sectionAdmin').prepend(dataForAdminAppend);
+
+                    $('#admin-'+n).html(adminData);
+
+                } else {
+                    alert('Max 3 Admin allowed');
+                }
+
+            });
+
+
+            $('#adminFields').on('click', '.remove-admin', function() {
+
+                $(this).closest('#adminFields').remove();
+
+                n = n-1;
+
+            });
+
+
 </script>
 
 
@@ -948,3 +1157,13 @@
 
 
 @endsection
+
+
+
+
+
+
+
+
+
+
