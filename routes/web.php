@@ -12,7 +12,10 @@
 |
 */
 
-Route::get('/', ['as'=> 'home', 'uses' => 'Admin\UserController@viewLogin']);
+Route::get('/', function() {
+
+	return redirect()->route('admin.login');
+});
 
 /********** Admin accessible routes as a Guest User start **********/
 

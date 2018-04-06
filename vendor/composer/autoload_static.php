@@ -14,11 +14,11 @@ class ComposerStaticInitf94ddff63512d832e2783dddcc566951
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         'e23faeee409e941dc9b4c80386209c39' => __DIR__ . '/..' . '/laracasts/flash/src/Laracasts/Flash/functions.php',
+        'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
+        '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
         'e7223560d890eab89cda23685e711e2c' => __DIR__ . '/..' . '/psy/psysh/src/Psy/functions.php',
         '0ccdf99b8f62f02c52cba55802e0c2e7' => __DIR__ . '/..' . '/zircote/swagger-php/src/functions.php',
         'a28599dc506da421718fad75955a4b9d' => __DIR__ . '/..' . '/infyomlabs/laravel-generator/src/helpers.php',
-        'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
-        '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
         'f18cc91337d49233e5754e93f3ed9ec3' => __DIR__ . '/..' . '/laravelcollective/html/src/helpers.php',
     );
 
@@ -35,6 +35,7 @@ class ComposerStaticInitf94ddff63512d832e2783dddcc566951
         array (
             'Whoops\\' => 7,
             'Webmozart\\Assert\\' => 17,
+            'Waavi\\Translation\\' => 18,
         ),
         'T' => 
         array (
@@ -137,6 +138,10 @@ class ComposerStaticInitf94ddff63512d832e2783dddcc566951
         'Webmozart\\Assert\\' => 
         array (
             0 => __DIR__ . '/..' . '/webmozart/assert/src',
+        ),
+        'Waavi\\Translation\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/waavi/translation/src',
         ),
         'TijsVerkoyen\\CssToInlineStyles\\' => 
         array (
@@ -409,6 +414,8 @@ class ComposerStaticInitf94ddff63512d832e2783dddcc566951
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
+        'App\\Http\\Middleware\\AdminAuthMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/AdminAuthMiddleware.php',
+        'App\\Http\\Middleware\\AdminGuestMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/AdminGuestMiddleware.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
         'App\\Http\\Middleware\\RedirectIfAuthenticated' => __DIR__ . '/../..' . '/app/Http/Middleware/RedirectIfAuthenticated.php',
         'App\\Http\\Middleware\\TrimStrings' => __DIR__ . '/../..' . '/app/Http/Middleware/TrimStrings.php',
@@ -2275,6 +2282,7 @@ class ComposerStaticInitf94ddff63512d832e2783dddcc566951
         'JakubOnderka\\PhpConsoleColor\\InvalidStyleException' => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src/JakubOnderka/PhpConsoleColor/InvalidStyleException.php',
         'JakubOnderka\\PhpConsoleHighlighter\\Highlighter' => __DIR__ . '/..' . '/jakub-onderka/php-console-highlighter/src/JakubOnderka/PhpConsoleHighlighter/Highlighter.php',
         'Jlapp\\Swaggervel\\SwaggervelServiceProvider' => __DIR__ . '/..' . '/jlapp/swaggervel/src/Jlapp/Swaggervel/SwaggervelServiceProvider.php',
+        'LanguageSeeder' => __DIR__ . '/../..' . '/database/seeds/LanguageSeeder.php',
         'Laracasts\\Flash\\Flash' => __DIR__ . '/..' . '/laracasts/flash/src/Laracasts/Flash/Flash.php',
         'Laracasts\\Flash\\FlashNotifier' => __DIR__ . '/..' . '/laracasts/flash/src/Laracasts/Flash/FlashNotifier.php',
         'Laracasts\\Flash\\FlashServiceProvider' => __DIR__ . '/..' . '/laracasts/flash/src/Laracasts/Flash/FlashServiceProvider.php',
@@ -4186,6 +4194,30 @@ class ComposerStaticInitf94ddff63512d832e2783dddcc566951
         'TijsVerkoyen\\CssToInlineStyles\\Css\\Rule\\Processor' => __DIR__ . '/..' . '/tijsverkoyen/css-to-inline-styles/src/Css/Rule/Processor.php',
         'TijsVerkoyen\\CssToInlineStyles\\Css\\Rule\\Rule' => __DIR__ . '/..' . '/tijsverkoyen/css-to-inline-styles/src/Css/Rule/Rule.php',
         'TypeError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/TypeError.php',
+        'Waavi\\Translation\\Cache\\CacheRepositoryInterface' => __DIR__ . '/..' . '/waavi/translation/src/Cache/CacheRepositoryInterface.php',
+        'Waavi\\Translation\\Cache\\RepositoryFactory' => __DIR__ . '/..' . '/waavi/translation/src/Cache/RepositoryFactory.php',
+        'Waavi\\Translation\\Cache\\SimpleRepository' => __DIR__ . '/..' . '/waavi/translation/src/Cache/SimpleRepository.php',
+        'Waavi\\Translation\\Cache\\TaggedRepository' => __DIR__ . '/..' . '/waavi/translation/src/Cache/TaggedRepository.php',
+        'Waavi\\Translation\\Commands\\CacheFlushCommand' => __DIR__ . '/..' . '/waavi/translation/src/Commands/CacheFlushCommand.php',
+        'Waavi\\Translation\\Commands\\FileLoaderCommand' => __DIR__ . '/..' . '/waavi/translation/src/Commands/FileLoaderCommand.php',
+        'Waavi\\Translation\\Facades\\TranslationCache' => __DIR__ . '/..' . '/waavi/translation/src/Facades/TranslationCache.php',
+        'Waavi\\Translation\\Facades\\UriLocalizer' => __DIR__ . '/..' . '/waavi/translation/src/Facades/UriLocalizer.php',
+        'Waavi\\Translation\\Loaders\\CacheLoader' => __DIR__ . '/..' . '/waavi/translation/src/Loaders/CacheLoader.php',
+        'Waavi\\Translation\\Loaders\\DatabaseLoader' => __DIR__ . '/..' . '/waavi/translation/src/Loaders/DatabaseLoader.php',
+        'Waavi\\Translation\\Loaders\\FileLoader' => __DIR__ . '/..' . '/waavi/translation/src/Loaders/FileLoader.php',
+        'Waavi\\Translation\\Loaders\\Loader' => __DIR__ . '/..' . '/waavi/translation/src/Loaders/Loader.php',
+        'Waavi\\Translation\\Loaders\\MixedLoader' => __DIR__ . '/..' . '/waavi/translation/src/Loaders/MixedLoader.php',
+        'Waavi\\Translation\\Middleware\\TranslationMiddleware' => __DIR__ . '/..' . '/waavi/translation/src/Middleware/TranslationMiddleware.php',
+        'Waavi\\Translation\\Models\\Language' => __DIR__ . '/..' . '/waavi/translation/src/Models/Language.php',
+        'Waavi\\Translation\\Models\\Translation' => __DIR__ . '/..' . '/waavi/translation/src/Models/Translation.php',
+        'Waavi\\Translation\\Repositories\\LanguageRepository' => __DIR__ . '/..' . '/waavi/translation/src/Repositories/LanguageRepository.php',
+        'Waavi\\Translation\\Repositories\\Repository' => __DIR__ . '/..' . '/waavi/translation/src/Repositories/Repository.php',
+        'Waavi\\Translation\\Repositories\\TranslationRepository' => __DIR__ . '/..' . '/waavi/translation/src/Repositories/TranslationRepository.php',
+        'Waavi\\Translation\\Routes\\ResourceRegistrar' => __DIR__ . '/..' . '/waavi/translation/src/Routes/ResourceRegistrar.php',
+        'Waavi\\Translation\\Traits\\Translatable' => __DIR__ . '/..' . '/waavi/translation/src/Traits/Translatable.php',
+        'Waavi\\Translation\\Traits\\TranslatableObserver' => __DIR__ . '/..' . '/waavi/translation/src/Traits/TranslatableObserver.php',
+        'Waavi\\Translation\\TranslationServiceProvider' => __DIR__ . '/..' . '/waavi/translation/src/TranslationServiceProvider.php',
+        'Waavi\\Translation\\UriLocalizer' => __DIR__ . '/..' . '/waavi/translation/src/UriLocalizer.php',
         'Way\\Generators\\Commands\\ControllerGeneratorCommand' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/Commands/ControllerGeneratorCommand.php',
         'Way\\Generators\\Commands\\GeneratorCommand' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/Commands/GeneratorCommand.php',
         'Way\\Generators\\Commands\\MigrationGeneratorCommand' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/Commands/MigrationGeneratorCommand.php',
