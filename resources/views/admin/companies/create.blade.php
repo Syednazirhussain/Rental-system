@@ -13,7 +13,6 @@
         <link href="{{ asset('/skin-1/assets/draganddrop/css/jquery.fileuploader-theme-dragdrop.css') }}" media="all" rel="stylesheet">
         
 
-
 @endsection
 
 
@@ -322,8 +321,8 @@
                                 <button type="button" class="btn btn-primary" id="addBuildingBtn"> <i class="fa fa-plus"></i> Add More </button>
 
                                 <div id="sectionBuilding">
-                                    <div id="building-1">
-                                        <div id="buildingFields">
+                                    <div class="building-1">
+                                        <div id="buildingFields" class="buildingFields">
 
                                             <h5 class="bg-success p-x-1 p-y-1" >Building <i class="fa fa-times fa-lg remove-building pull-right cursor-p"></i></h5>
                                             
@@ -342,42 +341,21 @@
                                                 </div>
                                                 <div class="col-sm-6 form-group">
                                                     <label for="building-no-of-floors">No. of Floors</label>
-                                                    <input type="number" name="building_no_of_floors" id="building-no-of-floors" class="form-control" min="1">
+                                                    <div class="row">
+                                                        <div class="col-sm-6 form-group">
+                                                            <input type="number" name="building_no_of_floors" id="building-no-of-floors" class="form-control building-no-of-floors" min="1" value="1">
+                                                        </div>
+                                                        <div class="col-sm-6 form-group">
+                                                            <button type="button" class="btn btn-primary addFloorBtn"> <i class="fa fa-plus"></i> Add Floors </button>
+                                                        </div>
+                                                    </div>
                                                 </div>
+                                            </div>
+                                            <div class="sectionFloor">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-
-
-
-                                <h3 >Floor Information</h3>
-
-                                <button type="button" class="btn btn-primary" id="addFloorBtn"> <i class="fa fa-plus"></i> Add More </button>
-
-                                <div id="sectionFloor">
-                                    <div id="floor-1">
-                                        <div id="floorFields">
-
-                                            <h5 class="bg-success p-x-1 p-y-1" >Floor <i class="fa fa-times fa-lg remove-floor pull-right cursor-p"></i></h5>
-
-                                            <div class="row">
-                                                <div class="col-sm-6 form-group">
-                                                    <label for="building-floor-no">Floor No.</label>
-                                                    <input type="number" name="building_floor_no" id="building-floor-no" class="form-control" min="1" >
-                                                </div>
-                                                <div class="col-sm-6 form-group">
-                                                    <label for="building-floor-no-of-rooms">No. of Rooms</label>
-                                                    <input type="number" name="building_floor_no_of_rooms" id="building-floor-no-of-rooms" class="form-control" min="1" >
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-
-
 
 
                             <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
@@ -516,8 +494,8 @@
                                 <button type="button" class="btn btn-primary" id="addAdminBtn"> <i class="fa fa-plus"></i> Add More </button>
 
                                 <div id="sectionAdmin">
-                                    <div id="admin-1">
-                                        <div id="adminFields">
+                                    <div id="admin">
+                                        <div id="adminFields" class="adminFields">
 
                                             <h5 class="bg-success p-x-1 p-y-1" >Admin <i class="fa fa-times fa-lg remove-admin pull-right cursor-p"></i></h5>
                                 
@@ -609,10 +587,10 @@
 
 @section('js')
 
-        <!-- js -->
-        <!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script> -->
-        <script src="{{ asset('/skin-1/assets/draganddrop/jquery.fileuploader.min.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('/skin-1/assets/draganddrop/js/custom.js') }}" type="text/javascript"></script>
+<!-- js -->
+<!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script> -->
+<script src="{{ asset('/skin-1/assets/draganddrop/jquery.fileuploader.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/skin-1/assets/draganddrop/js/custom.js') }}" type="text/javascript"></script>
 
 
 <script type="text/javascript">
@@ -1004,7 +982,11 @@
 
 
 
-
+            $(document).ready(function(){
+                $('.remove-contact-person').hide();
+                $('.remove-module').hide();
+                $('.remove-admin').hide();
+            });
 
     
 
@@ -1024,10 +1006,15 @@
 
                 $('#person-'+i).html(personData);
 
+                $('.remove-contact-person').show();
+
+                $('.remove-contact-person').last().hide();
+
+
             });
 
 
-            $('#contactPersonFields').on('click', '.remove-contact-person', function() {
+            $('#sectionContactPerson').on('click', '.remove-contact-person', function() {
 
                 $(this).closest('#contactPersonFields').remove();
 
@@ -1061,28 +1048,56 @@
             });
 
 
+            var floor = '<div class="floor">';
+                floor += '<div id="floorFields">';
+                floor += '<div class="row">';
+                floor += '<div class="col-sm-6 form-group">';
+                floor += '<label for="building-floor-no">Floor No.</label>';
+                floor += '<input type="name" name="building_floor_no" class="form-control building-floor-no" min="1" >';
+                floor += '</div>';
+                floor += '<div class="col-sm-6 form-group">';
+                floor += '<label for="building-floor-no-of-rooms">No. of Rooms</label>';
+                floor += '<div class="row">';
+                floor += '<div class="col-sm-6">';
+                floor += '<input type="number" name="building_floor_no_of_rooms" class="form-control building-floor-no-of-rooms" min="1" >';
+                floor += '</div>';
+                floor += '<div class="col-sm-6">';
+                floor += '<i class="fa fa-times fa-lg remove-floor cursor-p"></i>';
+                floor += '</div>';
+                floor += '</div>';
+                floor += '</div>';
+                floor += '</div>';
+                floor += '</div>';
+                floor += '</div>';
+
+
             // Add More Floors
 
             var k = 1;
-            $('#addFloorBtn').on('click', function() {
 
-                var floorData = $('#floorFields').clone(true);
+            $('.buildingFields').on('click', '.addFloorBtn', function() {
 
-                k = k+1;
+                var num_floors = $(this).parent().parent().find('.building-no-of-floors').val();
+                var floorSecion = $(this).parent().parent().parent().parent().parent().find('.sectionFloor');
+                var floorsExist = $(this).parent().parent().parent().parent().parent().find('.floor');
 
-                dataForFloorAppend = '<div id="floor-'+k+'"';
-                dataForFloorAppend += "></div>";
 
-                $('#sectionFloor').prepend(dataForFloorAppend);
+                if (num_floors <= floorsExist.length) {
+                    alert('Floors are already added');
+                } else {
 
-                $('#floor-'+k).html(floorData);
+                    for (i=1; i <= num_floors-floorsExist.length; i++) {
+                        floorSecion.append(floor);
+                    }
+                    
+                }
 
             });
 
 
-            $('#floorFields').on('click', '.remove-floor', function() {
+            $('.buildingFields').on('click', '.remove-floor', function() {
 
-                $(this).closest('#floorFields').remove();
+                $(this).closest('.floor').remove();
 
             });
 
@@ -1103,6 +1118,10 @@
 
                 $('#module-'+m).html(moduleData);
 
+                $('.remove-module').show();
+
+                $('.remove-module').last().hide();
+
             });
 
 
@@ -1116,21 +1135,28 @@
 
             // Add More Admin
 
-            var n = 1;
             $('#addAdminBtn').on('click', function() {
 
-                var adminData = $('#adminFields').clone(true);
 
-                n = n+1;
 
-                if (n < 4) {
+                if ($(".adminFields").length < 3) {
 
-                    dataForAdminAppend = '<div id="admin-'+n+'"';
+                    var adminData = $('#adminFields').clone(true);
+
+
+                    console.log($(".adminFields").length);
+
+                    dataForAdminAppend = '<div id="admin"';
                     dataForAdminAppend += "></div>";
 
                     $('#sectionAdmin').prepend(dataForAdminAppend);
 
-                    $('#admin-'+n).html(adminData);
+                    $('#admin').html(adminData);
+
+                    $('.remove-admin').show();
+
+                    $('.remove-admin').last().hide();
+
 
                 } else {
                     alert('Max 3 Admin allowed');
@@ -1142,8 +1168,6 @@
             $('#adminFields').on('click', '.remove-admin', function() {
 
                 $(this).closest('#adminFields').remove();
-
-                n = n-1;
 
             });
 
