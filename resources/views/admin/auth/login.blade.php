@@ -84,7 +84,7 @@
 
     <div class="page-signin-container" id="page-signin-form">
       
-      <h1 class="m-t-5 m-b-4 text-xs-center font-weight-semibold font-size-30 color-white">RENTAL SYSTEM</h1>
+      <h1 class="m-t-5 m-b-4 text-xs-center font-weight-semibold font-size-30 color-white">HIGH NOX</h1>
       <h3 class="m-t-0 m-b-4 text-xs-center font-size-20 color-white">Admin Log In</h3>
 
       <form method="post" action="{{ route('admin.users.authenticate') }}" class="panel p-a-4" id="admin-login-form">
