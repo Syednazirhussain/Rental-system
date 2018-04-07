@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateCompanyModulesTable extends Migration {
+class CreateTranslatorLanguagesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,12 +12,11 @@ class CreateCompanyModulesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('company_modules', function(Blueprint $table)
+		Schema::create('translator_languages', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('company_id')->unsigned()->index('company_id');
-			$table->integer('module_id')->unsigned()->index('module_id');
-			$table->decimal('price', 10)->unsigned();
+			$table->string('locale', 10)->unique();
+			$table->string('name', 60)->unique();
 			$table->timestamps();
 			$table->softDeletes();
 		});
@@ -31,7 +30,7 @@ class CreateCompanyModulesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('company_modules');
+		Schema::drop('translator_languages');
 	}
 
 }

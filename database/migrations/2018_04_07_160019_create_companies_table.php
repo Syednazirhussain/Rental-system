@@ -27,7 +27,7 @@ class CreateCompaniesTable extends Migration {
 			$table->integer('city_id')->unsigned()->nullable()->index('city_id');
 			$table->string('uuid', 191)->unique('uuid');
 			$table->string('user_role_code', 50)->nullable()->index('user_role_code');
-			$table->boolean('max_users');
+			$table->boolean('max_users')->default(1);
 			$table->integer('user_status_id')->unsigned()->nullable()->index('user_status_id');
 			$table->timestamps();
 			$table->softDeletes();
