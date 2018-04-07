@@ -73,24 +73,19 @@
 <body style="background-image: url({{ asset('/skin-1/assets/demo/blog/2.jpg') }}); background-position: center; background-size: cover;">
 
 
-
-
-
-
-
 <section >
     
     <!-- Log In form -->
 
     <div class="page-signin-container" id="page-signin-form">
       
-      <h1 class="m-t-5 m-b-4 text-xs-center font-weight-semibold font-size-30 color-white">HIGH NOX</h1>
-      <h3 class="m-t-0 m-b-4 text-xs-center font-size-20 color-white">Admin Log In</h3>
+      <h1 class="m-t-5 m-b-4 text-xs-center font-weight-semibold font-size-30 color-white">HIGHNOX</h1>
+      <h3 class="m-t-0 m-b-4 text-xs-center font-size-20 color-white">Hello, log in here!</h3>
 
       <form method="post" action="{{ route('admin.users.authenticate') }}" class="panel p-a-4" id="admin-login-form">
         
         {!! csrf_field() !!}
-
+          <span class="left">Username</span>
         <fieldset class=" form-group form-group-lg">
           <input type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Email">
         </fieldset>
@@ -101,6 +96,7 @@
             </span>
         @endif
 
+          <span class="left">Password</span>
         <fieldset class=" form-group form-group-lg">
           <input type="password" class="form-control" placeholder="Password" name="password">
         </fieldset>
@@ -118,7 +114,6 @@
     </div>
 
     <!-- / Log In form -->
-
 
   
 </section>
