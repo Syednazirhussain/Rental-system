@@ -93,8 +93,29 @@ class Company extends Model
      * @var array
      */
     public static $rules = [
-        
+        'name' => 'required|string|between:3,100',
+        'second_name' => 'string|max:100',
+        'logo' => 'image',
+        'description' => 'string',
+        'address' => 'required|string|max:150',
+        'zipcode' => 'required|string|between:3,20',
+        'phone' => 'required|string|between:7,20',
+        'country_id' => 'required|integer',
+        'state_id' => 'required|integer',
+        'city_id' => 'required|integer',
+        // 'user_role_code' => 'required|string',
+        'max_users' => 'integer',
+
     ];
+
+
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function ($model) {
+            $model->uuid = uniqid();
+        });
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

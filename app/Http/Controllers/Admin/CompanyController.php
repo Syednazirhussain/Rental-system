@@ -55,13 +55,28 @@ class CompanyController extends AppBaseController
      */
     public function store(CreateCompanyRequest $request)
     {
+
         $input = $request->all();
+
+        $file = $request->file('logo');
+
+        $newFileName = uniqid()."_".$file->getClientOriginalName();
+
+        $input['user_role_code'] = 'company';
+        $input['logo'] = $newFileName;
+        $input['max_users'] = 1;
+
+        /*echo "<pre>";
+        print_r($input);
+        echo "</pre>";
+
+        exit;*/
+
 
         $company = $this->companyRepository->create($input);
 
-        Flash::success('Company saved successfully.');
+        return response()->json(['success'=> 1, 'msg'=>'Company has been created successfully']);
 
-        return redirect(route('admin.companies.index'));
     }
 
     /**
@@ -76,7 +91,9 @@ class CompanyController extends AppBaseController
         $company = $this->companyRepository->findWithoutFail($id);
 
         if (empty($company)) {
-            Flash::error('Company not found');
+
+            session()->flash('msg.error', 'Company not found');
+
 
             return redirect(route('admin.companies.index'));
         }
@@ -96,7 +113,8 @@ class CompanyController extends AppBaseController
         $company = $this->companyRepository->findWithoutFail($id);
 
         if (empty($company)) {
-            Flash::error('Company not found');
+
+            session()->flash('msg.error', 'Company not found');
 
             return redirect(route('admin.companies.index'));
         }
@@ -117,7 +135,8 @@ class CompanyController extends AppBaseController
         $company = $this->companyRepository->findWithoutFail($id);
 
         if (empty($company)) {
-            Flash::error('Company not found');
+
+            session()->flash('msg.error', 'Company not found');
 
             return redirect(route('admin.companies.index'));
         }
@@ -141,14 +160,16 @@ class CompanyController extends AppBaseController
         $company = $this->companyRepository->findWithoutFail($id);
 
         if (empty($company)) {
-            Flash::error('Company not found');
+
+            session()->flash('msg.error', 'Company not found');
 
             return redirect(route('admin.companies.index'));
         }
 
         $this->companyRepository->delete($id);
 
-        Flash::success('Company deleted successfully.');
+        session()->flash('msg.success', 'Company deleted successfully.');
+
 
         return redirect(route('admin.companies.index'));
     }

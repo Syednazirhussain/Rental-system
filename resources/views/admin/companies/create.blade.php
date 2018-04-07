@@ -9,9 +9,7 @@
 @section('css')
 
         <!-- styles -->
-        <link href="{{ asset('/skin-1/assets/draganddrop/jquery.fileuploader.css') }}" media="all" rel="stylesheet">
-        <link href="{{ asset('/skin-1/assets/draganddrop/css/jquery.fileuploader-theme-dragdrop.css') }}" media="all" rel="stylesheet">
-        
+
 
 @endsection
 
@@ -91,7 +89,7 @@
 
 
                           
-                          <form class="wizard-pane active" id="wizard-1">
+                          <form action="{{ route('admin.companies.store') }}" name="createCompanyForm" class="wizard-pane active" id="wizard-1" method="post">
 
                                 <h3 class="m-t-0">Company Basic Information</h3>
 
@@ -115,23 +113,19 @@
                                     </div>
 
                                     <div class="col-md-4">
-                                        <input type="file" name="files">
+                                        <label id="file-custom-3" class="custom-file" for="logo">
+                                          <input type="file" id="logo" name="logo" class="form-control">
+                                        </label>
                                     </div>
-
-
+                                </div>
+                                <div class="row">
                                     <div class="col-sm-4 form-group">
                                         <fieldset class="form-group">
                                             <label for="country_id">Country</label>
                                             <select name="country_id" id="country_id" class="form-control select2-country" style="width: 100%" data-allow-clear="true">
                                                 <option></option>
-                                                <option value="NC">North Carolina</option>
-                                                <option value="OH">Ohio</option>
-                                                <option value="PA">Pennsylvania</option>
-                                                <option value="RI">Rhode Island</option>
-                                                <option value="SC">South Carolina</option>
-                                                <option value="VT">Vermont</option>
-                                                <option value="VA">Virginia</option>
-                                                <option value="WV">West Virginia</option>
+                                                <option value="1">Sweden</option>
+                                                <option value="2">Pakistan</option>
                                             </select>
                                         </fieldset>
                                     </div>
@@ -140,23 +134,8 @@
                                             <label for="state_id">State</label>
                                             <select name="state_id" id="state_id" class="form-control select2-state" style="width: 100%" data-allow-clear="true">
                                                 <option></option>
-                                                <option value="GA">Georgia</option>
-                                                <option value="IN">Indiana</option>
-                                                <option value="ME">Maine</option>
-                                                <option value="MD">Maryland</option>
-                                                <option value="MA">Massachusetts</option>
-                                                <option value="MI">Michigan</option>
-                                                <option value="NH">New Hampshire</option>
-                                                <option value="NJ">New Jersey</option>
-                                                <option value="NY">New York</option>
-                                                <option value="NC">North Carolina</option>
-                                                <option value="OH">Ohio</option>
-                                                <option value="PA">Pennsylvania</option>
-                                                <option value="RI">Rhode Island</option>
-                                                <option value="SC">South Carolina</option>
-                                                <option value="VT">Vermont</option>
-                                                <option value="VA">Virginia</option>
-                                                <option value="WV">West Virginia</option>
+                                                <option value="1">Stockholm</option>
+                                                <option value="2">Sindh</option>
                                             </select>
                                         </fieldset>
                                     </div>
@@ -165,10 +144,8 @@
                                             <label for="city_id">City</label>
                                             <select name="city_id" id="city_id" class="form-control select2-city" style="width: 100%" data-allow-clear="true">
                                                 <option></option>
-                                                <option value="AK">Alaska</option>
-                                                <option value="HI">Hawaii</option>
-                                                <option value="CA">California</option>
-                                                <option value="NV">Nevada</option>
+                                                <option value="1">Stockholm</option>
+                                                <option value="2">Karachi</option>
                                             </select>
                                         </fieldset>
                                     </div>
@@ -201,15 +178,11 @@
                                         </fieldset>
                                     </div>
                                     <div class="col-sm-6 form-group">
-                                        <fieldset class="form-group">
-                                            <label for="max_users">Max Users</label>
-                                            <input name="max_users" id="max_users" type="number" class="form-control" min="1" max="3">
-                                        </fieldset>
                                     </div>
                                 </div>
 
                             <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
-                              <button type="button" class="btn btn-primary" data-wizard-action="next">STEP 2 <i class="fa fa-arrow-right m-l-1"></i></button>
+                              <button type="submit" class="btn btn-primary" id="createCompanyBtn" data-wizard-action="next">CREATE COMPANY <i class="fa fa-arrow-right m-l-1"></i></button>
                             </div>
 
                           </form>
@@ -237,59 +210,8 @@
                             <div class="row">
                                 <div class="col-md-12" id="sectionContactPerson">
 
-                                        <div id="person-1">
-
-                                            <div id="contactPersonFields">
-
-                                                <h5 class="bg-success p-x-1 p-y-1 m-t-0" >Person <i class="fa fa-times fa-lg remove-contact-person pull-right cursor-p"></i></h5>
-
-                                                <div class="row">
-                                                    <div class="col-sm-6 form-group">
-                                                        <fieldset class="form-group">
-                                                            <label for="person-name">Name</label>
-                                                            <input type="text" name="person_name[]" class="person-name form-control" placeholder="john doe">
-                                                        </fieldset>
-                                                    </div>
-                                                    <div class="col-sm-6 form-group">
-                                                        <fieldset class="form-group">
-                                                            <label for="person-email">Email</label>
-                                                            <input type="email" name="person_email[]" class="person-email form-control" placeholder="john@example.com">
-                                                        </fieldset>
-                                                    </div>
-                                                    <div class="col-sm-6 form-group">
-                                                        <fieldset class="form-group">
-                                                            <label for="person-phone">Phone</label>
-                                                            <input type="text" name="person_phone[]" class="person-phone form-control" placeholder="0987654321">
-                                                        </fieldset>
-                                                    </div>
-                                                    <div class="col-sm-6 form-group">
-                                                        <fieldset class="form-group">
-                                                            <label for="person-fax">Fax</label>
-                                                            <input type="text" name="person_fax[]" class="person-fax form-control" placeholder="0987654321">
-                                                        </fieldset>
-                                                    </div>
-                                                    <div class="col-sm-12 form-group">
-                                                        <fieldset class="form-group">
-                                                            <label for="person-address">Address</label>
-                                                            <input type="text" name="person_address[]" class="person-address form-control" placeholder="ST-12 Phase-3/B Crown Center Alaska.">
-                                                        </fieldset>
-                                                    </div>
-                                                    <div class="col-sm-6 form-group">
-                                                        <fieldset class="form-group">
-                                                            <label for="person-department">Department</label>
-                                                            <input type="text" name="person_department[]" class="person-department form-control" placeholder="Human Resource Department">
-                                                        </fieldset>
-                                                    </div>
-                                                    <div class="col-sm-6 form-group">
-                                                        <fieldset class="form-group">
-                                                            <label for="person-designation">Designation</label>
-                                                            <input type="text" name="person_designation[]" class="person-designation form-control" placeholder="Asst. Manager">
-                                                        </fieldset>
-                                                    </div>
-                                                </div>    
-                                            </div>
-                                            
-                                        </div>
+                                    <div class="person">
+                                    </div>
 
                                 </div>
                             </div>
@@ -321,39 +243,8 @@
                                 <button type="button" class="btn btn-primary" id="addBuildingBtn"> <i class="fa fa-plus"></i> Add More </button>
 
                                 <div id="sectionBuilding">
-                                    <div class="building-1">
-                                        <div id="buildingFields" class="buildingFields">
-
-                                            <h5 class="bg-success p-x-1 p-y-1" >Building <i class="fa fa-times fa-lg remove-building pull-right cursor-p"></i></h5>
-                                            
-                                            <div class="row">
-                                                <div class="col-sm-6 form-group">
-                                                    <label for="building-name">Building Name</label>
-                                                    <input type="text" name="building_name" id="building-name" class="form-control" placeholder="Crown Towers">
-                                                </div>
-                                                <div class="col-sm-6 form-group">
-                                                    <label for="building-address">Address</label>
-                                                    <input type="text" name="building_address" id="building-address" class="form-control" placeholder="ST-12 Phase-3/B Crown Center Alaska.">
-                                                </div>
-                                                <div class="col-sm-6 form-group">
-                                                    <label for="building-zip">Zip Code</label>
-                                                    <input type="text" name="building_zip" id="building-zip" class="form-control" placeholder="ABC-999">
-                                                </div>
-                                                <div class="col-sm-6 form-group">
-                                                    <label for="building-no-of-floors">No. of Floors</label>
-                                                    <div class="row">
-                                                        <div class="col-sm-6 form-group">
-                                                            <input type="number" name="building_no_of_floors" id="building-no-of-floors" class="form-control building-no-of-floors" min="1" value="1">
-                                                        </div>
-                                                        <div class="col-sm-6 form-group">
-                                                            <button type="button" class="btn btn-primary addFloorBtn"> <i class="fa fa-plus"></i> Add Floors </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="sectionFloor">
-                                            </div>
-                                        </div>
+                                    <div class="building">
+                                        
                                     </div>
                                 </div>
 
@@ -446,27 +337,7 @@
                                 <button type="button" class="btn btn-primary" id="addModuleBtn"> <i class="fa fa-plus"></i> Add More </button>
 
                                 <div id="sectionModule">
-                                    <div id="module-1">
-                                        <div id="moduleFields">
-
-                                            <h5 class="bg-success p-x-1 p-y-1" >Module <i class="fa fa-times fa-lg remove-module pull-right cursor-p"></i></h5>
-
-                                            <div class="row">
-                                                <div class="col-sm-6 form-group">
-                                                    <label for="module">Module</label>
-                                                    <select name="module" class="form-control select2-status" style="width: 100%" data-allow-clear="true">
-                                                        <option></option>
-                                                        <option value="1">Module</option>
-                                                        <option value="2">Module 2</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-sm-6 form-group">
-                                                    <label for="price">Price</label>
-                                                    <input type="number" name="price" id="price" class="form-control" min="1" >
-                                                </div>
-                                            </div>
-
-                                        </div>
+                                    <div class="module">
                                     </div>
                                 </div>
 
@@ -494,27 +365,7 @@
                                 <button type="button" class="btn btn-primary" id="addAdminBtn"> <i class="fa fa-plus"></i> Add More </button>
 
                                 <div id="sectionAdmin">
-                                    <div id="admin">
-                                        <div id="adminFields" class="adminFields">
-
-                                            <h5 class="bg-success p-x-1 p-y-1" >Admin <i class="fa fa-times fa-lg remove-admin pull-right cursor-p"></i></h5>
-                                
-                                            <div class="row">
-                                                <div class="col-sm-12 form-group">
-                                                    <label for="admin-name">Name</label>
-                                                    <input type="text" name="admin_name" id="admin-name"  class="form-control" placeholder="john doe">
-                                                </div>
-                                                <div class="col-sm-12 form-group">
-                                                    <label for="admin-email">Email</label>
-                                                    <input type="email" name="admin_email" id="admin-email" class="form-control" placeholder="john@example.com">
-                                                </div>
-                                                <div class="col-sm-12 form-group">
-                                                    <label for="admin-password">Password</label>
-                                                    <input type="password" name="admin_password" id="admin-password" class="form-control" placeholder="testingpass123">
-                                                </div>
-                                            </div>
-
-                                        </div>
+                                    <div class="admin">
                                     </div>
                                 </div>
 
@@ -588,14 +439,84 @@
 @section('js')
 
 <!-- js -->
-<!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script> -->
-<script src="{{ asset('/skin-1/assets/draganddrop/jquery.fileuploader.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('/skin-1/assets/draganddrop/js/custom.js') }}" type="text/javascript"></script>
+
 
 
 <script type="text/javascript">
 
+ /* $(function() {
+    $('#dropzonejs').dropzone({
 
+      paramName: "logo",
+      url: "/",
+      acceptedFiles: "image/*",
+      autoProcessQueue: false,
+      autoQueue: false,
+      maxFiles: 1,
+      parallelUploads: 1,
+      maxFilesize:     10,
+      filesizeBase:    1000,
+
+      resize: function(file) {
+        return {
+          srcX:      0,
+          srcY:      0,
+          srcWidth:  file.width,
+          srcHeight: file.height,
+          trgWidth:  file.width,
+          trgHeight: file.height,
+        };
+      },
+    });
+
+
+    // Mock the file upload progress (only for the demo)
+    //
+    Dropzone.prototype.uploadFiles = function(files) {
+      var minSteps         = 6;
+      var maxSteps         = 60;
+      var timeBetweenSteps = 100;
+      var bytesPerStep     = 100000;
+      var isUploadSuccess  = Math.round(Math.random());
+
+      var self = this;
+
+      for (var i = 0; i < files.length; i++) {
+
+        var file = files[i];
+        var totalSteps = Math.round(Math.min(maxSteps, Math.max(minSteps, file.size / bytesPerStep)));
+
+        for (var step = 0; step < totalSteps; step++) {
+          var duration = timeBetweenSteps * (step + 1);
+
+          setTimeout(function(file, totalSteps, step) {
+            return function() {
+              file.upload = {
+                progress: 100 * (step + 1) / totalSteps,
+                total: file.size,
+                bytesSent: (step + 1) * file.size / totalSteps
+              };
+
+              self.emit('uploadprogress', file, file.upload.progress, file.upload.bytesSent);
+              if (file.upload.progress == 100) {
+
+                if (isUploadSuccess) {
+                  file.status =  Dropzone.SUCCESS;
+                  self.emit('success', file, 'success', null);
+                } else {
+                  file.status =  Dropzone.ERROR;
+                  self.emit('error', file, 'Some upload error', null);
+                }
+
+                self.emit('complete', file);
+                self.processQueue();
+              }
+            };
+          }(file, totalSteps, step), duration);
+        }
+      }
+    };
+  });*/
 
 
 
@@ -688,44 +609,35 @@
 
       // Rules
 
-/*      $('#wizard-1').pxValidate({
+
+      $('#wizard-1').pxValidate({
         ignore: '.ignore',
         focusInvalid: false,
         rules: {
           'name': {
             required:  true,
             minlength: 3,
-            maxlength: 20,
+            maxlength: 100,
           },
           'second_name': {
-            required:  true,
-            minlength: 3,
-            maxlength: 20,
+            required:  false,
+            maxlength: 100,
           },
           'description': {
-            required:  true,
-            minlength: 3,
-            maxlength: 20,
+            required:  false,
           },
           'country_id': {
             required:  true,
-            minlength: 3,
-            maxlength: 20,
           },
           'state_id': {
             required:  true,
-            minlength: 3,
-            maxlength: 20,
           },
           'city_id': {
             required:  true,
-            minlength: 3,
-            maxlength: 20,
           },
           'address': {
             required:  true,
-            minlength: 3,
-            maxlength: 20,
+            maxlength: 150,
           },
           'zipcode': {
             required:  true,
@@ -734,25 +646,43 @@
           },
           'phone': {
             required:  true,
-            minlength: 3,
+            minlength: 7,
             maxlength: 20,
           },
           'user_status_id': {
             required:  true,
-            minlength: 3,
-            maxlength: 20,
           },
           'max_users': {
             required:  true,
-            minlength: 3,
-            maxlength: 20,
+            min: 1,
+            max: 3,
           },
 
         },
+
+        submitHandler: function() {
+
+            // var data = $('#wizard-1').serialize();
+            var myform = document.getElementById("wizard-1");
+            var data = new FormData(myform );
+
+            $.ajax({
+                url: '{{ route("admin.companies.store") }}',
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                type: 'POST', // For jQuery < 1.9
+                success: function(data){
+                    myform.pxWizard('goTo', 2);
+                },
+                error: function(xhr,status,error)  {
+
+                }
+
+            });
+        }
       });
-*/
-
-
 
 
 
@@ -986,64 +916,128 @@
                 $('.remove-contact-person').hide();
                 $('.remove-module').hide();
                 $('.remove-admin').hide();
+                $('.remove-admin').hide();
+                $('#addBuildingBtn').trigger('click');
+                $('.remove-building').hide();
+
+                $('#addFieldBtn').trigger('click');
+                $('.remove-contact-person').hide();
+
+                $('#addModuleBtn').trigger('click');
+                $('.remove-module').hide();
+
+                $('#addAdminBtn').trigger('click');
+                $('.remove-admin').hide();
+
             });
 
     
 
 
             // Add More Contact Persons
-            var i = 1;
+
+            var person = '<div class="contactPersonFields">';
+                person += '<h5 class="bg-success p-x-1 p-y-1 m-t-0" >Person <i class="fa fa-times fa-lg remove-contact-person pull-right cursor-p"></i></h5>';
+                person += '<div class="row">';
+                person += '<div class="col-sm-6 form-group">';
+                person += '<fieldset class="form-group">';
+                person += '<label for="person-name">Name</label>';
+                person += '<input type="text" name="person_name[]" class="person-name form-control" placeholder="john doe">';
+                person += '</fieldset>';
+                person += '</div>';
+                person += '<div class="col-sm-6 form-group">';
+                person += '<fieldset class="form-group">';
+                person += '<label for="person-email">Email</label>';
+                person += '<input type="email" name="person_email[]" class="person-email form-control" placeholder="john@example.com">';
+                person += '</fieldset>';
+                person += '</div>';
+                person += '<div class="col-sm-6 form-group">';
+                person += '<fieldset class="form-group">';
+                person += '<label for="person-phone">Phone</label>';
+                person += '<input type="text" name="person_phone[]" class="person-phone form-control" placeholder="0987654321">';
+                person += '</fieldset>';
+                person += '</div>';
+                person += '<div class="col-sm-6 form-group">';
+                person += '<fieldset class="form-group">';
+                person += '<label for="person-fax">Fax</label>';
+                person += '<input type="text" name="person_fax[]" class="person-fax form-control" placeholder="0987654321">';
+                person += '</fieldset>';
+                person += '</div>';
+                person += '<div class="col-sm-12 form-group">';
+                person += '<fieldset class="form-group">';
+                person += '<label for="person-address">Address</label>';
+                person += '<input type="text" name="person_address[]" class="person-address form-control" placeholder="ST-12 Phase-3/B Crown Center Alaska.">';
+                person += '</fieldset>';
+                person += '</div>';
+                person += '<div class="col-sm-6 form-group">';
+                person += '<fieldset class="form-group">';
+                person += '<label for="person-department">Department</label>';
+                person += '<input type="text" name="person_department[]" class="person-department form-control" placeholder="Human Resource Department">';
+                person += '</fieldset>';
+                person += '</div>';
+                person += '<div class="col-sm-6 form-group">';
+                person += '<fieldset class="form-group">';
+                person += '<label for="person-designation">Designation</label>';
+                person += '<input type="text" name="person_designation[]" class="person-designation form-control" placeholder="Asst. Manager">';
+                person += '</fieldset>';
+                person += '</div>';
+                person += '</div>';
+                person += '</div>';
+
+
             $('#addFieldBtn').on('click', function() {
-
-                var personData = $('#contactPersonFields').clone(true);
-
-                i = i+1;
-
-                dataForAppend = '<div id="person-'+i+'"';
-                dataForAppend += "></div>";
-
-                $('#sectionContactPerson').prepend(dataForAppend);
-
-                $('#person-'+i).html(personData);
-
-                $('.remove-contact-person').show();
-
-                $('.remove-contact-person').last().hide();
-
-
+                $('.person').prepend(person);
             });
 
 
-            $('#sectionContactPerson').on('click', '.remove-contact-person', function() {
-
-                $(this).closest('#contactPersonFields').remove();
-
+            $(document).on('click', '.remove-contact-person', function() {
+                $(this).closest('.contactPersonFields').remove();
             });
 
 
 
             // Add More Buildings
 
-            var j = 1;
+            var building = '<div class="buildingFields">';
+                building += '<h5 class="bg-success p-x-1 p-y-1" >Building <i class="fa fa-times fa-lg remove-building pull-right cursor-p"></i></h5>';
+                building += '<div class="row">';
+                building += '<div class="col-sm-6 form-group">';
+                building += '<label for="building-name">Building Name</label>';
+                building += '<input type="text" name="building_name" id="building-name" class="form-control" placeholder="Crown Towers">';
+                building += '</div>';
+                building += '<div class="col-sm-6 form-group">';
+                building += '<label for="building-address">Address</label>';
+                building += '<input type="text" name="building_address" id="building-address" class="form-control" placeholder="ST-12 Phase-3/B Crown Center Alaska.">';
+                building += '</div>';
+                building += '<div class="col-sm-6 form-group">';
+                building += '<label for="building-zip">Zip Code</label>';
+                building += '<input type="text" name="building_zip" id="building-zip" class="form-control" placeholder="ABC-999">';
+                building += '</div>';
+                building += '<div class="col-sm-6 form-group">';
+                building += '<label for="building-no-of-floors">No. of Floors</label>';
+                building += '<div class="row">';
+                building += '<div class="col-sm-6 form-group">';
+                building += '<input type="number" name="building_no_of_floors" id="building-no-of-floors" class="form-control building-no-of-floors" min="1" value="1">';
+                building += '</div>';
+                building += '<div class="col-sm-6 form-group">';
+                building += '<button type="button" class="btn btn-primary addFloorBtn"> <i class="fa fa-plus"></i> Add Floors </button>';
+                building += '</div>';
+                building += '</div>';
+                building += '</div>';
+                building += '</div>';
+                building += '<div class="sectionFloor">';
+                building += '</div>';
+                building += '</div>';
+
+
             $('#addBuildingBtn').on('click', function() {
-
-                var buildingData = $('#buildingFields').clone(true);
-
-                j = j+1;
-
-                dataForBuildingAppend = '<div id="building-'+j+'"';
-                dataForBuildingAppend += "></div>";
-
-                $('#sectionBuilding').prepend(dataForBuildingAppend);
-
-                $('#building-'+j).html(buildingData);
-
+                $('.building').prepend(building);
             });
 
 
-            $('#buildingFields').on('click', '.remove-building', function() {
+            $(document).on('click', '.remove-building', function() {
 
-                $(this).closest('#buildingFields').remove();
+                $(this).closest('.buildingFields').remove();
 
             });
 
@@ -1075,7 +1069,7 @@
 
             var k = 1;
 
-            $('.buildingFields').on('click', '.addFloorBtn', function() {
+            $(document).on('click', '.addFloorBtn', function() {
 
                 var num_floors = $(this).parent().parent().find('.building-no-of-floors').val();
                 var floorSecion = $(this).parent().parent().parent().parent().parent().find('.sectionFloor');
@@ -1095,39 +1089,40 @@
             });
 
 
-            $('.buildingFields').on('click', '.remove-floor', function() {
-
+            $(document).on('click', '.remove-floor', function() {
                 $(this).closest('.floor').remove();
-
             });
 
 
             // Add More Module
 
-            var m = 1;
+            var module = '<div class="moduleFields">';
+                module += '<h5 class="bg-success p-x-1 p-y-1" >Module <i class="fa fa-times fa-lg remove-module pull-right cursor-p"></i></h5>';
+                module += '<div class="row">';
+                module += '<div class="col-sm-6 form-group">';
+                module += '<label for="module">Module</label>';
+                module += '<select name="module" class="form-control select2-status" style="width: 100%" data-allow-clear="true">';
+                module += '<option></option>';
+                module += '<option value="1">Module</option>/';
+                module += '<option value="2">Module 2</option>';
+                module += '</select>';
+                module += '</div>'
+                module += '<div class="col-sm-6 form-group">';
+                module += '<label for="price">Price</label>';
+                module += '<input type="number" name="price" id="price" class="form-control" min="1" >';
+                module += '</div>'
+                module += '</div>'
+                module += '</div>'
+
+
             $('#addModuleBtn').on('click', function() {
-
-                var moduleData = $('#moduleFields').clone(true);
-
-                m = m+1;
-
-                dataForModuleAppend = '<div id="module-'+m+'"';
-                dataForModuleAppend += "></div>";
-
-                $('#sectionModule').prepend(dataForModuleAppend);
-
-                $('#module-'+m).html(moduleData);
-
-                $('.remove-module').show();
-
-                $('.remove-module').last().hide();
-
+                $('.module').prepend(module);
             });
 
 
-            $('#moduleFields').on('click', '.remove-module', function() {
+            $(document).on('click', '.remove-module', function() {
 
-                $(this).closest('#moduleFields').remove();
+                $(this).closest('.moduleFields').remove();
 
             });
 
@@ -1135,40 +1130,37 @@
 
             // Add More Admin
 
+            var admin = '<div class="adminFields">';
+                admin += '<h5 class="bg-success p-x-1 p-y-1" >Admin <i class="fa fa-times fa-lg remove-admin pull-right cursor-p"></i></h5>';
+                admin += '<div class="row">';
+                admin += '<div class="col-sm-12 form-group">';
+                admin += '<label for="admin-name">Name</label>';
+                admin += '<input type="text" name="admin_name" id="admin-name"  class="form-control" placeholder="john doe">';
+                admin += '</div>';
+                admin += '<div class="col-sm-12 form-group">';
+                admin += '<label for="admin-email">Email</label>';
+                admin += '<input type="email" name="admin_email" id="admin-email" class="form-control" placeholder="john@example.com">';
+                admin += '</div>';
+                admin += '<div class="col-sm-12 form-group">';
+                admin += '<label for="admin-password">Password</label>';
+                admin += '<input type="password" name="admin_password" id="admin-password" class="form-control" placeholder="testingpass123">';
+                admin += '</div>';
+                admin += '</div>';
+                admin += '</div>';
+
+
             $('#addAdminBtn').on('click', function() {
-
-
-
                 if ($(".adminFields").length < 3) {
 
-                    var adminData = $('#adminFields').clone(true);
-
-
-                    console.log($(".adminFields").length);
-
-                    dataForAdminAppend = '<div id="admin"';
-                    dataForAdminAppend += "></div>";
-
-                    $('#sectionAdmin').prepend(dataForAdminAppend);
-
-                    $('#admin').html(adminData);
-
-                    $('.remove-admin').show();
-
-                    $('.remove-admin').last().hide();
-
-
+                    $('.admin').prepend(admin);
                 } else {
                     alert('Max 3 Admin allowed');
                 }
-
             });
 
 
-            $('#adminFields').on('click', '.remove-admin', function() {
-
-                $(this).closest('#adminFields').remove();
-
+            $(document).on('click', '.remove-admin', function() {
+                $(this).closest('.adminFields').remove();
             });
 
 
