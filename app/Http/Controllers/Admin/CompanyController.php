@@ -58,12 +58,15 @@ class CompanyController extends AppBaseController
 
         $input = $request->all();
 
-        $file = $request->file('logo');
+        if ($request->hasFile('logo')) {
 
-        $newFileName = uniqid()."_".$file->getClientOriginalName();
+            $path = $request->file('logo')->store('public/company_logos');
+            // $path = explode("/", $path);
+            $input['logo'] = $path;
+        }
+        
 
         $input['user_role_code'] = 'company';
-        $input['logo'] = $newFileName;
         $input['max_users'] = 1;
 
         /*echo "<pre>";
@@ -75,7 +78,7 @@ class CompanyController extends AppBaseController
 
         $company = $this->companyRepository->create($input);
 
-        return response()->json(['success'=> 1, 'msg'=>'Company has been created successfully']);
+        return response()->json(['success'=> 1, 'msg'=>'Company has been created successfully', 'company'=>$company]);
 
     }
 

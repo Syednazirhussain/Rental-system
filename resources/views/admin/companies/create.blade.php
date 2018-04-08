@@ -219,7 +219,7 @@
 
                             <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
                               <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp;
-                              <button type="button" class="btn btn-primary" data-wizard-action="next">STEP 3 <i class="fa fa-arrow-right m-l-1"></i></button>
+                              <button type="submit" class="btn btn-primary" data-wizard-action="next">STEP 3 <i class="fa fa-arrow-right m-l-1"></i></button>
                             </div>
 
 
@@ -251,7 +251,7 @@
 
                             <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
                               <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp;
-                              <button type="button" class="btn btn-primary" data-wizard-action="next">STEP 4 <i class="fa fa-arrow-right m-l-1"></i></button>
+                              <button type="submit" class="btn btn-primary" data-wizard-action="next">STEP 4 <i class="fa fa-arrow-right m-l-1"></i></button>
                             </div>
 
 
@@ -443,6 +443,8 @@
 
 
 <script type="text/javascript">
+
+var company_id = "";
 
  /* $(function() {
     $('#dropzonejs').dropzone({
@@ -674,7 +676,8 @@
                 processData: false,
                 type: 'POST', // For jQuery < 1.9
                 success: function(data){
-                    myform.pxWizard('goTo', 2);
+                    // myform.pxWizard('goTo', 2);
+                    company_id = data.company.id;
                 },
                 error: function(xhr,status,error)  {
 
@@ -685,94 +688,83 @@
       });
 
 
+      $('#wizard-2').validate();
+      
+      $('#wizard-2').on('submit', function(e) {
+       
+            e.preventDefault();
 
+            // test if form is valid 
+            if($('#wizard-2').validate().form()) {
 
-    
+              /*var myform = document.getElementById("wizard-2");
+              var data = new FormData(myform );
+              data.append('company_id', company_id);
 
+              // console.log(data);
 
+              $.ajax({
+                  url: '{{ route("admin.companyContactPeople.store") }}',
+                  data: data,
+                  cache: false,
+                  contentType: false,
+                  processData: false,
+                  type: 'POST', // For jQuery < 1.9
+                  success: function(data){
+                      // myform.pxWizard('goTo', 2);
 
+                      console.log(data);
+                  },
+                  error: function(xhr,status,error)  {
 
+                  }
 
-
-/*      $("#wizard-2").pxValidate({
-        ignore: '.ignore, .select2-input',
-        focusInvalid: true,
-        rules: {
-
-        },
-      });
-
-        $(".person-name").rules("add", { 
-          required:true
+              });*/
+                console.log("validates");
+            } else {
+                console.log("does not validate");
+            }
         });
 
-        $(".person-email").rules("add", { 
-          required:true
+
+
+      $('#wizard-3').validate();
+      
+      $('#wizard-3').on('submit', function(e) {
+       
+            e.preventDefault();
+
+            // test if form is valid 
+            if( $('#wizard-3').validate().form() ) {
+
+              var myform = document.getElementById("wizard-3");
+              var data = new FormData(myform);
+              data.append('company_id', company_id);
+
+              console.log(data);
+
+              $.ajax({
+                  url: '{{ route("admin.companyBuildings.store") }}',
+                  data: data,
+                  cache: false,
+                  contentType: false,
+                  processData: false,
+                  type: 'POST', // For jQuery < 1.9
+                  success: function(data){
+                      // myform.pxWizard('goTo', 2);
+
+                      console.log(data);
+                  },
+                  error: function(xhr,status,error)  {
+
+                  }
+
+              });
+                console.log("validates");
+            } else {
+                console.log("does not validate");
+            }
         });
-
-        $(".person-phone").rules("add", { 
-          required:true
-        });
-
-        $(".person-fax").rules("add", { 
-          required:true
-        });
-
-        $(".person-address").rules("add", { 
-          required:true
-        });
-
-        $(".person-department").rules("add", { 
-          required:true
-        });
-
-        $(".person-designation").rules("add", { 
-          required:true
-        });*/
-
-
-
-
-
-
-
-
-/*      $("#wizard-3").pxValidate({
-        ignore: '.ignore',
-        focusInvalid: true,
-        rules: {
-          'building-name': {
-            required:  true,
-            minlength: 3,
-            maxlength: 20,
-          },
-          'building-address': {
-            required:  true,
-            minlength: 3,
-            maxlength: 20,
-          },
-          'building-zip': {
-            required:  true,
-            minlength: 3,
-            maxlength: 20,
-          },
-          'building-no-of-floors': {
-            required:  true,
-            minlength: 3,
-            maxlength: 20,
-          },
-          'building-floor-no': {
-            required:  true,
-            minlength: 3,
-            maxlength: 20,
-          },
-          'building-floor-no-of-rooms': {
-            required:  true,
-            minlength: 3,
-            maxlength: 20,
-          },
-        },
-      });*/
 
 
 
@@ -921,13 +913,30 @@
                 $('.remove-building').hide();
 
                 $('#addFieldBtn').trigger('click');
-                $('.remove-contact-person').hide();
+                // $('.remove-contact-person').hide();
 
                 $('#addModuleBtn').trigger('click');
                 $('.remove-module').hide();
 
                 $('#addAdminBtn').trigger('click');
                 $('.remove-admin').hide();
+
+
+                $("#wizard-2").validate({
+                    rules: {
+                        "person_name[0]": {
+                            required: true
+                        }
+                    }
+                });
+
+                $("#wizard-3").validate({
+                    rules: {
+                        "building_name[0]": {
+                            required: true
+                        }
+                    }
+                });
 
             });
 
@@ -936,57 +945,109 @@
 
             // Add More Contact Persons
 
+            var i = 0;
+
+            $('#addFieldBtn').on('click', function() {
+
+
             var person = '<div class="contactPersonFields">';
                 person += '<h5 class="bg-success p-x-1 p-y-1 m-t-0" >Person <i class="fa fa-times fa-lg remove-contact-person pull-right cursor-p"></i></h5>';
                 person += '<div class="row">';
                 person += '<div class="col-sm-6 form-group">';
                 person += '<fieldset class="form-group">';
                 person += '<label for="person-name">Name</label>';
-                person += '<input type="text" name="person_name[]" class="person-name form-control" placeholder="john doe">';
+                person += '<input type="text" name="person_name['+i+']" class="person-name form-control" placeholder="john doe">';
                 person += '</fieldset>';
                 person += '</div>';
                 person += '<div class="col-sm-6 form-group">';
                 person += '<fieldset class="form-group">';
                 person += '<label for="person-email">Email</label>';
-                person += '<input type="email" name="person_email[]" class="person-email form-control" placeholder="john@example.com">';
+                person += '<input type="email" name="person_email['+i+']" class="person-email form-control" placeholder="john@example.com">';
                 person += '</fieldset>';
                 person += '</div>';
                 person += '<div class="col-sm-6 form-group">';
                 person += '<fieldset class="form-group">';
                 person += '<label for="person-phone">Phone</label>';
-                person += '<input type="text" name="person_phone[]" class="person-phone form-control" placeholder="0987654321">';
+                person += '<input type="text" name="person_phone['+i+']" class="person-phone form-control" placeholder="0987654321">';
                 person += '</fieldset>';
                 person += '</div>';
                 person += '<div class="col-sm-6 form-group">';
                 person += '<fieldset class="form-group">';
                 person += '<label for="person-fax">Fax</label>';
-                person += '<input type="text" name="person_fax[]" class="person-fax form-control" placeholder="0987654321">';
+                person += '<input type="text" name="person_fax['+i+']" class="person-fax form-control" placeholder="0987654321">';
                 person += '</fieldset>';
                 person += '</div>';
                 person += '<div class="col-sm-12 form-group">';
                 person += '<fieldset class="form-group">';
                 person += '<label for="person-address">Address</label>';
-                person += '<input type="text" name="person_address[]" class="person-address form-control" placeholder="ST-12 Phase-3/B Crown Center Alaska.">';
+                person += '<input type="text" name="person_address['+i+']" class="person-address form-control" placeholder="ST-12 Phase-3/B Crown Center Alaska.">';
                 person += '</fieldset>';
                 person += '</div>';
                 person += '<div class="col-sm-6 form-group">';
                 person += '<fieldset class="form-group">';
                 person += '<label for="person-department">Department</label>';
-                person += '<input type="text" name="person_department[]" class="person-department form-control" placeholder="Human Resource Department">';
+                person += '<input type="text" name="person_department['+i+']" class="person-department form-control" placeholder="Human Resource Department">';
                 person += '</fieldset>';
                 person += '</div>';
                 person += '<div class="col-sm-6 form-group">';
                 person += '<fieldset class="form-group">';
                 person += '<label for="person-designation">Designation</label>';
-                person += '<input type="text" name="person_designation[]" class="person-designation form-control" placeholder="Asst. Manager">';
+                person += '<input type="text" name="person_designation['+i+']" class="person-designation form-control" placeholder="Asst. Manager">';
                 person += '</fieldset>';
                 person += '</div>';
                 person += '</div>';
                 person += '</div>';
 
+                $(".person").prepend(person);
 
-            $('#addFieldBtn').on('click', function() {
-                $('.person').prepend(person);
+                i += 1;
+
+                /*$('.person-name').each(function () {
+                    $(this).rules("add", {
+                        required: true,
+                        maxlength: 100,
+                    });
+                });
+
+                $('.person-email').each(function () {
+                    $(this).rules("add", {
+                        required: true,
+                        maxlength: 100,
+                        email: true,
+                    });
+                });
+
+                $('.person-phone').each(function () {
+                    $(this).rules("add", {
+                        required: true,
+                        rangelength: [7, 20],
+                    });
+                });
+
+                $('.person-fax').each(function () {
+                    $(this).rules("add", {
+                        rangelength: [7, 20],                        
+                    });
+                });
+
+                $('.person-address').each(function () {
+                    $(this).rules("add", {
+                        maxlength: 150,
+                    });
+                });
+
+                $('.person-department').each(function () {
+                    $(this).rules("add", {
+                        maxlength: 100,
+                    });
+                });
+
+                $('.person-designation').each(function () {
+                    $(this).rules("add", {
+                        maxlength: 100,                        
+                    });
+                });*/
+
             });
 
 
@@ -998,40 +1059,75 @@
 
             // Add More Buildings
 
-            var building = '<div class="buildingFields">';
-                building += '<h5 class="bg-success p-x-1 p-y-1" >Building <i class="fa fa-times fa-lg remove-building pull-right cursor-p"></i></h5>';
-                building += '<div class="row">';
-                building += '<div class="col-sm-6 form-group">';
-                building += '<label for="building-name">Building Name</label>';
-                building += '<input type="text" name="building_name" id="building-name" class="form-control" placeholder="Crown Towers">';
-                building += '</div>';
-                building += '<div class="col-sm-6 form-group">';
-                building += '<label for="building-address">Address</label>';
-                building += '<input type="text" name="building_address" id="building-address" class="form-control" placeholder="ST-12 Phase-3/B Crown Center Alaska.">';
-                building += '</div>';
-                building += '<div class="col-sm-6 form-group">';
-                building += '<label for="building-zip">Zip Code</label>';
-                building += '<input type="text" name="building_zip" id="building-zip" class="form-control" placeholder="ABC-999">';
-                building += '</div>';
-                building += '<div class="col-sm-6 form-group">';
-                building += '<label for="building-no-of-floors">No. of Floors</label>';
-                building += '<div class="row">';
-                building += '<div class="col-sm-6 form-group">';
-                building += '<input type="number" name="building_no_of_floors" id="building-no-of-floors" class="form-control building-no-of-floors" min="1" value="1">';
-                building += '</div>';
-                building += '<div class="col-sm-6 form-group">';
-                building += '<button type="button" class="btn btn-primary addFloorBtn"> <i class="fa fa-plus"></i> Add Floors </button>';
-                building += '</div>';
-                building += '</div>';
-                building += '</div>';
-                building += '</div>';
-                building += '<div class="sectionFloor">';
-                building += '</div>';
-                building += '</div>';
-
+            var j = 0;
+            var buildingNum = 1;
 
             $('#addBuildingBtn').on('click', function() {
-                $('.building').prepend(building);
+
+              var building = '<div class="buildingFields">';
+                  building += '<h5 class="bg-success p-x-1 p-y-1" >Building <i class="fa fa-times fa-lg remove-building pull-right cursor-p"></i></h5>';
+                  building += '<div class="row">';
+                  building += '<div class="col-sm-6 form-group">';
+                  building += '<label for="building-name">Building Name</label>';
+                  building += '<input type="text" name="building_data['+buildingNum+'][name]" class="building-name form-control" placeholder="Crown Towers">';
+                  building += '</div>';
+                  building += '<div class="col-sm-6 form-group">';
+                  building += '<label for="building-address">Address</label>';
+                  building += '<input type="text" name="building_data['+buildingNum+'][address]" class="building-address form-control" placeholder="ST-12 Phase-3/B Crown Center Alaska.">';
+                  building += '</div>';
+                  building += '<div class="col-sm-6 form-group">';
+                  building += '<label for="building-zip">Zip Code</label>';
+                  building += '<input type="text" name="building_data['+buildingNum+'][zipcode]" class="building-zip form-control" placeholder="ABC-999">';
+                  building += '</div>';
+                  building += '<div class="col-sm-6 form-group">';
+                  building += '<label for="building-no-of-floors">No. of Floors</label>';
+                  building += '<div class="row">';
+                  building += '<div class="col-sm-6 form-group">';
+                  building += '<input type="number" name="building_data['+buildingNum+'][num_floors]" class="building-no-of-floors form-control building-no-of-floors" min="1" value="1">';
+                  building += '</div>';
+                  building += '<div class="col-sm-6 form-group">';
+                  building += '<button type="button" class="btn btn-primary addFloorBtn"> <i class="fa fa-plus"></i> Add Floors </button>';
+                  building += '</div>';
+                  building += '</div>';
+                  building += '</div>';
+                  building += '</div>';
+                  building += '<div data-building-num="'+buildingNum+'" class="sectionFloor">';
+                  building += '</div>';
+                  building += '</div>';
+
+                  $('.building').prepend(building);
+
+                  j += 1;
+                  buildingNum += 1;
+
+                  $('.building-name').each(function () {
+                      $(this).rules("add", {
+                          required: true,
+                          maxlength: 200,
+                      });
+                  });
+
+                  $('.building-address').each(function () {
+                      $(this).rules("add", {
+                          required: true,
+                          maxlength: 150,
+                      });
+                  });
+
+                  $('.building-zip').each(function () {
+                      $(this).rules("add", {
+                          required: true,
+                          rangelength: [3, 20],
+                      });
+                  });
+
+                  $('.building-no-of-floors').each(function () {
+                      $(this).rules("add", {
+                          required: true,
+                          digits: true,
+                      });
+                  });
+
             });
 
 
@@ -1042,38 +1138,20 @@
             });
 
 
-            var floor = '<div class="floor">';
-                floor += '<div id="floorFields">';
-                floor += '<div class="row">';
-                floor += '<div class="col-sm-6 form-group">';
-                floor += '<label for="building-floor-no">Floor No.</label>';
-                floor += '<input type="name" name="building_floor_no" class="form-control building-floor-no" min="1" >';
-                floor += '</div>';
-                floor += '<div class="col-sm-6 form-group">';
-                floor += '<label for="building-floor-no-of-rooms">No. of Rooms</label>';
-                floor += '<div class="row">';
-                floor += '<div class="col-sm-6">';
-                floor += '<input type="number" name="building_floor_no_of_rooms" class="form-control building-floor-no-of-rooms" min="1" >';
-                floor += '</div>';
-                floor += '<div class="col-sm-6">';
-                floor += '<i class="fa fa-times fa-lg remove-floor cursor-p"></i>';
-                floor += '</div>';
-                floor += '</div>';
-                floor += '</div>';
-                floor += '</div>';
-                floor += '</div>';
-                floor += '</div>';
-
-
             // Add More Floors
 
             var k = 1;
 
             $(document).on('click', '.addFloorBtn', function() {
 
+                // var building_num = $(this).parent().parent().parent().parent().parent().parent().parent().find('.buildingFields').data('building-num');
                 var num_floors = $(this).parent().parent().find('.building-no-of-floors').val();
                 var floorSecion = $(this).parent().parent().parent().parent().parent().find('.sectionFloor');
+                var building_num = floorSecion.data('building-num');
                 var floorsExist = $(this).parent().parent().parent().parent().parent().find('.floor');
+
+                
+
 
 
                 if (num_floors <= floorsExist.length) {
@@ -1081,7 +1159,46 @@
                 } else {
 
                     for (i=1; i <= num_floors-floorsExist.length; i++) {
+
+                         var m = i-1;
+                         var floor = '<div class="floor">';
+                            floor += '<div id="floorFields">';
+                            floor += '<div class="row">';
+                            floor += '<div class="col-sm-6 form-group">';
+                            floor += '<label for="building-floor-no">Floor No.</label>';
+                            floor += '<input type="name" name="building_data['+building_num+'][floor]['+m+'][floor_number]" class="form-control building-floor-no" min="1" >';
+                            floor += '</div>';
+                            floor += '<div class="col-sm-6 form-group">';
+                            floor += '<label for="building-floor-no-of-rooms">No. of Rooms</label>';
+                            floor += '<div class="row">';
+                            floor += '<div class="col-sm-6">';
+                            floor += '<input type="number" name="building_data['+building_num+'][floor]['+m+'][floor_rooms]" class="form-control building-floor-no-of-rooms" min="1" >';
+                            floor += '</div>';
+                            floor += '<div class="col-sm-6">';
+                            floor += '<i class="fa fa-times fa-lg remove-floor cursor-p"></i>';
+                            floor += '</div>';
+                            floor += '</div>';
+                            floor += '</div>';
+                            floor += '</div>';
+                            floor += '</div>';
+                            floor += '</div>';
+
                         floorSecion.append(floor);
+
+                         $('.building-floor-no').each(function () {
+                              $(this).rules("add", {
+                                  required: true,
+                                  maxlength: 100,
+                              });
+                          });
+
+
+                         $('.building-floor-no-of-rooms').each(function () {
+                              $(this).rules("add", {
+                                  required: true,
+                                  digits: true,
+                              });
+                          });
                     }
                     
                 }
@@ -1168,7 +1285,14 @@
 
 
 
-
+<script type="text/html" id="form_tpl">
+    <div class = "control-group" > <label class = "control-label"
+    for = 'emp_name' > Employer Name </label>
+        <div class="controls">
+            <input type="text" name="work_emp_name[<%= element.i %>]" class="work_emp_name"
+                   value=""/ > </div>
+    </div>
+</script>
 
 
 

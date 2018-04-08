@@ -122,6 +122,7 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="{{ asset('/skin-1/assets/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('/skin-1/assets/js/pixeladmin.min.js') }}"></script>
+        <script src="{{ asset('/skin-1/assets/js/jquery.validate.min.js') }}"></script>
         <script src="{{ asset('/skin-1/assets/js/custom.js') }}"></script>
 
         <script type="text/javascript">

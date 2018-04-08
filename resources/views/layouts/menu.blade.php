@@ -28,3 +28,16 @@
     <a href="{!! route('admin.modules.index') !!}"><i class="fa fa-edit"></i><span>Modules</span></a>
 </li>
 
+
+<li class="{{ Request::is('companyContactPeople*') ? 'active' : '' }}">
+    <a href="{!! route('admin.companyContactPeople.index') !!}"><i class="fa fa-edit"></i><span>Company Contact People</span></a>
+</li>
+
+<li class="{{ Request::is('companyBuildings*') ? 'active' : '' }}">
+    <a href="{!! route('admin.companyBuildings.index') !!}"><i class="fa fa-edit"></i><span>Company Buildings</span></a>
+</li>
+
+<li class="{{ Request::is('companyFloorRooms*') ? 'active' : '' }}">
+    <a href="{!! route('admin.companyFloorRooms.index') !!}"><i class="fa fa-edit"></i><span>Company Floor Rooms</span></a>
+</li>
+

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Faker\Factory as Faker;
 
 /**
  * Class Company
@@ -73,7 +74,7 @@ class Company extends Model
         'id' => 'integer',
         'name' => 'string',
         'second_name' => 'string',
-        'logo' => 'string',
+        // 'logo' => 'string',
         'description' => 'string',
         'address' => 'string',
         'zipcode' => 'string',
@@ -94,9 +95,9 @@ class Company extends Model
      */
     public static $rules = [
         'name' => 'required|string|between:3,100',
-        'second_name' => 'string|max:100',
+        'second_name' => 'string|nullable|max:100',
         'logo' => 'image',
-        'description' => 'string',
+        'description' => 'string|nullable',
         'address' => 'required|string|max:150',
         'zipcode' => 'required|string|between:3,20',
         'phone' => 'required|string|between:7,20',
@@ -111,9 +112,10 @@ class Company extends Model
 
     public static function boot()
     {
+        $faker = Faker::create();
         parent::boot();
-        self::creating(function ($model) {
-            $model->uuid = uniqid();
+        self::creating(function ($model) use ($faker) {
+            $model->uuid = $faker->uuid;
         });
     }
 
