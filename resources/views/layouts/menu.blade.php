@@ -41,3 +41,8 @@
     <a href="{!! route('admin.companyFloorRooms.index') !!}"><i class="fa fa-edit"></i><span>Company Floor Rooms</span></a>
 </li>
 
+
+<li class="{{ Request::is('companyContracts*') ? 'active' : '' }}">
+    <a href="{!! route('admin.companyContracts.index') !!}"><i class="fa fa-edit"></i><span>Company Contracts</span></a>
+</li>
+

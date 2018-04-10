@@ -219,7 +219,7 @@
 
                             <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
                               <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp;
-                              <button type="submit" class="btn btn-primary" data-wizard-action="next">STEP 3 <i class="fa fa-arrow-right m-l-1"></i></button>
+                              <button type="button" class="btn btn-primary" data-wizard-action="next">STEP 3 <i class="fa fa-arrow-right m-l-1"></i></button>
                             </div>
 
 
@@ -251,7 +251,7 @@
 
                             <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
                               <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp;
-                              <button type="submit" class="btn btn-primary" data-wizard-action="next">STEP 4 <i class="fa fa-arrow-right m-l-1"></i></button>
+                              <button type="button" class="btn btn-primary" data-wizard-action="next">STEP 4 <i class="fa fa-arrow-right m-l-1"></i></button>
                             </div>
 
 
@@ -272,54 +272,72 @@
                                 <div class="row">
                                     <div class="col-sm-12 form-group">
                                         <label for="contract-no">Contract No.</label>
-                                        <input type="text" name="contract_no" id="contract-no" class="form-control" placeholder="ZXC-886">
+                                        <input type="text" name="number" id="contract-no" class="form-control" placeholder="ZXC-886">
+                                        <div class="errorTxt"></div>
                                     </div>
                                     <div class="col-sm-12 form-group">
                                         <label for="contract-description">Contract</label>
-                                        <textarea name="contract_description" id="markdown" class="form-control" rows="10"></textarea>
+                                        <textarea name="content" id="contract-content" class="form-control" rows="10"></textarea>
+                                        <div class="errorTxt"></div>
+                                        <input type="hidden" name="contract_description" id="contract-content-hidden" />
                                     </div>
                                     <div class="col-sm-6 form-group">
                                         <label for="start-date">Start Date</label>
                                         <input type="text" name="start_date" id="daterange-3" value="10/24/1984" class="form-control">
+                                        <div class="errorTxt"></div>
                                     </div>
                                     <div class="col-sm-6 form-group">
                                         <label for="end-date">End Date</label>
                                         <input type="text" name="end_date" id="daterange-4" value="10/24/1984" class="form-control">
+                                        <div class="errorTxt"></div>
                                     </div>
                                     <div class="col-sm-6 form-group">
-                                        <label for="payment-method">Payment Method</label>
-                                        <select name="payment_method" class="form-control select2-status" style="width: 100%" data-allow-clear="true">
-                                            <option></option>
-                                            <option value="1">Paypal</option>
-                                            <option value="2">Stripe</option>
-                                        </select>
+
+                                      <fieldset class="form-group">
+                                          <label for="payment-method">Payment Method</label>
+                                          <select name="payment_method" class="form-control select2-status" style="width: 100%" data-allow-clear="true">
+                                              <option></option>
+                                              <option value="cheque">Cheque</option>
+                                              <option value="bank">Bank Transfer</option>
+                                          </select>
+                                          <div class="errorTxt"></div>
+                                      </fieldset>
+
                                     </div>
                                     <div class="col-sm-6 form-group">
-                                        <label for="payment-cycle">Payment Cycle</label>
-                                        <select name="payment_cycle" class="form-control select2-status" style="width: 100%" data-allow-clear="true">
-                                            <option></option>
-                                            <option value="1">Monthly</option>
-                                            <option value="2">Yearly</option>
-                                        </select>
+                                        <fieldset class="form-group">
+                                            <label for="payment-cycle">Payment Cycle</label>
+                                            <select name="payment_cycle" class="form-control select2-status" style="width: 100%" data-allow-clear="true">
+                                                <option></option>
+                                                <option value="1">Monthly</option>
+                                                <option value="2">Yearly</option>
+                                            </select>
+                                            <div class="errorTxt"></div>
+                                        </fieldset>
                                     </div>
                                     <div class="col-sm-6 form-group">
                                         <label for="discount">Discount</label>
                                         <input type="number" name="discount" id="discount" class="form-control" min="1" >
+                                        <div class="errorTxt"></div>
+                                        
                                     </div>
                                     <div class="col-sm-6 form-group">
-                                        <label for="discount-type">Discount Type</label>
-                                        <select name="discount_type" class="form-control select2-status" style="width: 100%" data-allow-clear="true">
-                                            <option></option>
-                                            <option value="1">Sale</option>
-                                            <option value="2">Sale 2</option>
-                                        </select>
+                                        <fieldset class="form-group">
+                                            <label for="discount-type">Discount Type</label>
+                                            <select name="discount_type" class="form-control select2-status" style="width: 100%" data-allow-clear="true">
+                                                <option></option>
+                                                <option value="1">Fixed Price</option>
+                                                <option value="2">Percentage</option>
+                                            </select>
+                                            <div class="errorTxt"></div>
+                                        </fieldset>
                                     </div>
                                 </div>
 
 
                             <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
                               <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp;
-                              <button type="button" class="btn btn-primary" data-wizard-action="next">STEP 5 <i class="fa fa-arrow-right m-l-1"></i></button>
+                              <button type="submit" class="btn btn-primary" data-wizard-action="next">STEP 5 <i class="fa fa-arrow-right m-l-1"></i></button>
                             </div>
 
 
@@ -526,7 +544,7 @@ var company_id = "";
             // Initialize Markdown
             
             $(function() {
-              $('#markdown').markdown({
+              $('#contract-content').markdown({
                 iconlibrary: 'fa',
                 footer:      '<div id="md-character-footer"></div><small id="md-character-counter" class="text-muted">350 character left</small>',
             
@@ -545,10 +563,15 @@ var company_id = "";
                       .html((350 - contentLength) + ' character left.');
                   }
                 },
+
+                onBlur: function(e) {
+                          $('#contract-content-hidden').val(e.getContent());
+                          // alert(e.getContent())
+                        }
               });
             
               // Update character counter
-              $('#markdown').trigger('change');
+              $('#contract-content').trigger('change');
             });
             
             
@@ -697,13 +720,13 @@ var company_id = "";
             // test if form is valid 
             if($('#wizard-2').validate().form()) {
 
-              /*var myform = document.getElementById("wizard-2");
+              var myform = document.getElementById("wizard-2");
               var data = new FormData(myform );
               data.append('company_id', company_id);
 
               // console.log(data);
 
-              $.ajax({
+              /*$.ajax({
                   url: '{{ route("admin.companyContactPeople.store") }}',
                   data: data,
                   cache: false,
@@ -741,10 +764,81 @@ var company_id = "";
               var data = new FormData(myform);
               data.append('company_id', company_id);
 
-              console.log(data);
+              /*console.log(data);
 
               $.ajax({
                   url: '{{ route("admin.companyBuildings.store") }}',
+                  data: data,
+                  cache: false,
+                  contentType: false,
+                  processData: false,
+                  type: 'POST', // For jQuery < 1.9
+                  success: function(data){
+                      // myform.pxWizard('goTo', 2);
+
+                      console.log(data);
+                  },
+                  error: function(xhr,status,error)  {
+
+                  }
+
+              });*/
+                console.log("validates");
+            } else {
+                console.log("does not validate");
+            }
+        });
+
+
+      $('#wizard-4').validate({
+
+          rules: {
+              "contract_no": {
+                  required: true,
+                  maxlength: 150
+              },
+              "start_date": {
+                  required: true
+              },
+              "end_date": {
+                  required: true
+              },
+              "payment_method": {
+                  required: true
+              },
+              "payment_cycle": {
+                  required: true
+              },
+              "discount": {
+                  required: true
+              }
+          },
+          // errorElement : 'div',
+          // errorLabelContainer: '.errorTxt'
+          errorPlacement: function(error, element) {
+            var placement = $(element).parent().find('.errorTxt');
+            if (placement) {
+              $(placement).append(error)
+            } else {
+              error.insertAfter(element);
+            }
+          }
+
+      });
+      
+      $('#wizard-4').on('submit', function(e) {
+       
+            e.preventDefault();
+
+            // test if form is valid 
+            if( $('#wizard-4').validate().form() ) {
+
+              var myform = document.getElementById("wizard-4");
+              var data = new FormData(myform);
+              data.append('company_id', company_id);
+
+              $.ajax({
+                  url: '{{ route("admin.companyContracts.store") }}',
                   data: data,
                   cache: false,
                   contentType: false,
@@ -765,9 +859,6 @@ var company_id = "";
                 console.log("does not validate");
             }
         });
-
-
-
 
 
 
@@ -1100,7 +1191,7 @@ var company_id = "";
                   j += 1;
                   buildingNum += 1;
 
-                  $('.building-name').each(function () {
+                  /*$('.building-name').each(function () {
                       $(this).rules("add", {
                           required: true,
                           maxlength: 200,
@@ -1126,7 +1217,7 @@ var company_id = "";
                           required: true,
                           digits: true,
                       });
-                  });
+                  });*/
 
             });
 
