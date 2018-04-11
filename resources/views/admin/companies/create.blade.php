@@ -124,8 +124,9 @@
                                             <label for="country_id">Country</label>
                                             <select name="country_id" id="country_id" class="form-control select2-country" style="width: 100%" data-allow-clear="true">
                                                 <option></option>
-                                                <option value="1">Sweden</option>
-                                                <option value="2">Pakistan</option>
+                                                @foreach ($countries as $country)
+                                                  <option value="{{ $country->id }}">{{ $country->name }}</option> 
+                                                @endforeach
                                             </select>
                                         </fieldset>
                                     </div>
@@ -134,8 +135,9 @@
                                             <label for="state_id">State</label>
                                             <select name="state_id" id="state_id" class="form-control select2-state" style="width: 100%" data-allow-clear="true">
                                                 <option></option>
-                                                <option value="1">Stockholm</option>
-                                                <option value="2">Sindh</option>
+                                                @foreach ($states as $state)
+                                                  <option value="{{ $state->id }}">{{ $state->name }}</option> 
+                                                @endforeach
                                             </select>
                                         </fieldset>
                                     </div>
@@ -144,8 +146,9 @@
                                             <label for="city_id">City</label>
                                             <select name="city_id" id="city_id" class="form-control select2-city" style="width: 100%" data-allow-clear="true">
                                                 <option></option>
-                                                <option value="1">Stockholm</option>
-                                                <option value="2">Karachi</option>
+                                                @foreach ($cities as $city)
+                                                  <option value="{{ $city->id }}">{{ $city->name }}</option> 
+                                                @endforeach
                                             </select>
                                         </fieldset>
                                     </div>
@@ -172,8 +175,9 @@
                                             <label for="user_status_id">Status</label>
                                             <select name="user_status_id" id="user_status_id" class="form-control select2-status" style="width: 100%" data-allow-clear="true">
                                                 <option></option>
-                                                <option value="1">Active</option>
-                                                <option value="2">Inactive</option>
+                                                @foreach ($userStatus as $status)
+                                                  <option value="{{ $status->id }}">{{ $status->name }}</option> 
+                                                @endforeach
                                             </select>
                                         </fieldset>
                                     </div>
@@ -326,8 +330,9 @@
                                             <label for="discount-type">Discount Type</label>
                                             <select name="discount_type" class="form-control select2-status" style="width: 100%" data-allow-clear="true">
                                                 <option></option>
-                                                <option value="1">Fixed Price</option>
-                                                <option value="2">Percentage</option>
+                                                @foreach ($discountTypes as $discountType)
+                                                  <option value="{{ $discountType->id }}">{{ $discountType->name }}</option> 
+                                                @endforeach
                                             </select>
                                             <div class="errorTxt"></div>
                                         </fieldset>
