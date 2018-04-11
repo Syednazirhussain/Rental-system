@@ -46,3 +46,7 @@
     <a href="{!! route('admin.companyContracts.index') !!}"><i class="fa fa-edit"></i><span>Company Contracts</span></a>
 </li>
 
+<li class="{{ Request::is('discountTypes*') ? 'active' : '' }}">
+    <a href="{!! route('admin.discountTypes.index') !!}"><i class="fa fa-edit"></i><span>Discount Types</span></a>
+</li>
+

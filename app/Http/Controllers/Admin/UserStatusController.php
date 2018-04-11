@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\CreateUserStatusRequest;
 use App\Http\Requests\Admin\UpdateUserStatusRequest;
-use App\Repositories\Admin\UserStatusRepository;
+use App\Repositories\UserStatusRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;

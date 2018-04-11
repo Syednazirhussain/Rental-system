@@ -5,6 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\Admin\CreateCompanyRequest;
 use App\Http\Requests\Admin\UpdateCompanyRequest;
 use App\Repositories\Admin\CompanyRepository;
+use App\Repositories\CountryRepository;
+use App\Repositories\StateRepository;
+use App\Repositories\CityRepository;
+use App\Repositories\UserStatusRepository;
+use App\Repositories\DiscountTypeRepository;
+
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
@@ -15,10 +21,27 @@ class CompanyController extends AppBaseController
 {
     /** @var  CompanyRepository */
     private $companyRepository;
+    private $countryRepository;
+    private $stateRepository;
+    private $cityRepository;
+    private $userStatusRepository;
+    private $discountTypeRepository;
 
-    public function __construct(CompanyRepository $companyRepo)
+
+    public function __construct(CompanyRepository $companyRepo, 
+        CountryRepository $countryRepo, 
+        StateRepository $stateRepo,
+        CityRepository $cityRepo,
+        UserStatusRepository $userStatusRepo,
+        DiscountTypeRepository $discountTypeRepo
+        )
     {
         $this->companyRepository = $companyRepo;
+        $this->stateRepository = $stateRepo;
+        $this->countryRepository = $countryRepo;
+        $this->cityRepository = $cityRepo;
+        $this->userStatusRepository = $userStatusRepo;
+        $this->discountTypeRepository = $discountTypeRepo;
     }
 
     /**
@@ -30,10 +53,16 @@ class CompanyController extends AppBaseController
     public function index(Request $request)
     {
         $this->companyRepository->pushCriteria(new RequestCriteria($request));
+        
         $companies = $this->companyRepository->all();
 
-        return view('admin.companies.index')
-            ->with('companies', $companies);
+
+        $data = [
+                'companies' => $companies,
+                'countries' => $countries,
+            ];
+
+        return view('admin.companies.index', $data);
     }
 
     /**
@@ -43,7 +72,22 @@ class CompanyController extends AppBaseController
      */
     public function create()
     {
-        return view('admin.companies.create');
+
+        $countries = $this->countryRepository->all();
+        $states = $this->stateRepository->all();
+        $cities = $this->cityRepository->all();
+        $userstatus = $this->userStatusRepository->all();
+        $discountTypes = $this->discountTypeRepository->all();
+
+        $data = [
+                'countries' => $countries,
+                'states' => $states,
+                'cities' => $cities,
+                'userStatus' => $userstatus,
+                'discountTypes' => $discountTypes,
+            ];
+
+        return view('admin.companies.create', $data);
     }
 
     /**
