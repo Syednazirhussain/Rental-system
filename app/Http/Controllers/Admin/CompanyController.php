@@ -10,6 +10,8 @@ use App\Repositories\StateRepository;
 use App\Repositories\CityRepository;
 use App\Repositories\UserStatusRepository;
 use App\Repositories\DiscountTypeRepository;
+use App\Repositories\Admin\ModuleRepository;
+
 
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
@@ -26,6 +28,7 @@ class CompanyController extends AppBaseController
     private $cityRepository;
     private $userStatusRepository;
     private $discountTypeRepository;
+    private $moduleRepository;
 
 
     public function __construct(CompanyRepository $companyRepo, 
@@ -33,7 +36,8 @@ class CompanyController extends AppBaseController
         StateRepository $stateRepo,
         CityRepository $cityRepo,
         UserStatusRepository $userStatusRepo,
-        DiscountTypeRepository $discountTypeRepo
+        DiscountTypeRepository $discountTypeRepo,
+        ModuleRepository $moduleRepo
         )
     {
         $this->companyRepository = $companyRepo;
@@ -42,6 +46,7 @@ class CompanyController extends AppBaseController
         $this->cityRepository = $cityRepo;
         $this->userStatusRepository = $userStatusRepo;
         $this->discountTypeRepository = $discountTypeRepo;
+        $this->moduleRepository = $moduleRepo;
     }
 
     /**
@@ -78,6 +83,8 @@ class CompanyController extends AppBaseController
         $cities = $this->cityRepository->all();
         $userstatus = $this->userStatusRepository->all();
         $discountTypes = $this->discountTypeRepository->all();
+        $modules = $this->moduleRepository->all();
+
 
         $data = [
                 'countries' => $countries,
@@ -85,6 +92,7 @@ class CompanyController extends AppBaseController
                 'cities' => $cities,
                 'userStatus' => $userstatus,
                 'discountTypes' => $discountTypes,
+                'modules' => $modules,
             ];
 
         return view('admin.companies.create', $data);

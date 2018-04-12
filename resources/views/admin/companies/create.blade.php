@@ -186,7 +186,7 @@
                                 </div>
 
                             <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
-                              <button type="submit" class="btn btn-primary" id="createCompanyBtn" data-wizard-action="next">CREATE COMPANY <i class="fa fa-arrow-right m-l-1"></i></button>
+                              <button type="button" class="btn btn-primary" id="createCompanyBtn" data-wizard-action="next">CREATE COMPANY <i class="fa fa-arrow-right m-l-1"></i></button>
                             </div>
 
                           </form>
@@ -321,7 +321,7 @@
                                     </div>
                                     <div class="col-sm-6 form-group">
                                         <label for="discount">Discount</label>
-                                        <input type="number" name="discount" id="discount" class="form-control" min="1" >
+                                        <input type="number" name="discount" id="discount" class="form-control" value="0" min="1" >
                                         <div class="errorTxt"></div>
                                         
                                     </div>
@@ -367,7 +367,7 @@
 
                             <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
                               <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp;
-                              <button type="button" class="btn btn-primary" data-wizard-action="next">STEP 6 <i class="fa fa-arrow-right m-l-1"></i></button>
+                              <button type="submit" class="btn btn-primary" data-wizard-action="next">STEP 6 <i class="fa fa-arrow-right m-l-1"></i></button>
                             </div>
 
 
@@ -640,7 +640,7 @@ var company_id = "";
       // Rules
 
 
-      $('#wizard-1').pxValidate({
+      /*$('#wizard-1').pxValidate({
         ignore: '.ignore',
         focusInvalid: false,
         rules: {
@@ -713,7 +713,7 @@ var company_id = "";
 
             });
         }
-      });
+      });*/
 
 
       $('#wizard-2').validate();
@@ -866,72 +866,44 @@ var company_id = "";
         });
 
 
+      $('#wizard-5').validate();
+      
+      $('#wizard-5').on('submit', function(e) {
+       
+            e.preventDefault();
 
-/*        $("#wizard-4").pxValidate({
-            ignore: '.ignore',
-            focusInvalid: true,
-            rules: {
-              'contract-no': {
-                required:  true,
-                minlength: 3,
-                maxlength: 20,
-              },
-              'contract-description': {
-                required:  true,
-                minlength: 3,
-                maxlength: 20,
-              },
-              'start-date': {
-                required:  true,
-                minlength: 3,
-                maxlength: 20,
-              },
-              'end-date': {
-                required:  true,
-                minlength: 3,
-                maxlength: 20,
-              },
-              'payment-method': {
-                required:  true,
-                minlength: 3,
-                maxlength: 20,
-              },
-              'payment-cycle': {
-                required:  true,
-                minlength: 3,
-                maxlength: 20,
-              },
-              'discount': {
-                required:  true,
-                minlength: 3,
-                maxlength: 20,
-              },
-              'discount-type': {
-                required:  true,
-                minlength: 3,
-                maxlength: 20,
-              }
-            },
-          });*/
+            // test if form is valid 
+            if( $('#wizard-5').validate().form() ) {
 
+              var myform = document.getElementById("wizard-5");
+              var data = new FormData(myform);
+              data.append('company_id', company_id);
 
+              /*console.log(data);
 
+              $.ajax({
+                  url: '{{ route("admin.companyBuildings.store") }}',
+                  data: data,
+                  cache: false,
+                  contentType: false,
+                  processData: false,
+                  type: 'POST', // For jQuery < 1.9
+                  success: function(data){
+                      // myform.pxWizard('goTo', 2);
 
+                      console.log(data);
+                  },
+                  error: function(xhr,status,error)  {
 
-/*        $("#wizard-5").pxValidate({
-            ignore: '.ignore',
-            focusInvalid: true,
-            rules: {
-              'module': {
-                required:  true,
-              },
-              'price': {
-                required:  true,
-                minlength: 3,
-                maxlength: 20,
-              },
-            },
-          });*/
+                  }
+
+              });*/
+                console.log("validates");
+            } else {
+                console.log("does not validate");
+            }
+        });
+
 
 
 
@@ -1029,6 +1001,14 @@ var company_id = "";
                 $("#wizard-3").validate({
                     rules: {
                         "building_name[0]": {
+                            required: true
+                        }
+                    }
+                });
+
+                $("#wizard-5").validate({
+                    rules: {
+                        "module[0]": {
                             required: true
                         }
                     }
@@ -1309,27 +1289,59 @@ var company_id = "";
 
             // Add More Module
 
-            var module = '<div class="moduleFields">';
-                module += '<h5 class="bg-success p-x-1 p-y-1" >Module <i class="fa fa-times fa-lg remove-module pull-right cursor-p"></i></h5>';
-                module += '<div class="row">';
-                module += '<div class="col-sm-6 form-group">';
-                module += '<label for="module">Module</label>';
-                module += '<select name="module" class="form-control select2-status" style="width: 100%" data-allow-clear="true">';
-                module += '<option></option>';
-                module += '<option value="1">Module</option>/';
-                module += '<option value="2">Module 2</option>';
-                module += '</select>';
-                module += '</div>'
-                module += '<div class="col-sm-6 form-group">';
-                module += '<label for="price">Price</label>';
-                module += '<input type="number" name="price" id="price" class="form-control" min="1" >';
-                module += '</div>'
-                module += '</div>'
-                module += '</div>'
+            
 
+            var moduleNum = 0;
 
             $('#addModuleBtn').on('click', function() {
+
+                var module = '<div class="moduleFields">';
+                    module += '<h5 class="bg-success p-x-1 p-y-1" >Module <i class="fa fa-times fa-lg remove-module pull-right cursor-p"></i></h5>';
+                    module += '<div class="row">';
+                    module += '<div class="col-sm-6 form-group">';
+                    module += '<label for="module">Module</label>';
+                    module += '<select name="module_id['+moduleNum+']" class="module-id form-control select2-status" style="width: 100%" data-allow-clear="true">';
+                    module += '<option></option>';
+                    @foreach ($modules as $module)
+                      module += '<option value="{{ $module->id }}">{{ $module->name }}</option>/';
+                    @endforeach
+                    module += '</select>';
+                    module += '</div>'
+                    module += '<div class="col-sm-6 form-group">';
+                    module += '<label for="price">Price</label>';
+                    module += '<input type="number" name="price['+moduleNum+']" class="module-price form-control" min="1" />';
+                    module += '</div>'
+                    module += '<div class="col-sm-6 form-group">';
+                    module += '<label for="users_limit">Users Limit</label>';
+                    module += '<input type="number" name="users_limit['+moduleNum+']" class="users-limit form-control" value="10" min="1" />';
+                    module += '</div>'
+                    module += '</div>'
+                    module += '</div>'
+
                 $('.module').prepend(module);
+
+                moduleNum += 1;
+
+                $('.module-id').each(function () {
+                      $(this).rules("add", {
+                          required: true
+                      });
+                  });
+
+                  $('.module-price').each(function () {
+                      $(this).rules("add", {
+                          required: true,
+                          digits: true,
+                      });
+                  });
+
+                  $('.users-limit').each(function () {
+                      $(this).rules("add", {
+                          required: true,
+                          digits: true,
+                      });
+                  });
+
             });
 
 

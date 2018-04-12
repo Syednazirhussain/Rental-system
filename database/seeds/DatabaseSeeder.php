@@ -11,8 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
-        $this->call(ModulesTableSeeder::class);
+        //$this->call(ModulesTableSeeder::class);
         $this->call(UserRolesTableSeeder::class);
         $this->call(UserStatusTableSeeder::class);
         $this->call(CountriesTableSeeder::class);
@@ -21,5 +20,10 @@ class DatabaseSeeder extends Seeder
         $this->call(PaymentMethodsTableSeeder::class);
         $this->call(DiscountTypeTableSeeder::class);
 
+<<<<<<< HEAD
+=======
+        $this->call(UsersTableSeeder::class);
+        
+>>>>>>> f7a1ee0a37c6d860c9556496445b02424f221cd9
     }
 }
