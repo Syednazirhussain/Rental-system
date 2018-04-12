@@ -2,18 +2,18 @@
     <thead>
         <tr>
             <th>Name</th>
-        <th>Email</th>
-        <th>Password</th>
-        <th>User Role Code</th>
-        <th>Country Id</th>
-        <th>State Id</th>
-        <th>City Id</th>
-        <th>User Status Id</th>
-        <th>Uuid</th>
-        <th>Remember Token</th>
-        <th>Created At</th>
-        <th>Updated At</th>
-        <th>Deleted At</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>User Role Code</th>
+            <th>Country Id</th>
+            <th>State Id</th>
+            <th>City Id</th>
+            <th>User Status Id</th>
+            <th>Uuid</th>
+            <th>Remember Token</th>
+            <th>Created At</th>
+            <th>Updated At</th>
+            <th>Deleted At</th>
             <th colspan="3">Action</th>
         </tr>
     </thead>

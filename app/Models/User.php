@@ -56,10 +56,6 @@ class User extends Authenticatable
         'city_id',
         'user_status_id',
         'uuid',
-        'remember_token',
-        'created_at',
-        'updated_at',
-        'deleted_at'
     ];
 
     /**

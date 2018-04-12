@@ -1,7 +1,7 @@
 <?php
 
 
-// Auth::routes();
+Auth::routes();
 
 /*
 |--------------------------------------------------------------------------
@@ -11,8 +11,15 @@
 | These are the routes declared for Admin Panel
 |
 */
-
 Route::get('/', function() {
+
+    return redirect()->route('login');
+});
+
+Route::get('/home', 'HomeController@index');
+
+
+Route::get('/admin', function() {
 
 	return redirect()->route('admin.login');
 });
@@ -27,9 +34,6 @@ Route::group(['middleware' => ['admin.guest']], function () {
 });
 
 /********** Admin accessible routes as a Guest User end **********/
-
-
-# --------------------------------------------------------------------------
 
 
 /********** Admin accessible routes as an Authenticated User start **********/

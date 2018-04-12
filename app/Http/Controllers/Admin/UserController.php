@@ -11,6 +11,8 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use Auth;
+use App\Models\UserRole;
+use App\Models\User;
 
 
 class UserController extends AppBaseController
@@ -45,7 +47,8 @@ class UserController extends AppBaseController
      */
     public function create()
     {
-        return view('admin.users.create');
+        $user_role = UserRole::all();
+        return view('admin.users.create', ['user_role' => $user_role]);
     }
 
     /**
@@ -58,8 +61,11 @@ class UserController extends AppBaseController
     public function store(CreateUserRequest $request)
     {
         $input = $request->all();
+        $password =  bcrypt($request->password);
+        $input['password'] = $password;
+        $input['user_status_id'] = "1";
 
-        $user = $this->userRepository->create($input);
+        User::create($input);
 
         Flash::success('User saved successfully.');
 
