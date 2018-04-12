@@ -67,10 +67,14 @@ class UserController extends AppBaseController
         $input['password'] = $password;
         $input['user_status_id'] = "1";
 
+        $user = User::where('email', $request->email)->first();
+        if($user !== null) {
+            $request->session()->flash('msg.error', 'User Email already exists.');
+            return redirect(route('admin.users.index'));
+        }
+
         User::create($input);
-
-        Flash::success('User saved successfully.');
-
+        $request->session()->flash('msg.success', 'User saved successfully.');
         return redirect(route('admin.users.index'));
     }
 
@@ -133,9 +137,7 @@ class UserController extends AppBaseController
         $input['password'] = $password;
 
         User::where('id', $id)->update($input);
-
-        Flash::success('User updated successfully.');
-
+        $request->session()->flash('msg.success', 'User updated successfully.');
         return redirect(route('admin.users.index'));
     }
 

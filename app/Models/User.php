@@ -41,7 +41,7 @@ class User extends Authenticatable
 
     public $table = 'users';
     
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 

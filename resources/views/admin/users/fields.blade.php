@@ -62,6 +62,28 @@
                     required: true,
                     maxlength: 50,
                 },
+                'email': {
+                    required: true,
+                    email: true,
+                },
+                'password': {
+                    required: true,
+                },
+                'user_role_code': {
+                    required: true,
+                },
+                'country_id': {
+                    required: true,
+                },
+                'state_id': {
+                    required: true,
+                },
+                'city_id': {
+                    required: true,
+                },
+                'uuid': {
+                    required: true,
+                },
             },
 
             messages: {
