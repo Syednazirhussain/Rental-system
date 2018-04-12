@@ -5,25 +5,21 @@ namespace App\Models;
 use Eloquent as Model;
 
 /**
- * Class Country
+ * Class PaymentCycle
  * @package App\Models
- * @version April 11, 2018, 2:03 pm UTC
+ * @version April 11, 2018, 3:24 pm UTC
  *
  * @property string name
  */
-class Country extends Model
+class PaymentCycle extends Model
 {
 
-    public $table = 'countries';
-    
+    public $table = 'payment_cycles';
 
-    protected $dates = ['deleted_at'];
 
 
     public $fillable = [
-        'name',
-        'short',
-        'phone_code',
+        'name'
     ];
 
     /**
@@ -32,6 +28,7 @@ class Country extends Model
      * @var array
      */
     protected $casts = [
+        'id' => 'integer',
         'name' => 'string'
     ];
 
@@ -41,7 +38,7 @@ class Country extends Model
      * @var array
      */
     public static $rules = [
-        'name' => 'required|string|max:100'
+        'name' => 'required|string'
     ];
 
     

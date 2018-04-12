@@ -99,16 +99,20 @@
                                         <fieldset class="form-group">
                                             <label for="name">Name</label>
                                             <input type="text" name="name" id="name" class="form-control" placeholder="john">
+                                            <div class="errorTxt"></div>
+                                            
                                         </fieldset>
 
                                         <fieldset class="form-group">
                                             <label for="second_name">Second Name</label>
                                             <input type="text" name="second_name" id="second_name" class="form-control" placeholder="doe">
+                                            <div class="errorTxt"></div>
                                         </fieldset>
 
                                         <fieldset class="form-group">
                                             <label for="description">Description</label>
                                             <textarea name="description" id="description" class="form-control" rows="4" placeholder="between 20 to 150 characters"></textarea>
+                                            <div class="errorTxt"></div>
                                         </fieldset>
                                     </div>
 
@@ -116,6 +120,7 @@
                                         <label id="file-custom-3" class="custom-file" for="logo">
                                           <input type="file" id="logo" name="logo" class="form-control">
                                         </label>
+                                        <div class="errorTxt"></div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -125,9 +130,15 @@
                                             <select name="country_id" id="country_id" class="form-control select2-country" style="width: 100%" data-allow-clear="true">
                                                 <option></option>
                                                 @foreach ($countries as $country)
+                                                 @if ($country->short == 'SE')
+                                                  <option value="{{ $country->id }}" selected="selected">{{ $country->name }}</option> 
+                                                 @else
                                                   <option value="{{ $country->id }}">{{ $country->name }}</option> 
+                                                 @endif
                                                 @endforeach
                                             </select>
+                                            <div class="errorTxt"></div>
+
                                         </fieldset>
                                     </div>
                                     <div class="col-sm-4 form-group">
@@ -139,6 +150,8 @@
                                                   <option value="{{ $state->id }}">{{ $state->name }}</option> 
                                                 @endforeach
                                             </select>
+                                            <div class="errorTxt"></div>
+
                                         </fieldset>
                                     </div>
                                     <div class="col-sm-4 form-group">
@@ -150,24 +163,29 @@
                                                   <option value="{{ $city->id }}">{{ $city->name }}</option> 
                                                 @endforeach
                                             </select>
+                                            <div class="errorTxt"></div>
+
                                         </fieldset>
                                     </div>
                                     <div class="col-sm-12 form-group">
                                         <fieldset class="form-group">
                                             <label for="address">Address</label>
                                             <input name="address" id="address" type="text" id="address" class="form-control" placeholder="ST-12 Phase-3/B Crown Center Alaska.">
+                                            <div class="errorTxt"></div>
                                         </fieldset>
                                     </div>
                                     <div class="col-sm-6 form-group">
                                         <fieldset class="form-group">
                                             <label for="zipcode">Zip Code</label>
                                             <input name="zipcode" id="zipcode" type="text" id="zipcode" class="form-control" placeholder="ABC-999">
+                                            <div class="errorTxt"></div>
                                         </fieldset>
                                     </div>
                                     <div class="col-sm-6 form-group">
                                         <fieldset class="form-group">
                                             <label for="phone">Phone</label>
                                             <input name="phone" id="phone" type="text" id="phone" class="form-control" placeholder="0987654321">
+                                            <div class="errorTxt"></div>
                                         </fieldset>
                                     </div>
                                     <div class="col-sm-6 form-group">
@@ -176,9 +194,19 @@
                                             <select name="user_status_id" id="user_status_id" class="form-control select2-status" style="width: 100%" data-allow-clear="true">
                                                 <option></option>
                                                 @foreach ($userStatus as $status)
-                                                  <option value="{{ $status->id }}">{{ $status->name }}</option> 
+
+                                                  <?php
+                                                  if ($status->name == "active") {
+                                                    $selectStatus = "selected='selected'";
+                                                  } else {
+                                                    $selectStatus = "";
+                                                  }
+                                                  ?>
+                                                  <option value="{{ $status->id }}" {{ $selectStatus }}>{{ ucfirst($status->name) }}</option> 
                                                 @endforeach
                                             </select>
+                                            <div class="errorTxt"></div>
+
                                         </fieldset>
                                     </div>
                                     <div class="col-sm-6 form-group">
@@ -204,7 +232,7 @@
                           <form class="wizard-pane" id="wizard-2">
                             
 
-                            <h3 class="m-t-0">Company Contact Person Information</h3>
+                            <h3 class="m-t-0">Company Contact Persons</h3>
 
 
                             <button type="button" class="btn btn-primary" id="addFieldBtn"> <i class="fa fa-plus"></i> Add More </button>
@@ -222,8 +250,8 @@
 
 
                             <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
-                              <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp;
-                              <button type="submit" class="btn btn-primary" data-wizard-action="next">STEP 3 <i class="fa fa-arrow-right m-l-1"></i></button>
+                              <!-- <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp; -->
+                              <button type="submit" class="btn btn-primary" id="addContactPersonBtn" data-wizard-action="next">NEXT <i class="fa fa-arrow-right m-l-1"></i></button>
                             </div>
 
 
@@ -254,8 +282,8 @@
 
 
                             <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
-                              <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp;
-                              <button type="submit" class="btn btn-primary" data-wizard-action="next">STEP 4 <i class="fa fa-arrow-right m-l-1"></i></button>
+                              <!-- <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp; -->
+                              <button type="submit" class="btn btn-primary" data-wizard-action="next">NEXT <i class="fa fa-arrow-right m-l-1"></i></button>
                             </div>
 
 
@@ -299,7 +327,7 @@
 
                                       <fieldset class="form-group">
                                           <label for="payment-method">Payment Method</label>
-                                          <select name="payment_method" class="form-control select2-status" style="width: 100%" data-allow-clear="true">
+                                          <select name="payment_method" class="form-control select2-payment-method" style="width: 100%" data-allow-clear="true">
                                               <option></option>
                                               <option value="cheque">Cheque</option>
                                               <option value="bank">Bank Transfer</option>
@@ -311,10 +339,11 @@
                                     <div class="col-sm-6 form-group">
                                         <fieldset class="form-group">
                                             <label for="payment-cycle">Payment Cycle</label>
-                                            <select name="payment_cycle" class="form-control select2-status" style="width: 100%" data-allow-clear="true">
+                                            <select name="payment_cycle" class="form-control select2-payment-cycle" style="width: 100%" data-allow-clear="true">
                                                 <option></option>
-                                                <option value="1">Monthly</option>
-                                                <option value="2">Yearly</option>
+                                                @foreach ($paymentCycles as $paymentCycle)
+                                                  <option value="{{ $paymentCycle->id }}">{{ $paymentCycle->name }}</option> 
+                                                @endforeach
                                             </select>
                                             <div class="errorTxt"></div>
                                         </fieldset>
@@ -328,7 +357,7 @@
                                     <div class="col-sm-6 form-group">
                                         <fieldset class="form-group">
                                             <label for="discount-type">Discount Type</label>
-                                            <select name="discount_type" class="form-control select2-status" style="width: 100%" data-allow-clear="true">
+                                            <select name="discount_type" class="form-control select2-discount-type" style="width: 100%" data-allow-clear="true">
                                                 <option></option>
                                                 @foreach ($discountTypes as $discountType)
                                                   <option value="{{ $discountType->id }}">{{ $discountType->name }}</option> 
@@ -341,8 +370,8 @@
 
 
                             <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
-                              <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp;
-                              <button type="submit" class="btn btn-primary" data-wizard-action="next">STEP 5 <i class="fa fa-arrow-right m-l-1"></i></button>
+                              <!-- <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp; -->
+                              <button type="submit" class="btn btn-primary" data-wizard-action="next">NEXT <i class="fa fa-arrow-right m-l-1"></i></button>
                             </div>
 
 
@@ -366,7 +395,7 @@
 
 
                             <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
-                              <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp;
+                              <!-- <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp; -->
                               <button type="submit" class="btn btn-primary" data-wizard-action="next">STEP 6 <i class="fa fa-arrow-right m-l-1"></i></button>
                             </div>
 
@@ -395,7 +424,7 @@
 
 
                             <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
-                              <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp;
+                              <!-- <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp; -->
                               <button type="submit" class="btn btn-primary" data-wizard-action="next"><i class="fa fa-plus m-r-1"></i> Add Company </button>
                             </div>
 
@@ -582,37 +611,58 @@ var company_id = "";
             
               $('#daterange-3').daterangepicker({
                 singleDatePicker: true,
-                showDropdowns: true
+                showDropdowns: true,
+                startDate: "01/01/2018",
               });
             
               $('#daterange-4').daterangepicker({
                 singleDatePicker: true,
-                showDropdowns: true
+                showDropdowns: true,
+                startDate: "12/31/2018",
+
               });
               // -------------------------------------------------------------------------
               // Initialize Select2
               
               $(function() {
                 $('.select2-country').select2({
-                  placeholder: 'Select country',
+                  placeholder: 'Select Country',
                 });
               });
               
               $(function() {
                 $('.select2-state').select2({
-                  placeholder: 'Select state',
+                  placeholder: 'Select State',
                 });
               });
               
               $(function() {
                 $('.select2-city').select2({
-                  placeholder: 'Select city',
+                  placeholder: 'Select City',
                 });
               });
               
               $(function() {
                 $('.select2-status').select2({
-                  placeholder: 'Select status',
+                  placeholder: 'Select Status',
+                });
+              });
+
+              $(function() {
+                $('.select2-payment-method').select2({
+                  placeholder: 'Select Payment Method',
+                });
+              });
+
+              $(function() {
+                $('.select2-payment-cycle').select2({
+                  placeholder: 'Select Payment Cycle',
+                });
+              });
+
+              $(function() {
+                $('.select2-discount-type').select2({
+                  placeholder: 'Select Discount Type',
                 });
               });
               
@@ -640,81 +690,162 @@ var company_id = "";
       // Rules
 
 
-      $('#wizard-1').pxValidate({
-        ignore: '.ignore',
-        focusInvalid: false,
-        rules: {
-          'name': {
-            required:  true,
-            minlength: 3,
-            maxlength: 100,
-          },
-          'second_name': {
-            required:  false,
-            maxlength: 100,
-          },
-          'description': {
-            required:  false,
-          },
-          'country_id': {
-            required:  true,
-          },
-          'state_id': {
-            required:  true,
-          },
-          'city_id': {
-            required:  true,
-          },
-          'address': {
-            required:  true,
-            maxlength: 150,
-          },
-          'zipcode': {
-            required:  true,
-            minlength: 3,
-            maxlength: 20,
-          },
-          'phone': {
-            required:  true,
-            minlength: 7,
-            maxlength: 20,
-          },
-          'user_status_id': {
-            required:  true,
-          },
-          'max_users': {
-            required:  true,
-            min: 1,
-            max: 3,
-          },
+     /* $.validator.addMethod("uniqueUserName", function(value, element) {
+          $.ajax({
+              type: "POST",
+               url: "php/get_save_status.php",
+              data: "checkUsername="+value,
+              dataType:"html",
+           success: function(msg)
+           {
+              // if the user exists, it returns a string "true"
+              if(msg == "true")
+                 return false;  // already exists
+              return true;      // username is free to use
+           }
+         })}, "Username is Already Taken");*/
 
-        },
 
-        submitHandler: function() {
+      var companyCreated = 0;
 
-            // var data = $('#wizard-1').serialize();
-            var myform = document.getElementById("wizard-1");
-            var data = new FormData(myform );
+      $('#wizard-1').validate({
 
-            $.ajax({
-                url: '{{ route("admin.companies.store") }}',
-                data: data,
-                cache: false,
-                contentType: false,
-                processData: false,
-                type: 'POST', // For jQuery < 1.9
-                success: function(data){
-                    // myform.pxWizard('goTo', 2);
-                    company_id = data.company.id;
-                },
-                error: function(xhr,status,error)  {
+         /* rules: {
+              'name': {
+                required:  true,
+                minlength: 3,
+                maxlength: 100,
+              },
+              'second_name': {
+                required:  false,
+                maxlength: 100,
+              },
+              'description': {
+                required:  false,
+              },
+              'country_id': {
+                required:  true,
+              },
+              'state_id': {
+                required:  true,
+              },
+              'city_id': {
+                required:  true,
+              },
+              'address': {
+                required:  true,
+                maxlength: 150,
+              },
+              'zipcode': {
+                required:  true,
+                minlength: 3,
+                maxlength: 20,
+              },
+              'phone': {
+                required:  true,
+                minlength: 7,
+                maxlength: 20,
+              },
+              'user_status_id': {
+                required:  true,
+              },
+              'max_users': {
+                required:  true,
+                min: 1,
+                max: 3,
+              },
 
-                }
+            },*/
+          errorPlacement: function(error, element) {
+            var placement = $(element).parent().find('.errorTxt');
+            if (placement) {
+              $(placement).append(error)
+            } else {
+              error.insertAfter(element);
+            }
+          }
 
-            });
-        }
       });
 
+
+      $('#wizard-1').on('submit', function(e) {
+       
+            e.preventDefault();
+
+            // test if form is valid 
+            if( $('#wizard-1').validate().form() ) {
+
+
+              if (companyCreated == 0) {
+
+                  var myform = document.getElementById("wizard-1");
+                  var data = new FormData(myform);
+
+                  $.ajax({
+                      url: '{{ route("admin.companies.store") }}',
+                      data: data,
+                      cache: false,
+                      contentType: false,
+                      processData: false,
+                      type: 'POST', // For jQuery < 1.9
+                      success: function(data){
+                          // myform.pxWizard('goTo', 2);
+                          company_id = data.company.id;
+                          companyCreated = data.success;
+
+                          // console.log(data);
+                      },
+                      error: function(xhr,status,error)  {
+
+                      }
+
+                  });
+
+              }
+
+            } else {
+                console.log("does not validate");
+            }
+        });
+
+
+      $('#state_id').on('change', function() {
+
+          var getStateId = $('#state_id').val();
+          // alert(state_id);
+
+          $.ajax({
+              url: '{{ route("cities.list") }}',
+              data: { state_id: getStateId },
+              dataType: 'json',
+              cache: false,
+              type: 'POST', // For jQuery < 1.9
+              success: function(data){
+                  
+                  if (data.success == 1) {
+                    var option = "";
+                    
+                    $.each(data.cities, function(i, item) {
+                        option += '<option data-state="'+item.state_id+'" value="'+item.id+'">'+item.name+'</option>';
+                    });
+
+                    $('#city_id').html(option);
+
+
+                  }
+
+                  // console.log(data);
+              },
+              error: function(xhr,status,error)  {
+
+              }
+
+          });
+      });
+
+
+     
+      var contactPersonCreated = 0;
 
       $('#wizard-2').validate();
       
@@ -725,36 +856,42 @@ var company_id = "";
             // test if form is valid 
             if($('#wizard-2').validate().form()) {
 
-              var myform = document.getElementById("wizard-2");
-              var data = new FormData(myform );
-              data.append('company_id', company_id);
+              if (contactPersonCreated == 0) {
 
-              // console.log(data);
+                    var myform = document.getElementById("wizard-2");
+                    var data = new FormData(myform );
+                    data.append('company_id', company_id);
 
-              $.ajax({
-                  url: '{{ route("admin.companyContactPeople.store") }}',
-                  data: data,
-                  cache: false,
-                  contentType: false,
-                  processData: false,
-                  type: 'POST', // For jQuery < 1.9
-                  success: function(data){
-                      // myform.pxWizard('goTo', 2);
+                    // console.log(data);
 
-                      console.log(data);
-                  },
-                  error: function(xhr,status,error)  {
+                    $.ajax({
+                        url: '{{ route("admin.companyContactPeople.store") }}',
+                        data: data,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        type: 'POST', // For jQuery < 1.9
+                        success: function(data){
+                            // myform.pxWizard('goTo', 2);
 
-                  }
+                            contactPersonCreated = data.success;
 
-              });
-                console.log("validates");
+                            console.log(data);
+                        },
+                        error: function(xhr,status,error)  {
+
+                        }
+
+                    });
+                }
             } else {
                 console.log("does not validate");
             }
         });
 
 
+
+      var companyBuildingCreated = 0;
 
       $('#wizard-3').validate();
       
@@ -765,27 +902,33 @@ var company_id = "";
             // test if form is valid 
             if( $('#wizard-3').validate().form() ) {
 
-              var myform = document.getElementById("wizard-3");
-              var data = new FormData(myform);
-              data.append('company_id', company_id);
+              if (companyBuildingCreated == 0) {
 
-              $.ajax({
-                  url: '{{ route("admin.companyBuildings.store") }}',
-                  data: data,
-                  cache: false,
-                  contentType: false,
-                  processData: false,
-                  type: 'POST', // For jQuery < 1.9
-                  success: function(data){
-                      // myform.pxWizard('goTo', 2);
+                  var myform = document.getElementById("wizard-3");
+                  var data = new FormData(myform);
+                  data.append('company_id', company_id);
 
-                      console.log(data);
-                  },
-                  error: function(xhr,status,error)  {
+                  $.ajax({
+                      url: '{{ route("admin.companyBuildings.store") }}',
+                      data: data,
+                      cache: false,
+                      contentType: false,
+                      processData: false,
+                      type: 'POST', // For jQuery < 1.9
+                      success: function(data){
+                          // myform.pxWizard('goTo', 2);
 
-                  }
+                          companyBuildingCreated = data.success;
 
-              });
+                          // console.log(data);
+                      },
+                      error: function(xhr,status,error)  {
+
+                      }
+
+                  });
+
+              }
 
             } else {
                 console.log("does not validate");
@@ -793,12 +936,45 @@ var company_id = "";
         });
 
 
+      var companyContractCreated = 0;
+
+      checkField = function(response) {
+          switch ($.parseJSON(response).code) {
+              case 200:
+                  return "true"; // <-- the quotes are important!
+              case 401:
+                  // alert("Sorry, our system has detected that an account with this email address already exists.");
+                  break;
+              case undefined:
+                  alert("An undefined error occurred.");
+                  break;
+              default:
+                  alert("An undefined error occurred");
+                  break;
+          }
+          return false;
+      };
+
       $('#wizard-4').validate({
 
           rules: {
-              "contract_no": {
+              "number": {
                   required: true,
-                  maxlength: 150
+                  maxlength: 150,
+                  remote: {
+                      url: "{{ route('validate.contract') }}",
+                      type: "POST",
+                      cache: false,
+                      dataType: "json",
+                      data: {
+                          number: function() { return $("#contract-no").val(); }
+                      },
+                      dataFilter: function(response) {
+
+                          console.log(response);
+                          return checkField(response);
+                      }
+                  }
               },
               "start_date": {
                   required: true
@@ -815,6 +991,13 @@ var company_id = "";
               "discount": {
                   required: true
               }
+          },
+
+          messages: {
+             "number": {
+
+                remote: "A contract with same number already exists",
+             }
           },
           // errorElement : 'div',
           // errorLabelContainer: '.errorTxt'
@@ -836,33 +1019,42 @@ var company_id = "";
             // test if form is valid 
             if( $('#wizard-4').validate().form() ) {
 
-              var myform = document.getElementById("wizard-4");
-              var data = new FormData(myform);
-              data.append('company_id', company_id);
 
-              $.ajax({
-                  url: '{{ route("admin.companyContracts.store") }}',
-                  data: data,
-                  cache: false,
-                  contentType: false,
-                  processData: false,
-                  type: 'POST', // For jQuery < 1.9
-                  success: function(data){
-                      // myform.pxWizard('goTo', 2);
+              if (companyContractCreated == 0) {
 
-                      console.log(data);
-                  },
-                  error: function(xhr,status,error)  {
+                  var myform = document.getElementById("wizard-4");
+                  var data = new FormData(myform);
+                  data.append('company_id', company_id);
 
-                  }
+                  $.ajax({
+                      url: '{{ route("admin.companyContracts.store") }}',
+                      data: data,
+                      cache: false,
+                      contentType: false,
+                      processData: false,
+                      type: 'POST', // For jQuery < 1.9
+                      success: function(data){
+                          // myform.pxWizard('goTo', 2);
+                          companyContractCreated = data.success;
+                          // console.log(data);
+                      },
+                      error: function(xhr,status,error)  {
 
-              });
+                      }
+
+                  });
+
+              }
+
 
             } else {
                 console.log("does not validate");
             }
         });
 
+
+
+      var companyModuleCreated = 0;
 
       $('#wizard-5').validate();
       
@@ -873,36 +1065,43 @@ var company_id = "";
             // test if form is valid 
             if( $('#wizard-5').validate().form() ) {
 
-              var myform = document.getElementById("wizard-5");
-              var data = new FormData(myform);
-              data.append('company_id', company_id);
+              if (companyModuleCreated == 0) {
+                  var myform = document.getElementById("wizard-5");
+                  var data = new FormData(myform);
+                  data.append('company_id', company_id);
 
-              console.log(data);
+                  console.log(data);
 
-              $.ajax({
-                  url: '{{ route("admin.companyModules.store") }}',
-                  data: data,
-                  cache: false,
-                  contentType: false,
-                  processData: false,
-                  type: 'POST', // For jQuery < 1.9
-                  success: function(data){
-                      // myform.pxWizard('goTo', 2);
+                  $.ajax({
+                      url: '{{ route("admin.companyModules.store") }}',
+                      data: data,
+                      cache: false,
+                      contentType: false,
+                      processData: false,
+                      type: 'POST', // For jQuery < 1.9
+                      success: function(data){
+                          // myform.pxWizard('goTo', 2);
 
-                      console.log(data);
-                  },
-                  error: function(xhr,status,error)  {
+                          companyModuleCreated = data.success;
 
-                  }
+                          console.log(data);
+                      },
+                      error: function(xhr,status,error)  {
 
-              });
-                console.log("validates");
+                      }
+
+                  });
+
+              }
+                // console.log("validates");
             } else {
                 console.log("does not validate");
             }
         });
 
 
+
+      var companyAdminCreated = 0;
 
       $('#wizard-6').validate();
       
@@ -913,30 +1112,34 @@ var company_id = "";
             // test if form is valid 
             if( $('#wizard-6').validate().form() ) {
 
-              var myform = document.getElementById("wizard-6");
-              var data = new FormData(myform);
-              data.append('company_id', company_id);
+                if (companyAdminCreated == 0) {
 
-              console.log(data);
+                  var myform = document.getElementById("wizard-6");
+                  var data = new FormData(myform);
+                  data.append('company_id', company_id);
 
-              $.ajax({
-                  url: '{{ route("admin.companyUsers.store") }}',
-                  data: data,
-                  cache: false,
-                  contentType: false,
-                  processData: false,
-                  type: 'POST', // For jQuery < 1.9
-                  success: function(data){
-                      // myform.pxWizard('goTo', 2);
+                  // console.log(data);
 
-                      console.log(data);
-                  },
-                  error: function(xhr,status,error)  {
+                  $.ajax({
+                      url: '{{ route("admin.companyUsers.store") }}',
+                      data: data,
+                      cache: false,
+                      contentType: false,
+                      processData: false,
+                      type: 'POST', // For jQuery < 1.9
+                      success: function(data){
+                          // myform.pxWizard('goTo', 2);
+                          companyAdminCreated = data.success;
+                          // console.log(data);
+                      },
+                      error: function(xhr,status,error)  {
 
-                  }
+                      }
 
-              });
-                console.log("validates");
+                  });
+
+                }
+                // console.log("validates");
             } else {
                 console.log("does not validate");
             }
@@ -1089,7 +1292,7 @@ var company_id = "";
 
                 i += 1;
 
-                $('.person-name').each(function () {
+                /*$('.person-name').each(function () {
                     $(this).rules("add", {
                         required: true,
                         maxlength: 100,
@@ -1133,7 +1336,7 @@ var company_id = "";
                     $(this).rules("add", {
                         maxlength: 100,                        
                     });
-                });
+                });*/
 
             });
 
@@ -1187,7 +1390,7 @@ var company_id = "";
                   j += 1;
                   buildingNum += 1;
 
-                  $('.building-name').each(function () {
+                  /*$('.building-name').each(function () {
                       $(this).rules("add", {
                           required: true,
                           maxlength: 200,
@@ -1213,7 +1416,7 @@ var company_id = "";
                           required: true,
                           digits: true,
                       });
-                  });
+                  });*/
 
             });
 
@@ -1311,12 +1514,13 @@ var company_id = "";
                     module += '<div class="row">';
                     module += '<div class="col-sm-6 form-group">';
                     module += '<label for="module">Module</label>';
-                    module += '<select name="module['+moduleNum+'][id]" class="module-id form-control select2-status" style="width: 100%" data-allow-clear="true">';
+                    module += '<select name="module['+moduleNum+'][id]" class="module-id form-control select2-module" style="width: 100%" data-allow-clear="true">';
                     module += '<option></option>';
                     @foreach ($modules as $module)
                       module += '<option value="{{ $module->id }}">{{ $module->name }}</option>/';
                     @endforeach
                     module += '</select>';
+                    module += '<div class="errorTxt"></div>';
                     module += '</div>'
                     module += '<div class="col-sm-6 form-group">';
                     module += '<label for="price">Price</label>';
@@ -1351,6 +1555,11 @@ var company_id = "";
                           required: true,
                           digits: true,
                       });
+                  });
+
+
+                  $('.select2-module').select2({
+                    placeholder: 'Select Module',
                   });
 
             });

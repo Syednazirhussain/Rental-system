@@ -2,11 +2,11 @@
 
 namespace App\Repositories;
 
-use App\Models\City;
+use App\Models\PaymentCycle;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
- * Class StateRepository
+ * Class PaymentCycleRepository
  * @package App\Repositories
  * @version April 11, 2018, 2:26 pm UTC
  *
@@ -14,14 +14,13 @@ use InfyOm\Generator\Common\BaseRepository;
  * @method State find($id, $columns = ['*'])
  * @method State first($columns = ['*'])
 */
-class CityRepository extends BaseRepository
+class PaymentCycleRepository extends BaseRepository
 {
     /**
      * @var array
      */
     protected $fieldSearchable = [
-        'name',
-        'state_id'
+        'name'
     ];
 
     /**
@@ -29,18 +28,7 @@ class CityRepository extends BaseRepository
      **/
     public function model()
     {
-        return City::class;
+        return PaymentCycle::class;
     }
-
-
-    /**
-     * Find Cities related to a State
-     **/
-    public function findCities(int $state_id)
-    {
-        $cities = City::where('state_id', $state_id)->get();
-        return $cities;
-    }
-
 
 }

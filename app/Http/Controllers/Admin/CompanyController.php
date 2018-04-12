@@ -8,6 +8,7 @@ use App\Repositories\Admin\CompanyRepository;
 use App\Repositories\CountryRepository;
 use App\Repositories\StateRepository;
 use App\Repositories\CityRepository;
+use App\Repositories\PaymentCycleRepository;
 use App\Repositories\UserStatusRepository;
 use App\Repositories\DiscountTypeRepository;
 use App\Repositories\Admin\ModuleRepository;
@@ -29,16 +30,18 @@ class CompanyController extends AppBaseController
     private $userStatusRepository;
     private $discountTypeRepository;
     private $moduleRepository;
+    private $paymentCycleRepository;
 
 
     public function __construct(CompanyRepository $companyRepo, 
-        CountryRepository $countryRepo, 
-        StateRepository $stateRepo,
-        CityRepository $cityRepo,
-        UserStatusRepository $userStatusRepo,
-        DiscountTypeRepository $discountTypeRepo,
-        ModuleRepository $moduleRepo
-        )
+                                CountryRepository $countryRepo, 
+                                StateRepository $stateRepo,
+                                CityRepository $cityRepo,
+                                UserStatusRepository $userStatusRepo,
+                                DiscountTypeRepository $discountTypeRepo,
+                                ModuleRepository $moduleRepo,
+                                PaymentCycleRepository $paymentCycleRepo
+                                )
     {
         $this->companyRepository = $companyRepo;
         $this->stateRepository = $stateRepo;
@@ -47,6 +50,7 @@ class CompanyController extends AppBaseController
         $this->userStatusRepository = $userStatusRepo;
         $this->discountTypeRepository = $discountTypeRepo;
         $this->moduleRepository = $moduleRepo;
+        $this->paymentCycleRepository = $paymentCycleRepo;
     }
 
     /**
@@ -84,7 +88,7 @@ class CompanyController extends AppBaseController
         $userstatus = $this->userStatusRepository->all();
         $discountTypes = $this->discountTypeRepository->all();
         $modules = $this->moduleRepository->all();
-
+        $paymentCycles = $this->paymentCycleRepository->all();
 
         $data = [
                 'countries' => $countries,
@@ -93,6 +97,7 @@ class CompanyController extends AppBaseController
                 'userStatus' => $userstatus,
                 'discountTypes' => $discountTypes,
                 'modules' => $modules,
+                'paymentCycles' => $paymentCycles,
             ];
 
         return view('admin.companies.create', $data);

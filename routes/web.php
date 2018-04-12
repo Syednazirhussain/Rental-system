@@ -170,6 +170,13 @@ Route::group(['middleware' => ['admin.auth']], function () {
 
 /********** Admin accessible routes as an Authenticated User end **********/
 
+
+
+
+Route::post('cities', ['as'=> 'cities.list', 'uses' => 'General\GeoController@getCities']);
+Route::post('validate/contract_no', ['as'=> 'validate.contract', 'uses' => 'General\ValidationController@contractNo']);
+
+
 // For selectively chosen routes:
 	/*Route::group(['prefix' => Waavi\Translation\Facades\UriLocalizer::localeFromRequest(2)], function () {
 		
