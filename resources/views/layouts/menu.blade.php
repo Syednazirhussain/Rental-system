@@ -50,3 +50,12 @@
     <a href="{!! route('admin.discountTypes.index') !!}"><i class="fa fa-edit"></i><span>Discount Types</span></a>
 </li>
 
+
+<li class="{{ Request::is('companyModules*') ? 'active' : '' }}">
+    <a href="{!! route('admin.companyModules.index') !!}"><i class="fa fa-edit"></i><span>Company Modules</span></a>
+</li>
+
+<li class="{{ Request::is('companyUsers*') ? 'active' : '' }}">
+    <a href="{!! route('admin.companyUsers.index') !!}"><i class="fa fa-edit"></i><span>Company Users</span></a>
+</li>
+

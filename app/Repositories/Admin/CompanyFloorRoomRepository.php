@@ -36,7 +36,7 @@ class CompanyFloorRoomRepository extends BaseRepository
 
 
     /**
-     * Get model
+     * Bulk insert
      **/
     public function insert($arr = []) {
         return CompanyFloorRoom::insert($arr);
