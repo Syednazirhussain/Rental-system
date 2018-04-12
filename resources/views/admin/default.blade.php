@@ -43,6 +43,13 @@
                         <a href class="dropdown-toggle color-white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars fa-2x m-r-1 vertical-a-mid"></i><span class="">Menu</span></a>
                         <ul class="dropdown-menu">
                             <li class="dropdown-toggle">
+                                <a href="{{ route('admin.users.index') }}">Users</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ route('admin.users.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add User</a></li>
+                                    <li><a href="{{ route('admin.users.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Users</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-toggle">
                                 <a href>Modules</a>
                                 <ul class="dropdown-menu">
                                     <li><a href="{{ route('admin.modules.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Module</a></li>

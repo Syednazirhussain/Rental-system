@@ -13,6 +13,7 @@ use Response;
 use Auth;
 use App\Models\UserRole;
 use App\Models\User;
+use App\Models\UserStatus;
 
 
 class UserController extends AppBaseController
@@ -35,9 +36,10 @@ class UserController extends AppBaseController
     {
         $this->userRepository->pushCriteria(new RequestCriteria($request));
         $users = $this->userRepository->all();
+        $user_roles = UserRole::pluck('name', 'code');
+        $user_status = UserStatus::pluck('name', 'id');
 
-        return view('admin.users.index')
-            ->with('users', $users);
+        return view('admin.users.index', ['users' => $users, 'user_roles' => $user_roles, 'user_status' => $user_status]);
     }
 
     /**
