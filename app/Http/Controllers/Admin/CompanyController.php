@@ -64,7 +64,6 @@ class CompanyController extends AppBaseController
 
         $data = [
                 'companies' => $companies,
-                'countries' => $countries,
             ];
 
         return view('admin.companies.index', $data);
