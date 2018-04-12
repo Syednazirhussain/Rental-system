@@ -84,6 +84,8 @@ class UserController extends AppBaseController
     public function show($id)
     {
         $user = $this->userRepository->findWithoutFail($id);
+        $user_roles = UserRole::pluck('name', 'code');
+        $user_status = UserStatus::pluck('name', 'id');
 
         if (empty($user)) {
             Flash::error('User not found');
@@ -91,7 +93,7 @@ class UserController extends AppBaseController
             return redirect(route('admin.users.index'));
         }
 
-        return view('admin.users.show')->with('user', $user);
+        return view('admin.users.show', ['user' => $user, 'user_roles' => $user_roles, 'user_status' => $user_status]);
     }
 
     /**
