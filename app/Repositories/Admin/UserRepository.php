@@ -42,4 +42,11 @@ class UserRepository extends BaseRepository
     {
         return User::class;
     }
+
+    /**
+     * Bulk insert
+     **/
+    public function insert($arr = []) {
+        return User::insert($arr);
+    }
 }

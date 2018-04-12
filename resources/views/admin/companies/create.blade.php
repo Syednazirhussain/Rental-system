@@ -186,7 +186,7 @@
                                 </div>
 
                             <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
-                              <button type="button" class="btn btn-primary" id="createCompanyBtn" data-wizard-action="next">CREATE COMPANY <i class="fa fa-arrow-right m-l-1"></i></button>
+                              <button type="submit" class="btn btn-primary" id="createCompanyBtn" data-wizard-action="next">CREATE COMPANY <i class="fa fa-arrow-right m-l-1"></i></button>
                             </div>
 
                           </form>
@@ -223,7 +223,7 @@
 
                             <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
                               <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp;
-                              <button type="button" class="btn btn-primary" data-wizard-action="next">STEP 3 <i class="fa fa-arrow-right m-l-1"></i></button>
+                              <button type="submit" class="btn btn-primary" data-wizard-action="next">STEP 3 <i class="fa fa-arrow-right m-l-1"></i></button>
                             </div>
 
 
@@ -255,7 +255,7 @@
 
                             <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
                               <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp;
-                              <button type="button" class="btn btn-primary" data-wizard-action="next">STEP 4 <i class="fa fa-arrow-right m-l-1"></i></button>
+                              <button type="submit" class="btn btn-primary" data-wizard-action="next">STEP 4 <i class="fa fa-arrow-right m-l-1"></i></button>
                             </div>
 
 
@@ -321,7 +321,7 @@
                                     </div>
                                     <div class="col-sm-6 form-group">
                                         <label for="discount">Discount</label>
-                                        <input type="number" name="discount" id="discount" class="form-control" value="0" min="1" >
+                                        <input type="number" name="discount" id="discount" class="form-control" value="0">
                                         <div class="errorTxt"></div>
                                         
                                     </div>
@@ -640,7 +640,7 @@ var company_id = "";
       // Rules
 
 
-      /*$('#wizard-1').pxValidate({
+      $('#wizard-1').pxValidate({
         ignore: '.ignore',
         focusInvalid: false,
         rules: {
@@ -713,7 +713,7 @@ var company_id = "";
 
             });
         }
-      });*/
+      });
 
 
       $('#wizard-2').validate();
@@ -731,7 +731,7 @@ var company_id = "";
 
               // console.log(data);
 
-              /*$.ajax({
+              $.ajax({
                   url: '{{ route("admin.companyContactPeople.store") }}',
                   data: data,
                   cache: false,
@@ -747,7 +747,7 @@ var company_id = "";
 
                   }
 
-              });*/
+              });
                 console.log("validates");
             } else {
                 console.log("does not validate");
@@ -769,8 +769,6 @@ var company_id = "";
               var data = new FormData(myform);
               data.append('company_id', company_id);
 
-              /*console.log(data);
-
               $.ajax({
                   url: '{{ route("admin.companyBuildings.store") }}',
                   data: data,
@@ -787,8 +785,8 @@ var company_id = "";
 
                   }
 
-              });*/
-                console.log("validates");
+              });
+
             } else {
                 console.log("does not validate");
             }
@@ -859,7 +857,7 @@ var company_id = "";
                   }
 
               });
-                console.log("validates");
+
             } else {
                 console.log("does not validate");
             }
@@ -879,10 +877,10 @@ var company_id = "";
               var data = new FormData(myform);
               data.append('company_id', company_id);
 
-              /*console.log(data);
+              console.log(data);
 
               $.ajax({
-                  url: '{{ route("admin.companyBuildings.store") }}',
+                  url: '{{ route("admin.companyModules.store") }}',
                   data: data,
                   cache: false,
                   contentType: false,
@@ -897,7 +895,7 @@ var company_id = "";
 
                   }
 
-              });*/
+              });
                 console.log("validates");
             } else {
                 console.log("does not validate");
@@ -906,38 +904,43 @@ var company_id = "";
 
 
 
+      $('#wizard-6').validate();
+      
+      $('#wizard-6').on('submit', function(e) {
+       
+            e.preventDefault();
 
-/*        $("#wizard-6").pxValidate({
-            ignore: '.ignore',
-            focusInvalid: true,
-            rules: {
-              'admin-name': {
-                required:  true,
-                minlength: 3,
-                maxlength: 20,
-              },
-              'admin-email': {
-                required:  true,
-                minlength: 3,
-                maxlength: 20,
-                email: true
-              },
-              'admin-password': {
-                required:  true,
-                minlength: 6,
-                maxlength: 20,
-              },
-            },
-          });
+            // test if form is valid 
+            if( $('#wizard-6').validate().form() ) {
 
-*/
+              var myform = document.getElementById("wizard-6");
+              var data = new FormData(myform);
+              data.append('company_id', company_id);
 
+              console.log(data);
 
+              $.ajax({
+                  url: '{{ route("admin.companyUsers.store") }}',
+                  data: data,
+                  cache: false,
+                  contentType: false,
+                  processData: false,
+                  type: 'POST', // For jQuery < 1.9
+                  success: function(data){
+                      // myform.pxWizard('goTo', 2);
 
+                      console.log(data);
+                  },
+                  error: function(xhr,status,error)  {
 
+                  }
 
-
-
+              });
+                console.log("validates");
+            } else {
+                console.log("does not validate");
+            }
+        });
 
 
 
@@ -1014,6 +1017,14 @@ var company_id = "";
                     }
                 });
 
+                $("#wizard-6").validate({
+                    rules: {
+                        "module[0]": {
+                            required: true
+                        }
+                    }
+                });
+
             });
 
     
@@ -1078,7 +1089,7 @@ var company_id = "";
 
                 i += 1;
 
-                /*$('.person-name').each(function () {
+                $('.person-name').each(function () {
                     $(this).rules("add", {
                         required: true,
                         maxlength: 100,
@@ -1122,7 +1133,7 @@ var company_id = "";
                     $(this).rules("add", {
                         maxlength: 100,                        
                     });
-                });*/
+                });
 
             });
 
@@ -1176,7 +1187,7 @@ var company_id = "";
                   j += 1;
                   buildingNum += 1;
 
-                  /*$('.building-name').each(function () {
+                  $('.building-name').each(function () {
                       $(this).rules("add", {
                           required: true,
                           maxlength: 200,
@@ -1202,7 +1213,7 @@ var company_id = "";
                           required: true,
                           digits: true,
                       });
-                  });*/
+                  });
 
             });
 
@@ -1300,7 +1311,7 @@ var company_id = "";
                     module += '<div class="row">';
                     module += '<div class="col-sm-6 form-group">';
                     module += '<label for="module">Module</label>';
-                    module += '<select name="module_id['+moduleNum+']" class="module-id form-control select2-status" style="width: 100%" data-allow-clear="true">';
+                    module += '<select name="module['+moduleNum+'][id]" class="module-id form-control select2-status" style="width: 100%" data-allow-clear="true">';
                     module += '<option></option>';
                     @foreach ($modules as $module)
                       module += '<option value="{{ $module->id }}">{{ $module->name }}</option>/';
@@ -1309,11 +1320,11 @@ var company_id = "";
                     module += '</div>'
                     module += '<div class="col-sm-6 form-group">';
                     module += '<label for="price">Price</label>';
-                    module += '<input type="number" name="price['+moduleNum+']" class="module-price form-control" min="1" />';
+                    module += '<input type="number" name="module['+moduleNum+'][price]" class="module-price form-control" min="1" />';
                     module += '</div>'
                     module += '<div class="col-sm-6 form-group">';
                     module += '<label for="users_limit">Users Limit</label>';
-                    module += '<input type="number" name="users_limit['+moduleNum+']" class="users-limit form-control" value="10" min="1" />';
+                    module += '<input type="number" name="module['+moduleNum+'][users_limit]" class="users-limit form-control" value="10" min="1" />';
                     module += '</div>'
                     module += '</div>'
                     module += '</div>'
@@ -1355,29 +1366,56 @@ var company_id = "";
 
             // Add More Admin
 
-            var admin = '<div class="adminFields">';
-                admin += '<h5 class="bg-success p-x-1 p-y-1" >Admin <i class="fa fa-times fa-lg remove-admin pull-right cursor-p"></i></h5>';
-                admin += '<div class="row">';
-                admin += '<div class="col-sm-12 form-group">';
-                admin += '<label for="admin-name">Name</label>';
-                admin += '<input type="text" name="admin_name" id="admin-name"  class="form-control" placeholder="john doe">';
-                admin += '</div>';
-                admin += '<div class="col-sm-12 form-group">';
-                admin += '<label for="admin-email">Email</label>';
-                admin += '<input type="email" name="admin_email" id="admin-email" class="form-control" placeholder="john@example.com">';
-                admin += '</div>';
-                admin += '<div class="col-sm-12 form-group">';
-                admin += '<label for="admin-password">Password</label>';
-                admin += '<input type="password" name="admin_password" id="admin-password" class="form-control" placeholder="testingpass123">';
-                admin += '</div>';
-                admin += '</div>';
-                admin += '</div>';
+            
 
-
+            var p = 0;
             $('#addAdminBtn').on('click', function() {
                 if ($(".adminFields").length < 3) {
 
+                  var admin = '<div class="adminFields">';
+                      admin += '<h5 class="bg-success p-x-1 p-y-1" >Admin <i class="fa fa-times fa-lg remove-admin pull-right cursor-p"></i></h5>';
+                      admin += '<div class="row">';
+                      admin += '<div class="col-sm-12 form-group">';
+                      admin += '<label for="admin-name">Name</label>';
+                      admin += '<input type="text" name="admin['+p+'][name]"  class="admin-name form-control" placeholder="john doe">';
+                      admin += '</div>';
+                      admin += '<div class="col-sm-12 form-group">';
+                      admin += '<label for="admin-email">Email</label>';
+                      admin += '<input type="email" name="admin['+p+'][email]" class="admin-email form-control" placeholder="john@example.com">';
+                      admin += '</div>';
+                      admin += '<div class="col-sm-12 form-group">';
+                      admin += '<label for="admin-password">Password</label>';
+                      admin += '<input type="password" name="admin['+p+'][password]" class="admin-pass form-control" placeholder="testingpass123">';
+                      admin += '</div>';
+                      admin += '</div>';
+                      admin += '</div>';
+
+
+
                     $('.admin').prepend(admin);
+
+                      p += 1;
+
+                    $('.admin-name').each(function () {
+                        $(this).rules("add", {
+                            required: true
+                        });
+                    });
+
+                    $('.admin-email').each(function () {
+                        $(this).rules("add", {
+                            required: true,
+                            email: true,
+                        });
+                    });
+
+                    $('.admin-pass').each(function () {
+                        $(this).rules("add", {
+                            required: true,
+                            rangelength: [6,20],
+                        });
+                    });
+
                 } else {
                     alert('Max 3 Admin allowed');
                 }

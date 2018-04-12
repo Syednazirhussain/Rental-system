@@ -24,6 +24,10 @@ class UriLocalizer
     public function localeFromRequest($segment = 0)
     {
         $url = $this->request->getUri();
+
+        /*echo $url;
+        exit;*/
+
         return $this->getLocaleFromUrl($url, $segment);
     }
 
@@ -41,6 +45,7 @@ class UriLocalizer
     {
         $cleanUrl  = $this->cleanUrl($url, $segment);
         $parsedUrl = $this->parseUrl($cleanUrl, $segment);
+
 
         // Check if there are enough segments, if not return url unchanged:
         if (count($parsedUrl['segments']) >= $segment) {
@@ -98,7 +103,21 @@ class UriLocalizer
         $parsedUrl['locale']   = in_array($localeCandidate, $this->availableLocales) ? $localeCandidate : null;
         $parsedUrl['query']    = array_get($parsedUrl, 'query', false);
         $parsedUrl['fragment'] = array_get($parsedUrl, 'fragment', false);
+
+        /*echo "<pre>";
+        print_r($parsedUrl['segments']);
+        echo "</pre>";
+
+        echo "<pre>";
+        print_r($localeCandidate );
+        echo "</pre>";
+
+        echo "<pre>";
+        print_r($parsedUrl['locale']);
+        echo "</pre>";
+        exit;*/
         unset($parsedUrl['path']);
+
         return $parsedUrl;
     }
 
