@@ -104,6 +104,8 @@ class UserController extends AppBaseController
     public function edit($id)
     {
         $user = $this->userRepository->findWithoutFail($id);
+        $user_role = UserRole::all();
+        $all_roles = UserRole::pluck('name', 'code');
 
         if (empty($user)) {
             Flash::error('User not found');
@@ -111,7 +113,7 @@ class UserController extends AppBaseController
             return redirect(route('admin.users.index'));
         }
 
-        return view('admin.users.edit')->with('user', $user);
+        return view('admin.users.edit', ['user' => $user, 'user_role' => $user_role, 'all_roles' => $all_roles]);
     }
 
     /**
@@ -122,17 +124,13 @@ class UserController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateUserRequest $request)
+    public function update(Request $request, $id)
     {
-        $user = $this->userRepository->findWithoutFail($id);
+        $input = request()->except(['_token', '_method']);
+        $password =  bcrypt($request->password);
+        $input['password'] = $password;
 
-        if (empty($user)) {
-            Flash::error('User not found');
-
-            return redirect(route('admin.users.index'));
-        }
-
-        $user = $this->userRepository->update($request->all(), $id);
+        User::where('id', $id)->update($input);
 
         Flash::success('User updated successfully.');
 
