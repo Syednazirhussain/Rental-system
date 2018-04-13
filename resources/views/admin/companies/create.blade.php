@@ -690,20 +690,7 @@ var company_id = "";
       // Rules
 
 
-     /* $.validator.addMethod("uniqueUserName", function(value, element) {
-          $.ajax({
-              type: "POST",
-               url: "php/get_save_status.php",
-              data: "checkUsername="+value,
-              dataType:"html",
-           success: function(msg)
-           {
-              // if the user exists, it returns a string "true"
-              if(msg == "true")
-                 return false;  // already exists
-              return true;      // username is free to use
-           }
-         })}, "Username is Already Taken");*/
+     
 
 
       var companyCreated = 0;
@@ -957,7 +944,7 @@ var company_id = "";
 
       $('#wizard-4').validate({
 
-          rules: {
+          /*rules: {
               "number": {
                   required: true,
                   maxlength: 150,
@@ -991,7 +978,7 @@ var company_id = "";
               "discount": {
                   required: true
               }
-          },
+          },*/
 
           messages: {
              "number": {
@@ -1099,6 +1086,21 @@ var company_id = "";
             }
         });
 
+
+       /*$.validator.addMethod("moduleNotEqualTo", function(value, element) {
+              
+              var arr = [];  
+              $('.module-id').each(function () {
+                    arr.push($(this).val());
+                });
+
+              $('.module-id').each(function () {
+                    
+                    $(this).val();
+                });
+
+          }, "Username is Already Taken");
+*/
 
 
       var companyAdminCreated = 0;
@@ -1503,11 +1505,80 @@ var company_id = "";
 
             // Add More Module
 
-            
+            var modulesList = {
+              @foreach ($modules as $module)
+                  {{ $module->id }}: "{{ $module->name }}",
+              @endforeach
+              };
+
+
+            function checkSelected(val) {
+                var ret = false;
+                $(".module-id").each(function() {
+                    if ($(this).val() === val) {
+                        ret = true;
+                    }
+                });
+                return ret;
+            }
+
+
+            function totalSelectedValue(){
+                var total = 0;
+                $(".module-id option:selected").each(function() {
+                    total = total + parseInt($(this).val(), 10);
+                });
+                return total;
+            }
+ 
+            $(document).on('change', '.module-id', function() {
+
+                  $('option', this).each(function() {
+
+                      // alert($(this).val());
+
+                      if (checkSelected($(this).val()) && $(this).val() !== "") {
+                          // alert($(this).val());
+                          $('.module-id option[value=' + $(this).val() + ']').attr('disabled', true);;
+                          // $('.module-id option[value=' + $(this).val() + ']').attr('disabled', 'disabled');
+                          // $('.module-id option[value=' + $(this).val() + ']').remove();
+                      } else {
+                          // alert('it doesn');
+
+                          // $('.module-id option[value=' + $(this).val() + ']').removeAttr('disabled');
+                      }
+                  });
+
+                  /*$('.select2-module').select2({
+                      placeholder: 'Select Module',
+                  });*/
+            });
+
+            $(document).on('select2:unselecting', '.module-id', function (e) {
+
+                  var moduleVal = e.params.args.data.id;
+                  $('.module-id option[value=' + moduleVal + ']').removeAttr('disabled');
+                  $('.module-id').trigger('change');
+
+                  // console.log(e.params.args.data.id);
+                  $('option', this).each(function() {
+
+                      // alert($(this).val());
+
+
+                      $('.module-id option[value=' + moduleVal + ']').removeAttr('disabled');
+
+                  });
+
+
+              // Do something
+            });
 
             var moduleNum = 0;
 
             $('#addModuleBtn').on('click', function() {
+
+                var moduleIdName = "module["+moduleNum+"][id]";
 
                 var module = '<div class="moduleFields">';
                     module += '<h5 class="bg-success p-x-1 p-y-1" >Module <i class="fa fa-times fa-lg remove-module pull-right cursor-p"></i></h5>';
@@ -1515,10 +1586,6 @@ var company_id = "";
                     module += '<div class="col-sm-6 form-group">';
                     module += '<label for="module">Module</label>';
                     module += '<select name="module['+moduleNum+'][id]" class="module-id form-control select2-module" style="width: 100%" data-allow-clear="true">';
-                    module += '<option></option>';
-                    @foreach ($modules as $module)
-                      module += '<option value="{{ $module->id }}">{{ $module->name }}</option>/';
-                    @endforeach
                     module += '</select>';
                     module += '<div class="errorTxt"></div>';
                     module += '</div>'
@@ -1534,6 +1601,14 @@ var company_id = "";
                     module += '</div>'
 
                 $('.module').prepend(module);
+
+                // later:
+                var option = '<option></option>';
+                $.each(modulesList, function (index, value) {
+                    option += '<option value="'+index+'">'+value+'</option>';
+                });
+
+                $('select[name="' + moduleIdName + '"]').html(option);
 
                 moduleNum += 1;
 
@@ -1559,7 +1634,7 @@ var company_id = "";
 
 
                   $('.select2-module').select2({
-                    placeholder: 'Select Module',
+                      placeholder: 'Select Module',
                   });
 
             });
