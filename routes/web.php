@@ -24,6 +24,11 @@ Route::get('/admin', function() {
 	return redirect()->route('admin.login');
 });
 
+Route::get('/company', function() {
+
+    return redirect()->route('company.login');
+});
+
 /********** Admin accessible routes as a Guest User start **********/
 
 Route::group(['middleware' => ['admin.guest']], function () {
@@ -167,10 +172,40 @@ Route::group(['middleware' => ['admin.auth']], function () {
 
 });
 
+/********** Company Admin accessible routes as a Guest User start **********/
+
+Route::group(['middleware' => ['company.guest']], function () {
+
+    Route::get('company/login', ['as'=> 'company.login', 'uses' => 'Company\UserController@viewLogin']);
+    Route::post('company/authenticate', ['as'=> 'company.users.authenticate', 'uses' => 'Company\UserController@authenticate']);
+
+});
+
+/********** Company Admin accessible routes as a Guest User end **********/
+
+/********** Company Admin accessible routes as an Authenticated User start **********/
+
+Route::group(['middleware' => ['company.auth']], function () {
+
+    Route::get('company/dashboard', ['as' => 'company.dashboard', 'uses' => 'Company\DashboardController@index']);
+
+    Route::get('company/logout', ['as' => 'company.logout', 'uses' => 'Company\UserController@logout']);
+
+    Route::get('company/users', ['as' => 'company.users.index', 'uses' => 'Company\UserController@index']);
+    Route::post('company/users', ['as' => 'company.users.store', 'uses' => 'Company\UserController@store']);
+    Route::get('company/users/create', ['as' => 'company.users.create', 'uses' => 'Company\UserController@create']);
+    Route::put('company/users/{users}', ['as' => 'company.users.update', 'uses' => 'Company\UserController@update']);
+    Route::patch('company/users/{users}', ['as' => 'company.users.update', 'uses' => 'Company\UserController@update']);
+    Route::delete('company/users/{users}', ['as' => 'company.users.destroy', 'uses' => 'Company\UserController@destroy']);
+    Route::get('company/users/{users}', ['as' => 'company.users.show', 'uses' => 'Company\UserController@show']);
+    Route::get('company/users/{users}/edit', ['as' => 'company.users.edit', 'uses' => 'Company\UserController@edit']);
+
+});
+
+/********** Company Admin accessible routes as an Authenticated User end **********/
 
 
 # --------------------------------------------------------------------------
-
 
 /********** Admin accessible routes as an Authenticated User end **********/
 
