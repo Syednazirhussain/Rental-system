@@ -1,4 +1,4 @@
-@extends('admin.default')
+@extends('company.default')
 
 @section('content')
     <div class="px-content">
@@ -23,9 +23,9 @@
                         <div class="panel-title">@if(isset($user)){{ "Edit" }}@else{{ "Add" }}@endif User</div>
                     </div>
                     <div class="panel-body">
-                        <form action="{{ route('admin.users.update', [$user->id]) }}" method="POST" id="userForm">
+                        <form action="{{ route('company.users.update', [$user->id]) }}" method="POST" id="userForm">
 
-                            @include('admin.users.fields')
+                            @include('company.users.fields')
 
                         </form>
                     </div>

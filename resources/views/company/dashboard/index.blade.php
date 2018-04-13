@@ -3,7 +3,7 @@
 @section('content')
     <div class="px-content">
         <ol class="breadcrumb page-breadcrumb">
-            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html">Company</a></li>
             <li class="active">Dashboard</li>
         </ol>
         <div class="page-header">

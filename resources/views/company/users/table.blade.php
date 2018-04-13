@@ -28,9 +28,9 @@
             <td>{{ $user->uuid }}</td>
             <td>{{ $user->created_at }}</td>
             <td  width="200px" class="text-center">
-                {!! Form::open(['route' => ['admin.users.destroy', $user->id], 'method' => 'delete']) !!}
-                <a href="{!! route('admin.users.show', [$user->id]) !!}"><i class="fa fa-eye fa-lg text-info"></i></a>
-                <a href="{!! route('admin.users.edit', [$user->id]) !!}"><i class="fa fa-edit fa-lg text-info"></i></a>
+                {!! Form::open(['route' => ['company.users.destroy', $user->id], 'method' => 'delete']) !!}
+                <a href="{!! route('company.users.show', [$user->id]) !!}"><i class="fa fa-eye fa-lg text-info"></i></a>
+                <a href="{!! route('company.users.edit', [$user->id]) !!}"><i class="fa fa-edit fa-lg text-info"></i></a>
                 {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
                 {!! Form::close() !!}
             </td>

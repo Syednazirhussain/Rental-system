@@ -21,9 +21,8 @@
         <label for="user_role_codes">User Role:</label>
         <select type="text" name="user_role_code" id="user_role_code" class="form-control" value="@if(isset($user)){{ $user->user_role_code }}@endif">
             @if(isset($user)) <option value="{{ $user->user_role_code }}" selected>{{ $all_roles[$user->user_role_code] }}</option> @endif
-            @foreach($user_role as $role)
-            <option value="{{ $role->code }}">{{ $role->name }}</option>
-            @endforeach
+            <option value="company">Company</option>
+            <option value="company_customer">Company Customer</option>
         </select>
     </div>
     <div class="col-sm-12 form-group">
@@ -42,7 +41,6 @@
         <label for="user_uuid">UUID:</label>
         <input type="number" name="uuid" id="user_uuid" class="form-control" value="@if(isset($user)){{ $user->uuid }}@endif">
     </div>
-
     <div class="col-sm-12">
         <button type="submit" class="btn btn-primary">@if(isset($user)) <i class="fa fa-refresh"></i>  Update User @else <i class="fa fa-plus"></i>  Add User @endif</button>
         <a href="{!! route('admin.users.index') !!}" class="btn btn-default">Cancel</a>

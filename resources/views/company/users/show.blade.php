@@ -1,4 +1,4 @@
-@extends('admin.default')
+@extends('company.default')
 
 @section('content')
 
@@ -10,9 +10,9 @@
 
         <div class="panel">
             <div class="panel-body">
-                @include('admin.users.show_fields')
+                @include('company.users.show_fields')
 
-                <a href="{!! route('admin.users.index') !!}" class="btn btn-default">Back</a>
+                <a href="{!! route('company.users.index') !!}" class="btn btn-default">Back</a>
             </div>
         </div>
     </div>

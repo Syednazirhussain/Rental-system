@@ -37,7 +37,6 @@ class User extends Authenticatable
 {
 
     use SoftDeletes;
-    
 
     public $table = 'users';
     
@@ -67,13 +66,12 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-
-
     /**
      * The attributes that should be casted to native types.
      *
      * @var array
      */
+
     protected $casts = [
         'id' => 'integer',
         'name' => 'string',
@@ -132,8 +130,8 @@ class User extends Authenticatable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function companyUsers()
+    public function companyUser()
     {
-        return $this->hasMany(\App\Models\Admin\CompanyUser::class);
+        return $this->hasOne('App\Models\CompanyUser', 'user_id', 'id');
     }
 }

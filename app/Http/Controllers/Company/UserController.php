@@ -14,6 +14,8 @@ use Auth;
 use App\Models\UserRole;
 use App\Models\User;
 use App\Models\UserStatus;
+use App\Models\CompanyUser;
+use App\Models\Company;
 
 
 class UserController extends AppBaseController
@@ -35,7 +37,9 @@ class UserController extends AppBaseController
     public function index(Request $request)
     {
         $this->userRepository->pushCriteria(new RequestCriteria($request));
-        $users = $this->userRepository->all();
+        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $users = Company::find($company_id)->companyUsers()->join('users', 'user_id', '=', 'users.id')->get();
+
         $user_roles = UserRole::pluck('name', 'code');
         $user_status = UserStatus::pluck('name', 'id');
 
@@ -66,6 +70,8 @@ class UserController extends AppBaseController
         $password =  bcrypt($request->password);
         $input['password'] = $password;
         $input['user_status_id'] = "1";
+        if ($input['user_role_code'] == 'admin' || $input['user_role_code'] == 'customer_admin')
+            $input['user_role_code'] = "company_customer";
 
         $user = User::where('email', $request->email)->first();
         if($user !== null) {
@@ -73,7 +79,11 @@ class UserController extends AppBaseController
             return redirect(route('company.users.index'));
         }
 
-        User::create($input);
+        $created_user = User::create($input);
+        $company_user['user_id'] = $created_user->id;
+        $company_user['company_id'] = Auth::user()->companyUser()->first()->company_id;
+
+        CompanyUser::create($company_user);
         $request->session()->flash('msg.success', 'User saved successfully.');
         return redirect(route('company.users.index'));
     }
@@ -97,7 +107,7 @@ class UserController extends AppBaseController
             return redirect(route('company.users.index'));
         }
 
-        return view('admin.users.show', ['user' => $user, 'user_roles' => $user_roles, 'user_status' => $user_status]);
+        return view('company.users.show', ['user' => $user, 'user_roles' => $user_roles, 'user_status' => $user_status]);
     }
 
     /**
@@ -135,6 +145,9 @@ class UserController extends AppBaseController
         $input = request()->except(['_token', '_method']);
         $password =  bcrypt($request->password);
         $input['password'] = $password;
+        //Check role
+        if ($input['user_role_code'] == 'admin' || $input['user_role_code'] == 'customer_admin')
+            $input['user_role_code'] = "company_customer";
 
         User::where('id', $id)->update($input);
         $request->session()->flash('msg.success', 'User updated successfully.');
@@ -148,7 +161,7 @@ class UserController extends AppBaseController
      *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
         $user = $this->userRepository->findWithoutFail($id);
 
@@ -158,9 +171,11 @@ class UserController extends AppBaseController
             return redirect(route('company.users.index'));
         }
 
+        $user->companyUser()->first()->delete();
         $this->userRepository->delete($id);
 
         Flash::success('User deleted successfully.');
+        $request->session()->flash('msg.success', 'User deleted successfully.');
 
         return redirect(route('company.users.index'));
     }
@@ -190,7 +205,7 @@ class UserController extends AppBaseController
     }
 
 
-    // logging out user from admin panel
+    // logging out user from company admin panel
     public function logout(Request $request) {
 
         if (Auth::check()) {
