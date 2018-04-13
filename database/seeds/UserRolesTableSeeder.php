@@ -35,6 +35,12 @@ class UserRolesTableSeeder extends Seeder
                 'code' => 'company_admin',
                 'name' => 'Company Admin',
             ),
+            3 => 
+            array (
+                'id' => 8,
+                'code' => 'company_customer',
+                'name' => 'Company Customer',
+            ),
         ));
         
         

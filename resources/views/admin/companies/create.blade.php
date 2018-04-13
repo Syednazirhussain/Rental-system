@@ -697,7 +697,7 @@ var company_id = "";
 
       $('#wizard-1').validate({
 
-         /* rules: {
+          rules: {
               'name': {
                 required:  true,
                 minlength: 3,
@@ -742,7 +742,7 @@ var company_id = "";
                 max: 3,
               },
 
-            },*/
+            },
           errorPlacement: function(error, element) {
             var placement = $(element).parent().find('.errorTxt');
             if (placement) {
@@ -791,7 +791,7 @@ var company_id = "";
               }
 
             } else {
-                console.log("does not validate");
+                // console.log("does not validate");
             }
         });
 
@@ -863,7 +863,7 @@ var company_id = "";
 
                             contactPersonCreated = data.success;
 
-                            console.log(data);
+                            // console.log(data);
                         },
                         error: function(xhr,status,error)  {
 
@@ -872,7 +872,7 @@ var company_id = "";
                     });
                 }
             } else {
-                console.log("does not validate");
+                // console.log("does not validate");
             }
         });
 
@@ -918,7 +918,7 @@ var company_id = "";
               }
 
             } else {
-                console.log("does not validate");
+                // console.log("does not validate");
             }
         });
 
@@ -944,7 +944,7 @@ var company_id = "";
 
       $('#wizard-4').validate({
 
-          /*rules: {
+          rules: {
               "number": {
                   required: true,
                   maxlength: 150,
@@ -958,7 +958,7 @@ var company_id = "";
                       },
                       dataFilter: function(response) {
 
-                          console.log(response);
+                          // console.log(response);
                           return checkField(response);
                       }
                   }
@@ -978,7 +978,7 @@ var company_id = "";
               "discount": {
                   required: true
               }
-          },*/
+          },
 
           messages: {
              "number": {
@@ -1035,7 +1035,7 @@ var company_id = "";
 
 
             } else {
-                console.log("does not validate");
+                // console.log("does not validate");
             }
         });
 
@@ -1057,7 +1057,7 @@ var company_id = "";
                   var data = new FormData(myform);
                   data.append('company_id', company_id);
 
-                  console.log(data);
+                  // console.log(data);
 
                   $.ajax({
                       url: '{{ route("admin.companyModules.store") }}',
@@ -1071,7 +1071,7 @@ var company_id = "";
 
                           companyModuleCreated = data.success;
 
-                          console.log(data);
+                          // console.log(data);
                       },
                       error: function(xhr,status,error)  {
 
@@ -1082,25 +1082,10 @@ var company_id = "";
               }
                 // console.log("validates");
             } else {
-                console.log("does not validate");
+                // console.log("does not validate");
             }
         });
 
-
-       /*$.validator.addMethod("moduleNotEqualTo", function(value, element) {
-              
-              var arr = [];  
-              $('.module-id').each(function () {
-                    arr.push($(this).val());
-                });
-
-              $('.module-id').each(function () {
-                    
-                    $(this).val();
-                });
-
-          }, "Username is Already Taken");
-*/
 
 
       var companyAdminCreated = 0;
@@ -1143,7 +1128,7 @@ var company_id = "";
                 }
                 // console.log("validates");
             } else {
-                console.log("does not validate");
+                // console.log("does not validate");
             }
         });
 
@@ -1196,39 +1181,6 @@ var company_id = "";
 
                 $('#addAdminBtn').trigger('click');
                 $('.remove-admin').hide();
-
-
-                $("#wizard-2").validate({
-                    rules: {
-                        "person_name[0]": {
-                            required: true
-                        }
-                    }
-                });
-
-                $("#wizard-3").validate({
-                    rules: {
-                        "building_name[0]": {
-                            required: true
-                        }
-                    }
-                });
-
-                $("#wizard-5").validate({
-                    rules: {
-                        "module[0]": {
-                            required: true
-                        }
-                    }
-                });
-
-                $("#wizard-6").validate({
-                    rules: {
-                        "module[0]": {
-                            required: true
-                        }
-                    }
-                });
 
             });
 
@@ -1294,7 +1246,7 @@ var company_id = "";
 
                 i += 1;
 
-                /*$('.person-name').each(function () {
+                $('.person-name').each(function () {
                     $(this).rules("add", {
                         required: true,
                         maxlength: 100,
@@ -1338,7 +1290,7 @@ var company_id = "";
                     $(this).rules("add", {
                         maxlength: 100,                        
                     });
-                });*/
+                });
 
             });
 
@@ -1392,7 +1344,7 @@ var company_id = "";
                   j += 1;
                   buildingNum += 1;
 
-                  /*$('.building-name').each(function () {
+                  $('.building-name').each(function () {
                       $(this).rules("add", {
                           required: true,
                           maxlength: 200,
@@ -1418,7 +1370,7 @@ var company_id = "";
                           required: true,
                           digits: true,
                       });
-                  });*/
+                  });
 
             });
 
@@ -1719,7 +1671,7 @@ var company_id = "";
                                 },
                                 dataFilter: function(response) {
 
-                                    console.log(response);
+                                    // console.log(response);
                                     return checkField(response);
                                 }
                             },

@@ -2939,6 +2939,7 @@ class ComposerStaticInitf94ddff63512d832e2783dddcc566951
         'PHP_Token_YIELD_FROM' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'ParseError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/ParseError.php',
         'Parsedown' => __DIR__ . '/..' . '/erusev/parsedown/Parsedown.php',
+        'PaymentCyclesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/PaymentCyclesTableSeeder.php',
         'PaymentMethodsTableSeeder' => __DIR__ . '/../..' . '/database/seeds/PaymentMethodsTableSeeder.php',
         'PharIo\\Manifest\\Application' => __DIR__ . '/..' . '/phar-io/manifest/src/values/Application.php',
         'PharIo\\Manifest\\ApplicationName' => __DIR__ . '/..' . '/phar-io/manifest/src/values/ApplicationName.php',

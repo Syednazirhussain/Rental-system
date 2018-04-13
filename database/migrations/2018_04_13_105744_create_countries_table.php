@@ -16,6 +16,8 @@ class CreateCountriesTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('name', 100);
+			$table->string('short', 10)->nullable()->unique('short');
+			$table->string('phone_code', 5)->nullable();
 		});
 	}
 
