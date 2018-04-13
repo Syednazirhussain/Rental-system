@@ -3,6 +3,7 @@
 namespace App\Repositories\Admin;
 
 use App\Models\CompanyUser;
+use App\Models\User;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
@@ -37,5 +38,15 @@ class CompanyUserRepository extends BaseRepository
      **/
     public function insert($arr = []) {
         return CompanyUser::insert($arr);
+    }
+
+    /**
+     * Get Admin Row by Email
+     **/
+    public function findAdminByEmail(string $adminEmail)
+    {
+
+        $user = User::where('email', $adminEmail)->where('user_role_code', 'company_admin')->first();
+        return $user;
     }
 }

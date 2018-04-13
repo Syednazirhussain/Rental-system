@@ -175,6 +175,7 @@ Route::group(['middleware' => ['admin.auth']], function () {
 
 Route::post('cities', ['as'=> 'cities.list', 'uses' => 'General\GeoController@getCities']);
 Route::post('validate/contract_no', ['as'=> 'validate.contract', 'uses' => 'General\ValidationController@contractNo']);
+Route::post('validate/admin', ['as'=> 'validate.admin', 'uses' => 'General\ValidationController@adminEmail']);
 
 
 // For selectively chosen routes:

@@ -1539,38 +1539,31 @@ var company_id = "";
 
                       if (checkSelected($(this).val()) && $(this).val() !== "") {
                           // alert($(this).val());
-                          $('.module-id option[value=' + $(this).val() + ']').attr('disabled', true);;
+                          $('.module-id option[value=' + $(this).val() + ']').prop('disabled', true);;
+
+                          $(this).prop('disabled', false);;
                           // $('.module-id option[value=' + $(this).val() + ']').attr('disabled', 'disabled');
                           // $('.module-id option[value=' + $(this).val() + ']').remove();
                       } else {
-                          // alert('it doesn');
 
-                          // $('.module-id option[value=' + $(this).val() + ']').removeAttr('disabled');
+                          // $('.module-id option[value=' + $(this).val() + ']').prop('disabled', false);
                       }
                   });
-
-                  /*$('.select2-module').select2({
-                      placeholder: 'Select Module',
-                  });*/
             });
 
             $(document).on('select2:unselecting', '.module-id', function (e) {
 
+                  console.log(e.params);
                   var moduleVal = e.params.args.data.id;
-                  $('.module-id option[value=' + moduleVal + ']').removeAttr('disabled');
-                  $('.module-id').trigger('change');
-
-                  // console.log(e.params.args.data.id);
                   $('option', this).each(function() {
+                      $('.module-id option[value=' + moduleVal + ']').prop('disabled', false);
+                  
+                  // $('.module-id option[value=' + moduleVal + ']').first().prop('disabled', false);
 
-                      // alert($(this).val());
-
-
-                      $('.module-id option[value=' + moduleVal + ']').removeAttr('disabled');
-
+                   });
+                  $('.select2-module').select2({
+                      placeholder: 'Select Module',
                   });
-
-
               // Do something
             });
 
@@ -1646,6 +1639,30 @@ var company_id = "";
 
             });
 
+            jQuery.validator.addMethod("notEqualToGroup", function(value, element, options) {
+                // get all the elements passed here with the same class
+                var elems = $(element).parents('form').find(options[0]);
+                // the value of the current element
+                var valueToCompare = value;
+                // count
+                var matchesFound = 0;
+                // loop each element and compare its value with the current value
+                // and increase the count every time we find one
+                jQuery.each(elems, function(){
+                thisVal = $(this).val();
+                if(thisVal == valueToCompare){
+                  matchesFound++;
+                }
+                });
+                // count should be either 0 or 1 max
+                if(this.optional(element) || matchesFound <= 1) {
+                        //elems.removeClass('error');
+                        return true;
+                    } else {
+                        //elems.addClass('error');
+                    }
+                });
+
 
 
             // Add More Admin
@@ -1687,9 +1704,29 @@ var company_id = "";
                     });
 
                     $('.admin-email').each(function () {
+                        var adminEmail = $(this);
                         $(this).rules("add", {
                             required: true,
                             email: true,
+                            notEqualToGroup: ['.admin-email'],
+                            remote: {
+                                url: "{{ route('validate.admin') }}",
+                                type: "POST",
+                                cache: false,
+                                dataType: "json",
+                                data: {
+                                    admin_email: function() { return adminEmail.val(); }
+                                },
+                                dataFilter: function(response) {
+
+                                    console.log(response);
+                                    return checkField(response);
+                                }
+                            },
+                            messages: {
+                                remote: "This admin already have an account",
+                                notEqualToGroup: "Please enter a unique email",
+                            }
                         });
                     });
 
