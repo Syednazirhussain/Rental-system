@@ -57,11 +57,11 @@
                         </ul>
                     </li>
                     <li class="dropdown-toggle">
-                        <a href>Modules</a>
+                        <a href="{{ route('company.companyBuildings.index') }}">Buildings</a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ route('admin.modules.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
-                                    Module</a></li>
-                            <li><a href="{{ route('admin.modules.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Modules</a>
+                            <li><a href="{{ route('company.companyBuildings.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
+                                    Building</a></li>
+                            <li><a href="{{ route('company.companyBuildings.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Buildings</a>
                             </li>
                         </ul>
                     </li>
@@ -91,7 +91,7 @@
         </ul>
         <!-- Header -->
         <div class="navbar-header">
-            <a class="navbar-brand px-demo-brand" href="{{ route('admin.dashboard') }}"><span
+            <a class="navbar-brand px-demo-brand" href="{{ route('company.dashboard') }}"><span
                         class="px-demo-logo bg-primary"><span class="px-demo-logo-1"></span><span
                             class="px-demo-logo-2"></span><span class="px-demo-logo-3"></span><span
                             class="px-demo-logo-4"></span><span class="px-demo-logo-5"></span><span
