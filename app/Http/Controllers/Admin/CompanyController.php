@@ -67,8 +67,7 @@ class CompanyController extends AppBaseController
 
 
         $data = [
-                'companies' => $companies,
-                'countries' => $countries,
+                'companies' => $companies
             ];
 
         return view('admin.companies.index', $data);
@@ -120,6 +119,7 @@ class CompanyController extends AppBaseController
             $path = $request->file('logo')->store('public/company_logos');
             // $path = explode("/", $path);
             $input['logo'] = $path;
+
         }
         
 
@@ -172,6 +172,25 @@ class CompanyController extends AppBaseController
     {
         $company = $this->companyRepository->findWithoutFail($id);
 
+        $countries = $this->countryRepository->all();
+        $states = $this->stateRepository->all();
+        $cities = $this->cityRepository->all();
+        $userstatus = $this->userStatusRepository->all();
+        $discountTypes = $this->discountTypeRepository->all();
+        $modules = $this->moduleRepository->all();
+        $paymentCycles = $this->paymentCycleRepository->all();
+
+        $data = [
+                'countries' => $countries,
+                'states' => $states,
+                'cities' => $cities,
+                'userStatus' => $userstatus,
+                'discountTypes' => $discountTypes,
+                'modules' => $modules,
+                'paymentCycles' => $paymentCycles,
+                'company' => $company,
+            ];
+
         if (empty($company)) {
 
             session()->flash('msg.error', 'Company not found');
@@ -179,7 +198,7 @@ class CompanyController extends AppBaseController
             return redirect(route('admin.companies.index'));
         }
 
-        return view('admin.companies.edit')->with('company', $company);
+        return view('admin.companies.edit', $data);
     }
 
     /**

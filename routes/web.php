@@ -186,14 +186,14 @@ Route::post('validate/admin', ['as'=> 'validate.admin', 'uses' => 'General\Valid
 
 	}); */
 
-/*
-	Route::group(['prefix' => \UriLocalizer::localeFromRequest(2), 'middleware' => 'localize:2'], function () {
-		    Route::get('/test', function() {
-				return \UriLocalizer::localeFromRequest()." Hello world";
 
-		    });
-		});
-*/
+Route::group(['prefix' => \UriLocalizer::localeFromRequest(2), 'middleware' => 'localize:2'], function () {
+	    Route::get('/test', function() {
+			return \UriLocalizer::localeFromRequest()." Hello world";
+
+	    });
+	});
+
 
 
 
