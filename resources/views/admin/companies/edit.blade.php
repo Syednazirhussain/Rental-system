@@ -327,7 +327,7 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
             // test if form is valid 
             if($('#wizard-2').validate().form()) {
 
-              if (contactPersonCreated == 0) {
+              if (editCompany == 0 && contactPersonCreated == 0) {
 
                     var myform = document.getElementById("wizard-2");
                     var data = new FormData(myform );
@@ -343,11 +343,44 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                         processData: false,
                         type: 'POST', // For jQuery < 1.9
                         success: function(data){
-                            // myform.pxWizard('goTo', 2);
-
                             contactPersonCreated = data.success;
 
                             // console.log(data);
+                        },
+                        error: function(xhr,status,error)  {
+
+                        }
+
+                    });
+                } else {
+
+                    var myform = document.getElementById("wizard-2");
+                    var data = new FormData(myform );
+                    data.append('company_id', editCompany);
+
+                    // console.log(data);
+
+                    $.ajax({
+                        url: '{{ route("admin.companyContactPeople.update") }}',
+                        data: data,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        type: 'POST', // For jQuery < 1.9
+                        success: function(data) {
+
+                            
+                            $.each(data.createdFields, function (index, value) {
+
+                               $('input[data-person-id="new-'+index+'"]').val(value);
+                               $('input[data-person-id="new-'+index+'"]').attr('name', "person["+value+"][id]");
+                               $('input[data-person-id="new-'+index+'"]').attr("data-person-id", value);
+
+                            });
+
+                            // contactPersonCreated = data.success;
+
+                            console.log(data);
                         },
                         error: function(xhr,status,error)  {
 
@@ -668,6 +701,9 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                 $('#addAdminBtn').trigger('click');
                 $('.remove-admin').hide();
 
+
+                contactPersonValidateRules();
+
             });
 
     
@@ -675,64 +711,10 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
 
             // Add More Contact Persons
 
-            var i = 0;
+            // company contact person validation rules
+            function contactPersonValidateRules() {
 
-            $('#addFieldBtn').on('click', function() {
-
-
-            var person = '<div class="contactPersonFields">';
-                person += '<h5 class="bg-success p-x-1 p-y-1 m-t-0" >Person <i class="fa fa-times fa-lg remove-contact-person pull-right cursor-p"></i></h5>';
-                person += '<div class="row">';
-                person += '<div class="col-sm-6 form-group">';
-                person += '<fieldset class="form-group">';
-                person += '<label for="person-name">Name</label>';
-                person += '<input type="text" name="person_name['+i+']" class="person-name form-control" placeholder="john doe">';
-                person += '</fieldset>';
-                person += '</div>';
-                person += '<div class="col-sm-6 form-group">';
-                person += '<fieldset class="form-group">';
-                person += '<label for="person-email">Email</label>';
-                person += '<input type="email" name="person_email['+i+']" class="person-email form-control" placeholder="john@example.com">';
-                person += '</fieldset>';
-                person += '</div>';
-                person += '<div class="col-sm-6 form-group">';
-                person += '<fieldset class="form-group">';
-                person += '<label for="person-phone">Phone</label>';
-                person += '<input type="text" name="person_phone['+i+']" class="person-phone form-control" placeholder="0987654321">';
-                person += '</fieldset>';
-                person += '</div>';
-                person += '<div class="col-sm-6 form-group">';
-                person += '<fieldset class="form-group">';
-                person += '<label for="person-fax">Fax</label>';
-                person += '<input type="text" name="person_fax['+i+']" class="person-fax form-control" placeholder="0987654321">';
-                person += '</fieldset>';
-                person += '</div>';
-                person += '<div class="col-sm-12 form-group">';
-                person += '<fieldset class="form-group">';
-                person += '<label for="person-address">Address</label>';
-                person += '<input type="text" name="person_address['+i+']" class="person-address form-control" placeholder="ST-12 Phase-3/B Crown Center Alaska.">';
-                person += '</fieldset>';
-                person += '</div>';
-                person += '<div class="col-sm-6 form-group">';
-                person += '<fieldset class="form-group">';
-                person += '<label for="person-department">Department</label>';
-                person += '<input type="text" name="person_department['+i+']" class="person-department form-control" placeholder="Human Resource Department">';
-                person += '</fieldset>';
-                person += '</div>';
-                person += '<div class="col-sm-6 form-group">';
-                person += '<fieldset class="form-group">';
-                person += '<label for="person-designation">Designation</label>';
-                person += '<input type="text" name="person_designation['+i+']" class="person-designation form-control" placeholder="Asst. Manager">';
-                person += '</fieldset>';
-                person += '</div>';
-                person += '</div>';
-                person += '</div>';
-
-                $(".person").prepend(person);
-
-                i += 1;
-
-                $('.person-name').each(function () {
+              $('.person-name').each(function () {
                     $(this).rules("add", {
                         required: true,
                         maxlength: 100,
@@ -777,7 +759,68 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                         maxlength: 100,                        
                     });
                 });
+            }
 
+            var i = 0;
+
+            $('#addFieldBtn').on('click', function() {
+
+
+            var person = '<div class="contactPersonFields">';
+                person += '<input type="hidden" name="person['+i+'][id]" data-person-id="new-'+i+'" class="person-id" value="new-'+i+'" />';
+                person += '<h5 class="bg-success p-x-1 p-y-1 m-t-0" >Person <i class="fa fa-times fa-lg remove-contact-person pull-right cursor-p"></i></h5>';
+                person += '<div class="row">';
+                person += '<div class="col-sm-6 form-group">';
+                person += '<fieldset class="form-group">';
+                person += '<label for="person-name">Name</label>';
+                person += '<input type="text" name="person['+i+'][name]" class="person-name form-control" placeholder="john doe">';
+                person += '</fieldset>';
+                person += '</div>';
+                person += '<div class="col-sm-6 form-group">';
+                person += '<fieldset class="form-group">';
+                person += '<label for="person-email">Email</label>';
+                person += '<input type="email" name="person['+i+'][email]" class="person-email form-control" placeholder="john@example.com">';
+                person += '</fieldset>';
+                person += '</div>';
+                person += '<div class="col-sm-6 form-group">';
+                person += '<fieldset class="form-group">';
+                person += '<label for="person-phone">Phone</label>';
+                person += '<input type="text" name="person['+i+'][phone]" class="person-phone form-control" placeholder="0987654321">';
+                person += '</fieldset>';
+                person += '</div>';
+                person += '<div class="col-sm-6 form-group">';
+                person += '<fieldset class="form-group">';
+                person += '<label for="person-fax">Fax</label>';
+                person += '<input type="text" name="person['+i+'][fax]" class="person-fax form-control" placeholder="0987654321">';
+                person += '</fieldset>';
+                person += '</div>';
+                person += '<div class="col-sm-12 form-group">';
+                person += '<fieldset class="form-group">';
+                person += '<label for="person-address">Address</label>';
+                person += '<input type="text" name="person['+i+'][address]" class="person-address form-control" placeholder="ST-12 Phase-3/B Crown Center Alaska.">';
+                person += '</fieldset>';
+                person += '</div>';
+                person += '<div class="col-sm-6 form-group">';
+                person += '<fieldset class="form-group">';
+                person += '<label for="person-department">Department</label>';
+                person += '<input type="text" name="person['+i+'][department]" class="person-department form-control" placeholder="Human Resource Department">';
+                person += '</fieldset>';
+                person += '</div>';
+                person += '<div class="col-sm-6 form-group">';
+                person += '<fieldset class="form-group">';
+                person += '<label for="person-designation">Designation</label>';
+                person += '<input type="text" name="person['+i+'][designation]" class="person-designation form-control" placeholder="Asst. Manager">';
+                person += '</fieldset>';
+                person += '</div>';
+                person += '</div>';
+                person += '</div>';
+
+                $(".person").prepend(person);
+
+                i += 1;
+
+                
+                contactPersonValidateRules();
             });
 
 
