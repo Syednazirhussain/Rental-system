@@ -121,39 +121,6 @@ var company_id = "";
 
 
             // -------------------------------------------------------------------------
-            // Initialize Markdown
-            
-            /*$(function() {
-              $('#contract-content').markdown({
-                iconlibrary: 'fa',
-                footer:      '<div id="md-character-footer"></div><small id="md-character-counter" class="text-muted">350 character left</small>',
-            
-                onChange: function(e) {
-                  var contentLength = e.getContent().length;
-            
-                  if (contentLength > 350) {
-                    $('#md-character-counter')
-                      .removeClass('text-muted')
-                      .addClass('text-danger')
-                      .html((contentLength - 350) + ' character surplus.');
-                  } else {
-                    $('#md-character-counter')
-                      .removeClass('text-danger')
-                      .addClass('text-muted')
-                      .html((350 - contentLength) + ' character left.');
-                  }
-                },
-
-                onBlur: function(e) {
-                          $('#contract-content-hidden').val(e.getContent());
-                          // alert(e.getContent())
-                        }
-              });
-            
-              // Update character counter
-              $('#contract-content').trigger('change');
-            });*/
-
 
               $(function() {
                 $('#contract-content').summernote({

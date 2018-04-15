@@ -66,6 +66,10 @@
                           
                           <form action="{{ route('admin.companies.store') }}" name="createCompanyForm" class="wizard-pane active" id="wizard-1" method="post">
 
+                                @if (isset($company))
+                                    <input name="_method" type="hidden" value="PATCH">
+                                @endif
+
                                 <h3 class="m-t-0">Company Basic Information</h3>
 
                                 <div class="row">
@@ -97,13 +101,17 @@
                                         </label>
                                         <div class="errorTxt"></div> -->
 
+
                                         <div class="fileinput fileinput-new" data-provides="fileinput">
-                                          <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"></div>
+                                          <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                                                @if (isset($company))
+                                                    <img src="{{ asset('storage/company_logos/'.$company->logo) }}" data-src="{{ asset('storage/company_logos/'.$company->logo) }}" alt="" />
+                                                @endif
+                                          </div>
+                                          <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
                                           <div>
-                                            <span class="btn btn-default btn-file">
-                                                <span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span>
-                                                <input type="file" name="logo" id="logo" />
-                                            </span>
+                                            <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span>
+                                            <input type="file" name="logo" id="logo"></span>
                                             <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
                                           </div>
                                         </div>

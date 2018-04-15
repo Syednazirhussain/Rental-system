@@ -16,7 +16,7 @@
 
         <div class="px-content">
             <div class="page-header">
-                <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Companies / </span>Add Company</h1>
+                <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Companies / </span>{{ ucfirst($company->name) }}</h1>
             </div>
 
             @include('admin.companies.fields')
@@ -43,116 +43,30 @@
 <script type="text/javascript">
 
 var company_id = "";
-
- /* $(function() {
-    $('#dropzonejs').dropzone({
-
-      paramName: "logo",
-      url: "/",
-      acceptedFiles: "image/*",
-      autoProcessQueue: false,
-      autoQueue: false,
-      maxFiles: 1,
-      parallelUploads: 1,
-      maxFilesize:     10,
-      filesizeBase:    1000,
-
-      resize: function(file) {
-        return {
-          srcX:      0,
-          srcY:      0,
-          srcWidth:  file.width,
-          srcHeight: file.height,
-          trgWidth:  file.width,
-          trgHeight: file.height,
-        };
-      },
-    });
-
-
-    // Mock the file upload progress (only for the demo)
-    //
-    Dropzone.prototype.uploadFiles = function(files) {
-      var minSteps         = 6;
-      var maxSteps         = 60;
-      var timeBetweenSteps = 100;
-      var bytesPerStep     = 100000;
-      var isUploadSuccess  = Math.round(Math.random());
-
-      var self = this;
-
-      for (var i = 0; i < files.length; i++) {
-
-        var file = files[i];
-        var totalSteps = Math.round(Math.min(maxSteps, Math.max(minSteps, file.size / bytesPerStep)));
-
-        for (var step = 0; step < totalSteps; step++) {
-          var duration = timeBetweenSteps * (step + 1);
-
-          setTimeout(function(file, totalSteps, step) {
-            return function() {
-              file.upload = {
-                progress: 100 * (step + 1) / totalSteps,
-                total: file.size,
-                bytesSent: (step + 1) * file.size / totalSteps
-              };
-
-              self.emit('uploadprogress', file, file.upload.progress, file.upload.bytesSent);
-              if (file.upload.progress == 100) {
-
-                if (isUploadSuccess) {
-                  file.status =  Dropzone.SUCCESS;
-                  self.emit('success', file, 'success', null);
-                } else {
-                  file.status =  Dropzone.ERROR;
-                  self.emit('error', file, 'Some upload error', null);
-                }
-
-                self.emit('complete', file);
-                self.processQueue();
-              }
-            };
-          }(file, totalSteps, step), duration);
-        }
-      }
-    };
-  });*/
+var editCompany = "{{ isset($company) ? $company->id: 0 }}";
 
 
 
             // -------------------------------------------------------------------------
-            // Initialize Markdown
-            
-            $(function() {
-              $('#contract-content').markdown({
-                iconlibrary: 'fa',
-                footer:      '<div id="md-character-footer"></div><small id="md-character-counter" class="text-muted">350 character left</small>',
-            
-                onChange: function(e) {
-                  var contentLength = e.getContent().length;
-            
-                  if (contentLength > 350) {
-                    $('#md-character-counter')
-                      .removeClass('text-muted')
-                      .addClass('text-danger')
-                      .html((contentLength - 350) + ' character surplus.');
-                  } else {
-                    $('#md-character-counter')
-                      .removeClass('text-danger')
-                      .addClass('text-muted')
-                      .html((350 - contentLength) + ' character left.');
-                  }
-                },
 
-                onBlur: function(e) {
-                          $('#contract-content-hidden').val(e.getContent());
-                          // alert(e.getContent())
-                        }
+              $(function() {
+                $('#contract-content').summernote({
+                  height: 200,
+                  toolbar: [
+                    ['parastyle', ['style']],
+                    ['fontstyle', ['fontname', 'fontsize']],
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']],
+                    ['insert', ['picture', 'link', 'video', 'table', 'hr']],
+                    ['history', ['undo', 'redo']],
+                    ['misc', ['codeview', 'fullscreen']],
+                    ['help', ['help']]
+                  ],
+                });
               });
-            
-              // Update character counter
-              $('#contract-content').trigger('change');
-            });
             
             
               $('#daterange-3').daterangepicker({
@@ -309,7 +223,7 @@ var company_id = "";
             if( $('#wizard-1').validate().form() ) {
 
 
-              if (companyCreated == 0) {
+              if (editCompany == 0 && companyCreated == 0) {
 
                   var myform = document.getElementById("wizard-1");
                   var data = new FormData(myform);
@@ -327,6 +241,30 @@ var company_id = "";
                           companyCreated = data.success;
 
                           // console.log(data);
+                      },
+                      error: function(xhr,status,error)  {
+
+                      }
+
+                  });
+
+              } else {
+
+                  var myform = document.getElementById("wizard-1");
+                  var data = new FormData(myform);
+                  data.append('company_id', editCompany);
+
+                  $.ajax({
+                      url: '{{ route("admin.companies.update", [$company->id]) }}',
+                      data: data,
+                      cache: false,
+                      contentType: false,
+                      processData: false,
+                      type: 'POST', // For jQuery < 1.9
+                      success: function(data){
+                          // myform.pxWizard('goTo', 2);
+
+                          console.log(data);
                       },
                       error: function(xhr,status,error)  {
 
@@ -1262,3 +1200,4 @@ var company_id = "";
 
 
 @endsection
+

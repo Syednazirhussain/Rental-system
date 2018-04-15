@@ -117,8 +117,9 @@ class CompanyController extends AppBaseController
         if ($request->hasFile('logo')) {
 
             $path = $request->file('logo')->store('public/company_logos');
-            // $path = explode("/", $path);
-            $input['logo'] = $path;
+            $path = explode("/", $path);
+
+            $input['logo'] = $path[2];
 
         }
         
@@ -211,20 +212,36 @@ class CompanyController extends AppBaseController
      */
     public function update($id, UpdateCompanyRequest $request)
     {
+
+        $input = $request->all();
+
+        if ($request->hasFile('logo')) {
+
+            $path = $request->file('logo')->store('public/company_logos');
+            $path = explode("/", $path);
+            $input['logo'] = $path[2];
+        }
+        
+
         $company = $this->companyRepository->findWithoutFail($id);
 
         if (empty($company)) {
 
             session()->flash('msg.error', 'Company not found');
 
-            return redirect(route('admin.companies.index'));
+            $success = 0;
+            $msg = "Company not found";
+        } else {
+            
+            $company = $this->companyRepository->update($input, $id);
+
+            $success = 1;
+            $msg = "Company has been updated successfully";
         }
 
-        $company = $this->companyRepository->update($request->all(), $id);
 
-        Flash::success('Company updated successfully.');
-
-        return redirect(route('admin.companies.index'));
+        return response()->json(['success'=>$success, 'msg'=>$msg]);
+        
     }
 
     /**
