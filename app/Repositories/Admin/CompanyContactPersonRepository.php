@@ -37,4 +37,11 @@ class CompanyContactPersonRepository extends BaseRepository
     {
         return CompanyContactPerson::class;
     }
+
+    /**
+     * Bulk insert
+     **/
+    public function insert($arr = []) {
+        return CompanyContactPerson::insert($arr);
+    }
 }

@@ -250,6 +250,60 @@
                                 <div class="col-md-12" id="sectionContactPerson">
 
                                     <div class="person">
+
+                                    @if (isset($company))
+
+                                        @foreach ($company->companyContactPeople as $contactPerson)
+                                        <div class="contactPersonFields">
+                                            <h5 class="bg-success p-x-1 p-y-1 m-t-0" >Person <i class="fa fa-times fa-lg remove-contact-person pull-right cursor-p"></i></h5>
+                                                <div class="row">
+                                                <div class="col-sm-6 form-group">
+                                                <fieldset class="form-group">
+                                                <label for="person-name">Name</label>
+                                                <input type="text" name="person_name[{{ $contactPerson->id }}]" class="person-name form-control" placeholder="Person Name" value="{{ $contactPerson->name }}" />
+                                                </fieldset>
+                                                </div>
+                                                <div class="col-sm-6 form-group">
+                                                <fieldset class="form-group">
+                                                <label for="person-email">Email</label>
+                                                <input type="email" name="person_email[{{ $contactPerson->id }}]" class="person-email form-control" placeholder="Person Email" value="{{ $contactPerson->email }}" />
+                                                </fieldset>
+                                                </div>
+                                                <div class="col-sm-6 form-group">
+                                                <fieldset class="form-group">
+                                                <label for="person-phone">Phone</label>
+                                                <input type="text" name="person_phone[{{ $contactPerson->id }}]" class="person-phone form-control" placeholder="Person Phone No" value="{{ $contactPerson->phone }}" />
+                                                </fieldset>
+                                                </div>
+                                                <div class="col-sm-6 form-group">
+                                                <fieldset class="form-group">
+                                                <label for="person-fax">Fax</label>
+                                                <input type="text" name="person_fax[{{ $contactPerson->id }}]" class="person-fax form-control" placeholder="Person Fax" value="{{ $contactPerson->fax }}" />
+                                                </fieldset>
+                                                </div>
+                                                <div class="col-sm-12 form-group">
+                                                <fieldset class="form-group">
+                                                <label for="person-address">Address</label>
+                                                <input type="text" name="person_address[{{ $contactPerson->id }}]" class="person-address form-control" placeholder="Person Address" value="{{ $contactPerson->address }}" />
+                                                </fieldset>
+                                                </div>
+                                                <div class="col-sm-6 form-group">
+                                                <fieldset class="form-group">
+                                                <label for="person-department">Department</label>
+                                                <input type="text" name="person_department[{{ $contactPerson->id }}]" class="person-department form-control" placeholder="Department" value="{{ $contactPerson->department }}" />
+                                                </fieldset>
+                                                </div>
+                                                <div class="col-sm-6 form-group">
+                                                <fieldset class="form-group">
+                                                <label for="person-designation">Designation</label>
+                                                <input type="text" name="person_designation[{{ $contactPerson->id }}]" class="person-designation form-control" placeholder="Designation" value="{{ $contactPerson->designation }}" />
+                                                </fieldset>
+                                                </div>
+                                                </div>
+                                        </div>
+                                        @endforeach
+                                    @endif
+
                                     </div>
 
                                 </div>

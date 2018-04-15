@@ -55,35 +55,34 @@ class CompanyContactPersonController extends AppBaseController
      */
     public function store(CreateCompanyContactPersonRequest $request)
     {
-        $companies = $request->all();
+        $data = $request->all();
 
-        // echo "<pre>";
-        // print_r($companies);
-        // echo "</pre>";
+        /*echo "<pre>";
+        print_r($data);
+        echo "</pre>";
 
-        // exit;
+        exit;*/
 
+        $input = [];
+        $dateTime = date('Y-m-d h:i:s');
 
-        $i = 0;
-
-        while ($i<count($companies['person_name'])) {
-
-            $input = [];
-            $floors = [];
-
-            $input['name'] = $companies['person_name'][$i];
-            $input['email'] = $companies['person_email'][$i];
-            $input['phone'] = $companies['person_phone'][$i];
-            $input['fax'] = $companies['person_fax'][$i];
-            $input['address'] = $companies['person_address'][$i];
-            $input['department'] = $companies['person_department'][$i];
-            $input['designation'] = $companies['person_designation'][$i];
-            $input['company_id'] = $companies['company_id'];
-
-            $companyContactPerson = $this->companyContactPersonRepository->create($input);
+         $i = 0;
+        foreach ($data['person'] as $person) {
+            $input[$i]['name'] = $person['name'];
+            $input[$i]['email'] = $person['email'];
+            $input[$i]['phone'] = $person['phone'];
+            $input[$i]['fax'] = $person['fax'];
+            $input[$i]['address'] = $person['address'];
+            $input[$i]['department'] = $person['department'];
+            $input[$i]['designation'] = $person['designation'];
+            $input[$i]['company_id'] = $data['company_id'];
+            $input[$i]['created_at'] = $dateTime;
+            $input[$i]['updated_at'] = $dateTime;
 
             $i++;
         }
+
+        $companyContactPerson = $this->companyContactPersonRepository->insert($input);
 
         return response()->json(['success'=>1, 'msg'=>'Company contact persons have been added successfully']);
     }

@@ -657,7 +657,9 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                 $('#addBuildingBtn').trigger('click');
                 $('.remove-building').hide();
 
-                $('#addFieldBtn').trigger('click');
+                if (editCompany == 0) {
+                    $('#addFieldBtn').trigger('click');
+                }
                 // $('.remove-contact-person').hide();
 
                 $('#addModuleBtn').trigger('click');
