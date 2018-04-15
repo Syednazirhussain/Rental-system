@@ -123,7 +123,7 @@ var company_id = "";
             // -------------------------------------------------------------------------
             // Initialize Markdown
             
-            $(function() {
+            /*$(function() {
               $('#contract-content').markdown({
                 iconlibrary: 'fa',
                 footer:      '<div id="md-character-footer"></div><small id="md-character-counter" class="text-muted">350 character left</small>',
@@ -152,7 +152,27 @@ var company_id = "";
             
               // Update character counter
               $('#contract-content').trigger('change');
-            });
+            });*/
+
+
+              $(function() {
+                $('#contract-content').summernote({
+                  height: 200,
+                  toolbar: [
+                    ['parastyle', ['style']],
+                    ['fontstyle', ['fontname', 'fontsize']],
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']],
+                    ['insert', ['picture', 'link', 'video', 'table', 'hr']],
+                    ['history', ['undo', 'redo']],
+                    ['misc', ['codeview', 'fullscreen']],
+                    ['help', ['help']]
+                  ],
+                });
+              });
             
             
               $('#daterange-3').daterangepicker({
