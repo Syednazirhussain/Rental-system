@@ -1,6 +1,4 @@
-<?php 
-
-namespace Waavi\Translation\Repositories;
+<?php namespace Waavi\Translation\Repositories;
 
 use Illuminate\Config\Repository as Config;
 use Illuminate\Foundation\Application;
@@ -128,20 +126,14 @@ class LanguageRepository extends Repository
      */
     public function availableLocales()
     {
-        // if ($this->config->has('translator.locales')) {
-        //     return $this->config->get('translator.locales');
-        // }
-
-        if ($this->config->has('translator.available_locales')) {
-
-            return $this->config->get('translator.available_locales');
+        if ($this->config->has('translator.locales')) {
+            return $this->config->get('translator.locales');
         }
-
 
         if ($this->config->get('translator.source') !== 'files') {
             if ($this->tableExists()) {
                 $locales = $this->model->distinct()->get()->pluck('locale')->toArray();
-                $this->config->set('translator.available_locales', $locales);
+                $this->config->set('translator.locales', $locales);
                 return $locales;
             }
         }

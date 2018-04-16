@@ -38,34 +38,19 @@ class TranslationMiddleware
      */
     public function handle($request, Closure $next, $segment = 0)
     {
-
-            
-
-
         // Ignores all non GET requests:
         if ($request->method() !== 'GET') {
             return $next($request);
         }
 
-
-
         $currentUrl    = $request->getUri();
         $uriLocale     = $this->uriLocalizer->getLocaleFromUrl($currentUrl, $segment);
         $defaultLocale = $this->config->get('app.locale');
 
-
-
-
-
         // If a locale was set in the url:
         if ($uriLocale) {
-
             $currentLanguage     = $this->languageRepository->findByLocale($uriLocale);
             $selectableLanguages = $this->languageRepository->allExcept($uriLocale);
-
-        
-            
-
             $altLocalizedUrls    = [];
             foreach ($selectableLanguages as $lang) {
                 $altLocalizedUrls[] = [
@@ -74,9 +59,6 @@ class TranslationMiddleware
                     'url'    => $this->uriLocalizer->localize($currentUrl, $lang->locale, $segment),
                 ];
             }
-
-
-
 
             // Set app locale
             $this->app->setLocale($uriLocale);
@@ -90,27 +72,15 @@ class TranslationMiddleware
             if ($request->hasSession() && $request->session()->get('waavi.translation.locale') !== $uriLocale) {
                 $request->session()->put('waavi.translation.locale', $uriLocale);
             }
-
-
             return $next($request);
         }
-
-
-
 
         // If no locale was set in the url, check the session locale
         if ($request->hasSession() && $sessionLocale = $request->session()->get('waavi.translation.locale')) {
             if ($this->languageRepository->isValidLocale($sessionLocale)) {
-
-                echo \App::make('url')->to($this->uriLocalizer->localize($currentUrl, $sessionLocale, $segment));
-                exit;
                 return redirect()->to($this->uriLocalizer->localize($currentUrl, $sessionLocale, $segment));
             }
         }
-
-
-
-
 
         // If no locale was set in the url, check the browser's locale:
         $browserLocale = substr($request->server('HTTP_ACCEPT_LANGUAGE'), 0, 2);
@@ -123,8 +93,6 @@ class TranslationMiddleware
         if ($request->hasSession()) {
             $request->session()->reflash();
         }
-
-
         return redirect()->to($this->uriLocalizer->localize($currentUrl, $defaultLocale, $segment));
     }
 }

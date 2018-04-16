@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitf94ddff63512d832e2783dddcc566951
+class ComposerStaticIniteac529a4c8a4f2d709521da441e5c27e
 {
     public static $files = array (
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
@@ -112,7 +112,6 @@ class ComposerStaticInitf94ddff63512d832e2783dddcc566951
         array (
             'Cron\\' => 5,
             'Collective\\Html\\' => 16,
-            'Carbon\\' => 7,
         ),
         'A' => 
         array (
@@ -315,14 +314,14 @@ class ComposerStaticInitf94ddff63512d832e2783dddcc566951
         array (
             0 => __DIR__ . '/..' . '/laravelcollective/html/src',
         ),
-        'Carbon\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
-        ),
         'App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
         ),
+    );
+
+    public static $fallbackDirsPsr4 = array (
+        0 => __DIR__ . '/..' . '/nesbot/carbon/src',
     );
 
     public static $prefixesPsr0 = array (
@@ -2337,6 +2336,7 @@ class ComposerStaticInitf94ddff63512d832e2783dddcc566951
         'JakubOnderka\\PhpConsoleColor\\InvalidStyleException' => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src/JakubOnderka/PhpConsoleColor/InvalidStyleException.php',
         'JakubOnderka\\PhpConsoleHighlighter\\Highlighter' => __DIR__ . '/..' . '/jakub-onderka/php-console-highlighter/src/JakubOnderka/PhpConsoleHighlighter/Highlighter.php',
         'Jlapp\\Swaggervel\\SwaggervelServiceProvider' => __DIR__ . '/..' . '/jlapp/swaggervel/src/Jlapp/Swaggervel/SwaggervelServiceProvider.php',
+        'JsonSerializable' => __DIR__ . '/..' . '/nesbot/carbon/src/JsonSerializable.php',
         'LanguageSeeder' => __DIR__ . '/../..' . '/database/seeds/LanguageSeeder.php',
         'Laracasts\\Flash\\Flash' => __DIR__ . '/..' . '/laracasts/flash/src/Laracasts/Flash/Flash.php',
         'Laracasts\\Flash\\FlashNotifier' => __DIR__ . '/..' . '/laracasts/flash/src/Laracasts/Flash/FlashNotifier.php',
@@ -4416,10 +4416,11 @@ class ComposerStaticInitf94ddff63512d832e2783dddcc566951
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitf94ddff63512d832e2783dddcc566951::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitf94ddff63512d832e2783dddcc566951::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitf94ddff63512d832e2783dddcc566951::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitf94ddff63512d832e2783dddcc566951::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticIniteac529a4c8a4f2d709521da441e5c27e::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticIniteac529a4c8a4f2d709521da441e5c27e::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticIniteac529a4c8a4f2d709521da441e5c27e::$fallbackDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticIniteac529a4c8a4f2d709521da441e5c27e::$prefixesPsr0;
+            $loader->classMap = ComposerStaticIniteac529a4c8a4f2d709521da441e5c27e::$classMap;
 
         }, null, ClassLoader::class);
     }

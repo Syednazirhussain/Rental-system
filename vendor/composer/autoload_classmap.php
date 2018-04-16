@@ -1938,6 +1938,7 @@ return array(
     'JakubOnderka\\PhpConsoleColor\\InvalidStyleException' => $vendorDir . '/jakub-onderka/php-console-color/src/JakubOnderka/PhpConsoleColor/InvalidStyleException.php',
     'JakubOnderka\\PhpConsoleHighlighter\\Highlighter' => $vendorDir . '/jakub-onderka/php-console-highlighter/src/JakubOnderka/PhpConsoleHighlighter/Highlighter.php',
     'Jlapp\\Swaggervel\\SwaggervelServiceProvider' => $vendorDir . '/jlapp/swaggervel/src/Jlapp/Swaggervel/SwaggervelServiceProvider.php',
+    'JsonSerializable' => $vendorDir . '/nesbot/carbon/src/JsonSerializable.php',
     'LanguageSeeder' => $baseDir . '/database/seeds/LanguageSeeder.php',
     'Laracasts\\Flash\\Flash' => $vendorDir . '/laracasts/flash/src/Laracasts/Flash/Flash.php',
     'Laracasts\\Flash\\FlashNotifier' => $vendorDir . '/laracasts/flash/src/Laracasts/Flash/FlashNotifier.php',
