@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreatePackagesTable extends Migration {
+class CreateInvoiceDeliveryDetailsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,12 +12,13 @@ class CreatePackagesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('packages', function(Blueprint $table)
+		Schema::create('invoice_delivery_details', function(Blueprint $table)
 		{
 			$table->integer('id', true);
-			$table->string('package_name', 50)->nullable();
-			$table->string('package_unit', 50)->nullable();
 			$table->integer('companies_id')->nullable();
+			$table->integer('clients_id')->nullable();
+			$table->integer('invoice_delivery_details_id')->nullable();
+			$table->string('invoice_note', 50)->nullable();
 		});
 	}
 
@@ -29,7 +30,7 @@ class CreatePackagesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('packages');
+		Schema::drop('invoice_delivery_details');
 	}
 
 }

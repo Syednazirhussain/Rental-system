@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateInvoiceDeliveryTypesTable extends Migration {
+class CreateInvoiceMailingsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,10 +12,11 @@ class CreateInvoiceDeliveryTypesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('invoice_delivery_types', function(Blueprint $table)
+		Schema::create('invoice_mailings', function(Blueprint $table)
 		{
 			$table->integer('id', true);
-			$table->string('invoice_type', 50)->nullable();
+			$table->integer('invoices_id')->nullable();
+			$table->date('idate')->nullable();
 		});
 	}
 
@@ -27,7 +28,7 @@ class CreateInvoiceDeliveryTypesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('invoice_delivery_types');
+		Schema::drop('invoice_mailings');
 	}
 
 }

@@ -14,7 +14,7 @@ class AddForeignKeysToStatesTable extends Migration {
 	{
 		Schema::table('states', function(Blueprint $table)
 		{
-			$table->foreign('country_id')->references('Id')->on('countries')->onUpdate('CASCADE')->onDelete('CASCADE');
+			$table->foreign('country_id')->references('id')->on('countries')->onUpdate('CASCADE')->onDelete('CASCADE');
 		});
 	}
 
