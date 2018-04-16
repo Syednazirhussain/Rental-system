@@ -17,7 +17,7 @@ class CreateCompaniesTable extends Migration {
 			$table->increments('id');
 			$table->string('name', 191)->nullable();
 			$table->string('second_name', 191)->nullable();
-			$table->string('logo')->nullable()->default('default.png');
+			$table->string('logo', 191)->nullable()->default('default.png');
 			$table->text('description', 65535)->nullable();
 			$table->string('address', 191)->nullable();
 			$table->string('zipcode', 20)->nullable();

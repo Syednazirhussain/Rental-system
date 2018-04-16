@@ -39,4 +39,13 @@ class CompanyContractRepository extends BaseRepository
     {
         return CompanyContract::class;
     }
+
+    /**
+     * Get Contract Row
+     **/
+    public function findContractByNumber(string $contractNo)
+    {
+        $contract = CompanyContract::where('number', $contractNo)->first();
+        return $contract;
+    }
 }

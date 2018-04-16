@@ -81,7 +81,7 @@ class CompanyContract extends Model
         'end_date' => 'required',
         'payment_method' => 'required|string|max:30',
         'payment_cycle' => 'required',
-        'discount_type' => 'string|max:50',
+        'discount_type' => 'integer|max:50|nullable',
         'discount' => 'numeric'
     ];
 

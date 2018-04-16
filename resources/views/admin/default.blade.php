@@ -13,7 +13,9 @@
         <link href="{{ asset('/skin-1/assets/css/pixeladmin.min.css') }}" rel="stylesheet">
         <link href="{{ asset('/skin-1/assets/css/widgets.min.css') }}" rel="stylesheet">
         <link href="{{ asset('/skin-1/assets/css/themes/candy-green.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('/skin-1/assets/plugins/jasny-bootstrap/css/jasny-bootstrap.min.css') }}" rel="stylesheet">
 
+        
         @yield('css') 
 
         <link href="{{ asset('/skin-1/assets/css/custom.css') }}" rel="stylesheet">
@@ -129,6 +131,8 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="{{ asset('/skin-1/assets/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('/skin-1/assets/js/pixeladmin.min.js') }}"></script>
+        <script src="{{ asset('/skin-1/assets/plugins/jasny-bootstrap/js/jasny-bootstrap.min.js') }}"></script>
+
         <script src="{{ asset('/skin-1/assets/js/jquery.validate.min.js') }}"></script>
         <script src="{{ asset('/skin-1/assets/js/custom.js') }}"></script>
 

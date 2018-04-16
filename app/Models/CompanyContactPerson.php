@@ -44,7 +44,9 @@ class CompanyContactPerson extends Model
         'email',
         'phone',
         'fax',
-        'address'
+        'address',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -70,7 +72,7 @@ class CompanyContactPerson extends Model
      * @var array
      */
     public static $rules = [
-        
+        'person' => 'required|array'
     ];
 
     /**

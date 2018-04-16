@@ -103,8 +103,8 @@ Route::group(['middleware' => ['admin.auth']], function () {
 	Route::get('admin/companyContactPeople', ['as'=> 'admin.companyContactPeople.index', 'uses' => 'Admin\CompanyContactPersonController@index']);
 	Route::post('admin/companyContactPeople', ['as'=> 'admin.companyContactPeople.store', 'uses' => 'Admin\CompanyContactPersonController@store']);
 	Route::get('admin/companyContactPeople/create', ['as'=> 'admin.companyContactPeople.create', 'uses' => 'Admin\CompanyContactPersonController@create']);
-	Route::put('admin/companyContactPeople/{companyContactPeople}', ['as'=> 'admin.companyContactPeople.update', 'uses' => 'Admin\CompanyContactPersonController@update']);
-	Route::patch('admin/companyContactPeople/{companyContactPeople}', ['as'=> 'admin.companyContactPeople.update', 'uses' => 'Admin\CompanyContactPersonController@update']);
+	Route::put('admin/companyContactPeople', ['as'=> 'admin.companyContactPeople.update', 'uses' => 'Admin\CompanyContactPersonController@update']);
+	Route::patch('admin/companyContactPeople', ['as'=> 'admin.companyContactPeople.update', 'uses' => 'Admin\CompanyContactPersonController@update']);
 	Route::delete('admin/companyContactPeople/{companyContactPeople}', ['as'=> 'admin.companyContactPeople.destroy', 'uses' => 'Admin\CompanyContactPersonController@destroy']);
 	Route::get('admin/companyContactPeople/{companyContactPeople}', ['as'=> 'admin.companyContactPeople.show', 'uses' => 'Admin\CompanyContactPersonController@show']);
 	Route::get('admin/companyContactPeople/{companyContactPeople}/edit', ['as'=> 'admin.companyContactPeople.edit', 'uses' => 'Admin\CompanyContactPersonController@edit']);
@@ -219,6 +219,14 @@ Route::group(['middleware' => ['company.auth']], function () {
 
 /********** Admin accessible routes as an Authenticated User end **********/
 
+
+
+
+Route::post('cities', ['as'=> 'cities.list', 'uses' => 'General\GeoController@getCities']);
+Route::post('validate/contract_no', ['as'=> 'validate.contract', 'uses' => 'General\ValidationController@contractNo']);
+Route::post('validate/admin', ['as'=> 'validate.admin', 'uses' => 'General\ValidationController@adminEmail']);
+
+
 // For selectively chosen routes:
 	/*Route::group(['prefix' => Waavi\Translation\Facades\UriLocalizer::localeFromRequest(2)], function () {
 		
@@ -227,14 +235,14 @@ Route::group(['middleware' => ['company.auth']], function () {
 
 	}); */
 
-/*
-	Route::group(['prefix' => \UriLocalizer::localeFromRequest(2), 'middleware' => 'localize:2'], function () {
-		    Route::get('/test', function() {
-				return \UriLocalizer::localeFromRequest()." Hello world";
 
-		    });
-		});
-*/
+Route::group(['prefix' => \UriLocalizer::localeFromRequest(2), 'middleware' => 'localize:2'], function () {
+	    Route::get('/test', function() {
+			return \UriLocalizer::localeFromRequest()." Hello world";
+
+	    });
+	});
+
 
 
 

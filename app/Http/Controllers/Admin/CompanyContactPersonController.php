@@ -55,35 +55,34 @@ class CompanyContactPersonController extends AppBaseController
      */
     public function store(CreateCompanyContactPersonRequest $request)
     {
-        $companies = $request->all();
+        $data = $request->all();
 
-        // echo "<pre>";
-        // print_r($companies);
-        // echo "</pre>";
+        /*echo "<pre>";
+        print_r($data);
+        echo "</pre>";
 
-        // exit;
+        exit;*/
 
+        $input = [];
+        $dateTime = date('Y-m-d h:i:s');
 
-        $i = 0;
-
-        while ($i<count($companies['person_name'])) {
-
-            $input = [];
-            $floors = [];
-
-            $input['name'] = $companies['person_name'][$i];
-            $input['email'] = $companies['person_email'][$i];
-            $input['phone'] = $companies['person_phone'][$i];
-            $input['fax'] = $companies['person_fax'][$i];
-            $input['address'] = $companies['person_address'][$i];
-            $input['department'] = $companies['person_department'][$i];
-            $input['designation'] = $companies['person_designation'][$i];
-            $input['company_id'] = $companies['company_id'];
-
-            $companyContactPerson = $this->companyContactPersonRepository->create($input);
+         $i = 0;
+        foreach ($data['person'] as $person) {
+            $input[$i]['name'] = $person['name'];
+            $input[$i]['email'] = $person['email'];
+            $input[$i]['phone'] = $person['phone'];
+            $input[$i]['fax'] = $person['fax'];
+            $input[$i]['address'] = $person['address'];
+            $input[$i]['department'] = $person['department'];
+            $input[$i]['designation'] = $person['designation'];
+            $input[$i]['company_id'] = $data['company_id'];
+            $input[$i]['created_at'] = $dateTime;
+            $input[$i]['updated_at'] = $dateTime;
 
             $i++;
         }
+
+        $companyContactPerson = $this->companyContactPersonRepository->insert($input);
 
         return response()->json(['success'=>1, 'msg'=>'Company contact persons have been added successfully']);
     }
@@ -136,21 +135,59 @@ class CompanyContactPersonController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateCompanyContactPersonRequest $request)
+    public function update(UpdateCompanyContactPersonRequest $request)
     {
-        $companyContactPerson = $this->companyContactPersonRepository->findWithoutFail($id);
 
-        if (empty($companyContactPerson)) {
-            Flash::error('Company Contact Person not found');
+        $data = $request->all();
 
-            return redirect(route('admin.companyContactPeople.index'));
+        /*echo "<pre>";
+        print_r($data['person']);
+        echo "</pre>";
+
+        exit;*/
+
+        $input = [];
+        $dateTime = date('Y-m-d h:i:s');
+        $arr = [];
+
+        $i = 0;
+        $index = 0;
+
+        foreach ($data['person'] as $person) {
+
+            $input['name'] = $person['name'];
+            $input['email'] = $person['email'];
+            $input['phone'] = $person['phone'];
+            $input['fax'] = $person['fax'];
+            $input['address'] = $person['address'];
+            $input['department'] = $person['department'];
+            $input['designation'] = $person['designation'];
+            $input['company_id'] = $data['company_id'];
+
+            if (strpos($person['id'], 'new-') === false) {
+                $id = $person['id'];
+            } else {
+                $index = preg_replace('/[^0-9]/', '', $person['id']);
+                $id = "";
+            }
+            
+            $where = ['id' => $id];
+
+            $companyContactPerson = $this->companyContactPersonRepository->updateOrCreate($where, $input);
+
+            if (strpos($person['id'], 'new-') !== false) {
+
+                $arr["$index"] = $companyContactPerson->id;
+            }
+
         }
+        
 
-        $companyContactPerson = $this->companyContactPersonRepository->update($request->all(), $id);
-
-        Flash::success('Company Contact Person updated successfully.');
-
-        return redirect(route('admin.companyContactPeople.index'));
+        return response()->json([
+                                'success'=>1, 
+                                'msg'=>'Company contact persons have been updated successfully',
+                                'createdFields'=>$arr,
+                                ]);
     }
 
     /**

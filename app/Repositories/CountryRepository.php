@@ -20,7 +20,9 @@ class CountryRepository extends BaseRepository
      * @var array
      */
     protected $fieldSearchable = [
-        'name'
+        'name',
+        'short',
+        'phone_code',
     ];
 
     /**

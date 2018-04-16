@@ -19,8 +19,10 @@ class CountriesTableSeeder extends Seeder
         \DB::table('countries')->insert(array (
             0 => 
             array (
-                'id' => 2,
+                'id' => 211,
                 'name' => 'Sweden',
+                'short' => 'SE',
+                'phone_code' => '46',
             ),
         ));
         

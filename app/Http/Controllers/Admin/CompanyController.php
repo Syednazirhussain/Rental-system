@@ -8,6 +8,7 @@ use App\Repositories\Admin\CompanyRepository;
 use App\Repositories\CountryRepository;
 use App\Repositories\StateRepository;
 use App\Repositories\CityRepository;
+use App\Repositories\PaymentCycleRepository;
 use App\Repositories\UserStatusRepository;
 use App\Repositories\DiscountTypeRepository;
 use App\Repositories\Admin\ModuleRepository;
@@ -29,16 +30,18 @@ class CompanyController extends AppBaseController
     private $userStatusRepository;
     private $discountTypeRepository;
     private $moduleRepository;
+    private $paymentCycleRepository;
 
 
     public function __construct(CompanyRepository $companyRepo, 
-        CountryRepository $countryRepo, 
-        StateRepository $stateRepo,
-        CityRepository $cityRepo,
-        UserStatusRepository $userStatusRepo,
-        DiscountTypeRepository $discountTypeRepo,
-        ModuleRepository $moduleRepo
-        )
+                                CountryRepository $countryRepo, 
+                                StateRepository $stateRepo,
+                                CityRepository $cityRepo,
+                                UserStatusRepository $userStatusRepo,
+                                DiscountTypeRepository $discountTypeRepo,
+                                ModuleRepository $moduleRepo,
+                                PaymentCycleRepository $paymentCycleRepo
+                                )
     {
         $this->companyRepository = $companyRepo;
         $this->stateRepository = $stateRepo;
@@ -47,6 +50,7 @@ class CompanyController extends AppBaseController
         $this->userStatusRepository = $userStatusRepo;
         $this->discountTypeRepository = $discountTypeRepo;
         $this->moduleRepository = $moduleRepo;
+        $this->paymentCycleRepository = $paymentCycleRepo;
     }
 
     /**
@@ -63,7 +67,8 @@ class CompanyController extends AppBaseController
 
 
         $data = [
-                'companies' => $companies,
+
+                'companies' => $companies
             ];
 
         return view('admin.companies.index', $data);
@@ -83,7 +88,7 @@ class CompanyController extends AppBaseController
         $userstatus = $this->userStatusRepository->all();
         $discountTypes = $this->discountTypeRepository->all();
         $modules = $this->moduleRepository->all();
-
+        $paymentCycles = $this->paymentCycleRepository->all();
 
         $data = [
                 'countries' => $countries,
@@ -92,6 +97,7 @@ class CompanyController extends AppBaseController
                 'userStatus' => $userstatus,
                 'discountTypes' => $discountTypes,
                 'modules' => $modules,
+                'paymentCycles' => $paymentCycles,
             ];
 
         return view('admin.companies.create', $data);
@@ -112,8 +118,10 @@ class CompanyController extends AppBaseController
         if ($request->hasFile('logo')) {
 
             $path = $request->file('logo')->store('public/company_logos');
-            // $path = explode("/", $path);
-            $input['logo'] = $path;
+            $path = explode("/", $path);
+
+            $input['logo'] = $path[2];
+
         }
         
 
@@ -166,6 +174,25 @@ class CompanyController extends AppBaseController
     {
         $company = $this->companyRepository->findWithoutFail($id);
 
+        $countries = $this->countryRepository->all();
+        $states = $this->stateRepository->all();
+        $cities = $this->cityRepository->all();
+        $userstatus = $this->userStatusRepository->all();
+        $discountTypes = $this->discountTypeRepository->all();
+        $modules = $this->moduleRepository->all();
+        $paymentCycles = $this->paymentCycleRepository->all();
+
+        $data = [
+                'countries' => $countries,
+                'states' => $states,
+                'cities' => $cities,
+                'userStatus' => $userstatus,
+                'discountTypes' => $discountTypes,
+                'modules' => $modules,
+                'paymentCycles' => $paymentCycles,
+                'company' => $company,
+            ];
+
         if (empty($company)) {
 
             session()->flash('msg.error', 'Company not found');
@@ -173,7 +200,7 @@ class CompanyController extends AppBaseController
             return redirect(route('admin.companies.index'));
         }
 
-        return view('admin.companies.edit')->with('company', $company);
+        return view('admin.companies.edit', $data);
     }
 
     /**
@@ -186,20 +213,36 @@ class CompanyController extends AppBaseController
      */
     public function update($id, UpdateCompanyRequest $request)
     {
+
+        $input = $request->all();
+
+        if ($request->hasFile('logo')) {
+
+            $path = $request->file('logo')->store('public/company_logos');
+            $path = explode("/", $path);
+            $input['logo'] = $path[2];
+        }
+        
+
         $company = $this->companyRepository->findWithoutFail($id);
 
         if (empty($company)) {
 
             session()->flash('msg.error', 'Company not found');
 
-            return redirect(route('admin.companies.index'));
+            $success = 0;
+            $msg = "Company not found";
+        } else {
+            
+            $company = $this->companyRepository->update($input, $id);
+
+            $success = 1;
+            $msg = "Company has been updated successfully";
         }
 
-        $company = $this->companyRepository->update($request->all(), $id);
 
-        Flash::success('Company updated successfully.');
-
-        return redirect(route('admin.companies.index'));
+        return response()->json(['success'=>$success, 'msg'=>$msg]);
+        
     }
 
     /**

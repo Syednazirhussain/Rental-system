@@ -23,4 +23,13 @@ php artisan migrate
 php artisan db:seed
 ```
 
+## Clear Config Cache
+
+If you have made any changes to project config, make sure to run the config cache command below
+
+```    
+php artisan config:cache
+```
+
+
 Thats it!
