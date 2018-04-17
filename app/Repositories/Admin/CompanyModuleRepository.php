@@ -3,6 +3,7 @@
 namespace App\Repositories\Admin;
 
 use App\Models\CompanyModule;
+use App\Models\Module;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
@@ -41,4 +42,22 @@ class CompanyModuleRepository extends BaseRepository
     public function insert($arr = []) {
         return CompanyModule::insert($arr);
     }
+
+    public function getCompanyModule($company_id)
+    {
+        return CompanyModule::where('company_id',$company_id)->get();
+    }
+
+    public function getCompanyRelatedModule($company_modules)
+    {
+        $modules_id = array();
+        for ($i=0 ; $i < count($company_modules) ; $i++) { 
+           $modules_id[$i] = $company_modules[$i]->module_id;
+        }
+        return Module::find($modules_id);
+    }
+
+
+
+
 }

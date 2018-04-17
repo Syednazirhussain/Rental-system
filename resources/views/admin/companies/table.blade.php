@@ -11,6 +11,7 @@
 </thead>
 <tbody>
 
+
 @foreach($companies as $company)
   <tr class="odd gradeX">
     <td>{{ ucfirst($company->name) }}</td>

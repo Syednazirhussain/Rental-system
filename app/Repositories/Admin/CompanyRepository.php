@@ -43,4 +43,10 @@ class CompanyRepository extends BaseRepository
     {
         return Company::class;
     }
+
+    public function getCompanyById($company_id)
+    {
+        return Company::find($company_id);
+    }
+
 }

@@ -67,6 +67,7 @@
                                 </ul>
                              </li>
                             <li class="divider"></li>
+                            <li><a href="{{ route('admin.companyInvoices.index') }}">Invoices</a></li>
                             <li><a href="#">Help</a></li>
                         </ul>
                     </li>

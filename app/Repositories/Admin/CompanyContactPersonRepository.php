@@ -45,6 +45,11 @@ class CompanyContactPersonRepository extends BaseRepository
         return CompanyContactPerson::insert($arr);
     }
 
+    public function getCompanyContractPerson($company_id)
+    {
+        return CompanyContactPerson::where('company_id',$company_id)->get();
+    }
+
     /**
      * Bulk insert
      **/

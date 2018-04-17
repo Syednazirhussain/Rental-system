@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\CreateUserRequest;
 use App\Http\Requests\Admin\UpdateUserRequest;
+
 use App\Repositories\Admin\UserRepository;
+
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
@@ -166,13 +168,12 @@ class UserController extends AppBaseController
     // authenticate user
     public function authenticate(Request $request)
     {
-        if (Auth::attempt(array('email'=>$request->input('email'), 'password'=>$request->input('password'),'user_role_code'=>'admin'))) {
-
+        if (Auth::attempt(array('email'=>$request->input('email'), 'password'=>$request->input('password'),'user_role_code'=>'admin')))
+        {
             return redirect()->route('admin.dashboard');
-                    
-
-        } else {
-
+        } 
+        else 
+        {
             return redirect()->route('admin.login')
             ->with('errorLogin', 'Ooops! Invalid Email or Password')
             ->withInput();
