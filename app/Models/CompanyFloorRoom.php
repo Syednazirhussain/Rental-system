@@ -24,13 +24,10 @@ class CompanyFloorRoom extends Model
     use SoftDeletes;
 
     public $table = 'company_floor_rooms';
-    
-    const CREATED_AT = 'created_at';
-    const UPDATED_AT = 'updated_at';
 
+    public $timestamps = true;
 
-    protected $dates = ['deleted_at'];
-
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     public $fillable = [
         'building_id',

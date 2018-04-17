@@ -64,11 +64,11 @@
                         </ul>
                     </li>
                     <li class="dropdown-toggle">
-                        <a href>Companies</a>
+                        <a href="{{ route('company.companyFloorRooms.index') }}">Floor Rooms</a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ route('admin.companies.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
-                                    Company</a></li>
-                            <li><a href="{{ route('admin.companies.index') }}"><i class="fa fa-building-o"></i>&nbsp;&nbsp;Companies</a>
+                            <li><a href="{{ route('company.companyFloorRooms.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
+                                    Floor</a></li>
+                            <li><a href="{{ route('company.companyFloorRooms.index') }}"><i class="fa fa-building-o"></i>&nbsp;&nbsp;Floor Rooms</a>
                             </li>
                         </ul>
                     </li>
