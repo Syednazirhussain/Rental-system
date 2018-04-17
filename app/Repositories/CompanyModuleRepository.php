@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Repositories\Admin;
+namespace App\Repositories;
 
 use App\Models\CompanyModule;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
  * Class CompanyModuleRepository
- * @package App\Repositories\Admin
+ * @package App\Repositories
  * @version April 12, 2018, 8:12 am UTC
  *
  * @method CompanyModule findWithoutFail($id, $columns = ['*'])

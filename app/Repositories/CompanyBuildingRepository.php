@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\Admin;
+namespace App\Repositories;
 
 use App\Models\CompanyBuilding;
 // use App\Models\CompanyFloorRoom;
@@ -8,7 +8,7 @@ use InfyOm\Generator\Common\BaseRepository;
 
 /**
  * Class CompanyBuildingRepository
- * @package App\Repositories\Admin
+ * @package App\Repositories
  * @version April 8, 2018, 1:53 pm UTC
  *
  * @method CompanyBuilding findWithoutFail($id, $columns = ['*'])

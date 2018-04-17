@@ -171,6 +171,34 @@ Route::group(['middleware' => ['admin.auth']], function () {
 /********** Admin accessible routes as an Authenticated User end **********/
 
 
+
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes for Conference Module
+|--------------------------------------------------------------------------
+|
+| These are the routes declared for General purpose
+|
+*/
+
+
+/********** Conference module routes start here **********/
+
+
+	Route::get('temp_company/login', ['as'=> 'temp.company.login', 'uses' => 'Company\Conference\LoginController@index']);
+	Route::post('temp_company/authenticate', ['as'=> 'temp.company.authenticate', 'uses' => 'Company\Conference\LoginController@authenticate']);
+	Route::get('temp_company/dashboard', ['as'=> 'temp.company.dashboard', 'uses' => 'Company\Conference\LoginController@dashboard']);
+
+
+
+/********** Conference module routes end here **********/
+
+
+
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes for General purpose

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\CreateCompanyContractRequest;
 use App\Http\Requests\Admin\UpdateCompanyContractRequest;
-use App\Repositories\Admin\CompanyContractRepository;
+use App\Repositories\CompanyContractRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;

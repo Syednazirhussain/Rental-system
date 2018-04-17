@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\Admin;
+namespace App\Repositories;
 
 use App\Models\CompanyUser;
 use App\Models\User;
@@ -8,7 +8,7 @@ use InfyOm\Generator\Common\BaseRepository;
 
 /**
  * Class CompanyUserRepository
- * @package App\Repositories\Admin
+ * @package App\Repositories
  * @version April 12, 2018, 10:35 am UTC
  *
  * @method CompanyUser findWithoutFail($id, $columns = ['*'])

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\CreateCompanyModuleRequest;
 use App\Http\Requests\Admin\UpdateCompanyModuleRequest;
-use App\Repositories\Admin\CompanyModuleRepository;
+use App\Repositories\CompanyModuleRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
