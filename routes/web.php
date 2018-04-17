@@ -171,11 +171,26 @@ Route::group(['middleware' => ['admin.auth']], function () {
 /********** Admin accessible routes as an Authenticated User end **********/
 
 
+/*
+|--------------------------------------------------------------------------
+| Web Routes for General purpose
+|--------------------------------------------------------------------------
+|
+| These are the routes declared for General purpose
+|
+*/
 
+
+/********** General routes start here **********/
 
 Route::post('cities', ['as'=> 'cities.list', 'uses' => 'General\GeoController@getCities']);
 Route::post('validate/contract_no', ['as'=> 'validate.contract', 'uses' => 'General\ValidationController@contractNo']);
 Route::post('validate/admin', ['as'=> 'validate.admin', 'uses' => 'General\ValidationController@adminEmail']);
+
+
+/********** General routes end here **********/
+
+
 
 
 // For selectively chosen routes:
@@ -187,13 +202,13 @@ Route::post('validate/admin', ['as'=> 'validate.admin', 'uses' => 'General\Valid
 	}); */
 
 
-Route::group(['prefix' => \UriLocalizer::localeFromRequest(2), 'middleware' => 'localize:2'], function () {
+/*Route::group(['prefix' => \UriLocalizer::localeFromRequest(2), 'middleware' => 'localize:2'], function () {
 	    Route::get('/test', function() {
 			return \UriLocalizer::localeFromRequest()." Hello world";
 
 	    });
 	});
-
+*/
 
 
 
