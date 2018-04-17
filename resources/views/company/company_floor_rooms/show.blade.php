@@ -1,19 +1,20 @@
-@extends('layouts.app')
+@extends('company.default')
 
 @section('content')
-    <section class="content-header">
-        <h1>
-            Company Floor Room
-        </h1>
-    </section>
-    <div class="content">
-        <div class="box box-primary">
-            <div class="box-body">
-                <div class="row" style="padding-left: 20px">
-                    @include('admin.company_floor_rooms.show_fields')
-                    <a href="{!! route('admin.companyFloorRooms.index') !!}" class="btn btn-default">Back</a>
-                </div>
+
+    <div class="px-content">
+        <div class="page-header">
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i>Settings / FloorRooms / </span>{!! $companyFloorRoom->id !!}
+            </h1>
+        </div>
+
+        <div class="panel">
+            <div class="panel-body">
+                @include('company.company_floor_rooms.show_fields')
+
+                <a href="{!! route('company.companyFloorRooms.index') !!}" class="btn btn-default">Back</a>
             </div>
         </div>
     </div>
+
 @endsection

@@ -1,30 +1,25 @@
-<!-- Id Field -->
-<div class="form-group">
-    {!! Form::label('id', 'Id:') !!}
-    <p>{!! $companyFloorRoom->id !!}</p>
-</div>
-
-<!-- Building Id Field -->
-<div class="form-group">
-    {!! Form::label('building_id', 'Building Id:') !!}
-    <p>{!! $companyFloorRoom->building_id !!}</p>
-</div>
-
-<!-- Company Id Field -->
-<div class="form-group">
-    {!! Form::label('company_id', 'Company Id:') !!}
-    <p>{!! $companyFloorRoom->company_id !!}</p>
-</div>
-
-<!-- Floor Field -->
-<div class="form-group">
-    {!! Form::label('floor', 'Floor:') !!}
-    <p>{!! $companyFloorRoom->floor !!}</p>
-</div>
-
-<!-- Num Rooms Field -->
-<div class="form-group">
-    {!! Form::label('num_rooms', 'Num Rooms:') !!}
-    <p>{!! $companyFloorRoom->num_rooms !!}</p>
-</div>
+<table class="table table-striped">
+    <tbody>
+        <tr>
+            <th scope="row" width="200px">Id</th>
+            <th>{{ $companyFloorRoom->id }}</th>
+        </tr>
+        <tr>
+            <th scope="row" width="200px">Company Name</th>
+            <th>{{ $company->name }}</th>
+        </tr>
+        <tr>
+            <th scope="row" width="200px">Building Name</th>
+            <th>{{ $companyBuildings[$companyFloorRoom->building_id] }}</th>
+        </tr>
+        <tr>
+            <th scope="row" width="200px">Num Floors</th>
+            <th>{{ $companyFloorRoom->floor }}</th>
+        </tr>
+        <tr>
+            <th scope="row" width="200px">Num Rooms</th>
+            <th>{{ $companyFloorRoom->num_rooms }}</th>
+        </tr>
+    </tbody>
+</table>
 

@@ -10,6 +10,10 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Auth;
+use App\Models\Company;
+use App\Models\CompanyBuilding;
+use App\Models\CompanyFloorRoom;
 
 class CompanyFloorRoomController extends AppBaseController
 {
@@ -29,10 +33,13 @@ class CompanyFloorRoomController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $this->companyFloorRoomRepository->pushCriteria(new RequestCriteria($request));
-        $companyFloorRooms = $this->companyFloorRoomRepository->all();
+        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company = Company::find($company_id);
+        $companyBuildings = CompanyBuilding::pluck('name', 'id');
+        $companyFloorRooms = CompanyFloorRoom::where('company_id', $company_id)->get();
 
-        return view('company.company_floor_rooms.index', ['companyFloorRooms' => $companyFloorRooms]);
+        return view('company.company_floor_rooms.index', ['companyFloorRooms' => $companyFloorRooms,
+            'company' => $company, 'companyBuildings' => $companyBuildings]);
     }
 
     /**
@@ -72,6 +79,9 @@ class CompanyFloorRoomController extends AppBaseController
      */
     public function show($id)
     {
+        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company = Company::find($company_id);
+        $companyBuildings = CompanyBuilding::pluck('name', 'id');
         $companyFloorRoom = $this->companyFloorRoomRepository->findWithoutFail($id);
 
         if (empty($companyFloorRoom)) {
@@ -80,7 +90,8 @@ class CompanyFloorRoomController extends AppBaseController
             return redirect(route('company.companyFloorRooms.index'));
         }
 
-        return view('company.company_floor_rooms.show')->with('companyFloorRoom', $companyFloorRoom);
+        return view('company.company_floor_rooms.show', ['companyFloorRoom' => $companyFloorRoom,
+            'company' => $company, 'companyBuildings' => $companyBuildings]);
     }
 
     /**
@@ -92,6 +103,9 @@ class CompanyFloorRoomController extends AppBaseController
      */
     public function edit($id)
     {
+        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company = Company::find($company_id);
+        $companyBuildings = CompanyBuilding::pluck('name', 'id');
         $companyFloorRoom = $this->companyFloorRoomRepository->findWithoutFail($id);
 
         if (empty($companyFloorRoom)) {
@@ -100,7 +114,8 @@ class CompanyFloorRoomController extends AppBaseController
             return redirect(route('company.companyFloorRooms.index'));
         }
 
-        return view('company.company_floor_rooms.edit')->with('companyFloorRoom', $companyFloorRoom);
+        return view('company.company_floor_rooms.edit', ['companyFloorRoom' => $companyFloorRoom,
+            'company' => $company, 'companyBuildings' => $companyBuildings]);
     }
 
     /**
@@ -121,9 +136,8 @@ class CompanyFloorRoomController extends AppBaseController
             return redirect(route('company.companyFloorRooms.index'));
         }
 
-        $companyFloorRoom = $this->companyFloorRoomRepository->update($request->all(), $id);
-
-        Flash::success('Company Floor Room updated successfully.');
+        $this->companyFloorRoomRepository->update($request->all(), $id);
+        $request->session()->flash('msg.success', 'Company Floor Room updated successfully.');
 
         return redirect(route('company.companyFloorRooms.index'));
     }

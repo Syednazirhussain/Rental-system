@@ -2,8 +2,8 @@
     <thead>
         <tr>
             <th>No</th>
-            <th>Building Id</th>
-            <th>Company Id</th>
+            <th>Company Name</th>
+            <th>Building Name</th>
             <th>Floor</th>
             <th>Num Rooms</th>
             <th width="200px">Action</th>
@@ -13,8 +13,8 @@
     @foreach($companyFloorRooms as $companyFloorRoom)
         <tr>
             <td>{!! $loop->index + 1 !!}</td>
-            <td>{!! $companyFloorRoom->building_id !!}</td>
-            <td>{!! $companyFloorRoom->company_id !!}</td>
+            <td>{!! $company->name !!}</td>
+            <td>{!! $companyBuildings[$companyFloorRoom->building_id] !!}</td>
             <td>{!! $companyFloorRoom->floor !!}</td>
             <td>{!! $companyFloorRoom->num_rooms !!}</td>
             <td  width="200px" class="text-center">

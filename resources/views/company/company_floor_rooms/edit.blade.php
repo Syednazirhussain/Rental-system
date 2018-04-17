@@ -1,23 +1,32 @@
-@extends('layouts.app')
+@extends('company.default')
 
 @section('content')
-    <section class="content-header">
-        <h1>
-            Company Floor Room
-        </h1>
-   </section>
-   <div class="content">
-       @include('adminlte-templates::common.errors')
-       <div class="box box-primary">
-           <div class="box-body">
-               <div class="row">
-                   {!! Form::model($companyFloorRoom, ['route' => ['admin.companyFloorRooms.update', $companyFloorRoom->id], 'method' => 'patch']) !!}
+    <div class="px-content">
+        <div class="page-header">
+            <h1>
+                <span class="text-muted font-weight-light">
+                    <i class="page-header-icon ion-android-checkbox-outline"></i>
+                    Settings /
+                </span>
+                Edit FloorRoom
+            </h1>
+        </div>
 
-                        @include('admin.company_floor_rooms.fields')
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div class="panel-title">@if(isset($companyFloorRoom)){{ "Edit" }}@else{{ "Add" }}@endif FloorRoom</div>
+                    </div>
+                    <div class="panel-body">
+                        <form action="{{ route('company.companyFloorRooms.update', [$companyFloorRoom->id]) }}" method="POST" id="floorRoomForm">
 
-                   {!! Form::close() !!}
-               </div>
-           </div>
-       </div>
-   </div>
+                            @include('company.company_floor_rooms.fields')
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
