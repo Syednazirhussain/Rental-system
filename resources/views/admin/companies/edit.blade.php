@@ -376,6 +376,27 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                                $('input[data-person-id="new-'+index+'"]').attr('name', "person["+value+"][id]");
                                $('input[data-person-id="new-'+index+'"]').attr("data-person-id", value);
 
+                               $('input[data-person-name="new-'+index+'"]').attr('name', "person["+value+"][name]");
+                               $('input[data-person-name="new-'+index+'"]').attr("data-person-name", value);
+
+                               $('input[data-person-email="new-'+index+'"]').attr('name', "person["+value+"][email]");                               
+                               $('input[data-person-email="new-'+index+'"]').attr("data-person-email", value);
+
+                               $('input[data-person-phone="new-'+index+'"]').attr('name', "person["+value+"][phone]");
+                               $('input[data-person-phone="new-'+index+'"]').attr("data-person-phone", value);
+
+                               $('input[data-person-fax="new-'+index+'"]').attr('name', "person["+value+"][fax]");      
+                               $('input[data-person-fax="new-'+index+'"]').attr("data-person-fax", value);
+
+                               $('input[data-person-department="new-'+index+'"]').attr('name', "person["+value+"][department]"); 
+                               $('input[data-person-department="new-'+index+'"]').attr("data-person-department", value);
+
+                               $('input[data-person-address="new-'+index+'"]').attr('name', "person["+value+"][address]");
+                               $('input[data-person-designation="new-'+index+'"]').attr("data-person-address", value);
+
+                               $('input[data-person-designation="new-'+index+'"]').attr('name', "person["+value+"][designation]");
+                               $('input[data-person-designation="new-'+index+'"]').attr("data-person-designation", value);
+
                             });
 
                             // contactPersonCreated = data.success;
@@ -705,7 +726,7 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
 
 
             $(document).ready(function(){
-                $('.remove-contact-person').hide();
+                // $('.remove-contact-person').hide();
                 $('.remove-module').hide();
                 $('.remove-admin').hide();
                 $('.remove-admin').hide();
@@ -795,43 +816,43 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                 person += '<div class="col-sm-6 form-group">';
                 person += '<fieldset class="form-group">';
                 person += '<label for="person-name">Name</label>';
-                person += '<input type="text" name="person['+i+'][name]" class="person-name form-control" placeholder="john doe">';
+                person += '<input type="text" name="person['+i+'][name]" data-person-name="new-'+i+'" class="person-name form-control" placeholder="Person Name">';
                 person += '</fieldset>';
                 person += '</div>';
                 person += '<div class="col-sm-6 form-group">';
                 person += '<fieldset class="form-group">';
                 person += '<label for="person-email">Email</label>';
-                person += '<input type="email" name="person['+i+'][email]" class="person-email form-control" placeholder="john@example.com">';
+                person += '<input type="email" name="person['+i+'][email]" data-person-email="new-'+i+'" class="person-email form-control" placeholder="Person Email">';
                 person += '</fieldset>';
                 person += '</div>';
                 person += '<div class="col-sm-6 form-group">';
                 person += '<fieldset class="form-group">';
                 person += '<label for="person-phone">Phone</label>';
-                person += '<input type="text" name="person['+i+'][phone]" class="person-phone form-control" placeholder="0987654321">';
+                person += '<input type="text" name="person['+i+'][phone]" data-person-phone="new-'+i+'" class="person-phone form-control" placeholder="Persone Phone">';
                 person += '</fieldset>';
                 person += '</div>';
                 person += '<div class="col-sm-6 form-group">';
                 person += '<fieldset class="form-group">';
                 person += '<label for="person-fax">Fax</label>';
-                person += '<input type="text" name="person['+i+'][fax]" class="person-fax form-control" placeholder="0987654321">';
+                person += '<input type="text" name="person['+i+'][fax]" data-person-fax="new-'+i+'" class="person-fax form-control" placeholder="Person Faxx">';
                 person += '</fieldset>';
                 person += '</div>';
                 person += '<div class="col-sm-12 form-group">';
                 person += '<fieldset class="form-group">';
                 person += '<label for="person-address">Address</label>';
-                person += '<input type="text" name="person['+i+'][address]" class="person-address form-control" placeholder="ST-12 Phase-3/B Crown Center Alaska.">';
+                person += '<input type="text" name="person['+i+'][address]" data-person-address="new-'+i+'" class="person-address form-control" placeholder="ST-12 Phase-3/B Crown Center Alaska.">';
                 person += '</fieldset>';
                 person += '</div>';
                 person += '<div class="col-sm-6 form-group">';
                 person += '<fieldset class="form-group">';
                 person += '<label for="person-department">Department</label>';
-                person += '<input type="text" name="person['+i+'][department]" class="person-department form-control" placeholder="Human Resource Department">';
+                person += '<input type="text" name="person['+i+'][department]" data-person-department="new-'+i+'" class="person-department form-control" placeholder="Human Resource Department">';
                 person += '</fieldset>';
                 person += '</div>';
                 person += '<div class="col-sm-6 form-group">';
                 person += '<fieldset class="form-group">';
                 person += '<label for="person-designation">Designation</label>';
-                person += '<input type="text" name="person['+i+'][designation]" class="person-designation form-control" placeholder="Asst. Manager">';
+                person += '<input type="text" name="person['+i+'][designation]" data-person-designation="new-'+i+'" class="person-designation form-control" placeholder="Asst. Manager">';
                 person += '</fieldset>';
                 person += '</div>';
                 person += '</div>';
@@ -847,7 +868,37 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
 
 
             $(document).on('click', '.remove-contact-person', function() {
-                $(this).closest('.contactPersonFields').remove();
+
+                if (confirm('Are you sure?')) {
+
+                    if (editCompany == 0) {
+                      $(this).closest('.contactPersonFields').remove();
+                    } else {
+
+                      var getPersonId = $(this).parent().parent().find('.remove-person-id').val();
+                      var data = { _method: "delete", person_id: getPersonId };
+                      console.log(data);
+
+                      $.ajax({
+                          url: '{{ route("admin.companyContactPeople.destroy") }}',
+                          data: data,
+                          cache: false,
+                          type: 'POST', // For jQuery < 1.9
+                          success: function(data){
+                              // myform.pxWizard('goTo', 2);
+
+                              console.log(data);
+                          },
+                          error: function(xhr,status,error)  {
+
+                          }
+
+                      });
+
+                      $(this).closest('.contactPersonFields').remove();
+                    }
+
+                }
             });
 
 

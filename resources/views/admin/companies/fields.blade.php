@@ -258,7 +258,7 @@
 
                                         @foreach ($company->companyContactPeople as $contactPerson)
                                         <div class="contactPersonFields">
-                                            <input type="hidden" name="person[{{ $contactPerson->id }}][id]" value="{{ $contactPerson->id }}" />
+                                            <input type="hidden" name="person[{{ $contactPerson->id }}][id]" class="remove-person-id" value="{{ $contactPerson->id }}" />
                                             <h5 class="bg-success p-x-1 p-y-1 m-t-0" >Person <i class="fa fa-times fa-lg remove-contact-person pull-right cursor-p"></i></h5>
                                                 <div class="row">
                                                 <div class="col-sm-6 form-group">

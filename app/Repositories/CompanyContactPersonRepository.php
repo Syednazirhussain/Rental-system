@@ -45,10 +45,4 @@ class CompanyContactPersonRepository extends BaseRepository
         return CompanyContactPerson::insert($arr);
     }
 
-    /**
-     * Bulk insert
-     **/
-    // public function updateOrCreate($where=[], $data = []) {
-    //     return CompanyContactPerson::updateOrCreate($where, $data);
-    // }
 }
