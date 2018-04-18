@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use PDF;
 
 class CompanyController extends AppBaseController
 {
@@ -278,4 +279,23 @@ class CompanyController extends AppBaseController
 
         return redirect(route('admin.companies.index'));
     }
+
+
+    // method for invoice generation testing by moiz
+    public function invoiceView() {
+
+        // dd('test');
+
+        $title = "TESTING";
+
+        $data = ['title' => $title ];
+
+        $pdf = PDF::loadView('admin.companies.invoice', $data);
+        return $pdf->download('invoice.pdf');
+
+        // return view('admin.companies.invoice', $data);
+        
+    }
+
+
 }
