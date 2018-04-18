@@ -78,6 +78,6 @@ class CompanyBuilding extends Model
      **/
     public function companyFloorRooms()
     {
-        return $this->hasMany(\App\Models\CompanyFloorRoom::class);
+        return $this->hasMany(\App\Models\CompanyFloorRoom::class, 'building_id', 'id');
     }
 }

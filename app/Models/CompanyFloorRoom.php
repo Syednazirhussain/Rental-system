@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Eloquent as Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class CompanyFloorRoom
@@ -21,8 +20,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class CompanyFloorRoom extends Model
 {
-    use SoftDeletes;
-
     public $table = 'company_floor_rooms';
     
     const CREATED_AT = 'created_at';
@@ -48,7 +45,7 @@ class CompanyFloorRoom extends Model
         'id' => 'integer',
         'building_id' => 'integer',
         'company_id' => 'integer',
-        'floor' => 'integer',
+        'floor' => 'string',
         'num_rooms' => 'integer'
     ];
 
@@ -67,5 +64,14 @@ class CompanyFloorRoom extends Model
     public function company()
     {
         return $this->belongsTo(\App\Models\Company::class);
+    }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function building()
+    {
+        return $this->belongsTo(\App\Models\CompanyBuilding::class, 'id', 'building_id');
     }
 }

@@ -23,7 +23,7 @@ class CompanyFloorRoomRepository extends BaseRepository
         'building_id',
         'company_id',
         'floor',
-        'num_rooms'
+        'num_rooms',
     ];
 
     /**
@@ -41,4 +41,34 @@ class CompanyFloorRoomRepository extends BaseRepository
     public function insert($arr = []) {
         return CompanyFloorRoom::insert($arr);
     }
+
+
+    /**
+     * Get Company Building Floors
+     **/
+    public function getBuildingFloors($buildings = []) {
+
+        $companyRooms =  CompanyFloorRoom::whereIn('building_id', $buildings)
+                                ->orderBy('building_id', 'desc')
+                                ->get();
+
+        $rooms = [];
+        foreach ($companyRooms as $r) {
+
+            $i = 0;
+            foreach ($companyRooms as $a) {
+                if ($a->building_id == $r->building_id) {
+                    $rooms[$r->building_id][$i]['id'] = $a->id;                    
+                    $rooms[$r->building_id][$i]['floor'] = $a->floor;
+                    $rooms[$r->building_id][$i]['num_rooms'] = $a->num_rooms;
+                    $i++;
+                }
+            }
+        }
+
+        return $rooms;
+    }
+
+
+
 }

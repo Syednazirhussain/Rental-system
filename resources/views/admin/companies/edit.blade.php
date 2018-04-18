@@ -427,33 +427,89 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
             // test if form is valid 
             if( $('#wizard-3').validate().form() ) {
 
-              if (companyBuildingCreated == 0) {
+              if (editCompany == 0 && companyBuildingCreated == 0) {
 
-                  var myform = document.getElementById("wizard-3");
-                  var data = new FormData(myform);
-                  data.append('company_id', company_id);
+                    var myform = document.getElementById("wizard-3");
+                    var data = new FormData(myform);
+                    data.append('company_id', company_id);
 
-                  $.ajax({
-                      url: '{{ route("admin.companyBuildings.store") }}',
-                      data: data,
-                      cache: false,
-                      contentType: false,
-                      processData: false,
-                      type: 'POST', // For jQuery < 1.9
-                      success: function(data){
-                          // myform.pxWizard('goTo', 2);
+                    $.ajax({
+                        url: '{{ route("admin.companyBuildings.store") }}',
+                        data: data,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        type: 'POST', // For jQuery < 1.9
+                        success: function(data){
+                            // myform.pxWizard('goTo', 2);
 
-                          companyBuildingCreated = data.success;
+                            companyBuildingCreated = data.success;
 
-                          // console.log(data);
-                      },
-                      error: function(xhr,status,error)  {
+                            // console.log(data);
+                        },
+                        error: function(xhr,status,error)  {
 
-                      }
+                        }
 
-                  });
+                    });
 
-              }
+                } else {
+
+                    var myform = document.getElementById("wizard-3");
+                    var data = new FormData(myform );
+                    data.append('company_id', editCompany);
+
+                    // console.log(data);
+
+                    $.ajax({
+                        url: '{{ route("admin.companyBuildings.update") }}',
+                        data: data,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        type: 'POST', // For jQuery < 1.9
+                        success: function(data) {
+
+                            
+                            $.each(data.createdFields, function (index, value) {
+
+                               $('input[data-person-id="new-'+index+'"]').val(value);
+                               $('input[data-person-id="new-'+index+'"]').attr('name', "person["+value+"][id]");
+                               $('input[data-person-id="new-'+index+'"]').attr("data-person-id", value);
+
+                               $('input[data-person-name="new-'+index+'"]').attr('name', "person["+value+"][name]");
+                               $('input[data-person-name="new-'+index+'"]').attr("data-person-name", value);
+
+                               $('input[data-person-email="new-'+index+'"]').attr('name', "person["+value+"][email]");                               
+                               $('input[data-person-email="new-'+index+'"]').attr("data-person-email", value);
+
+                               $('input[data-person-phone="new-'+index+'"]').attr('name', "person["+value+"][phone]");
+                               $('input[data-person-phone="new-'+index+'"]').attr("data-person-phone", value);
+
+                               $('input[data-person-fax="new-'+index+'"]').attr('name', "person["+value+"][fax]");      
+                               $('input[data-person-fax="new-'+index+'"]').attr("data-person-fax", value);
+
+                               $('input[data-person-department="new-'+index+'"]').attr('name', "person["+value+"][department]"); 
+                               $('input[data-person-department="new-'+index+'"]').attr("data-person-department", value);
+
+                               $('input[data-person-address="new-'+index+'"]').attr('name', "person["+value+"][address]");
+                               $('input[data-person-designation="new-'+index+'"]').attr("data-person-address", value);
+
+                               $('input[data-person-designation="new-'+index+'"]').attr('name', "person["+value+"][designation]");
+                               $('input[data-person-designation="new-'+index+'"]').attr("data-person-designation", value);
+
+                            });
+
+                            // contactPersonCreated = data.success;
+
+                            console.log(data);
+                        },
+                        error: function(xhr,status,error)  {
+
+                        }
+
+                    });
+                }
 
             } else {
                 // console.log("does not validate");
@@ -730,11 +786,12 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                 $('.remove-module').hide();
                 $('.remove-admin').hide();
                 $('.remove-admin').hide();
-                $('#addBuildingBtn').trigger('click');
                 $('.remove-building').hide();
 
                 if (editCompany == 0) {
                     $('#addFieldBtn').trigger('click');
+                    $('#addBuildingBtn').trigger('click');
+
                 }
                 // $('.remove-contact-person').hide();
 
@@ -911,6 +968,7 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
             $('#addBuildingBtn').on('click', function() {
 
               var building = '<div class="buildingFields">';
+                  building += '<input type="hidden" name="building_data['+buildingNum+'][id]" data-building-id="new-'+buildingNum+'" class="building-id" value="new-'+buildingNum+'" />';
                   building += '<h5 class="bg-success p-x-1 p-y-1" >Building <i class="fa fa-times fa-lg remove-building pull-right cursor-p"></i></h5>';
                   building += '<div class="row">';
                   building += '<div class="col-sm-6 form-group">';
@@ -1008,7 +1066,6 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
 
                          var m = i-1;
                          var floor = '<div class="floor">';
-                            floor += '<div id="floorFields">';
                             floor += '<div class="row">';
                             floor += '<div class="col-sm-6 form-group">';
                             floor += '<label for="building-floor-no">Floor No.</label>';
@@ -1022,7 +1079,6 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                             floor += '</div>';
                             floor += '<div class="col-sm-6">';
                             floor += '<i class="fa fa-times fa-lg remove-floor cursor-p"></i>';
-                            floor += '</div>';
                             floor += '</div>';
                             floor += '</div>';
                             floor += '</div>';

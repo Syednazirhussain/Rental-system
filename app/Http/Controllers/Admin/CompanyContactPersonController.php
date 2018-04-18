@@ -140,11 +140,11 @@ class CompanyContactPersonController extends AppBaseController
 
         $data = $request->all();
 
-        /*echo "<pre>";
-        print_r($data['person']);
+        echo "<pre>";
+        print_r($data);
         echo "</pre>";
 
-        exit;*/
+        exit;
 
         $input = [];
         $dateTime = date('Y-m-d h:i:s');

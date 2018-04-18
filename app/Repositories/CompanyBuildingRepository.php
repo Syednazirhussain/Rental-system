@@ -37,7 +37,4 @@ class CompanyBuildingRepository extends BaseRepository
     }
 
 
-    public function insertFloors() {
-
-    }
 }

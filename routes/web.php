@@ -104,9 +104,9 @@ Route::group(['middleware' => ['admin.auth']], function () {
 	Route::get('admin/companyBuildings', ['as'=> 'admin.companyBuildings.index', 'uses' => 'Admin\CompanyBuildingController@index']);
 	Route::post('admin/companyBuildings', ['as'=> 'admin.companyBuildings.store', 'uses' => 'Admin\CompanyBuildingController@store']);
 	Route::get('admin/companyBuildings/create', ['as'=> 'admin.companyBuildings.create', 'uses' => 'Admin\CompanyBuildingController@create']);
-	Route::put('admin/companyBuildings/{companyBuildings}', ['as'=> 'admin.companyBuildings.update', 'uses' => 'Admin\CompanyBuildingController@update']);
-	Route::patch('admin/companyBuildings/{companyBuildings}', ['as'=> 'admin.companyBuildings.update', 'uses' => 'Admin\CompanyBuildingController@update']);
-	Route::delete('admin/companyBuildings/{companyBuildings}', ['as'=> 'admin.companyBuildings.destroy', 'uses' => 'Admin\CompanyBuildingController@destroy']);
+	Route::put('admin/companyBuildings/update', ['as'=> 'admin.companyBuildings.update', 'uses' => 'Admin\CompanyBuildingController@update']);
+	Route::patch('admin/companyBuildings/update', ['as'=> 'admin.companyBuildings.update', 'uses' => 'Admin\CompanyBuildingController@update']);
+	Route::delete('admin/companyBuildings/delete', ['as'=> 'admin.companyBuildings.destroy', 'uses' => 'Admin\CompanyBuildingController@destroy']);
 	Route::get('admin/companyBuildings/{companyBuildings}', ['as'=> 'admin.companyBuildings.show', 'uses' => 'Admin\CompanyBuildingController@show']);
 	Route::get('admin/companyBuildings/{companyBuildings}/edit', ['as'=> 'admin.companyBuildings.edit', 'uses' => 'Admin\CompanyBuildingController@edit']);
 

@@ -334,6 +334,10 @@
 
 
                           <form class="wizard-pane" id="wizard-3">
+
+                              @if (isset($company))
+                                  <input name="_method" type="hidden" value="PATCH">
+                              @endif
                             
                                 <h3 class="m-t-0">Building Information</h3>
 
@@ -341,7 +345,65 @@
 
                                 <div id="sectionBuilding">
                                     <div class="building">
-                                        
+                                        @if (isset($company))
+
+                                          @foreach ($company->companyBuildings as $building)
+                                              <div class="buildingFields">
+                                              <input type="hidden" name="building_data[{{ $building->id }}][id]" class="remove-building-id" value="{{ $building->id }}" />
+
+                                              <h5 class="bg-success p-x-1 p-y-1" >Building <i class="fa fa-times fa-lg remove-building pull-right cursor-p"></i></h5>
+                                              <div class="row">
+                                              <div class="col-sm-6 form-group">
+                                              <label for="building-name">Building Name</label>
+                                              <input type="text" name="building_data[{{ $building->id }}][name]" data-building="{{ $contactPerson->id }}" class="building-name form-control" placeholder="Building Name" value="{{ $building->name }}" />
+                                              </div>
+                                              <div class="col-sm-6 form-group">
+                                              <label for="building-address">Address</label>
+                                              <input type="text" name="building_data[{{ $building->id }}][address]" class="building-address form-control" placeholder="Building Address" value="{{ $building->address }}" />
+                                              </div>
+                                              <div class="col-sm-6 form-group">
+                                              <label for="building-zip">Zip Code</label>
+                                              <input type="text" name="building_data[{{ $building->id }}][zipcode]" class="building-zip form-control" placeholder="Building Zipcode" value="{{ $building->zipcode }}" />
+                                              </div>
+                                              <div class="col-sm-6 form-group">
+                                              <label for="building-no-of-floors">No. of Floors</label>
+                                              <div class="row">
+                                              <div class="col-sm-6 form-group">
+                                              <input type="number" name="building_data[{{ $building->id }}][num_floors]" class="building-no-of-floors form-control building-no-of-floors" min="1" value="{{ $building->num_floors }}">
+                                              </div>
+                                              <div class="col-sm-6 form-group">
+                                              <button type="button" class="btn btn-primary addFloorBtn"> <i class="fa fa-plus"></i> Add Floors </button>
+                                              </div>
+                                              </div>
+                                              </div>
+                                              </div>
+                                              <div data-building-num="{{ $building->id }}" class="sectionFloor">
+                                                  
+                                                  @foreach ($companyBuildingFloors[$building->id] as $floor)
+                                                      <div class="floor">
+                                                      <div class="row">
+                                                      <div class="col-sm-6 form-group">
+                                                      <label for="building-floor-no">Floor No.</label>
+                                                      <input type="name" name="building_data[{{ $building->id }}][floor][{{ $floor['id'] }}][floor_number]" class="form-control building-floor-no" placeholder="Floor Name" value="{{ $floor['floor'] }}" />
+                                                      </div>
+                                                      <div class="col-sm-6 form-group">
+                                                      <label for="building-floor-no-of-rooms">No. of Rooms</label>
+                                                      <div class="row">
+                                                      <div class="col-sm-6">
+                                                      <input type="number" name="building_data[{{ $building->id }}][floor][{{ $floor['id'] }}][floor_rooms]" class="form-control building-floor-no-of-rooms" min="1" value="{{ $floor['num_rooms'] }}" />
+                                                      </div>
+                                                      <div class="col-sm-6">
+                                                      <i class="fa fa-times fa-lg remove-floor cursor-p"></i>
+                                                      </div>
+                                                      </div>
+                                                      </div>
+                                                      </div>
+                                                      </div>
+                                                  @endforeach
+                                              </div>
+                                              </div>
+                                          @endforeach
+                                      @endif
                                     </div>
                                 </div>
 

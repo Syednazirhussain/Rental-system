@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\Admin\CreateCompanyRequest;
 use App\Http\Requests\Admin\UpdateCompanyRequest;
 use App\Repositories\CompanyRepository;
+use App\Repositories\CompanyFloorRoomRepository;
 use App\Repositories\CountryRepository;
 use App\Repositories\StateRepository;
 use App\Repositories\CityRepository;
@@ -25,6 +26,7 @@ class CompanyController extends AppBaseController
 {
     /** @var  CompanyRepository */
     private $companyRepository;
+    private $companyFloorRoomRepository;
     private $countryRepository;
     private $stateRepository;
     private $cityRepository;
@@ -43,7 +45,8 @@ class CompanyController extends AppBaseController
                                 DiscountTypeRepository $discountTypeRepo,
                                 ModuleRepository $moduleRepo,
                                 PaymentCycleRepository $paymentCycleRepo,
-                                PaymentMethodRepository $paymentMethodRepo
+                                PaymentMethodRepository $paymentMethodRepo,
+                                CompanyFloorRoomRepository $companyFloorRoomRepo
                                 )
     {
         $this->companyRepository = $companyRepo;
@@ -55,6 +58,7 @@ class CompanyController extends AppBaseController
         $this->moduleRepository = $moduleRepo;
         $this->paymentCycleRepository = $paymentCycleRepo;
         $this->paymentMethodRepository = $paymentMethodRepo;
+        $this->companyFloorRoomRepository = $companyFloorRoomRepo;
     }
 
     /**
@@ -179,6 +183,14 @@ class CompanyController extends AppBaseController
     {
         $company = $this->companyRepository->findWithoutFail($id);
 
+        $buildings = [];
+
+        foreach ($company->companyBuildings as $b) {
+            $buildings[] = $b->id;
+        }
+
+        $companyBuildingFloors = $this->companyFloorRoomRepository->getBuildingFloors($buildings);
+
         $countries = $this->countryRepository->all();
         $states = $this->stateRepository->all();
         $cities = $this->cityRepository->all();
@@ -199,6 +211,7 @@ class CompanyController extends AppBaseController
                 'paymentCycles' => $paymentCycles,
                 'paymentMethods' => $paymentMethods,                
                 'company' => $company,
+                'companyBuildingFloors' => $companyBuildingFloors,
             ];
 
         if (empty($company)) {

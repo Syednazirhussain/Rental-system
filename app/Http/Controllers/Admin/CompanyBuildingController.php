@@ -158,21 +158,56 @@ class CompanyBuildingController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateCompanyBuildingRequest $request)
+    public function update(UpdateCompanyBuildingRequest $request)
     {
-        $companyBuilding = $this->companyBuildingRepository->findWithoutFail($id);
 
-        if (empty($companyBuilding)) {
-            Flash::error('Company Building not found');
+        $data = $request->all();
 
-            return redirect(route('admin.companyBuildings.index'));
+/*        echo "<pre>";
+        print_r($data['building_data']);
+        echo "</pre>";
+
+        exit;*/
+
+        $input = [];
+        $dateTime = date('Y-m-d h:i:s');
+        $arr = [];
+
+        $i = 0;
+        $index = 0;
+
+        foreach ($data['building_data'] as $building) {
+
+            $input['name'] = $building['name'];
+            $input['address'] = $building['address'];
+            $input['zipcode'] = $building['zipcode'];
+            $input['num_floors'] = $building['num_floors'];
+            $input['company_id'] = $data['company_id'];
+
+            if (strpos($building['id'], 'new-') === false) {
+                $id = $building['id'];
+            } else {
+                $index = preg_replace('/[^0-9]/', '', $building['id']);
+                $id = "";
+            }
+            
+            $where = ['id' => $id];
+
+            $companyBuilding = $this->companyBuildingRepository->updateOrCreate($where, $input);
+
+            if (strpos($building['id'], 'new-') !== false) {
+
+                $arr[$index] = $companyBuilding->id;
+            }
+
         }
+        
 
-        $companyBuilding = $this->companyBuildingRepository->update($request->all(), $id);
-
-        Flash::success('Company Building updated successfully.');
-
-        return redirect(route('admin.companyBuildings.index'));
+        return response()->json([
+                                'success'=>1, 
+                                'msg'=>'Company buildings have been updated successfully',
+                                'createdFields'=>$arr,
+                            ]);
     }
 
     /**
