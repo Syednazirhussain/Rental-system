@@ -1040,7 +1040,7 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                 if (confirm('Are you sure?')) {
 
                     if (editCompany == 0) {
-                      $(this).closest('.contactPersonFields').remove();
+                      $(this).closest('.buildingFields').remove();
                     } else {
 
                       var getBuildingId = $(this).parent().parent().find('.remove-building-id').val();
@@ -1140,8 +1140,42 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
             });
 
 
-            $(document).on('click', '.remove-floor', function() {
-                $(this).closest('.floor').remove();
+            $(document).on('click', '.remove-floor', function(e) {
+
+                if (confirm('Are you sure?')) {
+
+                    if (editCompany == 0) {
+                      $(this).closest('.floor').remove();
+                    } else {
+
+                      var getFloorId = $(e.target).closest('.floor').find('.remove-floor-id').val();
+                      // alert(getFloorId);
+
+                      var data = { _method: "delete", floor_id: getFloorId };
+
+                      $.ajax({
+                          url: '{{ route("admin.companyBuildings.destroy.floor") }}',
+                          data: data,
+                          cache: false,
+                          type: 'POST', // For jQuery < 1.9
+                          success: function(data){
+                              // myform.pxWizard('goTo', 2);
+
+                              console.log(data);
+                          },
+                          error: function(xhr,status,error)  {
+
+                          }
+
+                      });
+
+                      $(this).closest('.floor').remove();
+                    }
+
+                }
+
+
+                
             });
 
 

@@ -273,4 +273,38 @@ class CompanyBuildingController extends AppBaseController
                                 'msg'=>$msg,
                             ]);
     }
+
+
+    /**
+     * Remove the specified Floor from Company Building from storage.
+     *
+     * @param  int $id
+     *
+     * @return Response
+     */
+    public function destroyFloor(Request $request)
+    {
+
+        $id = $request->only('floor_id');
+
+        $id = $id['floor_id'];
+        
+        $companyBuilding = $this->companyFloorRoomRepository->findWithoutFail($id);
+
+        if (empty($companyBuilding)) {
+
+            $success = 0;
+            $msg = "Company building floor not found";
+        }
+
+        $this->companyFloorRoomRepository->delete($id);
+
+        $success = 1;
+        $msg = "Company building floor deleted successfully";
+
+        return response()->json([
+                                'success'=>$success, 
+                                'msg'=>$msg,
+                            ]);
+    }
 }
