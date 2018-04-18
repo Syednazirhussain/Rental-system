@@ -7,7 +7,7 @@ use InfyOm\Generator\Common\BaseRepository;
 
 /**
  * Class UserStatusRepository
- * @package App\Repositories\Admin
+ * @package App\Repositories
  * @version April 4, 2018, 12:59 pm UTC
  *
  * @method UserStatus findWithoutFail($id, $columns = ['*'])

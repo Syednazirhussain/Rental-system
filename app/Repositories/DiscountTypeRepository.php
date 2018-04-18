@@ -7,7 +7,7 @@ use InfyOm\Generator\Common\BaseRepository;
 
 /**
  * Class DiscountTypeRepository
- * @package App\Repositories\Admin
+ * @package App\Repositories
  * @version April 11, 2018, 3:24 pm UTC
  *
  * @method DiscountType findWithoutFail($id, $columns = ['*'])

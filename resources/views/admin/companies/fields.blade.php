@@ -366,26 +366,30 @@
                            
                                 <h3 class="m-t-0">Company Contract Information</h3>
 
+                                @if (isset($company))
+                                <input name="_method" type="hidden" value="PATCH">
+                                <input type="hidden" name="contract_id" id="contract-id" value="{{ $company->companySingleContract->id }}" />
+                                @endif
+
                                 <div class="row">
                                     <div class="col-sm-12 form-group">
                                         <label for="contract-no">Contract No.</label>
-                                        <input type="text" name="number" id="contract-no" class="form-control" placeholder="ZXC-886">
+                                        <input type="text" name="number" id="contract-no" class="form-control" placeholder="ZXC-886" value="{{ isset($company) ? $company->companySingleContract->number:'' }}"  />
                                         <div class="errorTxt"></div>
                                     </div>
                                     <div class="col-sm-12 form-group">
                                         <label for="contract-description">Contract</label>
-                                        <textarea name="content" id="contract-content" class="form-control" rows="10"></textarea>
+                                        <textarea name="content" id="contract-content" class="form-control" rows="10">{{ isset($company) ? $company->companySingleContract->content:'' }}</textarea>
                                         <div class="errorTxt"></div>
-                                        <input type="hidden" name="contract_description" id="contract-content-hidden" />
                                     </div>
                                     <div class="col-sm-6 form-group">
                                         <label for="start-date">Start Date</label>
-                                        <input type="text" name="start_date" id="daterange-3" value="10/24/1984" class="form-control">
+                                        <input type="text" name="start_date" id="daterange-3" value="{{ isset($company) ? date('m/d/Y', strtotime($company->companySingleContract->start_date)):'01/01/2018' }}" class="form-control">
                                         <div class="errorTxt"></div>
                                     </div>
                                     <div class="col-sm-6 form-group">
                                         <label for="end-date">End Date</label>
-                                        <input type="text" name="end_date" id="daterange-4" value="10/24/1984" class="form-control">
+                                        <input type="text" name="end_date" id="daterange-4" value="{{ isset($company) ? date('m/d/Y', strtotime($company->companySingleContract->end_date)):'12/31/2018' }}" class="form-control">
                                         <div class="errorTxt"></div>
                                     </div>
                                     <div class="col-sm-6 form-group">
@@ -394,8 +398,13 @@
                                           <label for="payment-method">Payment Method</label>
                                           <select name="payment_method" class="form-control select2-payment-method" style="width: 100%" data-allow-clear="true">
                                               <option></option>
-                                              <option value="cheque">Cheque</option>
-                                              <option value="bank">Bank Transfer</option>
+                                              @foreach ($paymentMethods as $paymentMethod)
+                                                  @if (isset($company) && $paymentMethod->code == $company->companySingleContract->payment_method)
+                                                    <option value="{{ $paymentMethod->code }}" selected="selected">{{ $paymentMethod->name }}</option> 
+                                                   @else
+                                                    <option value="{{ $paymentMethod->code  }}">{{ $paymentMethod->name }}</option> 
+                                                   @endif
+                                              @endforeach
                                           </select>
                                           <div class="errorTxt"></div>
                                       </fieldset>
@@ -407,7 +416,11 @@
                                             <select name="payment_cycle" class="form-control select2-payment-cycle" style="width: 100%" data-allow-clear="true">
                                                 <option></option>
                                                 @foreach ($paymentCycles as $paymentCycle)
-                                                  <option value="{{ $paymentCycle->id }}">{{ $paymentCycle->name }}</option> 
+                                                  @if (isset($company) && $paymentCycle->id == $company->companySingleContract->payment_cycle)
+                                                    <option value="{{ $paymentCycle->id }}" selected="selected">{{ $paymentCycle->name }}</option> 
+                                                  @else
+                                                    <option value="{{ $paymentCycle->id  }}">{{ $paymentCycle->name }}</option> 
+                                                  @endif
                                                 @endforeach
                                             </select>
                                             <div class="errorTxt"></div>
@@ -415,7 +428,7 @@
                                     </div>
                                     <div class="col-sm-6 form-group">
                                         <label for="discount">Discount</label>
-                                        <input type="number" name="discount" id="discount" class="form-control" value="0">
+                                        <input type="number" name="discount" id="discount" class="form-control" value="{{ isset($company) ? $company->companySingleContract->discount:'0' }}">
                                         <div class="errorTxt"></div>
                                         
                                     </div>
@@ -425,7 +438,11 @@
                                             <select name="discount_type" class="form-control select2-discount-type" style="width: 100%" data-allow-clear="true">
                                                 <option></option>
                                                 @foreach ($discountTypes as $discountType)
-                                                  <option value="{{ $discountType->id }}">{{ $discountType->name }}</option> 
+                                                  @if (isset($company) && $discountType->id == $company->companySingleContract->discount_type)
+                                                    <option value="{{ $discountType->id }}" selected="selected">{{ $discountType->name }}</option> 
+                                                  @else
+                                                    <option value="{{ $discountType->id  }}">{{ $discountType->name }}</option> 
+                                                  @endif
                                                 @endforeach
                                             </select>
                                             <div class="errorTxt"></div>

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\CreateCompanyContractRequest;
 use App\Http\Requests\Admin\UpdateCompanyContractRequest;
-use App\Repositories\Admin\CompanyContractRepository;
+use App\Repositories\CompanyContractRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
@@ -121,19 +121,39 @@ class CompanyContractController extends AppBaseController
      */
     public function update($id, UpdateCompanyContractRequest $request)
     {
-        $companyContract = $this->companyContractRepository->findWithoutFail($id);
+
+        $contractId = $request->only('contract_id'); 
+
+        $contractId = $contractId['contract_id'];
+
+        $input = $request->except('contract_id', '_method', 'company_id');      
+
+        $input['start_date'] = date('Y-m-d', strtotime($input['start_date']));
+        $input['end_date'] = date('Y-m-d', strtotime($input['end_date']));
+
+       /* echo "<pre>";
+        print_r($input);
+        echo "</pre>";
+        exit;*/
+
+
+        $companyContract = $this->companyContractRepository->findWithoutFail($contractId);
 
         if (empty($companyContract)) {
-            Flash::error('Company Contract not found');
 
-            return redirect(route('admin.companyContracts.index'));
+            $success = 0;
+            $msg = "Company contract not found";
+        } else {
+            
+            $company = $this->companyContractRepository->update($input, $contractId);
+
+            $success = 1;
+            $msg = "Company contract has been updated successfully";
         }
 
-        $companyContract = $this->companyContractRepository->update($request->all(), $id);
 
-        Flash::success('Company Contract updated successfully.');
+        return response()->json(['success'=>$success, 'msg'=>$msg]);
 
-        return redirect(route('admin.companyContracts.index'));
     }
 
     /**

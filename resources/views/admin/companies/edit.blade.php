@@ -523,8 +523,7 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
             // test if form is valid 
             if( $('#wizard-4').validate().form() ) {
 
-
-              if (companyContractCreated == 0) {
+              if (editCompany == 0 && companyContractCreated == 0) {
 
                   var myform = document.getElementById("wizard-4");
                   var data = new FormData(myform);
@@ -548,6 +547,29 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
 
                   });
 
+              } else {
+
+                  var myform = document.getElementById("wizard-4");
+                  var data = new FormData(myform);
+                  data.append('company_id', editCompany);
+
+                  $.ajax({
+                      url: '{{ route("admin.companyContracts.update", [$company->id]) }}',
+                      data: data,
+                      cache: false,
+                      contentType: false,
+                      processData: false,
+                      type: 'POST', // For jQuery < 1.9
+                      success: function(data){
+                          // myform.pxWizard('goTo', 2);
+
+                          console.log(data);
+                      },
+                      error: function(xhr,status,error)  {
+
+                      }
+
+                  });
               }
 
 

@@ -175,6 +175,11 @@ Route::group(['middleware' => ['admin.auth']], function () {
 
 
 
+	// route for invoice generation testing by moiz
+	Route::get('admin/company/invoice', ['as'=> 'admin.invoice.view', 'uses' => 'Admin\CompanyController@invoiceView']);
+
+
+
 
 });
 
@@ -188,9 +193,52 @@ Route::group(['middleware' => ['admin.auth']], function () {
 
 
 
+/*
+|--------------------------------------------------------------------------
+| Web Routes for Conference Module
+|--------------------------------------------------------------------------
+|
+| These are the routes declared for General purpose
+|
+*/
+
+
+/********** Conference module routes start here **********/
+
+
+	Route::get('temp_company/login', ['as'=> 'temp.company.login', 'uses' => 'Company\Conference\LoginController@index']);
+	Route::post('temp_company/authenticate', ['as'=> 'temp.company.authenticate', 'uses' => 'Company\Conference\LoginController@authenticate']);
+	Route::get('temp_company/dashboard', ['as'=> 'temp.company.dashboard', 'uses' => 'Company\Conference\LoginController@dashboard']);
+
+
+
+/********** Conference module routes end here **********/
+
+
+
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes for General purpose
+|--------------------------------------------------------------------------
+|
+| These are the routes declared for General purpose
+|
+*/
+
+
+/********** General routes start here **********/
+
 Route::post('cities', ['as'=> 'cities.list', 'uses' => 'General\GeoController@getCities']);
 Route::post('validate/contract_no', ['as'=> 'validate.contract', 'uses' => 'General\ValidationController@contractNo']);
 Route::post('validate/admin', ['as'=> 'validate.admin', 'uses' => 'General\ValidationController@adminEmail']);
+
+
+/********** General routes end here **********/
+
+
 
 
 // For selectively chosen routes:
@@ -202,13 +250,13 @@ Route::post('validate/admin', ['as'=> 'validate.admin', 'uses' => 'General\Valid
 	}); */
 
 
-Route::group(['prefix' => \UriLocalizer::localeFromRequest(2), 'middleware' => 'localize:2'], function () {
+/*Route::group(['prefix' => \UriLocalizer::localeFromRequest(2), 'middleware' => 'localize:2'], function () {
 	    Route::get('/test', function() {
 			return \UriLocalizer::localeFromRequest()." Hello world";
 
 	    });
 	});
-
+*/
 
 
 
