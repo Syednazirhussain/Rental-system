@@ -11,7 +11,7 @@
                value="@if(isset($companyFloorRoom)){{ $company->name }}@endif" disabled>
     </div>
     <div class="col-sm-12 form-group">
-        <label for="building_id">Building Name:</label>
+        <label for="building_id">Building Name</label>
         <input type="text" id="building_id" class="form-control"
                value="@if(isset($companyFloorRoom)){{ $companyBuildings[$companyFloorRoom->building_id] }}@endif" disabled>
     </div>

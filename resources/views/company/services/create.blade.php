@@ -1,22 +1,23 @@
-@extends('layouts.app')
+@extends('company.default')
 
 @section('content')
-    <section class="content-header">
-        <h1>
-            Company Floor Room
-        </h1>
-    </section>
-    <div class="content">
-        @include('adminlte-templates::common.errors')
-        <div class="box box-primary">
+    <div class="px-content">
+        <div class="page-header">
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Settings / </span>Add Service</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div class="panel-title">Add Service</div>
+                    </div>
+                    <div class="panel-body">
+                        <form action="{{ route('company.services.store') }}" method="POST" id="serviceForm">
 
-            <div class="box-body">
-                <div class="row">
-                    {!! Form::open(['route' => 'admin.companyFloorRooms.store']) !!}
+                            @include('company.services.fields')
 
-                        @include('admin.company_floor_rooms.fields')
-
-                    {!! Form::close() !!}
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

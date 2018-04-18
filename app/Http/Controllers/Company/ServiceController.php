@@ -34,7 +34,7 @@ class ServiceController extends AppBaseController
     {
         $company_id = Auth::user()->companyUser()->first()->company_id;
         $company = Company::find($company_id);
-        $services = Service::where('company_id', $company_id);
+        $services = Service::where('company_id', $company_id)->get();
 
         return view('company.services.index', ['services' => $services, 'company' => $company]);
     }
@@ -46,7 +46,9 @@ class ServiceController extends AppBaseController
      */
     public function create()
     {
-        return view('company.services.create');
+        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company = Company::find($company_id);
+        return view('company.services.create', ['company' => $company]);
     }
 
     /**
@@ -56,11 +58,18 @@ class ServiceController extends AppBaseController
      *
      * @return Response
      */
-    public function store(CreateCompanyFloorRoomRequest $request)
+    public function store(CreateServiceRequest $request)
     {
+        $company_id = Auth::user()->companyUser()->first()->company_id;
         $input = $request->all();
 
-        $companyFloorRoom = $this->serviceRepository->create($input);
+        if($request->freeService)
+        {
+            $input['price'] = 0;
+        }
+        $input['company_id'] = $company_id;
+
+        $this->serviceRepository->create($input);
 
         Flash::success('Company Floor Room saved successfully.');
 
@@ -78,17 +87,15 @@ class ServiceController extends AppBaseController
     {
         $company_id = Auth::user()->companyUser()->first()->company_id;
         $company = Company::find($company_id);
-        $companyBuildings = CompanyBuilding::pluck('name', 'id');
-        $companyFloorRoom = $this->serviceRepository->findWithoutFail($id);
+        $service = $this->serviceRepository->findWithoutFail($id);
 
-        if (empty($companyFloorRoom)) {
-            Flash::error('Company Floor Room not found');
+        if (empty($service)) {
+            Flash::error('Company Service not found');
 
-            return redirect(route('company.companyFloorRooms.index'));
+            return redirect(route('company.services.index'));
         }
 
-        return view('company.services.show', ['companyFloorRoom' => $companyFloorRoom,
-            'company' => $company, 'companyBuildings' => $companyBuildings]);
+        return view('company.services.show', ['service' => $service, 'company' => $company]);
     }
 
     /**
@@ -102,17 +109,18 @@ class ServiceController extends AppBaseController
     {
         $company_id = Auth::user()->companyUser()->first()->company_id;
         $company = Company::find($company_id);
-        $companyBuildings = CompanyBuilding::pluck('name', 'id');
-        $companyFloorRoom = $this->serviceRepository->findWithoutFail($id);
+        $service = $this->serviceRepository->findWithoutFail($id);
 
-        if (empty($companyFloorRoom)) {
-            Flash::error('Company Floor Room not found');
+        if (empty($service)) {
+            Flash::error('Company Service not found');
 
-            return redirect(route('company.companyFloorRooms.index'));
+            return redirect(route('company.services.index'));
         }
+        $free_service = NULL;
+        if($service->price == 0)
+            $free_service = true;
 
-        return view('company.services.edit', ['companyFloorRoom' => $companyFloorRoom,
-            'company' => $company, 'companyBuildings' => $companyBuildings]);
+        return view('company.services.edit', ['service' => $service, 'company' => $company, 'free_service' => $free_service]);
     }
 
     /**
@@ -123,20 +131,29 @@ class ServiceController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateCompanyFloorRoomRequest $request)
+    public function update($id, UpdateServiceRequest $request)
     {
-        $companyFloorRoom = $this->serviceRepository->findWithoutFail($id);
+        $service = $this->serviceRepository->findWithoutFail($id);
 
-        if (empty($companyFloorRoom)) {
-            Flash::error('Company Floor Room not found');
+        if (empty($service)) {
+            Flash::error('Company Service not found');
 
             return redirect(route('company.services.index'));
         }
 
-        $this->serviceRepository->update($request->all(), $id);
+        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $input = $request->all();
+
+        if($request->freeService)
+        {
+            $input['price'] = 0;
+        }
+        $input['company_id'] = $company_id;
+
+        $this->serviceRepository->update($input, $id);
         $request->session()->flash('msg.success', 'Company Floor Room updated successfully.');
 
-        return redirect(route('company.companyFloorRooms.index'));
+        return redirect(route('company.services.index'));
     }
 
     /**
@@ -146,11 +163,11 @@ class ServiceController extends AppBaseController
      *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
-        $companyFloorRoom = $this->serviceRepository->findWithoutFail($id);
+        $service = $this->serviceRepository->findWithoutFail($id);
 
-        if (empty($companyFloorRoom)) {
+        if (empty($service)) {
             Flash::error('Company Floor Room not found');
 
             return redirect(route('company.services.index'));
@@ -158,7 +175,7 @@ class ServiceController extends AppBaseController
 
         $this->serviceRepository->delete($id);
 
-        Flash::success('Company Floor Room deleted successfully.');
+        $request->session()->flash('msg.success', 'Company Service deleted successfully.');
 
         return redirect(route('company.services.index'));
     }

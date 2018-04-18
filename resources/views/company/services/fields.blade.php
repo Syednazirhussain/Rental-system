@@ -1,6 +1,6 @@
 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-@if(isset($companyFloorRoom))
+@if(isset($service))
     <input name="_method" type="hidden" value="PATCH">
 @endif
 
@@ -8,45 +8,53 @@
     <div class="col-sm-12 form-group">
         <label for="company_id">Company Name</label>
         <input type="text" id="company_id" class="form-control"
-               value="@if(isset($companyFloorRoom)){{ $company->name }}@endif" disabled>
+               value="@if(isset($company)){{ $company->name }}@endif" disabled>
     </div>
     <div class="col-sm-12 form-group">
-        <label for="building_id">Building Name:</label>
-        <input type="text" id="building_id" class="form-control"
-               value="@if(isset($companyFloorRoom)){{ $companyBuildings[$companyFloorRoom->building_id] }}@endif" disabled>
+        <label for="building_id">Service Name</label>
+        <input type="text" id="building_id" name="name" class="form-control"
+               value="@if(isset($service)){{ $service->name }}@endif">
     </div>
     <div class="col-sm-12 form-group">
-        <label for="floor">Floor</label>
-        <input type="text" name="floor" id="floor" class="form-control" value="@if(isset($companyFloorRoom)){{ $companyFloorRoom->floor }}@endif">
+        <label class="form-check-label">
+            <input id="free_service" class="form-check-input" name="freeService" type="checkbox" onchange="freeCheckbox()"
+                    @if(isset($free_service)) checked @endif>
+            Free Service
+        </label>
     </div>
-    <div class="col-sm-12 form-group">
-        <label for="num_rooms">Num Rooms</label>
-        <input type="number" name="num_rooms" id="num_rooms" class="form-control" value="@if(isset($companyFloorRoom)){{ $companyFloorRoom->num_rooms }}@endif">
+    <div class="col-sm-12 form-group" id="service_price">
+        <label for="price">Price</label>
+        <input type="number" name="price" id="price" class="form-control" value="@if(isset($service)){{ $service->price }}@endif">
     </div>
     <div class="col-sm-12">
-        <button type="submit" class="btn btn-primary">@if(isset($companyFloorRoom)) <i class="fa fa-refresh"></i>  Update FloorRoom @else <i class="fa fa-plus"></i>  Add FloorRoom @endif</button>
-        <a href="{!! route('company.companyFloorRooms.index') !!}" class="btn btn-default">Cancel</a>
+        <button type="submit" class="btn btn-primary">@if(isset($service)) <i class="fa fa-refresh"></i>  Update Service @else <i class="fa fa-plus"></i>  Add Service @endif</button>
+        <a href="{!! route('company.services.index') !!}" class="btn btn-default">Cancel</a>
     </div>
 </div>
 
 
 @section('js')
     <script type="text/javascript">
+        freeCheckbox();
+        // Event when free service clicked
+        function freeCheckbox() {
+            if(document.getElementById('free_service').checked == true)
+                document.getElementById('service_price').style.display = 'none';
+            else
+                document.getElementById('service_price').style.display = 'block';
+        }
         // Initialize validator
-        $('#floorRoomForm').pxValidate({
+        $('#serviceForm').pxValidate({
             focusInvalid: false,
             rules: {
-                'floor': {
-                    required: true,
-                },
-                'num_rooms': {
+                'name': {
                     required: true,
                 },
             },
 
             messages: {
-                'floor': {
-                    required: "Please enter the floor !",
+                'name': {
+                    required: "Please enter the service name !",
                 }
             }
         });

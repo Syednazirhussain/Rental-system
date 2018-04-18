@@ -19,6 +19,7 @@ class CreateServicesTable extends Migration
             $table->string('name');
             $table->integer('price');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('company_id')->references('id')->on('companies');
         });

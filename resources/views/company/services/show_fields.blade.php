@@ -2,23 +2,19 @@
     <tbody>
         <tr>
             <th scope="row" width="200px">Id</th>
-            <th>{{ $companyFloorRoom->id }}</th>
+            <th>{{ $service->id }}</th>
         </tr>
         <tr>
             <th scope="row" width="200px">Company Name</th>
             <th>{{ $company->name }}</th>
         </tr>
         <tr>
-            <th scope="row" width="200px">Building Name</th>
-            <th>{{ $companyBuildings[$companyFloorRoom->building_id] }}</th>
+            <th scope="row" width="200px">Service Name</th>
+            <th>{{ $service->name }}</th>
         </tr>
         <tr>
-            <th scope="row" width="200px">Num Floors</th>
-            <th>{{ $companyFloorRoom->floor }}</th>
-        </tr>
-        <tr>
-            <th scope="row" width="200px">Num Rooms</th>
-            <th>{{ $companyFloorRoom->num_rooms }}</th>
+            <th scope="row" width="200px">Price</th>
+            <th>USD {{ $service->price }}</th>
         </tr>
     </tbody>
 </table>

@@ -4,15 +4,15 @@
 
     <div class="px-content">
         <div class="page-header">
-            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i>Settings / FloorRooms / </span>{!! $companyFloorRoom->id !!}
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i>Settings / Services / </span>{!! $service->id !!}
             </h1>
         </div>
 
         <div class="panel">
             <div class="panel-body">
-                @include('company.company_floor_rooms.show_fields')
+                @include('company.services.show_fields')
 
-                <a href="{!! route('company.companyFloorRooms.index') !!}" class="btn btn-default">Back</a>
+                <a href="{!! route('company.services.index') !!}" class="btn btn-default">Back</a>
             </div>
         </div>
     </div>
