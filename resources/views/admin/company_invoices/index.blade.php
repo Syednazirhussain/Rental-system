@@ -44,7 +44,6 @@
                     <a href="" class="btn btn-primary">View</a>
                     <a href="{{ route('admin.generateInvoice', ['company_id' => $companys->id]) }}" class="btn btn-info">Invoice</a>
                   </td>
-
                 </tr>
               @endforeach
             </tbody>

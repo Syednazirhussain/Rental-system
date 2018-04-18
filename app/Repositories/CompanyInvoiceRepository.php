@@ -35,67 +35,77 @@ class CompanyInvoiceRepository extends BaseRepository
         return CompanyInvoice::class;
     }
 
-    public function totalAndDiscountedTotal($payment_method,$discount_method,$discount,$company_modules,$calculateByCompanyModulePrice = true)
+    public function checkLeftDay($contract_end_date)
+    {
+        $days = strtotime($contract_end_date) - time();
+        $left_days = round($days/(60 * 60 * 24));
+        return $left_days;
+    }
+
+    public function totalAndDiscountedTotal($data,$calculateByCompanyModulePrice = true)
     {
         $total = 0;
         $final_total = 0;
+        $remaining_days = 0;
         if ($calculateByCompanyModulePrice == true) 
         {
-            if ($payment_method == 'Monthly') 
+            if ($data['payment_method'] == 'Monthly') 
             {
-                for ($i=0; $i < count($company_modules) ; $i++) 
+                for ($i=0; $i < count($data['company_modules']) ; $i++) 
                 { 
-                    $total += $company_modules[$i]['module_price'];
+                    $total += $data['company_modules'][$i]['module_price'];
                 }
-                if ($discount_method == 'Fixed Price') 
+                if ($data['discount_method'] == 'Fixed Price') 
                 {
-                    $final_total -= $discount;
+                    $final_total -= $data['discount'];
+                    $remaining_days = $this->checkLeftDay($data['contract_end_date']);
                 }
-                elseif ($discount_method == 'Percentage') 
+                elseif ($data['discount_method'] == 'Percentage') 
                 {
-                    $final_total = $total*($discount/100);
+                    $final_total = $total*($data['discount']/100);
+                    $remaining_days = $this->checkLeftDay($data['contract_end_date']);
                 }
             }
-            elseif ($payment_method == 'Quaterly') 
+            elseif ($data['payment_method'] == 'Quaterly') 
             {
 
             }
-            elseif ($payment_method == 'Half Yearly') 
+            elseif ($data['payment_method'] == 'Half Yearly') 
             {
 
             }
-            elseif ($payment_method == 'Annually') 
+            elseif ($data['payment_method'] == 'Annually') 
             {
 
             }
         }
         else
         {
-            if ($payment_method == 'Monthly') 
+            if ($data['payment_method'] == 'Monthly') 
             {
-                if ($discount_method == 'Fixed Price') 
+                if ($data['discount_method'] == 'Fixed Price') 
                 {
 
                 }
-                elseif ($discount_method == 'Percentage') 
+                elseif ($data['discount_method'] == 'Percentage') 
                 {
 
                 }
             }
-            elseif ($payment_method == 'Quaterly') 
+            elseif ($data['payment_method'] == 'Quaterly') 
             {
 
             }
-            elseif ($payment_method == 'Half Yearly') 
+            elseif ($data['payment_method'] == 'Half Yearly') 
             {
 
             }
-            elseif ($payment_method == 'Annually') 
+            elseif ($data['payment_method'] == 'Annually') 
             {
 
             }
         }
-        return ['Total' => $total,'DisCountedTotal' => $final_total];
+        return ['Total' => $total,'DisCountedTotal' => $final_total,'ContractRemainingDays' => $remaining_days];
     }
 
 

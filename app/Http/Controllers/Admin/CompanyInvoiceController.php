@@ -53,30 +53,19 @@ class CompanyInvoiceController extends AppBaseController
         $this->discountTypeRepository = $DiscountTypeRepository;
     }
 
-    /**
-     * Display a listing of the CompanyInvoice.
-     *
-     * @param Request $request
-     * @return Response
-     */
+
     public function index(Request $request)
     {
         $this->companyInvoiceRepository->pushCriteria(new RequestCriteria($request));
         $companyInvoices = $this->companyInvoiceRepository->all();
 
         $company =  $this->companyRepository->all();
-        
-
-        // This is the responsible to display single company infomation & modules with discounted
-        // return $this->showInvoiceByCompanyId($company_id);
-      
-        return view('admin.company_invoices.index')
-            ->with('company_details', $company);
+        return view('admin.company_invoices.index')->with('company_details', $company);
     }
 
 
 
-
+    // This is the responsible to display single company infomation & modules with discounted
     public function showInvoiceByCompanyId($company_id)
     {
         if($this->companyContractRepository->checkCompanyContract($company_id))
@@ -85,11 +74,24 @@ class CompanyInvoiceController extends AppBaseController
 
             $company_modules =  $this->companyInvoiceRepository->sumUpCompanyModule($company_details);
             $payment_cycle_id = $company_details['company_contract'][0]->payment_cycle;
-            $payment_method = $this->paymentCycleRepository->getPaymentCycleById($payment_cycle_id);
-            $discount = $company_details['company_contract'][0]->discount;
             $discount_type_id = $company_details['company_contract'][0]->discount_type;
+
+            $discount = $company_details['company_contract'][0]->discount;
             $discount_method = $this->discountTypeRepository->getDiscountTypeById($discount_type_id);
-            $company_discount_detail =  $this->companyInvoiceRepository->totalAndDiscountedTotal($payment_method,$discount_method,$discount,$company_modules,true);
+            $payment_method = $this->paymentCycleRepository->getPaymentCycleById($payment_cycle_id);
+            $contract_start_date =  $company_details['company_contract'][0]->start_date;
+            $contract_end_date = $company_details['company_contract'][0]->end_date;
+
+            $temp = array(
+                'discount'              => $discount,
+                'discount_method'       => $discount_method,
+                'payment_method'        => $payment_method,
+                'company_modules'       => $company_modules,
+                'contract_start_date'   => $contract_start_date,
+                'contract_end_date'     => $contract_end_date   
+            );
+
+            $company_discount_detail =  $this->companyInvoiceRepository->totalAndDiscountedTotal($temp,true);
 
             $company_invoice_infomation = [
                 'Company'  => $company_details['company'],
@@ -99,14 +101,13 @@ class CompanyInvoiceController extends AppBaseController
                 'Modules'  => $company_modules,
                 'Discount' => $company_discount_detail
             ];
-
             return $company_invoice_infomation;
-
+            return view('admin.company_invoices.show')->with('Invoice',$company_invoice_infomation);
         }
         else
         {
-            // Company Contract Expire de-activate it.
-        }  
+            return json_encode(['status' => 'Failed','result' => 'Company contract expire']);
+        } 
     }
 
 

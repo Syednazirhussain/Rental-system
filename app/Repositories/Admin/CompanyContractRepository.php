@@ -4,7 +4,6 @@ namespace App\Repositories\Admin;
 
 use App\Models\CompanyContract;
 use InfyOm\Generator\Common\BaseRepository;
-use DateTime;
 
 /**
  * Class CompanyContractRepository
@@ -54,10 +53,8 @@ class CompanyContractRepository extends BaseRepository
     {
 
         $contract = CompanyContract::where('company_id',$company_id)->orderBy('id', 'desc')->get();
-        date_default_timezone_set("Asia/Karachi");
-        $company_contract_end_date = new DateTime($contract[0]->end_date);
-        $current_date = new DateTime(date('Y-m-d H:i:s'));
-        if ($company_contract_end_date >= $current_date) 
+        $company_contract_end_date = $contract[0]->end_date;
+        if (strtotime($company_contract_end_date) >= time()) 
         {
             return true;
         }
