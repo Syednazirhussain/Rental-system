@@ -378,28 +378,31 @@
                                               </div>
                                               </div>
                                               <div data-building-num="{{ $building->id }}" class="sectionFloor">
-                                                  
-                                                  @foreach ($companyBuildingFloors[$building->id] as $floor)
-                                                      <div class="floor">
-                                                      <div class="row">
-                                                      <div class="col-sm-6 form-group">
-                                                      <label for="building-floor-no">Floor No.</label>
-                                                      <input type="name" name="building_data[{{ $building->id }}][floor][{{ $floor['id'] }}][floor_number]" class="form-control building-floor-no" placeholder="Floor Name" value="{{ $floor['floor'] }}" />
-                                                      </div>
-                                                      <div class="col-sm-6 form-group">
-                                                      <label for="building-floor-no-of-rooms">No. of Rooms</label>
-                                                      <div class="row">
-                                                      <div class="col-sm-6">
-                                                      <input type="number" name="building_data[{{ $building->id }}][floor][{{ $floor['id'] }}][floor_rooms]" class="form-control building-floor-no-of-rooms" min="1" value="{{ $floor['num_rooms'] }}" />
-                                                      </div>
-                                                      <div class="col-sm-6">
-                                                      <i class="fa fa-times fa-lg remove-floor cursor-p"></i>
-                                                      </div>
-                                                      </div>
-                                                      </div>
-                                                      </div>
-                                                      </div>
-                                                  @endforeach
+                                                  @if (isset($companyBuildingFloors[$building->id]))
+                                                      @foreach ($companyBuildingFloors[$building->id] as $floor)
+                                                          <div class="floor">
+                                                          <input type="hidden" name="building_data[{{ $building->id }}][floor][{{ $floor['id'] }}][id]" class="remove-floor-id" value="{{ $floor['id'] }}" />
+
+                                                          <div class="row">
+                                                          <div class="col-sm-6 form-group">
+                                                          <label for="building-floor-no">Floor No.</label>
+                                                          <input type="name" name="building_data[{{ $building->id }}][floor][{{ $floor['id'] }}][floor_number]" class="form-control building-floor-no" placeholder="Floor Name" value="{{ $floor['floor'] }}" />
+                                                          </div>
+                                                          <div class="col-sm-6 form-group">
+                                                          <label for="building-floor-no-of-rooms">No. of Rooms</label>
+                                                          <div class="row">
+                                                          <div class="col-sm-6">
+                                                          <input type="number" name="building_data[{{ $building->id }}][floor][{{ $floor['id'] }}][floor_rooms]" class="form-control building-floor-no-of-rooms" min="1" value="{{ $floor['num_rooms'] }}" />
+                                                          </div>
+                                                          <div class="col-sm-6">
+                                                          <i class="fa fa-times fa-lg remove-floor cursor-p"></i>
+                                                          </div>
+                                                          </div>
+                                                          </div>
+                                                          </div>
+                                                          </div>
+                                                      @endforeach
+                                                  @endif
                                               </div>
                                               </div>
                                           @endforeach

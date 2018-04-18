@@ -163,7 +163,7 @@ class CompanyBuildingController extends AppBaseController
 
         $data = $request->all();
 
-/*        echo "<pre>";
+        /*echo "<pre>";
         print_r($data['building_data']);
         echo "</pre>";
 
@@ -172,6 +172,7 @@ class CompanyBuildingController extends AppBaseController
         $input = [];
         $dateTime = date('Y-m-d h:i:s');
         $arr = [];
+        $flArr = [];
 
         $i = 0;
         $index = 0;
@@ -194,6 +195,36 @@ class CompanyBuildingController extends AppBaseController
             $where = ['id' => $id];
 
             $companyBuilding = $this->companyBuildingRepository->updateOrCreate($where, $input);
+
+            $floors = [];
+
+            if (isset($building['floor'])) {
+                
+                foreach ($building['floor'] as $fl) {
+
+                    $floors['building_id'] = $companyBuilding->id;
+                    $floors['company_id'] = $data['company_id'];
+                    $floors['floor'] = $fl['floor_number'];
+                    $floors['num_rooms'] = $fl['floor_rooms'];
+                
+
+                    if (strpos($fl['id'], 'new-') === false) {
+                        $floorId = $fl['id'];
+                    } else {
+                        $floorIndex = preg_replace('/[^0-9]/', '', $fl['id']);
+                        $floorId = "";
+                    }
+
+                    $where = ['id' => $floorId];
+
+                    $buildingFloor = $this->companyFloorRoomRepository->updateOrCreate($where, $floors);
+
+                    if (strpos($fl['id'], 'new-') !== false) {
+
+                        $arr[$index] = $buildingFloor->id;
+                    }
+                }
+            }
 
             if (strpos($building['id'], 'new-') !== false) {
 

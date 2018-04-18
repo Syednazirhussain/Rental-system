@@ -973,21 +973,21 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                   building += '<div class="row">';
                   building += '<div class="col-sm-6 form-group">';
                   building += '<label for="building-name">Building Name</label>';
-                  building += '<input type="text" name="building_data['+buildingNum+'][name]" class="building-name form-control" placeholder="Crown Towers">';
+                  building += '<input type="text" name="building_data['+buildingNum+'][name]" data-building-name="new-'+buildingNum+'" class="building-name form-control" placeholder="Crown Towers">';
                   building += '</div>';
                   building += '<div class="col-sm-6 form-group">';
                   building += '<label for="building-address">Address</label>';
-                  building += '<input type="text" name="building_data['+buildingNum+'][address]" class="building-address form-control" placeholder="ST-12 Phase-3/B Crown Center Alaska.">';
+                  building += '<input type="text" name="building_data['+buildingNum+'][address]" data-building-address="new-'+buildingNum+'" class="building-address form-control" placeholder="ST-12 Phase-3/B Crown Center Alaska.">';
                   building += '</div>';
                   building += '<div class="col-sm-6 form-group">';
                   building += '<label for="building-zip">Zip Code</label>';
-                  building += '<input type="text" name="building_data['+buildingNum+'][zipcode]" class="building-zip form-control" placeholder="ABC-999">';
+                  building += '<input type="text" name="building_data['+buildingNum+'][zipcode]" data-building-zipcode="new-'+buildingNum+'" class="building-zip form-control" placeholder="ABC-999">';
                   building += '</div>';
                   building += '<div class="col-sm-6 form-group">';
                   building += '<label for="building-no-of-floors">No. of Floors</label>';
                   building += '<div class="row">';
                   building += '<div class="col-sm-6 form-group">';
-                  building += '<input type="number" name="building_data['+buildingNum+'][num_floors]" class="building-no-of-floors form-control building-no-of-floors" min="1" value="1">';
+                  building += '<input type="number" name="building_data['+buildingNum+'][num_floors]" data-building-numfloors="new-'+buildingNum+'" class="building-no-of-floors form-control building-no-of-floors" min="1" value="1">';
                   building += '</div>';
                   building += '<div class="col-sm-6 form-group">';
                   building += '<button type="button" class="btn btn-primary addFloorBtn"> <i class="fa fa-plus"></i> Add Floors </button>';
@@ -1046,11 +1046,11 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
 
             var k = 1;
 
-            $(document).on('click', '.addFloorBtn', function() {
+            $(document).on('click', '.addFloorBtn', function(e) {
 
                 // var building_num = $(this).parent().parent().parent().parent().parent().parent().parent().find('.buildingFields').data('building-num');
                 var num_floors = $(this).parent().parent().find('.building-no-of-floors').val();
-                var floorSecion = $(this).parent().parent().parent().parent().parent().find('.sectionFloor');
+                var floorSecion = $(e.target).closest('.buildingFields').find('.sectionFloor');
                 var building_num = floorSecion.data('building-num');
                 var floorsExist = $(this).parent().parent().parent().parent().parent().find('.floor');
 
@@ -1066,16 +1066,17 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
 
                          var m = i-1;
                          var floor = '<div class="floor">';
+                            floor += '<input type="hidden" name="building_data['+building_num+'][floor]['+m+'][id]" data-floor-id="new-'+m+'" class="floor-id" value="new-'+m+'" />';
                             floor += '<div class="row">';
                             floor += '<div class="col-sm-6 form-group">';
                             floor += '<label for="building-floor-no">Floor No.</label>';
-                            floor += '<input type="name" name="building_data['+building_num+'][floor]['+m+'][floor_number]" class="form-control building-floor-no" min="1" >';
+                            floor += '<input type="name" name="building_data['+building_num+'][floor]['+m+'][floor_number]" data-floor-number="new-'+m+'" placeholder="Floor Name" class="form-control building-floor-no" min="1" >';
                             floor += '</div>';
                             floor += '<div class="col-sm-6 form-group">';
                             floor += '<label for="building-floor-no-of-rooms">No. of Rooms</label>';
                             floor += '<div class="row">';
                             floor += '<div class="col-sm-6">';
-                            floor += '<input type="number" name="building_data['+building_num+'][floor]['+m+'][floor_rooms]" class="form-control building-floor-no-of-rooms" min="1" >';
+                            floor += '<input type="number" name="building_data['+building_num+'][floor]['+m+'][floor_rooms]" data-floor-rooms="new-'+m+'" class="form-control building-floor-no-of-rooms" min="1" >';
                             floor += '</div>';
                             floor += '<div class="col-sm-6">';
                             floor += '<i class="fa fa-times fa-lg remove-floor cursor-p"></i>';

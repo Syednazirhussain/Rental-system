@@ -22,12 +22,6 @@ class CompanyFloorRoom extends Model
 {
     public $table = 'company_floor_rooms';
     
-    const CREATED_AT = 'created_at';
-    const UPDATED_AT = 'updated_at';
-
-
-    protected $dates = ['deleted_at'];
-
 
     public $fillable = [
         'building_id',
@@ -35,6 +29,8 @@ class CompanyFloorRoom extends Model
         'floor',
         'num_rooms'
     ];
+
+    public $timestamps = false;
 
     /**
      * The attributes that should be casted to native types.
