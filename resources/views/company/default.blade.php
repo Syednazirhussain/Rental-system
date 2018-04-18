@@ -73,6 +73,15 @@
                         </ul>
                     </li>
                     <li class="dropdown-toggle">
+                        <a href="{{ route('company.services.index') }}">Services</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ route('company.services.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
+                                    Service</a></li>
+                            <li><a href="{{ route('company.services.index') }}"><i class="fa fa-building-o"></i>&nbsp;&nbsp;Services</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-toggle">
                         <a href>Settings</a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ route('admin.userRoles.index') }}"><i class="fa fa-users"></i>&nbsp;&nbsp;User
