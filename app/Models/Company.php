@@ -156,7 +156,7 @@ class Company extends Model
      **/
     public function companyBuildings()
     {
-        return $this->hasMany(\App\Models\CompanyBuilding::class);
+        return $this->hasMany(\App\Models\CompanyBuilding::class, 'company_id', 'id');
     }
 
     /**

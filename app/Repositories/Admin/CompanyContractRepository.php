@@ -52,8 +52,8 @@ class CompanyContractRepository extends BaseRepository
     public function checkCompanyContract($company_id)
     {
 
-        $contract = CompanyContract::where('company_id',$company_id)->orderBy('id', 'desc')->get();
-        $company_contract_end_date = $contract[0]->end_date;
+        $contract = CompanyContract::where('company_id',$company_id)->where('status', 'active')->first();
+        $company_contract_end_date = $contract->end_date;
         if (strtotime($company_contract_end_date) >= time()) 
         {
             return true;
@@ -67,7 +67,7 @@ class CompanyContractRepository extends BaseRepository
 
     public function getCompanyContract($company_id)
     {
-        return CompanyContract::where('company_id',$company_id)->orderBy('id', 'desc')->get();
+        return CompanyContract::where('company_id',$company_id)->where('status', 'active')->first();
     }
 
 

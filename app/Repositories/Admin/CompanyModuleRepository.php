@@ -45,7 +45,7 @@ class CompanyModuleRepository extends BaseRepository
 
     public function getCompanyModule($company_id)
     {
-        return CompanyModule::where('company_id',$company_id)->get();
+        return CompanyModule::find($company_id);
     }
 
     public function getCompanyRelatedModule($company_modules)

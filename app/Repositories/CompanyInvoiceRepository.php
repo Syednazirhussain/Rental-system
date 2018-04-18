@@ -22,6 +22,7 @@ class CompanyInvoiceRepository extends BaseRepository
     protected $fieldSearchable = [
         'company_id',
         'payment_cycle_id',
+        'payment_cycle',
         'discount',
         'tax',
         'total'
@@ -42,28 +43,38 @@ class CompanyInvoiceRepository extends BaseRepository
         return $left_days;
     }
 
+
+    public function getLastInsertedInvoiceId()
+    {
+        return CompanyInvoice::latest()->first();
+    }
+
     public function totalAndDiscountedTotal($data,$calculateByCompanyModulePrice = true)
     {
+        // ['company_modules']['company_module'][0]['module_name']
         $total = 0;
         $final_total = 0;
+        $discount = 0;
         $remaining_days = 0;
         if ($calculateByCompanyModulePrice == true) 
         {
             if ($data['payment_method'] == 'Monthly') 
             {
-                for ($i=0; $i < count($data['company_modules']) ; $i++) 
+                for ($i=0; $i < count($data['company_modules']['company_module']) ; $i++) 
                 { 
-                    $total += $data['company_modules'][$i]['module_price'];
+                    $total += $data['company_modules']['company_module'][$i]['module_price'];
                 }
                 if ($data['discount_method'] == 'Fixed Price') 
                 {
-                    $final_total -= $data['discount'];
+                    $discount -= $data['discount'];
                     $remaining_days = $this->checkLeftDay($data['contract_end_date']);
+                    $final_total = $total - $discount;
                 }
                 elseif ($data['discount_method'] == 'Percentage') 
                 {
-                    $final_total = $total*($data['discount']/100);
+                    $discount = $total*($data['discount']/100);
                     $remaining_days = $this->checkLeftDay($data['contract_end_date']);
+                    $final_total = $total - $discount;
                 }
             }
             elseif ($data['payment_method'] == 'Quaterly') 
@@ -105,7 +116,7 @@ class CompanyInvoiceRepository extends BaseRepository
 
             }
         }
-        return ['Total' => $total,'DisCountedTotal' => $final_total,'ContractRemainingDays' => $remaining_days];
+        return ['Total' => $total,'Discount' => $discount,'FinalAmount' => $final_total,'ContractRemainingDays' => $remaining_days];
     }
 
 

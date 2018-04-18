@@ -26,29 +26,8 @@
 
         <div class="table-primary">
 
-          @unless(empty($company_details))
-          <table class="table table-striped">
-            <thead>
-              <th>Company Name</th>
-              <th>Address</th>
-              <th>Phone</th>
-              <th></th>
-            </thead>
-            <tbody>
-              @foreach($company_details as $companys)
-                <tr>
-                  <td>{{ $companys->name }}</td>
-                  <td>{{ $companys->address }}</td>
-                  <td>{{ $companys->phone }}</td>
-                  <td>
-                    <a href="" class="btn btn-primary">View</a>
-                    <a href="{{ route('admin.generateInvoice', ['company_id' => $companys->id]) }}" class="btn btn-info">Invoice</a>
-                  </td>
-                </tr>
-              @endforeach
-            </tbody>
-          </table>
-          @endunless
+
+
         </div>
       </div>
     </div>

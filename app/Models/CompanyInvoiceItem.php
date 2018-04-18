@@ -3,7 +3,7 @@
 namespace App\Model;
 
 use Eloquent as Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 /**
  * Class CompanyInvoice
@@ -22,26 +22,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property decimal tax
  * @property decimal total
  */
-class CompanyInvoice extends Model
+class CompanyInvoiceItem extends Model
 {
-    use SoftDeletes;
 
-    public $table = 'company_invoices';
+
+    public $table = 'company_invoice_items';
+
+    public $timestamps = false;
     
-    const CREATED_AT = 'created_at';
-    const UPDATED_AT = 'updated_at';
-
-
-    protected $dates = ['deleted_at'];
-
 
     public $fillable = [
         'company_id',
-        'payment_cycle_id',
-        'payment_cycle',
-        'discount',
-        'tax',
-        'total'
+        'invoice_id',
+        'item_name',
+        'item_price'
     ];
 
     /**
@@ -52,7 +46,7 @@ class CompanyInvoice extends Model
     protected $casts = [
         'id' => 'integer',
         'company_id' => 'integer',
-        'payment_cycle_id' => 'integer'
+        'invoice_id' => 'integer'
     ];
 
     /**
@@ -64,27 +58,21 @@ class CompanyInvoice extends Model
         
     ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     **/
-    public function company()
-    {
-        return $this->belongsTo(\App\Model\Company::class);
-    }
+    // /**
+    //  * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+    //  **/
+    // public function company()
+    // {
+    //     return $this->belongsTo(\App\Model\Company::class);
+    // }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     **/
-    public function paymentCycle()
-    {
-        return $this->belongsTo(\App\Model\PaymentCycle::class);
-    }
+    // /**
+    //  * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+    //  **/
+    // public function paymentCycle()
+    // {
+    //     return $this->belongsTo(\App\Model\PaymentCycle::class);
+    // }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
-    public function companyInvoiceItems()
-    {
-        return $this->hasMany(\App\Model\CompanyInvoiceItem::class);
-    }
+
 }
