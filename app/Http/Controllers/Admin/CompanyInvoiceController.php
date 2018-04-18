@@ -65,14 +65,17 @@ class CompanyInvoiceController extends AppBaseController
         $companyInvoices = $this->companyInvoiceRepository->all();
 
         $company =  $this->companyRepository->all();
-        $company_id = $company[0]->id;
+        
 
         // This is the responsible to display single company infomation & modules with discounted
-        return $this->showInvoiceByCompanyId($company_id);
+        // return $this->showInvoiceByCompanyId($company_id);
       
         return view('admin.company_invoices.index')
-            ->with('company_details', $company_details);
+            ->with('company_details', $company);
     }
+
+
+
 
     public function showInvoiceByCompanyId($company_id)
     {

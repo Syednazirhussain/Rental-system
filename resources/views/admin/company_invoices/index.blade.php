@@ -26,22 +26,30 @@
 
         <div class="table-primary">
 
+          @unless(empty($company_details))
           <table class="table table-striped">
-            <tr>
-              <td>
-                <h3 class="heading">{{ $company_details['company_info']->name }}</h3>
-              </td>
-              <td>
-                <img class="img img-circle pull-right" src="{{ $company_details['company_info']->logo }}" alt="Logo">
-              </td>
-            </tr>
-            <tr>
-              <div class="well">
-                {{ $company_details['company_info']->description }}
-              </div>
-            </tr>
-          </table>
+            <thead>
+              <th>Company Name</th>
+              <th>Address</th>
+              <th>Phone</th>
+              <th></th>
+            </thead>
+            <tbody>
+              @foreach($company_details as $companys)
+                <tr>
+                  <td>{{ $companys->name }}</td>
+                  <td>{{ $companys->address }}</td>
+                  <td>{{ $companys->phone }}</td>
+                  <td>
+                    <a href="" class="btn btn-primary">View</a>
+                    <a href="{{ route('admin.generateInvoice', ['company_id' => $companys->id]) }}" class="btn btn-info">Invoice</a>
+                  </td>
 
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
+          @endunless
         </div>
       </div>
     </div>
