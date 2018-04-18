@@ -786,7 +786,7 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                 $('.remove-module').hide();
                 $('.remove-admin').hide();
                 $('.remove-admin').hide();
-                $('.remove-building').hide();
+                // $('.remove-building').hide();
 
                 if (editCompany == 0) {
                     $('#addFieldBtn').trigger('click');
@@ -1037,7 +1037,38 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
 
             $(document).on('click', '.remove-building', function() {
 
-                $(this).closest('.buildingFields').remove();
+                if (confirm('Are you sure?')) {
+
+                    if (editCompany == 0) {
+                      $(this).closest('.contactPersonFields').remove();
+                    } else {
+
+                      var getBuildingId = $(this).parent().parent().find('.remove-building-id').val();
+                      var data = { _method: "delete", building_id: getBuildingId };
+                      console.log(data);
+
+                      $.ajax({
+                          url: '{{ route("admin.companyBuildings.destroy.building") }}',
+                          data: data,
+                          cache: false,
+                          type: 'POST', // For jQuery < 1.9
+                          success: function(data){
+                              // myform.pxWizard('goTo', 2);
+
+                              console.log(data);
+                          },
+                          error: function(xhr,status,error)  {
+
+                          }
+
+                      });
+
+                      $(this).closest('.buildingFields').remove();
+                    }
+
+                }
+
+                
 
             });
 

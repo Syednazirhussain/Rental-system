@@ -221,7 +221,7 @@ class CompanyContactPersonController extends AppBaseController
 
         return response()->json([
                                 'success'=>$success, 
-                                'msg'=>'Company contact persons have been updated successfully',
+                                'msg'=>$msg,
                                 ]);
     }
 }

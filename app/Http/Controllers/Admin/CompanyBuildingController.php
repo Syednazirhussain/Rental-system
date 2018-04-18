@@ -199,7 +199,7 @@ class CompanyBuildingController extends AppBaseController
             $floors = [];
 
             if (isset($building['floor'])) {
-                
+
                 foreach ($building['floor'] as $fl) {
 
                     $floors['building_id'] = $companyBuilding->id;
@@ -248,20 +248,29 @@ class CompanyBuildingController extends AppBaseController
      *
      * @return Response
      */
-    public function destroy($id)
+    public function destroyBuilding(Request $request)
     {
+
+        $id = $request->only('building_id');
+
+        $id = $id['building_id'];
+        
         $companyBuilding = $this->companyBuildingRepository->findWithoutFail($id);
 
         if (empty($companyBuilding)) {
-            Flash::error('Company Building not found');
 
-            return redirect(route('admin.companyBuildings.index'));
+            $success = 0;
+            $msg = "Company building not found";
         }
 
         $this->companyBuildingRepository->delete($id);
 
-        Flash::success('Company Building deleted successfully.');
+        $success = 1;
+        $msg = "Company building deleted successfully";
 
-        return redirect(route('admin.companyBuildings.index'));
+        return response()->json([
+                                'success'=>$success, 
+                                'msg'=>$msg,
+                            ]);
     }
 }
