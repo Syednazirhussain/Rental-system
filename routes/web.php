@@ -174,6 +174,7 @@ Route::group(['middleware' => ['admin.auth']], function () {
 	Route::get('admin/modules/{modules}/edit', ['as'=> 'admin.modules.edit', 'uses' => 'Admin\ModuleController@edit']);
 
 
+	//composer require barryvdh/laravel-dompdf
 
 	// route for invoice generation testing by moiz
 	Route::get('admin/company/invoice', ['as'=> 'admin.invoice.view', 'uses' => 'Admin\CompanyController@invoiceView']);
