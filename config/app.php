@@ -190,7 +190,7 @@ return [
 
        Orangehill\Iseed\IseedServiceProvider::class,
 
-        // Barryvdh\DomPDF\ServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
     ],
 
@@ -246,8 +246,7 @@ return [
         'Flash'     => Laracasts\Flash\Flash::class,
         'TranslationCache' => \Waavi\Translation\Facades\TranslationCache::class,
         'UriLocalizer'  => Waavi\Translation\Facades\UriLocalizer::class,
-
-        // 'PDF' => Barryvdh\DomPDF\Facade::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
 
 
 

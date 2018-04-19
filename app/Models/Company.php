@@ -162,6 +162,16 @@ class Company extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
+    public function companyInvoices()
+    {
+        return $this->hasMany(\App\Models\CompanyInvoice::class, 'company_id', 'id');
+    }
+
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
     public function companyContactPeople()
     {
         return $this->hasMany(\App\Models\CompanyContactPerson::class);

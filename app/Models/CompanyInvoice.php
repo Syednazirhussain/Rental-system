@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Model;
+namespace App\Models;
 
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 /**
  * Class CompanyInvoice
@@ -69,7 +70,7 @@ class CompanyInvoice extends Model
      **/
     public function company()
     {
-        return $this->belongsTo(\App\Model\Company::class);
+        return $this->belongsTo(\App\Models\Company::class,'company_id','id');
     }
 
     /**
@@ -77,7 +78,7 @@ class CompanyInvoice extends Model
      **/
     public function paymentCycle()
     {
-        return $this->belongsTo(\App\Model\PaymentCycle::class);
+        return $this->belongsTo(\App\Models\PaymentCycle::class);
     }
 
     /**
@@ -85,6 +86,6 @@ class CompanyInvoice extends Model
      **/
     public function companyInvoiceItems()
     {
-        return $this->hasMany(\App\Model\CompanyInvoiceItem::class);
+        return $this->hasMany(\App\Models\CompanyInvoiceItem::class);
     }
 }

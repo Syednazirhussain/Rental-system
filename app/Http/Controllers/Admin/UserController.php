@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\Admin\CreateUserRequest;
 use App\Http\Requests\Admin\UpdateUserRequest;
 
-use App\Repositories\Admin\UserRepository;
+use App\Repositories\UserRepository;
 
 
 use App\Http\Controllers\AppBaseController;

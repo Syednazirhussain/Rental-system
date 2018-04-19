@@ -25,10 +25,35 @@
         </div>
 
         <div class="table-primary">
+          <table class="table table-striped">
+            <thead>
+              <th>Invoice ID</th>
+              <th>Company Name</th>
+              <th>Payment Cycle</th>
+              <th>Created At</th>
+              <th>Status</th>
+              <th></th>
+            </thead>
+            <tbody>
+                @foreach($Invoices as $Invoice)
 
+                <tr>
+                  <td>{{ $Invoice->id }}</td>
+                  <td>{{ $Invoice->company->name }}</td>
+                  <td>{{ $Invoice->payment_cycle }}</td>
+                  <td>{{ $Invoice->created_at }}</td>
+                  <td>{{ $Invoice->status }}</td>
+                  <td>
+                    <a href="" class="btn btn-default">Details</a>
+                  </td>
+                </tr>
 
-
+                @endforeach
+            </tbody>
+          </table>
         </div>
+
+
       </div>
     </div>
   </div>

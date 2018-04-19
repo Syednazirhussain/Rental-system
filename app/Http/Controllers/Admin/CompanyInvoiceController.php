@@ -13,16 +13,16 @@ use Response;
 
 
 
-use App\Repositories\Admin\CompanyRepository;
-use App\Repositories\Admin\CompanyBuildingRepository;
-use App\Repositories\Admin\CompanyContactPersonRepository;
-use App\Repositories\Admin\CompanyContractRepository;
-use App\Repositories\Admin\CompanyModuleRepository;
-use App\Repositories\Admin\ModuleRepository;
+use App\Repositories\CompanyRepository;
+use App\Repositories\CompanyBuildingRepository;
+use App\Repositories\CompanyContactPersonRepository;
+use App\Repositories\CompanyContractRepository;
+use App\Repositories\CompanyModuleRepository;
+use App\Repositories\ModuleRepository;
 use App\Repositories\PaymentCycleRepository;
 use App\Repositories\DiscountTypeRepository;
 use App\Repositories\CompanyInvoiceItemRepository;
-
+use PDF;
 class CompanyInvoiceController extends AppBaseController
 {
     /** @var  CompanyInvoiceRepository */
@@ -64,31 +64,25 @@ class CompanyInvoiceController extends AppBaseController
 
     public function index(Request $request)
     {
-        $this->companyInvoiceRepository->pushCriteria(new RequestCriteria($request));
-        $companyInvoices = $this->companyInvoiceRepository->all();
 
-        $company =  $this->companyRepository->all();
-        return view('admin.company_invoices.index')->with('company_details', $company);
+        $this->companyInvoiceRepository->pushCriteria(new RequestCriteria($request));
+        $Invoices = $this->companyInvoiceRepository->all();
+
+        return view('admin.company_invoices.index')->with('Invoices', $Invoices);
     }
 
-
-
-    // This is the responsible to display single company infomation & modules with discounted
-    public function createInvoiceByCompanyId($company_id)
+    public function getCompanyDetailById($company_id)
     {
-        if($this->companyContractRepository->checkCompanyContract($company_id))
-        {
-
             $company = $this->companyRepository->findWithoutFail($company_id);
-
             $company_details = [
-                'company' => $company,
-                'company_contract_persons' => $company->companyContactPeople,
-                'company_contract'         => $this->companyContractRepository->getCompanyContract($company_id),
+                'company'                   => $company,
+                'city'                      => $company->city->name,
+                'state'                     => $company->state->name,
+                'country'                   => $company->country->name,
+                'company_contract_persons'  => $company->companyContactPeople,
+                'company_contract'          => $this->companyContractRepository->getCompanyContract($company_id),
                 'company_modules'           => $company->companyModules  
             ];
-
-
             $company_modules = $this->mergeCompanyRelatedModuleWithModule($company_details['company_modules']);
 
             $payment_cycle_id = $company_details['company_contract']->payment_cycle;
@@ -112,52 +106,68 @@ class CompanyInvoiceController extends AppBaseController
             $company_discount_detail =  $this->companyInvoiceRepository->totalAndDiscountedTotal($temp);
 
             // This array contain company related all invoice information
-            $company_invoice_infomation = [
-                'Company'  => $company_details['company'],
-                'Contact_Person' => $company_details['company_contract_persons'],
-                'Contract'  => $company_details['company_contract'],
-                'Modules'  => $company_modules,
-                'Discount' => $company_discount_detail
+            $company_infomation = [
+                'Company'           => $company_details['company'],
+                'Contact_Person'    => $company_details['company_contract_persons'],
+                'Contract'          => $company_details['company_contract'],
+                'Modules'           => $company_modules,
+                'Discount'          => $company_discount_detail,
+                'PaymentCycleId'    => $payment_cycle_id,
+                'PaymentMethod'     => $payment_method
             ];
 
+            return $company_infomation;
+    }
 
 
-            $companyId = $company_invoice_infomation['Company']->id;
-            $discount = $company_invoice_infomation['Discount']['Discount'];
-            $total = $company_invoice_infomation['Discount']['FinalAmount'];
+    // This is the responsible to Insert and generate invoice by company ID  
+    public function createInvoiceByCompanyId($company_id)
+    {
+        if($this->companyContractRepository->checkCompanyContract($company_id))
+        {
 
+            $company_infomation = $this->getCompanyDetailById($company_id);
+
+
+            $companyId = $company_infomation['Company']->id;
+            $discount = $company_infomation['Discount']['Discount'];
+            $total = $company_infomation['Discount']['FinalAmount'];
+
+            // company Invoice table columns
+            // company_id, payment_cycle_id,payment_cycle,discount,tax,total,status,due_date
 
             $Invoice = [
                 'company_id'         => $companyId,
-                'payment_cycle_id'   => $payment_cycle_id,
-                'payment_cycle'      => $payment_method,
+                'payment_cycle_id'   => $company_infomation['PaymentCycleId'],
+                'payment_cycle'      => $company_infomation['PaymentMethod'],
                 'discount'           => $discount,
                 'tax'                => 0,
                 'total'              => $total
             ];
 
-            // company Invoice table columns
-            // company_id, payment_cycle_id,payment_cycle,discount,tax,total,status,due_date
-
-
             if($this->companyInvoiceRepository->create($Invoice))
             {
                 $lastInvoice =  $this->companyInvoiceRepository->getLastInsertedInvoiceId();
                 $Invoice_id =  $lastInvoice->id;
+                $company_infomation['Invoice_id'] = $Invoice_id;
                 $Invoice_Item = ['invoice_id' => $Invoice_id, 'company_id' => $companyId];
                 if ($this->companyInvoiceItemRepository->create($Invoice_Item)) 
                 {
-                    return "Company invoice generated successfully..";
+                    // return "Company invoice generated successfully..";
+                    // return view('admin.companies.invoice')->with('Invoice',$company_infomation);
+                    $data = ['Invoice' => $company_infomation];
+                    $pdf = PDF::loadView('admin.companies.invoice', $data);
+                    return $pdf->download('invoice.pdf');
                 }
                 else
                 {
-                    return "Roll back last company invoice";
+                    return json_encode(['status' => 'Failed','result' => 'Invoice item can not inserted.']);
                 }
 
             }
             else
             {
-                return "Invoice can not inserted..";
+                return json_encode(['status' => 'Failed','result' => 'Invoice can not inserted.']);
             }
 
         }

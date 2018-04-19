@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Model\CompanyInvoice;
+use App\Models\CompanyInvoice;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
