@@ -69,6 +69,6 @@ class CompanyUser extends Model
      **/
     public function company()
     {
-        return $this->belongsTo(\App\Models\Company::class);
+        return $this->belongsTo(\App\Models\Company::class, 'id', 'company_id');
     }
 }

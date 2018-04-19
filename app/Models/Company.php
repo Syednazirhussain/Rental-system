@@ -167,6 +167,15 @@ class Company extends Model
         return $this->hasMany(\App\Models\CompanyContactPerson::class);
     }
 
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function companySingleContract()
+    {
+        return $this->hasOne(\App\Models\CompanyContract::class);
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
@@ -188,6 +197,6 @@ class Company extends Model
      **/
     public function companyUsers()
     {
-        return $this->hasMany(\App\Models\CompanyUser::class);
+        return $this->hasMany(\App\Models\CompanyUser::class, 'company_id', 'id');
     }
 }

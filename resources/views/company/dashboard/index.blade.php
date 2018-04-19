@@ -3,7 +3,7 @@
 @section('content')
     <div class="px-content">
         <ol class="breadcrumb page-breadcrumb">
-            <li><a href="index.html">Company</a></li>
+            <li><a href="index.html">Home</a></li>
             <li class="active">Dashboard</li>
         </ol>
         <div class="page-header">
@@ -270,6 +270,7 @@
                             <span class="custom-control-indicator"></span>
                             <span class="widget-tasks-title">A very important task</span>&nbsp;&nbsp;
                             <span class="widget-tasks-timer">58 minutes left</span>
+                            <
                         </label>
                     </div>
                     <div class="widget-tasks-item">

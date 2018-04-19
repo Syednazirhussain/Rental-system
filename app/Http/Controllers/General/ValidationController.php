@@ -5,8 +5,8 @@ namespace App\Http\Controllers\General;
 use App\Repositories\CountryRepository;
 use App\Repositories\StateRepository;
 use App\Repositories\CityRepository;
-use App\Repositories\Admin\CompanyContractRepository;
-use App\Repositories\Admin\CompanyUserRepository;
+use App\Repositories\CompanyContractRepository;
+use App\Repositories\CompanyUserRepository;
 
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;

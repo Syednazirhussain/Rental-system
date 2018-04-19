@@ -7,7 +7,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
-    <title>Log In </title>
+    <title>Company Login</title>
 
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin"
           rel="stylesheet" type="text/css">
@@ -75,17 +75,21 @@
     </style>
     <!-- / Custom styling -->
 </head>
-<body style="background-image: url({{ asset('/skin-1/assets/demo/bgs/3.jpg') }}); background-position: center; background-size: cover;">
+<body style="background-image: url({{ asset('/skin-1/assets/demo/blog/2.jpg') }}); background-position: center; background-size: cover;">
+
 
 <section>
+
     <!-- Log In form -->
+
     <div class="page-signin-container" id="page-signin-form">
 
         <h1 class="m-t-5 m-b-4 text-xs-center font-weight-semibold font-size-30 color-white">HIGHNOX</h1>
-        <h3 class="m-t-0 m-b-4 text-xs-center font-size-20 color-white">Company Login Here!</h3>
+        <h3 class="m-t-0 m-b-4 text-xs-center font-size-20 color-white">Hello, log in here!</h3>
 
-        <form method="post" action="{{ route('company.users.authenticate') }}" class="panel p-a-4"
-              id="admin-login-form">
+        <form method="post" action="{{ route('temp.company.authenticate') }}" class="panel p-a-4"
+              id="company-login-form">
+
             {!! csrf_field() !!}
             <span class="left">Username</span>
             <fieldset class=" form-group form-group-lg">
@@ -110,10 +114,13 @@
             @endif
 
             <button type="submit" class="btn btn-block btn-lg btn-primary m-t-3">Log In</button>
+
         </form>
+
     </div>
 
     <!-- / Log In form -->
+
 
 </section>
 
@@ -133,7 +140,7 @@
 <script type="text/javascript">
 
     // Initialize validator
-    $('#admin-login-form').pxValidate({
+    $('#company-login-form').pxValidate({
         ignore: '.ignore, .select2-input',
         focusInvalid: false,
         rules: {
@@ -161,7 +168,5 @@
 
 
 </script>
-
-
 </body>
 </html>

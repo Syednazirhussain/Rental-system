@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\CreateCompanyContactPersonRequest;
 use App\Http\Requests\Admin\UpdateCompanyContactPersonRequest;
-use App\Repositories\Admin\CompanyContactPersonRepository;
+use App\Repositories\CompanyContactPersonRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
@@ -141,7 +141,7 @@ class CompanyContactPersonController extends AppBaseController
         $data = $request->all();
 
         /*echo "<pre>";
-        print_r($data['person']);
+        print_r($data);
         echo "</pre>";
 
         exit;*/
@@ -177,7 +177,7 @@ class CompanyContactPersonController extends AppBaseController
 
             if (strpos($person['id'], 'new-') !== false) {
 
-                $arr["$index"] = $companyContactPerson->id;
+                $arr[$index] = $companyContactPerson->id;
             }
 
         }
@@ -197,20 +197,31 @@ class CompanyContactPersonController extends AppBaseController
      *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
+        $id = $request->only('person_id');
+
+        $id = $id['person_id'];
+
+        // echo $id;
+        // exit;
+        
         $companyContactPerson = $this->companyContactPersonRepository->findWithoutFail($id);
 
         if (empty($companyContactPerson)) {
-            Flash::error('Company Contact Person not found');
 
-            return redirect(route('admin.companyContactPeople.index'));
+            $success = 0;
+            $msg = "Company contact person not found";
         }
 
         $this->companyContactPersonRepository->delete($id);
 
-        Flash::success('Company Contact Person deleted successfully.');
+        $success = 1;
+        $msg = "Company contact person deleted successfully";
 
-        return redirect(route('admin.companyContactPeople.index'));
+        return response()->json([
+                                'success'=>$success, 
+                                'msg'=>$msg,
+                                ]);
     }
 }

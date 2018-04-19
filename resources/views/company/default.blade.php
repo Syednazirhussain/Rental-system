@@ -16,6 +16,7 @@
     <link href="{{ asset('/skin-1/assets/css/pixeladmin.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/skin-1/assets/css/widgets.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/skin-1/assets/css/themes/candy-green.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('/skin-1/assets/plugins/jasny-bootstrap/css/jasny-bootstrap.min.css') }}" rel="stylesheet">
 
     @yield('css')
 

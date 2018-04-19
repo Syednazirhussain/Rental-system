@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Eloquent as Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class CompanyFloorRoom
@@ -21,16 +20,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class CompanyFloorRoom extends Model
 {
-    use SoftDeletes;
-
     public $table = 'company_floor_rooms';
     
-    const CREATED_AT = 'created_at';
-    const UPDATED_AT = 'updated_at';
-
-
-    protected $dates = ['deleted_at'];
-
 
     public $fillable = [
         'building_id',
@@ -38,6 +29,8 @@ class CompanyFloorRoom extends Model
         'floor',
         'num_rooms'
     ];
+
+    public $timestamps = false;
 
     /**
      * The attributes that should be casted to native types.
@@ -48,7 +41,7 @@ class CompanyFloorRoom extends Model
         'id' => 'integer',
         'building_id' => 'integer',
         'company_id' => 'integer',
-        'floor' => 'integer',
+        'floor' => 'string',
         'num_rooms' => 'integer'
     ];
 
@@ -67,5 +60,14 @@ class CompanyFloorRoom extends Model
     public function company()
     {
         return $this->belongsTo(\App\Models\Company::class);
+    }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function building()
+    {
+        return $this->belongsTo(\App\Models\CompanyBuilding::class, 'id', 'building_id');
     }
 }

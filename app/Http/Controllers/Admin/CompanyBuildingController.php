@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\CreateCompanyBuildingRequest;
 use App\Http\Requests\Admin\UpdateCompanyBuildingRequest;
-use App\Repositories\Admin\CompanyBuildingRepository;
-use App\Repositories\Admin\CompanyFloorRoomRepository;
+use App\Repositories\CompanyBuildingRepository;
+use App\Repositories\CompanyFloorRoomRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
@@ -158,21 +158,92 @@ class CompanyBuildingController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateCompanyBuildingRequest $request)
+    public function update(UpdateCompanyBuildingRequest $request)
     {
-        $companyBuilding = $this->companyBuildingRepository->findWithoutFail($id);
 
-        if (empty($companyBuilding)) {
-            Flash::error('Company Building not found');
+        $data = $request->all();
 
-            return redirect(route('admin.companyBuildings.index'));
+        /*echo "<pre>";
+        print_r($data['building_data']);
+        echo "</pre>";
+
+        exit;*/
+
+        $input = [];
+        $dateTime = date('Y-m-d h:i:s');
+        $arr = [];
+        $flArr = [];
+
+        $i = 0;
+        $index = 0;
+
+        foreach ($data['building_data'] as $building) {
+
+            $input['name'] = $building['name'];
+            $input['address'] = $building['address'];
+            $input['zipcode'] = $building['zipcode'];
+            $input['num_floors'] = $building['num_floors'];
+            $input['company_id'] = $data['company_id'];
+
+            if (strpos($building['id'], 'new-') === false) {
+                $id = $building['id'];
+            } else {
+                $index = preg_replace('/[^0-9]/', '', $building['id']);
+                $id = "";
+            }
+            
+            $where = ['id' => $id];
+
+            $companyBuilding = $this->companyBuildingRepository->updateOrCreate($where, $input);
+
+            $floors = [];
+
+            if (isset($building['floor'])) {
+
+                $i = 0;
+
+                foreach ($building['floor'] as $fl) {
+
+                    $floors['building_id'] = $companyBuilding->id;
+                    $floors['company_id'] = $data['company_id'];
+                    $floors['floor'] = $fl['floor_number'];
+                    $floors['num_rooms'] = $fl['floor_rooms'];
+                
+
+                    if (strpos($fl['id'], 'new-') === false) {
+                        $floorId = $fl['id'];
+                    } else {
+                        $floorIndex = preg_replace('/[^0-9]/', '', $fl['id']);
+                        $floorId = "";
+                    }
+
+                    $where = ['id' => $floorId];
+
+                    $buildingFloor = $this->companyFloorRoomRepository->updateOrCreate($where, $floors);
+
+                    if (strpos($fl['id'], 'new-') !== false) {
+
+                        $arr[$index]['floors'][$i]['index'] = $floorIndex;
+                        $arr[$index]['floors'][$i]['floorId'] = $buildingFloor->id;
+
+                        $i++;
+                    }
+                }
+            }
+
+            if (strpos($building['id'], 'new-') !== false) {
+
+                $arr[$index]['id'] = $companyBuilding->id;
+            }
+
         }
+        
 
-        $companyBuilding = $this->companyBuildingRepository->update($request->all(), $id);
-
-        Flash::success('Company Building updated successfully.');
-
-        return redirect(route('admin.companyBuildings.index'));
+        return response()->json([
+                                'success'=>1, 
+                                'msg'=>'Company buildings have been updated successfully',
+                                'createdFields'=>$arr,
+                            ]);
     }
 
     /**
@@ -182,20 +253,63 @@ class CompanyBuildingController extends AppBaseController
      *
      * @return Response
      */
-    public function destroy($id)
+    public function destroyBuilding(Request $request)
     {
+
+        $id = $request->only('building_id');
+
+        $id = $id['building_id'];
+        
         $companyBuilding = $this->companyBuildingRepository->findWithoutFail($id);
 
         if (empty($companyBuilding)) {
-            Flash::error('Company Building not found');
 
-            return redirect(route('admin.companyBuildings.index'));
+            $success = 0;
+            $msg = "Company building not found";
         }
 
         $this->companyBuildingRepository->delete($id);
 
-        Flash::success('Company Building deleted successfully.');
+        $success = 1;
+        $msg = "Company building deleted successfully";
 
-        return redirect(route('admin.companyBuildings.index'));
+        return response()->json([
+                                'success'=>$success, 
+                                'msg'=>$msg,
+                            ]);
+    }
+
+
+    /**
+     * Remove the specified Floor from Company Building from storage.
+     *
+     * @param  int $id
+     *
+     * @return Response
+     */
+    public function destroyFloor(Request $request)
+    {
+
+        $id = $request->only('floor_id');
+
+        $id = $id['floor_id'];
+        
+        $companyBuilding = $this->companyFloorRoomRepository->findWithoutFail($id);
+
+        if (empty($companyBuilding)) {
+
+            $success = 0;
+            $msg = "Company building floor not found";
+        }
+
+        $this->companyFloorRoomRepository->delete($id);
+
+        $success = 1;
+        $msg = "Company building floor deleted successfully";
+
+        return response()->json([
+                                'success'=>$success, 
+                                'msg'=>$msg,
+                            ]);
     }
 }

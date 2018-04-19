@@ -258,7 +258,7 @@
 
                                         @foreach ($company->companyContactPeople as $contactPerson)
                                         <div class="contactPersonFields">
-                                            <input type="hidden" name="person[{{ $contactPerson->id }}][id]" value="{{ $contactPerson->id }}" />
+                                            <input type="hidden" name="person[{{ $contactPerson->id }}][id]" class="remove-person-id" value="{{ $contactPerson->id }}" />
                                             <h5 class="bg-success p-x-1 p-y-1 m-t-0" >Person <i class="fa fa-times fa-lg remove-contact-person pull-right cursor-p"></i></h5>
                                                 <div class="row">
                                                 <div class="col-sm-6 form-group">
@@ -334,6 +334,10 @@
 
 
                           <form class="wizard-pane" id="wizard-3">
+
+                              @if (isset($company))
+                                  <input name="_method" type="hidden" value="PATCH">
+                              @endif
                             
                                 <h3 class="m-t-0">Building Information</h3>
 
@@ -341,7 +345,68 @@
 
                                 <div id="sectionBuilding">
                                     <div class="building">
-                                        
+                                        @if (isset($company))
+
+                                          @foreach ($company->companyBuildings as $building)
+                                              <div class="buildingFields">
+                                              <input type="hidden" name="building_data[{{ $building->id }}][id]" class="remove-building-id" value="{{ $building->id }}" />
+
+                                              <h5 class="bg-success p-x-1 p-y-1" >Building <i class="fa fa-times fa-lg remove-building pull-right cursor-p"></i></h5>
+                                              <div class="row">
+                                              <div class="col-sm-6 form-group">
+                                              <label for="building-name">Building Name</label>
+                                              <input type="text" name="building_data[{{ $building->id }}][name]" data-building="{{ $contactPerson->id }}" class="building-name form-control" placeholder="Building Name" value="{{ $building->name }}" />
+                                              </div>
+                                              <div class="col-sm-6 form-group">
+                                              <label for="building-address">Address</label>
+                                              <input type="text" name="building_data[{{ $building->id }}][address]" class="building-address form-control" placeholder="Building Address" value="{{ $building->address }}" />
+                                              </div>
+                                              <div class="col-sm-6 form-group">
+                                              <label for="building-zip">Zip Code</label>
+                                              <input type="text" name="building_data[{{ $building->id }}][zipcode]" class="building-zip form-control" placeholder="Building Zipcode" value="{{ $building->zipcode }}" />
+                                              </div>
+                                              <div class="col-sm-6 form-group">
+                                              <label for="building-no-of-floors">No. of Floors</label>
+                                              <div class="row">
+                                              <div class="col-sm-6 form-group">
+                                              <input type="number" name="building_data[{{ $building->id }}][num_floors]" class="building-no-of-floors form-control building-no-of-floors" min="1" value="{{ $building->num_floors }}">
+                                              </div>
+                                              <div class="col-sm-6 form-group">
+                                              <button type="button" class="btn btn-primary addFloorBtn"> <i class="fa fa-plus"></i> Add Floors </button>
+                                              </div>
+                                              </div>
+                                              </div>
+                                              </div>
+                                              <div data-building-num="{{ $building->id }}" class="sectionFloor">
+                                                  @if (isset($companyBuildingFloors[$building->id]))
+                                                      @foreach ($companyBuildingFloors[$building->id] as $floor)
+                                                          <div class="floor">
+                                                          <input type="hidden" name="building_data[{{ $building->id }}][floor][{{ $floor['id'] }}][id]" class="remove-floor-id" value="{{ $floor['id'] }}" />
+
+                                                          <div class="row">
+                                                          <div class="col-sm-6 form-group">
+                                                          <label for="building-floor-no">Floor No.</label>
+                                                          <input type="name" name="building_data[{{ $building->id }}][floor][{{ $floor['id'] }}][floor_number]" class="form-control building-floor-no" placeholder="Floor Name" value="{{ $floor['floor'] }}" />
+                                                          </div>
+                                                          <div class="col-sm-6 form-group">
+                                                          <label for="building-floor-no-of-rooms">No. of Rooms</label>
+                                                          <div class="row">
+                                                          <div class="col-sm-6">
+                                                          <input type="number" name="building_data[{{ $building->id }}][floor][{{ $floor['id'] }}][floor_rooms]" class="form-control building-floor-no-of-rooms" min="1" value="{{ $floor['num_rooms'] }}" />
+                                                          </div>
+                                                          <div class="col-sm-6">
+                                                          <i class="fa fa-times fa-lg remove-floor cursor-p"></i>
+                                                          </div>
+                                                          </div>
+                                                          </div>
+                                                          </div>
+                                                          </div>
+                                                      @endforeach
+                                                  @endif
+                                              </div>
+                                              </div>
+                                          @endforeach
+                                      @endif
                                     </div>
                                 </div>
 
@@ -366,26 +431,32 @@
                            
                                 <h3 class="m-t-0">Company Contract Information</h3>
 
+                                @if (isset($company))
+                                <input name="_method" type="hidden" value="PATCH">
+                                <input type="hidden" name="contract_id" id="contract-id" value="{{ $company->companySingleContract->id }}" />
+                                <input type="hidden" name="number_hidden" id="contract-no-hidden" class="form-control" value="{{ $company->companySingleContract->number }}"  />
+                                
+                                @endif
+
                                 <div class="row">
                                     <div class="col-sm-12 form-group">
                                         <label for="contract-no">Contract No.</label>
-                                        <input type="text" name="number" id="contract-no" class="form-control" placeholder="ZXC-886">
+                                        <input type="text" name="number" id="contract-no" class="form-control" placeholder="Contract No" value="{{ isset($company) ? $company->companySingleContract->number:'' }}"  />
                                         <div class="errorTxt"></div>
                                     </div>
                                     <div class="col-sm-12 form-group">
                                         <label for="contract-description">Contract</label>
-                                        <textarea name="content" id="contract-content" class="form-control" rows="10"></textarea>
+                                        <textarea name="content" id="contract-content" class="form-control" rows="10">{{ isset($company) ? $company->companySingleContract->content:'' }}</textarea>
                                         <div class="errorTxt"></div>
-                                        <input type="hidden" name="contract_description" id="contract-content-hidden" />
                                     </div>
                                     <div class="col-sm-6 form-group">
                                         <label for="start-date">Start Date</label>
-                                        <input type="text" name="start_date" id="daterange-3" value="10/24/1984" class="form-control">
+                                        <input type="text" name="start_date" id="daterange-3" value="{{ isset($company) ? date('m/d/Y', strtotime($company->companySingleContract->start_date)):'01/01/2018' }}" class="form-control">
                                         <div class="errorTxt"></div>
                                     </div>
                                     <div class="col-sm-6 form-group">
                                         <label for="end-date">End Date</label>
-                                        <input type="text" name="end_date" id="daterange-4" value="10/24/1984" class="form-control">
+                                        <input type="text" name="end_date" id="daterange-4" value="{{ isset($company) ? date('m/d/Y', strtotime($company->companySingleContract->end_date)):'12/31/2018' }}" class="form-control">
                                         <div class="errorTxt"></div>
                                     </div>
                                     <div class="col-sm-6 form-group">
@@ -394,8 +465,13 @@
                                           <label for="payment-method">Payment Method</label>
                                           <select name="payment_method" class="form-control select2-payment-method" style="width: 100%" data-allow-clear="true">
                                               <option></option>
-                                              <option value="cheque">Cheque</option>
-                                              <option value="bank">Bank Transfer</option>
+                                              @foreach ($paymentMethods as $paymentMethod)
+                                                  @if (isset($company) && $paymentMethod->code == $company->companySingleContract->payment_method)
+                                                    <option value="{{ $paymentMethod->code }}" selected="selected">{{ $paymentMethod->name }}</option> 
+                                                   @else
+                                                    <option value="{{ $paymentMethod->code  }}">{{ $paymentMethod->name }}</option> 
+                                                   @endif
+                                              @endforeach
                                           </select>
                                           <div class="errorTxt"></div>
                                       </fieldset>
@@ -407,7 +483,11 @@
                                             <select name="payment_cycle" class="form-control select2-payment-cycle" style="width: 100%" data-allow-clear="true">
                                                 <option></option>
                                                 @foreach ($paymentCycles as $paymentCycle)
-                                                  <option value="{{ $paymentCycle->id }}">{{ $paymentCycle->name }}</option> 
+                                                  @if (isset($company) && $paymentCycle->id == $company->companySingleContract->payment_cycle)
+                                                    <option value="{{ $paymentCycle->id }}" selected="selected">{{ $paymentCycle->name }}</option> 
+                                                  @else
+                                                    <option value="{{ $paymentCycle->id  }}">{{ $paymentCycle->name }}</option> 
+                                                  @endif
                                                 @endforeach
                                             </select>
                                             <div class="errorTxt"></div>
@@ -415,7 +495,7 @@
                                     </div>
                                     <div class="col-sm-6 form-group">
                                         <label for="discount">Discount</label>
-                                        <input type="number" name="discount" id="discount" class="form-control" value="0">
+                                        <input type="number" name="discount" id="discount" class="form-control" value="{{ isset($company) ? $company->companySingleContract->discount:'0' }}">
                                         <div class="errorTxt"></div>
                                         
                                     </div>
@@ -425,7 +505,11 @@
                                             <select name="discount_type" class="form-control select2-discount-type" style="width: 100%" data-allow-clear="true">
                                                 <option></option>
                                                 @foreach ($discountTypes as $discountType)
-                                                  <option value="{{ $discountType->id }}">{{ $discountType->name }}</option> 
+                                                  @if (isset($company) && $discountType->id == $company->companySingleContract->discount_type)
+                                                    <option value="{{ $discountType->id }}" selected="selected">{{ $discountType->name }}</option> 
+                                                  @else
+                                                    <option value="{{ $discountType->id  }}">{{ $discountType->name }}</option> 
+                                                  @endif
                                                 @endforeach
                                             </select>
                                             <div class="errorTxt"></div>
@@ -478,11 +562,46 @@
                             
 
                                 <h3 class="m-t-0">Company Admin Information</h3>
+
+                                @if (isset($company))
+                                <input name="_method" type="hidden" value="PATCH">                           
+                                @endif
                                 
                                 <button type="button" class="btn btn-primary" id="addAdminBtn"> <i class="fa fa-plus"></i> Add More </button>
 
                                 <div id="sectionAdmin">
                                     <div class="admin">
+
+                                        @if (isset($company))
+
+                                          @foreach ($company->companyUsers as $admin)
+                                          
+                                            <div class="adminFields">
+                                            <input type="hidden" name="admin[{{ $admin->id }}][id]" class="remove-admin-id" value="{{ $admin->id }}" />
+                                            <input type="hidden" name="admin[{{ $admin->id }}][user_id]" class="admin-user-id" value="{{ $admin->user->id }}" />
+                                            <input type="hidden" name="admin[{{ $admin->id }}][email_hidden]" class="admin-email-hidden" value="{{ $admin->user->email }}" />
+                                            <input type="hidden" name="admin[{{ $admin->id }}][old_password]" class="old-password-hidden" value="true" />
+                                            
+                                            <h5 class="bg-success p-x-1 p-y-1" >Admin <i class="fa fa-times fa-lg remove-admin pull-right cursor-p"></i></h5>
+                                            <div class="row">
+                                            <div class="col-sm-12 form-group">
+                                            <label for="admin-name">Name</label>
+                                            <input type="text" name="admin[{{ $admin->id }}][name]"  class="admin-name form-control" placeholder="Admin Name" value="{{ $admin->user->name }}">
+                                            </div>
+                                            <div class="col-sm-12 form-group">
+                                            <label for="admin-email">Email</label>
+                                            <input type="email" name="admin[{{ $admin->id }}][email]" class="admin-email form-control" placeholder="Admin Email" value="{{ $admin->user->email }}">
+                                            </div>
+                                            <div class="col-sm-12 form-group">
+                                            <label for="admin-password">Password</label>
+                                            <input type="password" name="admin[{{ $admin->id }}][password]" class="admin-pass form-control" placeholder="Admin Password">
+                                            </div>
+                                            </div>
+                                            </div>
+
+                                          @endforeach
+
+                                        @endif
                                     </div>
                                 </div>
 

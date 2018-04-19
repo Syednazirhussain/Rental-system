@@ -264,7 +264,7 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                       success: function(data){
                           // myform.pxWizard('goTo', 2);
 
-                          console.log(data);
+                          // console.log(data);
                       },
                       error: function(xhr,status,error)  {
 
@@ -376,11 +376,32 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                                $('input[data-person-id="new-'+index+'"]').attr('name', "person["+value+"][id]");
                                $('input[data-person-id="new-'+index+'"]').attr("data-person-id", value);
 
+                               $('input[data-person-name="new-'+index+'"]').attr('name', "person["+value+"][name]");
+                               $('input[data-person-name="new-'+index+'"]').attr("data-person-name", value);
+
+                               $('input[data-person-email="new-'+index+'"]').attr('name', "person["+value+"][email]");                               
+                               $('input[data-person-email="new-'+index+'"]').attr("data-person-email", value);
+
+                               $('input[data-person-phone="new-'+index+'"]').attr('name', "person["+value+"][phone]");
+                               $('input[data-person-phone="new-'+index+'"]').attr("data-person-phone", value);
+
+                               $('input[data-person-fax="new-'+index+'"]').attr('name', "person["+value+"][fax]");      
+                               $('input[data-person-fax="new-'+index+'"]').attr("data-person-fax", value);
+
+                               $('input[data-person-department="new-'+index+'"]').attr('name', "person["+value+"][department]"); 
+                               $('input[data-person-department="new-'+index+'"]').attr("data-person-department", value);
+
+                               $('input[data-person-address="new-'+index+'"]').attr('name', "person["+value+"][address]");
+                               $('input[data-person-designation="new-'+index+'"]').attr("data-person-address", value);
+
+                               $('input[data-person-designation="new-'+index+'"]').attr('name', "person["+value+"][designation]");
+                               $('input[data-person-designation="new-'+index+'"]').attr("data-person-designation", value);
+
                             });
 
                             // contactPersonCreated = data.success;
 
-                            console.log(data);
+                            // console.log(data);
                         },
                         error: function(xhr,status,error)  {
 
@@ -406,33 +427,99 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
             // test if form is valid 
             if( $('#wizard-3').validate().form() ) {
 
-              if (companyBuildingCreated == 0) {
+              if (editCompany == 0 && companyBuildingCreated == 0) {
 
-                  var myform = document.getElementById("wizard-3");
-                  var data = new FormData(myform);
-                  data.append('company_id', company_id);
+                    var myform = document.getElementById("wizard-3");
+                    var data = new FormData(myform);
+                    data.append('company_id', company_id);
 
-                  $.ajax({
-                      url: '{{ route("admin.companyBuildings.store") }}',
-                      data: data,
-                      cache: false,
-                      contentType: false,
-                      processData: false,
-                      type: 'POST', // For jQuery < 1.9
-                      success: function(data){
-                          // myform.pxWizard('goTo', 2);
+                    $.ajax({
+                        url: '{{ route("admin.companyBuildings.store") }}',
+                        data: data,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        type: 'POST', // For jQuery < 1.9
+                        success: function(data){
+                            // myform.pxWizard('goTo', 2);
 
-                          companyBuildingCreated = data.success;
+                            companyBuildingCreated = data.success;
 
-                          // console.log(data);
-                      },
-                      error: function(xhr,status,error)  {
+                            // console.log(data);
+                        },
+                        error: function(xhr,status,error)  {
 
-                      }
+                        }
 
-                  });
+                    });
 
-              }
+                } else {
+
+                    var myform = document.getElementById("wizard-3");
+                    var data = new FormData(myform );
+                    data.append('company_id', editCompany);
+
+                    // console.log(data);
+
+                    $.ajax({
+                        url: '{{ route("admin.companyBuildings.update") }}',
+                        data: data,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        type: 'POST', // For jQuery < 1.9
+                        success: function(data) {
+
+                            
+                            $.each(data.createdFields, function (index, value) {
+
+
+
+                               $('input[data-building-id="new-'+index+'"]').val(value['id']);
+                               $('input[data-building-id="new-'+index+'"]').attr('name', "building_data["+value['id']+"][id]");
+                               $('input[data-building-id="new-'+index+'"]').attr("data-building-id", value['id']);
+
+                               $('input[data-building-name="new-'+index+'"]').attr('name', "building_data["+value['id']+"][name]");
+                               $('input[data-building-name="new-'+index+'"]').attr("data-building-name", value['id']);
+
+                               $('input[data-building-address="new-'+index+'"]').attr('name', "building_data["+value['id']+"][address]");                               
+                               $('input[data-building-address="new-'+index+'"]').attr("data-building-address", value['id']);
+
+                               $('input[data-building-zipcode="new-'+index+'"]').attr('name', "building_data["+value['id']+"][zipcode]");
+                               $('input[data-building-zipcode="new-'+index+'"]').attr("data-building-zipcode", value['id']);
+
+                               $('input[data-building-numfloors="new-'+index+'"]').attr('name', "building_data["+value['id']+"][num_floors]");      
+                               $('input[data-building-numfloors="new-'+index+'"]').attr("data-building-numfloors", value['id']);
+
+                                $.each(value.floors, function (flIndex, flValue) {
+
+                                   $('input[data-floor-id="new-'+flValue['index']+'"]').val(flValue['floorId']);
+                                   $('input[data-floor-id="new-'+flValue['index']+'"]').attr('name', "building_data["+value['id']+"][floor]["+flValue['floorId']+"][id]");
+                                   $('input[data-floor-id="new-'+flValue['index']+'"]').attr("data-floor-id", flValue['floorId']);
+
+                                   $('input[data-floor-number="new-'+flValue['index']+'"]').attr('name', "building_data["+value['id']+"][floor]["+flValue['floorId']+"][floor_number]"); 
+                                   $('input[data-floor-number="new-'+flValue['index']+'"]').attr("data-floor-number", flValue['floorId']);
+
+                                   $('input[data-floor-rooms="new-'+flValue['index']+'"]').attr('name', "building_data["+value['id']+"][floor]["+flValue['floorId']+"][floor_rooms]");
+                                   $('input[data-floor-rooms="new-'+flValue['index']+'"]').attr("data-floor-rooms", flValue['floorId']);
+
+                                });
+
+                               // $('input[data-person-designation="new-'+index+'"]').attr('name', "building_data["+value['id']+"][designation]");
+                               // $('input[data-person-designation="new-'+index+'"]').attr("data-person-designation", value);
+
+                            });
+
+                            // contactPersonCreated = data.success;
+
+                            // console.log(data);
+                        },
+                        error: function(xhr,status,error)  {
+
+                        }
+
+                    });
+                }
 
             } else {
                 // console.log("does not validate");
@@ -466,17 +553,36 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                   required: true,
                   maxlength: 150,
                   remote: {
-                      url: "{{ route('validate.contract') }}",
-                      type: "POST",
-                      cache: false,
-                      dataType: "json",
-                      data: {
-                          number: function() { return $("#contract-no").val(); }
-                      },
-                      dataFilter: function(response) {
+                      // url: "{{ route('validate.contract') }}",
+                      // type: "POST",
+                      // cache: false,
+                      // dataType: "json",
+                      // data: {
+                      //     number: function() { return $("#contract-no").val(); }
+                      // },
+                      // dataFilter: function(response) {
 
-                          // console.log(response);
-                          return checkField(response);
+                      //     // console.log(response);
+                      //     return checkField(response);
+                      // }
+
+                      param: {
+                          url: "{{ route('validate.contract') }}",
+                          type: "POST",
+                          cache: false,
+                          dataType: "json",
+                          data: {
+                              number: function() { return $("#contract-no").val(); }
+                          },
+                          dataFilter: function(response) {
+
+                              // console.log(response);
+                              return checkField(response);
+                          }
+                      },
+                      depends: function(element) {
+                          // compare email address in form to hidden field
+                          return ($(element).val() !== $('#contract-no-hidden').val());
                       }
                   }
               },
@@ -523,8 +629,7 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
             // test if form is valid 
             if( $('#wizard-4').validate().form() ) {
 
-
-              if (companyContractCreated == 0) {
+              if (editCompany == 0 && companyContractCreated == 0) {
 
                   var myform = document.getElementById("wizard-4");
                   var data = new FormData(myform);
@@ -548,6 +653,29 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
 
                   });
 
+              } else {
+
+                  var myform = document.getElementById("wizard-4");
+                  var data = new FormData(myform);
+                  data.append('company_id', editCompany);
+
+                  $.ajax({
+                      url: '{{ route("admin.companyContracts.update", [$company->id]) }}',
+                      data: data,
+                      cache: false,
+                      contentType: false,
+                      processData: false,
+                      type: 'POST', // For jQuery < 1.9
+                      success: function(data){
+                          // myform.pxWizard('goTo', 2);
+
+                          // console.log(data);
+                      },
+                      error: function(xhr,status,error)  {
+
+                      }
+
+                  });
               }
 
 
@@ -616,33 +744,57 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
             // test if form is valid 
             if( $('#wizard-6').validate().form() ) {
 
-                if (companyAdminCreated == 0) {
+                if (editCompany == 0 && companyAdminCreated == 0) {
 
-                  var myform = document.getElementById("wizard-6");
-                  var data = new FormData(myform);
-                  data.append('company_id', company_id);
+                    var myform = document.getElementById("wizard-6");
+                    var data = new FormData(myform);
+                    data.append('company_id', company_id);
 
-                  // console.log(data);
+                    // console.log(data);
 
-                  $.ajax({
-                      url: '{{ route("admin.companyUsers.store") }}',
-                      data: data,
-                      cache: false,
-                      contentType: false,
-                      processData: false,
-                      type: 'POST', // For jQuery < 1.9
-                      success: function(data){
-                          // myform.pxWizard('goTo', 2);
-                          companyAdminCreated = data.success;
-                          // console.log(data);
-                      },
-                      error: function(xhr,status,error)  {
+                    $.ajax({
+                        url: '{{ route("admin.companyUsers.store") }}',
+                        data: data,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        type: 'POST', // For jQuery < 1.9
+                        success: function(data){
+                            // myform.pxWizard('goTo', 2);
+                            companyAdminCreated = data.success;
+                            // console.log(data);
+                        },
+                        error: function(xhr,status,error)  {
 
-                      }
+                        }
 
-                  });
+                    });
 
+                } else {
+
+                    var myform = document.getElementById("wizard-6");
+                    var data = new FormData(myform);
+                    data.append('company_id', editCompany);
+
+                    $.ajax({
+                        url: '{{ route("admin.companyUsers.update") }}',
+                        data: data,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        type: 'POST', // For jQuery < 1.9
+                        success: function(data){
+                            // myform.pxWizard('goTo', 2);
+
+                            console.log(data);
+                        },
+                        error: function(xhr,status,error)  {
+
+                        }
+
+                    });
                 }
+
                 // console.log("validates");
             } else {
                 // console.log("does not validate");
@@ -683,26 +835,27 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
 
 
             $(document).ready(function(){
-                $('.remove-contact-person').hide();
+                // $('.remove-contact-person').hide();
                 $('.remove-module').hide();
-                $('.remove-admin').hide();
-                $('.remove-admin').hide();
-                $('#addBuildingBtn').trigger('click');
-                $('.remove-building').hide();
+                // $('.remove-admin').hide();
+                // $('.remove-building').hide();
 
                 if (editCompany == 0) {
                     $('#addFieldBtn').trigger('click');
+                    $('#addBuildingBtn').trigger('click');
+                    $('#addAdminBtn').trigger('click');
+
+
                 }
                 // $('.remove-contact-person').hide();
 
                 $('#addModuleBtn').trigger('click');
                 $('.remove-module').hide();
 
-                $('#addAdminBtn').trigger('click');
-                $('.remove-admin').hide();
-
 
                 contactPersonValidateRules();
+
+                adminValidationRules();
 
             });
 
@@ -773,43 +926,43 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                 person += '<div class="col-sm-6 form-group">';
                 person += '<fieldset class="form-group">';
                 person += '<label for="person-name">Name</label>';
-                person += '<input type="text" name="person['+i+'][name]" class="person-name form-control" placeholder="john doe">';
+                person += '<input type="text" name="person['+i+'][name]" data-person-name="new-'+i+'" class="person-name form-control" placeholder="Person Name">';
                 person += '</fieldset>';
                 person += '</div>';
                 person += '<div class="col-sm-6 form-group">';
                 person += '<fieldset class="form-group">';
                 person += '<label for="person-email">Email</label>';
-                person += '<input type="email" name="person['+i+'][email]" class="person-email form-control" placeholder="john@example.com">';
+                person += '<input type="email" name="person['+i+'][email]" data-person-email="new-'+i+'" class="person-email form-control" placeholder="Person Email">';
                 person += '</fieldset>';
                 person += '</div>';
                 person += '<div class="col-sm-6 form-group">';
                 person += '<fieldset class="form-group">';
                 person += '<label for="person-phone">Phone</label>';
-                person += '<input type="text" name="person['+i+'][phone]" class="person-phone form-control" placeholder="0987654321">';
+                person += '<input type="text" name="person['+i+'][phone]" data-person-phone="new-'+i+'" class="person-phone form-control" placeholder="Persone Phone">';
                 person += '</fieldset>';
                 person += '</div>';
                 person += '<div class="col-sm-6 form-group">';
                 person += '<fieldset class="form-group">';
                 person += '<label for="person-fax">Fax</label>';
-                person += '<input type="text" name="person['+i+'][fax]" class="person-fax form-control" placeholder="0987654321">';
+                person += '<input type="text" name="person['+i+'][fax]" data-person-fax="new-'+i+'" class="person-fax form-control" placeholder="Person Faxx">';
                 person += '</fieldset>';
                 person += '</div>';
                 person += '<div class="col-sm-12 form-group">';
                 person += '<fieldset class="form-group">';
                 person += '<label for="person-address">Address</label>';
-                person += '<input type="text" name="person['+i+'][address]" class="person-address form-control" placeholder="ST-12 Phase-3/B Crown Center Alaska.">';
+                person += '<input type="text" name="person['+i+'][address]" data-person-address="new-'+i+'" class="person-address form-control" placeholder="ST-12 Phase-3/B Crown Center Alaska.">';
                 person += '</fieldset>';
                 person += '</div>';
                 person += '<div class="col-sm-6 form-group">';
                 person += '<fieldset class="form-group">';
                 person += '<label for="person-department">Department</label>';
-                person += '<input type="text" name="person['+i+'][department]" class="person-department form-control" placeholder="Human Resource Department">';
+                person += '<input type="text" name="person['+i+'][department]" data-person-department="new-'+i+'" class="person-department form-control" placeholder="Human Resource Department">';
                 person += '</fieldset>';
                 person += '</div>';
                 person += '<div class="col-sm-6 form-group">';
                 person += '<fieldset class="form-group">';
                 person += '<label for="person-designation">Designation</label>';
-                person += '<input type="text" name="person['+i+'][designation]" class="person-designation form-control" placeholder="Asst. Manager">';
+                person += '<input type="text" name="person['+i+'][designation]" data-person-designation="new-'+i+'" class="person-designation form-control" placeholder="Asst. Manager">';
                 person += '</fieldset>';
                 person += '</div>';
                 person += '</div>';
@@ -825,7 +978,37 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
 
 
             $(document).on('click', '.remove-contact-person', function() {
-                $(this).closest('.contactPersonFields').remove();
+
+                if (confirm('Are you sure?')) {
+
+                    if (editCompany == 0) {
+                      $(this).closest('.contactPersonFields').remove();
+                    } else {
+
+                      var getPersonId = $(this).parent().parent().find('.remove-person-id').val();
+                      var data = { _method: "delete", person_id: getPersonId };
+                      // console.log(data);
+
+                      $.ajax({
+                          url: '{{ route("admin.companyContactPeople.destroy") }}',
+                          data: data,
+                          cache: false,
+                          type: 'POST', // For jQuery < 1.9
+                          success: function(data){
+                              // myform.pxWizard('goTo', 2);
+
+                              // console.log(data);
+                          },
+                          error: function(xhr,status,error)  {
+
+                          }
+
+                      });
+
+                      $(this).closest('.contactPersonFields').remove();
+                    }
+
+                }
             });
 
 
@@ -837,26 +1020,33 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
 
             $('#addBuildingBtn').on('click', function() {
 
+              $('.remove-building-id').each(function () {
+                  if (buildingNum == $(this).val()) {
+                      buildingNum += 998;
+                  }
+              });
+
               var building = '<div class="buildingFields">';
+                  building += '<input type="hidden" name="building_data['+buildingNum+'][id]" data-building-id="new-'+buildingNum+'" class="building-id" value="new-'+buildingNum+'" />';
                   building += '<h5 class="bg-success p-x-1 p-y-1" >Building <i class="fa fa-times fa-lg remove-building pull-right cursor-p"></i></h5>';
                   building += '<div class="row">';
                   building += '<div class="col-sm-6 form-group">';
                   building += '<label for="building-name">Building Name</label>';
-                  building += '<input type="text" name="building_data['+buildingNum+'][name]" class="building-name form-control" placeholder="Crown Towers">';
+                  building += '<input type="text" name="building_data['+buildingNum+'][name]" data-building-name="new-'+buildingNum+'" class="building-name form-control" placeholder="Crown Towers">';
                   building += '</div>';
                   building += '<div class="col-sm-6 form-group">';
                   building += '<label for="building-address">Address</label>';
-                  building += '<input type="text" name="building_data['+buildingNum+'][address]" class="building-address form-control" placeholder="ST-12 Phase-3/B Crown Center Alaska.">';
+                  building += '<input type="text" name="building_data['+buildingNum+'][address]" data-building-address="new-'+buildingNum+'" class="building-address form-control" placeholder="ST-12 Phase-3/B Crown Center Alaska.">';
                   building += '</div>';
                   building += '<div class="col-sm-6 form-group">';
                   building += '<label for="building-zip">Zip Code</label>';
-                  building += '<input type="text" name="building_data['+buildingNum+'][zipcode]" class="building-zip form-control" placeholder="ABC-999">';
+                  building += '<input type="text" name="building_data['+buildingNum+'][zipcode]" data-building-zipcode="new-'+buildingNum+'" class="building-zip form-control" placeholder="ABC-999">';
                   building += '</div>';
                   building += '<div class="col-sm-6 form-group">';
                   building += '<label for="building-no-of-floors">No. of Floors</label>';
                   building += '<div class="row">';
                   building += '<div class="col-sm-6 form-group">';
-                  building += '<input type="number" name="building_data['+buildingNum+'][num_floors]" class="building-no-of-floors form-control building-no-of-floors" min="1" value="1">';
+                  building += '<input type="number" name="building_data['+buildingNum+'][num_floors]" data-building-numfloors="new-'+buildingNum+'" class="building-no-of-floors form-control building-no-of-floors" min="1" value="1">';
                   building += '</div>';
                   building += '<div class="col-sm-6 form-group">';
                   building += '<button type="button" class="btn btn-primary addFloorBtn"> <i class="fa fa-plus"></i> Add Floors </button>';
@@ -906,7 +1096,38 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
 
             $(document).on('click', '.remove-building', function() {
 
-                $(this).closest('.buildingFields').remove();
+                if (confirm('Are you sure?')) {
+
+                    if (editCompany == 0) {
+                      $(this).closest('.buildingFields').remove();
+                    } else {
+
+                      var getBuildingId = $(this).parent().parent().find('.remove-building-id').val();
+                      var data = { _method: "delete", building_id: getBuildingId };
+                      // console.log(data);
+
+                      $.ajax({
+                          url: '{{ route("admin.companyBuildings.destroy.building") }}',
+                          data: data,
+                          cache: false,
+                          type: 'POST', // For jQuery < 1.9
+                          success: function(data){
+                              // myform.pxWizard('goTo', 2);
+
+                              // console.log(data);
+                          },
+                          error: function(xhr,status,error)  {
+
+                          }
+
+                      });
+
+                      $(this).closest('.buildingFields').remove();
+                    }
+
+                }
+
+                
 
             });
 
@@ -915,11 +1136,11 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
 
             var k = 1;
 
-            $(document).on('click', '.addFloorBtn', function() {
+            $(document).on('click', '.addFloorBtn', function(e) {
 
                 // var building_num = $(this).parent().parent().parent().parent().parent().parent().parent().find('.buildingFields').data('building-num');
                 var num_floors = $(this).parent().parent().find('.building-no-of-floors').val();
-                var floorSecion = $(this).parent().parent().parent().parent().parent().find('.sectionFloor');
+                var floorSecion = $(e.target).closest('.buildingFields').find('.sectionFloor');
                 var building_num = floorSecion.data('building-num');
                 var floorsExist = $(this).parent().parent().parent().parent().parent().find('.floor');
 
@@ -935,21 +1156,20 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
 
                          var m = i-1;
                          var floor = '<div class="floor">';
-                            floor += '<div id="floorFields">';
+                            floor += '<input type="hidden" name="building_data['+building_num+'][floor]['+m+'][id]" data-floor-id="new-'+m+'" class="floor-id" value="new-'+m+'" />';
                             floor += '<div class="row">';
                             floor += '<div class="col-sm-6 form-group">';
                             floor += '<label for="building-floor-no">Floor No.</label>';
-                            floor += '<input type="name" name="building_data['+building_num+'][floor]['+m+'][floor_number]" class="form-control building-floor-no" min="1" >';
+                            floor += '<input type="name" name="building_data['+building_num+'][floor]['+m+'][floor_number]" data-floor-number="new-'+m+'" placeholder="Floor Name" class="form-control building-floor-no" min="1" >';
                             floor += '</div>';
                             floor += '<div class="col-sm-6 form-group">';
                             floor += '<label for="building-floor-no-of-rooms">No. of Rooms</label>';
                             floor += '<div class="row">';
                             floor += '<div class="col-sm-6">';
-                            floor += '<input type="number" name="building_data['+building_num+'][floor]['+m+'][floor_rooms]" class="form-control building-floor-no-of-rooms" min="1" >';
+                            floor += '<input type="number" name="building_data['+building_num+'][floor]['+m+'][floor_rooms]" data-floor-rooms="new-'+m+'" class="form-control building-floor-no-of-rooms" min="1" >';
                             floor += '</div>';
                             floor += '<div class="col-sm-6">';
                             floor += '<i class="fa fa-times fa-lg remove-floor cursor-p"></i>';
-                            floor += '</div>';
                             floor += '</div>';
                             floor += '</div>';
                             floor += '</div>';
@@ -979,8 +1199,42 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
             });
 
 
-            $(document).on('click', '.remove-floor', function() {
-                $(this).closest('.floor').remove();
+            $(document).on('click', '.remove-floor', function(e) {
+
+                if (confirm('Are you sure?')) {
+
+                    if (editCompany == 0) {
+                      $(this).closest('.floor').remove();
+                    } else {
+
+                      var getFloorId = $(e.target).closest('.floor').find('.remove-floor-id').val();
+                      // alert(getFloorId);
+
+                      var data = { _method: "delete", floor_id: getFloorId };
+
+                      $.ajax({
+                          url: '{{ route("admin.companyBuildings.destroy.floor") }}',
+                          data: data,
+                          cache: false,
+                          type: 'POST', // For jQuery < 1.9
+                          success: function(data){
+                              // myform.pxWizard('goTo', 2);
+
+                              // console.log(data);
+                          },
+                          error: function(xhr,status,error)  {
+
+                          }
+
+                      });
+
+                      $(this).closest('.floor').remove();
+                    }
+
+                }
+
+
+                
             });
 
 
@@ -1034,7 +1288,7 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
 
             $(document).on('select2:unselecting', '.module-id', function (e) {
 
-                  console.log(e.params);
+                  // console.log(e.params);
                   var moduleVal = e.params.args.data.id;
                   $('option', this).each(function() {
                       $('.module-id option[value=' + moduleVal + ']').prop('disabled', false);
@@ -1149,34 +1403,7 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
             // Add More Admin
 
             
-
-            var p = 0;
-            $('#addAdminBtn').on('click', function() {
-                if ($(".adminFields").length < 3) {
-
-                  var admin = '<div class="adminFields">';
-                      admin += '<h5 class="bg-success p-x-1 p-y-1" >Admin <i class="fa fa-times fa-lg remove-admin pull-right cursor-p"></i></h5>';
-                      admin += '<div class="row">';
-                      admin += '<div class="col-sm-12 form-group">';
-                      admin += '<label for="admin-name">Name</label>';
-                      admin += '<input type="text" name="admin['+p+'][name]"  class="admin-name form-control" placeholder="john doe">';
-                      admin += '</div>';
-                      admin += '<div class="col-sm-12 form-group">';
-                      admin += '<label for="admin-email">Email</label>';
-                      admin += '<input type="email" name="admin['+p+'][email]" class="admin-email form-control" placeholder="john@example.com">';
-                      admin += '</div>';
-                      admin += '<div class="col-sm-12 form-group">';
-                      admin += '<label for="admin-password">Password</label>';
-                      admin += '<input type="password" name="admin['+p+'][password]" class="admin-pass form-control" placeholder="testingpass123">';
-                      admin += '</div>';
-                      admin += '</div>';
-                      admin += '</div>';
-
-
-
-                    $('.admin').prepend(admin);
-
-                      p += 1;
+            function adminValidationRules() {
 
                     $('.admin-name').each(function () {
                         $(this).rules("add", {
@@ -1188,20 +1415,39 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                         var adminEmail = $(this);
                         $(this).rules("add", {
                             required: true,
-                            email: true,
+                            email: true,                           
                             notEqualToGroup: ['.admin-email'],
                             remote: {
-                                url: "{{ route('validate.admin') }}",
-                                type: "POST",
-                                cache: false,
-                                dataType: "json",
-                                data: {
-                                    admin_email: function() { return adminEmail.val(); }
-                                },
-                                dataFilter: function(response) {
+                                // url: "{{ route('validate.admin') }}",
+                                // type: "POST",
+                                // cache: false,
+                                // dataType: "json",
+                                // data: {
+                                //     admin_email: function() { return adminEmail.val(); }
+                                // },
+                                // dataFilter: function(response) {
 
-                                    // console.log(response);
-                                    return checkField(response);
+                                //     // console.log(response);
+                                //     return checkField(response);
+                                // }
+
+                                param: {
+                                    url: "{{ route('validate.admin') }}",
+                                    type: "POST",
+                                    cache: false,
+                                    dataType: "json",
+                                    data: {
+                                        admin_email: function() { return adminEmail.val(); }
+                                    },
+                                    dataFilter: function(response) {
+
+                                        // console.log(response);
+                                        return checkField(response);
+                                    }
+                                },
+                                depends: function(element) {
+                                    // compare email address in form to hidden field
+                                    return ($(element).val() !== $(element).closest('.adminFields').find(".admin-email-hidden").val());
                                 }
                             },
                             messages: {
@@ -1213,10 +1459,49 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
 
                     $('.admin-pass').each(function () {
                         $(this).rules("add", {
-                            required: true,
-                            rangelength: [6,20],
+                            required: {
+                                depends: function(element) {
+                                    // compare email address in form to hidden field
+                                    return ('true' !== $(element).closest('.adminFields').find(".old-password-hidden").val());
+                                },
+                              },
+                            minlength: 6,
+
                         });
                     });
+            }
+
+            var p = 0;
+            $('#addAdminBtn').on('click', function() {
+                if ($(".adminFields").length < 3) {
+
+                  var admin = '<div class="adminFields">';
+                      admin += '<input type="hidden" name="admin['+p+'][id]" data-admin-id="new-'+p+'" class="admin-id" value="new-'+p+'" />';
+                      admin += '<input type="hidden" name="admin['+p+'][user_id]" data-admin-user-id="new-'+p+'" class="admin-user-id" value="new-'+p+'" />';
+                      admin += '<h5 class="bg-success p-x-1 p-y-1" >Admin <i class="fa fa-times fa-lg remove-admin pull-right cursor-p"></i></h5>';
+                      admin += '<div class="row">';
+                      admin += '<div class="col-sm-12 form-group">';
+                      admin += '<label for="admin-name">Name</label>';
+                      admin += '<input type="text" name="admin['+p+'][name]" data-admin-name="new-'+p+'" class="admin-name form-control" placeholder="Admin Name">';
+                      admin += '</div>';
+                      admin += '<div class="col-sm-12 form-group">';
+                      admin += '<label for="admin-email">Email</label>';
+                      admin += '<input type="email" name="admin['+p+'][email]" data-admin-email="new-'+p+'" class="admin-email form-control" placeholder="Admin Email">';
+                      admin += '</div>';
+                      admin += '<div class="col-sm-12 form-group">';
+                      admin += '<label for="admin-password">Password</label>';
+                      admin += '<input type="password" name="admin['+p+'][password]" data-admin-password="new-'+p+'" class="admin-pass form-control" placeholder="Admin Password">';
+                      admin += '</div>';
+                      admin += '</div>';
+                      admin += '</div>';
+
+
+
+                    $('.admin').prepend(admin);
+
+                      p += 1;
+
+                    adminValidationRules();
 
                 } else {
                     alert('Max 3 Admin allowed');
