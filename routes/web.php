@@ -61,6 +61,9 @@ Route::group(['middleware' => ['admin.auth']], function () {
 
 
 	Route::get('admin/settings/account_status', ['as'=> 'admin.userStatuses.index', 'uses' => 'Admin\UserStatusController@index']);
+	Route::get('admin/settings/general', ['as'=> 'admin.userStatuses.general', 'uses' => 'Admin\UserStatusController@generalSetting']);
+	Route::patch('admin/settings/general', ['as'=> 'admin.userStatuses.addOrUpdate', 'uses' => 'Admin\UserStatusController@addOrUpdate']);
+
 	Route::post('admin/settings/account_status', ['as'=> 'admin.userStatuses.store', 'uses' => 'Admin\UserStatusController@store']);
 	Route::get('admin/settings/account_status/create', ['as'=> 'admin.userStatuses.create', 'uses' => 'Admin\UserStatusController@create']);
 	Route::put('admin/settings/account_status/{userStatuses}', ['as'=> 'admin.userStatuses.update', 'uses' => 'Admin\UserStatusController@update']);

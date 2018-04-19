@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Illuminate\Support\Facades\Storage;
+use Session;
 
 
 
@@ -133,9 +135,6 @@ class CompanyInvoiceController extends AppBaseController
             $discount = $company_infomation['Discount']['Discount'];
             $total = $company_infomation['Discount']['FinalAmount'];
 
-            // company Invoice table columns
-            // company_id, payment_cycle_id,payment_cycle,discount,tax,total,status,due_date
-
             $Invoice = [
                 'company_id'         => $companyId,
                 'payment_cycle_id'   => $company_infomation['PaymentCycleId'],
@@ -156,8 +155,12 @@ class CompanyInvoiceController extends AppBaseController
                     // return "Company invoice generated successfully..";
                     // return view('admin.companies.invoice')->with('Invoice',$company_infomation);
                     $data = ['Invoice' => $company_infomation];
+                    $filename = $company_id."_Invoices.pdf";
+                    $filePath = public_path().DIRECTORY_SEPARATOR."storage".DIRECTORY_SEPARATOR."company_invoices".DIRECTORY_SEPARATOR.$filename;
                     $pdf = PDF::loadView('admin.companies.invoice', $data);
-                    return $pdf->download('invoice.pdf');
+                    $pdf->save($filePath);
+                    Session::Flash("InvoiceSuccess","Invoice successfully created.");
+                    return redirect()->route('admin.companies.index');
                 }
                 else
                 {

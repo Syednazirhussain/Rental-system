@@ -36,6 +36,16 @@ class UserStatusController extends AppBaseController
             ->with('userStatuses', $userStatuses);
     }
 
+    public function generalSetting()
+    {
+        return view('admin.admin_general.index');
+    }
+
+    public function addOrUpdate(Request $request)
+    {
+        return $request->all();
+    }
+
     /**
      * Show the form for creating a new UserStatus.
      *
