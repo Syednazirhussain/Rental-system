@@ -197,6 +197,6 @@ class Company extends Model
      **/
     public function companyUsers()
     {
-        return $this->hasMany(\App\Models\CompanyUser::class);
+        return $this->hasMany(\App\Models\CompanyUser::class, 'company_id', 'id');
     }
 }

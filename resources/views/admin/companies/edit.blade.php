@@ -744,33 +744,57 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
             // test if form is valid 
             if( $('#wizard-6').validate().form() ) {
 
-                if (companyAdminCreated == 0) {
+                if (editCompany == 0 && companyAdminCreated == 0) {
 
-                  var myform = document.getElementById("wizard-6");
-                  var data = new FormData(myform);
-                  data.append('company_id', company_id);
+                    var myform = document.getElementById("wizard-6");
+                    var data = new FormData(myform);
+                    data.append('company_id', company_id);
 
-                  // console.log(data);
+                    // console.log(data);
 
-                  $.ajax({
-                      url: '{{ route("admin.companyUsers.store") }}',
-                      data: data,
-                      cache: false,
-                      contentType: false,
-                      processData: false,
-                      type: 'POST', // For jQuery < 1.9
-                      success: function(data){
-                          // myform.pxWizard('goTo', 2);
-                          companyAdminCreated = data.success;
-                          // console.log(data);
-                      },
-                      error: function(xhr,status,error)  {
+                    $.ajax({
+                        url: '{{ route("admin.companyUsers.store") }}',
+                        data: data,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        type: 'POST', // For jQuery < 1.9
+                        success: function(data){
+                            // myform.pxWizard('goTo', 2);
+                            companyAdminCreated = data.success;
+                            // console.log(data);
+                        },
+                        error: function(xhr,status,error)  {
 
-                      }
+                        }
 
-                  });
+                    });
 
+                } else {
+
+                    var myform = document.getElementById("wizard-6");
+                    var data = new FormData(myform);
+                    data.append('company_id', editCompany);
+
+                    $.ajax({
+                        url: '{{ route("admin.companyUsers.update") }}',
+                        data: data,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        type: 'POST', // For jQuery < 1.9
+                        success: function(data){
+                            // myform.pxWizard('goTo', 2);
+
+                            console.log(data);
+                        },
+                        error: function(xhr,status,error)  {
+
+                        }
+
+                    });
                 }
+
                 // console.log("validates");
             } else {
                 // console.log("does not validate");
@@ -813,13 +837,14 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
             $(document).ready(function(){
                 // $('.remove-contact-person').hide();
                 $('.remove-module').hide();
-                $('.remove-admin').hide();
-                $('.remove-admin').hide();
+                // $('.remove-admin').hide();
                 // $('.remove-building').hide();
 
                 if (editCompany == 0) {
                     $('#addFieldBtn').trigger('click');
                     $('#addBuildingBtn').trigger('click');
+                    $('#addAdminBtn').trigger('click');
+
 
                 }
                 // $('.remove-contact-person').hide();
@@ -827,11 +852,10 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                 $('#addModuleBtn').trigger('click');
                 $('.remove-module').hide();
 
-                $('#addAdminBtn').trigger('click');
-                $('.remove-admin').hide();
-
 
                 contactPersonValidateRules();
+
+                adminValidationRules();
 
             });
 
@@ -1379,34 +1403,7 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
             // Add More Admin
 
             
-
-            var p = 0;
-            $('#addAdminBtn').on('click', function() {
-                if ($(".adminFields").length < 3) {
-
-                  var admin = '<div class="adminFields">';
-                      admin += '<h5 class="bg-success p-x-1 p-y-1" >Admin <i class="fa fa-times fa-lg remove-admin pull-right cursor-p"></i></h5>';
-                      admin += '<div class="row">';
-                      admin += '<div class="col-sm-12 form-group">';
-                      admin += '<label for="admin-name">Name</label>';
-                      admin += '<input type="text" name="admin['+p+'][name]"  class="admin-name form-control" placeholder="john doe">';
-                      admin += '</div>';
-                      admin += '<div class="col-sm-12 form-group">';
-                      admin += '<label for="admin-email">Email</label>';
-                      admin += '<input type="email" name="admin['+p+'][email]" class="admin-email form-control" placeholder="john@example.com">';
-                      admin += '</div>';
-                      admin += '<div class="col-sm-12 form-group">';
-                      admin += '<label for="admin-password">Password</label>';
-                      admin += '<input type="password" name="admin['+p+'][password]" class="admin-pass form-control" placeholder="testingpass123">';
-                      admin += '</div>';
-                      admin += '</div>';
-                      admin += '</div>';
-
-
-
-                    $('.admin').prepend(admin);
-
-                      p += 1;
+            function adminValidationRules() {
 
                     $('.admin-name').each(function () {
                         $(this).rules("add", {
@@ -1418,20 +1415,39 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                         var adminEmail = $(this);
                         $(this).rules("add", {
                             required: true,
-                            email: true,
+                            email: true,                           
                             notEqualToGroup: ['.admin-email'],
                             remote: {
-                                url: "{{ route('validate.admin') }}",
-                                type: "POST",
-                                cache: false,
-                                dataType: "json",
-                                data: {
-                                    admin_email: function() { return adminEmail.val(); }
-                                },
-                                dataFilter: function(response) {
+                                // url: "{{ route('validate.admin') }}",
+                                // type: "POST",
+                                // cache: false,
+                                // dataType: "json",
+                                // data: {
+                                //     admin_email: function() { return adminEmail.val(); }
+                                // },
+                                // dataFilter: function(response) {
 
-                                    // console.log(response);
-                                    return checkField(response);
+                                //     // console.log(response);
+                                //     return checkField(response);
+                                // }
+
+                                param: {
+                                    url: "{{ route('validate.admin') }}",
+                                    type: "POST",
+                                    cache: false,
+                                    dataType: "json",
+                                    data: {
+                                        admin_email: function() { return adminEmail.val(); }
+                                    },
+                                    dataFilter: function(response) {
+
+                                        // console.log(response);
+                                        return checkField(response);
+                                    }
+                                },
+                                depends: function(element) {
+                                    // compare email address in form to hidden field
+                                    return ($(element).val() !== $(element).closest('.adminFields').find(".admin-email-hidden").val());
                                 }
                             },
                             messages: {
@@ -1443,10 +1459,49 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
 
                     $('.admin-pass').each(function () {
                         $(this).rules("add", {
-                            required: true,
-                            rangelength: [6,20],
+                            required: {
+                                depends: function(element) {
+                                    // compare email address in form to hidden field
+                                    return ('true' !== $(element).closest('.adminFields').find(".old-password-hidden").val());
+                                },
+                              },
+                            minlength: 6,
+
                         });
                     });
+            }
+
+            var p = 0;
+            $('#addAdminBtn').on('click', function() {
+                if ($(".adminFields").length < 3) {
+
+                  var admin = '<div class="adminFields">';
+                      admin += '<input type="hidden" name="admin['+p+'][id]" data-admin-id="new-'+p+'" class="admin-id" value="new-'+p+'" />';
+                      admin += '<input type="hidden" name="admin['+p+'][user_id]" data-admin-user-id="new-'+p+'" class="admin-user-id" value="new-'+p+'" />';
+                      admin += '<h5 class="bg-success p-x-1 p-y-1" >Admin <i class="fa fa-times fa-lg remove-admin pull-right cursor-p"></i></h5>';
+                      admin += '<div class="row">';
+                      admin += '<div class="col-sm-12 form-group">';
+                      admin += '<label for="admin-name">Name</label>';
+                      admin += '<input type="text" name="admin['+p+'][name]" data-admin-name="new-'+p+'" class="admin-name form-control" placeholder="Admin Name">';
+                      admin += '</div>';
+                      admin += '<div class="col-sm-12 form-group">';
+                      admin += '<label for="admin-email">Email</label>';
+                      admin += '<input type="email" name="admin['+p+'][email]" data-admin-email="new-'+p+'" class="admin-email form-control" placeholder="Admin Email">';
+                      admin += '</div>';
+                      admin += '<div class="col-sm-12 form-group">';
+                      admin += '<label for="admin-password">Password</label>';
+                      admin += '<input type="password" name="admin['+p+'][password]" data-admin-password="new-'+p+'" class="admin-pass form-control" placeholder="Admin Password">';
+                      admin += '</div>';
+                      admin += '</div>';
+                      admin += '</div>';
+
+
+
+                    $('.admin').prepend(admin);
+
+                      p += 1;
+
+                    adminValidationRules();
 
                 } else {
                     alert('Max 3 Admin allowed');

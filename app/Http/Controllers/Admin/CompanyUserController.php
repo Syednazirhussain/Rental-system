@@ -142,8 +142,75 @@ class CompanyUserController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateCompanyUserRequest $request)
+    public function update(UpdateCompanyUserRequest $request)
     {
+
+        $data = $request->all();
+
+        /*echo "<pre>";
+        print_r($data);
+        echo "</pre>";
+
+        exit;*/
+
+        $input = [];
+        $companyInput = [];
+        $arr = [];
+
+        $faker = Faker::create();
+
+
+        $i = 0;
+        $index = 0;
+
+        foreach ($data['admin'] as $admin) {
+
+            $input['name'] = $admin['name'];
+            $input['email'] = $admin['email'];
+
+            if (!empty(trim($admin['password']))) {
+                $input['password'] = bcrypt($admin['password']);
+            }
+            
+            $input['user_role_code'] = 'company_admin';
+            $input['user_status_id'] = 1;
+            $input['uuid'] = $faker->uuid;;
+
+            if (strpos($admin['user_id'], 'new-') === false) {
+                $id = $admin['user_id'];
+                $adminId = $admin['id'];
+            } else {
+                $index = preg_replace('/[^0-9]/', '', $admin['user_id']);
+                $id = "";
+                $adminId = "";
+            }
+            
+            $where = ['id' => $id];
+            $whereAdmin = ['id' => $adminId];
+
+            $adminUser = $this->userRepository->updateOrCreate($where, $input);
+
+            $companyInput['user_id'] = $adminUser->id;
+            $companyInput['company_id'] = $data['company_id'];
+
+            $companyUser = $this->companyUserRepository->updateOrCreate($whereAdmin, $companyInput);
+
+
+            if (strpos($admin['user_id'], 'new-') !== false) {
+
+                $arr[$index] = $companyUser->id;
+            }
+
+        }
+        
+
+        return response()->json([
+                                'success'=>1, 
+                                'msg'=>'Company admins have been updated successfully',
+                                'createdFields'=>$arr,
+                                ]);
+
+
         $companyUser = $this->companyUserRepository->findWithoutFail($id);
 
         if (empty($companyUser)) {

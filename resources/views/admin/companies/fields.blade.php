@@ -562,11 +562,46 @@
                             
 
                                 <h3 class="m-t-0">Company Admin Information</h3>
+
+                                @if (isset($company))
+                                <input name="_method" type="hidden" value="PATCH">                           
+                                @endif
                                 
                                 <button type="button" class="btn btn-primary" id="addAdminBtn"> <i class="fa fa-plus"></i> Add More </button>
 
                                 <div id="sectionAdmin">
                                     <div class="admin">
+
+                                        @if (isset($company))
+
+                                          @foreach ($company->companyUsers as $admin)
+                                          
+                                            <div class="adminFields">
+                                            <input type="hidden" name="admin[{{ $admin->id }}][id]" class="remove-admin-id" value="{{ $admin->id }}" />
+                                            <input type="hidden" name="admin[{{ $admin->id }}][user_id]" class="admin-user-id" value="{{ $admin->user->id }}" />
+                                            <input type="hidden" name="admin[{{ $admin->id }}][email_hidden]" class="admin-email-hidden" value="{{ $admin->user->email }}" />
+                                            <input type="hidden" name="admin[{{ $admin->id }}][old_password]" class="old-password-hidden" value="true" />
+                                            
+                                            <h5 class="bg-success p-x-1 p-y-1" >Admin <i class="fa fa-times fa-lg remove-admin pull-right cursor-p"></i></h5>
+                                            <div class="row">
+                                            <div class="col-sm-12 form-group">
+                                            <label for="admin-name">Name</label>
+                                            <input type="text" name="admin[{{ $admin->id }}][name]"  class="admin-name form-control" placeholder="Admin Name" value="{{ $admin->user->name }}">
+                                            </div>
+                                            <div class="col-sm-12 form-group">
+                                            <label for="admin-email">Email</label>
+                                            <input type="email" name="admin[{{ $admin->id }}][email]" class="admin-email form-control" placeholder="Admin Email" value="{{ $admin->user->email }}">
+                                            </div>
+                                            <div class="col-sm-12 form-group">
+                                            <label for="admin-password">Password</label>
+                                            <input type="password" name="admin[{{ $admin->id }}][password]" class="admin-pass form-control" placeholder="Admin Password">
+                                            </div>
+                                            </div>
+                                            </div>
+
+                                          @endforeach
+
+                                        @endif
                                     </div>
                                 </div>
 
