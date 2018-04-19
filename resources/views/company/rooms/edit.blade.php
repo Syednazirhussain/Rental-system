@@ -8,7 +8,7 @@
                     <i class="page-header-icon ion-android-checkbox-outline"></i>
                     Settings /
                 </span>
-                Edit Service
+                Edit Room
             </h1>
         </div>
 
@@ -16,12 +16,12 @@
             <div class="col-md-6 col-md-offset-3">
                 <div class="panel">
                     <div class="panel-heading">
-                        <div class="panel-title">@if(isset($service)){{ "Edit" }}@else{{ "Add" }}@endif Service</div>
+                        <div class="panel-title">@if(isset($room)){{ "Edit" }}@else{{ "Add" }}@endif Room</div>
                     </div>
                     <div class="panel-body">
-                        <form action="{{ route('company.services.update', [$service->id]) }}" method="POST" id="serviceForm">
+                        <form action="{{ route('company.rooms.update', [$room->id]) }}" method="POST" id="roomForm" enctype="multipart/form-data">
 
-                            @include('company.services.fields')
+                            @include('company.rooms.fields')
 
                         </form>
                     </div>

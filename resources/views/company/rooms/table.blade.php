@@ -22,9 +22,9 @@
             <td>{!! $room->area !!} sqm</td>
             <td>{!! $room->security_code !!}</td>
             <td  width="200px" class="text-center">
-                {!! Form::open(['route' => ['company.services.destroy', $room->id], 'method' => 'delete']) !!}
-                <a href="{!! route('company.services.show', [$room->id]) !!}"><i class="fa fa-eye fa-lg text-info"></i></a>
-                <a href="{!! route('company.services.edit', [$room->id]) !!}"><i class="fa fa-edit fa-lg text-info"></i></a>
+                {!! Form::open(['route' => ['company.rooms.destroy', $room->id], 'method' => 'delete']) !!}
+                <a href="{!! route('company.rooms.show', [$room->id]) !!}"><i class="fa fa-eye fa-lg text-info"></i></a>
+                <a href="{!! route('company.rooms.edit', [$room->id]) !!}"><i class="fa fa-edit fa-lg text-info"></i></a>
                 {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
                 {!! Form::close() !!}
             </td>

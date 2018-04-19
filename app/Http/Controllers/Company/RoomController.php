@@ -57,7 +57,6 @@ class RoomController extends AppBaseController
         $companyFloors = CompanyFloorRoom::where('company_id', $company_id)->get();
         $companyBuildings = CompanyBuilding::pluck('name', 'id');
         $services = Service::where('company_id', $company_id)->get();
-        //dd($companyFloors);
 
         return view('company.rooms.create', ['company' => $company, 'companyFloors' => $companyFloors,
             'companyBuildings' => $companyBuildings, 'services' => $services]);
@@ -83,27 +82,32 @@ class RoomController extends AppBaseController
 
         if($request->image1)
         {
-            $image_link = $request->image1->store('rooms');
+            $image_link = $request->image1->hashName();
+            $request->image1->move(public_path('/uploadedimages'), $image_link);
             $input['image1'] = $image_link;
         }
         if($request->image2)
         {
-            $image_link = $request->image2->store('rooms');
+            $image_link = $request->image2->hashName();
+            $request->image2->move(public_path('/uploadedimages'), $image_link);
             $input['image2'] = $image_link;
         }
         if($request->image3)
         {
-            $image_link = $request->image3->store('rooms');
+            $image_link = $request->image3->hashName();
+            $request->image3->move(public_path('/uploadedimages'), $image_link);
             $input['image3'] = $image_link;
         }
         if($request->image4)
         {
-            $image_link = $request->image4->store('rooms');
+            $image_link = $request->image4->hashName();
+            $request->image4->move(public_path('/uploadedimages'), $image_link);
             $input['image4'] = $image_link;
         }
         if($request->image5)
         {
-            $image_link = $request->image5->store('rooms');
+            $image_link = $request->image5->hashName();
+            $request->image5->move(public_path('/uploadedimages'), $image_link);
             $input['image5'] = $image_link;
         }
 
@@ -111,11 +115,11 @@ class RoomController extends AppBaseController
 
         Flash::success('Company Floor Room saved successfully.');
 
-        return redirect(route('company.services.index'));
+        return redirect(route('company.rooms.index'));
     }
 
     /**
-     * Display the specified CompanyFloorRoom.
+     * Display the specified Room.
      *
      * @param  int $id
      *
@@ -125,15 +129,19 @@ class RoomController extends AppBaseController
     {
         $company_id = Auth::user()->companyUser()->first()->company_id;
         $company = Company::find($company_id);
-        $service = $this->serviceRepository->findWithoutFail($id);
+        $room = $this->roomRepository->findWithoutFail($id);
+        $building = CompanyBuilding::find(CompanyFloorRoom::find($room->floor_id)->building_id);
+        $floor = CompanyFloorRoom::find($room->floor_id)->floor;
+        $service = Service::find($room->service_id)->name;
 
-        if (empty($service)) {
-            Flash::error('Company Service not found');
+        if (empty($room)) {
+            Flash::error('Company Room not found');
 
-            return redirect(route('company.services.index'));
+            return redirect(route('company.rooms.index'));
         }
 
-        return view('company.services.show', ['service' => $service, 'company' => $company]);
+        return view('company.rooms.show', ['room' => $room, 'company' => $company, 'building' => $building, 'floor' => $floor,
+            'service' => $service]);
     }
 
     /**
@@ -147,18 +155,22 @@ class RoomController extends AppBaseController
     {
         $company_id = Auth::user()->companyUser()->first()->company_id;
         $company = Company::find($company_id);
-        $service = $this->serviceRepository->findWithoutFail($id);
+        $companyFloors = CompanyFloorRoom::where('company_id', $company_id)->get();
+        $companyBuildings = CompanyBuilding::pluck('name', 'id');
+        $services = Service::where('company_id', $company_id)->get();
 
-        if (empty($service)) {
-            Flash::error('Company Service not found');
+        $room = $this->roomRepository->findWithoutFail($id);
 
-            return redirect(route('company.services.index'));
+        if (empty($room)) {
+            Flash::error('Company Room not found');
+
+            return redirect(route('company.rooms.index'));
         }
-        $free_service = NULL;
-        if($service->price == 0)
-            $free_service = true;
 
-        return view('company.services.edit', ['service' => $service, 'company' => $company, 'free_service' => $free_service]);
+        $floor_name = CompanyBuilding::find(CompanyFloorRoom::find($room->floor_id)->building_id)->name.' - Floor'.CompanyFloorRoom::find($room->floor_id)->floor;
+        $service_name = Service::find($room->service_id)->name;
+        return view('company.rooms.edit', ['room' => $room, 'company' => $company, 'companyFloors' => $companyFloors,
+            'companyBuildings' => $companyBuildings, 'services' => $services, 'service_name' => $service_name, 'floor_name' => $floor_name]);
     }
 
     /**
@@ -169,29 +181,61 @@ class RoomController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateServiceRequest $request)
+    public function update($id, UpdateRoomRequest $request)
     {
-        $service = $this->serviceRepository->findWithoutFail($id);
-
-        if (empty($service)) {
-            Flash::error('Company Service not found');
-
-            return redirect(route('company.services.index'));
-        }
-
-        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $room = $this->roomRepository->findWithoutFail($id);
         $input = $request->all();
+        $data = request()->except(['_token', '_method']);
 
-        if($request->freeService)
-        {
-            $input['price'] = 0;
+        if (empty($room)) {
+            Flash::error('Company Room not found');
+
+            return redirect(route('company.rooms.index'));
         }
-        $input['company_id'] = $company_id;
+        if($request->image1)
+        {
+            $image_link = $request->image1->hashName();
+            $request->image1->move(public_path('/uploadedimages'), $image_link);
+            $input['image1'] = $image_link;
+        }else
+            $input['image1'] = $room['image1'];
 
-        $this->serviceRepository->update($input, $id);
-        $request->session()->flash('msg.success', 'Company Floor Room updated successfully.');
+        if($request->image2)
+        {
+            $image_link = $request->image2->hashName();
+            $request->image2->move(public_path('/uploadedimages'), $image_link);
+            $input['image2'] = $image_link;
+        }else
+            $input['image2'] = $room['image2'];
 
-        return redirect(route('company.services.index'));
+        if($request->image3)
+        {
+            $image_link = $request->image3->hashName();
+            $request->image3->move(public_path('/uploadedimages'), $image_link);
+            $input['image3'] = $image_link;
+        }else
+            $input['image3'] = $room['image3'];
+
+        if($request->image4)
+        {
+            $image_link = $request->image4->hashName();
+            $request->image4->move(public_path('/uploadedimages'), $image_link);
+            $input['image4'] = $image_link;
+        }else
+            $input['image4'] = $room['image4'];
+
+        if($request->image5)
+        {
+            $image_link = $request->image5->hashName();
+            $request->image5->move(public_path('/uploadedimages'), $image_link);
+            $input['image5'] = $image_link;
+        }else
+            $input['image5'] = $room['image5'];
+
+        $this->roomRepository->update($input, $id);
+        $request->session()->flash('msg.success', 'Company Room updated successfully.');
+
+        return redirect(route('company.rooms.index'));
     }
 
     /**
@@ -203,18 +247,18 @@ class RoomController extends AppBaseController
      */
     public function destroy($id, Request $request)
     {
-        $service = $this->serviceRepository->findWithoutFail($id);
+        $room = $this->roomRepository->findWithoutFail($id);
 
-        if (empty($service)) {
-            Flash::error('Company Floor Room not found');
+        if (empty($room)) {
+            Flash::error('Company Room not found');
 
-            return redirect(route('company.services.index'));
+            return redirect(route('company.rooms.index'));
         }
 
-        $this->serviceRepository->delete($id);
+        $this->roomRepository->delete($id);
 
-        $request->session()->flash('msg.success', 'Company Service deleted successfully.');
+        $request->session()->flash('msg.success', 'Company Room deleted successfully.');
 
-        return redirect(route('company.services.index'));
+        return redirect(route('company.rooms.index'));
     }
 }
