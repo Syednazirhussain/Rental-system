@@ -43,7 +43,7 @@
     </div>
     <div class="col-sm-12">
         <button type="submit" class="btn btn-primary">@if(isset($user)) <i class="fa fa-refresh"></i>  Update User @else <i class="fa fa-plus"></i>  Add User @endif</button>
-        <a href="{!! route('admin.users.index') !!}" class="btn btn-default">Cancel</a>
+        <a href="{!! route('company.users.index') !!}" class="btn btn-default">Cancel</a>
     </div>
 </div>
 

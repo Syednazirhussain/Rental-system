@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\CreateUserRoleRequest;
 use App\Http\Requests\Admin\UpdateUserRoleRequest;
-use App\Repositories\UserRoleRepository;
+use App\Repositories\Admin\UserRoleRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
