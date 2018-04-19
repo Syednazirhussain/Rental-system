@@ -59,3 +59,7 @@
     <a href="{!! route('admin.companyUsers.index') !!}"><i class="fa fa-edit"></i><span>Company Users</span></a>
 </li>
 
+<li class="{{ Request::is('companyInvoices*') ? 'active' : '' }}">
+    <a href="{!! route('admin.companyInvoices.index') !!}"><i class="fa fa-edit"></i><span>Company Invoices</span></a>
+</li>
+

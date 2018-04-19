@@ -188,7 +188,9 @@ return [
         Way\Generators\GeneratorsServiceProvider::class,
         Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class,
 
-        Orangehill\Iseed\IseedServiceProvider::class,
+       Orangehill\Iseed\IseedServiceProvider::class,
+
+        Barryvdh\DomPDF\ServiceProvider::class,
 
     ],
 
@@ -244,6 +246,9 @@ return [
         'Flash'     => Laracasts\Flash\Flash::class,
         'TranslationCache' => \Waavi\Translation\Facades\TranslationCache::class,
         'UriLocalizer'  => Waavi\Translation\Facades\UriLocalizer::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
+
+
 
     ],
 

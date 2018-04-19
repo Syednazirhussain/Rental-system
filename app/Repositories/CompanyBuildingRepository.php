@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\CompanyBuilding;
+use App\Models\CompanyFloorRoom;
 // use App\Models\CompanyFloorRoom;
 use InfyOm\Generator\Common\BaseRepository;
 
@@ -34,6 +35,21 @@ class CompanyBuildingRepository extends BaseRepository
     public function model()
     {
         return CompanyBuilding::class;
+    }
+
+    public function getCompanyBuilding($company_id)
+    {
+        return CompanyBuilding::where('company_id',$company_id)->get();
+    }
+
+    public function getCompanyBuildingAllFloorInformation($company_id,$company_buildings)
+    {
+        $responseArr = array();
+        for($i = 0 ; $i < count($company_buildings) ; $i++)
+        {
+            $responseArr[$i] = CompanyFloorRoom::where('company_id',$company_id)->where('building_id',$company_buildings[$i]->id);
+        }
+        return $responseArr;
     }
 
 

@@ -54,4 +54,10 @@ class CompanyRepository extends BaseRepository
     {
         return Company::select('id','name','phone','zipcode','address','created_at')->orderBy('id', 'desc')->take(5)->get();
     }
+
+    public function getCompanyById($company_id)
+    {
+        return Company::find($company_id);
+    }
+
 }

@@ -156,8 +156,18 @@ class Company extends Model
      **/
     public function companyBuildings()
     {
-        return $this->hasMany(\App\Models\CompanyBuilding::class);
+        return $this->hasMany(\App\Models\CompanyBuilding::class, 'company_id', 'id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function companyInvoices()
+    {
+        return $this->hasMany(\App\Models\CompanyInvoice::class, 'company_id', 'id');
+    }
+
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
