@@ -6,13 +6,13 @@ use App\Models\Room;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
- * Class CompanyFloorRoomRepository
+ * Class RoomRepository
  * @package App\Repositories\Admin
  * @version April 8, 2018, 3:43 pm UTC
  *
- * @method CompanyFloorRoom findWithoutFail($id, $columns = ['*'])
- * @method CompanyFloorRoom find($id, $columns = ['*'])
- * @method CompanyFloorRoom first($columns = ['*'])
+ * @method Room findWithoutFail($id, $columns = ['*'])
+ * @method Room find($id, $columns = ['*'])
+ * @method Room first($columns = ['*'])
 */
 class RoomRepository extends BaseRepository
 {

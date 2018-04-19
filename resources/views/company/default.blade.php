@@ -86,7 +86,7 @@
                         <ul class="dropdown-menu">
                             <li><a href="{{ route('company.rooms.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
                                     Room</a></li>
-                            <li><a href="{{ route('company.rooms\.index') }}"><i class="fa fa-building-o"></i>&nbsp;&nbsp;Rooms</a>
+                            <li><a href="{{ route('company.rooms.index') }}"><i class="fa fa-building-o"></i>&nbsp;&nbsp;Rooms</a>
                             </li>
                         </ul>
                     </li>

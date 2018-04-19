@@ -65,4 +65,12 @@ class CompanyFloorRoom extends Model
     {
         return $this->belongsTo(\App\Models\Company::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     **/
+    public function rooms()
+    {
+        return $this->hasMany('App\Models\Room', 'floor_id', 'id');
+    }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Company;
 
-use App\Http\Requests\Company\CreateServiceRequest;
-use App\Http\Requests\Company\UpdateServiceRequest;
-use App\Repositories\Company\ServiceRepository;
+use App\Http\Requests\Company\CreateRoomRequest;
+use App\Http\Requests\Company\UpdateRoomRequest;
+use App\Repositories\Company\RoomRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
@@ -12,20 +12,23 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use Auth;
 use App\Models\Company;
+use App\Models\CompanyBuilding;
+use App\Models\CompanyFloorRoom;
+use App\Models\Service;
 use App\Models\Room;
 
 class RoomController extends AppBaseController
 {
-    /** @var  ServiceRepository */
+    /** @var  RoomRepository */
     private $serviceRepository;
 
-    public function __construct(ServiceRepository $serviceRepository)
+    public function __construct(RoomRepository $roomRepository)
     {
-        $this->serviceRepository = $serviceRepository;
+        $this->roomRepository = $roomRepository;
     }
 
     /**
-     * Display a listing of the CompanyFloorRoom.
+     * Display a listing of the Room.
      *
      * @param Request $request
      * @return Response
@@ -34,13 +37,16 @@ class RoomController extends AppBaseController
     {
         $company_id = Auth::user()->companyUser()->first()->company_id;
         $company = Company::find($company_id);
-        $services = Service::where('company_id', $company_id)->get();
+        $rooms = Room::where('company_id', $company_id)->get();
+        $services = Service::where('company_id', $company_id)->pluck('name', 'id');
+        $floors = CompanyFloorRoom::where('company_id', $company_id)->pluck('floor', 'id');
 
-        return view('company.services.index', ['services' => $services, 'company' => $company]);
+        return view('company.rooms.index', ['rooms' => $rooms, 'company' => $company, 'services' => $services,
+            'floors' => $floors]);
     }
 
     /**
-     * Show the form for creating a new CompanyFloorRoom.
+     * Show the form for creating a new Room.
      *
      * @return Response
      */
@@ -48,28 +54,60 @@ class RoomController extends AppBaseController
     {
         $company_id = Auth::user()->companyUser()->first()->company_id;
         $company = Company::find($company_id);
-        return view('company.services.create', ['company' => $company]);
+        $companyFloors = CompanyFloorRoom::where('company_id', $company_id)->get();
+        $companyBuildings = CompanyBuilding::pluck('name', 'id');
+        $services = Service::where('company_id', $company_id)->get();
+        //dd($companyFloors);
+
+        return view('company.rooms.create', ['company' => $company, 'companyFloors' => $companyFloors,
+            'companyBuildings' => $companyBuildings, 'services' => $services]);
     }
 
     /**
-     * Store a newly created CompanyFloorRoom in storage.
+     * Store a newly created Room in storage.
      *
-     * @param CreateCompanyFloorRoomRequest $request
+     * @param CreateRoomRequest $request
      *
      * @return Response
      */
-    public function store(CreateServiceRequest $request)
+    public function store(CreateRoomRequest $request)
     {
         $company_id = Auth::user()->companyUser()->first()->company_id;
         $input = $request->all();
-
-        if($request->freeService)
-        {
-            $input['price'] = 0;
-        }
         $input['company_id'] = $company_id;
+        $input['image1'] = '';
+        $input['image2'] = '';
+        $input['image3'] = '';
+        $input['image4'] = '';
+        $input['image5'] = '';
 
-        $this->serviceRepository->create($input);
+        if($request->image1)
+        {
+            $image_link = $request->image1->store('rooms');
+            $input['image1'] = $image_link;
+        }
+        if($request->image2)
+        {
+            $image_link = $request->image2->store('rooms');
+            $input['image2'] = $image_link;
+        }
+        if($request->image3)
+        {
+            $image_link = $request->image3->store('rooms');
+            $input['image3'] = $image_link;
+        }
+        if($request->image4)
+        {
+            $image_link = $request->image4->store('rooms');
+            $input['image4'] = $image_link;
+        }
+        if($request->image5)
+        {
+            $image_link = $request->image5->store('rooms');
+            $input['image5'] = $image_link;
+        }
+
+        $this->roomRepository->create($input);
 
         Flash::success('Company Floor Room saved successfully.');
 
@@ -99,7 +137,7 @@ class RoomController extends AppBaseController
     }
 
     /**
-     * Show the form for editing the specified CompanyFloorRoom.
+     * Show the form for editing the specified Room.
      *
      * @param  int $id
      *
@@ -124,10 +162,10 @@ class RoomController extends AppBaseController
     }
 
     /**
-     * Update the specified CompanyFloorRoom in storage.
+     * Update the specified Room in storage.
      *
      * @param  int              $id
-     * @param UpdateCompanyFloorRoomRequest $request
+     * @param UpdateRoomRequest $request
      *
      * @return Response
      */
@@ -157,7 +195,7 @@ class RoomController extends AppBaseController
     }
 
     /**
-     * Remove the specified CompanyFloorRoom from storage.
+     * Remove the specified Room from storage.
      *
      * @param  int $id
      *

@@ -25,7 +25,7 @@ class ServiceController extends AppBaseController
     }
 
     /**
-     * Display a listing of the CompanyFloorRoom.
+     * Display a listing of the Service.
      *
      * @param Request $request
      * @return Response
@@ -40,7 +40,7 @@ class ServiceController extends AppBaseController
     }
 
     /**
-     * Show the form for creating a new CompanyFloorRoom.
+     * Show the form for creating a new Service.
      *
      * @return Response
      */
@@ -52,9 +52,9 @@ class ServiceController extends AppBaseController
     }
 
     /**
-     * Store a newly created CompanyFloorRoom in storage.
+     * Store a newly created Service in storage.
      *
-     * @param CreateCompanyFloorRoomRequest $request
+     * @param CreateServiceRequest $request
      *
      * @return Response
      */
@@ -77,7 +77,7 @@ class ServiceController extends AppBaseController
     }
 
     /**
-     * Display the specified CompanyFloorRoom.
+     * Display the specified Service.
      *
      * @param  int $id
      *
@@ -99,7 +99,7 @@ class ServiceController extends AppBaseController
     }
 
     /**
-     * Show the form for editing the specified CompanyFloorRoom.
+     * Show the form for editing the specified Service.
      *
      * @param  int $id
      *
@@ -124,10 +124,10 @@ class ServiceController extends AppBaseController
     }
 
     /**
-     * Update the specified CompanyFloorRoom in storage.
+     * Update the specified Service in storage.
      *
      * @param  int              $id
-     * @param UpdateCompanyFloorRoomRequest $request
+     * @param UpdateServiceRequest $request
      *
      * @return Response
      */
@@ -157,7 +157,7 @@ class ServiceController extends AppBaseController
     }
 
     /**
-     * Remove the specified CompanyFloorRoom from storage.
+     * Remove the specified Service from storage.
      *
      * @param  int $id
      *

@@ -36,7 +36,15 @@ class Room extends Model
         'name',
         'price',
         'floor_id',
+        'service_id',
         'area',
+        'company_id',
+        'security_code',
+        'image1',
+        'image2',
+        'image3',
+        'image4',
+        'image5',
     ];
 
     /**
@@ -49,7 +57,7 @@ class Room extends Model
         'name' => 'string',
         'price' => 'integer',
         'area' => 'integer',
-        'floor_id' => 'integer'
+        'floor_id' => 'integer',
     ];
 
     /**
