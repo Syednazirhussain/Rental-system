@@ -1510,7 +1510,38 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
 
 
             $(document).on('click', '.remove-admin', function() {
-                $(this).closest('.adminFields').remove();
+
+                if (confirm('Are you sure?')) {
+
+                    if (editCompany == 0) {
+                      $(this).closest('.adminFields').remove();
+                    } else {
+
+                      var getAdminId = $(this).closest('.adminFields').find('.remove-admin-id').val();
+                      var data = { _method: "delete", admin_id: getAdminId };
+                      // console.log(data);
+
+                      $.ajax({
+                          url: '{{ route("admin.companyUsers.destroy") }}',
+                          data: data,
+                          cache: false,
+                          type: 'POST', // For jQuery < 1.9
+                          success: function(data) {
+                              // myform.pxWizard('goTo', 2);
+
+                              // console.log(data);
+                          },
+                          error: function(xhr,status,error)  {
+
+                          }
+
+                      });
+
+                      $(this).closest('.adminFields').remove();
+                    }
+
+                }
+                
             });
 
 

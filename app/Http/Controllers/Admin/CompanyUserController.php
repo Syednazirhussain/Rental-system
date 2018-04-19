@@ -171,16 +171,19 @@ class CompanyUserController extends AppBaseController
             if (!empty(trim($admin['password']))) {
                 $input['password'] = bcrypt($admin['password']);
             }
+
             
-            $input['user_role_code'] = 'company_admin';
-            $input['user_status_id'] = 1;
-            $input['uuid'] = $faker->uuid;;
 
             if (strpos($admin['user_id'], 'new-') === false) {
                 $id = $admin['user_id'];
                 $adminId = $admin['id'];
             } else {
                 $index = preg_replace('/[^0-9]/', '', $admin['user_id']);
+                
+                $input['uuid'] = $faker->uuid;;
+                $input['user_role_code'] = 'company_admin';
+                $input['user_status_id'] = 1;
+
                 $id = "";
                 $adminId = "";
             }
@@ -233,20 +236,36 @@ class CompanyUserController extends AppBaseController
      *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
+
+
+        $id = $request->only('admin_id');
+
+        $id = $id['admin_id'];
+
+        // echo $id;
+        // exit;
+        
         $companyUser = $this->companyUserRepository->findWithoutFail($id);
 
         if (empty($companyUser)) {
-            Flash::error('Company User not found');
 
-            return redirect(route('admin.companyUsers.index'));
+            $success = 0;
+            $msg = "Company admin not found";
         }
+
+
+        $this->userRepository->delete($companyUser->user_id);
 
         $this->companyUserRepository->delete($id);
 
-        Flash::success('Company User deleted successfully.');
+        $success = 1;
+        $msg = "Company admin deleted successfully";
 
-        return redirect(route('admin.companyUsers.index'));
+        return response()->json([
+                                'success'=>$success, 
+                                'msg'=>$msg,
+                                ]);
     }
 }
