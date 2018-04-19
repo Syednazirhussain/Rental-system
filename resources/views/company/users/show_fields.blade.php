@@ -39,5 +39,6 @@
     <tr>
         <th scope="row" width="200px">Created At</th>
         <td>{{ date('F d, Y', strtotime($user->created_at)) }}</td>
+    </tr>
     </tbody>
 </table>

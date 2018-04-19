@@ -1,23 +1,25 @@
-@extends('layouts.app')
+@extends('company.default')
 
 @section('content')
-    <section class="content-header">
-        <h1>
-            Company Building
-        </h1>
-   </section>
-   <div class="content">
-       @include('adminlte-templates::common.errors')
-       <div class="box box-primary">
-           <div class="box-body">
-               <div class="row">
-                   {!! Form::model($companyBuilding, ['route' => ['admin.companyBuildings.update', $companyBuilding->id], 'method' => 'patch']) !!}
+    <div class="px-content">
+        <div class="page-header">
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Settings / </span>Edit Building</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div class="panel-title">Edit Building</div>
+                    </div>
+                    <div class="panel-body">
+                        <form action="{{ route('company.companyBuildings.update', [$companyBuilding->id]) }}" method="POST" id="buildingForm">
 
-                        @include('admin.company_buildings.fields')
+                            @include('company.company_buildings.fields')
 
-                   {!! Form::close() !!}
-               </div>
-           </div>
-       </div>
-   </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

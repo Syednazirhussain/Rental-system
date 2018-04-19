@@ -60,18 +60,34 @@
                     <li class="dropdown-toggle">
                         <a href="{{ route('company.companyBuildings.index') }}">Buildings</a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ route('company.companyBuildings.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
-                                    Building</a></li>
                             <li><a href="{{ route('company.companyBuildings.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Buildings</a>
                             </li>
                         </ul>
                     </li>
                     <li class="dropdown-toggle">
-                        <a href>Companies</a>
+                        <a href="{{ route('company.companyFloorRooms.index') }}">Floor Rooms</a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ route('admin.companies.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
-                                    Company</a></li>
-                            <li><a href="{{ route('admin.companies.index') }}"><i class="fa fa-building-o"></i>&nbsp;&nbsp;Companies</a>
+                            <li><a href="{{ route('company.companyFloorRooms.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
+                                    Floor</a></li>
+                            <li><a href="{{ route('company.companyFloorRooms.index') }}"><i class="fa fa-building-o"></i>&nbsp;&nbsp;Floor Rooms</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-toggle">
+                        <a href="{{ route('company.services.index') }}">Services</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ route('company.services.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
+                                    Service</a></li>
+                            <li><a href="{{ route('company.services.index') }}"><i class="fa fa-building-o"></i>&nbsp;&nbsp;Services</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-toggle">
+                        <a href="{{ route('company.rooms.index') }}">Rooms</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ route('company.rooms.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
+                                    Room</a></li>
+                            <li><a href="{{ route('company.rooms.index') }}"><i class="fa fa-building-o"></i>&nbsp;&nbsp;Rooms</a>
                             </li>
                         </ul>
                     </li>

@@ -1,19 +1,20 @@
-@extends('layouts.app')
+@extends('company.default')
 
 @section('content')
-    <section class="content-header">
-        <h1>
-            Company Building
-        </h1>
-    </section>
-    <div class="content">
-        <div class="box box-primary">
-            <div class="box-body">
-                <div class="row" style="padding-left: 20px">
-                    @include('admin.company_buildings.show_fields')
-                    <a href="{!! route('admin.companyBuildings.index') !!}" class="btn btn-default">Back</a>
-                </div>
+
+    <div class="px-content">
+        <div class="page-header">
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i>Settings / CompanyBuilding / </span>{!! $companyBuilding->name !!}
+            </h1>
+        </div>
+
+        <div class="panel">
+            <div class="panel-body">
+                @include('company.company_buildings.show_fields')
+
+                <a href="{!! route('company.companyBuildings.index') !!}" class="btn btn-default">Back</a>
             </div>
         </div>
     </div>
+
 @endsection

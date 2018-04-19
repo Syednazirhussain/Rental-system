@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Mail;
 use Auth;
 use App\Models\UserRole;
 use App\Models\User;
@@ -79,11 +80,22 @@ class UserController extends AppBaseController
             return redirect(route('company.users.index'));
         }
 
+        $company_admin = Auth::user();
         $created_user = User::create($input);
+
+        if($created_user) {
+            Mail::send('emails.mailUserRegister', ['email' => $request->email, 'password' => $request->password],
+                function($message) use ($company_admin, $request) {
+                    $message->from ($company_admin->email);
+                    $message->to($request->email);
+                    $message->subject("Your account created at Highnox");
+                });
+        }
         $company_user['user_id'] = $created_user->id;
         $company_user['company_id'] = Auth::user()->companyUser()->first()->company_id;
-
+        // Create companyUser after creating the user.
         CompanyUser::create($company_user);
+
         $request->session()->flash('msg.success', 'User saved successfully.');
         return redirect(route('company.users.index'));
     }
@@ -192,7 +204,10 @@ class UserController extends AppBaseController
     public function authenticate(Request $request)
     {
         if (Auth::attempt(array('email'=>$request->input('email'), 'password'=>$request->input('password'),'user_role_code'=>'company_admin'))) {
-
+            if (Auth::user()->first_login){
+                Auth::user()->update(array('first_login' => false));
+                return redirect()->route('company.users.edit', Auth::user()->id);
+            }
             return redirect()->route('company.dashboard');
                     
 

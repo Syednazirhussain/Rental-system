@@ -164,14 +164,12 @@ class CompanyBuildingController extends AppBaseController
         $companyBuilding = $this->companyBuildingRepository->findWithoutFail($id);
 
         if (empty($companyBuilding)) {
-            Flash::error('Company Building not found');
-
+            $request->session()->flash('msg.error', 'Company Building not found');
             return redirect(route('company.companyBuildings.index'));
         }
 
-        $companyBuilding = $this->companyBuildingRepository->update($request->all(), $id);
-
-        Flash::success('Company Building updated successfully.');
+        $this->companyBuildingRepository->update($request->all(), $id);
+        $request->session()->flash('msg.success', 'Company Building updated successfully.');
 
         return redirect(route('company.companyBuildings.index'));
     }

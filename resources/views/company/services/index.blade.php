@@ -3,7 +3,7 @@
 @section('content')
     <div class="px-content">
         <div class="page-header">
-            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i>Buildings / </span></h1>
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i>Services / </span></h1>
         </div>
 
         <div class="panel">
@@ -18,12 +18,12 @@
                 @endif
 
                 <div class="text-right m-b-3">
-                    {{--<a href="{{ route('company.companyBuildings.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i>Add
-                        Building</a>--}}
+                    <a href="{{ route('company.services.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i>Add
+                        Service</a>
                 </div>
 
                 <div class="table-primary">
-                    @include('company.company_buildings.table')
+                    @include('company.services.table')
                 </div>
             </div>
         </div>
@@ -35,12 +35,11 @@
         // -------------------------------------------------------------------------
         // Initialize DataTables
         $(function () {
-            $('#companyBuildings').dataTable();
-            $('#companyBuildings_wrapper .table-caption').text('Buildings');
-            $('#companyBuildings .dataTables_filter input').attr('placeholder', 'Search...');
+            $('#servicesTable').dataTable();
+            $('#servicesTable_wrapper .table-caption').text('Services');
+            $('#servicesTable_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
         });
     </script>
 @endsection
-
 
 
