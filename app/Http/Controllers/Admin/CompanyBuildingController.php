@@ -200,6 +200,8 @@ class CompanyBuildingController extends AppBaseController
 
             if (isset($building['floor'])) {
 
+                $i = 0;
+
                 foreach ($building['floor'] as $fl) {
 
                     $floors['building_id'] = $companyBuilding->id;
@@ -221,14 +223,17 @@ class CompanyBuildingController extends AppBaseController
 
                     if (strpos($fl['id'], 'new-') !== false) {
 
-                        $arr[$index] = $buildingFloor->id;
+                        $arr[$index]['floors'][$i]['index'] = $floorIndex;
+                        $arr[$index]['floors'][$i]['floorId'] = $buildingFloor->id;
+
+                        $i++;
                     }
                 }
             }
 
             if (strpos($building['id'], 'new-') !== false) {
 
-                $arr[$index] = $companyBuilding->id;
+                $arr[$index]['id'] = $companyBuilding->id;
             }
 
         }

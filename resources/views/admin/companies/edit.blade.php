@@ -264,7 +264,7 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                       success: function(data){
                           // myform.pxWizard('goTo', 2);
 
-                          console.log(data);
+                          // console.log(data);
                       },
                       error: function(xhr,status,error)  {
 
@@ -401,7 +401,7 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
 
                             // contactPersonCreated = data.success;
 
-                            console.log(data);
+                            // console.log(data);
                         },
                         error: function(xhr,status,error)  {
 
@@ -473,36 +473,46 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                             
                             $.each(data.createdFields, function (index, value) {
 
-                               $('input[data-person-id="new-'+index+'"]').val(value);
-                               $('input[data-person-id="new-'+index+'"]').attr('name', "person["+value+"][id]");
-                               $('input[data-person-id="new-'+index+'"]').attr("data-person-id", value);
 
-                               $('input[data-person-name="new-'+index+'"]').attr('name', "person["+value+"][name]");
-                               $('input[data-person-name="new-'+index+'"]').attr("data-person-name", value);
 
-                               $('input[data-person-email="new-'+index+'"]').attr('name', "person["+value+"][email]");                               
-                               $('input[data-person-email="new-'+index+'"]').attr("data-person-email", value);
+                               $('input[data-building-id="new-'+index+'"]').val(value['id']);
+                               $('input[data-building-id="new-'+index+'"]').attr('name', "building_data["+value['id']+"][id]");
+                               $('input[data-building-id="new-'+index+'"]').attr("data-building-id", value['id']);
 
-                               $('input[data-person-phone="new-'+index+'"]').attr('name', "person["+value+"][phone]");
-                               $('input[data-person-phone="new-'+index+'"]').attr("data-person-phone", value);
+                               $('input[data-building-name="new-'+index+'"]').attr('name', "building_data["+value['id']+"][name]");
+                               $('input[data-building-name="new-'+index+'"]').attr("data-building-name", value['id']);
 
-                               $('input[data-person-fax="new-'+index+'"]').attr('name', "person["+value+"][fax]");      
-                               $('input[data-person-fax="new-'+index+'"]').attr("data-person-fax", value);
+                               $('input[data-building-address="new-'+index+'"]').attr('name', "building_data["+value['id']+"][address]");                               
+                               $('input[data-building-address="new-'+index+'"]').attr("data-building-address", value['id']);
 
-                               $('input[data-person-department="new-'+index+'"]').attr('name', "person["+value+"][department]"); 
-                               $('input[data-person-department="new-'+index+'"]').attr("data-person-department", value);
+                               $('input[data-building-zipcode="new-'+index+'"]').attr('name', "building_data["+value['id']+"][zipcode]");
+                               $('input[data-building-zipcode="new-'+index+'"]').attr("data-building-zipcode", value['id']);
 
-                               $('input[data-person-address="new-'+index+'"]').attr('name', "person["+value+"][address]");
-                               $('input[data-person-designation="new-'+index+'"]').attr("data-person-address", value);
+                               $('input[data-building-numfloors="new-'+index+'"]').attr('name', "building_data["+value['id']+"][num_floors]");      
+                               $('input[data-building-numfloors="new-'+index+'"]').attr("data-building-numfloors", value['id']);
 
-                               $('input[data-person-designation="new-'+index+'"]').attr('name', "person["+value+"][designation]");
-                               $('input[data-person-designation="new-'+index+'"]').attr("data-person-designation", value);
+                                $.each(value.floors, function (flIndex, flValue) {
+
+                                   $('input[data-floor-id="new-'+flValue['index']+'"]').val(flValue['floorId']);
+                                   $('input[data-floor-id="new-'+flValue['index']+'"]').attr('name', "building_data["+value['id']+"][floor]["+flValue['floorId']+"][id]");
+                                   $('input[data-floor-id="new-'+flValue['index']+'"]').attr("data-floor-id", flValue['floorId']);
+
+                                   $('input[data-floor-number="new-'+flValue['index']+'"]').attr('name', "building_data["+value['id']+"][floor]["+flValue['floorId']+"][floor_number]"); 
+                                   $('input[data-floor-number="new-'+flValue['index']+'"]').attr("data-floor-number", flValue['floorId']);
+
+                                   $('input[data-floor-rooms="new-'+flValue['index']+'"]').attr('name', "building_data["+value['id']+"][floor]["+flValue['floorId']+"][floor_rooms]");
+                                   $('input[data-floor-rooms="new-'+flValue['index']+'"]').attr("data-floor-rooms", flValue['floorId']);
+
+                                });
+
+                               // $('input[data-person-designation="new-'+index+'"]').attr('name', "building_data["+value['id']+"][designation]");
+                               // $('input[data-person-designation="new-'+index+'"]').attr("data-person-designation", value);
 
                             });
 
                             // contactPersonCreated = data.success;
 
-                            console.log(data);
+                            // console.log(data);
                         },
                         error: function(xhr,status,error)  {
 
@@ -640,7 +650,7 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                       success: function(data){
                           // myform.pxWizard('goTo', 2);
 
-                          console.log(data);
+                          // console.log(data);
                       },
                       error: function(xhr,status,error)  {
 
@@ -934,7 +944,7 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
 
                       var getPersonId = $(this).parent().parent().find('.remove-person-id').val();
                       var data = { _method: "delete", person_id: getPersonId };
-                      console.log(data);
+                      // console.log(data);
 
                       $.ajax({
                           url: '{{ route("admin.companyContactPeople.destroy") }}',
@@ -944,7 +954,7 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                           success: function(data){
                               // myform.pxWizard('goTo', 2);
 
-                              console.log(data);
+                              // console.log(data);
                           },
                           error: function(xhr,status,error)  {
 
@@ -966,6 +976,12 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
             var buildingNum = 1;
 
             $('#addBuildingBtn').on('click', function() {
+
+              $('.remove-building-id').each(function () {
+                  if (buildingNum == $(this).val()) {
+                      buildingNum += 998;
+                  }
+              });
 
               var building = '<div class="buildingFields">';
                   building += '<input type="hidden" name="building_data['+buildingNum+'][id]" data-building-id="new-'+buildingNum+'" class="building-id" value="new-'+buildingNum+'" />';
@@ -1045,7 +1061,7 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
 
                       var getBuildingId = $(this).parent().parent().find('.remove-building-id').val();
                       var data = { _method: "delete", building_id: getBuildingId };
-                      console.log(data);
+                      // console.log(data);
 
                       $.ajax({
                           url: '{{ route("admin.companyBuildings.destroy.building") }}',
@@ -1055,7 +1071,7 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                           success: function(data){
                               // myform.pxWizard('goTo', 2);
 
-                              console.log(data);
+                              // console.log(data);
                           },
                           error: function(xhr,status,error)  {
 
@@ -1161,7 +1177,7 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                           success: function(data){
                               // myform.pxWizard('goTo', 2);
 
-                              console.log(data);
+                              // console.log(data);
                           },
                           error: function(xhr,status,error)  {
 
@@ -1229,7 +1245,7 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
 
             $(document).on('select2:unselecting', '.module-id', function (e) {
 
-                  console.log(e.params);
+                  // console.log(e.params);
                   var moduleVal = e.params.args.data.id;
                   $('option', this).each(function() {
                       $('.module-id option[value=' + moduleVal + ']').prop('disabled', false);
