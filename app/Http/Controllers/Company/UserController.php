@@ -204,7 +204,10 @@ class UserController extends AppBaseController
     public function authenticate(Request $request)
     {
         if (Auth::attempt(array('email'=>$request->input('email'), 'password'=>$request->input('password'),'user_role_code'=>'company_admin'))) {
-
+            if (Auth::user()->first_login){
+                Auth::user()->update(array('first_login' => false));
+                return redirect()->route('company.users.edit', Auth::user()->id);
+            }
             return redirect()->route('company.dashboard');
                     
 

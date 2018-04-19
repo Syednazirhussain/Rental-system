@@ -55,6 +55,7 @@ class User extends Authenticatable
         'city_id',
         'user_status_id',
         'uuid',
+        'first_login',
     ];
 
     /**
