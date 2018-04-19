@@ -553,17 +553,36 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                   required: true,
                   maxlength: 150,
                   remote: {
-                      url: "{{ route('validate.contract') }}",
-                      type: "POST",
-                      cache: false,
-                      dataType: "json",
-                      data: {
-                          number: function() { return $("#contract-no").val(); }
-                      },
-                      dataFilter: function(response) {
+                      // url: "{{ route('validate.contract') }}",
+                      // type: "POST",
+                      // cache: false,
+                      // dataType: "json",
+                      // data: {
+                      //     number: function() { return $("#contract-no").val(); }
+                      // },
+                      // dataFilter: function(response) {
 
-                          // console.log(response);
-                          return checkField(response);
+                      //     // console.log(response);
+                      //     return checkField(response);
+                      // }
+
+                      param: {
+                          url: "{{ route('validate.contract') }}",
+                          type: "POST",
+                          cache: false,
+                          dataType: "json",
+                          data: {
+                              number: function() { return $("#contract-no").val(); }
+                          },
+                          dataFilter: function(response) {
+
+                              // console.log(response);
+                              return checkField(response);
+                          }
+                      },
+                      depends: function(element) {
+                          // compare email address in form to hidden field
+                          return ($(element).val() !== $('#contract-no-hidden').val());
                       }
                   }
               },

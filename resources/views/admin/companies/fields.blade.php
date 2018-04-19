@@ -434,12 +434,14 @@
                                 @if (isset($company))
                                 <input name="_method" type="hidden" value="PATCH">
                                 <input type="hidden" name="contract_id" id="contract-id" value="{{ $company->companySingleContract->id }}" />
+                                <input type="hidden" name="number_hidden" id="contract-no-hidden" class="form-control" value="{{ $company->companySingleContract->number }}"  />
+                                
                                 @endif
 
                                 <div class="row">
                                     <div class="col-sm-12 form-group">
                                         <label for="contract-no">Contract No.</label>
-                                        <input type="text" name="number" id="contract-no" class="form-control" placeholder="ZXC-886" value="{{ isset($company) ? $company->companySingleContract->number:'' }}"  />
+                                        <input type="text" name="number" id="contract-no" class="form-control" placeholder="Contract No" value="{{ isset($company) ? $company->companySingleContract->number:'' }}"  />
                                         <div class="errorTxt"></div>
                                     </div>
                                     <div class="col-sm-12 form-group">
