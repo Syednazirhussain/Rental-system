@@ -49,4 +49,30 @@ class UserRepository extends BaseRepository
     public function insert($arr = []) {
         return User::insert($arr);
     }
+
+
+    public function adminAccountSettings($updateArr, $id) {
+        
+        return User::where('id', $id)->update($updateArr);
+    }
+
+    public function findSiteAdminByEmail(string $siteAdmin_email)
+    {
+        $user = User::where('email', $siteAdmin_email)->where('user_role_code', 'admin')->first();
+        return $user;
+    }
+
+    public function adminAccountSettingsRemoveProfilePic($profilePicName)
+    {
+
+        $null = NULL;
+        
+        $data = [
+                    'profile_pic' => $null
+                ];
+
+        $userProfilePic = User::where('profile_pic', $profilePicName)->update($data);
+
+        return $userProfilePic;
+    }
 }

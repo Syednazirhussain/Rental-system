@@ -37,4 +37,9 @@ class CompanyBuildingRepository extends BaseRepository
     }
 
 
+    public function companyBuildingCount()
+    {
+        return CompanyBuilding::count();
+    }
+
 }

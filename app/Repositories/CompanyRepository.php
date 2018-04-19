@@ -43,4 +43,15 @@ class CompanyRepository extends BaseRepository
     {
         return Company::class;
     }
+
+
+    public function companyCount()
+    {
+        return Company::count();
+    }
+
+    public function companyRecent()
+    {
+        return Company::select('id','name','phone','zipcode','address','created_at')->orderBy('id', 'desc')->take(5)->get();
+    }
 }

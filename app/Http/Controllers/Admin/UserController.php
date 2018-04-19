@@ -11,7 +11,7 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use Auth;
-
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends AppBaseController
 {
@@ -189,5 +189,91 @@ class UserController extends AppBaseController
             $request->session()->flush();
             return redirect()->route('admin.login');
         } 
+    }
+
+    // view account settings
+    public function accountSettingsView()
+    {   
+
+        return view('admin.users.account_settings');
+    }
+
+
+
+
+    // store account settings
+    public function accountSettingsStore(Request $request)
+    {   
+
+        $id                 = Auth::user()->id;
+        $name               = $request->name;
+        $email              = $request->email;
+        $password           = $request->password;
+
+
+        $updateArr = [
+                        'name' => $name,
+                        'email' => $email,
+                    ];
+
+
+        if ($request->hasFile('profile_pic')) {
+
+            $path = $request->file('profile_pic')->store('public/company_logos');
+
+            
+
+            $path = explode("/", $path);
+
+
+
+            $updateArr['profile_pic'] = $path[2];
+
+        }
+
+
+
+        if ($password != "" ) {
+            
+            $new_password = bcrypt($password);
+            $updateArr['password'] = $new_password;
+        } 
+
+
+        $user = $this->userRepository->adminAccountSettings($updateArr, $id);
+        $request->session()->flash('msg.success', 'Account Settings updated successfully.');
+        return redirect()->route('admin.accountSettings.view');
+    
+    }
+
+
+
+
+
+    // remove profile pic account settings
+    public function accountSettingsRemoveProfilePic(Request $request)
+    {   
+
+        if ($request->ajax()) {
+
+            $profilePicName = $request->profilePicName;
+            $sep = DIRECTORY_SEPARATOR;
+
+            Storage::delete('public'.$sep.'company_logos'.$sep.$profilePicName);
+
+            $this->userRepository->adminAccountSettingsRemoveProfilePic($profilePicName);
+
+            $result['success'] = 1;
+
+        } else {
+
+            $result['success'] = 0;
+
+        }
+
+
+        return response()->json($result);
+
+
     }
 }

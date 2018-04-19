@@ -7,6 +7,7 @@ use App\Repositories\StateRepository;
 use App\Repositories\CityRepository;
 use App\Repositories\CompanyContractRepository;
 use App\Repositories\CompanyUserRepository;
+use App\Repositories\UserRepository;
 
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
@@ -19,13 +20,16 @@ class ValidationController extends AppBaseController
     /** @var  UserRoleRepository */
     private $companyContractRepository;
     private $companyUserRepository;
+    private $userRepository;
 
 
     public function __construct(CompanyContractRepository $contractRepo,
-                                CompanyUserRepository $companyUserRepo)
+                                CompanyUserRepository $companyUserRepo,
+                                UserRepository $userRepo)
     {
         $this->companyContractRepository = $contractRepo;
         $this->companyUserRepository = $companyUserRepo;
+        $this->userRepository = $userRepo;
     }
 
     /**
@@ -73,6 +77,28 @@ class ValidationController extends AppBaseController
             $success = 1;
             $response = 200;
         }
+
+        return response()->json(['success'=> $success, 'code'=>$response]);
+        
+    }
+
+
+    public function siteAdminEmail(Request $request)
+    {
+        
+        $siteAdmin_email = $request->email;
+
+        $siteAdmin = $this->userRepository->findSiteAdminByEmail($siteAdmin_email);
+
+        
+        if (count($siteAdmin) > 0) {
+            $success = 0;
+            $response = 401;
+        } else {
+            $success = 1;
+            $response = 200;
+        }
+
         return response()->json(['success'=> $success, 'code'=>$response]);
         
     }
