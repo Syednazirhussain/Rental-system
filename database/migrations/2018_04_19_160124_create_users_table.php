@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration {
 			$table->integer('country_id')->unsigned()->nullable()->index('country_id');
 			$table->integer('state_id')->unsigned()->nullable()->index('state_id');
 			$table->integer('city_id')->unsigned()->nullable()->index('city_id');
+			$table->string('profile_pic', 191)->nullable();
 			$table->integer('user_status_id')->unsigned()->nullable()->index('user_status_id');
 			$table->string('uuid', 191)->nullable()->unique('uuid');
 			$table->string('remember_token', 100)->nullable();

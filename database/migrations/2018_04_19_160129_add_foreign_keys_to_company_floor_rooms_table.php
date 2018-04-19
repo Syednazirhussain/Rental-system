@@ -15,6 +15,7 @@ class AddForeignKeysToCompanyFloorRoomsTable extends Migration {
 		Schema::table('company_floor_rooms', function(Blueprint $table)
 		{
 			$table->foreign('company_id', 'company_floor_rooms_ibfk_1')->references('id')->on('companies')->onUpdate('CASCADE')->onDelete('CASCADE');
+			$table->foreign('building_id', 'company_floor_rooms_ibfk_2')->references('id')->on('company_buildings')->onUpdate('CASCADE')->onDelete('CASCADE');
 		});
 	}
 
@@ -29,6 +30,7 @@ class AddForeignKeysToCompanyFloorRoomsTable extends Migration {
 		Schema::table('company_floor_rooms', function(Blueprint $table)
 		{
 			$table->dropForeign('company_floor_rooms_ibfk_1');
+			$table->dropForeign('company_floor_rooms_ibfk_2');
 		});
 	}
 
