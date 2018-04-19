@@ -16,8 +16,9 @@ class CreateCompanyInvoiceItemsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('invoice_id')->unsigned()->nullable()->index('invoice_id');
-			$table->integer('company_module_id')->unsigned()->nullable()->index('company_module_id');
 			$table->integer('company_id')->unsigned()->nullable()->index('company_id');
+			$table->string('item_name', 191)->nullable();
+			$table->decimal('item_price', 10)->unsigned()->nullable();
 		});
 	}
 
