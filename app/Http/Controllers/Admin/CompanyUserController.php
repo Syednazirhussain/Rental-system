@@ -147,7 +147,7 @@ class CompanyUserController extends AppBaseController
 
         $data = $request->all();
 
-        /*echo "<pre>";
+       /* echo "<pre>";
         print_r($data);
         echo "</pre>";
 
@@ -157,13 +157,14 @@ class CompanyUserController extends AppBaseController
         $companyInput = [];
         $arr = [];
 
-        $faker = Faker::create();
-
 
         $i = 0;
         $index = 0;
 
         foreach ($data['admin'] as $admin) {
+
+            $faker = Faker::create();
+
 
             $input['name'] = $admin['name'];
             $input['email'] = $admin['email'];
@@ -177,6 +178,11 @@ class CompanyUserController extends AppBaseController
             if (strpos($admin['user_id'], 'new-') === false) {
                 $id = $admin['user_id'];
                 $adminId = $admin['id'];
+
+                unset($input['uuid']);
+                unset($input['user_role_code']);
+                unset($input['user_status_id']);
+
             } else {
                 $index = preg_replace('/[^0-9]/', '', $admin['user_id']);
                 
@@ -186,6 +192,12 @@ class CompanyUserController extends AppBaseController
 
                 $id = "";
                 $adminId = "";
+
+                /*echo "<pre>";
+                print_r($input);
+                echo "</pre>";
+
+                exit;*/
             }
             
             $where = ['id' => $id];
@@ -201,7 +213,9 @@ class CompanyUserController extends AppBaseController
 
             if (strpos($admin['user_id'], 'new-') !== false) {
 
-                $arr[$index] = $companyUser->id;
+                $arr[$index]['id'] = $companyUser->id;
+                $arr[$index]['user_id'] = $adminUser->id;
+                $arr[$index]['email'] = $adminUser->email;
             }
 
         }

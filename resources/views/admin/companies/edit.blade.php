@@ -783,10 +783,42 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                         contentType: false,
                         processData: false,
                         type: 'POST', // For jQuery < 1.9
-                        success: function(data){
+                        success: function(data) {
                             // myform.pxWizard('goTo', 2);
 
-                            console.log(data);
+                            $.each(data.createdFields, function (index, value) {
+
+
+                               $('input[data-admin-id="new-'+index+'"]').val(value['id']);
+                               $('input[data-admin-id="new-'+index+'"]').attr('name', "admin["+value['id']+"][id]");
+                               $('input[data-admin-id="new-'+index+'"]').attr("data-admin-id", value['id']);
+
+                               $('input[data-admin-user-id="new-'+index+'"]').val(value['user_id']);
+                               $('input[data-admin-user-id="new-'+index+'"]').attr('name', "admin["+value['id']+"][user_id]");
+                               $('input[data-admin-user-id="new-'+index+'"]').attr("data-admin-user-id", value['id']);
+
+                               $('input[data-email-hidden="new-'+index+'"]').val(value['email']);
+                               $('input[data-email-hidden="new-'+index+'"]').attr('name', "admin["+value['id']+"][email_hidden]");
+                               $('input[data-email-hidden="new-'+index+'"]').attr("data-email-hidden", value['id']);
+
+                               $('input[data-old-password="new-'+index+'"]').val("true");
+                               $('input[data-old-password="new-'+index+'"]').attr('name', "admin["+value['id']+"][old_password]");
+                               $('input[data-old-password="new-'+index+'"]').attr("data-old-password", value['id']);
+
+                               $('input[data-admin-name="new-'+index+'"]').attr('name', "admin["+value['id']+"][name]");
+                               $('input[data-admin-name="new-'+index+'"]').attr("data-admin-name", value['id']);
+
+                               $('input[data-admin-email="new-'+index+'"]').attr('name', "admin["+value['id']+"][email]");                               
+                               $('input[data-admin-email="new-'+index+'"]').attr("data-admin-email", value['id']);
+
+                               $('input[data-admin-password="new-'+index+'"]').attr('name', "admin["+value['id']+"][password]");
+                               $('input[data-admin-password="new-'+index+'"]').attr("data-admin-password", value['id']);
+
+                              
+                            });
+
+                            adminValidationRules();
+                            // console.log(data);
                         },
                         error: function(xhr,status,error)  {
 
@@ -834,7 +866,7 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
 
 
 
-            $(document).ready(function(){
+            $(document).ready(function() {
                 // $('.remove-contact-person').hide();
                 $('.remove-module').hide();
                 // $('.remove-admin').hide();
@@ -1476,8 +1508,10 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                 if ($(".adminFields").length < 3) {
 
                   var admin = '<div class="adminFields">';
-                      admin += '<input type="hidden" name="admin['+p+'][id]" data-admin-id="new-'+p+'" class="admin-id" value="new-'+p+'" />';
+                      admin += '<input type="hidden" name="admin['+p+'][id]" data-admin-id="new-'+p+'" class="remove-admin-id" value="new-'+p+'" />';
                       admin += '<input type="hidden" name="admin['+p+'][user_id]" data-admin-user-id="new-'+p+'" class="admin-user-id" value="new-'+p+'" />';
+                      admin += '<input type="hidden" name="admin['+p+'][email_hidden]" data-email-hidden="new-'+p+'" class="admin-email-hidden" value="new-'+p+'" />';
+                      admin += '<input type="hidden" name="admin['+p+'][old_password]" data-old-password="new-'+p+'" class="old-password-hidden" value="new-'+p+'" />';
                       admin += '<h5 class="bg-success p-x-1 p-y-1" >Admin <i class="fa fa-times fa-lg remove-admin pull-right cursor-p"></i></h5>';
                       admin += '<div class="row">';
                       admin += '<div class="col-sm-12 form-group">';
@@ -1545,17 +1579,6 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
             });
 
 
-</script>
-
-
-
-<script type="text/html" id="form_tpl">
-    <div class = "control-group" > <label class = "control-label"
-    for = 'emp_name' > Employer Name </label>
-        <div class="controls">
-            <input type="text" name="work_emp_name[<%= element.i %>]" class="work_emp_name"
-                   value=""/ > </div>
-    </div>
 </script>
 
 
