@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\Admin\CreateUserStatusRequest;
-use App\Http\Requests\Admin\UpdateUserStatusRequest;
+use App\Http\Requests\CreateUserStatusRequest;
+use App\Http\Requests\UpdateUserStatusRequest;
 use App\Repositories\UserStatusRepository;
+
+use App\Repositories\CityRepository;
+use App\Repositories\StateRepository;
+use App\Repositories\CountryRepository;
+
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
@@ -16,9 +21,17 @@ class UserStatusController extends AppBaseController
     /** @var  UserStatusRepository */
     private $userStatusRepository;
 
-    public function __construct(UserStatusRepository $userStatusRepo)
+    public function __construct(
+        UserStatusRepository $userStatusRepo,
+        CountryRepository $CountryRepository,
+        StateRepository $StateRepository,
+        CityRepository $CityRepository
+    )
     {
         $this->userStatusRepository = $userStatusRepo;
+        $this->countryRepository    = $CountryRepository;
+        $this->stateRepository      = $StateRepository;
+        $this->cityRepository       = $CityRepository;
     }
 
     /**
@@ -38,7 +51,15 @@ class UserStatusController extends AppBaseController
 
     public function generalSetting()
     {
-        return view('admin.admin_general.index');
+        $country = $this->countryRepository->all();
+        $state   = $this->stateRepository->all();
+        $city    = $this->cityRepository->all();
+        $data = [
+            'country' => $country,
+            'state'   => $state,
+            'city'    => $city     
+        ];
+        return view('admin.admin_general.index',compact('data'));
     }
 
     public function addOrUpdate(Request $request)

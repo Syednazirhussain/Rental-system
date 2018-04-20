@@ -38,7 +38,7 @@
 	<div >
 
 		<div style="width: 50%; padding: 10px; display: inline-block;">
-			<p style="margin: 10px 0;"><strong>Date: {{ \Carbon\Carbon::parse(date('Y-m-d'))->format('Y-m-d') }}</strong></p>
+			<p style="margin: 10px 0;"><strong>Date: {{ \Carbon\Carbon::parse(date('Y-m-d'))->format('F d, Y') }}</strong></p>
 		</div>
 
 		<div style="width: 20%; padding: 10px; display: inline-block;">
@@ -101,6 +101,8 @@
 				@endfor
 			</tbody>
 
+			@if(isset($Invoice['Modules']['additional_charges']))
+
 			<thead style="background-color: #ddd; color: #333;">
 				<tr>
 					<td width="30px">Sr. #</td>
@@ -109,17 +111,14 @@
 				</tr>
 			</thead>
 			<tbody>
-<!-- 				<tr>
+				<tr>
 					<td>1</td>
 					<td>Finance Services</td>
 					<td width="100px">500.00 USD</td>
 				</tr>
-				<tr>
-					<td>2</td>
-					<td>Finance Services</td>
-					<td width="100px">500.00 USD</td>
-				</tr> -->
 			</tbody>
+
+			@endif
 
 			<thead style="background-color: #ddd; color: #333;">
 				<tr>
@@ -135,6 +134,14 @@
 				<tr>
 					<td colspan="2" style="text-align: right;">DISCOUNT</td>
 					<td width="100px">{{ $Invoice['Discount']['Discount'] }} USD</td>
+				</tr>
+				<tr>
+					<td colspan="2" style="text-align: right;">NET TOTAL</td>
+					<td width="100px">{{ $Invoice['Discount']['SubTotal'] }} USD</td>
+				</tr>
+				<tr>
+					<td colspan="2" style="text-align: right;">Tax</td>
+					<td width="100px">{{ $Invoice['Discount']['VAT'] }} USD</td>
 				</tr>
 			</tbody>
 
@@ -157,3 +164,4 @@
 	</div>
 </div>
 @endunless
+
