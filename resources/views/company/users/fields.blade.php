@@ -27,15 +27,27 @@
     </div>
     <div class="col-sm-12 form-group">
         <label for="user_country_id">Country ID:</label>
-        <input type="number" name="country_id" id="user_country_id" class="form-control" value="@if(isset($user)){{ $user->country_id }}@endif">
+        @if(isset($user))
+            {{ Form::select('country_id', $countries, $user->country_id, ['class' => 'form-control']) }}
+        @else
+            {{ Form::select('country_id', $countries, null, ['class' => 'form-control']) }}
+        @endif
     </div>
     <div class="col-sm-12 form-group">
         <label for="user_state_id">State ID:</label>
-        <input type="number" name="state_id" id="user_state_id" class="form-control" value="@if(isset($user)){{ $user->state_id }}@endif">
+        @if(isset($user))
+            {{ Form::select('state_id', $states, $user->state_id, ['class' => 'form-control']) }}
+        @else
+            {{ Form::select('state_id', $states, null, ['class' => 'form-control']) }}
+        @endif
     </div>
     <div class="col-sm-12 form-group">
         <label for="user_city_id">City ID:</label>
-        <input type="number" name="city_id" id="user_city_id" class="form-control" value="@if(isset($user)){{ $user->city_id }}@endif">
+        @if(isset($user))
+            {{ Form::select('city_id', $cities, $user->city_id, ['class' => 'form-control']) }}
+        @else
+            {{ Form::select('city_id', $cities, null, ['class' => 'form-control']) }}
+        @endif
     </div>
     <div class="col-sm-12 form-group">
         <label for="user_uuid">UUID:</label>

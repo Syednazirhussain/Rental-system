@@ -18,7 +18,7 @@
             <td>{!! $company->name !!}</td>
             <td>{!! $floors[$room->floor_id] !!}</td>
             <td>{!! $services[$room->service_id] !!}</td>
-            <td>USD {!! $room->price !!}</td>
+            <td>$ {!! $room->price !!}</td>
             <td>{!! $room->area !!} sqm</td>
             <td>{!! $room->security_code !!}</td>
             <td  width="200px" class="text-center">

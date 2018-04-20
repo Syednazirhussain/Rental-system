@@ -20,7 +20,7 @@ use App\Models\Room;
 class RoomController extends AppBaseController
 {
     /** @var  RoomRepository */
-    private $serviceRepository;
+    private $roomRepository;
 
     public function __construct(RoomRepository $roomRepository)
     {

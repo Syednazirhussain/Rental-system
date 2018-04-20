@@ -17,6 +17,9 @@ use App\Models\User;
 use App\Models\UserStatus;
 use App\Models\CompanyUser;
 use App\Models\Company;
+use App\Models\Country;
+use App\Models\City;
+use App\Models\State;
 
 
 class UserController extends AppBaseController
@@ -43,8 +46,12 @@ class UserController extends AppBaseController
 
         $user_roles = UserRole::pluck('name', 'code');
         $user_status = UserStatus::pluck('name', 'id');
+        $countries = Country::pluck('name', 'id');
+        $cities = City::pluck('name', 'id');
+        $states = State::pluck('name', 'id');
 
-        return view('company.users.index', ['users' => $users, 'user_roles' => $user_roles, 'user_status' => $user_status]);
+        return view('company.users.index', ['users' => $users, 'user_roles' => $user_roles, 'user_status' => $user_status,
+            'countries' => $countries, 'cities' => $cities, 'states' => $states]);
     }
 
     /**
@@ -55,7 +62,12 @@ class UserController extends AppBaseController
     public function create()
     {
         $user_role = UserRole::all();
-        return view('company.users.create', ['user_role' => $user_role]);
+        $countries = Country::pluck('name', 'id');
+        $cities = City::pluck('name', 'id');
+        $states = State::pluck('name', 'id');
+
+        return view('company.users.create', ['user_role' => $user_role, 'countries' => $countries, 'cities' => $cities,
+            'states' => $states]);
     }
 
     /**
@@ -134,6 +146,9 @@ class UserController extends AppBaseController
         $user = $this->userRepository->findWithoutFail($id);
         $user_role = UserRole::all();
         $all_roles = UserRole::pluck('name', 'code');
+        $countries = Country::pluck('name', 'id');
+        $cities = City::pluck('name', 'id');
+        $states = State::pluck('name', 'id');
 
         if (empty($user)) {
             Flash::error('User not found');
@@ -141,7 +156,8 @@ class UserController extends AppBaseController
             return redirect(route('company.users.index'));
         }
 
-        return view('company.users.edit', ['user' => $user, 'user_role' => $user_role, 'all_roles' => $all_roles]);
+        return view('company.users.edit', ['user' => $user, 'user_role' => $user_role, 'all_roles' => $all_roles,
+            'countries' => $countries, 'cities' => $cities, 'states' => $states]);
     }
 
     /**
