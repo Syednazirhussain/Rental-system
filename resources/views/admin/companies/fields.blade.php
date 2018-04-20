@@ -105,6 +105,8 @@
                                         <div class="fileinput fileinput-new" data-provides="fileinput">
                                           <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
                                                 @if (isset($company))
+                                                    <input type="hidden" name="logo-hidden" id="logo-hidden" value="{{ $company->logo }}">
+
                                                     <img src="{{ asset('storage/company_logos/'.$company->logo) }}" data-src="{{ asset('storage/company_logos/'.$company->logo) }}" alt="" />
                                                 @endif
                                           </div>
