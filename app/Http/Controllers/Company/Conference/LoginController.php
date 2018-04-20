@@ -77,6 +77,8 @@ class LoginController extends AppBaseController
      */
     public function dashboard()
     {
+        $currUser = Auth::guard('company')->user();
+
         return view('company.dashboard.index');
     }
 }

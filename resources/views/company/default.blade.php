@@ -45,27 +45,61 @@
                         <a href class="dropdown-toggle color-white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars fa-2x m-r-1 vertical-a-mid"></i><span class="">Menu</span></a>
                         <ul class="dropdown-menu">
                             <li class="dropdown-toggle">
-                                <a href>Modules</a>
+                                <a href>Bookings</a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="{{ route('admin.modules.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Module</a></li>
-                                    <li><a href="{{ route('admin.modules.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Modules</a></li>
+                                    <li><a href="{{ route('temp.company.booking.add') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Booking</a></li>
+                                    <li><a href=""><i class="fa fa-cube"></i>&nbsp;&nbsp;Bookings</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown-toggle">
-                                <a href>Companies</a>
+                                <a href>Rooms</a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="{{ route('admin.companies.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Company</a></li>
-                                    <li><a href="{{ route('admin.companies.index') }}"><i class="fa fa-building-o"></i>&nbsp;&nbsp;Companies</a></li>
+                                    <li><a href="{{ route('temp.company.room.add') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Room</a></li>
+                                    <li><a href=""><i class="fa fa-cube"></i>&nbsp;&nbsp;Rooms</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown-toggle">
-                                <a href>Settings</a>
+                                <a href>Rooms Layouts</a>
                                 <ul class="dropdown-menu">
-                                   <li><a href="{{ route('admin.userRoles.index') }}"><i class="fa fa-users"></i>&nbsp;&nbsp;User Roles</a></li>
-                                   <li class="divider"></li>
-                                   <li><a href="{{ route('admin.userStatuses.index') }}"><i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;User Status</a></li>
+                                    <li><a href="{{ route('temp.company.roomLayout.add') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Rooms Layout</a></li>
+                                    <li><a href=""><i class="fa fa-cube"></i>&nbsp;&nbsp;Rooms Layouts</a></li>
                                 </ul>
-                             </li>
+                            </li>
+                            <li class="dropdown-toggle">
+                                <a href>Equipments</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ route('temp.company.equipments.add') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Equipment</a></li>
+                                    <li><a href=""><i class="fa fa-cube"></i>&nbsp;&nbsp;Equipments</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-toggle">
+                                <a href>Equipments Criteria</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ route('temp.company.equipment.criteria.add') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Equipment Criteria</a></li>
+                                    <li><a href=""><i class="fa fa-cube"></i>&nbsp;&nbsp;Equipments Criteria</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-toggle">
+                                <a href>Food &amp; Drinks</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ route('temp.company.foodndrinks.add') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Food &amp; Drink</a></li>
+                                    <li><a href=""><i class="fa fa-cube"></i>&nbsp;&nbsp;Food &amp; Drinks</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-toggle">
+                                <a href>Packages</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ route('temp.company.package.add') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Package</a></li>
+                                    <li><a href=""><i class="fa fa-cube"></i>&nbsp;&nbsp;Packages</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-toggle">
+                                <a href>Customers</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ route('temp.company.customer.add') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Customer</a></li>
+                                    <li><a href=""><i class="fa fa-cube"></i>&nbsp;&nbsp;Customers</a></li>
+                                </ul>
+                            </li>
                             <li class="divider"></li>
                             <li><a href="#">Help</a></li>
                         </ul>

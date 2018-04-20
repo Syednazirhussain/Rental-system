@@ -80,12 +80,12 @@
     <div class="page-signin-container" id="page-signin-form">
       
       <h1 class="m-t-5 m-b-4 text-xs-center font-weight-semibold font-size-30 color-white">HIGHNOX</h1>
-      <h3 class="m-t-0 m-b-4 text-xs-center font-size-20 color-white">Hello, log in here!</h3>
+      <h3 class="m-t-0 m-b-4 text-xs-center font-size-20 color-white">COMPANY LOGIN</h3>
 
       <form method="post" action="{{ route('temp.company.authenticate') }}" class="panel p-a-4" id="company-login-form">
         
         {!! csrf_field() !!}
-          <span class="left">Username</span>
+          <span class="left">Email</span>
         <fieldset class=" form-group form-group-lg">
           <input type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Email">
         </fieldset>
