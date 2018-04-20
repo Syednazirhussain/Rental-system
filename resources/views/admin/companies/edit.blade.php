@@ -868,7 +868,7 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
 
             $(document).ready(function() {
                 // $('.remove-contact-person').hide();
-                $('.remove-module').hide();
+                // $('.remove-module').hide();
                 // $('.remove-admin').hide();
                 // $('.remove-building').hide();
 
@@ -876,18 +876,18 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                     $('#addFieldBtn').trigger('click');
                     $('#addBuildingBtn').trigger('click');
                     $('#addAdminBtn').trigger('click');
-
-
+                    $('#addModuleBtn').trigger('click');
                 }
                 // $('.remove-contact-person').hide();
 
-                $('#addModuleBtn').trigger('click');
-                $('.remove-module').hide();
+                // $('.remove-module').hide();
 
 
                 contactPersonValidateRules();
 
                 adminValidationRules();
+
+                moduleValidationRules();
 
             });
 
@@ -951,61 +951,61 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
             $('#addFieldBtn').on('click', function() {
 
 
-            var person = '<div class="contactPersonFields">';
-                person += '<input type="hidden" name="person['+i+'][id]" data-person-id="new-'+i+'" class="person-id" value="new-'+i+'" />';
-                person += '<h5 class="bg-success p-x-1 p-y-1 m-t-0" >Person <i class="fa fa-times fa-lg remove-contact-person pull-right cursor-p"></i></h5>';
-                person += '<div class="row">';
-                person += '<div class="col-sm-6 form-group">';
-                person += '<fieldset class="form-group">';
-                person += '<label for="person-name">Name</label>';
-                person += '<input type="text" name="person['+i+'][name]" data-person-name="new-'+i+'" class="person-name form-control" placeholder="Person Name">';
-                person += '</fieldset>';
-                person += '</div>';
-                person += '<div class="col-sm-6 form-group">';
-                person += '<fieldset class="form-group">';
-                person += '<label for="person-email">Email</label>';
-                person += '<input type="email" name="person['+i+'][email]" data-person-email="new-'+i+'" class="person-email form-control" placeholder="Person Email">';
-                person += '</fieldset>';
-                person += '</div>';
-                person += '<div class="col-sm-6 form-group">';
-                person += '<fieldset class="form-group">';
-                person += '<label for="person-phone">Phone</label>';
-                person += '<input type="text" name="person['+i+'][phone]" data-person-phone="new-'+i+'" class="person-phone form-control" placeholder="Persone Phone">';
-                person += '</fieldset>';
-                person += '</div>';
-                person += '<div class="col-sm-6 form-group">';
-                person += '<fieldset class="form-group">';
-                person += '<label for="person-fax">Fax</label>';
-                person += '<input type="text" name="person['+i+'][fax]" data-person-fax="new-'+i+'" class="person-fax form-control" placeholder="Person Faxx">';
-                person += '</fieldset>';
-                person += '</div>';
-                person += '<div class="col-sm-12 form-group">';
-                person += '<fieldset class="form-group">';
-                person += '<label for="person-address">Address</label>';
-                person += '<input type="text" name="person['+i+'][address]" data-person-address="new-'+i+'" class="person-address form-control" placeholder="ST-12 Phase-3/B Crown Center Alaska.">';
-                person += '</fieldset>';
-                person += '</div>';
-                person += '<div class="col-sm-6 form-group">';
-                person += '<fieldset class="form-group">';
-                person += '<label for="person-department">Department</label>';
-                person += '<input type="text" name="person['+i+'][department]" data-person-department="new-'+i+'" class="person-department form-control" placeholder="Human Resource Department">';
-                person += '</fieldset>';
-                person += '</div>';
-                person += '<div class="col-sm-6 form-group">';
-                person += '<fieldset class="form-group">';
-                person += '<label for="person-designation">Designation</label>';
-                person += '<input type="text" name="person['+i+'][designation]" data-person-designation="new-'+i+'" class="person-designation form-control" placeholder="Asst. Manager">';
-                person += '</fieldset>';
-                person += '</div>';
-                person += '</div>';
-                person += '</div>';
+                var person = '<div class="contactPersonFields">';
+                    person += '<input type="hidden" name="person['+i+'][id]" data-person-id="new-'+i+'" class="person-id" value="new-'+i+'" />';
+                    person += '<h5 class="bg-success p-x-1 p-y-1 m-t-0" >Person <i class="fa fa-times fa-lg remove-contact-person pull-right cursor-p"></i></h5>';
+                    person += '<div class="row">';
+                    person += '<div class="col-sm-6 form-group">';
+                    person += '<fieldset class="form-group">';
+                    person += '<label for="person-name">Name</label>';
+                    person += '<input type="text" name="person['+i+'][name]" data-person-name="new-'+i+'" class="person-name form-control" placeholder="Person Name">';
+                    person += '</fieldset>';
+                    person += '</div>';
+                    person += '<div class="col-sm-6 form-group">';
+                    person += '<fieldset class="form-group">';
+                    person += '<label for="person-email">Email</label>';
+                    person += '<input type="email" name="person['+i+'][email]" data-person-email="new-'+i+'" class="person-email form-control" placeholder="Person Email">';
+                    person += '</fieldset>';
+                    person += '</div>';
+                    person += '<div class="col-sm-6 form-group">';
+                    person += '<fieldset class="form-group">';
+                    person += '<label for="person-phone">Phone</label>';
+                    person += '<input type="text" name="person['+i+'][phone]" data-person-phone="new-'+i+'" class="person-phone form-control" placeholder="Persone Phone">';
+                    person += '</fieldset>';
+                    person += '</div>';
+                    person += '<div class="col-sm-6 form-group">';
+                    person += '<fieldset class="form-group">';
+                    person += '<label for="person-fax">Fax</label>';
+                    person += '<input type="text" name="person['+i+'][fax]" data-person-fax="new-'+i+'" class="person-fax form-control" placeholder="Person Faxx">';
+                    person += '</fieldset>';
+                    person += '</div>';
+                    person += '<div class="col-sm-12 form-group">';
+                    person += '<fieldset class="form-group">';
+                    person += '<label for="person-address">Address</label>';
+                    person += '<input type="text" name="person['+i+'][address]" data-person-address="new-'+i+'" class="person-address form-control" placeholder="ST-12 Phase-3/B Crown Center Alaska.">';
+                    person += '</fieldset>';
+                    person += '</div>';
+                    person += '<div class="col-sm-6 form-group">';
+                    person += '<fieldset class="form-group">';
+                    person += '<label for="person-department">Department</label>';
+                    person += '<input type="text" name="person['+i+'][department]" data-person-department="new-'+i+'" class="person-department form-control" placeholder="Human Resource Department">';
+                    person += '</fieldset>';
+                    person += '</div>';
+                    person += '<div class="col-sm-6 form-group">';
+                    person += '<fieldset class="form-group">';
+                    person += '<label for="person-designation">Designation</label>';
+                    person += '<input type="text" name="person['+i+'][designation]" data-person-designation="new-'+i+'" class="person-designation form-control" placeholder="Asst. Manager">';
+                    person += '</fieldset>';
+                    person += '</div>';
+                    person += '</div>';
+                    person += '</div>';
 
-                $(".person").prepend(person);
+                    $(".person").prepend(person);
 
-                i += 1;
+                    i += 1;
 
-                
-                contactPersonValidateRules();
+                    
+                    contactPersonValidateRules();
             });
 
 
@@ -1302,87 +1302,75 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
             });
 
 
+            function moduleValidationRules() {
+                    $('.module-id').each(function () {
+                          $(this).rules("add", {
+                              required: true
+                          });
+                    });
+
+                    $('.module-price').each(function () {
+                        $(this).rules("add", {
+                            required: true,
+                            number: true,
+                        });
+                    });
+
+                    $('.users-limit').each(function () {
+                        $(this).rules("add", {
+                            required: true,
+                            digits: true,
+                        });
+                    });
+
+
+                    $('.module-id').trigger('change');
+            }
+
+
             var moduleNum = 0;
 
             $('#addModuleBtn').on('click', function() {
 
               if ($(".moduleFields").length < Object.keys(modulesList).length) {
 
-                var moduleIdName = "module["+moduleNum+"][id]";
+                    var moduleIdName = "module["+moduleNum+"][id]";
 
-                var module = '<div class="moduleFields">';
-                    module += '<h5 class="bg-success p-x-1 p-y-1" >Module <i class="fa fa-times fa-lg remove-module pull-right cursor-p"></i></h5>';
-                    module += '<div class="row">';
-                    module += '<div class="col-sm-6 form-group">';
-                    module += '<label for="module">Module</label>';
-                    module += '<select name="module['+moduleNum+'][id]" class="module-id form-control" style="width: 100%" data-allow-clear="true">';
-                    module += '</select>';
-                    module += '<div class="errorTxt"></div>';
-                    module += '</div>'
-                    module += '<div class="col-sm-6 form-group">';
-                    module += '<label for="price">Price</label>';
-                    module += '<input type="number" name="module['+moduleNum+'][price]" class="module-price form-control" min="1" />';
-                    module += '</div>'
-                    module += '<div class="col-sm-6 form-group">';
-                    module += '<label for="users_limit">Users Limit</label>';
-                    module += '<input type="number" name="module['+moduleNum+'][users_limit]" class="users-limit form-control" value="10" min="1" />';
-                    module += '</div>'
-                    module += '</div>'
-                    module += '</div>'
+                    var module = '<div class="moduleFields">';
+                        module += '<h5 class="bg-success p-x-1 p-y-1" >Module <i class="fa fa-times fa-lg remove-module pull-right cursor-p"></i></h5>';
+                        module += '<div class="row">';
+                        module += '<div class="col-sm-6 form-group">';
+                        module += '<label for="module">Module</label>';
+                        module += '<select name="module['+moduleNum+'][id]" class="module-id form-control" style="width: 100%" data-allow-clear="true">';
+                        module += '</select>';
+                        module += '<div class="errorTxt"></div>';
+                        module += '</div>';
+                        module += '<div class="col-sm-6 form-group">';
+                        module += '<label for="price">Price</label>';
+                        module += '<input type="number" name="module['+moduleNum+'][price]" class="module-price form-control" min="1" />';
+                        module += '</div>'
+                        module += '<div class="col-sm-6 form-group">';
+                        module += '<label for="users_limit">Users Limit</label>';
+                        module += '<input type="number" name="module['+moduleNum+'][users_limit]" class="users-limit form-control" value="10" min="1" />';
+                        module += '</div>';
+                        module += '</div>';
+                        module += '</div>';
 
-                $('.module').prepend(module);
+                    $('.module').prepend(module);
 
-                // later:
-                var option = '';
-                option += '<option value="0">Select Module</option>';
-                $.each(modulesList, function (index, value) {
-                    option += '<option value="'+index+'">'+value+'</option>';
-                });
-
-                $('select[name="' + moduleIdName + '"]').html(option);
-
-                /*$('option', 'select[name="' + moduleIdName + '"]').each(function() {
-
-                    var optionThis = $(this);
-
-                    $(".module-id option:selected").each(function() {
-                        if ($(this).val() == optionThis.val()) {
-                           $(this).attr('disabled', true);
-                        }
+                    // later:
+                    var option = '';
+                    option += '<option value="0">Select Module</option>';
+                    $.each(modulesList, function (index, value) {
+                        option += '<option value="'+index+'">'+value+'</option>';
                     });
-                });*/
+
+                    $('select[name="' + moduleIdName + '"]').html(option);
 
 
+                    moduleNum += 1;
 
-                moduleNum += 1;
-
-                $('.module-id').each(function () {
-                      $(this).rules("add", {
-                          required: true
-                      });
-                });
-
-                  $('.module-price').each(function () {
-                      $(this).rules("add", {
-                          required: true,
-                          digits: true,
-                      });
-                  });
-
-                  $('.users-limit').each(function () {
-                      $(this).rules("add", {
-                          required: true,
-                          digits: true,
-                      });
-                  });
-
-
-                  /*$('.select2-module').select2({
-                      placeholder: 'Select Module',
-                  });*/
-
-                  $('select[name="' + moduleIdName + '"]').trigger('change');
-
+                    moduleValidationRules();
 
                 } else {
                     alert("Maximum modules have been added");

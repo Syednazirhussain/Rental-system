@@ -532,6 +532,10 @@
 
 
                           <form class="wizard-pane" id="wizard-5">
+
+                                @if (isset($company))
+                                    <input name="_method" type="hidden" value="PATCH">
+                                @endif
                             
                                 <h3 class="m-t-0">Company Modules Information</h3>
 
@@ -539,6 +543,38 @@
 
                                 <div id="sectionModule">
                                     <div class="module">
+                                        @if (isset($company))
+                                            @foreach ($company->companyModules as $comModule)
+                                              <div class="moduleFields">
+                                              <h5 class="bg-success p-x-1 p-y-1" >Module <i class="fa fa-times fa-lg remove-module pull-right cursor-p"></i></h5>
+                                              <div class="row">
+                                              <div class="col-sm-6 form-group">
+                                              <label for="module">Module</label>
+                                              <select name="module[{{ $comModule->id }}][id]" class="module-id form-control" style="width: 100%" data-allow-clear="true">
+                                                <option value="0">Select Module</option>                                              
+                                                @foreach ($modules as $module)
+                                                  @if ($module->id == $comModule->module_id)
+                                                  <option value="{{ $module->id }}" selected="selected">{{ $module->name }}</option>
+                                                  @else
+                                                  <option value="{{ $module->id }}">{{ $module->name }}</option>
+                                                  @endif
+                                                @endforeach
+                                              </select>
+                                              <div class="errorTxt"></div>
+                                              </div>
+                                              <div class="col-sm-6 form-group">
+                                              <label for="price">Price</label>
+                                              <input type="number" name="module[{{ $comModule->id }}][price]" class="module-price form-control" min="1" value="{{ $comModule->price }}" />
+                                              </div>'
+                                              <div class="col-sm-6 form-group">
+                                              <label for="users_limit">Users Limit</label>
+                                              <input type="number" name="module[{{ $comModule->id }}][users_limit]" class="users-limit form-control" value="10" min="1" value="{{ $comModule->users_limit }}" />
+                                              </div>
+                                              </div>
+                                              </div>
+                                            @endforeach
+                                        @endif
+
                                     </div>
                                 </div>
 
