@@ -84,14 +84,18 @@ class CompanyBuildingController extends AppBaseController
             $floors = [];
 
             $i = 0;
-            foreach ($arr['floor'] as $fl) {
 
-                $floors[$i]['building_id'] = $companyBuilding->id;
-                $floors[$i]['company_id'] = $data['company_id'];
-                $floors[$i]['floor'] = $fl['floor_number'];
-                $floors[$i]['num_rooms'] = $fl['floor_rooms'];
+            if (isset($arr['floor'])) {
+                foreach ($arr['floor'] as $fl) {
 
-                $i++;
+                    $floors[$i]['building_id'] = $companyBuilding->id;
+                    $floors[$i]['company_id'] = $data['company_id'];
+                    $floors[$i]['floor'] = $fl['floor_number'];
+                    $floors[$i]['num_rooms'] = $fl['floor_rooms'];
+
+                    $i++;
+                }
+
             }
 
             $c = $this->companyFloorRoomRepository->insert($floors);
