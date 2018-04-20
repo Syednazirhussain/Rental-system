@@ -9,7 +9,6 @@
             <th>State</th>
             <th>City</th>
             <th>User Status</th>
-            <th>Uuid</th>
             <th>Created At</th>
             <th width="200px">Actions</th>
         </tr>
@@ -25,7 +24,6 @@
             <td>{{ $states[$user->state_id] }}</td>
             <td>{{ $cities[$user->city_id] }}</td>
             <td>{{ $user_status[$user->user_status_id] }}</td>
-            <td>{{ $user->uuid }}</td>
             <td>{{ $user->created_at }}</td>
             <td  width="200px" class="text-center">
                 {!! Form::open(['route' => ['company.users.destroy', $user->id], 'method' => 'delete']) !!}

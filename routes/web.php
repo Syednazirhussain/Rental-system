@@ -16,14 +16,23 @@ Route::get('/', function() {
     return redirect()->route('login');
 });
 
-Route::get('/home', 'HomeController@index');
+/********** Admin accessible routes as a Guest User start **********/
 
+Route::group(['middleware' => ['admin.guest']], function () {
 
+    Route::get('/home', ['as'=> 'home', 'uses' => 'HomeController@index']);
+    Route::get('rooms/{room}', ['as'=> 'home.rooms.show', 'uses' => 'HomeController@show']);
+    Route::get('rooms/book/{room}', ['as'=> 'home.rooms.book', 'uses' => 'HomeController@book']);
+
+});
+
+/******* Redirect to admin login *********/
 Route::get('/admin', function() {
 
 	return redirect()->route('admin.login');
 });
 
+/***** Redirect to Customer login ***/
 Route::get('/company', function() {
 
     return redirect()->route('company.login');
