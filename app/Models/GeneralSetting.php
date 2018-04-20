@@ -27,6 +27,8 @@ class GeneralSetting extends Model
 
 
     public $table = 'general_settings';
+
+    public $timestamps = false;
  
 
     public $fillable = [

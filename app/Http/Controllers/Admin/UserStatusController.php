@@ -9,6 +9,8 @@ use App\Repositories\UserStatusRepository;
 use App\Repositories\CityRepository;
 use App\Repositories\StateRepository;
 use App\Repositories\CountryRepository;
+use App\Repositories\GeneralSettingRepository;
+
 
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
@@ -25,13 +27,15 @@ class UserStatusController extends AppBaseController
         UserStatusRepository $userStatusRepo,
         CountryRepository $CountryRepository,
         StateRepository $StateRepository,
-        CityRepository $CityRepository
+        CityRepository $CityRepository,
+        GeneralSettingRepository $GeneralSettingRepository
     )
     {
-        $this->userStatusRepository = $userStatusRepo;
-        $this->countryRepository    = $CountryRepository;
-        $this->stateRepository      = $StateRepository;
-        $this->cityRepository       = $CityRepository;
+        $this->userStatusRepository     = $userStatusRepo;
+        $this->countryRepository        = $CountryRepository;
+        $this->stateRepository          = $StateRepository;
+        $this->cityRepository           = $CityRepository;
+        $this->generalSettingRepository = $GeneralSettingRepository;
     }
 
     /**
@@ -51,20 +55,45 @@ class UserStatusController extends AppBaseController
 
     public function generalSetting()
     {
+        $general_setting = $this->generalSettingRepository->findWithoutFail(2);
         $country = $this->countryRepository->all();
         $state   = $this->stateRepository->all();
         $city    = $this->cityRepository->all();
+
         $data = [
-            'country' => $country,
-            'state'   => $state,
-            'city'    => $city     
+            'country'           => $country,
+            'state'             => $state,
+            'city'              => $city,
+            'general_setting'   => json_decode($general_setting->meta_value)     
         ];
+
         return view('admin.admin_general.index',compact('data'));
     }
 
     public function addOrUpdate(Request $request)
     {
-        return $request->all();
+        // return $request->all();
+        $jsonArr = [
+            'title'      =>  $request->title,
+            'zip_code'   =>  $request->zip_code,
+            'address'    =>  $request->address,
+            'country_id' =>  $request->Country,
+            'state_id'   =>  $request->State,
+            'city_id'    =>  $request->city_id
+        ];
+
+        $general_settings = $this->generalSettingRepository->findWithoutFail(2);
+        $general_settings->meta_value = json_encode($jsonArr);
+        
+        if($general_settings->save()) 
+        {
+            return redirect()->route('admin.userStatuses.general');
+        }
+        else
+        {
+            Session::Flash("GeneralSettingError","There is some problem while commit on changes");
+        }
+        
     }
 
     /**
