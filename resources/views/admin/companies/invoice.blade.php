@@ -38,7 +38,7 @@
 	<div >
 
 		<div style="width: 50%; padding: 10px; display: inline-block;">
-			<p style="margin: 10px 0;"><strong>Date: {{ \Carbon\Carbon::parse(date('Y-m-d'))->format('Y-m-d') }}</strong></p>
+			<p style="margin: 10px 0;"><strong>Date: {{ \Carbon\Carbon::parse(date('Y-m-d'))->format('F d, Y') }}</strong></p>
 		</div>
 
 		<div style="width: 20%; padding: 10px; display: inline-block;">
@@ -69,10 +69,10 @@
 			<div style="border: 1px solid #000; padding: 10px 20px;">
 				<h4 style="margin: 10px 0;">From</h4>
 				<hr>
-				<p style="margin: 10px 0;"><strong>Highnox</strong></p>
-				<p style="margin: 10px 0;"><strong>Martin Rebas.</strong></p>
-				<p style="margin: 10px 0;"><strong>412, GÖTEBORG, Gyllenkrooksgatan, SWEDEN.</strong></p>
-				<p style="margin: 10px 0;"><strong>Ph: 012-3456789</strong></p>
+				<p style="margin: 10px 0;"><strong>{{ $Invoice['general_setting']->title }}</strong></p>
+				<p style="margin: 10px 0;"><strong>{{ $Invoice['general_setting']->address }}</strong></p>
+				<p style="margin: 10px 0;"><strong>{{ $Invoice['general_setting']->zip_code }}, {{ $Invoice['names']['city'] }}, {{ $Invoice['names']['state'] }}, {{ $Invoice['names']['country'] }} </strong></p>
+				<p style="margin: 10px 0;"><strong>Ph: {{ $Invoice['general_setting']->phone }}</strong></p>
 			</div>
 		</div>
 
@@ -96,10 +96,12 @@
 				<tr>
 					<td>{{ $i }}</td>
 					<td>{{ $Invoice['Modules']['company_module'][$i]['module_name']  }}</td>
-					<td width="100px">{{ $Invoice['Modules']['company_module'][$i]['module_price']  }} USD</td>
+					<td width="100px">{{ $Invoice['Modules']['company_module'][$i]['module_price']  }}</td>
 				</tr>
 				@endfor
 			</tbody>
+
+			@if(isset($Invoice['Modules']['additional_charges']))
 
 			<thead style="background-color: #ddd; color: #333;">
 				<tr>
@@ -109,17 +111,14 @@
 				</tr>
 			</thead>
 			<tbody>
-<!-- 				<tr>
+				<tr>
 					<td>1</td>
 					<td>Finance Services</td>
 					<td width="100px">500.00 USD</td>
 				</tr>
-				<tr>
-					<td>2</td>
-					<td>Finance Services</td>
-					<td width="100px">500.00 USD</td>
-				</tr> -->
 			</tbody>
+
+			@endif
 
 			<thead style="background-color: #ddd; color: #333;">
 				<tr>
@@ -130,18 +129,26 @@
 			<tbody>
 				<tr>
 					<td colspan="2" style="text-align: right;">SUBTOTAL</td>
-					<td width="100px">{{ $Invoice['Discount']['Total'] }} USD</td>
+					<td width="100px">{{ $Invoice['Discount']['Total'] }} </td>
 				</tr>
 				<tr>
 					<td colspan="2" style="text-align: right;">DISCOUNT</td>
-					<td width="100px">{{ $Invoice['Discount']['Discount'] }} USD</td>
+					<td width="100px">{{ $Invoice['Discount']['Discount'] }} </td>
+				</tr>
+				<tr>
+					<td colspan="2" style="text-align: right;">TOTAL</td>
+					<td width="100px">{{ $Invoice['Discount']['SubTotal'] }} </td>
+				</tr>
+				<tr>
+					<td colspan="2" style="text-align: right;">Tax</td>
+					<td width="100px">{{ $Invoice['Discount']['VAT'] }} </td>
 				</tr>
 			</tbody>
 
 			<thead style="background-color: #ddd; color: #333;">
 				<tr>
-					<td colspan="2" style="text-align: right;"><strong>TOTAL</strong></td>
-					<td width="100px"><strong>{{ $Invoice['Discount']['FinalAmount'] }} USD</strong></td>
+					<td colspan="2" style="text-align: right;"><strong>NET TOTAL</strong></td>
+					<td width="100px"><strong>{{ $Invoice['Discount']['FinalAmount'] }} </strong></td>
 				</tr>
 			</thead>
 
@@ -149,7 +156,7 @@
 
 		<br>
 		<p style="margin-left: 50px; margin-right: 50px; text-align: center;">
-			<strong>Contract Remaining Days</strong> {{ $Invoice['Discount']['ContractRemainingDays'] }}
+			<strong>Contract Due Date : </strong> {{ $Invoice['Discount']['ContractRemainingDays'] }}
 		</p>
 		<p style="margin-left: 50px; margin-right: 50px; text-align: center;">
 			<strong>Thank you</strong> for visiting us and making your first purchase! We’re glad that you found what you were looking for. It is our goal that you are always happy with what you bought from us, so please let us know if your buying experience was anything short of excellent. We look forward to seeing you again. Have a great day!
@@ -157,3 +164,4 @@
 	</div>
 </div>
 @endunless
+

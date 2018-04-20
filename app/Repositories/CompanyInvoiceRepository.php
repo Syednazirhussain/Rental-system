@@ -53,7 +53,9 @@ class CompanyInvoiceRepository extends BaseRepository
     {
         // ['company_modules']['company_module'][0]['module_name']
         $total = 0;
+        $sub_total = 0;
         $final_total = 0;
+        $vat = 0;
         $discount = 0;
         $remaining_days = 0;
         if ($calculateByCompanyModulePrice == true) 
@@ -68,13 +70,17 @@ class CompanyInvoiceRepository extends BaseRepository
                 {
                     $discount -= $data['discount'];
                     $remaining_days = $this->checkLeftDay($data['contract_end_date']);
-                    $final_total = $total - $discount;
+                    $sub_total = $total - $discount;
+                    $vat = $sub_total*($data['value_edit_tax']/100);
+                    $final_total = $vat + $sub_total;
                 }
                 elseif ($data['discount_method'] == 'Percentage') 
                 {
                     $discount = $total*($data['discount']/100);
                     $remaining_days = $this->checkLeftDay($data['contract_end_date']);
-                    $final_total = $total - $discount;
+                    $sub_total = $total - $discount;
+                    $vat = $sub_total*($data['value_edit_tax']/100);
+                    $final_total = $vat + $sub_total;
                 }
             }
             elseif ($data['payment_method'] == 'Quaterly') 
@@ -116,7 +122,14 @@ class CompanyInvoiceRepository extends BaseRepository
 
             }
         }
-        return ['Total' => $total,'Discount' => $discount,'FinalAmount' => $final_total,'ContractRemainingDays' => $remaining_days];
+        return [
+            'Total'                 => $total,
+            'SubTotal'              => $sub_total,
+            'VAT'         => $vat,
+            'FinalAmount'            => $final_total,
+            'Discount'              => $discount,
+            'ContractRemainingDays' => $remaining_days
+        ];
     }
 
 

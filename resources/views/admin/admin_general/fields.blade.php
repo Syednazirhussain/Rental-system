@@ -5,42 +5,119 @@
 
 
 <div class="row">
-			<!-- Name Field -->
+      <!-- Name Field -->
+      @if(isset($data['general_setting']))
       <div class="col-sm-12 form-group">
-			    <label for="grid-input-16">Title:</label>
-          <input type="text" name="title" id="grid-input-16" class="form-control">
-			</div>
+          <label for="grid-input-16">Title:</label>
+          <input type="text" name="title" value="{{ $data['general_setting']->title }}" id="grid-input-16" class="form-control">
+      </div>
       <div class="col-sm-12 form-group">
           <label for="grid-input-16">Zip Code</label>
-          <input type="text" name="zip_code" id="grid-input-16" class="form-control">
+          <input type="text" name="zip_code" value="{{ $data['general_setting']->zip_code }}" id="grid-input-16" class="form-control">
       </div>
       <div class="col-sm-12 form-group">
           <label for="grid-input-16">Address</label>
-                <input type="text" name="address" id="grid-input-16" class="form-control">
+                <input type="text" name="address" value="{{ $data['general_setting']->address }}" id="grid-input-16" class="form-control">
       </div>
       <div class="col-sm-12 form-group">
-          <label for="grid-input-16">City</label>
-                <input type="text" name="city" id="grid-input-16" class="form-control">
+          <label for="grid-input-16">Phone</label>
+                <input type="text" name="phone" value="{{ $data['general_setting']->phone }}" id="grid-input-16" class="form-control">
       </div>
       <div class="col-sm-12 form-group">
-          <label for="grid-input-16">State</label>
-                <input type="text" name="state" id="grid-input-16" class="form-control">
+          <label for="grid-input-16">Tax</label>
+                <input type="text" name="tax" value="{{ $data['general_setting']->tax }}" id="grid-input-16" class="form-control">
       </div>
       <div class="col-sm-12 form-group">
-          <label for="grid-input-16">Country</label>
-                <input type="text" name="country" id="grid-input-16" class="form-control">
+        <label for="Country">Country</label>
+        <select class="form-control" name="Country" id="Country">
+          @forelse($data['country'] as $country)
+            <option value="{{ $country->id }}">{{ $country->name }}</option>
+          @empty
+            <option value="0">empty</option>
+          @endforelse
+        </select>
+      </div>
+      <div class="city" id="{{ $data['general_setting']->city_id }}"></div>
+      <div class="state" id="{{ $data['general_setting']->state_id }}"></div>
+      <div class="col-sm-12 form-group">
+        <label for="State">State</label>
+        <select class="form-control" name="State" id="State">
+          @forelse($data['state'] as $state)
+            @if($state->id == $data['state_id'])
+              <option value="{{ $state->id }}" selected="selected">{{ $state->name }}</option>
+            @else
+              <option value="{{ $state->id }}">{{ $state->name }}</option>
+            @endif
+          @empty
+            <option value="0">empty</option>
+          @endforelse
+        </select>
       </div>
 
-			<!-- Submit Field -->
-			<div class="col-sm-12">
-				<button type="submit" class="btn btn-primary">@if(isset($userStatus)) <i class="fa fa-refresh"></i>  Update Settings @else <i class="fa fa-plus"></i>  Add Status @endif</button>
-			</div>
-</div>								
+      <div class="col-sm-12 form-group">
+        <label for="City">City</label>
+        <select class="form-control" name="city_id" id="city_id">
+          @if(isset($data['city_name']))
+              <option value="{{ $data['city_name'] }}">{{ $data['city_name'] }}</option>
+          @else
+              <option></option>
+          @endif
+        </select>
+      </div>
+      @endif
+      <!-- Submit Field -->
+      <div class="col-sm-12">
+        <button type="submit" class="btn btn-primary">@if(isset($userStatus)) <i class="fa fa-refresh"></i>  Update Settings @else <i class="fa fa-plus"></i>  Add Status @endif</button>
+      </div>
+</div>                
 
 
 @section('js')
 
   <script type="text/javascript">
+
+
+    $('document').ready(function() {
+        var cityId = $('.city').attr('id');
+        var stateId = $('.state').attr('id');
+        
+          $.ajax({
+              url: "{{ route('admin.userStatuses.general') }}",
+              type: 'GET',
+              success: function(data){
+                console.log($data);
+              },
+              error: function(xhr,status,error)  {
+
+              }
+          });
+    });
+    
+      $('#State').on('change', function() {
+
+          var getStateId = $('#State').val();
+
+          $.ajax({
+              url: '{{ route("cities.list") }}',
+              data: { state_id: getStateId },
+              dataType: 'json',
+              cache: false,
+              type: 'POST',
+              success: function(data){
+                  if (data.success == 1) {
+                    var option = "";
+                    $.each(data.cities, function(i, item) {
+                        option += '<option data-state="'+item.state_id+'" value="'+item.id+'">'+item.name+'</option>';
+                    });
+                    $('#city_id').html(option);
+                  }
+              },
+              error: function(xhr,status,error)  {
+
+              }
+          });
+      }); 
+
       
       // Initialize validator
       $('#userStatusForm').pxValidate({

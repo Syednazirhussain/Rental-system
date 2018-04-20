@@ -24,6 +24,7 @@ use App\Repositories\ModuleRepository;
 use App\Repositories\PaymentCycleRepository;
 use App\Repositories\DiscountTypeRepository;
 use App\Repositories\CompanyInvoiceItemRepository;
+use App\Repositories\GeneralSettingRepository;
 use PDF;
 class CompanyInvoiceController extends AppBaseController
 {
@@ -48,7 +49,8 @@ class CompanyInvoiceController extends AppBaseController
         PaymentCycleRepository $PaymentCycleRepository,
         DiscountTypeRepository $DiscountTypeRepository,
         ModuleRepository $ModuleRepository,
-        CompanyInvoiceItemRepository $CompanyInvoiceItemRepo
+        CompanyInvoiceItemRepository $CompanyInvoiceItemRepo,
+        GeneralSettingRepository $GeneralSettingRepository
     )
     {
         $this->companyInvoiceRepository = $companyInvoiceRepo;
@@ -61,6 +63,7 @@ class CompanyInvoiceController extends AppBaseController
         $this->discountTypeRepository = $DiscountTypeRepository;
         $this->moduleRepository = $ModuleRepository;
         $this->companyInvoiceItemRepository = $CompanyInvoiceItemRepo;
+        $this->generalSettingRepository = $GeneralSettingRepository;
     }
 
 
@@ -90,6 +93,7 @@ class CompanyInvoiceController extends AppBaseController
             $payment_cycle_id = $company_details['company_contract']->payment_cycle;
             $discount_type_id = $company_details['company_contract']->discount_type;
 
+            $vat = $this->generalSettingRepository->getCompanyInvoiceVat();
             $discount = $company_details['company_contract']->discount;
             $discount_method = $this->discountTypeRepository->getDiscountTypeById($discount_type_id);
             $payment_method = $this->paymentCycleRepository->getPaymentCycleById($payment_cycle_id);
@@ -98,6 +102,7 @@ class CompanyInvoiceController extends AppBaseController
 
             $temp = array(
                 'discount'              => $discount,
+                'value_edit_tax'        => $vat,
                 'discount_method'       => $discount_method,
                 'payment_method'        => $payment_method,
                 'company_modules'       => $company_modules,
@@ -129,20 +134,49 @@ class CompanyInvoiceController extends AppBaseController
         {
 
             $company_infomation = $this->getCompanyDetailById($company_id);
+            $general_setting = $this->generalSettingRepository->getVendorInfomation();
+            $company_infomation['general_setting'] = json_decode($general_setting->meta_value);            
 
+            $setting = json_decode($general_setting->meta_value);
+            $country_id = $setting->country_id;
+            $state_id   = $setting->state_id;
+            $city_id    = $setting->city_id;
 
-            $companyId = $company_infomation['Company']->id;
-            $discount = $company_infomation['Discount']['Discount'];
-            $total = $company_infomation['Discount']['FinalAmount'];
+            $company_infomation['names'] = $this->generalSettingRepository->getCityStateCountryName($city_id,$state_id,$country_id);
+
+   
+
+            $companyId  = $company_infomation['Company']->id;
+            $discount   = $company_infomation['Discount']['Discount'];
+            $tax        = $company_infomation['Discount']['VAT'];
+            $total      = $company_infomation['Discount']['FinalAmount'];
 
             $Invoice = [
                 'company_id'         => $companyId,
                 'payment_cycle_id'   => $company_infomation['PaymentCycleId'],
                 'payment_cycle'      => $company_infomation['PaymentMethod'],
                 'discount'           => $discount,
-                'tax'                => 0,
+                'tax'                => $tax,
                 'total'              => $total
             ];
+
+
+
+            // ---------------------  For Testing Invoice without entry into database ------------------ //
+
+            $lastInvoice =  $this->companyInvoiceRepository->getLastInsertedInvoiceId();
+            $Invoice_id =  $lastInvoice->id;
+            $company_infomation['Invoice_id'] = $Invoice_id;
+            $data = ['Invoice' => $company_infomation];
+            $filename = $company_id."_Invoices.pdf";
+            $filePath = public_path().DIRECTORY_SEPARATOR."storage".DIRECTORY_SEPARATOR."company_invoices".DIRECTORY_SEPARATOR.$filename;
+            $pdf = PDF::loadView('admin.companies.invoice', $data);
+            $pdf->save($filePath);
+            Session::Flash("InvoiceSuccess","Invoice successfully created.");
+            return redirect()->route('admin.companies.index');
+
+            // ---------------------  For Testing Invoice without entry into database ------------------ //
+
 
             if($this->companyInvoiceRepository->create($Invoice))
             {

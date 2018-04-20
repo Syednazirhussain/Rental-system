@@ -49,7 +49,6 @@ class DashboardController extends AppBaseController
                     'companyRecent' => $companyRecent
                 ];
 
-
         return view('admin.dashboard.index', $data);
     }
 
