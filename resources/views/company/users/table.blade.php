@@ -5,9 +5,9 @@
             <th>Full Name</th>
             <th>Email</th>
             <th>User Role</th>
-            <th>Country Id</th>
-            <th>State Id</th>
-            <th>City Id</th>
+            <th>Country</th>
+            <th>State</th>
+            <th>City</th>
             <th>User Status</th>
             <th>Uuid</th>
             <th>Created At</th>
@@ -21,9 +21,9 @@
             <td>{{ $user->name }}</td>
             <td>{{ $user->email }}</td>
             <td>{{ $user_roles[$user->user_role_code] }}</td>
-            <td>{{ $user->country_id }}</td>
-            <td>{{ $user->state_id }}</td>
-            <td>{{ $user->city_id }}</td>
+            <td>{{ $countries[$user->country_id] }}</td>
+            <td>{{ $states[$user->state_id] }}</td>
+            <td>{{ $cities[$user->city_id] }}</td>
             <td>{{ $user_status[$user->user_status_id] }}</td>
             <td>{{ $user->uuid }}</td>
             <td>{{ $user->created_at }}</td>
