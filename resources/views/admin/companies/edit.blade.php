@@ -1279,64 +1279,34 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
               };
 
 
-            function checkSelected(val) {
-                var ret = false;
-                $(".module-id").each(function() {
-                    if ($(this).val() === val) {
-                        ret = true;
-                    }
-                });
-                return ret;
-            }
-
-
-            function totalSelectedValue(){
-                var total = 0;
-                $(".module-id option:selected").each(function() {
-                    total = total + parseInt($(this).val(), 10);
-                });
-                return total;
-            }
  
             $(document).on('change', '.module-id', function() {
 
-                  $('option', this).each(function() {
 
-                      // alert($(this).val());
+                    // enable all options
+                    var thisModule = $(this);
+                    // thisModule.find('option').prop('disabled', false);
 
-                      if (checkSelected($(this).val()) && $(this).val() !== "") {
-                          // alert($(this).val());
-                          $('.module-id option[value=' + $(this).val() + ']').prop('disabled', true);;
-
-                          $(this).prop('disabled', false);;
-                          // $('.module-id option[value=' + $(this).val() + ']').attr('disabled', 'disabled');
-                          // $('.module-id option[value=' + $(this).val() + ']').remove();
-                      } else {
-
-                          // $('.module-id option[value=' + $(this).val() + ']').prop('disabled', false);
+                    // loop over each select, use its value to 
+                    // disable the options in the other selects
+                    $('.module-id').find('option').prop('disabled', false);
+    
+                    $('.module-id').each(function() {
+                      
+                      if (this.value != 0) {
+                        $('.module-id').not(this).find('option[value="' + this.value + '"]').prop('disabled', true); 
                       }
-                  });
+
+                    });
+
             });
 
-            $(document).on('select2:unselecting', '.module-id', function (e) {
-
-                  // console.log(e.params);
-                  var moduleVal = e.params.args.data.id;
-                  $('option', this).each(function() {
-                      $('.module-id option[value=' + moduleVal + ']').prop('disabled', false);
-                  
-                  // $('.module-id option[value=' + moduleVal + ']').first().prop('disabled', false);
-
-                   });
-                  $('.select2-module').select2({
-                      placeholder: 'Select Module',
-                  });
-              // Do something
-            });
 
             var moduleNum = 0;
 
             $('#addModuleBtn').on('click', function() {
+
+              if ($(".moduleFields").length < Object.keys(modulesList).length) {
 
                 var moduleIdName = "module["+moduleNum+"][id]";
 
@@ -1345,7 +1315,7 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                     module += '<div class="row">';
                     module += '<div class="col-sm-6 form-group">';
                     module += '<label for="module">Module</label>';
-                    module += '<select name="module['+moduleNum+'][id]" class="module-id form-control select2-module" style="width: 100%" data-allow-clear="true">';
+                    module += '<select name="module['+moduleNum+'][id]" class="module-id form-control" style="width: 100%" data-allow-clear="true">';
                     module += '</select>';
                     module += '<div class="errorTxt"></div>';
                     module += '</div>'
@@ -1363,12 +1333,26 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                 $('.module').prepend(module);
 
                 // later:
-                var option = '<option></option>';
+                var option = '';
+                option += '<option value="0">Select Module</option>';
                 $.each(modulesList, function (index, value) {
                     option += '<option value="'+index+'">'+value+'</option>';
                 });
 
                 $('select[name="' + moduleIdName + '"]').html(option);
+
+                /*$('option', 'select[name="' + moduleIdName + '"]').each(function() {
+
+                    var optionThis = $(this);
+
+                    $(".module-id option:selected").each(function() {
+                        if ($(this).val() == optionThis.val()) {
+                           $(this).attr('disabled', true);
+                        }
+                    });
+                });*/
+
+
 
                 moduleNum += 1;
 
@@ -1376,7 +1360,7 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                       $(this).rules("add", {
                           required: true
                       });
-                  });
+                });
 
                   $('.module-price').each(function () {
                       $(this).rules("add", {
@@ -1393,9 +1377,16 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                   });
 
 
-                  $('.select2-module').select2({
+                  /*$('.select2-module').select2({
                       placeholder: 'Select Module',
-                  });
+                  });*/
+
+                  $('select[name="' + moduleIdName + '"]').trigger('change');
+
+
+                } else {
+                    alert("Maximum modules have been added");
+                }
 
             });
 
