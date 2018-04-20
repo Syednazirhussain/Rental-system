@@ -37,12 +37,17 @@
           @endforelse
         </select>
       </div>
-      
+      <div class="city" id="{{ $data['general_setting']->city_id }}"></div>
+      <div class="state" id="{{ $data['general_setting']->state_id }}"></div>
       <div class="col-sm-12 form-group">
         <label for="State">State</label>
         <select class="form-control" name="State" id="State">
           @forelse($data['state'] as $state)
-            <option value="{{ $state->id }}">{{ $state->name }}</option>
+            @if($state->id == $data['state_id'])
+              <option value="{{ $state->id }}" selected="selected">{{ $state->name }}</option>
+            @else
+              <option value="{{ $state->id }}">{{ $state->name }}</option>
+            @endif
           @empty
             <option value="0">empty</option>
           @endforelse
@@ -52,7 +57,11 @@
       <div class="col-sm-12 form-group">
         <label for="City">City</label>
         <select class="form-control" name="city_id" id="city_id">
-          <option></option>
+          @if(isset($data['city_name']))
+              <option value="{{ $data['city_name'] }}">{{ $data['city_name'] }}</option>
+          @else
+              <option></option>
+          @endif
         </select>
       </div>
       @endif
@@ -66,6 +75,23 @@
 @section('js')
 
   <script type="text/javascript">
+
+
+    $('document').ready(function() {
+        var cityId = $('.city').attr('id');
+        var stateId = $('.state').attr('id');
+        
+          $.ajax({
+              url: "{{ route('admin.userStatuses.general') }}",
+              type: 'GET',
+              success: function(data){
+                console.log($data);
+              },
+              error: function(xhr,status,error)  {
+
+              }
+          });
+    });
     
       $('#State').on('change', function() {
 

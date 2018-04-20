@@ -49,22 +49,29 @@ class UserStatusController extends AppBaseController
         $this->userStatusRepository->pushCriteria(new RequestCriteria($request));
         $userStatuses = $this->userStatusRepository->all();
 
-        return view('admin.user_statuses.index')
-            ->with('userStatuses', $userStatuses);
+        return view('admin.user_statuses.index')->with('userStatuses', $userStatuses);
     }
 
     public function generalSetting()
     {
         $general_setting = $this->generalSettingRepository->getVendorInfomation();
+        $object = json_decode($general_setting->meta_value);
+        $state_id = $object->state_id;
+        $city_id = $object->city_id;
+        // $state_name = $this->stateRepository->findWithoutFail($state_id)->name;
+        $city_name  = $this->cityRepository->findWithoutFail($city_id)->name;
+        // return $state_name;
+
         $country = $this->countryRepository->all();
-        $state   = $this->stateRepository->all();
-        $city    = $this->cityRepository->all();
+        $states   = $this->stateRepository->all();
+
 
         $data = [
-            'country'           => $country,
-            'state'             => $state,
-            'city'              => $city,
-            'general_setting'   => json_decode($general_setting->meta_value)     
+            'country'            => $country,
+            'state'              => $states,
+            'state_id'           => $state_id,
+            'city_name'            => $city_name,   
+            'general_setting'    => json_decode($general_setting->meta_value)     
         ];
 
         return view('admin.admin_general.index',compact('data'));

@@ -164,16 +164,16 @@ class CompanyInvoiceController extends AppBaseController
 
             // ---------------------  For Testing Invoice without entry into database ------------------ //
 
-            // $lastInvoice =  $this->companyInvoiceRepository->getLastInsertedInvoiceId();
-            // $Invoice_id =  $lastInvoice->id;
-            // $company_infomation['Invoice_id'] = $Invoice_id;
-            // $data = ['Invoice' => $company_infomation];
-            // $filename = $company_id."_Invoices.pdf";
-            // $filePath = public_path().DIRECTORY_SEPARATOR."storage".DIRECTORY_SEPARATOR."company_invoices".DIRECTORY_SEPARATOR.$filename;
-            // $pdf = PDF::loadView('admin.companies.invoice', $data);
-            // $pdf->save($filePath);
-            // Session::Flash("InvoiceSuccess","Invoice successfully created.");
-            // return redirect()->route('admin.companies.index');
+            $lastInvoice =  $this->companyInvoiceRepository->getLastInsertedInvoiceId();
+            $Invoice_id =  $lastInvoice->id;
+            $company_infomation['Invoice_id'] = $Invoice_id;
+            $data = ['Invoice' => $company_infomation];
+            $filename = $company_id."_Invoices.pdf";
+            $filePath = public_path().DIRECTORY_SEPARATOR."storage".DIRECTORY_SEPARATOR."company_invoices".DIRECTORY_SEPARATOR.$filename;
+            $pdf = PDF::loadView('admin.companies.invoice', $data);
+            $pdf->save($filePath);
+            Session::Flash("InvoiceSuccess","Invoice successfully created.");
+            return redirect()->route('admin.companies.index');
 
             // ---------------------  For Testing Invoice without entry into database ------------------ //
 

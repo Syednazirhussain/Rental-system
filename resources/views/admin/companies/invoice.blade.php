@@ -156,7 +156,7 @@
 
 		<br>
 		<p style="margin-left: 50px; margin-right: 50px; text-align: center;">
-			<strong>Contract Remaining Days</strong> {{ $Invoice['Discount']['ContractRemainingDays'] }}
+			<strong>Contract Due Date : </strong> {{ $Invoice['Discount']['ContractRemainingDays'] }}
 		</p>
 		<p style="margin-left: 50px; margin-right: 50px; text-align: center;">
 			<strong>Thank you</strong> for visiting us and making your first purchase! We’re glad that you found what you were looking for. It is our goal that you are always happy with what you bought from us, so please let us know if your buying experience was anything short of excellent. We look forward to seeing you again. Have a great day!
