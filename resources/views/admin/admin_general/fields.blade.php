@@ -13,11 +13,19 @@
       </div>
       <div class="col-sm-12 form-group">
           <label for="grid-input-16">Zip Code</label>
-          <input type="text" name="zip_code" id="grid-input-16" class="form-control">
+          <input type="text" name="zip_code" value="{{ $data['general_setting']->zip_code }}" id="grid-input-16" class="form-control">
       </div>
       <div class="col-sm-12 form-group">
           <label for="grid-input-16">Address</label>
-                <input type="text" name="address" id="grid-input-16" class="form-control">
+                <input type="text" name="address" value="{{ $data['general_setting']->address }}" id="grid-input-16" class="form-control">
+      </div>
+      <div class="col-sm-12 form-group">
+          <label for="grid-input-16">Phone</label>
+                <input type="text" name="phone" value="{{ $data['general_setting']->phone }}" id="grid-input-16" class="form-control">
+      </div>
+      <div class="col-sm-12 form-group">
+          <label for="grid-input-16">Tax</label>
+                <input type="text" name="tax" value="{{ $data['general_setting']->tax }}" id="grid-input-16" class="form-control">
       </div>
       <div class="col-sm-12 form-group">
         <label for="Country">Country</label>

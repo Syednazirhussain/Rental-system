@@ -93,7 +93,7 @@ class CompanyInvoiceController extends AppBaseController
             $payment_cycle_id = $company_details['company_contract']->payment_cycle;
             $discount_type_id = $company_details['company_contract']->discount_type;
 
-            $vat = $this->generalSettingRepository->find(1)->meta_value;
+            $vat = $this->generalSettingRepository->getCompanyInvoiceVat();
             $discount = $company_details['company_contract']->discount;
             $discount_method = $this->discountTypeRepository->getDiscountTypeById($discount_type_id);
             $payment_method = $this->paymentCycleRepository->getPaymentCycleById($payment_cycle_id);
@@ -134,9 +134,17 @@ class CompanyInvoiceController extends AppBaseController
         {
 
             $company_infomation = $this->getCompanyDetailById($company_id);
+            $general_setting = $this->generalSettingRepository->getVendorInfomation();
+            $company_infomation['general_setting'] = json_decode($general_setting->meta_value);            
 
-            // return $company_infomation['Discount'];
+            $setting = json_decode($general_setting->meta_value);
+            $country_id = $setting->country_id;
+            $state_id   = $setting->state_id;
+            $city_id    = $setting->city_id;
 
+            $company_infomation['names'] = $this->generalSettingRepository->getCityStateCountryName($city_id,$state_id,$country_id);
+
+   
 
             $companyId  = $company_infomation['Company']->id;
             $discount   = $company_infomation['Discount']['Discount'];
@@ -151,6 +159,8 @@ class CompanyInvoiceController extends AppBaseController
                 'tax'                => $tax,
                 'total'              => $total
             ];
+
+
 
             // ---------------------  For Testing Invoice without entry into database ------------------ //
 

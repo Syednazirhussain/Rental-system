@@ -55,7 +55,7 @@ class UserStatusController extends AppBaseController
 
     public function generalSetting()
     {
-        $general_setting = $this->generalSettingRepository->findWithoutFail(2);
+        $general_setting = $this->generalSettingRepository->getVendorInfomation();
         $country = $this->countryRepository->all();
         $state   = $this->stateRepository->all();
         $city    = $this->cityRepository->all();
@@ -79,10 +79,12 @@ class UserStatusController extends AppBaseController
             'address'    =>  $request->address,
             'country_id' =>  $request->Country,
             'state_id'   =>  $request->State,
-            'city_id'    =>  $request->city_id
+            'city_id'    =>  $request->city_id,
+            'phone'      =>  $request->phone,
+            'tax'        =>  $request->tax      
         ];
 
-        $general_settings = $this->generalSettingRepository->findWithoutFail(2);
+        $general_settings = $this->generalSettingRepository->getVendorInfomation();
         $general_settings->meta_value = json_encode($jsonArr);
         
         if($general_settings->save()) 
