@@ -546,6 +546,8 @@
                                         @if (isset($company))
                                             @foreach ($company->companyModules as $comModule)
                                               <div class="moduleFields">
+                                              <input type="hidden" name="module[{{ $comModule->id }}][pk]" class="remove-module-id" value="{{ $comModule->id }}" />
+
                                               <h5 class="bg-success p-x-1 p-y-1" >Module <i class="fa fa-times fa-lg remove-module pull-right cursor-p"></i></h5>
                                               <div class="row">
                                               <div class="col-sm-6 form-group">

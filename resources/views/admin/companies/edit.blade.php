@@ -697,7 +697,7 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
             // test if form is valid 
             if( $('#wizard-5').validate().form() ) {
 
-              if (companyModuleCreated == 0) {
+              if (editCompany == 0 && companyModuleCreated == 0) {
                   var myform = document.getElementById("wizard-5");
                   var data = new FormData(myform);
                   data.append('company_id', company_id);
@@ -724,7 +724,50 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
 
                   });
 
+              } else {
+
+                  var myform = document.getElementById("wizard-5");
+                  var data = new FormData(myform);
+                  data.append('company_id', editCompany);
+
+                  $.ajax({
+                      url: '{{ route("admin.companyModules.update") }}',
+                      data: data,
+                      cache: false,
+                      contentType: false,
+                      processData: false,
+                      type: 'POST', // For jQuery < 1.9
+                      success: function(data){
+                          // myform.pxWizard('goTo', 2);
+
+                           $.each(data.createdFields, function (index, value) {
+
+                               $('input[data-module-pk="new-'+index+'"]').val(value);
+                               $('input[data-module-pk="new-'+index+'"]').attr('name', "module["+value+"][pk]");
+                               $('input[data-module-pk="new-'+index+'"]').attr("data-module-pk", value);
+
+                               $('select[data-module-id="new-'+index+'"]').attr('name', "module["+value+"][id]");
+                               $('select[data-module-id="new-'+index+'"]').attr("data-module-id", value);
+
+                               $('input[data-module-price="new-'+index+'"]').attr('name', "module["+value+"][price]");                               
+                               $('input[data-module-price="new-'+index+'"]').attr("data-module-price", value);
+
+                               $('input[data-module-users="new-'+index+'"]').attr('name', "module["+value+"][users_limit]");
+                               $('input[data-module-users="new-'+index+'"]').attr("data-module-users", value);
+
+                            });
+
+
+                          // console.log(data);
+                      },
+                      error: function(xhr,status,error)  {
+
+                      }
+
+                  });
               }
+
+
                 // console.log("validates");
             } else {
                 // console.log("does not validate");
@@ -1336,22 +1379,23 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
 
                     var moduleIdName = "module["+moduleNum+"][id]";
 
-                    var module = '<div class="moduleFields">';
+                    var module = '<div class="moduleFields">';                  
+                        module += '<input type="hidden" name="module['+moduleNum+'][pk]" data-module-pk="new-'+moduleNum+'" class="remove-admin-id" value="new-'+moduleNum+'" />';
                         module += '<h5 class="bg-success p-x-1 p-y-1" >Module <i class="fa fa-times fa-lg remove-module pull-right cursor-p"></i></h5>';
                         module += '<div class="row">';
                         module += '<div class="col-sm-6 form-group">';
                         module += '<label for="module">Module</label>';
-                        module += '<select name="module['+moduleNum+'][id]" class="module-id form-control" style="width: 100%" data-allow-clear="true">';
+                        module += '<select name="module['+moduleNum+'][id]" data-module-id="new-'+moduleNum+'" class="module-id form-control" style="width: 100%" data-allow-clear="true">';
                         module += '</select>';
                         module += '<div class="errorTxt"></div>';
                         module += '</div>';
                         module += '<div class="col-sm-6 form-group">';
                         module += '<label for="price">Price</label>';
-                        module += '<input type="number" name="module['+moduleNum+'][price]" class="module-price form-control" min="1" />';
+                        module += '<input type="number" name="module['+moduleNum+'][price]" data-module-price="new-'+moduleNum+'" class="module-price form-control" min="1" />';
                         module += '</div>'
                         module += '<div class="col-sm-6 form-group">';
                         module += '<label for="users_limit">Users Limit</label>';
-                        module += '<input type="number" name="module['+moduleNum+'][users_limit]" class="users-limit form-control" value="10" min="1" />';
+                        module += '<input type="number" name="module['+moduleNum+'][users_limit]" data-module-users="new-'+moduleNum+'" class="users-limit form-control" value="10" min="1" />';
                         module += '</div>';
                         module += '</div>';
                         module += '</div>';
@@ -1379,9 +1423,41 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
             });
 
 
-            $(document).on('click', '.remove-module', function() {
+            $(document).on('click', '.remove-module', function(e) {
 
-                $(this).closest('.moduleFields').remove();
+                if (confirm('Are you sure?')) {
+
+                    if (editCompany == 0) {
+                      $(this).closest('.moduleFields').remove();;
+                    } else {
+
+                      var getModuleId = $(e.target).closest('.moduleFields').find('.remove-module-id').val();
+                      // alert(getFloorId);
+
+                      var data = { _method: "delete", module_id: getModuleId };
+
+                      $.ajax({
+                          url: '{{ route("admin.companyModules.destroy") }}',
+                          data: data,
+                          cache: false,
+                          type: 'POST', // For jQuery < 1.9
+                          success: function(data){
+                              // myform.pxWizard('goTo', 2);
+
+                              // console.log(data);
+                          },
+                          error: function(xhr,status,error)  {
+
+                          }
+
+                      });
+
+                      $(this).closest('.moduleFields').remove();
+                    }
+
+                }
+
+                
 
             });
 

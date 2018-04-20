@@ -123,21 +123,55 @@ class CompanyModuleController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateCompanyModuleRequest $request)
+    public function update(UpdateCompanyModuleRequest $request)
     {
-        $companyModule = $this->companyModuleRepository->findWithoutFail($id);
 
-        if (empty($companyModule)) {
-            Flash::error('Company Module not found');
+        $data = $request->all();
 
-            return redirect(route('admin.companyModules.index'));
+        /*echo "<pre>";
+        print_r($data);
+        echo "</pre>";
+
+        exit;*/
+        
+        $input = [];
+        $arr = [];
+
+        $i = 0;
+        $index = 0;
+
+        foreach ($data['module'] as $module) {
+
+            $input['id'] = $module['pk'];
+            $input['module_id'] = $module['id'];
+            $input['price'] = $module['price'];
+            $input['users_limit'] = $module['users_limit'];
+            $input['company_id'] = $data['company_id'];
+
+            if (strpos($module['pk'], 'new-') === false) {
+                $id = $module['pk'];
+            } else {
+                $index = preg_replace('/[^0-9]/', '', $module['pk']);
+                $id = "";
+            }
+            
+            $where = ['id' => $id];
+
+            $companyModule = $this->companyModuleRepository->updateOrCreate($where, $input);
+
+            if (strpos($module['pk'], 'new-') !== false) {
+
+                $arr[$index] = $companyModule->id;
+            }
+
         }
+        
 
-        $companyModule = $this->companyModuleRepository->update($request->all(), $id);
-
-        Flash::success('Company Module updated successfully.');
-
-        return redirect(route('admin.companyModules.index'));
+        return response()->json([
+                                'success'=>1, 
+                                'msg'=>'Company modules have been updated successfully',
+                                'createdFields'=>$arr,
+                                ]);
     }
 
     /**
@@ -147,20 +181,32 @@ class CompanyModuleController extends AppBaseController
      *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
+
+        $id = $request->only('module_id');
+
+        $id = $id['module_id'];
+
+        // echo $id;
+        // exit;
+        
         $companyModule = $this->companyModuleRepository->findWithoutFail($id);
 
         if (empty($companyModule)) {
-            Flash::error('Company Module not found');
 
-            return redirect(route('admin.companyModules.index'));
+            $success = 0;
+            $msg = "Company module not found";
         }
 
         $this->companyModuleRepository->delete($id);
 
-        Flash::success('Company Module deleted successfully.');
+        $success = 1;
+        $msg = "Company module deleted successfully";
 
-        return redirect(route('admin.companyModules.index'));
+        return response()->json([
+                                'success'=>$success, 
+                                'msg'=>$msg,
+                                ]);
     }
 }
