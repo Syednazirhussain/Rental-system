@@ -182,6 +182,20 @@ Route::group(['middleware' => ['admin.auth']], function () {
 	// route for invoice generation testing by moiz
 	Route::get('admin/company/invoice', ['as'=> 'admin.invoice.view', 'uses' => 'Admin\CompanyController@invoiceView']);
 
+	// route for admin account settings view
+	Route::get('admin/accountSettings', ['as'=> 'admin.accountSettings.view', 'uses' => 'Admin\UserController@accountSettingsView']);
+
+	// route for admin account settings store
+	Route::post('admin/accountSettings/store', ['as'=> 'admin.accountSettings.store', 'uses' => 'Admin\UserController@accountSettingsStore']);
+
+	Route::post('validate/siteAdmin/email', ['as'=> 'validate.siteAdmin.email', 'uses' => 'General\ValidationController@siteAdminEmail']);
+	
+	Route::post('admin/accountSettings/removeProfilePic', ['as'=> 'admin.accountSettings.removeProfilePic', 'uses' => 'Admin\UserController@accountSettingsRemoveProfilePic']);
+
+	//composer require barryvdh/laravel-dompdf
+
+	// route for invoice generation testing by moiz
+	Route::get('admin/company/invoice', ['as'=> 'admin.invoice.view', 'uses' => 'Admin\CompanyController@invoiceView']);
 
 
 
