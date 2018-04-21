@@ -38,6 +38,7 @@
       <div class="state" id="{{ $data['general_setting']->state_id }}"></div>
       <div class="col-sm-12 form-group">
         <label for="State">State</label>
+
         <select class="form-control" name="State" id="State">
           @forelse($data['state'] as $state)
             @if($state->id == $data['state_id'])
@@ -67,4 +68,6 @@
       </div>
       @endif
 </div>                
+
+
 

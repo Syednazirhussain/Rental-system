@@ -37,3 +37,91 @@
 
 
 @endsection
+
+@section('js')
+
+<script type="text/javascript">
+
+
+
+    $('document').ready(function() {
+        var cityId = $('.city').attr('id');
+        var stateId = $('.state').attr('id');
+        
+          $.ajax({
+              url: "{{ route('admin.userStatuses.general') }}",
+              type: 'GET',
+              success: function(response){
+                console.log($data);
+              }
+          });
+    });
+    
+      $('#State').on('change', function() {
+
+          var getStateId = $('#State').val();
+
+          $.ajax({
+              url: '{{ route("cities.list") }}',
+              data: { state_id: getStateId },
+              dataType: 'json',
+              cache: false,
+              type: 'POST',
+              success: function(data){
+                  if (data.success == 1) {
+                    var option = "";
+                    $.each(data.cities, function(i, item) {
+                        option += '<option data-state="'+item.state_id+'" value="'+item.id+'">'+item.name+'</option>';
+                    });
+                    $('#city_id').html(option);
+                  }
+              },
+              error: function(xhr,status,error)  {
+
+              }
+          });
+      }); 
+
+      
+      // Initialize validator
+      $('#userStatusForm').pxValidate({
+        focusInvalid: false,
+        rules: {
+          'name': {
+            required: true,
+            maxlength: 50,
+          },
+        },
+
+        messages: {
+          'name': {
+            required: "Please enter the name",
+          }
+        }
+
+      });
+
+
+
+
+
+              $(function() {
+                $('#Country').select2({
+                  placeholder: 'Select Country',
+                });
+              });
+
+              $(function() {
+                $('#State').select2({
+                  placeholder: 'Select State',
+                });
+              });
+
+              $(function() {
+                $('#city_id').select2({
+                  placeholder: 'Select City',
+                });
+              });
+</script>
+
+@endsection
