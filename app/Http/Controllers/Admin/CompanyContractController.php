@@ -126,33 +126,27 @@ class CompanyContractController extends AppBaseController
 
         $contractId = $contractId['contract_id'];
 
-        $input = $request->except('contract_id', '_method', 'company_id');      
+
+        $input = $request->except('contract_id', '_method');      
 
         $input['start_date'] = date('Y-m-d', strtotime($input['start_date']));
         $input['end_date'] = date('Y-m-d', strtotime($input['end_date']));
+        $input['company_id'] = $input['company_id'];
 
        /* echo "<pre>";
         print_r($input);
         echo "</pre>";
         exit;*/
 
+        $where = ['id' => $contractId];
+        
+        $contract = $this->companyContractRepository->updateOrCreate($where, $input);
 
-        $companyContract = $this->companyContractRepository->findWithoutFail($contractId);
-
-        if (empty($companyContract)) {
-
-            $success = 0;
-            $msg = "Company contract not found";
-        } else {
-            
-            $company = $this->companyContractRepository->update($input, $contractId);
-
-            $success = 1;
-            $msg = "Company contract has been updated successfully";
-        }
+        $success = 1;
+        $msg = "Company contract has been updated successfully";
 
 
-        return response()->json(['success'=>$success, 'msg'=>$msg]);
+        return response()->json(['success'=>$success, 'msg'=>$msg, 'contract'=>$contract->id]);
 
     }
 

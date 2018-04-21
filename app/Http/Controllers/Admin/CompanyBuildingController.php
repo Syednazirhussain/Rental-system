@@ -178,67 +178,71 @@ class CompanyBuildingController extends AppBaseController
         $arr = [];
         $flArr = [];
 
-        $i = 0;
-        $index = 0;
-
-        foreach ($data['building_data'] as $building) {
-
-            $input['name'] = $building['name'];
-            $input['address'] = $building['address'];
-            $input['zipcode'] = $building['zipcode'];
-            $input['num_floors'] = $building['num_floors'];
-            $input['company_id'] = $data['company_id'];
-
-            if (strpos($building['id'], 'new-') === false) {
-                $id = $building['id'];
-            } else {
-                $index = preg_replace('/[^0-9]/', '', $building['id']);
-                $id = "";
-            }
-            
-            $where = ['id' => $id];
-
-            $companyBuilding = $this->companyBuildingRepository->updateOrCreate($where, $input);
-
-            $floors = [];
-
-            if (isset($building['floor'])) {
+        if (isset($data['building_data'])) {
 
                 $i = 0;
+                $index = 0;
 
-                foreach ($building['floor'] as $fl) {
+                foreach ($data['building_data'] as $building) {
 
-                    $floors['building_id'] = $companyBuilding->id;
-                    $floors['company_id'] = $data['company_id'];
-                    $floors['floor'] = $fl['floor_number'];
-                    $floors['num_rooms'] = $fl['floor_rooms'];
-                
+                    $input['name'] = $building['name'];
+                    $input['address'] = $building['address'];
+                    $input['zipcode'] = $building['zipcode'];
+                    $input['num_floors'] = $building['num_floors'];
+                    $input['company_id'] = $data['company_id'];
 
-                    if (strpos($fl['id'], 'new-') === false) {
-                        $floorId = $fl['id'];
+                    if (strpos($building['id'], 'new-') === false) {
+                        $id = $building['id'];
                     } else {
-                        $floorIndex = preg_replace('/[^0-9]/', '', $fl['id']);
-                        $floorId = "";
+                        $index = preg_replace('/[^0-9]/', '', $building['id']);
+                        $id = "";
+                    }
+                    
+                    $where = ['id' => $id];
+
+                    $companyBuilding = $this->companyBuildingRepository->updateOrCreate($where, $input);
+
+                    $floors = [];
+
+                    if (isset($building['floor'])) {
+
+                        $i = 0;
+
+                        foreach ($building['floor'] as $fl) {
+
+                            $floors['building_id'] = $companyBuilding->id;
+                            $floors['company_id'] = $data['company_id'];
+                            $floors['floor'] = $fl['floor_number'];
+                            $floors['num_rooms'] = $fl['floor_rooms'];
+                        
+
+                            if (strpos($fl['id'], 'new-') === false) {
+                                $floorId = $fl['id'];
+                            } else {
+                                $floorIndex = preg_replace('/[^0-9]/', '', $fl['id']);
+                                $floorId = "";
+                            }
+
+                            $where = ['id' => $floorId];
+
+                            $buildingFloor = $this->companyFloorRoomRepository->updateOrCreate($where, $floors);
+
+                            if (strpos($fl['id'], 'new-') !== false) {
+
+                                $arr[$index]['floors'][$i]['index'] = $floorIndex;
+                                $arr[$index]['floors'][$i]['floorId'] = $buildingFloor->id;
+
+                                $i++;
+                            }
+                        }
                     }
 
-                    $where = ['id' => $floorId];
+                    if (strpos($building['id'], 'new-') !== false) {
 
-                    $buildingFloor = $this->companyFloorRoomRepository->updateOrCreate($where, $floors);
-
-                    if (strpos($fl['id'], 'new-') !== false) {
-
-                        $arr[$index]['floors'][$i]['index'] = $floorIndex;
-                        $arr[$index]['floors'][$i]['floorId'] = $buildingFloor->id;
-
-                        $i++;
+                        $arr[$index]['id'] = $companyBuilding->id;
                     }
+
                 }
-            }
-
-            if (strpos($building['id'], 'new-') !== false) {
-
-                $arr[$index]['id'] = $companyBuilding->id;
-            }
 
         }
         
