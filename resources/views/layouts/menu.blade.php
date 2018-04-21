@@ -75,3 +75,7 @@
     <a href="{!! route('company.conference.foods.index') !!}"><i class="fa fa-edit"></i><span>Foods</span></a>
 </li>
 
+<li class="{{ Request::is('packages*') ? 'active' : '' }}">
+    <a href="{!! route('company.conference.packages.index') !!}"><i class="fa fa-edit"></i><span>Packages</span></a>
+</li>
+
