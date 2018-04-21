@@ -9,6 +9,8 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Illuminate\Support\Facades\Storage;
+use App\Mail\NewInvoiceMail;
+use Mail;
 
 
 use App\Repositories\CompanyRepository;
@@ -74,8 +76,8 @@ class CompanyInvoiceController extends AppBaseController
     {
 
         $this->companyInvoiceRepository->pushCriteria(new RequestCriteria($request));
-        $Invoices = $this->companyInvoiceRepository->all();
 
+        $Invoices = $this->companyInvoiceRepository->all();
         return view('admin.company_invoices.index')->with('Invoices', $Invoices);
     }
 
@@ -154,6 +156,23 @@ class CompanyInvoiceController extends AppBaseController
             return $company_infomation;
     }
 
+    public function sendLatestInvoiceToCompanyContractPerson($company_id)
+    {
+        $lastInvoice =  $this->companyInvoiceRepository->getLastInsertedInvoiceId();
+        $Invoice_id =  $lastInvoice->id;      
+        $filename = $Invoice_id."_Invoices.pdf";         
+        $filePath = public_path().DIRECTORY_SEPARATOR."storage".DIRECTORY_SEPARATOR."company_invoices".DIRECTORY_SEPARATOR.$filename;
+        $data = ['Path' => $filePath];
+        $company_infomation = $this->getCompanyDetailById($company_id); 
+        foreach ($company_infomation['Contact_Person'] as $person) 
+        {
+            Mail::to($person->email)->send(new NewInvoiceMail($data));
+        }
+        $Invoices = $this->companyInvoiceRepository->all();
+        Session::Flash('SendEmails','Invoice send successfully to company contract persons');
+        return redirect()->route('admin.companyInvoices.index');
+    }
+
 
     // This is the responsible to Insert and generate invoice by company ID  
     public function createInvoiceByCompanyId($company_id)
@@ -196,30 +215,45 @@ class CompanyInvoiceController extends AppBaseController
 
             // ---------------------  For Testing Invoice without entry into database ------------------ //
 
-            $lastInvoice =  $this->companyInvoiceRepository->getLastInsertedInvoiceId();
-            $Invoice_id =  $lastInvoice->id;
-            $company_infomation['Invoice_id'] = $Invoice_id;
+            // $lastInvoice =  $this->companyInvoiceRepository->getLastInsertedInvoiceId();
+            // $Invoice_id =  $lastInvoice->id;
+            // $company_infomation['Invoice_id'] = $Invoice_id;
             
-            $data = ['Invoice' => $company_infomation];
-            $filename = $Invoice_id."_Invoices.pdf";
-            $lastInsertedInvoice = $this->companyInvoiceRepository->findWithoutFail($Invoice_id);
-            $lastInsertedInvoice->due_date = $extended_date;
-            $lastInsertedInvoice->file_name = $filename;
-            if ($lastInsertedInvoice->save()) 
-            {
-                $filePath = public_path().DIRECTORY_SEPARATOR."storage".DIRECTORY_SEPARATOR."company_invoices".DIRECTORY_SEPARATOR.$filename;
-                $pdf = PDF::loadView('admin.companies.invoice', $data);
-                $pdf->save($filePath);
-                Session::Flash("InvoiceSuccess","Invoice successfully created.");
-                return redirect()->route('admin.companies.index');
-            }
-            else
-            {
-                return json_encode(['status' => 'Failed','result' => 'Invoice due date or file name cannot be update']);
-            }
+            // $data = ['Invoice' => $company_infomation];
+            // $filename = $Invoice_id."_Invoices.pdf";
+            // $lastInsertedInvoice = $this->companyInvoiceRepository->findWithoutFail($Invoice_id);
+            // $lastInsertedInvoice->due_date = $extended_date;
+            // $lastInsertedInvoice->file_name = $filename;
+            // if ($lastInsertedInvoice->save()) 
+            // {
+            //     $filePath = public_path().DIRECTORY_SEPARATOR."storage".DIRECTORY_SEPARATOR."company_invoices".DIRECTORY_SEPARATOR.$filename;
+            //     $pdf = PDF::loadView('admin.companies.invoice', $data);
+            //     $pdf->save($filePath);
+            //     Session::Flash("InvoiceSuccess","Invoice successfully created.");
+            //     return redirect()->route('admin.companies.index');
+            // }
+            // else
+            // {
+            //     return json_encode(['status' => 'Failed','result' => 'Invoice due date or file name cannot be update']);
+            // }
             
             // ---------------------  For Testing Invoice without entry into database ------------------ //
 
+
+            // ---------------------  For Testing Email without entry into database ------------------ //
+
+            // $lastInvoice =  $this->companyInvoiceRepository->getLastInsertedInvoiceId();
+            // $Invoice_id =  $lastInvoice->id;      
+            // $filename = $Invoice_id."_Invoices.pdf";         
+            // $filePath = public_path().DIRECTORY_SEPARATOR."storage".DIRECTORY_SEPARATOR."company_invoices".DIRECTORY_SEPARATOR.$filename;
+            // $data = ['Path' => $filePath];
+            // foreach ($company_infomation['Contact_Person'] as $person) 
+            // {
+            //     Mail::to($person->email)->send(new NewInvoiceMail($data));
+            // }
+            // return "Verify emails";
+
+            // ---------------------  For Testing Email without entry into database ------------------ //
 
             if($this->companyInvoiceRepository->create($Invoice))
             {
@@ -245,6 +279,11 @@ class CompanyInvoiceController extends AppBaseController
                         $pdf = PDF::loadView('admin.companies.invoice', $data);
                         $pdf->save($filePath);
 
+                        $data = ['Path' => $filePath];
+                        foreach ($company_infomation['Contact_Person'] as $person) 
+                        {
+                            Mail::to($person->email)->send(new NewInvoiceMail($data));
+                        }
 
                         Session::Flash("InvoiceSuccess","Invoice successfully created.");
                         return redirect()->route('admin.companies.index');

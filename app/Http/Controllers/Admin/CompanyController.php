@@ -75,9 +75,7 @@ class CompanyController extends AppBaseController
         $companies = $this->companyRepository->all();
 
 
-        $data = [
-                'companies' => $companies
-            ];
+        $data = ['companies' => $companies];
 
         return view('admin.companies.index', $data);
     }
