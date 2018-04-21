@@ -157,69 +157,71 @@ class CompanyUserController extends AppBaseController
         $companyInput = [];
         $arr = [];
 
-
-        $i = 0;
-        $index = 0;
-
-        foreach ($data['admin'] as $admin) {
-
-            $faker = Faker::create();
-
-
-            $input['name'] = $admin['name'];
-            $input['email'] = $admin['email'];
-
-            if (!empty(trim($admin['password']))) {
-                $input['password'] = bcrypt($admin['password']);
-            }
-
+        if (isset($data['admin'])) {
             
+            $i = 0;
+            $index = 0;
 
-            if (strpos($admin['user_id'], 'new-') === false) {
-                $id = $admin['user_id'];
-                $adminId = $admin['id'];
+            foreach ($data['admin'] as $admin) {
 
-                unset($input['uuid']);
-                unset($input['user_role_code']);
-                unset($input['user_status_id']);
+                $faker = Faker::create();
 
-            } else {
-                $index = preg_replace('/[^0-9]/', '', $admin['user_id']);
+
+                $input['name'] = $admin['name'];
+                $input['email'] = $admin['email'];
+
+                if (!empty(trim($admin['password']))) {
+                    $input['password'] = bcrypt($admin['password']);
+                }
+
                 
-                $input['uuid'] = $faker->uuid;;
-                $input['user_role_code'] = 'company_admin';
-                $input['user_status_id'] = 1;
 
-                $id = "";
-                $adminId = "";
+                if (strpos($admin['user_id'], 'new-') === false) {
+                    $id = $admin['user_id'];
+                    $adminId = $admin['id'];
 
-                /*echo "<pre>";
-                print_r($input);
-                echo "</pre>";
+                    unset($input['uuid']);
+                    unset($input['user_role_code']);
+                    unset($input['user_status_id']);
 
-                exit;*/
+                } else {
+                    $index = preg_replace('/[^0-9]/', '', $admin['user_id']);
+                    
+                    $input['uuid'] = $faker->uuid;;
+                    $input['user_role_code'] = 'company_admin';
+                    $input['user_status_id'] = 1;
+
+                    $id = "";
+                    $adminId = "";
+
+                    /*echo "<pre>";
+                    print_r($input);
+                    echo "</pre>";
+
+                    exit;*/
+                }
+                
+                $where = ['id' => $id];
+                $whereAdmin = ['id' => $adminId];
+
+                $adminUser = $this->userRepository->updateOrCreate($where, $input);
+
+                $companyInput['user_id'] = $adminUser->id;
+                $companyInput['company_id'] = $data['company_id'];
+
+                $companyUser = $this->companyUserRepository->updateOrCreate($whereAdmin, $companyInput);
+
+
+                if (strpos($admin['user_id'], 'new-') !== false) {
+
+                    $arr[$index]['id'] = $companyUser->id;
+                    $arr[$index]['user_id'] = $adminUser->id;
+                    $arr[$index]['email'] = $adminUser->email;
+                }
+
             }
-            
-            $where = ['id' => $id];
-            $whereAdmin = ['id' => $adminId];
-
-            $adminUser = $this->userRepository->updateOrCreate($where, $input);
-
-            $companyInput['user_id'] = $adminUser->id;
-            $companyInput['company_id'] = $data['company_id'];
-
-            $companyUser = $this->companyUserRepository->updateOrCreate($whereAdmin, $companyInput);
-
-
-            if (strpos($admin['user_id'], 'new-') !== false) {
-
-                $arr[$index]['id'] = $companyUser->id;
-                $arr[$index]['user_id'] = $adminUser->id;
-                $arr[$index]['email'] = $adminUser->email;
-            }
-
-        }
         
+        }
 
         return response()->json([
                                 'success'=>1, 
@@ -227,20 +229,6 @@ class CompanyUserController extends AppBaseController
                                 'createdFields'=>$arr,
                                 ]);
 
-
-        $companyUser = $this->companyUserRepository->findWithoutFail($id);
-
-        if (empty($companyUser)) {
-            Flash::error('Company User not found');
-
-            return redirect(route('admin.companyUsers.index'));
-        }
-
-        $companyUser = $this->companyUserRepository->update($request->all(), $id);
-
-        Flash::success('Company User updated successfully.');
-
-        return redirect(route('admin.companyUsers.index'));
     }
 
     /**

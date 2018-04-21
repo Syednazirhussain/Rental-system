@@ -232,6 +232,8 @@ Route::get("admin/settings/city/{id}",['uses' => 'Admin\UserController@getCityBy
 	Route::get('temp_company/login', ['as'=> 'temp.company.login', 'uses' => 'Company\Conference\LoginController@index']);
 	Route::post('temp_company/authenticate', ['as'=> 'temp.company.authenticate', 'uses' => 'Company\Conference\LoginController@authenticate']);
 	Route::get('temp_company/dashboard', ['as'=> 'temp.company.dashboard', 'uses' => 'Company\Conference\LoginController@dashboard']);
+	
+	Route::get('mail', ['as'=> 'mail.send', 'uses' => 'General\ValidationController@sendMail']);
 
 
 

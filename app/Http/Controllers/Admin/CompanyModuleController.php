@@ -137,32 +137,36 @@ class CompanyModuleController extends AppBaseController
         $input = [];
         $arr = [];
 
-        $i = 0;
-        $index = 0;
+        if (isset($data['module'])) {
 
-        foreach ($data['module'] as $module) {
+                $i = 0;
+                $index = 0;
 
-            $input['id'] = $module['pk'];
-            $input['module_id'] = $module['id'];
-            $input['price'] = $module['price'];
-            $input['users_limit'] = $module['users_limit'];
-            $input['company_id'] = $data['company_id'];
+                foreach ($data['module'] as $module) {
 
-            if (strpos($module['pk'], 'new-') === false) {
-                $id = $module['pk'];
-            } else {
-                $index = preg_replace('/[^0-9]/', '', $module['pk']);
-                $id = "";
-            }
-            
-            $where = ['id' => $id];
+                    $input['id'] = $module['pk'];
+                    $input['module_id'] = $module['id'];
+                    $input['price'] = $module['price'];
+                    $input['users_limit'] = $module['users_limit'];
+                    $input['company_id'] = $data['company_id'];
 
-            $companyModule = $this->companyModuleRepository->updateOrCreate($where, $input);
+                    if (strpos($module['pk'], 'new-') === false) {
+                        $id = $module['pk'];
+                    } else {
+                        $index = preg_replace('/[^0-9]/', '', $module['pk']);
+                        $id = "";
+                    }
+                    
+                    $where = ['id' => $id];
 
-            if (strpos($module['pk'], 'new-') !== false) {
+                    $companyModule = $this->companyModuleRepository->updateOrCreate($where, $input);
 
-                $arr[$index] = $companyModule->id;
-            }
+                    if (strpos($module['pk'], 'new-') !== false) {
+
+                        $arr[$index] = $companyModule->id;
+                    }
+
+                }
 
         }
         
