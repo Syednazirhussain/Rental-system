@@ -80,4 +80,8 @@ class HomeController extends Controller
         return view('customers.home.show', ['room' => $room, 'company' => $company, 'building' => $building, 'floor' => $floor,
             'service' => $service]);
     }
+
+    public function store() {
+
+    }
 }
