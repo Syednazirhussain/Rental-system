@@ -32,24 +32,23 @@
                 <div class="panel box">
                     <div class="box-row">
                         <div class="box-cell col-md-4 p-a-3 valign-top">
-                            <h4 class="m-y-1 font-weight-normal"><i class="fa fa-cloud-upload text-primary"></i>&nbsp;&nbsp;Uploads
+                            <h4 class="m-y-1 font-weight-normal"><i class="fa fa-certificate text-primary"></i>&nbsp;&nbsp;Status
                             </h4>
                             <ul class="list-group m-x-0 m-t-3 m-b-0">
                                 <li class="list-group-item p-x-1 b-x-0 b-t-0">
-                                    <span class="label label-primary pull-right">34</span>
-                                    Documents
+                                    <span class="label label-primary pull-right">{{ $room_count }}</span>
+                                    Rooms
                                 </li>
                                 <li class="list-group-item p-x-1 b-x-0">
-                                    <span class="label label-danger pull-right">128</span>
-                                    Audio
+                                    <span class="label label-danger pull-right">{{ $contract_count }}</span>
+                                    Bookings
                                 </li>
                                 <li class="list-group-item p-x-1 b-x-0 b-b-0">
-                                    <span class="label label-info pull-right">12</span>
-                                    Videos
+                                    <span class="label label-info pull-right">{{ $user_count }}</span>
+                                    Company Users
                                 </li>
                             </ul>
                         </div>
-
                     </div>
                 </div>
                 <!-- / Uploads -->
@@ -149,7 +148,7 @@
                 <!-- New users -->
                 <div class="panel panel-danger panel-dark">
                     <div class="panel-heading">
-                        <span class="panel-title"><i class="panel-title-icon fa fa-smile-o"></i>New users</span>
+                        <span class="panel-title"><i class="panel-title-icon fa fa-smile-o"></i>Upcoming Contracts</span>
                         <div class="panel-heading-controls">
                             <ul class="pagination pagination-xs">
                                 <li><a href="#">«</a></li>
@@ -165,88 +164,70 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Username</th>
-                                <th>Full Name</th>
-                                <th>E-mail</th>
-                                <th></th>
+                                <th>Room ID</th>
+                                <th>Contract No</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Price</th>
                             </tr>
                             </thead>
                             <tbody class="valign-middle">
-                            <tr>
-                                <td>1</td>
-                                <td>
-                                    <img src="assets/demo/avatars/2.jpg" alt="" style="width:26px;height:26px;"
-                                         class="border-round">&nbsp;&nbsp;<a href="#" title="">@rjang</a>
-                                </td>
-                                <td>Robert Jang</td>
-                                <td>rjang@example.com</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>
-                                    <img src="assets/demo/avatars/3.jpg" alt="" style="width:26px;height:26px;"
-                                         class="border-round">&nbsp;&nbsp;<a href="#" title="">@mbortz</a>
-                                </td>
-                                <td>Michelle Bortz</td>
-                                <td>mbortz@example.com</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>
-                                    <img src="assets/demo/avatars/4.jpg" alt="" style="width:26px;height:26px;"
-                                         class="border-round">&nbsp;&nbsp;<a href="#" title="">@towens</a>
-                                </td>
-                                <td>Timothy Owens</td>
-                                <td>towens@example.com</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>
-                                    <img src="assets/demo/avatars/5.jpg" alt="" style="width:26px;height:26px;"
-                                         class="border-round">&nbsp;&nbsp;<a href="#" title="">@dsteiner</a>
-                                </td>
-                                <td>Denise Steiner</td>
-                                <td>dsteiner@example.com</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>
-                                    <img src="assets/demo/avatars/2.jpg" alt="" style="width:26px;height:26px;"
-                                         class="border-round">&nbsp;&nbsp;<a href="#" title="">@rjang</a>
-                                </td>
-                                <td>Robert Jang</td>
-                                <td>rjang@example.com</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>
-                                    <img src="assets/demo/avatars/3.jpg" alt="" style="width:26px;height:26px;"
-                                         class="border-round">&nbsp;&nbsp;<a href="#" title="">@mbortz</a>
-                                </td>
-                                <td>Michelle Bortz</td>
-                                <td>mbortz@example.com</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>7</td>
-                                <td>
-                                    <img src="assets/demo/avatars/4.jpg" alt="" style="width:26px;height:26px;"
-                                         class="border-round">&nbsp;&nbsp;<a href="#" title="">@towens</a>
-                                </td>
-                                <td>Timothy Owens</td>
-                                <td>towens@example.com</td>
-                                <td></td>
-                            </tr>
+                            @foreach($upcoming_contracts as $contract)
+                                <tr>
+                                    <td>{{ $loop->index + 1 }}</td>
+                                    <td>{{ $contract->room_id }}</td>
+                                    <td>{{ $contract->contract_number }}</td>
+                                    <td>{{ $contract->start_date }}</td>
+                                    <td>{{ $contract->end_date }}</td>
+                                    <td>{{ $contract->price }}</td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
                 </div>
                 <!-- / New users -->
+
+                <div class="panel panel-danger panel-dark">
+                    <div class="panel-heading">
+                        <span class="panel-title"><i class="panel-title-icon fa fa-smile-o"></i>Expiring Contracts</span>
+                        <div class="panel-heading-controls">
+                            <ul class="pagination pagination-xs">
+                                <li><a href="#">«</a></li>
+                                <li class="active"><a href="#">1</a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">»</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Room ID</th>
+                                <th>Contract No</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Price</th>
+                            </tr>
+                            </thead>
+                            <tbody class="valign-middle">
+                            @foreach($expiring_contracts as $contract)
+                                <tr>
+                                    <td>{{ $loop->index + 1 }}</td>
+                                    <td>{{ $contract->room_id }}</td>
+                                    <td>{{ $contract->contract_number }}</td>
+                                    <td>{{ $contract->start_date }}</td>
+                                    <td>{{ $contract->end_date }}</td>
+                                    <td>{{ $contract->price }}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
             <div class="col-md-5">
                 <!-- Recent tasks -->
