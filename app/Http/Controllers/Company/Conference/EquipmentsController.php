@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Company\Conference;
 use App\Http\Requests\Company\Conference\CreateEquipmentsRequest;
 use App\Http\Requests\Company\Conference\UpdateEquipmentsRequest;
 use App\Repositories\EquipmentsRepository;
+use App\Repositories\EquipmentCriteriaRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
@@ -15,10 +16,15 @@ class EquipmentsController extends AppBaseController
 {
     /** @var  EquipmentsRepository */
     private $equipmentsRepository;
+    private $equipmentsCriteriaRepository;
 
-    public function __construct(EquipmentsRepository $equipmentsRepo)
+    public function __construct(EquipmentsRepository $equipmentsRepo,
+                                EquipmentCriteriaRepository $equipmentsCriteriaRepo
+    )
+    
     {
         $this->equipmentsRepository = $equipmentsRepo;
+        $this->equipmentsCriteriaRepository = $equipmentsCriteriaRepo;
     }
 
     /**
@@ -43,8 +49,15 @@ class EquipmentsController extends AppBaseController
      * @return Response
      */
     public function create()
-    {
-        return view('company.Conference.equipments.create');
+    {   
+
+        $equipCriteria = $this->equipmentsCriteriaRepository->getEquipmetsCriteria();
+
+        $data = [
+                    'equipCriteria' => $equipCriteria,
+                ];
+
+        return view('company.Conference.equipments.create', $data);
     }
 
     /**
@@ -57,6 +70,14 @@ class EquipmentsController extends AppBaseController
     public function store(CreateEquipmentsRequest $request)
     {
         $input = $request->all();
+
+        if (array_key_exists('is_multi_units', $input) && $input['is_multi_units'] == 'on') {
+            $input['is_multi_units'] = '1';
+        } else {
+            $input['is_multi_units'] = NULL;
+        }
+
+
 
         $equipments = $this->equipmentsRepository->create($input);
 
@@ -94,6 +115,10 @@ class EquipmentsController extends AppBaseController
      */
     public function edit($id)
     {
+
+
+        $equipCriteria = $this->equipmentsCriteriaRepository->getEquipmetsCriteria();
+
         $equipments = $this->equipmentsRepository->findWithoutFail($id);
 
         if (empty($equipments)) {
@@ -102,7 +127,12 @@ class EquipmentsController extends AppBaseController
             return redirect(route('company.conference.equipments.index'));
         }
 
-        return view('company.Conference.equipments.edit')->with('equipments', $equipments);
+        $data = [
+                    'equipments' => $equipments,
+                    'equipCriteria' => $equipCriteria
+                ];
+
+        return view('company.Conference.equipments.edit', $data);
     }
 
     /**

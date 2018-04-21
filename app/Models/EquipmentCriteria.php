@@ -63,6 +63,6 @@ class EquipmentCriteria extends Model
      **/
     public function conferenceEquipments()
     {
-        return $this->hasMany(\App\Models\ConferenceEquipment::class);
+        return $this->hasMany(\App\Models\Equipments::class);
     }
 }

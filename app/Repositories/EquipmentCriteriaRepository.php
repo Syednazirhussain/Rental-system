@@ -31,4 +31,16 @@ class EquipmentCriteriaRepository extends BaseRepository
     {
         return EquipmentCriteria::class;
     }
+
+
+
+    public function getEquipmetsCriteria()
+    {
+        return EquipmentCriteria::orderBy('title', 'asc')->get();
+    }
+
+
+
+
+
 }

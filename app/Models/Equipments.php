@@ -68,6 +68,6 @@ class Equipments extends Model
      **/
     public function conferenceEquipmentsCriterion()
     {
-        return $this->belongsTo(\App\Models\ConferenceEquipmentsCriterion::class);
+        return $this->belongsTo(\App\Models\EquipmentCriteria::class, 'criteria_id', 'id');
     }
 }
