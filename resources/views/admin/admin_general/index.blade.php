@@ -16,14 +16,20 @@
                         </div>
                     @endif
                     <div class="panel">
-                        <div class="panel-heading">
-                            <div class="panel-title">Add/Update Invoice Address</div>
-                        </div>
-                        <div class="panel-body">
-                            <form action="{{ route('admin.userStatuses.addOrUpdate') }}" method="POST">
-                                @include('admin.admin_general.fields')
-                            </form>
-                        </div>
+                        <form action="{{ route('admin.userStatuses.addOrUpdate') }}" method="POST">
+                            <div class="panel-heading">
+                                <div class="panel-title">General Information</div>
+                            </div>
+                            <div class="panel-body">
+                                    @include('admin.admin_general.general')
+                            </div>
+                            <div class="panel-heading">
+                                <div class="panel-title">Tax &amp; Invoice validition</div>
+                            </div>
+                            <div class="panel-body">
+                                    @include('admin.admin_general.tax')
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

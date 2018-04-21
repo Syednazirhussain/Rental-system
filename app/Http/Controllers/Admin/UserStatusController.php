@@ -91,12 +91,12 @@ class UserStatusController extends AppBaseController
             'state_id'   =>  $request->State,
             'city_id'    =>  $request->city_id,
             'phone'      =>  $request->phone,
-            'tax'        =>  $request->tax      
+            'tax'        =>  $request->tax,    
+            'due_day'    =>  $request->due_day     
         ];
 
         $general_settings = $this->generalSettingRepository->getVendorInfomation();
         $general_settings->meta_value = json_encode($jsonArr);
-        
         if($general_settings->save()) 
         {
             return redirect()->route('admin.userStatuses.general');
