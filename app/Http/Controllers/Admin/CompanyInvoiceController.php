@@ -7,12 +7,10 @@ use App\Http\Requests\Admin\UpdateCompanyInvoiceRequest;
 use App\Repositories\CompanyInvoiceRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
-use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
-use Response;
 use Illuminate\Support\Facades\Storage;
-use Session;
-
+use App\Mail\NewInvoiceMail;
+use Mail;
 
 
 use App\Repositories\CompanyRepository;
@@ -24,7 +22,15 @@ use App\Repositories\ModuleRepository;
 use App\Repositories\PaymentCycleRepository;
 use App\Repositories\DiscountTypeRepository;
 use App\Repositories\CompanyInvoiceItemRepository;
+use App\Repositories\GeneralSettingRepository;
+
+
+use Session;
+use Flash;
+use Response;
+use Carbon;
 use PDF;
+
 class CompanyInvoiceController extends AppBaseController
 {
     /** @var  CompanyInvoiceRepository */
@@ -48,7 +54,8 @@ class CompanyInvoiceController extends AppBaseController
         PaymentCycleRepository $PaymentCycleRepository,
         DiscountTypeRepository $DiscountTypeRepository,
         ModuleRepository $ModuleRepository,
-        CompanyInvoiceItemRepository $CompanyInvoiceItemRepo
+        CompanyInvoiceItemRepository $CompanyInvoiceItemRepo,
+        GeneralSettingRepository $GeneralSettingRepository
     )
     {
         $this->companyInvoiceRepository = $companyInvoiceRepo;
@@ -61,6 +68,7 @@ class CompanyInvoiceController extends AppBaseController
         $this->discountTypeRepository = $DiscountTypeRepository;
         $this->moduleRepository = $ModuleRepository;
         $this->companyInvoiceItemRepository = $CompanyInvoiceItemRepo;
+        $this->generalSettingRepository = $GeneralSettingRepository;
     }
 
 
@@ -68,14 +76,15 @@ class CompanyInvoiceController extends AppBaseController
     {
 
         $this->companyInvoiceRepository->pushCriteria(new RequestCriteria($request));
-        $Invoices = $this->companyInvoiceRepository->all();
 
+        $Invoices = $this->companyInvoiceRepository->all();
         return view('admin.company_invoices.index')->with('Invoices', $Invoices);
     }
 
     public function getCompanyDetailById($company_id)
     {
             $company = $this->companyRepository->findWithoutFail($company_id);
+
             $company_details = [
                 'company'                   => $company,
                 'city'                      => $company->city->name,
@@ -85,27 +94,58 @@ class CompanyInvoiceController extends AppBaseController
                 'company_contract'          => $this->companyContractRepository->getCompanyContract($company_id),
                 'company_modules'           => $company->companyModules  
             ];
+
             $company_modules = $this->mergeCompanyRelatedModuleWithModule($company_details['company_modules']);
 
             $payment_cycle_id = $company_details['company_contract']->payment_cycle;
             $discount_type_id = $company_details['company_contract']->discount_type;
 
-            $discount = $company_details['company_contract']->discount;
-            $discount_method = $this->discountTypeRepository->getDiscountTypeById($discount_type_id);
-            $payment_method = $this->paymentCycleRepository->getPaymentCycleById($payment_cycle_id);
-            $contract_start_date =  $company_details['company_contract']->start_date;
-            $contract_end_date = $company_details['company_contract']->end_date;
+            if (isset($discount_type_id)) 
+            {
+                $discount_method = $this->discountTypeRepository->getDiscountTypeById($discount_type_id);
+                $vat = $this->generalSettingRepository->getCompanyInvoiceVat();
+                $payment_method = $this->paymentCycleRepository->getPaymentCycleById($payment_cycle_id);
 
-            $temp = array(
-                'discount'              => $discount,
-                'discount_method'       => $discount_method,
-                'payment_method'        => $payment_method,
-                'company_modules'       => $company_modules,
-                'contract_start_date'   => $contract_start_date,
-                'contract_end_date'     => $contract_end_date   
-            );
+                $discount = $company_details['company_contract']->discount;
+                $contract_start_date =  $company_details['company_contract']->start_date;
+                $contract_end_date = $company_details['company_contract']->end_date;
+
+                $temp = [
+                    'discount'              => $discount,
+                    'value_edit_tax'        => $vat->meta_value,
+                    'discount_method'       => $discount_method,
+                    'payment_method'        => $payment_method,
+                    'company_modules'       => $company_modules,
+                    'contract_start_date'   => $contract_start_date,
+                    'contract_end_date'     => $contract_end_date   
+                ];
+            }
+            else
+            {
+
+                $vat = $this->generalSettingRepository->getCompanyInvoiceVat();
+                $payment_method = $this->paymentCycleRepository->getPaymentCycleById($payment_cycle_id);
+
+                $contract_start_date =  $company_details['company_contract']->start_date;
+                $contract_end_date = $company_details['company_contract']->end_date;
+
+                $temp = [
+                    'discount'              => 0,
+                    'value_edit_tax'        => $vat->meta_value,
+                    'discount_method'       => 'Percentage',
+                    'payment_method'        => $payment_method,
+                    'company_modules'       => $company_modules,
+                    'contract_start_date'   => $contract_start_date,
+                    'contract_end_date'     => $contract_end_date   
+                ];
+            }
 
             $company_discount_detail =  $this->companyInvoiceRepository->totalAndDiscountedTotal($temp);
+
+            /*echo "<pre>";
+            print_r($company_discount_detail);
+            exit;*/
+
 
             // This array contain company related all invoice information
             $company_infomation = [
@@ -121,6 +161,23 @@ class CompanyInvoiceController extends AppBaseController
             return $company_infomation;
     }
 
+    public function sendLatestInvoiceToCompanyContractPerson($company_id)
+    {
+        $lastInvoice =  $this->companyInvoiceRepository->getLastInsertedInvoiceId();
+        $Invoice_id =  $lastInvoice->id;      
+        $filename = $Invoice_id."_Invoices.pdf";         
+        $filePath = public_path().DIRECTORY_SEPARATOR."storage".DIRECTORY_SEPARATOR."company_invoices".DIRECTORY_SEPARATOR.$filename;
+        $data = ['Path' => $filePath];
+        $company_infomation = $this->getCompanyDetailById($company_id); 
+        foreach ($company_infomation['Contact_Person'] as $person) 
+        {
+            Mail::to($person->email)->send(new NewInvoiceMail($data));
+        }
+        $Invoices = $this->companyInvoiceRepository->all();
+        Session::Flash('SendEmails','Invoice send successfully to company contract persons');
+        return redirect()->route('admin.companyInvoices.index');
+    }
+
 
     // This is the responsible to Insert and generate invoice by company ID  
     public function createInvoiceByCompanyId($company_id)
@@ -129,38 +186,123 @@ class CompanyInvoiceController extends AppBaseController
         {
 
             $company_infomation = $this->getCompanyDetailById($company_id);
+            $general_setting = $this->generalSettingRepository->getVendorInfomation();
+            $company_infomation['general_setting'] = json_decode($general_setting->meta_value);            
+
+            // return $general_setting->meta_value;
+            $setting    = json_decode($general_setting->meta_value);
+            $country_id = $setting->country_id;
+            $state_id   = $setting->state_id;
+            $city_id    = $setting->city_id;
+            $due_day    = $setting->due_day;
+
+            $company_infomation['names'] = $this->generalSettingRepository->getCityStateCountryName($city_id,$state_id,$country_id);
+
+            $dt = Carbon\Carbon::now();
+            $extended_date = $dt->addDays($due_day);
+            $company_infomation['extented_date'] = $extended_date;
 
 
-            $companyId = $company_infomation['Company']->id;
-            $discount = $company_infomation['Discount']['Discount'];
-            $total = $company_infomation['Discount']['FinalAmount'];
+            $companyId  = $company_infomation['Company']->id;
+            $discount   = $company_infomation['Discount']['Discount'];
+            $tax        = $company_infomation['Discount']['VAT'];
+            $total      = $company_infomation['Discount']['FinalAmount'];
 
             $Invoice = [
                 'company_id'         => $companyId,
                 'payment_cycle_id'   => $company_infomation['PaymentCycleId'],
                 'payment_cycle'      => $company_infomation['PaymentMethod'],
                 'discount'           => $discount,
-                'tax'                => 0,
-                'total'              => $total
+                'tax'                => $tax,
+                'total'              => $total,
+                'due_date'           => $extended_date
             ];
+
+           /* echo "<pre>";
+            print_r($Invoice);
+            echo "</pre>";
+
+            exit;*/
+
+            // ---------------------  For Testing Invoice without entry into database ------------------ //
+
+            // $lastInvoice =  $this->companyInvoiceRepository->getLastInsertedInvoiceId();
+            // $Invoice_id =  $lastInvoice->id;
+            // $company_infomation['Invoice_id'] = $Invoice_id;
+            
+            // $data = ['Invoice' => $company_infomation];
+            // $filename = $Invoice_id."_Invoices.pdf";
+            // $lastInsertedInvoice = $this->companyInvoiceRepository->findWithoutFail($Invoice_id);
+            // $lastInsertedInvoice->due_date = $extended_date;
+            // $lastInsertedInvoice->file_name = $filename;
+            // if ($lastInsertedInvoice->save()) 
+            // {
+            //     $filePath = public_path().DIRECTORY_SEPARATOR."storage".DIRECTORY_SEPARATOR."company_invoices".DIRECTORY_SEPARATOR.$filename;
+            //     $pdf = PDF::loadView('admin.companies.invoice', $data);
+            //     $pdf->save($filePath);
+            //     Session::Flash("InvoiceSuccess","Invoice successfully created.");
+            //     return redirect()->route('admin.companies.index');
+            // }
+            // else
+            // {
+            //     return json_encode(['status' => 'Failed','result' => 'Invoice due date or file name cannot be update']);
+            // }
+            
+            // ---------------------  For Testing Invoice without entry into database ------------------ //
+
+
+            // ---------------------  For Testing Email without entry into database ------------------ //
+
+            // $lastInvoice =  $this->companyInvoiceRepository->getLastInsertedInvoiceId();
+            // $Invoice_id =  $lastInvoice->id;      
+            // $filename = $Invoice_id."_Invoices.pdf";         
+            // $filePath = public_path().DIRECTORY_SEPARATOR."storage".DIRECTORY_SEPARATOR."company_invoices".DIRECTORY_SEPARATOR.$filename;
+            // $data = ['Path' => $filePath];
+            // foreach ($company_infomation['Contact_Person'] as $person) 
+            // {
+            //     Mail::to($person->email)->send(new NewInvoiceMail($data));
+            // }
+            // return "Verify emails";
+
+            // ---------------------  For Testing Email without entry into database ------------------ //
 
             if($this->companyInvoiceRepository->create($Invoice))
             {
                 $lastInvoice =  $this->companyInvoiceRepository->getLastInsertedInvoiceId();
                 $Invoice_id =  $lastInvoice->id;
                 $company_infomation['Invoice_id'] = $Invoice_id;
+
                 $Invoice_Item = ['invoice_id' => $Invoice_id, 'company_id' => $companyId];
                 if ($this->companyInvoiceItemRepository->create($Invoice_Item)) 
                 {
-                    // return "Company invoice generated successfully..";
-                    // return view('admin.companies.invoice')->with('Invoice',$company_infomation);
                     $data = ['Invoice' => $company_infomation];
-                    $filename = $company_id."_Invoices.pdf";
-                    $filePath = public_path().DIRECTORY_SEPARATOR."storage".DIRECTORY_SEPARATOR."company_invoices".DIRECTORY_SEPARATOR.$filename;
-                    $pdf = PDF::loadView('admin.companies.invoice', $data);
-                    $pdf->save($filePath);
-                    Session::Flash("InvoiceSuccess","Invoice successfully created.");
-                    return redirect()->route('admin.companies.index');
+                    $filename = "invoice_".$Invoice_id.".pdf";
+                    $lastInsertedInvoice = $this->companyInvoiceRepository->findWithoutFail($Invoice_id);
+                    $lastInsertedInvoice->due_date = $extended_date;
+                    $lastInsertedInvoice->file_name = $filename;
+                    if ($lastInsertedInvoice->save()) 
+                    {
+                        // For Browser view
+                        // return view('admin.companies.invoice')->with('Invoice',$company_infomation);
+
+                        // For saved pdf in company invoice directory
+                        $filePath = public_path().DIRECTORY_SEPARATOR."storage".DIRECTORY_SEPARATOR."company_invoices".DIRECTORY_SEPARATOR.$filename;
+                        $pdf = PDF::loadView('admin.companies.invoice', $data);
+                        $pdf->save($filePath);
+
+                        $data = ['Path' => $filePath];
+                        foreach ($company_infomation['Contact_Person'] as $person) 
+                        {
+                            Mail::to($person->email)->send(new NewInvoiceMail($data));
+                        }
+
+                        Session::Flash("InvoiceSuccess","Invoice successfully created.");
+                        return redirect()->route('admin.companies.index');
+                    }
+                    else
+                    {
+                        return json_encode(['status' => 'Failed','result' => 'Invoice due date or file name cannot be update']);
+                    }
                 }
                 else
                 {
@@ -198,13 +340,14 @@ class CompanyInvoiceController extends AppBaseController
         foreach ($company_modules as $value) 
         {
             for ($i=0; $i < count($collection); $i++) 
-            { 
+            {
                 if ($collection[$i]->id == $value->module_id) 
                 {
                     $modules['company_module'][$i] = [
                         'module_id'                => $collection[$i]->id,
                         'module_name'              => $collection[$i]->name,
-                        'module_price'             => $collection[$i]->price,
+                        // 'module_price'             => $collection[$i]->price,
+                        'module_price'             => $value->price,
                         'module_price_for_company' => $value->price,
                         'module_user_limit'        => $value->users_limit
                     ];

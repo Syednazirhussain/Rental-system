@@ -24,7 +24,8 @@ class CreateCompanyContractsTable extends Migration {
 			$table->string('payment_method', 50)->nullable()->index('payment_method');
 			$table->integer('payment_cycle');
 			$table->decimal('discount', 10)->unsigned()->default(0.00);
-			$table->string('discount_type', 50)->default('percent');
+			$table->string('discount_type', 50)->nullable();
+			$table->string('status', 50)->default('active');
 			$table->timestamps();
 			$table->softDeletes();
 		});

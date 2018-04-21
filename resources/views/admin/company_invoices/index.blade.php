@@ -23,6 +23,12 @@
         <div class="text-right m-b-3">
 <!--             <a href="{{ route('admin.modules.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i>Add Module</a> -->
         </div>
+        
+        @if(Session::has('SendEmails'))
+        <div class="alert alert-success" role="alert">
+            {{ Session::get('SendEmails') }}
+        </div>
+        @endif
 
         <div class="table-primary">
           <table class="table table-striped">
@@ -44,7 +50,7 @@
                   <td>{{ $Invoice->created_at }}</td>
                   <td>{{ $Invoice->status }}</td>
                   <td>
-                    <a href="" class="btn btn-default">Details</a>
+                    <a href="{{ route('admin.sendInvoice',['company_id' => $Invoice->company->id ]) }}" class="btn btn-default">Send Email</a>
                   </td>
                 </tr>
 

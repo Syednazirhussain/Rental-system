@@ -57,7 +57,7 @@ class CompanyModule extends Model
      * @var array
      */
     public static $rules = [
-        'module' => 'required|array'
+        'module' => 'array'
     ];
 
     /**

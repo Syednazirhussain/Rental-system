@@ -61,8 +61,8 @@ Route::group(['middleware' => ['admin.auth']], function () {
 
 
 	Route::get('admin/settings/account_status', ['as'=> 'admin.userStatuses.index', 'uses' => 'Admin\UserStatusController@index']);
-	Route::get('admin/settings/general', ['as'=> 'admin.userStatuses.general', 'uses' => 'Admin\UserStatusController@generalSetting']);
-	Route::patch('admin/settings/general', ['as'=> 'admin.userStatuses.addOrUpdate', 'uses' => 'Admin\UserStatusController@addOrUpdate']);
+	Route::get('admin/settings/general', ['as'=> 'admin.settings.general', 'uses' => 'Admin\SettingsController@generalSetting']);
+	Route::patch('admin/settings/general', ['as'=> 'admin.userStatuses.addOrUpdate', 'uses' => 'Admin\SettingsController@addOrUpdate']);
 
 	Route::post('admin/settings/account_status', ['as'=> 'admin.userStatuses.store', 'uses' => 'Admin\UserStatusController@store']);
 	Route::get('admin/settings/account_status/create', ['as'=> 'admin.userStatuses.create', 'uses' => 'Admin\UserStatusController@create']);
@@ -138,9 +138,9 @@ Route::group(['middleware' => ['admin.auth']], function () {
 	Route::get('admin/companyModules', ['as'=> 'admin.companyModules.index', 'uses' => 'Admin\CompanyModuleController@index']);
 	Route::post('admin/companyModules', ['as'=> 'admin.companyModules.store', 'uses' => 'Admin\CompanyModuleController@store']);
 	Route::get('admin/companyModules/create', ['as'=> 'admin.companyModules.create', 'uses' => 'Admin\CompanyModuleController@create']);
-	Route::put('admin/companyModules/{companyModules}', ['as'=> 'admin.companyModules.update', 'uses' => 'Admin\CompanyModuleController@update']);
-	Route::patch('admin/companyModules/{companyModules}', ['as'=> 'admin.companyModules.update', 'uses' => 'Admin\CompanyModuleController@update']);
-	Route::delete('admin/companyModules/{companyModules}', ['as'=> 'admin.companyModules.destroy', 'uses' => 'Admin\CompanyModuleController@destroy']);
+	Route::put('admin/companyModules/update', ['as'=> 'admin.companyModules.update', 'uses' => 'Admin\CompanyModuleController@update']);
+	Route::patch('admin/companyModules/update', ['as'=> 'admin.companyModules.update', 'uses' => 'Admin\CompanyModuleController@update']);
+	Route::delete('admin/companyModules/delete', ['as'=> 'admin.companyModules.destroy', 'uses' => 'Admin\CompanyModuleController@destroy']);
 	Route::get('admin/companyModules/{companyModules}', ['as'=> 'admin.companyModules.show', 'uses' => 'Admin\CompanyModuleController@show']);
 	Route::get('admin/companyModules/{companyModules}/edit', ['as'=> 'admin.companyModules.edit', 'uses' => 'Admin\CompanyModuleController@edit']);
 
@@ -154,9 +154,11 @@ Route::group(['middleware' => ['admin.auth']], function () {
 	Route::get('admin/companyUsers/{companyUsers}', ['as'=> 'admin.companyUsers.show', 'uses' => 'Admin\CompanyUserController@show']);
 	Route::get('admin/companyUsers/{companyUsers}/edit', ['as'=> 'admin.companyUsers.edit', 'uses' => 'Admin\CompanyUserController@edit']);
 
-
+	// routes created by nazir start
 	Route::get('admin/companyInvoices', ['as'=> 'admin.companyInvoices.index', 'uses' => 'Admin\CompanyInvoiceController@index']);
 	Route::get('admin/companyInvoices/generate/{company_id}',['as' => 'admin.generateInvoice','uses' => 'Admin\CompanyInvoiceController@createInvoiceByCompanyId']);
+	Route::get('admin/companyInvoices/sendInvoice/{company_id}',['as' => 'admin.sendInvoice','uses' => 'Admin\CompanyInvoiceController@sendLatestInvoiceToCompanyContractPerson']);
+	// routes created by nazir end
 
 	Route::post('admin/companyInvoices', ['as'=> 'admin.companyInvoices.store', 'uses' => 'Admin\CompanyInvoiceController@store']);
 	Route::get('admin/companyInvoices/create', ['as'=> 'admin.companyInvoices.create', 'uses' => 'Admin\CompanyInvoiceController@create']);
@@ -178,9 +180,11 @@ Route::group(['middleware' => ['admin.auth']], function () {
 	Route::get('admin/modules/{modules}/edit', ['as'=> 'admin.modules.edit', 'uses' => 'Admin\ModuleController@edit']);
 
 
+	//composer require barryvdh/laravel-dompdf
+
 	// route for invoice generation testing by moiz
 	Route::get('admin/company/invoice', ['as'=> 'admin.invoice.view', 'uses' => 'Admin\CompanyController@invoiceView']);
-	
+
 	// route for admin account settings view
 	Route::get('admin/accountSettings', ['as'=> 'admin.accountSettings.view', 'uses' => 'Admin\UserController@accountSettingsView']);
 
@@ -200,6 +204,8 @@ Route::group(['middleware' => ['admin.auth']], function () {
 
 });
 
+
+Route::get("admin/settings/city/{id}",['uses' => 'Admin\UserController@getCityByStateId']);
 
 
 # --------------------------------------------------------------------------
@@ -226,6 +232,8 @@ Route::group(['middleware' => ['admin.auth']], function () {
 	Route::get('temp_company/login', ['as'=> 'temp.company.login', 'uses' => 'Company\Conference\LoginController@index']);
 	Route::post('temp_company/authenticate', ['as'=> 'temp.company.authenticate', 'uses' => 'Company\Conference\LoginController@authenticate']);
 	Route::get('temp_company/dashboard', ['as'=> 'temp.company.dashboard', 'uses' => 'Company\Conference\LoginController@dashboard']);
+	
+	Route::get('mail', ['as'=> 'mail.send', 'uses' => 'General\ValidationController@sendMail']);
 
 
 	Route::get('temp_company/booking/add', ['as'=> 'temp.company.booking.add', 'uses' => 'Company\Conference\RoomController@addBooking']);
