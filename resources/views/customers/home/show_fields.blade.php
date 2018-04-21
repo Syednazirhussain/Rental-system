@@ -1,9 +1,24 @@
 @section('css')
+    <!-- Zabuto calendar -->
+    <link href="{{ asset('/css/zabuto_calendar.min.css') }}" rel="stylesheet">
     <style>
-        * {box-sizing: border-box}
-        body {font-family: Verdana, sans-serif; margin:0}
-        .mySlides {display: none}
-        img {vertical-align: middle;}
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: Verdana, sans-serif;
+            margin: 0
+            background: #fefefe;
+        }
+
+        .mySlides {
+            display: none
+        }
+
+        img {
+            vertical-align: middle;
+        }
 
         /* Slideshow container */
         .slideshow-container {
@@ -35,7 +50,7 @@
 
         /* On hover, add a black background color with a little bit see-through */
         .prev:hover, .next:hover {
-            background-color: rgba(0,0,0,0.8);
+            background-color: rgba(0, 0, 0, 0.8);
         }
 
         /* Caption text */
@@ -83,25 +98,66 @@
             animation-duration: 1.5s;
         }
 
+        .building_address {
+            font-size: 15px;
+            color: #939396;
+        }
+
+        .pd-t-5 {
+            padding-top: 5px;
+        }
+
+        .wizard-steps li {
+            min-width: 150px !important;
+            max-width: 150px !important;;
+            width: 150px !important;
+        }
+
+        .wizard-steps li.active {
+            background-color: #ffffff;
+        }
+
+        .wizard-pane.active {
+            background-color: #ffffff;
+        }
+
         @-webkit-keyframes fade {
-            from {opacity: .4}
-            to {opacity: 1}
+            from {
+                opacity: .4
+            }
+            to {
+                opacity: 1
+            }
         }
 
         @keyframes fade {
-            from {opacity: .4}
-            to {opacity: 1}
+            from {
+                opacity: .4
+            }
+            to {
+                opacity: 1
+            }
         }
 
         /* On smaller screens, decrease text size */
         @media only screen and (max-width: 300px) {
-            .prev, .next,.text {font-size: 11px}
+            .prev, .next, .text {
+                font-size: 11px
+            }
         }
     </style>
 @endsection
-
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
+        <h1>{{ $room->name }}</h1>
+    </div>
+    <div class="col-md-12">
+        <span class="building_address">{{ $building->address }}, {{ $building->zipcode }}</span><br/>
+        <span class="building_address">{{ $building->name }} Floor - {{ $floor }}</span>
+    </div>
+</div>
+<div class="row" style="margin-top: 50px">
+    <div class="col-md-7">
         <div class="slideshow-container">
             @if($room->image1 !== '')
                 <div class="mySlides fade">
@@ -134,62 +190,185 @@
 
         </div>
     </div>
-    <div class="col-md-6">
-        <table class="table table-striped">
-            <tbody>
-            <tr>
-                <th scope="row" width="200px">Id</th>
-                <th>{{ $room->id }}</th>
-            </tr>
-            <tr>
-                <th scope="row" width="200px">Company Name</th>
-                <th>{{ $company->name }}</th>
-            </tr>
-            <tr>
-                <th scope="row" width="200px">Building Name</th>
-                <th>{{ $building->name }}</th>
-            </tr>
-            <tr>
-                <th scope="row" width="200px">Building Address</th>
-                <th>{{ $building->address }}</th>
-            </tr>
-            <tr>
-                <th scope="row" width="200px">Building Zipcode</th>
-                <th>{{ $building->zipcode }}</th>
-            </tr>
-            <tr>
-                <th scope="row" width="200px">Floors</th>
-                <th>{{ $floor }}</th>
-            </tr>
-            <tr>
-                <th scope="row" width="200px">Name</th>
-                <th>{{ $room->name }}</th>
-            </tr>
-            <tr>
-                <th scope="row" width="200px">Area</th>
-                <th>{{ $room->area }}</th>
-            </tr>
-            <tr>
-                <th scope="row" width="200px">Price</th>
-                <th>$ {{ $room->price }}</th>
-            </tr>
-            <tr>
-                <th scope="row" width="200px">Security Code</th>
-                <th>{{ $room->security_code }}</th>
-            </tr>
-            <tr>
-                <th scope="row" width="200px">Service</th>
-                <th>{{ $service }}</th>
-            </tr>
-            </tbody>
-        </table>
+    <div class="col-md-5">
+        <div class="wizard" id="wizard-basic">
+            <div class="wizard-wrapper">
+                <ul class="wizard-steps">
+                    <li data-target="#wizard-step1">
+                        <span class="wizard-step-number">1</span>
+                        <span class="wizard-step-complete"><i class="fa fa-check text-success"></i></span>
+                        <span class="wizard-step-caption">
+                          Step 1
+                        </span>
+                    </li>
+                    <li data-target="#wizard-step2">
+                        <span class="wizard-step-number">2</span>
+                        <span class="wizard-step-complete"><i class="fa fa-check text-success"></i></span>
+                        <span class="wizard-step-caption">
+                          Step 2
+                        </span>
+                    </li>
+                    <li data-target="#wizard-step3">
+                        <span class="wizard-step-number">3</span>
+                        <span class="wizard-step-complete"><i class="fa fa-check text-success"></i></span>
+                        <span class="wizard-step-caption">
+                          Finish
+                        </span>
+                    </li>
+                </ul>
+            </div>
+            <div class="wizard-content" style="padding-bottom: 20px;">
+                <div class="wizard-pane" id="wizard-step1">
+                    <div class="col-md-12">
+                        <h4 class="text-center" style="color: #49c000">Please Choose Start Date</h4>
+                    </div>
+                    <div id="my-calendar"></div>
+                    <div class="col-md-12" style="padding-top: 20px;">
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-primary" data-wizard-action="next">Next Step</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="wizard-pane" id="wizard-step2">
+                    <div class="col-md-12">
+                        <h4 class="text-center" style="color: #49c000">Please Choose End Date</h4>
+                    </div>
+                    <div id="calendar_endate"></div>
+                    <div class="col-md-12" style="padding-top: 20px;">
+                        <div class="pull-right">
+                            <button type="button" class="btn" data-wizard-action="prev">Prev</button>
+                            <button type="button" class="btn btn-primary" data-wizard-action="next">Next</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="wizard-pane" id="wizard-step3">
+                    <div class="col-md-12">
+                        <h4 class="text-center" style="color: #49c000">Confirmation</h4>
+                    </div>
+                    <div class="col-md-12 text-center">
+                        <h4 id="book_start_date" class="text-center" style="color: #49c000; margin-top: 20px;"></h4>
+                        <h4 id="book_end_date" class="text-center" style="color: #49c000; margin-top: 20px;"></h4>
+                        <h4 style="color: #49c000; margin-top: 20px;">Price {{ $room->price }}</h4>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="pull-right">
+                            <button type="button" class="btn" data-wizard-action="prev">Prev</button>
+                            <button type="submit" class="btn btn-primary" data-wizard-action="finish">Book Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="room-information">
+            <div>
+                <h4>Owner: {{ $company->name }}</h4>
+            </div>
+            <div class="pd-t-5">
+                <span class="building_address">Area: {{ $room->area }} Sqm</span>
+            </div>
+            <div class="pd-t-5">
+                <span class="building_address">Service: {{ $service }}</span>
+            </div>
+            <div class="pd-t-5">
+                <span class="building_address">Security Code: {{ $room->security_code }}</span>
+            </div>
+            <div class="pd-t-5">
+                <span class="building_address">Price: ${{ $room->price }}</span>
+            </div>
+        </div>
+        <br/>
         <a href="{!! route('home.rooms.book', $room->id) !!}" class="btn btn-primary">Book This Room</a>
         <a href="{!! route('home') !!}" class="btn btn-default">Back</a>
     </div>
 </div>
 
 @section('js')
+    <script src="{{ asset('/js/zabuto_calendar.min.js') }}"></script>
     <script>
+        $(document).ready(function () {
+            $('#wizard-basic').pxWizard();
+            //Calendar management
+            var eventData = [
+                {"date": "2018-05-01", "badge": false, "title": "Example 1"},
+            ];
+
+            $("#my-calendar").zabuto_calendar({
+                language: "en",
+                show_previous: false,
+                nav_icon: {
+                    prev: '<i class="fa fa-chevron-left" aria-hidden="true"></i>',
+                    next: '<i class="fa fa-chevron-right" aria-hidden="true"></i>'
+                },
+                legend: [
+                    {type: "text", label: "Booked Dates", badge: "00"},
+                ],
+                ajax: {
+                    url: "show_data.php?grade=1"
+                },
+                data: eventData,
+                action: function () {
+                    return chooseStartDate(this.id, false);
+                },
+            });
+
+            $("#calendar_endate").zabuto_calendar({
+                language: "en",
+                show_previous: false,
+                nav_icon: {
+                    prev: '<i class="fa fa-chevron-left" aria-hidden="true"></i>',
+                    next: '<i class="fa fa-chevron-right" aria-hidden="true"></i>'
+                },
+                legend: [
+                    {type: "text", label: "Booked Dates", badge: "00"},
+                ],
+                ajax: {
+                    url: "show_data.php?grade=1"
+                },
+                data: eventData,
+                action: function () {
+                    return chooseEndDate(this.id, false);
+                },
+            });
+            var start_date = '';
+            function chooseStartDate(id, fromModal) {
+                var $calendar_id = $('#wizard-step1').find('.zabuto_calendar').parent().attr('id');
+                if(start_date != '')
+                    document.getElementById($calendar_id + '_' + start_date.toString() + '_day').style.backgroundColor = 'white';
+
+                start_date = $("#" + id).data("date");
+                var hasEvent = $("#" + id).data("hasEvent");
+                if (hasEvent && !fromModal) {
+                    return false;
+                }
+                $("#book_start_date").html("Start Date " + start_date.toString());
+                document.getElementById($calendar_id + '_' + start_date.toString() + '_day').style.backgroundColor = 'yellow';
+                return true;
+            }
+
+            var end_date = '';
+            function chooseEndDate(id, fromModal) {
+                var $calendar_id = $('#wizard-step2').find('.zabuto_calendar').parent().attr('id');
+                if(end_date != '')
+                    document.getElementById($calendar_id + '_' + end_date.toString() + '_day').style.backgroundColor = 'white';
+
+                end_date = $("#" + id).data("date");
+                var hasEvent = $("#" + id).data("hasEvent");
+                if (hasEvent && !fromModal) {
+                    return false;
+                }
+
+                $("#book_end_date").html("End Date " + end_date.toString());
+                document.getElementById($calendar_id + '_' + end_date.toString() + '_day').style.backgroundColor = 'yellow';
+                return true;
+            }
+
+        });
+
+        //Slider Management
         var slideIndex = 1;
         showSlides(slideIndex);
 
@@ -205,15 +384,19 @@
             var i;
             var slides = document.getElementsByClassName("mySlides");
             //var dots = document.getElementsByClassName("dot");
-            if (n > slides.length) {slideIndex = 1}
-            if (n < 1) {slideIndex = slides.length}
+            if (n > slides.length) {
+                slideIndex = 1
+            }
+            if (n < 1) {
+                slideIndex = slides.length
+            }
             for (i = 0; i < slides.length; i++) {
                 slides[i].style.display = "none";
             }
             /*for (i = 0; i < dots.length; i++) {
-                dots[i].className = dots[i].className.replace(" active", "");
-            }*/
-            slides[slideIndex-1].style.display = "block";
+             dots[i].className = dots[i].className.replace(" active", "");
+             }*/
+            slides[slideIndex - 1].style.display = "block";
             //dots[slideIndex-1].className += " active";
         }
     </script>

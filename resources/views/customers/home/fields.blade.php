@@ -18,7 +18,7 @@
             max-width: 1000px;
             position: relative;
             margin: auto;
-            padding: 5px;
+            padding: 5px 5px 5px 0px;
         }
 
         /* Fading animation */
@@ -35,6 +35,11 @@
             -webkit-border-radius: 4px;
             -moz-border-radius: 4px;
             border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .resultItem-name {
+            color: #49c000 !important;
         }
 
         .resultItem:hover {
@@ -43,42 +48,93 @@
             box-shadow: 0 3px 14px 0 rgba(0,0,0,.15);
         }
 
-        @-webkit-keyframes fade {
-            from {
-                opacity: .4
-            }
-            to {
-                opacity: 1
-            }
+        .productLineTabItem.productLineTabItem--active {
+            width: 200px;
+            border-top: 3px solid #49c000;
+            border-right: 2px solid #dedede;
+            border-bottom: 0 none;
+            border-left: 2px solid #dedede;
+            border-radius: 5px 5px 0 0;
         }
 
-        @keyframes fade {
-            from {
-                opacity: .4
-            }
-            to {
-                opacity: 1
-            }
+        .productLineTabItem {
+            vertical-align: top;
+            display: table-cell;
+            padding: 10px 17px;
+            border-bottom: 2px solid #dedede;
+            font-family: Raleway;
+            font-weight: 400;
         }
 
-        /* On smaller screens, decrease text size */
-        @media only screen and (max-width: 300px) {
-            .prev, .next, .text {
-                font-size: 11px
-            }
+        .productLineTabItem i {
+            font-size: 40px;
+            color: #49c000;
+        }
+
+        .productLineTabItem .productLineTabItem-icon {
+            float: left;
+            margin: 0 10px 0 0;
+        }
+
+        .productLineTabItem .productLineTabItem-icon .productLineTabItem-iconAll {
+            display: block;
+            height: 34px;
+            width: 34px;
+        }
+
+        .productLineTabItem--active.productLineTabItem .productLineTabItem-name {
+            color: #589442;
+            font-family: Raleway;
+            font-weight: 500;
+        }
+
+        .productLineTabItem .productLineTabItem-name {
+            display: block;
+            font-size: 18px;
+            line-height: 1.15;
+            text-transform: uppercase;
+            color: #4e4e56;
+        }
+
+        .productLineTabItem .productLineTabItem-baseline {
+            display: block;
+            font-size: 13px;
+        }
+
+        .search-header {
+            background-color: #E3E3E3;
+            border-bottom: 1px solid #DCDCDC;
+        }
+
+        .search-header h4{
+            margin-bottom: 0px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .search-box {
+            border-radius: 3px;
+            box-shadow: 1px 2px 2px rgba(0,0,0,.2);
+            border-left: 1px solid #E3E3E3;
+            color: #434343;
+            padding-bottom: 20px;
+        }
+
+        .search-content {
+            padding: 20px 20px;
         }
     </style>
 @endsection
 
 <div class="row">
-    <div class="col-md-5">
+    <div class="col-md-4">
         <div class="slideshow-container">
             <div class="mySlides fade">
                 <img src="{{ asset('uploadedimages/'.$room->image1) }}" style="width:100%">
             </div>
         </div>
     </div>
-    <div class="col-md-7">
+    <div class="col-md-8">
         <div class="resultItem-information">
             <h3 class="resultItem-name">{{ $room->name }} Floor - {{ $room->floor }} {{ $room->room_name }}</h3>
             <div class="resultItem-address">
