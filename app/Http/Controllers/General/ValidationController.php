@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use App\Mail\TestEmail;
+use Mail;
 
 class ValidationController extends AppBaseController
 {
@@ -101,6 +103,14 @@ class ValidationController extends AppBaseController
 
         return response()->json(['success'=> $success, 'code'=>$response]);
         
+    }
+
+
+    public function sendMail(Request $request) {
+
+        $data = ['message' => 'This is a test!'];
+
+        Mail::to('thefaizan@gmail.com')->send(new TestEmail($data));
     }
 
     
