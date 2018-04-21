@@ -1,9 +1,9 @@
-<table class="table table-responsive" id="foods-table">
+<table class="table table-responsive" id="datatables">
     <thead>
         <tr>
             <th>Title</th>
-        <th>Price Per Attendee</th>
-            <th colspan="3">Action</th>
+            <th>Price Per Attendee</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -14,9 +14,8 @@
             <td>
                 {!! Form::open(['route' => ['company.conference.foods.destroy', $food->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>
-                    <a href="{!! route('company.conference.foods.show', [$food->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
-                    <a href="{!! route('company.conference.foods.edit', [$food->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-edit"></i></a>
-                    {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                    <a href="{!! route('company.conference.foods.edit', [$food->id]) !!}" class='btn btn-default btn-xs'><i class="fa fa-edit"></i></a>
+                    {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
                 </div>
                 {!! Form::close() !!}
             </td>

@@ -1,24 +1,50 @@
-@extends('layouts.app')
+@extends('company.default')
 
 @section('content')
-    <section class="content-header">
-        <h1>
-            Food
-        </h1>
-    </section>
-    <div class="content">
-        @include('adminlte-templates::common.errors')
-        <div class="box box-primary">
 
-            <div class="box-body">
-                <div class="row">
-                    {!! Form::open(['route' => 'company.conference.foods.store']) !!}
+     <div class="px-content">
+        <div class="page-header">
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Food &amp; Drinks / </span>Add Food &amp; Drink</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div class="panel-title">Add Food &amp; Drink</div>
+                    </div>
+                    <div class="panel-body">
+                        <form action="{{ route('company.conference.foods.store') }}" method="POST" id="">
 
-                        @include('company.Conference.foods.fields')
+                            @include('company.Conference.foods.fields')
 
-                    {!! Form::close() !!}
+                        
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+
+
+    @section('js')
+
+
+    <script>
+
+        // -------------------------------------------------------------------------
+        // Initialize Select2
+
+        $(function() {
+          $('.select2-example').select2({
+            placeholder: 'Select value',
+          });
+        });
+
+    </script>
+
+
+    @endsection
+
+
 @endsection
