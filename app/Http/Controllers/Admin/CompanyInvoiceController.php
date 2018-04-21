@@ -100,7 +100,7 @@ class CompanyInvoiceController extends AppBaseController
             $contract_start_date =  $company_details['company_contract']->start_date;
             $contract_end_date = $company_details['company_contract']->end_date;
 
-            $temp = array(
+            $temp = [
                 'discount'              => $discount,
                 'value_edit_tax'        => $vat,
                 'discount_method'       => $discount_method,
@@ -108,7 +108,7 @@ class CompanyInvoiceController extends AppBaseController
                 'company_modules'       => $company_modules,
                 'contract_start_date'   => $contract_start_date,
                 'contract_end_date'     => $contract_end_date   
-            );
+            ];
 
             $company_discount_detail =  $this->companyInvoiceRepository->totalAndDiscountedTotal($temp);
 

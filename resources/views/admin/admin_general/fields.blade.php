@@ -57,11 +57,15 @@
       <div class="col-sm-12 form-group">
         <label for="City">City</label>
         <select class="form-control" name="city_id" id="city_id">
-          @if(isset($data['city_name']))
-              <option value="{{ $data['city_name'] }}">{{ $data['city_name'] }}</option>
-          @else
-              <option></option>
-          @endif
+          @forelse($data['city'] as $city)
+            @if($city->id == $data['city_id'])
+              <option value="{{ $city->id }}" selected="selected">{{ $city->name }}</option>
+            @else
+              <option value="{{ $city->id }}">{{ $city->name }}</option>
+            @endif
+          @empty
+            <option value="0">empty</option>
+          @endforelse
         </select>
       </div>
       @endif
@@ -84,11 +88,8 @@
           $.ajax({
               url: "{{ route('admin.userStatuses.general') }}",
               type: 'GET',
-              success: function(data){
+              success: function(response){
                 console.log($data);
-              },
-              error: function(xhr,status,error)  {
-
               }
           });
     });

@@ -58,19 +58,22 @@ class UserStatusController extends AppBaseController
         $object = json_decode($general_setting->meta_value);
         $state_id = $object->state_id;
         $city_id = $object->city_id;
+       
+        // If we want to get city or state name
         // $state_name = $this->stateRepository->findWithoutFail($state_id)->name;
-        $city_name  = $this->cityRepository->findWithoutFail($city_id)->name;
-        // return $state_name;
-
-        $country = $this->countryRepository->all();
+        // $city_name  = $this->cityRepository->findWithoutFail($city_id)->name;
+       
+        $country  = $this->countryRepository->all();
         $states   = $this->stateRepository->all();
+        $city     = $this->cityRepository->all();  
 
 
         $data = [
             'country'            => $country,
             'state'              => $states,
+            'city'               => $city,
             'state_id'           => $state_id,
-            'city_name'            => $city_name,   
+            'city_id'            => $city_id,   
             'general_setting'    => json_decode($general_setting->meta_value)     
         ];
 
