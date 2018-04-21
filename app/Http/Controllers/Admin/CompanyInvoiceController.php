@@ -98,24 +98,46 @@ class CompanyInvoiceController extends AppBaseController
             $payment_cycle_id = $company_details['company_contract']->payment_cycle;
             $discount_type_id = $company_details['company_contract']->discount_type;
 
-            $vat = $this->generalSettingRepository->getCompanyInvoiceVat();
-            $discount = $company_details['company_contract']->discount;
-            $discount_method = $this->discountTypeRepository->getDiscountTypeById($discount_type_id);
-            $payment_method = $this->paymentCycleRepository->getPaymentCycleById($payment_cycle_id);
-            $contract_start_date =  $company_details['company_contract']->start_date;
-            $contract_end_date = $company_details['company_contract']->end_date;
+            if (isset($discount_type_id)) 
+            {
+                $discount_method = $this->discountTypeRepository->getDiscountTypeById($discount_type_id);
+                $vat = $this->generalSettingRepository->getCompanyInvoiceVat();
+                $payment_method = $this->paymentCycleRepository->getPaymentCycleById($payment_cycle_id);
 
-            $temp = [
-                'discount'              => $discount,
-                'value_edit_tax'        => $vat->meta_value,
-                'discount_method'       => $discount_method,
-                'payment_method'        => $payment_method,
-                'company_modules'       => $company_modules,
-                'contract_start_date'   => $contract_start_date,
-                'contract_end_date'     => $contract_end_date   
-            ];
+                $discount = $company_details['company_contract']->discount;
+                $contract_start_date =  $company_details['company_contract']->start_date;
+                $contract_end_date = $company_details['company_contract']->end_date;
 
+                $temp = [
+                    'discount'              => $discount,
+                    'value_edit_tax'        => $vat->meta_value,
+                    'discount_method'       => $discount_method,
+                    'payment_method'        => $payment_method,
+                    'company_modules'       => $company_modules,
+                    'contract_start_date'   => $contract_start_date,
+                    'contract_end_date'     => $contract_end_date   
+                ];
+            }
+            else
+            {
 
+                $vat = $this->generalSettingRepository->getCompanyInvoiceVat();
+                $payment_method = $this->paymentCycleRepository->getPaymentCycleById($payment_cycle_id);
+
+                $contract_start_date =  $company_details['company_contract']->start_date;
+                $contract_end_date = $company_details['company_contract']->end_date;
+
+                $temp = [
+                    'discount'              => 0,
+                    'value_edit_tax'        => $vat->meta_value,
+                    'discount_method'       => $discount_method,
+                    'payment_method'        => $payment_method,
+                    'company_modules'       => $company_modules,
+                    'contract_start_date'   => $contract_start_date,
+                    'contract_end_date'     => $contract_end_date   
+                ];
+            }
+            
             $company_discount_detail =  $this->companyInvoiceRepository->totalAndDiscountedTotal($temp);
 
             // This array contain company related all invoice information
@@ -174,27 +196,27 @@ class CompanyInvoiceController extends AppBaseController
 
             // ---------------------  For Testing Invoice without entry into database ------------------ //
 
-            // $lastInvoice =  $this->companyInvoiceRepository->getLastInsertedInvoiceId();
-            // $Invoice_id =  $lastInvoice->id;
-            // $company_infomation['Invoice_id'] = $Invoice_id;
+            $lastInvoice =  $this->companyInvoiceRepository->getLastInsertedInvoiceId();
+            $Invoice_id =  $lastInvoice->id;
+            $company_infomation['Invoice_id'] = $Invoice_id;
             
-            // $data = ['Invoice' => $company_infomation];
-            // $filename = $Invoice_id."_Invoices.pdf";
-            // $lastInsertedInvoice = $this->companyInvoiceRepository->findWithoutFail($Invoice_id);
-            // $lastInsertedInvoice->due_date = $extended_date;
-            // $lastInsertedInvoice->file_name = $filename;
-            // if ($lastInsertedInvoice->save()) 
-            // {
-            //     $filePath = public_path().DIRECTORY_SEPARATOR."storage".DIRECTORY_SEPARATOR."company_invoices".DIRECTORY_SEPARATOR.$filename;
-            //     $pdf = PDF::loadView('admin.companies.invoice', $data);
-            //     $pdf->save($filePath);
-            //     Session::Flash("InvoiceSuccess","Invoice successfully created.");
-            //     return redirect()->route('admin.companies.index');
-            // }
-            // else
-            // {
-            //     return json_encode(['status' => 'Failed','result' => 'Invoice due date or file name cannot be update']);
-            // }
+            $data = ['Invoice' => $company_infomation];
+            $filename = $Invoice_id."_Invoices.pdf";
+            $lastInsertedInvoice = $this->companyInvoiceRepository->findWithoutFail($Invoice_id);
+            $lastInsertedInvoice->due_date = $extended_date;
+            $lastInsertedInvoice->file_name = $filename;
+            if ($lastInsertedInvoice->save()) 
+            {
+                $filePath = public_path().DIRECTORY_SEPARATOR."storage".DIRECTORY_SEPARATOR."company_invoices".DIRECTORY_SEPARATOR.$filename;
+                $pdf = PDF::loadView('admin.companies.invoice', $data);
+                $pdf->save($filePath);
+                Session::Flash("InvoiceSuccess","Invoice successfully created.");
+                return redirect()->route('admin.companies.index');
+            }
+            else
+            {
+                return json_encode(['status' => 'Failed','result' => 'Invoice due date or file name cannot be update']);
+            }
             
             // ---------------------  For Testing Invoice without entry into database ------------------ //
 
