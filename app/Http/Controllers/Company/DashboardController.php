@@ -12,6 +12,10 @@ use Auth;
 use App\Models\RoomContracts;
 use App\Models\Room;
 use App\Models\CompanyUser;
+use App\Models\User;
+use App\Models\City;
+use App\Models\Country;
+use App\Models\State;
 
 class DashboardController extends AppBaseController
 {
@@ -33,6 +37,15 @@ class DashboardController extends AppBaseController
 
         return view('company.dashboard.index', ['contract_count' => $contract_count, 'room_count' => $room_count,
             'upcoming_contracts' => $upcoming_contracts, 'expiring_contracts' => $expiring_contracts, 'user_count' => $user_count]);
+    }
+
+    public function profile() {
+        $user = User::find(Auth::user()->id);
+        $countries = Country::pluck('name', 'id');
+        $cities = City::pluck('name', 'id');
+        $states = State::pluck('name', 'id');
+
+        return view('company.dashboard.profile', ['user' => $user, 'countries' => $countries, 'cities' => $cities, 'states' => $states]);
     }
 
 }

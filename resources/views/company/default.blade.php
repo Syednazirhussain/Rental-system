@@ -123,7 +123,7 @@
                     <span class="hidden-md">{{ ucfirst(Auth::user()->name) }}</span>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="pages-account.html">Account</a></li>
+                    <li><a href="{{ route('company.dashboard.profile') }}">Account</a></li>
                     <li class="divider"></li>
                     <li><a href="{{ route('company.logout') }}"><i class="dropdown-icon fa fa-power-off"></i>&nbsp;&nbsp;Log
                             Out</a></li>

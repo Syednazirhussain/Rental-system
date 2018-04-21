@@ -199,6 +199,7 @@ Route::group(['middleware' => ['company.guest']], function () {
 Route::group(['middleware' => ['company.auth']], function () {
 
     Route::get('company/dashboard', ['as' => 'company.dashboard', 'uses' => 'Company\DashboardController@index']);
+    Route::get('company/dashboard/profile', ['as' => 'company.dashboard.profile', 'uses' => 'Company\DashboardController@profile']);
 
     Route::get('company/logout', ['as' => 'company.logout', 'uses' => 'Company\UserController@logout']);
 
