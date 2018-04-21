@@ -83,3 +83,7 @@
     <a href="{!! route('company.conference.equipmentCriterias.index') !!}"><i class="fa fa-edit"></i><span>Equipment Criterias</span></a>
 </li>
 
+<li class="{{ Request::is('equipments*') ? 'active' : '' }}">
+    <a href="{!! route('company.conference.equipments.index') !!}"><i class="fa fa-edit"></i><span>Equipments</span></a>
+</li>
+
