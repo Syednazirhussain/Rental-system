@@ -142,6 +142,11 @@ class CompanyInvoiceController extends AppBaseController
 
             $company_discount_detail =  $this->companyInvoiceRepository->totalAndDiscountedTotal($temp);
 
+           /* echo "<pre>";
+            print_r($company_discount_detail);
+            exit;*/
+            
+
             // This array contain company related all invoice information
             $company_infomation = [
                 'Company'           => $company_details['company'],
@@ -213,6 +218,12 @@ class CompanyInvoiceController extends AppBaseController
                 'due_date'           => $extended_date
             ];
 
+           /* echo "<pre>";
+            print_r($Invoice);
+            echo "</pre>";
+
+            exit;*/
+
             // ---------------------  For Testing Invoice without entry into database ------------------ //
 
             // $lastInvoice =  $this->companyInvoiceRepository->getLastInsertedInvoiceId();
@@ -265,7 +276,7 @@ class CompanyInvoiceController extends AppBaseController
                 if ($this->companyInvoiceItemRepository->create($Invoice_Item)) 
                 {
                     $data = ['Invoice' => $company_infomation];
-                    $filename = $Invoice_id."_Invoices.pdf";
+                    $filename = "invoice_".$Invoice_id.".pdf";
                     $lastInsertedInvoice = $this->companyInvoiceRepository->findWithoutFail($Invoice_id);
                     $lastInsertedInvoice->due_date = $extended_date;
                     $lastInsertedInvoice->file_name = $filename;

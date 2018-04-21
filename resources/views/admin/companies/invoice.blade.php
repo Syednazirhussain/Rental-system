@@ -94,7 +94,7 @@
 			<tbody>
 				@for ($i = 0; $i < count($Invoice['Modules']['company_module']); $i++)
 				<tr>
-					<td>{{ $i }}</td>
+					<td>{{ $i+1 }}</td>
 					<td>{{ $Invoice['Modules']['company_module'][$i]['module_name']  }}</td>
 					<td width="100px">{{ $Invoice['Modules']['company_module'][$i]['module_price']  }}</td>
 				</tr>
@@ -131,10 +131,12 @@
 					<td colspan="2" style="text-align: right;">SUBTOTAL</td>
 					<td width="100px">{{ $Invoice['Discount']['Total'] }} </td>
 				</tr>
+				@if ($Invoice['Discount']['Discount'] != 0 || $Invoice['Discount']['Discount'] != 0.00)
 				<tr>
 					<td colspan="2" style="text-align: right;">DISCOUNT</td>
 					<td width="100px">{{ $Invoice['Discount']['Discount'] }} </td>
 				</tr>
+				@endif
 				<tr>
 					<td colspan="2" style="text-align: right;">TOTAL</td>
 					<td width="100px">{{ $Invoice['Discount']['SubTotal'] }} </td>

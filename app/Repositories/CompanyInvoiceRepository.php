@@ -73,6 +73,7 @@ class CompanyInvoiceRepository extends BaseRepository
                     $sub_total = $total - $discount;
                     $vat = $sub_total*($data['value_edit_tax']/100);
                     $final_total = $vat + $sub_total;
+                    $total = $total;
                 }
                 elseif ($data['discount_method'] == 'Percentage') 
                 {
@@ -81,18 +82,87 @@ class CompanyInvoiceRepository extends BaseRepository
                     $sub_total = $total - $discount;
                     $vat = $sub_total*($data['value_edit_tax']/100);
                     $final_total = $vat + $sub_total;
+                    $total = $total;
                 }
             }
             elseif ($data['payment_method'] == 'Quaterly') 
             {
 
+                for ($i=0; $i < count($data['company_modules']['company_module']) ; $i++) 
+                { 
+                    $total += $data['company_modules']['company_module'][$i]['module_price'];
+                }
+                if ($data['discount_method'] == 'Fixed Price') 
+                {
+                    $discount -= $data['discount'];
+                    $remaining_days = $this->checkLeftDay($data['contract_end_date']);
+                    $sub_total = ($total*3) - $discount;
+                    $vat = $sub_total*($data['value_edit_tax']/100);
+                    $final_total = $vat + $sub_total;
+                    $total = $total*3;
+                }
+                elseif ($data['discount_method'] == 'Percentage') 
+                {
+                    $discount = ($total*3)*($data['discount']/100);
+                    $remaining_days = $this->checkLeftDay($data['contract_end_date']);
+                    $sub_total = ($total*3) - $discount;
+                    $vat = $sub_total*($data['value_edit_tax']/100);
+                    $final_total = $vat + $sub_total;
+                    $total = $total*3;
+                }
+
             }
             elseif ($data['payment_method'] == 'Half Yearly') 
             {
+                for ($i=0; $i < count($data['company_modules']['company_module']) ; $i++) 
+                { 
+                    $total += $data['company_modules']['company_module'][$i]['module_price'];
+                }
+                if ($data['discount_method'] == 'Fixed Price') 
+                {
+                    $discount -= $data['discount'];
+                    $remaining_days = $this->checkLeftDay($data['contract_end_date']);
+                    $sub_total = ($total*6) - $discount;
+                    $vat = $sub_total*($data['value_edit_tax']/100);
+                    $final_total = $vat + $sub_total;
+                    $total = $total*6;
+                }
+                elseif ($data['discount_method'] == 'Percentage') 
+                {
+                    $discount = ($total*6)*($data['discount']/100);
+                    $remaining_days = $this->checkLeftDay($data['contract_end_date']);
+                    $sub_total = ($total*6) - $discount;
+                    $vat = $sub_total*($data['value_edit_tax']/100);
+                    $final_total = $vat + $sub_total;
+                    $total = $total*6;
+                }
 
             }
             elseif ($data['payment_method'] == 'Annually') 
             {
+
+                for ($i=0; $i < count($data['company_modules']['company_module']) ; $i++) 
+                { 
+                    $total += $data['company_modules']['company_module'][$i]['module_price'];
+                }
+                if ($data['discount_method'] == 'Fixed Price') 
+                {
+                    $discount -= $data['discount'];
+                    $remaining_days = $this->checkLeftDay($data['contract_end_date']);
+                    $sub_total = ($total*12) - $discount;
+                    $vat = $sub_total*($data['value_edit_tax']/100);
+                    $final_total = $vat + $sub_total;
+                    $total = $total*12;
+                }
+                elseif ($data['discount_method'] == 'Percentage') 
+                {
+                    $discount = ($total*12)*($data['discount']/100);
+                    $remaining_days = $this->checkLeftDay($data['contract_end_date']);
+                    $sub_total = ($total*12) - $discount;
+                    $vat = $sub_total*($data['value_edit_tax']/100);
+                    $final_total = $vat + $sub_total;
+                    $total = $total*12;
+                }
 
             }
         }

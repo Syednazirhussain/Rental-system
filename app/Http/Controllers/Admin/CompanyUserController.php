@@ -67,9 +67,11 @@ class CompanyUserController extends AppBaseController
 
 
         $i = 0;
-        $faker = Faker::create();
 
         foreach($data['admin'] as $admin) {
+            
+            $faker = Faker::create();
+
            // $input[$i]['company_id'] = $data['company_id'];
             $input['name'] = $admin['name'];
             $input['email'] = $admin['email'];
@@ -89,6 +91,10 @@ class CompanyUserController extends AppBaseController
         }
 
         $companyUser = $this->companyUserRepository->insert($companyUser);
+
+        app('App\Http\Controllers\Admin\CompanyInvoiceController')->createInvoiceByCompanyId($data['company_id']);
+        
+        // Admin\CompanyInvoiceController@createInvoiceByCompanyId
 
         return response()->json(['success'=>1, 'msg'=>'Company admins have been created successfully']);
         
