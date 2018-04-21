@@ -130,14 +130,14 @@ class CompanyInvoiceController extends AppBaseController
                 $temp = [
                     'discount'              => 0,
                     'value_edit_tax'        => $vat->meta_value,
-                    'discount_method'       => $discount_method,
+                    'discount_method'       => 'Percentage',
                     'payment_method'        => $payment_method,
                     'company_modules'       => $company_modules,
                     'contract_start_date'   => $contract_start_date,
                     'contract_end_date'     => $contract_end_date   
                 ];
             }
-            
+
             $company_discount_detail =  $this->companyInvoiceRepository->totalAndDiscountedTotal($temp);
 
             // This array contain company related all invoice information
