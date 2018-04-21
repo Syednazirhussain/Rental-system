@@ -55,6 +55,8 @@ class EquipmentCriteriaController extends AppBaseController
      */
     public function store(CreateEquipmentCriteriaRequest $request)
     {
+
+        
         $input = $request->all();
 
         $equipmentCriteria = $this->equipmentCriteriaRepository->create($input);

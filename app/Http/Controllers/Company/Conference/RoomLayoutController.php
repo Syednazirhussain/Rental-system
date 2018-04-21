@@ -57,6 +57,17 @@ class RoomLayoutController extends AppBaseController
     {
         $input = $request->all();
 
+        if ($request->hasFile('image')) {
+
+            $path = $request->file('image')->store('public/room_layouts_images');
+
+            $path = explode("/", $path);
+
+            $input['image'] = $path[2];
+
+        }
+
+
         $roomLayout = $this->roomLayoutRepository->create($input);
 
         Flash::success('Room Layout saved successfully.');
