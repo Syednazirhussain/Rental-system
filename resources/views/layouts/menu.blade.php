@@ -63,3 +63,11 @@
     <a href="{!! route('admin.companyInvoices.index') !!}"><i class="fa fa-edit"></i><span>Company Invoices</span></a>
 </li>
 
+<li class="{{ Request::is('roomLayouts*') ? 'active' : '' }}">
+    <a href="{!! route('companyConference.roomLayouts.index') !!}"><i class="fa fa-edit"></i><span>Room Layouts</span></a>
+</li>
+
+<li class="{{ Request::is('roomLayouts*') ? 'active' : '' }}">
+    <a href="{!! route('company/Conference.roomLayouts.index') !!}"><i class="fa fa-edit"></i><span>Room Layouts</span></a>
+</li>
+

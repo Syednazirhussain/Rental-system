@@ -291,4 +291,18 @@ Route::post('validate/admin', ['as'=> 'validate.admin', 'uses' => 'General\Valid
 
 
 
+Route::get('company/Conference/roomLayouts', ['as'=> 'company/Conference.roomLayouts.index', 'uses' => 'Company\Conference\RoomLayoutController@index']);
+Route::post('company/Conference/roomLayouts', ['as'=> 'company/Conference.roomLayouts.store', 'uses' => 'Company\Conference\RoomLayoutController@store']);
+Route::get('company/Conference/roomLayouts/create', ['as'=> 'company/Conference.roomLayouts.create', 'uses' => 'Company\Conference\RoomLayoutController@create']);
+Route::put('company/Conference/roomLayouts/{roomLayouts}', ['as'=> 'company/Conference.roomLayouts.update', 'uses' => 'Company\Conference\RoomLayoutController@update']);
+Route::patch('company/Conference/roomLayouts/{roomLayouts}', ['as'=> 'company/Conference.roomLayouts.update', 'uses' => 'Company\Conference\RoomLayoutController@update']);
+Route::delete('company/Conference/roomLayouts/{roomLayouts}', ['as'=> 'company/Conference.roomLayouts.destroy', 'uses' => 'Company\Conference\RoomLayoutController@destroy']);
+Route::get('company/Conference/roomLayouts/{roomLayouts}', ['as'=> 'company/Conference.roomLayouts.show', 'uses' => 'Company\Conference\RoomLayoutController@show']);
+Route::get('company/Conference/roomLayouts/{roomLayouts}/edit', ['as'=> 'company/Conference.roomLayouts.edit', 'uses' => 'Company\Conference\RoomLayoutController@edit']);
+
+
+
+
+
+
 
