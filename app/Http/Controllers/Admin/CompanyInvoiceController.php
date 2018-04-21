@@ -142,10 +142,10 @@ class CompanyInvoiceController extends AppBaseController
 
             $company_discount_detail =  $this->companyInvoiceRepository->totalAndDiscountedTotal($temp);
 
-           /* echo "<pre>";
+            /*echo "<pre>";
             print_r($company_discount_detail);
             exit;*/
-            
+
 
             // This array contain company related all invoice information
             $company_infomation = [
@@ -340,13 +340,14 @@ class CompanyInvoiceController extends AppBaseController
         foreach ($company_modules as $value) 
         {
             for ($i=0; $i < count($collection); $i++) 
-            { 
+            {
                 if ($collection[$i]->id == $value->module_id) 
                 {
                     $modules['company_module'][$i] = [
                         'module_id'                => $collection[$i]->id,
                         'module_name'              => $collection[$i]->name,
-                        'module_price'             => $collection[$i]->price,
+                        // 'module_price'             => $collection[$i]->price,
+                        'module_price'             => $value->price,
                         'module_price_for_company' => $value->price,
                         'module_user_limit'        => $value->users_limit
                     ];

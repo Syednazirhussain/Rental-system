@@ -49,7 +49,7 @@
         var stateId = $('.state').attr('id');
         
           $.ajax({
-              url: "{{ route('admin.userStatuses.general') }}",
+              url: "{{ route('admin.settings.general') }}",
               type: 'GET',
               success: function(response){
                 console.log($data);

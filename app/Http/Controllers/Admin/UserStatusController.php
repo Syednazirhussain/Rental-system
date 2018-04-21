@@ -99,7 +99,7 @@ class UserStatusController extends AppBaseController
         $general_settings->meta_value = json_encode($jsonArr);
         if($general_settings->save()) 
         {
-            return redirect()->route('admin.userStatuses.general');
+            return redirect()->route('admin.settings.general');
         }
         else
         {

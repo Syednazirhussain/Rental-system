@@ -65,7 +65,7 @@
                                    <li class="divider"></li>
                                    <li><a href="{{ route('admin.userStatuses.index') }}"><i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;User Status</a></li>
                                    <li class="divider"></li>
-                                   <li><a href="{{ route('admin.userStatuses.general') }}"><i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;General Settings</a></li>
+                                   <li><a href="{{ route('admin.settings.general') }}"><i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;General Settings</a></li>
                                 </ul>
                              </li>
                             <li class="divider"></li>

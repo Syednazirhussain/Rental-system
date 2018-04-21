@@ -35,7 +35,7 @@ class GeneralSettingRepository extends BaseRepository
 
     public function getCompanyInvoiceVat()
     {
-        return GeneralSetting::where('meta_value','25.00')->first();
+        return GeneralSetting::where('meta_key','company_invoice_vat')->first();
     }
 
 

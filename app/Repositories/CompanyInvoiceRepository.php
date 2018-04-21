@@ -162,6 +162,7 @@ class CompanyInvoiceRepository extends BaseRepository
                     $vat = $sub_total*($data['value_edit_tax']/100);
                     $final_total = $vat + $sub_total;
                     $total = $total*12;
+                    
                 }
 
             }

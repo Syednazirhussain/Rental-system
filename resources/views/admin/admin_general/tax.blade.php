@@ -10,7 +10,7 @@
       @if(isset($data['general_setting']))
       <div class="col-sm-12 form-group">
           <label for="grid-input-16">Tax</label>
-          <input type="text" name="tax" value="{{ $data['general_setting']->tax }}" id="grid-input-16" class="form-control">
+          <input type="text" name="tax" value="{{ $data['companyInvoiceVat'] }}" id="grid-input-16" class="form-control">
       </div>
       <div class="col-sm-12 form-group">
           <label for="grid-input-16">Set Due Days</label>
