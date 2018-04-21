@@ -123,6 +123,10 @@
         .search-content {
             padding: 20px 20px;
         }
+
+        .panel .alert-success {
+            margin-bottom: 0px !important;
+        }
     </style>
 @endsection
 

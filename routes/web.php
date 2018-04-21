@@ -23,6 +23,7 @@ Route::group(['middleware' => ['admin.guest']], function () {
     Route::get('/home', ['as'=> 'home', 'uses' => 'HomeController@index']);
     Route::get('rooms/{room}', ['as'=> 'home.rooms.show', 'uses' => 'HomeController@show']);
     Route::get('rooms/book/{room}', ['as'=> 'home.rooms.book', 'uses' => 'HomeController@book']);
+    Route::post('rooms/book', ['as'=> 'home.rooms.store', 'uses' => 'HomeController@store']);
 
 });
 

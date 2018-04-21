@@ -7,6 +7,19 @@
                 <h2 style="color: #4e4e56">HignNox Rooms For Rent</h2>
             </div>
         </div>
+        <div class="panel" style="border: 0px solid;">
+            <div class="panel-body" style="padding: 0px;">
+
+                @if (session()->has('msg.success'))
+                    @include('layouts.success_msg')
+                @endif
+
+                @if (session()->has('msg.error'))
+                    @include('layouts.error_msg')
+                @endif
+
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-3">
                 <div class="col-md-12">

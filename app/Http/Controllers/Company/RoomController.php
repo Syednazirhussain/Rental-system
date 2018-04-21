@@ -16,6 +16,7 @@ use App\Models\CompanyBuilding;
 use App\Models\CompanyFloorRoom;
 use App\Models\Service;
 use App\Models\Room;
+use App\Models\RoomContracts;
 
 class RoomController extends AppBaseController
 {
@@ -133,6 +134,7 @@ class RoomController extends AppBaseController
         $building = CompanyBuilding::find(CompanyFloorRoom::find($room->floor_id)->building_id);
         $floor = CompanyFloorRoom::find($room->floor_id)->floor;
         $service = Service::find($room->service_id)->name;
+        $roomContracts = RoomContracts::where('room_id', $id)->get();
 
         if (empty($room)) {
             Flash::error('Company Room not found');
@@ -141,7 +143,7 @@ class RoomController extends AppBaseController
         }
 
         return view('company.rooms.show', ['room' => $room, 'company' => $company, 'building' => $building, 'floor' => $floor,
-            'service' => $service]);
+            'service' => $service, 'roomContracts' => $roomContracts]);
     }
 
     /**

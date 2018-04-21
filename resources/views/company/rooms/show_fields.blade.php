@@ -1,9 +1,24 @@
 @section('css')
+    <!-- Zabuto calendar -->
+    <link href="{{ asset('/css/zabuto_calendar.min.css') }}" rel="stylesheet">
     <style>
-        * {box-sizing: border-box}
-        body {font-family: Verdana, sans-serif; margin:0}
-        .mySlides {display: none}
-        img {vertical-align: middle;}
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: Verdana, sans-serif;
+            margin: 0
+            background: #fefefe;
+        }
+
+        .mySlides {
+            display: none
+        }
+
+        img {
+            vertical-align: middle;
+        }
 
         /* Slideshow container */
         .slideshow-container {
@@ -35,7 +50,7 @@
 
         /* On hover, add a black background color with a little bit see-through */
         .prev:hover, .next:hover {
-            background-color: rgba(0,0,0,0.8);
+            background-color: rgba(0, 0, 0, 0.8);
         }
 
         /* Caption text */
@@ -83,19 +98,39 @@
             animation-duration: 1.5s;
         }
 
+        .building_address {
+            font-size: 15px;
+            color: #939396;
+        }
+
+        .pd-t-5 {
+            padding-top: 5px;
+        }
+
+
         @-webkit-keyframes fade {
-            from {opacity: .4}
-            to {opacity: 1}
+            from {
+                opacity: .4
+            }
+            to {
+                opacity: 1
+            }
         }
 
         @keyframes fade {
-            from {opacity: .4}
-            to {opacity: 1}
+            from {
+                opacity: .4
+            }
+            to {
+                opacity: 1
+            }
         }
 
         /* On smaller screens, decrease text size */
         @media only screen and (max-width: 300px) {
-            .prev, .next,.text {font-size: 11px}
+            .prev, .next, .text {
+                font-size: 11px
+            }
         }
     </style>
 @endsection
@@ -185,9 +220,66 @@
         </div>
     </div>
 </div>
+<div class="row" style="margin-top: 50px;">
+    <div class="col-md-6">
+        <table class="table table-striped table-bordered" id="roomContractsTable">
+            <thead>
+            <tr>
+                <th>No</th>
+                <th>Contract No</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Contract Price</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($roomContracts as $room)
+                <tr>
+                    <td>{!! $loop->index + 1 !!}</td>
+                    <td>{!! $room->contract_number !!}</td>
+                    <td>{!! $room->start_date !!}</td>
+                    <td>{!! $room->end_date !!}</td>
+                    <td>{!! $room->price !!}</td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <div id="my-calendar"></div>
+        <input type="hidden" id="room_contract_data" value="{{ $roomContracts }}">
+    </div>
+</div>
 
 @section('js')
+    <script src="{{ asset('/js/zabuto_calendar.min.js') }}"></script>
     <script>
+        var eventData = [];
+
+        //Calendar management
+        var data = JSON.parse(document.getElementById('room_contract_data').value);
+        data.forEach(function(item){
+            for (var d = new Date(item.start_date); d <= new Date(item.end_date); d.setDate(d.getDate() + 1)) {
+                var temp = new Date(d);
+                var month = temp.getMonth() > 8 ? (temp.getMonth() + 1).toString() : '0' + (temp.getMonth() + 1).toString();
+                var day = temp.getDate() > 9 ? temp.getDate().toString() : '0' + temp.getDate().toString();
+                eventData.push({"date": temp.getFullYear().toString() + '-' + month + '-' + day, "badge": false});
+            }
+        });
+
+        $("#my-calendar").zabuto_calendar({
+            language: "en",
+            show_previous: false,
+            nav_icon: {
+                prev: '<i class="fa fa-chevron-left" aria-hidden="true"></i>',
+                next: '<i class="fa fa-chevron-right" aria-hidden="true"></i>'
+            },
+            legend: [
+                {type: "text", label: "Booked Dates", badge: "00"},
+            ],
+            data: eventData,
+        });
+
         var slideIndex = 1;
         showSlides(slideIndex);
 
