@@ -61,7 +61,7 @@ class RoomLayoutController extends AppBaseController
 
         Flash::success('Room Layout saved successfully.');
 
-        return redirect(route('company/Conference.roomLayouts.index'));
+        return redirect(route('company.conference.roomLayouts.index'));
     }
 
     /**
@@ -78,7 +78,7 @@ class RoomLayoutController extends AppBaseController
         if (empty($roomLayout)) {
             Flash::error('Room Layout not found');
 
-            return redirect(route('company/Conference.roomLayouts.index'));
+            return redirect(route('company.conference.roomLayouts.index'));
         }
 
         return view('company.Conference.room_layouts.show')->with('roomLayout', $roomLayout);
@@ -98,7 +98,7 @@ class RoomLayoutController extends AppBaseController
         if (empty($roomLayout)) {
             Flash::error('Room Layout not found');
 
-            return redirect(route('company/Conference.roomLayouts.index'));
+            return redirect(route('company.conference.roomLayouts.index'));
         }
 
         return view('company.Conference.room_layouts.edit')->with('roomLayout', $roomLayout);
@@ -119,14 +119,14 @@ class RoomLayoutController extends AppBaseController
         if (empty($roomLayout)) {
             Flash::error('Room Layout not found');
 
-            return redirect(route('company/Conference.roomLayouts.index'));
+            return redirect(route('company.conference.roomLayouts.index'));
         }
 
         $roomLayout = $this->roomLayoutRepository->update($request->all(), $id);
 
         Flash::success('Room Layout updated successfully.');
 
-        return redirect(route('company/Conference.roomLayouts.index'));
+        return redirect(route('company.conference.roomLayouts.index'));
     }
 
     /**
@@ -143,13 +143,13 @@ class RoomLayoutController extends AppBaseController
         if (empty($roomLayout)) {
             Flash::error('Room Layout not found');
 
-            return redirect(route('company/Conference.roomLayouts.index'));
+            return redirect(route('company.conference.roomLayouts.index'));
         }
 
         $this->roomLayoutRepository->delete($id);
 
         Flash::success('Room Layout deleted successfully.');
 
-        return redirect(route('company/Conference.roomLayouts.index'));
+        return redirect(route('company.conference.roomLayouts.index'));
     }
 }

@@ -3,7 +3,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            Room Layout
+            Food
         </h1>
    </section>
    <div class="content">
@@ -11,9 +11,9 @@
        <div class="box box-primary">
            <div class="box-body">
                <div class="row">
-                   {!! Form::model($roomLayout, ['route' => ['company.conference.roomLayouts.update', $roomLayout->id], 'method' => 'patch']) !!}
+                   {!! Form::model($food, ['route' => ['company.conference.foods.update', $food->id], 'method' => 'patch']) !!}
 
-                        @include('company.Conference.room_layouts.fields')
+                        @include('company.Conference.foods.fields')
 
                    {!! Form::close() !!}
                </div>

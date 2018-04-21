@@ -291,14 +291,14 @@ Route::post('validate/admin', ['as'=> 'validate.admin', 'uses' => 'General\Valid
 
 
 
-Route::get('company/Conference/roomLayouts', ['as'=> 'company/Conference.roomLayouts.index', 'uses' => 'Company\Conference\RoomLayoutController@index']);
-Route::post('company/Conference/roomLayouts', ['as'=> 'company/Conference.roomLayouts.store', 'uses' => 'Company\Conference\RoomLayoutController@store']);
-Route::get('company/Conference/roomLayouts/create', ['as'=> 'company/Conference.roomLayouts.create', 'uses' => 'Company\Conference\RoomLayoutController@create']);
-Route::put('company/Conference/roomLayouts/{roomLayouts}', ['as'=> 'company/Conference.roomLayouts.update', 'uses' => 'Company\Conference\RoomLayoutController@update']);
-Route::patch('company/Conference/roomLayouts/{roomLayouts}', ['as'=> 'company/Conference.roomLayouts.update', 'uses' => 'Company\Conference\RoomLayoutController@update']);
-Route::delete('company/Conference/roomLayouts/{roomLayouts}', ['as'=> 'company/Conference.roomLayouts.destroy', 'uses' => 'Company\Conference\RoomLayoutController@destroy']);
-Route::get('company/Conference/roomLayouts/{roomLayouts}', ['as'=> 'company/Conference.roomLayouts.show', 'uses' => 'Company\Conference\RoomLayoutController@show']);
-Route::get('company/Conference/roomLayouts/{roomLayouts}/edit', ['as'=> 'company/Conference.roomLayouts.edit', 'uses' => 'Company\Conference\RoomLayoutController@edit']);
+Route::get('company/Conference/roomLayouts', ['as'=> 'company.conference.roomLayouts.index', 'uses' => 'Company\Conference\RoomLayoutController@index']);
+Route::post('company/Conference/roomLayouts', ['as'=> 'company.conference.roomLayouts.store', 'uses' => 'Company\Conference\RoomLayoutController@store']);
+Route::get('company/Conference/roomLayouts/create', ['as'=> 'company.conference.roomLayouts.create', 'uses' => 'Company\Conference\RoomLayoutController@create']);
+Route::put('company/Conference/roomLayouts/{roomLayouts}', ['as'=> 'company.conference.roomLayouts.update', 'uses' => 'Company\Conference\RoomLayoutController@update']);
+Route::patch('company/Conference/roomLayouts/{roomLayouts}', ['as'=> 'company.conference.roomLayouts.update', 'uses' => 'Company\Conference\RoomLayoutController@update']);
+Route::delete('company/Conference/roomLayouts/{roomLayouts}', ['as'=> 'company.conference.roomLayouts.destroy', 'uses' => 'Company\Conference\RoomLayoutController@destroy']);
+Route::get('company/Conference/roomLayouts/{roomLayouts}', ['as'=> 'company.conference.roomLayouts.show', 'uses' => 'Company\Conference\RoomLayoutController@show']);
+Route::get('company/Conference/roomLayouts/{roomLayouts}/edit', ['as'=> 'company.conference.roomLayouts.edit', 'uses' => 'Company\Conference\RoomLayoutController@edit']);
 
 
 
@@ -306,3 +306,13 @@ Route::get('company/Conference/roomLayouts/{roomLayouts}/edit', ['as'=> 'company
 
 
 
+
+
+Route::get('company/conference/foods', ['as'=> 'company.conference.foods.index', 'uses' => 'Company\Conference\FoodController@index']);
+Route::post('company/conference/foods', ['as'=> 'company.conference.foods.store', 'uses' => 'Company\Conference\FoodController@store']);
+Route::get('company/conference/foods/create', ['as'=> 'company.conference.foods.create', 'uses' => 'Company\Conference\FoodController@create']);
+Route::put('company/conference/foods/{foods}', ['as'=> 'company.conference.foods.update', 'uses' => 'Company\Conference\FoodController@update']);
+Route::patch('company/conference/foods/{foods}', ['as'=> 'company.conference.foods.update', 'uses' => 'Company\Conference\FoodController@update']);
+Route::delete('company/conference/foods/{foods}', ['as'=> 'company.conference.foods.destroy', 'uses' => 'Company\Conference\FoodController@destroy']);
+Route::get('company/conference/foods/{foods}', ['as'=> 'company.conference.foods.show', 'uses' => 'Company\Conference\FoodController@show']);
+Route::get('company/conference/foods/{foods}/edit', ['as'=> 'company.conference.foods.edit', 'uses' => 'Company\Conference\FoodController@edit']);

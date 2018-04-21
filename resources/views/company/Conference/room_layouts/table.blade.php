@@ -14,10 +14,10 @@
             <td>{!! $roomLayout->image !!}</td>
             <td>{!! $roomLayout->update_at !!}</td>
             <td>
-                {!! Form::open(['route' => ['company/Conference.roomLayouts.destroy', $roomLayout->id], 'method' => 'delete']) !!}
+                {!! Form::open(['route' => ['company.conference.roomLayouts.destroy', $roomLayout->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>
-                    <a href="{!! route('company/Conference.roomLayouts.show', [$roomLayout->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
-                    <a href="{!! route('company/Conference.roomLayouts.edit', [$roomLayout->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-edit"></i></a>
+                    <a href="{!! route('company.conference.roomLayouts.show', [$roomLayout->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
+                    <a href="{!! route('company.conference.roomLayouts.edit', [$roomLayout->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-edit"></i></a>
                     {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
                 </div>
                 {!! Form::close() !!}

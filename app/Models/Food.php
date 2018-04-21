@@ -3,12 +3,12 @@
 namespace App\Models;
 
 use Eloquent as Model;
-// use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class RoomLayout
+ * Class Food
  * @package App\Models\Company/conference
- * @version April 21, 2018, 7:11 am UTC
+ * @version April 21, 2018, 11:23 am UTC
  *
  * @property \Illuminate\Database\Eloquent\Collection companyContracts
  * @property \Illuminate\Database\Eloquent\Collection companyFloorRooms
@@ -17,18 +17,16 @@ use Eloquent as Model;
  * @property \Illuminate\Database\Eloquent\Collection companyModules
  * @property \Illuminate\Database\Eloquent\Collection companyUsers
  * @property string title
- * @property string image
- * @property string|\Carbon\Carbon update_at
+ * @property decimal price_per_attendee
  */
-class RoomLayout extends Model
+class Food extends Model
 {
-    // use SoftDeletes;
+    use SoftDeletes;
 
-    public $table = 'conference_room_layout';
-    public $timestamps = false;
+    public $table = 'conference_food';
     
-    // const CREATED_AT = 'created_at';
-    // const UPDATED_AT = 'updated_at';
+    const CREATED_AT = 'created_at';
+    const UPDATED_AT = 'updated_at';
 
 
     protected $dates = ['deleted_at'];
@@ -36,8 +34,7 @@ class RoomLayout extends Model
 
     public $fillable = [
         'title',
-        'image',
-        'updated_at'
+        'price_per_attendee'
     ];
 
     /**
@@ -47,8 +44,7 @@ class RoomLayout extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'title' => 'string',
-        'image' => 'string'
+        'title' => 'string'
     ];
 
     /**

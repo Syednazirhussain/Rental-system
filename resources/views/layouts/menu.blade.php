@@ -71,3 +71,7 @@
     <a href="{!! route('company/Conference.roomLayouts.index') !!}"><i class="fa fa-edit"></i><span>Room Layouts</span></a>
 </li>
 
+<li class="{{ Request::is('foods*') ? 'active' : '' }}">
+    <a href="{!! route('company.conference.foods.index') !!}"><i class="fa fa-edit"></i><span>Foods</span></a>
+</li>
+
