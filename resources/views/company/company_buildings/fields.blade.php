@@ -19,7 +19,7 @@
     </div>
     <div class="col-sm-12 form-group">
         <label for="company_building_num_floors">Num Floors:</label>
-        <input type="number" name="num_floors" id="company_building_num_floors" class="form-control" value="@if(isset($companyBuilding)){{ $companyBuilding->num_floors }}@endif">
+        <input type="number" name="num_floors" id="company_building_num_floors" class="form-control" value="@if(isset($companyBuilding)){{ $companyBuilding->num_floors }}@endif" disabled>
     </div>
     <div class="col-sm-12">
         <button type="submit" class="btn btn-primary">@if(isset($companyBuilding)) <i class="fa fa-refresh"></i>  Update Company Building @else <i class="fa fa-plus"></i>  Add Company Building @endif</button>

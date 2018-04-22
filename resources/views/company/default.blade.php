@@ -49,11 +49,11 @@
                    aria-expanded="false"><i class="fa fa-bars fa-2x m-r-1 vertical-a-mid"></i><span class="">Menu</span></a>
                 <ul class="dropdown-menu">
                     <li class="dropdown-toggle">
-                        <a href="{{ route('company.users.index') }}">Users</a>
+                        <a href="{{ route('company.users.index') }}">Company Admin</a>
                         <ul class="dropdown-menu">
                             {{--<li><a href="{{ route('company.users.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
                                     User</a></li>--}}
-                            <li><a href="{{ route('company.users.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Users</a>
+                            <li><a href="{{ route('company.users.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Company Admin Users</a>
                             </li>
                         </ul>
                     </li>
@@ -125,8 +125,8 @@
                     <li class="dropdown-toggle">
                         <a href="{{ route('company.companyFloorRooms.index') }}">Floor Rooms</a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ route('company.companyFloorRooms.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
-                                    Floor</a></li>
+                            {{--<li><a href="{{ route('company.companyFloorRooms.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
+                                    Floor</a></li>--}}
                             <li><a href="{{ route('company.companyFloorRooms.index') }}"><i class="fa fa-building-o"></i>&nbsp;&nbsp;Floor Rooms</a>
                             </li>
                         </ul>
