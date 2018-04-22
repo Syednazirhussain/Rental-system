@@ -6,7 +6,7 @@
 
   <div class="px-content">
     <div class="page-header">
-      <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i>Modules / </span></h1>
+      <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i>Invoices / </span></h1>
     </div>
 
     <div class="panel">
@@ -31,32 +31,7 @@
         @endif
 
         <div class="table-primary">
-          <table class="table table-striped">
-            <thead>
-              <th>Invoice ID</th>
-              <th>Company Name</th>
-              <th>Payment Cycle</th>
-              <th>Created At</th>
-              <th>Status</th>
-              <th></th>
-            </thead>
-            <tbody>
-                @foreach($Invoices as $Invoice)
-
-                <tr>
-                  <td>{{ $Invoice->id }}</td>
-                  <td>{{ $Invoice->company->name }}</td>
-                  <td>{{ $Invoice->payment_cycle }}</td>
-                  <td>{{ $Invoice->created_at }}</td>
-                  <td>{{ $Invoice->status }}</td>
-                  <td>
-                    <a href="{{ route('admin.sendInvoice',['company_id' => $Invoice->company->id ]) }}" class="btn btn-default">Send Email</a>
-                  </td>
-                </tr>
-
-                @endforeach
-            </tbody>
-          </table>
+          @include('admin.company_invoices.table')
         </div>
 
 
@@ -75,8 +50,12 @@
             // Initialize DataTables
 
             $(function() {
-              $('#datatables').dataTable();
-              $('#datatables_wrapper .table-caption').text('Modules');
+              $('#datatables').dataTable({
+                
+                "order": [[ 0, "desc" ]]
+              });
+
+              $('#datatables_wrapper .table-caption').text('Inovices');
               $('#datatables_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
             });
         </script>

@@ -6,16 +6,28 @@
 
         <div class="px-content">
             <div class="page-header">
-                <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Settings / </span>Admin General Settings</h1>
+                <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Settings / </span>General Settings</h1>
             </div>
+
+           
+
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
-                    @if(Session::has('GeneralSettingError'))
-                        <div class="alert alert-danger" role="alert">
-                            {{ Session::get('GeneralSettingError') }}
-                        </div>
+
+                    @if (session()->has('msg.success'))
+                      @include('layouts.success_msg')
                     @endif
+
+                    @if (session()->has('msg.error'))
+                      @include('layouts.error_msg')
+                    @endif
+                  
                     <div class="panel">
+
+                      <div class="panel-body">
+
+                        
+
                         <form action="{{ route('admin.userStatuses.addOrUpdate') }}" method="POST">
                             <div class="panel-heading">
                                 <div class="panel-title">General Information</div>
@@ -34,6 +46,7 @@
                 </div>
             </div>
         </div>
+    </div>
 
 
 @endsection
