@@ -288,7 +288,10 @@ class CompanyInvoiceController extends AppBaseController
                         // For saved pdf in company invoice directory
                         $filePath = storage_path("app").DIRECTORY_SEPARATOR."public".DIRECTORY_SEPARATOR."company_invoices";
                         
-                        if (!Storage::exists($filePath)) {
+                        /*echo Storage::exists($filePath);
+                        exit;*/
+
+                        if (!file_exists($filePath)) {
                             mkdir($filePath);
                         };
 
@@ -309,7 +312,10 @@ class CompanyInvoiceController extends AppBaseController
                             Mail::to($person->email)->send(new NewInvoiceMail($data));
                         }
 
-                        Session::Flash("InvoiceSuccess","Invoice successfully created.");
+                        // Session::Flash("InvoiceSuccess","Invoice successfully created.");
+                        
+                        session()->flash('msg.success', 'Company has been created successfully');
+
                         return redirect()->route('admin.companies.index');
                     }
                     else
@@ -346,7 +352,11 @@ class CompanyInvoiceController extends AppBaseController
             $index++;    
         }
 
+       /* echo "<pre>";
+        print_r($company_modules);*/
 
+
+        $modules = [];
 
         $collection = $this->moduleRepository->find($modules_id,['id','name','price']);
 

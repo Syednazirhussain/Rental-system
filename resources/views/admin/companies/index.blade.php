@@ -21,13 +21,6 @@
       @endif
 
 
-      @if(Session::has("InvoiceSuccess"))
-        <div class="alert alert-success" role="alert">
-          <strong>Success </strong> {{ Session::get('InvoiceSuccess') }}
-        </div>
-      @endif
-
-
         <div class="text-right m-b-3">
             <a href="{{ route('admin.companies.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i>Add Company</a>
         </div>

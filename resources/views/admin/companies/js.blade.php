@@ -841,10 +841,17 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                                $('input[data-admin-password="new-'+index+'"]').attr('name', "admin["+value['id']+"][password]");
                                $('input[data-admin-password="new-'+index+'"]').attr("data-admin-password", value['id']);
 
+                               
                               
                             });
 
                             adminValidationRules();
+
+                            if(data.success == 1) {
+                              location.href = "{{ route('admin.companies.index') }}";
+                            } else {
+                              alert("Could not update admins(s)");
+                            }
                             // console.log(data);
                         },
                         error: function(xhr,status,error)  {
