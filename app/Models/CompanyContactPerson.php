@@ -72,7 +72,7 @@ class CompanyContactPerson extends Model
      * @var array
      */
     public static $rules = [
-        'person' => 'required|array'
+        'person' => 'array|nullable'
     ];
 
     /**

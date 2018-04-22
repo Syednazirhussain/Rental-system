@@ -15,9 +15,30 @@
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
+<<<<<<< HEAD
     <link href="{{ asset('/skin-1/assets/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/skin-1/assets/css/pixeladmin.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/skin-1/assets/css/widgets.min.css') }}" rel="stylesheet">
+=======
+    <div class="page-signin-container" id="page-signin-form">
+      
+      <h1 class="m-t-5 m-b-4 text-xs-center font-weight-semibold font-size-30 color-white">HIGHNOX</h1>
+      <h3 class="m-t-0 m-b-4 text-xs-center font-size-20 color-white">COMPANY LOGIN</h3>
+
+      <form method="post" action="{{ route('temp.company.authenticate') }}" class="panel p-a-4" id="company-login-form">
+        
+        {!! csrf_field() !!}
+          <span class="left">Email</span>
+        <fieldset class=" form-group form-group-lg">
+          <input type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Email">
+        </fieldset>
+
+        @if ($errors->has('email'))
+            <span class="help-block">
+                <strong>{{ $errors->first('email') }}</strong>
+            </span>
+        @endif
+>>>>>>> 452e23d2f6502e16b2d5fe9ab6d3f651e0033a2a
 
     <link href="{{ asset('/skin-1/assets/css/themes/candy-green.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/skin-1/assets/css/custom.css') }}" rel="stylesheet">

@@ -53,7 +53,7 @@ class CompanyUser extends Model
      * @var array
      */
     public static $rules = [
-        'admin' => 'required|array',
+        'admin' => 'array',
     ];
 
     /**

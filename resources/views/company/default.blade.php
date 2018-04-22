@@ -51,6 +51,7 @@
                     <li class="dropdown-toggle">
                         <a href="{{ route('company.users.index') }}">Users</a>
                         <ul class="dropdown-menu">
+<<<<<<< HEAD
                             <li><a href="{{ route('company.users.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
                                     User</a></li>
                             <li><a href="{{ route('company.users.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Users</a>
@@ -62,6 +63,66 @@
                         <ul class="dropdown-menu">
                             <li><a href="{{ route('company.companyBuildings.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Buildings</a>
                             </li>
+=======
+                            <li class="dropdown-toggle">
+                                <a href>Bookings</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ route('temp.company.booking.add') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Booking</a></li>
+                                    <li><a href=""><i class="fa fa-cube"></i>&nbsp;&nbsp;Bookings</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-toggle">
+                                <a href>Rooms</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ route('temp.company.room.add') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Room</a></li>
+                                    <li><a href=""><i class="fa fa-cube"></i>&nbsp;&nbsp;Rooms</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-toggle">
+                                <a href>Rooms Layouts</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ route('company.conference.roomLayouts.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Rooms Layout</a></li>
+                                    <li><a href="{{ route('company.conference.roomLayouts.index') }}"><i class="fa fa-cube"></i>&nbsp;&nbsp;Rooms Layouts</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-toggle">
+                                <a href>Equipments</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ route('company.conference.equipments.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Equipment</a></li>
+                                    <li><a href="{{ route('company.conference.equipments.index') }}"><i class="fa fa-cube"></i>&nbsp;&nbsp;Equipments</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-toggle">
+                                <a href>Equipments Criteria</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ route('company.conference.equipmentCriterias.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Equipment Criteria</a></li>
+                                    <li><a href="{{ route('company.conference.equipmentCriterias.index') }}"><i class="fa fa-cube"></i>&nbsp;&nbsp;Equipments Criteria</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-toggle">
+                                <a href>Food &amp; Drinks</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ route('company.conference.foods.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Food &amp; Drink</a></li>
+                                    <li><a href="{{ route('company.conference.foods.index') }}"><i class="fa fa-cube"></i>&nbsp;&nbsp;Food &amp; Drinks</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-toggle">
+                                <a href>Packages</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ route('company.conference.packages.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Package</a></li>
+                                    <li><a href="{{ route('company.conference.packages.index') }}"><i class="fa fa-cube"></i>&nbsp;&nbsp;Packages</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-toggle">
+                                <a href>Customers</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ route('temp.company.customer.add') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Customer</a></li>
+                                    <li><a href=""><i class="fa fa-cube"></i>&nbsp;&nbsp;Customers</a></li>
+                                </ul>
+                            </li>
+                            <li class="divider"></li>
+                            <li><a href="#">Help</a></li>
+>>>>>>> 452e23d2f6502e16b2d5fe9ab6d3f651e0033a2a
                         </ul>
                     </li>
                     <li class="dropdown-toggle">

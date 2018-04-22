@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\Admin\CreateUserRequest;
 use App\Http\Requests\Admin\UpdateUserRequest;
 use App\Repositories\Admin\UserRepository;
+
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
@@ -15,6 +16,7 @@ use App\Models\UserRole;
 use App\Models\User;
 use App\Models\UserStatus;
 
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends AppBaseController
 {
@@ -176,13 +178,12 @@ class UserController extends AppBaseController
     // authenticate user
     public function authenticate(Request $request)
     {
-        if (Auth::attempt(array('email'=>$request->input('email'), 'password'=>$request->input('password'),'user_role_code'=>'admin'))) {
-
+        if (Auth::attempt(array('email'=>$request->input('email'), 'password'=>$request->input('password'),'user_role_code'=>'admin')))
+        {
             return redirect()->route('admin.dashboard');
-                    
-
-        } else {
-
+        } 
+        else 
+        {
             return redirect()->route('admin.login')
             ->with('errorLogin', 'Ooops! Invalid Email or Password')
             ->withInput();
@@ -199,5 +200,91 @@ class UserController extends AppBaseController
             $request->session()->flush();
             return redirect()->route('admin.login');
         } 
+    }
+
+    // view account settings
+    public function accountSettingsView()
+    {   
+
+        return view('admin.users.account_settings');
+    }
+
+
+
+
+    // store account settings
+    public function accountSettingsStore(Request $request)
+    {   
+
+        $id                 = Auth::user()->id;
+        $name               = $request->name;
+        $email              = $request->email;
+        $password           = $request->password;
+
+
+        $updateArr = [
+                        'name' => $name,
+                        'email' => $email,
+                    ];
+
+
+        if ($request->hasFile('profile_pic')) {
+
+            $path = $request->file('profile_pic')->store('public/company_logos');
+
+            
+
+            $path = explode("/", $path);
+
+
+
+            $updateArr['profile_pic'] = $path[2];
+
+        }
+
+
+
+        if ($password != "" ) {
+            
+            $new_password = bcrypt($password);
+            $updateArr['password'] = $new_password;
+        } 
+
+
+        $user = $this->userRepository->adminAccountSettings($updateArr, $id);
+        $request->session()->flash('msg.success', 'Account Settings updated successfully.');
+        return redirect()->route('admin.accountSettings.view');
+    
+    }
+
+
+
+
+
+    // remove profile pic account settings
+    public function accountSettingsRemoveProfilePic(Request $request)
+    {   
+
+        if ($request->ajax()) {
+
+            $profilePicName = $request->profilePicName;
+            $sep = DIRECTORY_SEPARATOR;
+
+            Storage::delete('public'.$sep.'company_logos'.$sep.$profilePicName);
+
+            $this->userRepository->adminAccountSettingsRemoveProfilePic($profilePicName);
+
+            $result['success'] = 1;
+
+        } else {
+
+            $result['success'] = 0;
+
+        }
+
+
+        return response()->json($result);
+
+
     }
 }

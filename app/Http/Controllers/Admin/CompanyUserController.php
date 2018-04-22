@@ -67,9 +67,11 @@ class CompanyUserController extends AppBaseController
 
 
         $i = 0;
-        $faker = Faker::create();
 
         foreach($data['admin'] as $admin) {
+            
+            $faker = Faker::create();
+
            // $input[$i]['company_id'] = $data['company_id'];
             $input['name'] = $admin['name'];
             $input['email'] = $admin['email'];
@@ -89,6 +91,10 @@ class CompanyUserController extends AppBaseController
         }
 
         $companyUser = $this->companyUserRepository->insert($companyUser);
+
+        app('App\Http\Controllers\Admin\CompanyInvoiceController')->createInvoiceByCompanyId($data['company_id']);
+        
+        // Admin\CompanyInvoiceController@createInvoiceByCompanyId
 
         return response()->json(['success'=>1, 'msg'=>'Company admins have been created successfully']);
         
@@ -147,7 +153,7 @@ class CompanyUserController extends AppBaseController
 
         $data = $request->all();
 
-        /*echo "<pre>";
+       /* echo "<pre>";
         print_r($data);
         echo "</pre>";
 
@@ -157,52 +163,71 @@ class CompanyUserController extends AppBaseController
         $companyInput = [];
         $arr = [];
 
-        $faker = Faker::create();
-
-
-        $i = 0;
-        $index = 0;
-
-        foreach ($data['admin'] as $admin) {
-
-            $input['name'] = $admin['name'];
-            $input['email'] = $admin['email'];
-
-            if (!empty(trim($admin['password']))) {
-                $input['password'] = bcrypt($admin['password']);
-            }
+        if (isset($data['admin'])) {
             
-            $input['user_role_code'] = 'company_admin';
-            $input['user_status_id'] = 1;
-            $input['uuid'] = $faker->uuid;;
+            $i = 0;
+            $index = 0;
 
-            if (strpos($admin['user_id'], 'new-') === false) {
-                $id = $admin['user_id'];
-                $adminId = $admin['id'];
-            } else {
-                $index = preg_replace('/[^0-9]/', '', $admin['user_id']);
-                $id = "";
-                $adminId = "";
+            foreach ($data['admin'] as $admin) {
+
+                $faker = Faker::create();
+
+
+                $input['name'] = $admin['name'];
+                $input['email'] = $admin['email'];
+
+                if (!empty(trim($admin['password']))) {
+                    $input['password'] = bcrypt($admin['password']);
+                }
+
+                
+
+                if (strpos($admin['user_id'], 'new-') === false) {
+                    $id = $admin['user_id'];
+                    $adminId = $admin['id'];
+
+                    unset($input['uuid']);
+                    unset($input['user_role_code']);
+                    unset($input['user_status_id']);
+
+                } else {
+                    $index = preg_replace('/[^0-9]/', '', $admin['user_id']);
+                    
+                    $input['uuid'] = $faker->uuid;;
+                    $input['user_role_code'] = 'company_admin';
+                    $input['user_status_id'] = 1;
+
+                    $id = "";
+                    $adminId = "";
+
+                    /*echo "<pre>";
+                    print_r($input);
+                    echo "</pre>";
+
+                    exit;*/
+                }
+                
+                $where = ['id' => $id];
+                $whereAdmin = ['id' => $adminId];
+
+                $adminUser = $this->userRepository->updateOrCreate($where, $input);
+
+                $companyInput['user_id'] = $adminUser->id;
+                $companyInput['company_id'] = $data['company_id'];
+
+                $companyUser = $this->companyUserRepository->updateOrCreate($whereAdmin, $companyInput);
+
+
+                if (strpos($admin['user_id'], 'new-') !== false) {
+
+                    $arr[$index]['id'] = $companyUser->id;
+                    $arr[$index]['user_id'] = $adminUser->id;
+                    $arr[$index]['email'] = $adminUser->email;
+                }
+
             }
-            
-            $where = ['id' => $id];
-            $whereAdmin = ['id' => $adminId];
-
-            $adminUser = $this->userRepository->updateOrCreate($where, $input);
-
-            $companyInput['user_id'] = $adminUser->id;
-            $companyInput['company_id'] = $data['company_id'];
-
-            $companyUser = $this->companyUserRepository->updateOrCreate($whereAdmin, $companyInput);
-
-
-            if (strpos($admin['user_id'], 'new-') !== false) {
-
-                $arr[$index] = $companyUser->id;
-            }
-
-        }
         
+        }
 
         return response()->json([
                                 'success'=>1, 
@@ -210,20 +235,6 @@ class CompanyUserController extends AppBaseController
                                 'createdFields'=>$arr,
                                 ]);
 
-
-        $companyUser = $this->companyUserRepository->findWithoutFail($id);
-
-        if (empty($companyUser)) {
-            Flash::error('Company User not found');
-
-            return redirect(route('admin.companyUsers.index'));
-        }
-
-        $companyUser = $this->companyUserRepository->update($request->all(), $id);
-
-        Flash::success('Company User updated successfully.');
-
-        return redirect(route('admin.companyUsers.index'));
     }
 
     /**
@@ -233,20 +244,36 @@ class CompanyUserController extends AppBaseController
      *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
+
+
+        $id = $request->only('admin_id');
+
+        $id = $id['admin_id'];
+
+        // echo $id;
+        // exit;
+        
         $companyUser = $this->companyUserRepository->findWithoutFail($id);
 
         if (empty($companyUser)) {
-            Flash::error('Company User not found');
 
-            return redirect(route('admin.companyUsers.index'));
+            $success = 0;
+            $msg = "Company admin not found";
         }
+
+
+        $this->userRepository->delete($companyUser->user_id);
 
         $this->companyUserRepository->delete($id);
 
-        Flash::success('Company User deleted successfully.');
+        $success = 1;
+        $msg = "Company admin deleted successfully";
 
-        return redirect(route('admin.companyUsers.index'));
+        return response()->json([
+                                'success'=>$success, 
+                                'msg'=>$msg,
+                                ]);
     }
 }

@@ -31,4 +31,9 @@ class PaymentCycleRepository extends BaseRepository
         return PaymentCycle::class;
     }
 
+    public function getPaymentCycleById($id)
+    {
+        return PaymentCycle::find($id)->name;
+    }
+
 }

@@ -71,9 +71,12 @@
                                    <li><a href="{{ route('admin.userRoles.index') }}"><i class="fa fa-users"></i>&nbsp;&nbsp;User Roles</a></li>
                                    <li class="divider"></li>
                                    <li><a href="{{ route('admin.userStatuses.index') }}"><i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;User Status</a></li>
+                                   <li class="divider"></li>
+                                   <li><a href="{{ route('admin.settings.general') }}"><i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;General Settings</a></li>
                                 </ul>
                              </li>
                             <li class="divider"></li>
+                            <li><a href="{{ route('admin.companyInvoices.index') }}">Invoices</a></li>
                             <li><a href="#">Help</a></li>
                         </ul>
                     </li>
@@ -85,11 +88,11 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <img src="{{ asset('/skin-1/assets/demo/avatars/1.jpg') }}" alt="" class="px-navbar-image">
+                        <img src="@if(Auth::user()->profile_pic != ''){{ asset('storage/company_logos/'.Auth::user()->profile_pic) }} @else {{ asset('/skin-1/assets/demo/avatars/1.jpg') }} @endif" alt="" class="px-navbar-image">
                         <span class="hidden-md">{{ ucfirst(Auth::user()->name) }}</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="pages-account.html">Account</a></li>
+                            <li><a href="{{ route('admin.accountSettings.view') }}"><i class="dropdown-icon fa fa-cog"></i>&nbsp;&nbsp;Settings</a></li>
                             <li class="divider"></li>
                             <li><a href="{{ route('admin.logout') }}"><i class="dropdown-icon fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
                         </ul>
@@ -150,11 +153,4 @@
 
 
     </body>
-</html>        
-
-
-
-
-
-
-
+</html>

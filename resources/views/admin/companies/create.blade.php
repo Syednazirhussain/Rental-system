@@ -33,9 +33,9 @@
 
 
 
-
 @section('js')
 
+<<<<<<< HEAD
     <!-- js -->
 
 
@@ -1102,6 +1102,11 @@
                     digits: true,
                 });
             });
+=======
+<!-- js start -->
+
+            @include('admin.companies.js')
+>>>>>>> 452e23d2f6502e16b2d5fe9ab6d3f651e0033a2a
 
             $('.users-limit').each(function () {
                 $(this).rules("add", {
@@ -1110,6 +1115,7 @@
                 });
             });
 
+<!-- js end -->
 
             $('.select2-module').select2({
                 placeholder: 'Select Module',
@@ -1150,6 +1156,7 @@
 
 
 
+<<<<<<< HEAD
         // Add More Admin
 
 
@@ -1249,3 +1256,5 @@
 
 
 @endsection
+=======
+>>>>>>> 452e23d2f6502e16b2d5fe9ab6d3f651e0033a2a

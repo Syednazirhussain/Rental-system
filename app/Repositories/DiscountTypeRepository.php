@@ -30,4 +30,12 @@ class DiscountTypeRepository extends BaseRepository
     {
         return DiscountType::class;
     }
+
+
+    public function getDiscountTypeById($id)
+    {
+        return DiscountType::find($id)->name;
+    }
+
+
 }

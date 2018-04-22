@@ -59,3 +59,31 @@
     <a href="{!! route('admin.companyUsers.index') !!}"><i class="fa fa-edit"></i><span>Company Users</span></a>
 </li>
 
+<li class="{{ Request::is('companyInvoices*') ? 'active' : '' }}">
+    <a href="{!! route('admin.companyInvoices.index') !!}"><i class="fa fa-edit"></i><span>Company Invoices</span></a>
+</li>
+
+<li class="{{ Request::is('roomLayouts*') ? 'active' : '' }}">
+    <a href="{!! route('companyConference.roomLayouts.index') !!}"><i class="fa fa-edit"></i><span>Room Layouts</span></a>
+</li>
+
+<li class="{{ Request::is('roomLayouts*') ? 'active' : '' }}">
+    <a href="{!! route('company/Conference.roomLayouts.index') !!}"><i class="fa fa-edit"></i><span>Room Layouts</span></a>
+</li>
+
+<li class="{{ Request::is('foods*') ? 'active' : '' }}">
+    <a href="{!! route('company.conference.foods.index') !!}"><i class="fa fa-edit"></i><span>Foods</span></a>
+</li>
+
+<li class="{{ Request::is('packages*') ? 'active' : '' }}">
+    <a href="{!! route('company.conference.packages.index') !!}"><i class="fa fa-edit"></i><span>Packages</span></a>
+</li>
+
+<li class="{{ Request::is('equipmentCriterias*') ? 'active' : '' }}">
+    <a href="{!! route('company.conference.equipmentCriterias.index') !!}"><i class="fa fa-edit"></i><span>Equipment Criterias</span></a>
+</li>
+
+<li class="{{ Request::is('equipments*') ? 'active' : '' }}">
+    <a href="{!! route('company.conference.equipments.index') !!}"><i class="fa fa-edit"></i><span>Equipments</span></a>
+</li>
+

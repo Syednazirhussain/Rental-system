@@ -75,7 +75,9 @@
 
 
 
-
+#admin-menu-button .dropdown-menu {
+    min-width: 170px;
+}
 
 
 

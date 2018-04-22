@@ -53,6 +53,7 @@ class User extends Authenticatable
         'country_id',
         'state_id',
         'city_id',
+        'profile_pic',
         'user_status_id',
         'uuid',
         'first_login',
