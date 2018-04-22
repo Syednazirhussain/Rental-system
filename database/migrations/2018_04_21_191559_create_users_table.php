@@ -16,7 +16,7 @@ class CreateUsersTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('name', 100);
-			$table->string('email', 100)->unique();
+			$table->string('email', 100);
 			$table->string('password', 191);
 			$table->string('user_role_code', 50)->nullable()->index('user_role_code');
 			$table->integer('country_id')->unsigned()->nullable()->index('country_id');

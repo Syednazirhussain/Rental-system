@@ -75,9 +75,7 @@ class CompanyController extends AppBaseController
         $companies = $this->companyRepository->all();
 
 
-        $data = [
-                'companies' => $companies
-            ];
+        $data = ['companies' => $companies];
 
         return view('admin.companies.index', $data);
     }
@@ -238,14 +236,6 @@ class CompanyController extends AppBaseController
 
         $input = $request->all();
 
-        if ($request->hasFile('logo')) {
-
-            $path = $request->file('logo')->store('public/company_logos');
-            $path = explode("/", $path);
-            $input['logo'] = $path[2];
-        }
-        
-
         $company = $this->companyRepository->findWithoutFail($id);
 
         if (empty($company)) {
@@ -255,6 +245,20 @@ class CompanyController extends AppBaseController
             $success = 0;
             $msg = "Company not found";
         } else {
+
+            if ($request->hasFile('logo') && !empty($request->hasFile('logo'))) {
+
+                if (isset($input['logo_hidden']) && $company->logo == $input['logo_hidden']) {
+                   $oldLogo = true;
+
+                } else {
+                     $path = $request->file('logo')->store('public/company_logos');
+                     $path = explode("/", $path);
+                     $input['logo'] = $path[2];
+
+                     $oldLogo = false;
+                }
+            }
             
             $company = $this->companyRepository->update($input, $id);
 

@@ -22,6 +22,7 @@ class CreateCompanyInvoicesTable extends Migration {
 			$table->decimal('tax', 10)->unsigned()->default(0.00);
 			$table->decimal('total', 10)->unsigned()->nullable();
 			$table->string('status', 50)->nullable()->default('unpaid');
+			$table->string('file_name', 191)->nullable();
 			$table->date('due_date')->nullable();
 			$table->timestamps();
 			$table->softDeletes();

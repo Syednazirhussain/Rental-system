@@ -140,54 +140,57 @@ class CompanyContactPersonController extends AppBaseController
 
         $data = $request->all();
 
-        /*echo "<pre>";
-        print_r($data);
-        echo "</pre>";
 
-        exit;*/
-
-        $input = [];
-        $dateTime = date('Y-m-d h:i:s');
         $arr = [];
 
-        $i = 0;
-        $index = 0;
+        if (isset($data['person'])) {
 
-        foreach ($data['person'] as $person) {
+                $input = [];
+                $dateTime = date('Y-m-d h:i:s');
+                
 
-            $input['name'] = $person['name'];
-            $input['email'] = $person['email'];
-            $input['phone'] = $person['phone'];
-            $input['fax'] = $person['fax'];
-            $input['address'] = $person['address'];
-            $input['department'] = $person['department'];
-            $input['designation'] = $person['designation'];
-            $input['company_id'] = $data['company_id'];
+                $i = 0;
+                $index = 0;
 
-            if (strpos($person['id'], 'new-') === false) {
-                $id = $person['id'];
-            } else {
-                $index = preg_replace('/[^0-9]/', '', $person['id']);
-                $id = "";
-            }
-            
-            $where = ['id' => $id];
+                foreach ($data['person'] as $person) {
 
-            $companyContactPerson = $this->companyContactPersonRepository->updateOrCreate($where, $input);
+                    $input['name'] = $person['name'];
+                    $input['email'] = $person['email'];
+                    $input['phone'] = $person['phone'];
+                    $input['fax'] = $person['fax'];
+                    $input['address'] = $person['address'];
+                    $input['department'] = $person['department'];
+                    $input['designation'] = $person['designation'];
+                    $input['company_id'] = $data['company_id'];
 
-            if (strpos($person['id'], 'new-') !== false) {
+                    if (strpos($person['id'], 'new-') === false) {
+                        $id = $person['id'];
+                    } else {
+                        $index = preg_replace('/[^0-9]/', '', $person['id']);
+                        $id = "";
+                    }
+                    
+                    $where = ['id' => $id];
 
-                $arr[$index] = $companyContactPerson->id;
-            }
+                    $companyContactPerson = $this->companyContactPersonRepository->updateOrCreate($where, $input);
+
+                    if (strpos($person['id'], 'new-') !== false) {
+
+                        $arr[$index] = $companyContactPerson->id;
+                    }
+
+                }
+                
+
+                
 
         }
-        
 
         return response()->json([
-                                'success'=>1, 
-                                'msg'=>'Company contact persons have been updated successfully',
-                                'createdFields'=>$arr,
-                                ]);
+                                        'success'=>1, 
+                                        'msg'=>'Company contact persons have been updated successfully',
+                                        'createdFields'=>$arr,
+                                        ]);
     }
 
     /**

@@ -3,13 +3,6 @@
 @section('content')
 
 
-
-
-
-
-
-
-
 <div class="px-content">
             <ol class="breadcrumb page-breadcrumb">
                 <li><a href="index.html">Home</a></li>
@@ -126,16 +119,5 @@
                 
             </div>
         </div>
-
-
-
-
-
-
-
-
-
-
-
 
 @endsection
