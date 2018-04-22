@@ -202,11 +202,11 @@
                                                 <option></option>
                                                 @foreach ($userStatus as $status)
                                                   @if (isset($company) && $status->id == $company->userStatus->id)
-                                                   <option value="{{ $status->id }}" selected="selected">{{ $status->name }}</option> 
+                                                   <option value="{{ $status->id }}" selected="selected">{{ ucfirst($status->name) }}</option> 
                                                   @elseif ($status->name == "active")
-                                                   <option value="{{ $status->id }}" selected="selected">{{ $status->name }}</option> 
+                                                   <option value="{{ $status->id }}" selected="selected">{{ ucfirst($status->name) }}</option> 
                                                   @else
-                                                   <option value="{{ $status->id  }}">{{ $status->name }}</option> 
+                                                   <option value="{{ $status->id  }}">{{ ucfirst($status->name) }}</option> 
                                                   @endif
                                                 @endforeach
                                             </select>

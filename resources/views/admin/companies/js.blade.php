@@ -783,7 +783,12 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                         type: 'POST', // For jQuery < 1.9
                         success: function(data){
                             // myform.pxWizard('goTo', 2);
-                            companyAdminCreated = data.success;
+                            if(data.success == 1) {
+                              companyAdminCreated = data.success;
+                              location.href = "{{ route('admin.companies.index') }}";
+                            } else {
+                              alert("Could not create company admins(s)");
+                            }
                             // console.log(data);
                         },
                         error: function(xhr,status,error)  {

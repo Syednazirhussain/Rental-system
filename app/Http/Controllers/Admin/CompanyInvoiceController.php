@@ -286,9 +286,22 @@ class CompanyInvoiceController extends AppBaseController
                         // return view('admin.companies.invoice')->with('Invoice',$company_infomation);
 
                         // For saved pdf in company invoice directory
-                        $filePath = public_path().DIRECTORY_SEPARATOR."storage".DIRECTORY_SEPARATOR."company_invoices".DIRECTORY_SEPARATOR.$filename;
+                        $filePath = storage_path("app").DIRECTORY_SEPARATOR."public".DIRECTORY_SEPARATOR."company_invoices";
+                        
+                        if (!Storage::exists($filePath)) {
+                            mkdir($filePath);
+                        };
+
+
+                        $filePath = $filePath.DIRECTORY_SEPARATOR.$filename;
+
                         $pdf = PDF::loadView('admin.companies.invoice', $data);
                         $pdf->save($filePath);
+
+                        // $path = Storage::put('public/company_invoices', $pdf);
+                        // $path = explode("/", $path);
+
+                        // $input['logo'] = $path[2];
 
                         $data = ['Path' => $filePath];
                         foreach ($company_infomation['Contact_Person'] as $person) 

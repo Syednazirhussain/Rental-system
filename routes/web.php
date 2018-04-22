@@ -21,6 +21,10 @@ Route::get('/', function() {
 
 Route::group(['middleware' => ['admin.guest']], function () {
 
+	Route::get('admin', function() {
+		return redirect()->route('admin.login');
+	});
+
 	Route::get('admin/login', ['as'=> 'admin.login', 'uses' => 'Admin\UserController@viewLogin']);
 	Route::post('admin/authenticate', ['as'=> 'admin.users.authenticate', 'uses' => 'Admin\UserController@authenticate']);
 
