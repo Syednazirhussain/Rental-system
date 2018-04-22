@@ -47,7 +47,7 @@
 
             $(function() {
               $('#datatables').dataTable();
-              $('#datatables_wrapper .table-caption').text('Modules');
+              $('#datatables_wrapper .table-caption').text('Room Layouts');
               $('#datatables_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
             });
         </script>

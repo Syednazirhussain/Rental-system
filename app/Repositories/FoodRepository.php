@@ -31,4 +31,10 @@ class FoodRepository extends BaseRepository
     {
         return Food::class;
     }
+
+    public function getFoodItems()
+    {
+        return Food::select('title','id')->orderBy('title', 'asc')->get();
+    }
+
 }
