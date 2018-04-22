@@ -32,6 +32,8 @@ class RoomLayoutController extends AppBaseController
         $this->roomLayoutRepository->pushCriteria(new RequestCriteria($request));
         $roomLayouts = $this->roomLayoutRepository->all();
 
+        
+
         return view('company.Conference.room_layouts.index')
             ->with('roomLayouts', $roomLayouts);
     }
@@ -60,6 +62,8 @@ class RoomLayoutController extends AppBaseController
         if ($request->hasFile('image')) {
 
             $path = $request->file('image')->store('public/room_layouts_images');
+
+            // dd($path);
 
             $path = explode("/", $path);
 

@@ -78,7 +78,6 @@ class EquipmentsController extends AppBaseController
         }
 
 
-
         $equipments = $this->equipmentsRepository->create($input);
 
         Flash::success('Equipments saved successfully.');
@@ -121,6 +120,8 @@ class EquipmentsController extends AppBaseController
 
         $equipments = $this->equipmentsRepository->findWithoutFail($id);
 
+        // dd($equipments);
+
         if (empty($equipments)) {
             Flash::error('Equipments not found');
 
@@ -152,6 +153,24 @@ class EquipmentsController extends AppBaseController
 
             return redirect(route('company.conference.equipments.index'));
         }
+
+
+
+
+        if ($request->is_multi_units == 'on') {
+            $request->is_multi_units = '1';
+        } else {
+            $request->is_multi_units = NULL;
+        }
+
+
+        // dd($request->is_multi_units);
+
+
+        $request['is_multi_units'] = $request->is_multi_units;
+
+        // dd($request['is_multi_units']);
+
 
         $equipments = $this->equipmentsRepository->update($request->all(), $id);
 

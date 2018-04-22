@@ -7,14 +7,14 @@
 
 <div class="col-sm-12 form-group">
     <label for="">Title</label>
-    <input type="text" id="title" placeholder="Projector" value="@if(isset($equipments)) {{$equipments->price}} @endif" name="title" class="form-control">
+    <input type="text" id="title" placeholder="Projector" value="@if(isset($equipments)){{$equipments->title}}@endif" name="title" class="form-control">
 </div>
 
 <!-- Price Field -->
 
 <div class="col-sm-6 form-group">
     <label for="">Price</label>
-    <input type="number" id="price" placeholder="30.00" value="@if(isset($equipments)) {{$equipments->price}} @endif" name="price" class="form-control">
+    <input type="number" id="price" placeholder="30.00" value="@if(isset($equipments)){{$equipments->price}}@endif" name="price" class="form-control">
 </div>
 
 <!-- Criteria Id Field -->
@@ -24,7 +24,11 @@
     <label>Criteria Per</label>
     <select class="form-control select2-example" name="criteria_id"  style="width: 100%">
         @foreach($equipCriteria as $criteria)
-            <option value="{{$criteria->id}}">{{$criteria->title}}</option>
+            @if (isset($equipments) && $equipments->criteria_id == $criteria->id)
+                <option value="{{$criteria->id}}" selected="selected">{{$criteria->title}}</option>
+            @else
+                <option  value="{{$criteria->id}}">{{$criteria->title}}</option>
+            @endif
         @endforeach
     </select>
 </div>
@@ -35,7 +39,7 @@
 <div class="col-sm-6 form-group">
     <label for=""></label>
     <label class="custom-control custom-checkbox">
-        <input type="checkbox" name="is_multi_units" class="custom-control-input">
+        <input type="checkbox" name="is_multi_units" class="custom-control-input"  <?php if((isset($equipments)) && $equipments->is_multi_units != "") { ?>  checked="checked"   <?php } ?> >                               
         <span class="custom-control-indicator"></span>
         Book multi units
     </label>
