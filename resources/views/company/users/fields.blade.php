@@ -19,7 +19,7 @@
     </div>
     <div class="col-sm-12 form-group">
         <label for="user_role_codes">User Role:</label>
-        <select type="text" name="user_role_code" id="user_role_code" class="form-control" value="@if(isset($user)){{ $user->user_role_code }}@endif">
+        <select type="text" name="user_role_code" id="user_role_code" class="form-control" value="@if(isset($user)){{ $user->user_role_code }}@endif" disabled>
             @if(isset($user)) <option value="{{ $user->user_role_code }}" selected>{{ $all_roles[$user->user_role_code] }}</option> @endif
             <option value="company">Company</option>
             <option value="company_customer">Company Customer</option>

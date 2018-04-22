@@ -18,8 +18,8 @@
                 @endif
 
                 <div class="text-right m-b-3">
-                    <a href="{{ route('company.users.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i>Add
-                        User</a>
+                    {{--<a href="{{ route('company.users.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i>Add
+                        User</a>--}}
                 </div>
 
                 <div class="table-primary">

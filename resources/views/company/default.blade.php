@@ -51,9 +51,8 @@
                     <li class="dropdown-toggle">
                         <a href="{{ route('company.users.index') }}">Users</a>
                         <ul class="dropdown-menu">
-<<<<<<< HEAD
-                            <li><a href="{{ route('company.users.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
-                                    User</a></li>
+                            {{--<li><a href="{{ route('company.users.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
+                                    User</a></li>--}}
                             <li><a href="{{ route('company.users.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Users</a>
                             </li>
                         </ul>
@@ -63,7 +62,6 @@
                         <ul class="dropdown-menu">
                             <li><a href="{{ route('company.companyBuildings.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Buildings</a>
                             </li>
-=======
                             <li class="dropdown-toggle">
                                 <a href>Bookings</a>
                                 <ul class="dropdown-menu">
@@ -122,7 +120,6 @@
                             </li>
                             <li class="divider"></li>
                             <li><a href="#">Help</a></li>
->>>>>>> 452e23d2f6502e16b2d5fe9ab6d3f651e0033a2a
                         </ul>
                     </li>
                     <li class="dropdown-toggle">
