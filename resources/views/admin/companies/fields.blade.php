@@ -219,6 +219,7 @@
                                 </div>
 
                             <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
+                                    <a href="{!! route('admin.companies.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
                                 @if (isset($company))
                                     <button type="submit" class="btn btn-primary" id="updateCompanyBtn" data-wizard-action="next">UPDATE COMPANY <i class="fa fa-arrow-right m-l-1"></i></button>
                                 @else
@@ -318,6 +319,7 @@
 
                             <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
                               <!-- <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp; -->
+                              <a href="{!! route('admin.companies.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
                               <button type="submit" class="btn btn-primary" id="addContactPersonBtn" data-wizard-action="next">NEXT <i class="fa fa-arrow-right m-l-1"></i></button>
                             </div>
 
@@ -415,6 +417,7 @@
 
                             <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
                               <!-- <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp; -->
+                              <a href="{!! route('admin.companies.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
                               <button type="submit" class="btn btn-primary" data-wizard-action="next">NEXT <i class="fa fa-arrow-right m-l-1"></i></button>
                             </div>
 
@@ -523,6 +526,7 @@
 
                             <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
                               <!-- <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp; -->
+                              <a href="{!! route('admin.companies.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
                               <button type="submit" class="btn btn-primary" data-wizard-action="next">NEXT <i class="fa fa-arrow-right m-l-1"></i></button>
                             </div>
 
@@ -586,6 +590,7 @@
 
                             <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
                               <!-- <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp; -->
+                              <a href="{!! route('admin.companies.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
                               <button type="submit" class="btn btn-primary" data-wizard-action="next">NEXT <i class="fa fa-arrow-right m-l-1"></i></button>
                             </div>
 
@@ -650,6 +655,7 @@
 
                             <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
                               <!-- <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> BACK</button>&nbsp;&nbsp; -->
+                              <a href="{!! route('admin.companies.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
                               <button type="submit" class="btn btn-primary" data-wizard-action="next">FINISH  <i class="fa fa-arrow-right m-l-1"></i></button>
                             </div>
 
