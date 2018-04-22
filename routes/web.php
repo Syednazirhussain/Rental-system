@@ -225,13 +225,9 @@ Route::group(['middleware' => ['admin.auth']], function () {
 
 /********** Company Admin accessible routes as a Guest User start **********/
 
-<<<<<<< HEAD
+
 Route::group(['middleware' => ['company.guest']], function () {
-=======
-Route::get("admin/settings/city/{id}",['uses' => 'Admin\UserController@getCityByStateId']);
-
->>>>>>> 452e23d2f6502e16b2d5fe9ab6d3f651e0033a2a
-
+    Route::get("admin/settings/city/{id}",['uses' => 'Admin\UserController@getCityByStateId']);
     Route::get('company/login', ['as'=> 'company.login', 'uses' => 'Company\UserController@viewLogin']);
     Route::post('company/authenticate', ['as'=> 'company.users.authenticate', 'uses' => 'Company\UserController@authenticate']);
 
