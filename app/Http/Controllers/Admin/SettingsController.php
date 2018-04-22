@@ -92,12 +92,18 @@ class SettingsController extends AppBaseController
 
         if($general_settings->save() && $companyInvoiceVat->save()) 
         {
-            return redirect()->route('admin.settings.general');
+
+            $request->session()->flash('msg.success', 'General settings have been updated successfully');
+
         }
         else
         {
-            Session::Flash("GeneralSettingError","There is some problem while commit on changes");
+            $request->session()->flash('msg.success', 'There is some problem while commit on changes');
+
         }
+
+        return redirect()->route('admin.settings.general');
+
         
     }
 

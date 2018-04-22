@@ -30,7 +30,8 @@ class ModuleController extends AppBaseController
     public function index(Request $request)
     {
         $this->moduleRepository->pushCriteria(new RequestCriteria($request));
-        $modules = $this->moduleRepository->all();
+
+        $modules = $this->moduleRepository->orderBy('name', 'asc')->get();
 
         return view('admin.modules.index')
             ->with('modules', $modules);

@@ -17,6 +17,7 @@
                     @include('layouts.error_msg')
                 @endif
 
+
                 <div class="text-right m-b-3">
                     <a href="{{ route('admin.modules.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i>Add
                         Module</a>

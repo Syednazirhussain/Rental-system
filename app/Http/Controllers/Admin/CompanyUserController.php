@@ -10,9 +10,8 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
-use Response;
 use Faker\Factory as Faker;
-
+use Session;
 
 class CompanyUserController extends AppBaseController
 {
@@ -228,6 +227,10 @@ class CompanyUserController extends AppBaseController
             }
         
         }
+
+
+        session()->flash('msg.success', 'Company details have been updated successfully');
+
 
         return response()->json([
                                 'success'=>1, 

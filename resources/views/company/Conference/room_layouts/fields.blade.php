@@ -25,6 +25,6 @@
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12 m-t-1">
-    <button type="submit" class="btn btn-primary"><i class="fa fa-refresh"></i>  Update Room Layout </button>
+    <button type="submit" class="btn btn-primary">@if(isset($roomLayout)) <i class="fa fa-refresh"></i>  Update Room Layout @else  <i class="fa fa-plus"></i>  Add Room Layout  @endif </button>
     <a href="{!! route('company.conference.roomLayouts.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> Cancel</a>
 </div>

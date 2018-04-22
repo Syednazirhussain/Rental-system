@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Company\Conference;
 use App\Http\Requests\Company\Conference\CreatePackagesRequest;
 use App\Http\Requests\Company\Conference\UpdatePackagesRequest;
 use App\Repositories\PackagesRepository;
+use App\Repositories\FoodRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
@@ -15,10 +16,14 @@ class PackagesController extends AppBaseController
 {
     /** @var  PackagesRepository */
     private $packagesRepository;
+    private $foodRepository;
 
-    public function __construct(PackagesRepository $packagesRepo)
+    public function __construct(PackagesRepository $packagesRepo,
+                                FoodRepository $foodRepo
+    )
     {
         $this->packagesRepository = $packagesRepo;
+        $this->foodRepository = $foodRepo;
     }
 
     /**
@@ -32,6 +37,13 @@ class PackagesController extends AppBaseController
         $this->packagesRepository->pushCriteria(new RequestCriteria($request));
         $packages = $this->packagesRepository->all();
 
+        // foreach ($packages as $key => $value) {
+        //     echo $value->items;
+        //     echo "<br>";
+        // }
+        // // dd($packages);
+        // exit;
+
         return view('company.Conference.packages.index')
             ->with('packages', $packages);
     }
@@ -43,7 +55,14 @@ class PackagesController extends AppBaseController
      */
     public function create()
     {
-        return view('company.Conference.packages.create');
+        $getFoodItems = $this->foodRepository->getFoodItems();
+
+
+        $data = [
+                    'getFoodItems' => $getFoodItems
+                ];
+
+        return view('company.Conference.packages.create', $data);
     }
 
     /**
@@ -56,6 +75,10 @@ class PackagesController extends AppBaseController
     public function store(CreatePackagesRequest $request)
     {
         $input = $request->all();
+
+        $input['items'] = json_encode($input['items']);
+
+
 
         $packages = $this->packagesRepository->create($input);
 
@@ -74,6 +97,8 @@ class PackagesController extends AppBaseController
     public function show($id)
     {
         $packages = $this->packagesRepository->findWithoutFail($id);
+
+
 
         if (empty($packages)) {
             Flash::error('Packages not found');
@@ -94,6 +119,8 @@ class PackagesController extends AppBaseController
     public function edit($id)
     {
         $packages = $this->packagesRepository->findWithoutFail($id);
+        $getFoodItems = $this->foodRepository->getFoodItems();
+
 
         if (empty($packages)) {
             Flash::error('Packages not found');
@@ -101,7 +128,13 @@ class PackagesController extends AppBaseController
             return redirect(route('company.conference.packages.index'));
         }
 
-        return view('company.Conference.packages.edit')->with('packages', $packages);
+        $data = [
+                    'getFoodItems' => $getFoodItems,
+                    'packages'=> $packages
+                ];
+
+
+        return view('company.Conference.packages.edit', $data);
     }
 
     /**
@@ -121,6 +154,11 @@ class PackagesController extends AppBaseController
 
             return redirect(route('company.conference.packages.index'));
         }
+
+        
+        $request['items'] = json_encode($request['items']);
+
+
 
         $packages = $this->packagesRepository->update($request->all(), $id);
 

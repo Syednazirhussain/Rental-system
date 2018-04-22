@@ -1,11 +1,11 @@
-<table class="table table-responsive" id="packages-table">
+<table class="table table-responsive" id="datatables">
     <thead>
         <tr>
             <th>Title</th>
-        <th>Items</th>
-        <th>Price</th>
-        <th>Status</th>
-            <th colspan="3">Action</th>
+            <th>Items</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -18,9 +18,8 @@
             <td>
                 {!! Form::open(['route' => ['company.conference.packages.destroy', $packages->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>
-                    <a href="{!! route('company.conference.packages.show', [$packages->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
-                    <a href="{!! route('company.conference.packages.edit', [$packages->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-edit"></i></a>
-                    {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                    <a href="{!! route('company.conference.packages.edit', [$packages->id]) !!}" class='btn btn-default btn-xs'><i class="fa fa-edit"></i></a>
+                    {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
                 </div>
                 {!! Form::close() !!}
             </td>

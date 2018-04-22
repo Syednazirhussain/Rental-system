@@ -1,26 +1,49 @@
-@extends('layouts.app')
+
+
+
+
+@extends('company.default')
 
 @section('content')
-    <section class="content-header">
-        <h1 class="pull-left">Packages</h1>
-        <h1 class="pull-right">
-           <a class="btn btn-primary pull-right" style="margin-top: -10px;margin-bottom: 5px" href="{!! route('company.conference.packages.create') !!}">Add New</a>
-        </h1>
-    </section>
-    <div class="content">
-        <div class="clearfix"></div>
 
-        @include('flash::message')
 
-        <div class="clearfix"></div>
-        <div class="box box-primary">
-            <div class="box-body">
-                    @include('company.Conference.packages.table')
-            </div>
-        </div>
-        <div class="text-center">
-        
-        </div>
+  <div class="px-content">
+    <div class="page-header">
+      <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i></span>Packages</h1>
     </div>
+
+    <div class="panel">
+      <div class="panel-body">
+
+
+
+        <div class="text-right m-b-3">
+            <a href="{!! route('company.conference.packages.create') !!}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Package</a>
+        </div>
+
+        <div class="table-primary">
+          @include('company.Conference.packages.table')
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
 @endsection
 
+
+
+
+@section('js')
+  <script>
+    // -------------------------------------------------------------------------
+    // Initialize DataTables
+
+    $(function() {
+      $('#datatables').dataTable();
+      $('#datatables_wrapper .table-caption').text('Packages');
+      $('#datatables_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
+    });
+  </script>
+@endsection

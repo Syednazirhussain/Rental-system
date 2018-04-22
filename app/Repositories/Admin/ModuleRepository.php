@@ -31,4 +31,6 @@ class ModuleRepository extends BaseRepository
     {
         return Module::class;
     }
+
+
 }

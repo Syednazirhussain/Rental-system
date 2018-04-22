@@ -21,7 +21,7 @@
       @endif
 
         <div class="text-right m-b-3">
-            <a href="{{ route('admin.userStatuses.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Status</a>
+            <a href="{{ route('admin.userStatuses.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> ADD USER STATUS</a>
         </div>
 
         <div class="table-primary">
@@ -44,7 +44,7 @@
 
             $(function() {
               $('#datatables').dataTable();
-              $('#datatables_wrapper .table-caption').text('User Statuses');
+              $('#datatables_wrapper .table-caption').text('User Status');
               $('#datatables_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
             });
         </script>

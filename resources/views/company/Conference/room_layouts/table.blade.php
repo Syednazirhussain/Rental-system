@@ -11,7 +11,7 @@
     @foreach($roomLayouts as $roomLayout)
         <tr>
             <td>{!! $roomLayout->title !!}</td>
-            <td>{!! $roomLayout->image !!}</td>
+            <td><img src="{{ asset('storage/room_layouts_images/'.$roomLayout->image) }}"></td>
             <td>
                 {!! Form::open(['route' => ['company.conference.roomLayouts.destroy', $roomLayout->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>

@@ -13,8 +13,8 @@
 
 			<!-- Submit Field -->
 			<div class="col-sm-12">
-				<button type="submit" class="btn btn-primary">@if(isset($userStatus)) <i class="fa fa-refresh"></i>  Update Status @else <i class="fa fa-plus"></i>  Add Status @endif</button>
-			    <a href="{!! route('admin.userStatuses.index') !!}" class="btn btn-default">Cancel</a>
+				<button type="submit" class="btn btn-primary">@if(isset($userStatus)) <i class="fa fa-refresh"></i>  UPDATE @else <i class="fa fa-plus"></i> ADD USER STATUS @endif</button>
+          <a href="{!! route('admin.userStatuses.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
 			</div>
 </div>								
 

@@ -18,8 +18,8 @@
 	</div>
 
 	<div class="col-sm-12">
-		<button type="submit" class="btn btn-primary">@if(isset($userRole)) <i class="fa fa-refresh"></i>  Update Role @else <i class="fa fa-plus"></i>  Add Role @endif</button>
-	    <a href="{!! route('admin.userRoles.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> Cancel</a>
+		<button type="submit" class="btn btn-primary">@if(isset($userRole)) <i class="fa fa-refresh"></i>  UPDATE @else <i class="fa fa-plus"></i> ADD USER ROLE @endif</button>
+	    <a href="{!! route('admin.userRoles.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
 	</div>
 
 </div>

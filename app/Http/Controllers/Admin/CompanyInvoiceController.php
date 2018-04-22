@@ -286,9 +286,25 @@ class CompanyInvoiceController extends AppBaseController
                         // return view('admin.companies.invoice')->with('Invoice',$company_infomation);
 
                         // For saved pdf in company invoice directory
-                        $filePath = public_path().DIRECTORY_SEPARATOR."storage".DIRECTORY_SEPARATOR."company_invoices".DIRECTORY_SEPARATOR.$filename;
+                        $filePath = storage_path("app").DIRECTORY_SEPARATOR."public".DIRECTORY_SEPARATOR."company_invoices";
+                        
+                        /*echo Storage::exists($filePath);
+                        exit;*/
+
+                        if (!file_exists($filePath)) {
+                            mkdir($filePath);
+                        };
+
+
+                        $filePath = $filePath.DIRECTORY_SEPARATOR.$filename;
+
                         $pdf = PDF::loadView('admin.companies.invoice', $data);
                         $pdf->save($filePath);
+
+                        // $path = Storage::put('public/company_invoices', $pdf);
+                        // $path = explode("/", $path);
+
+                        // $input['logo'] = $path[2];
 
                         $data = ['Path' => $filePath];
                         foreach ($company_infomation['Contact_Person'] as $person) 
@@ -296,7 +312,10 @@ class CompanyInvoiceController extends AppBaseController
                             Mail::to($person->email)->send(new NewInvoiceMail($data));
                         }
 
-                        Session::Flash("InvoiceSuccess","Invoice successfully created.");
+                        // Session::Flash("InvoiceSuccess","Invoice successfully created.");
+                        
+                        session()->flash('msg.success', 'Company has been created successfully');
+
                         return redirect()->route('admin.companies.index');
                     }
                     else
@@ -333,7 +352,11 @@ class CompanyInvoiceController extends AppBaseController
             $index++;    
         }
 
+       /* echo "<pre>";
+        print_r($company_modules);*/
 
+
+        $modules = [];
 
         $collection = $this->moduleRepository->find($modules_id,['id','name','price']);
 

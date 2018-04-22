@@ -13,8 +13,8 @@
     <input type="number" id="grid-input-17" name="price" placeholder="Module Price" value="@if(isset($module)){{ $module->price }}@endif" class="form-control">
 </div>
 <div class="col-sm-12">
-	<button type="submit" class="btn btn-primary">@if(isset($module)) <i class="fa fa-refresh"></i>  Update Module @else <i class="fa fa-plus"></i>  Add Module @endif</button>
-    <a href="{!! route('admin.modules.index') !!}" class="btn btn-default">Cancel</a>
+	<button type="submit" class="btn btn-primary">@if(isset($module)) <i class="fa fa-refresh"></i> UPDATE @else <i class="fa fa-plus"></i> ADD MODULE @endif</button>
+    <a href="{!! route('admin.modules.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
 </div>
 
 

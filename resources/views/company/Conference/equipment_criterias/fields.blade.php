@@ -21,6 +21,6 @@
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
-    <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i>  Add Equipment Criteria </button>
+    <button type="submit" class="btn btn-primary">@if(isset($equipmentCriteria)) <i class="fa fa-refresh"></i>  Update Equipment Criteria @else <i class="fa fa-plus"></i>  Add Equipment Criteria @endif</button>
     <a href="{!! route('company.conference.equipmentCriterias.index') !!}" class="btn btn-default"><i class="fa fa-times"></i>  Cancel</a>
 </div>

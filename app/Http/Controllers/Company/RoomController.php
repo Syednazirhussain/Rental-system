@@ -112,6 +112,14 @@ class RoomController extends AppBaseController
             $input['image5'] = $image_link;
         }
 
+        $floor = CompanyFloorRoom::find($input['floor_id']);
+        $room_count = Room::where('company_id', $company_id)->where('floor_id',$input['floor_id'])->count();
+        //Check if room count over than specified floor room number
+        if($floor->num_rooms <= $room_count) {
+            $request->session()->flash('msg.error', 'You can not create any more room on '.$floor->floor.'floor.');
+            return redirect(route('company.rooms.index'));
+        }
+
         $this->roomRepository->create($input);
 
         Flash::success('Company Floor Room saved successfully.');
