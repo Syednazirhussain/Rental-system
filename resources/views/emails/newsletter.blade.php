@@ -4,6 +4,9 @@
     <meta charset="utf-8">
 </head>
 <body>
+<div>
     {!! $data !!}
+</div>
+
 </body>
 </html>

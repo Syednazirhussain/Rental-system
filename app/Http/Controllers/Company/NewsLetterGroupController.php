@@ -18,7 +18,11 @@ class NewsLetterGroupController extends AppBaseController
      */
     public function index()
     {
-        return view('company.newsletter_group.index', ['groups' => Auth::user()->groups()->get()]);
+        $id = Auth::user()->id;
+        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $groups = Group::where('user_id', $id)->where('company_id', $company_id)->get();
+
+        return view('company.newsletter_group.index', ['groups' => $groups]);
     }
 
     /**
@@ -39,10 +43,11 @@ class NewsLetterGroupController extends AppBaseController
      */
     public function store(Request $request)
     {
+        $company_id = Auth::user()->companyUser()->first()->company_id;
         request()->validate([
             'name' => 'required',
         ]);
-        Group::create(array_merge($request->all(), ['user_id' => Auth::user()->id]));
+        Group::create(array_merge($request->all(), ['user_id' => Auth::user()->id, 'company_id' => $company_id]));
         return redirect()->route('company.newsletterGroups.index')->with('success', 'New Group has been created!');
     }
 

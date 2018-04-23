@@ -6,6 +6,7 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use App\Models\Group;
 use App\Models\Customer;
+use Illuminate\Support\Facades\Auth;
 
 class NewsLetterCustomerController extends AppBaseController
 {
@@ -38,12 +39,16 @@ class NewsLetterCustomerController extends AppBaseController
      */
     public function store(Request $request)
     {
+        $input = $request->all();
+        $company_id = Auth::user()->companyUser()->first()->company_id;
         request()->validate([
             'name' => 'required',
             'email' => 'required',
             'description' => 'required',
         ]);
-        Customer::create($request->all());
+
+        $input['company_id'] = $company_id;
+        Customer::create($input);
         return redirect()->route('company.newsletterGroups.index')->with('success', 'New Customer has been created!');
     }
 
@@ -64,7 +69,8 @@ class NewsLetterCustomerController extends AppBaseController
      * */
     public function lists()
     {
-        return view('company.newsletter_customer.index', ['customers' => Customer::all()]);
+        $company_id = Auth::user()->companyUser()->first()->company_id;
+        return view('company.newsletter_customer.index', ['customers' => Customer::where('company_id', $company_id)->get()]);
     }
     /**
      * Show the form for editing the specified resource.

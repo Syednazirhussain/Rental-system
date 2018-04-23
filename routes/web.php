@@ -316,35 +316,35 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::get('company/companyInvoices/sendInvoice/{company_id}',['as' => 'company.sendInvoice','uses' => 'Company\CompanyInvoiceController@sendLatestInvoiceToCompanyContractPerson']);
 
 
-    //NewsLetter System Integration
-    // Group
-    Route::get('company/group', ['as'=> 'company.newsletterGroups.index', 'uses' => 'Company\NewsLetterGroupController@index']);
-    Route::post('company/group', ['as'=> 'company.newsletterGroups.store', 'uses' => 'Company\NewsLetterGroupController@store']);
-    Route::get('company/group/create', ['as'=> 'company.newsletterGroups.create', 'uses' => 'Company\NewsLetterGroupController@create']);
-    Route::put('company/group/{group}', ['as'=> 'company.newsletterGroups.update', 'uses' => 'Company\NewsLetterGroupController@update']);
-    Route::patch('company/group/{group}', ['as'=> 'company.newsletterGroups.update', 'uses' => 'Company\NewsLetterGroupController@update']);
-    Route::delete('company/group/{group}', ['as'=> 'company.newsletterGroups.destroy', 'uses' => 'Company\NewsLetterGroupController@destroy']);
-    Route::get('company/group/{group}', ['as'=> 'company.newsletterGroups.show', 'uses' => 'Company\NewsLetterGroupController@show']);
-    Route::get('company/group/{group}/edit', ['as'=> 'company.newsletterGroups.edit', 'uses' => 'Company\NewsLetterGroupController@edit']);
-    Route::get('company/sendmail', ['as'=> 'company.newsletterGroups.sendmail', 'uses' => 'Company\NewsLetterGroupController@sendmail']);
+    Route::group(['middleware' => ['newsletter.auth']], function () {
+        //NewsLetter System Integration
+        // Group
+        Route::get('company/group', ['as'=> 'company.newsletterGroups.index', 'uses' => 'Company\NewsLetterGroupController@index']);
+        Route::post('company/group', ['as'=> 'company.newsletterGroups.store', 'uses' => 'Company\NewsLetterGroupController@store']);
+        Route::get('company/group/create', ['as'=> 'company.newsletterGroups.create', 'uses' => 'Company\NewsLetterGroupController@create']);
+        Route::put('company/group/{group}', ['as'=> 'company.newsletterGroups.update', 'uses' => 'Company\NewsLetterGroupController@update']);
+        Route::patch('company/group/{group}', ['as'=> 'company.newsletterGroups.update', 'uses' => 'Company\NewsLetterGroupController@update']);
+        Route::delete('company/group/{group}', ['as'=> 'company.newsletterGroups.destroy', 'uses' => 'Company\NewsLetterGroupController@destroy']);
+        Route::get('company/group/{group}', ['as'=> 'company.newsletterGroups.show', 'uses' => 'Company\NewsLetterGroupController@show']);
+        Route::get('company/group/{group}/edit', ['as'=> 'company.newsletterGroups.edit', 'uses' => 'Company\NewsLetterGroupController@edit']);
+        Route::get('company/sendmail', ['as'=> 'company.newsletterGroups.sendmail', 'uses' => 'Company\NewsLetterGroupController@sendmail']);
 
-    Route::post('company/mailto', ['as'=> 'company.newsletters.sendmail', 'uses' => 'Company\NewsLetterGroupController@mailto']);
+        Route::post('company/mailto', ['as'=> 'company.newsletters.sendmail', 'uses' => 'Company\NewsLetterGroupController@mailto']);
 
-    Route::get('company/newsletter', ['as'=> 'company.newsletter.dashboard', 'uses' => 'Company\NewsLetterHomeController@analytic']);
-    Route::post('company/newsletter', ['as'=> 'company.newsletter.fetch', 'uses' => 'Company\NewsLetterHomeController@analytic']);
+        Route::get('company/newsletter', ['as'=> 'company.newsletter.dashboard', 'uses' => 'Company\NewsLetterHomeController@analytic']);
+        Route::post('company/newsletter', ['as'=> 'company.newsletter.fetch', 'uses' => 'Company\NewsLetterHomeController@analytic']);
 
-    //Customer
-    Route::get('company/customerList', ['as'=> 'company.newsletterCustomers.list', 'uses' => 'Company\NewsLetterCustomerController@lists']);
-    Route::get('company/customer', ['as'=> 'company.newsletterCustomers.index', 'uses' => 'Company\NewsLetterCustomerController@index']);
-    Route::post('company/customer', ['as'=> 'company.newsletterCustomers.store', 'uses' => 'Company\NewsLetterCustomerController@store']);
-    Route::get('company/customer/create', ['as'=> 'company.newsletterCustomers.create', 'uses' => 'Company\NewsLetterCustomerController@create']);
-    Route::put('company/customer/{customer}', ['as'=> 'company.newsletterCustomers.update', 'uses' => 'Company\NewsLetterCustomerController@update']);
-    Route::patch('company/customer/{customer}', ['as'=> 'company.newsletterCustomers.update', 'uses' => 'Company\NewsLetterCustomerController@update']);
-    Route::delete('company/customer/{customer}', ['as'=> 'company.newsletterCustomers.destroy', 'uses' => 'Company\NewsLetterCustomerController@destroy']);
-    Route::get('company/customer/{customer}', ['as'=> 'company.newsletterCustomers.show', 'uses' => 'Company\NewsLetterCustomerController@show']);
-    Route::get('company/customer/{customer}/edit', ['as'=> 'company.newsletterCustomers.edit', 'uses' => 'Company\NewsLetterCustomerController@edit']);
-
-
+        //Customer
+        Route::get('company/customerList', ['as'=> 'company.newsletterCustomers.list', 'uses' => 'Company\NewsLetterCustomerController@lists']);
+        Route::get('company/customer', ['as'=> 'company.newsletterCustomers.index', 'uses' => 'Company\NewsLetterCustomerController@index']);
+        Route::post('company/customer', ['as'=> 'company.newsletterCustomers.store', 'uses' => 'Company\NewsLetterCustomerController@store']);
+        Route::get('company/customer/create', ['as'=> 'company.newsletterCustomers.create', 'uses' => 'Company\NewsLetterCustomerController@create']);
+        Route::put('company/customer/{customer}', ['as'=> 'company.newsletterCustomers.update', 'uses' => 'Company\NewsLetterCustomerController@update']);
+        Route::patch('company/customer/{customer}', ['as'=> 'company.newsletterCustomers.update', 'uses' => 'Company\NewsLetterCustomerController@update']);
+        Route::delete('company/customer/{customer}', ['as'=> 'company.newsletterCustomers.destroy', 'uses' => 'Company\NewsLetterCustomerController@destroy']);
+        Route::get('company/customer/{customer}', ['as'=> 'company.newsletterCustomers.show', 'uses' => 'Company\NewsLetterCustomerController@show']);
+        Route::get('company/customer/{customer}/edit', ['as'=> 'company.newsletterCustomers.edit', 'uses' => 'Company\NewsLetterCustomerController@edit']);
+    });
 
 });
 
