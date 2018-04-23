@@ -40,6 +40,12 @@ class EquipmentCriteriaRepository extends BaseRepository
     }
 
 
+    public function checkCodeDuplication($code)
+    {
+        return EquipmentCriteria::where('code', $code)->count();
+    }
+
+
 
 
 
