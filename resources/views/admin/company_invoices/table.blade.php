@@ -1,3 +1,4 @@
+
         <table class="table table-striped table-bordered" id="datatables">
             <thead>
               <th>Invoice ID</th>
@@ -32,6 +33,7 @@
                   </td>
                   <td>
                     <a href="{{ route('admin.sendInvoice',['company_id' => $Invoice->company->id ]) }}" class="btn btn-default">Send Email</a>
+                    <a href="{{ route('admin.viewInvoice',['company_id' => $Invoice->company->id,'invoice_id' => $Invoice->id]) }}" class="btn btn-success">View Invoice</a>
                   </td>
                 </tr>
 

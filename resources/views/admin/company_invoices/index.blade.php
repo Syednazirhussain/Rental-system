@@ -58,6 +58,11 @@
               $('#datatables_wrapper .table-caption').text('Inovices');
               $('#datatables_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
             });
+
+
+
+
+
         </script>
 @endsection
 
