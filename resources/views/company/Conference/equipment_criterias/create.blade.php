@@ -12,7 +12,7 @@
                         <div class="panel-title">Add Equipment Criteria</div>
                     </div>
                     <div class="panel-body">
-                    <form action="{{ route('company.conference.equipmentCriterias.store') }}" method="POST" id="">
+                    <form action="{{ route('company.conference.equipmentCriterias.store') }}" method="POST" id="equipCriteriaForm">
 
                         @include('company.Conference.equipment_criterias.fields')
 

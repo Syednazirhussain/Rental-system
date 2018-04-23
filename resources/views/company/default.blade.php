@@ -113,7 +113,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         <img src="{{ asset('/skin-1/assets/demo/avatars/1.jpg') }}" alt="" class="px-navbar-image">
-                        <span class="hidden-md">{{ ucfirst(Auth::guard('company')->user()->name) }}</span>
+                        <span class="hidden-md"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li><a href="pages-account.html">Account</a></li>

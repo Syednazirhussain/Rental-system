@@ -8,7 +8,7 @@
             <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Conference Bookings / </span>Add Conference Booking</h1>
         </div>
         <div class="row">
-            <div class="col-md-6 col-md-offset-3">
+            <div class="col-md-8 col-md-offset-2">
                 <div class="panel">
                     <div class="panel-heading">
                         <div class="panel-title">Add Conference Booking</div>
@@ -31,20 +31,70 @@
 @section('js')
 
 
-<script>
+    <script>
 
+<<<<<<< HEAD
 
 
     // -------------------------------------------------------------------------
     // Initialize Select2
+=======
+            // -------------------------------------------------------------------------
+            // Initialize Select2
+>>>>>>> master
 
-    $(function() {
-      $('.select2-example').select2({
-        placeholder: 'Select value',
-      });
-    });
+            $(function() {
+              $('.select2').select2({
+                placeholder: 'Select value',
+              });
+            });
 
-</script>
+
+            
+          $('#booking_date').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            timePicker: true,
+            locale: {
+                format: 'MM/DD/YYYY h:mm A'
+            }
+          },
+          function(start, end, label) {
+
+          });
+
+
+            
+          $('#start_dateime').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            timePicker: true,
+            locale: {
+                format: 'MM/DD/YYYY h:mm A'
+            }            
+          },
+          function(start, end, label) {
+
+          });
+
+
+
+          $('#end_datetime').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            timePicker: true,
+            locale: {
+                format: 'MM/DD/YYYY h:mm A'
+            }            
+          },
+          function(start, end, label) {
+
+          });
+
+
+    </script>
 
 
 @endsection
+
+

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Session;
 
 class EquipmentsController extends AppBaseController
 {
@@ -80,7 +81,7 @@ class EquipmentsController extends AppBaseController
 
         $equipments = $this->equipmentsRepository->create($input);
 
-        Flash::success('Equipments saved successfully.');
+        Session::flash("successMessage", "The Equipment has been added successfully.");
 
         return redirect(route('company.conference.equipments.index'));
     }
@@ -174,7 +175,7 @@ class EquipmentsController extends AppBaseController
 
         $equipments = $this->equipmentsRepository->update($request->all(), $id);
 
-        Flash::success('Equipments updated successfully.');
+        Session::flash("successMessage", "The Equipment has been updated successfully.");
 
         return redirect(route('company.conference.equipments.index'));
     }
@@ -198,7 +199,7 @@ class EquipmentsController extends AppBaseController
 
         $this->equipmentsRepository->delete($id);
 
-        Flash::success('Equipments deleted successfully.');
+        Session::flash("deleteMessage", "The Equipment has been deleted successfully.");
 
         return redirect(route('company.conference.equipments.index'));
     }
