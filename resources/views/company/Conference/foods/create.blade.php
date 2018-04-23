@@ -13,7 +13,7 @@
                         <div class="panel-title">Add Food &amp; Drink</div>
                     </div>
                     <div class="panel-body">
-                        <form action="{{ route('company.conference.foods.store') }}" method="POST" id="">
+                        <form action="{{ route('company.conference.foods.store') }}" method="POST" id="foodForm">
 
                             @include('company.Conference.foods.fields')
 

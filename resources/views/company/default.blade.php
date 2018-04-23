@@ -44,13 +44,13 @@
                     <li class="dropdown" id="admin-menu-button">
                         <a href class="dropdown-toggle color-white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars fa-2x m-r-1 vertical-a-mid"></i><span class="">Menu</span></a>
                         <ul class="dropdown-menu">
-                            <!-- <li class="dropdown-toggle">
+                            <li class="dropdown-toggle">
                                 <a href>Bookings</a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="{{ route('temp.company.booking.add') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Booking</a></li>
-                                    <li><a href=""><i class="fa fa-cube"></i>&nbsp;&nbsp;Bookings</a></li>
+                                    <li><a href="{{ route('company.conference.conferenceBookings.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Booking</a></li>
+                                    <li><a href="{{ route('company.conference.conferenceBookings.index') }}"><i class="fa fa-cube"></i>&nbsp;&nbsp;Bookings</a></li>
                                 </ul>
-                            </li> -->
+                            </li>
                             <!-- <li class="dropdown-toggle">
                                 <a href>Rooms</a>
                                 <ul class="dropdown-menu">
@@ -113,7 +113,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         <img src="{{ asset('/skin-1/assets/demo/avatars/1.jpg') }}" alt="" class="px-navbar-image">
-                        <span class="hidden-md">{{ ucfirst(Auth::guard('company')->user()->name) }}</span>
+                        <span class="hidden-md"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li><a href="pages-account.html">Account</a></li>
