@@ -5,6 +5,7 @@
 <div class="col-sm-12 form-group">
     <label for="">Title</label>
     <input type="text" id="title" placeholder="Round Shape" value="@if(isset($roomLayout)){{$roomLayout->title}}@endif" name="title" class="form-control">
+    <div class="errorTxt"></div>
 </div>
 
 
@@ -25,6 +26,57 @@
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12 m-t-1">
-    <button type="submit" class="btn btn-primary">@if(isset($roomLayout)) <i class="fa fa-refresh"></i>  Update Room Layout @else  <i class="fa fa-plus"></i>  Add Room Layout  @endif </button>
+    <button type="submit" class="btn btn-primary">@if(isset($roomLayout)) <i class="fa fa-refresh"></i>  Update @else  <i class="fa fa-plus"></i>  Add  @endif </button>
     <a href="{!! route('company.conference.roomLayouts.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> Cancel</a>
 </div>
+
+
+
+
+
+
+
+
+
+
+    @section('js')
+
+
+<script type="text/javascript">
+    
+
+              // Initialize validator
+              $('#roomlayoutForm').validate({
+                    
+                    rules: {
+
+                          'title': {
+                            required: true,
+                            maxlength: 100,
+                          }
+
+                    },
+
+                    messages: {
+                          'title': {
+                            required: "Please enter title",
+                          }
+                    },
+
+                    errorPlacement: function(error, element) {
+                        var placement = $(element).parent().find('.errorTxt');
+                        if (placement) {
+                          $(placement).append(error)
+                        } else {
+                          error.insertAfter(element);
+                        }
+                    }
+
+              });
+
+</script>
+
+
+
+    @endsection
+
