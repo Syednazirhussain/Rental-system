@@ -78,6 +78,7 @@ class CompanyInvoiceController extends AppBaseController
         $this->companyInvoiceRepository->pushCriteria(new RequestCriteria($request));
 
         $Invoices = $this->companyInvoiceRepository->all();
+
         return view('admin.company_invoices.index')->with('Invoices', $Invoices);
     }
 
@@ -448,13 +449,14 @@ class CompanyInvoiceController extends AppBaseController
      */
     public function store(CreateCompanyInvoiceRequest $request)
     {
+
         $input = $request->all();
 
         $companyInvoice = $this->companyInvoiceRepository->create($input);
 
         Flash::success('Company Invoice saved successfully.');
 
-        return redirect(route('admin.companyInvoices.index'));
+        return redirect()->route('admin.companyInvoices.index');
     }
 
     /**
@@ -506,19 +508,23 @@ class CompanyInvoiceController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateCompanyInvoiceRequest $request)
+    public function update(UpdateCompanyInvoiceRequest $request)
     {
-        $companyInvoice = $this->companyInvoiceRepository->findWithoutFail($id);
 
-        if (empty($companyInvoice)) {
-            Flash::error('Company Invoice not found');
-
-            return redirect(route('admin.companyInvoices.index'));
+        $Invoice = explode("|", $request->checkboxes_hidden);
+        $status =  $request->status;
+        $i = 0;
+        foreach($Invoice as $inv)
+        {
+            if(isset($inv[$i]))
+            {
+                $Invoice = $this->companyInvoiceRepository->findWithoutFail($inv);
+                $Invoice->status = $status;
+                $Invoice->save();   
+            }
         }
-
-        $companyInvoice = $this->companyInvoiceRepository->update($request->all(), $id);
-
-        Flash::success('Company Invoice updated successfully.');
+        
+        session()->flash('msg.success','Marked invoices status change to '.$status);
 
         return redirect(route('admin.companyInvoices.index'));
     }
@@ -532,17 +538,20 @@ class CompanyInvoiceController extends AppBaseController
      */
     public function destroy($id)
     {
+
         $companyInvoice = $this->companyInvoiceRepository->findWithoutFail($id);
 
         if (empty($companyInvoice)) {
-            Flash::error('Company Invoice not found');
+            session()->flash('msg.error', 'Company invoice not found');
 
             return redirect(route('admin.companyInvoices.index'));
         }
 
         $this->companyInvoiceRepository->delete($id);
 
-        Flash::success('Company Invoice deleted successfully.');
+
+        session()->flash('msg.success', 'Company invoice deleted successfully.');
+
 
         return redirect(route('admin.companyInvoices.index'));
     }
