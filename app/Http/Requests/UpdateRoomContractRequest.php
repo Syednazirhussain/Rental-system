@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\RoomContracts;
 
-class UpdateRoomRequest extends FormRequest
+class UpdateRoomContractRequest extends FormRequest
 {
 
     /**

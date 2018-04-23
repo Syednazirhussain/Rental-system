@@ -123,11 +123,11 @@
                         </ul>
                     </li>
                     <li class="dropdown-toggle">
-                        <a href="{{ route('company.companyFloorRooms.index') }}">Floor Rooms</a>
+                        <a href="{{ route('company.companyFloorRooms.index') }}">Floors</a>
                         <ul class="dropdown-menu">
                             {{--<li><a href="{{ route('company.companyFloorRooms.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
                                     Floor</a></li>--}}
-                            <li><a href="{{ route('company.companyFloorRooms.index') }}"><i class="fa fa-building-o"></i>&nbsp;&nbsp;Floor Rooms</a>
+                            <li><a href="{{ route('company.companyFloorRooms.index') }}"><i class="fa fa-building-o"></i>&nbsp;&nbsp;Floors</a>
                             </li>
                         </ul>
                     </li>
@@ -146,6 +146,15 @@
                             <li><a href="{{ route('company.rooms.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
                                     Room</a></li>
                             <li><a href="{{ route('company.rooms.index') }}"><i class="fa fa-building-o"></i>&nbsp;&nbsp;Rooms</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-toggle">
+                        <a href="{{ route('company.contracts.index') }}">Contracts</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ route('company.contracts.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
+                                    Contract</a></li>
+                            <li><a href="{{ route('company.contracts.index') }}"><i class="fa fa-building-o"></i>&nbsp;&nbsp;Contracts</a>
                             </li>
                         </ul>
                     </li>
