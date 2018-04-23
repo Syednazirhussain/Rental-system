@@ -41,11 +41,11 @@ class PackagesController extends AppBaseController
         //     echo $value->items;
         //     echo "<br>";
         // }
-        // // dd($packages);
+        // dd($packages);
         // exit;
 
         return view('company.Conference.packages.index')
-            ->with('packages', $packages);
+                ->with('packages', $packages);
     }
 
     /**
@@ -121,6 +121,8 @@ class PackagesController extends AppBaseController
         $packages = $this->packagesRepository->findWithoutFail($id);
         $getFoodItems = $this->foodRepository->getFoodItems();
 
+
+        // $tags =  explode(",", $video->tags); 
 
         if (empty($packages)) {
             Flash::error('Packages not found');
