@@ -11,7 +11,7 @@
             <div class="box-body">
                 <div class="row" style="padding-left: 20px">
                     @include('company.Conference.conference_bookings.show_fields')
-                    <a href="{!! route('company/Conference.conferenceBookings.index') !!}" class="btn btn-default">Back</a>
+                    <a href="{!! route('company.conference.conferenceBookings.index') !!}" class="btn btn-default">Back</a>
                 </div>
             </div>
         </div>

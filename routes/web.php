@@ -354,14 +354,14 @@ Route::get('company/conference/equipments/{equipments}', ['as'=> 'company.confer
 Route::get('company/conference/equipments/{equipments}/edit', ['as'=> 'company.conference.equipments.edit', 'uses' => 'Company\Conference\EquipmentsController@edit']);
 
 
-Route::get('company/Conference/conferenceBookings', ['as'=> 'company/Conference.conferenceBookings.index', 'uses' => 'Company/conference\ConferenceBookingController@index']);
-Route::post('company/Conference/conferenceBookings', ['as'=> 'company/Conference.conferenceBookings.store', 'uses' => 'Company/conference\ConferenceBookingController@store']);
-Route::get('company/Conference/conferenceBookings/create', ['as'=> 'company/Conference.conferenceBookings.create', 'uses' => 'Company/conference\ConferenceBookingController@create']);
-Route::put('company/Conference/conferenceBookings/{conferenceBookings}', ['as'=> 'company/Conference.conferenceBookings.update', 'uses' => 'Company/conference\ConferenceBookingController@update']);
-Route::patch('company/Conference/conferenceBookings/{conferenceBookings}', ['as'=> 'company/Conference.conferenceBookings.update', 'uses' => 'Company/conference\ConferenceBookingController@update']);
-Route::delete('company/Conference/conferenceBookings/{conferenceBookings}', ['as'=> 'company/Conference.conferenceBookings.destroy', 'uses' => 'Company/conference\ConferenceBookingController@destroy']);
-Route::get('company/Conference/conferenceBookings/{conferenceBookings}', ['as'=> 'company/Conference.conferenceBookings.show', 'uses' => 'Company/conference\ConferenceBookingController@show']);
-Route::get('company/Conference/conferenceBookings/{conferenceBookings}/edit', ['as'=> 'company/Conference.conferenceBookings.edit', 'uses' => 'Company/conference\ConferenceBookingController@edit']);
+Route::get('company/Conference/conferenceBookings', ['as'=> 'company.conference.conferenceBookings.index', 'uses' => 'Company\Conference\ConferenceBookingController@index']);
+Route::post('company/Conference/conferenceBookings', ['as'=> 'company.conference.conferenceBookings.store', 'uses' => 'Company\Conference\ConferenceBookingController@store']);
+Route::get('company/Conference/conferenceBookings/create', ['as'=> 'company.conference.conferenceBookings.create', 'uses' => 'Company\Conference\ConferenceBookingController@create']);
+Route::put('company/Conference/conferenceBookings/{conferenceBookings}', ['as'=> 'company.conference.conferenceBookings.update', 'uses' => 'Company\Conference\ConferenceBookingController@update']);
+Route::patch('company/Conference/conferenceBookings/{conferenceBookings}', ['as'=> 'company.conference.conferenceBookings.update', 'uses' => 'Company\Conference\ConferenceBookingController@update']);
+Route::delete('company/Conference/conferenceBookings/{conferenceBookings}', ['as'=> 'company.conference.conferenceBookings.destroy', 'uses' => 'Company\Conference\ConferenceBookingController@destroy']);
+Route::get('company/Conference/conferenceBookings/{conferenceBookings}', ['as'=> 'company.conference.conferenceBookings.show', 'uses' => 'Company\Conference\ConferenceBookingController@show']);
+Route::get('company/Conference/conferenceBookings/{conferenceBookings}/edit', ['as'=> 'company.conference.conferenceBookings.edit', 'uses' => 'Company\Conference\ConferenceBookingController@edit']);
 
 
 Route::get('company/Conference/conferenceDurations', ['as'=> 'company/Conference.conferenceDurations.index', 'uses' => 'Company/conference\ConferenceDurationController@index']);

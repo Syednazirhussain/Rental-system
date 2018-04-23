@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Company\Conference;
 
-use App\Http\Requests\Company\Conference/CreateConferenceBookingRequest;
-use App\Http\Requests\Company\Conference/UpdateConferenceBookingRequest;
+use App\Http\Requests\Company\Conference\CreateConferenceBookingRequest;
+use App\Http\Requests\Company\Conference\UpdateConferenceBookingRequest;
 use App\Repositories\ConferenceBookingRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
@@ -61,7 +61,7 @@ class ConferenceBookingController extends AppBaseController
 
         Flash::success('Conference Booking saved successfully.');
 
-        return redirect(route('company/Conference.conferenceBookings.index'));
+        return redirect(route('company.conference.conferenceBookings.index'));
     }
 
     /**
@@ -78,7 +78,7 @@ class ConferenceBookingController extends AppBaseController
         if (empty($conferenceBooking)) {
             Flash::error('Conference Booking not found');
 
-            return redirect(route('company/Conference.conferenceBookings.index'));
+            return redirect(route('company.conference.conferenceBookings.index'));
         }
 
         return view('company.Conference.conference_bookings.show')->with('conferenceBooking', $conferenceBooking);
@@ -98,7 +98,7 @@ class ConferenceBookingController extends AppBaseController
         if (empty($conferenceBooking)) {
             Flash::error('Conference Booking not found');
 
-            return redirect(route('company/Conference.conferenceBookings.index'));
+            return redirect(route('company.conference.conferenceBookings.index'));
         }
 
         return view('company.Conference.conference_bookings.edit')->with('conferenceBooking', $conferenceBooking);
@@ -119,14 +119,14 @@ class ConferenceBookingController extends AppBaseController
         if (empty($conferenceBooking)) {
             Flash::error('Conference Booking not found');
 
-            return redirect(route('company/Conference.conferenceBookings.index'));
+            return redirect(route('company.conference.conferenceBookings.index'));
         }
 
         $conferenceBooking = $this->conferenceBookingRepository->update($request->all(), $id);
 
         Flash::success('Conference Booking updated successfully.');
 
-        return redirect(route('company/Conference.conferenceBookings.index'));
+        return redirect(route('company.conference.conferenceBookings.index'));
     }
 
     /**
@@ -143,13 +143,13 @@ class ConferenceBookingController extends AppBaseController
         if (empty($conferenceBooking)) {
             Flash::error('Conference Booking not found');
 
-            return redirect(route('company/Conference.conferenceBookings.index'));
+            return redirect(route('company.conference.conferenceBookings.index'));
         }
 
         $this->conferenceBookingRepository->delete($id);
 
         Flash::success('Conference Booking deleted successfully.');
 
-        return redirect(route('company/Conference.conferenceBookings.index'));
+        return redirect(route('company.conference.conferenceBookings.index'));
     }
 }

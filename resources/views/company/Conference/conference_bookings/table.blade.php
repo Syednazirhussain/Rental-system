@@ -40,10 +40,10 @@
             <td>{!! $conferenceBooking->deposit !!}</td>
             <td>{!! $conferenceBooking->remarks !!}</td>
             <td>
-                {!! Form::open(['route' => ['company/Conference.conferenceBookings.destroy', $conferenceBooking->id], 'method' => 'delete']) !!}
+                {!! Form::open(['route' => ['company.conference.conferenceBookings.destroy', $conferenceBooking->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>
-                    <a href="{!! route('company/Conference.conferenceBookings.show', [$conferenceBooking->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
-                    <a href="{!! route('company/Conference.conferenceBookings.edit', [$conferenceBooking->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-edit"></i></a>
+                    <a href="{!! route('company.conference.conferenceBookings.show', [$conferenceBooking->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
+                    <a href="{!! route('company.conference.conferenceBookings.edit', [$conferenceBooking->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-edit"></i></a>
                     {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
                 </div>
                 {!! Form::close() !!}
