@@ -1,3 +1,9 @@
+<input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+@if(isset($conferenceBooking))
+    <input name="_method" type="hidden" value="PATCH">
+@endif
+
 <!-- Booking Date Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('booking_date', 'Booking Date:') !!}

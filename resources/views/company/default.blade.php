@@ -47,8 +47,8 @@
                             <li class="dropdown-toggle">
                                 <a href>Bookings</a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="{{ route('temp.company.booking.add') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Booking</a></li>
-                                    <li><a href=""><i class="fa fa-cube"></i>&nbsp;&nbsp;Bookings</a></li>
+                                    <li><a href="{{ route('company.conference.conferenceBookings.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Booking</a></li>
+                                    <li><a href="{{ route('company.conference.conferenceBookings.index') }}"><i class="fa fa-cube"></i>&nbsp;&nbsp;Bookings</a></li>
                                 </ul>
                             </li>
                             <!-- <li class="dropdown-toggle">
