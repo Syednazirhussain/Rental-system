@@ -13,7 +13,7 @@
                         <div class="panel-title">Edit "{{$roomLayout->title}}"</div>
                     </div>
                     <div class="panel-body">
-                        <form action="{{route('company.conference.roomLayouts.update', $roomLayout->id)}}" method="POST" id="roomlayoutForm">
+                        <form action="{{route('company.conference.roomLayouts.update', $roomLayout->id)}}" method="POST" id="roomlayoutForm" enctype="multipart/form-data">
                             <input type="hidden" name="_method" value="PATCH">
 
                             @include('company.Conference.room_layouts.fields')

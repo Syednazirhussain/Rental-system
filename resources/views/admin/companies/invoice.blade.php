@@ -1,4 +1,5 @@
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style type="text/css">
 
 	p { font-size: 13px; font-family: Arial, Helvetica, sans-serif; }
@@ -15,21 +16,34 @@
 	    font-family: Arial, Helvetica, sans-serif;
 	}
 
+@media print {
+
+	@page{
+        size: auto;   /* auto is the current printer page size */
+        margin: 0mm;  /* this affects the margin in the printer settings */
+    }
+     #btn_print{ display: none !important; } 
+  
+}
+
+
 </style>
 @unless(empty($Invoice))
-<div>
+<div id="doc">
 
 	<div>
 		
 		<div style="width: 50%; padding: 10px; display: inline-block;">
-			<h1 style="color: #48af4d;">HIGHNOX</h1>
+			<h1 id="logo" style="color: #48af4d;">HIGHNOX</h1>
 		</div>
 
 		<div style="width: 30%; padding: 10px; display: inline-block;">
 <!-- 			<p style="margin: 10px 0;"><strong>Ph: 012-3456788-9</strong></p> -->
 <!-- 			<p style="margin: 10px 0;"><strong>Office # 12, 7th Floor, Crown Towers, 13-C, Downtown.</strong></p> -->
-			<p style="margin: 10px 0;"><strong>{{ $Invoice['Company']->phone }}</strong></p>
-			<p style="margin: 10px 0;"><strong>{{ $Invoice['Company']->address }}</strong></p>
+
+<!-- 			<p style="margin: 10px 0;"><strong>$Invoice['Company']->phone </strong></p>
+			<p style="margin: 10px 0;"><strong>$Invoice['Company']->address</strong></p> -->
+			<button id="btn_print" style="float: right;padding: 5px;"><i class="fa fa-print"></i>&nbsp;print</button>
 		</div>
 
 	</div>
@@ -96,7 +110,7 @@
 				<tr>
 					<td>{{ $i+1 }}</td>
 					<td>{{ $Invoice['Modules']['company_module'][$i]['module_name']  }}</td>
-					<td width="100px">{{ $Invoice['Modules']['company_module'][$i]['module_price']  }}</td>
+					<td width="100px">SEK&nbsp;{{ number_format($Invoice['Modules']['company_module'][$i]['module_price'], 2) }}</td>
 				</tr>
 				@endfor
 			</tbody>
@@ -129,34 +143,37 @@
 			<tbody>
 				<tr>
 					<td colspan="2" style="text-align: right;">SUBTOTAL</td>
-					<td width="100px">{{ $Invoice['Discount']['Total'] }} </td>
+					<td width="100px">SEK&nbsp;{{ number_format($Invoice['Discount']['Total'], 2) }} </td>
 				</tr>
 				@if ($Invoice['Discount']['Discount'] != 0 || $Invoice['Discount']['Discount'] != 0.00)
 				<tr>
 					<td colspan="2" style="text-align: right;">DISCOUNT</td>
-					<td width="100px">{{ $Invoice['Discount']['Discount'] }} </td>
+					<td width="100px">SEK&nbsp;{{ number_format($Invoice['Discount']['Discount'], 2) }} </td>
 				</tr>
 				@endif
 				<tr>
 					<td colspan="2" style="text-align: right;">TOTAL</td>
-					<td width="100px">{{ $Invoice['Discount']['SubTotal'] }} </td>
+					<td width="100px">SEK&nbsp;{{ number_format($Invoice['Discount']['Discount'], 2) }} </td>
 				</tr>
 				<tr>
 					<td colspan="2" style="text-align: right;">Tax</td>
-					<td width="100px">{{ $Invoice['Discount']['VAT'] }} </td>
+					<td width="100px">SEK&nbsp;{{ number_format($Invoice['Discount']['VAT'], 2) }} </td>
 				</tr>
 			</tbody>
 
 			<thead style="background-color: #ddd; color: #333;">
 				<tr>
 					<td colspan="2" style="text-align: right;"><strong>NET TOTAL</strong></td>
-					<td width="100px"><strong>{{ $Invoice['Discount']['FinalAmount'] }} </strong></td>
+					<td width="100px"><strong>SEK&nbsp;{{ number_format($Invoice['Discount']['FinalAmount'], 2) }} </strong></td>
 				</tr>
 			</thead>
 
 		</table>
 
 		<br>
+		<p style="margin-left: 50px; margin-right: 50px; text-align: center;">
+			<strong>Payment Method : </strong> {{ $Invoice['PaymentMethod'] }}
+		</p>
 		<p style="margin-left: 50px; margin-right: 50px; text-align: center;">
 			<strong>Invoice Due Date : </strong> {{ Carbon\Carbon::parse($Invoice['extented_date'])->format('F d, Y') }}
 		</p>
@@ -166,4 +183,23 @@
 	</div>
 </div>
 @endunless
+
+
+<script>
+
+	$('button').click(function(){
+
+		window.print();
+
+		// var WinPrint = window.open('','','left=100,top=10,width=600,height=600,toolbar=0,scrollbars=0,status=0');
+		// WinPrint.document.write(document.getElementById("doc").innerHTML);
+		// document.close();
+		// WinPrint.document.close();
+		// WinPrint.focus();
+		// WinPrint.print();
+		// WinPrint.close();
+	});
+	
+</script>
+
 

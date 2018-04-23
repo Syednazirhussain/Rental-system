@@ -12,7 +12,13 @@
 <div class="col-sm-4">
 	<div class="fileinput fileinput-new" data-provides="fileinput">
           <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-                @if(isset($roomLayout) and $roomLayout != "")<img src="{{ asset('storage/room_layouts_images/'.$roomLayout->image) }}">@endif
+
+                @if( isset($roomLayout) && $roomLayout->image != "default.png")
+                    <img src="{{ asset('storage/room_layouts_images/'.$roomLayout->image) }}" >
+                @else
+                    <img src="{{ asset('/skin-1/assets/images/default.png') }}" >
+                @endif
+
           </div>
           <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
           <div>
