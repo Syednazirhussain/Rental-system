@@ -309,6 +309,11 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::put('company/companyContactPeople', ['as'=> 'company.companyContactPeople.update', 'uses' => 'Company\CompanyContactPersonController@update']);
     Route::patch('company/companyContactPeople', ['as'=> 'company.companyContactPeople.update', 'uses' => 'Company\CompanyContactPersonController@update']);
 
+    // Invoice Generator
+    // routes created by nazir start
+    Route::get('company/companyInvoices', ['as'=> 'company.companyInvoices.index', 'uses' => 'Company\CompanyInvoiceController@index']);
+    Route::get('company/companyInvoices/generate/{company_id}',['as' => 'company.generateInvoice','uses' => 'Company\CompanyInvoiceController@createInvoiceByCompanyId']);
+    Route::get('company/companyInvoices/sendInvoice/{company_id}',['as' => 'company.sendInvoice','uses' => 'Company\CompanyInvoiceController@sendLatestInvoiceToCompanyContractPerson']);
 });
 
 /********** Company Admin accessible routes as an Authenticated User end **********/
