@@ -196,8 +196,8 @@ class CompanyInvoiceRepository extends BaseRepository
         return [
             'Total'                 => $total,
             'SubTotal'              => $sub_total,
-            'VAT'         => $vat,
-            'FinalAmount'            => $final_total,
+            'VAT'                   => $vat,
+            'FinalAmount'           => $final_total,
             'Discount'              => $discount,
             'ContractRemainingDays' => $remaining_days
         ];
