@@ -58,6 +58,20 @@
               $('#datatables_wrapper .table-caption').text('Inovices');
               $('#datatables_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
             });
+
+
+            // angular js code
+            var app = angular.module('myApp', []);
+            app.controller('myCtrl', function($scope, $http) {
+
+              $http.get("admin.viewInvoice")
+              .then(function(response) {
+                  $scope.myWelcome = response.data;
+              });
+
+            });
+
+
         </script>
 @endsection
 
