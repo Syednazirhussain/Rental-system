@@ -1,8 +1,8 @@
 <!-- js -->
 <script type="text/javascript">
 
-    var company_id = "";
-    var editCompany = "{{ isset($company) ? $company->id: 0 }}";
+    var contract_id = "{{ isset($contract) ? $contract->id: 0 }}";
+    var editContract = "{{ isset($contract) ? $contract->id: 0 }}";
 
     // -------------------------------------------------------------------------
 
@@ -105,7 +105,7 @@
 
         // Rules
 
-        var companyContractCreated = 0;
+        var roomContractCreated = 0;
 
         checkField = function (response) {
             switch ($.parseJSON(response).code) {
@@ -212,14 +212,13 @@
             // test if form is valid
             if ($('#wizard-1').validate().form()) {
 
-                if (editCompany == 0 && companyContractCreated == 0) {
+                if (editContract == 0 && roomContractCreated == 0) {
 
-                    var myform = document.getElementById("wizard-4");
+                    var myform = document.getElementById("wizard-1");
                     var data = new FormData(myform);
-                    data.append('company_id', company_id);
 
                     $.ajax({
-                        url: '{{ route("admin.companyContracts.store") }}',
+                        url: '{{ route("company.contracts.store") }}',
                         data: data,
                         cache: false,
                         contentType: false,
@@ -227,8 +226,9 @@
                         type: 'POST', // For jQuery < 1.9
                         success: function (data) {
                             // myform.pxWizard('goTo', 2);
-                            companyContractCreated = data.success;
-                            // console.log(data);
+                            roomContractCreated = data.success;
+                            contract_id = data.room_contract_id;
+                            console.log(data);
                         },
                         error: function (xhr, status, error) {
 
@@ -238,13 +238,12 @@
 
                 } else {
 
-                    var myform = document.getElementById("wizard-4");
+                    var myform = document.getElementById("wizard-1");
                     var data = new FormData(myform);
-                    data.append('company_id', editCompany);
 
                     <?php
-                      if (isset($company)) {
-                         $updateRoute = route("admin.companyContracts.update", [$company->id]);
+                      if (isset($contract)) {
+                         $updateRoute = route("company.contracts.update", [$contract->id]);
                       } else {
                         $updateRoute = '';
                       }
@@ -276,9 +275,10 @@
         });
 
 
+        var company_id = "{{ isset($company) ? $company->id: 0 }}";
         var companyCreated = 0;
 
-        $('#wizard-7').validate({
+        $('#wizard-2').validate({
 
             rules: {
                 'name': {
@@ -338,21 +338,22 @@
         });
 
 
-        $('#wizard-7').on('submit', function (e) {
+        $('#wizard-2').on('submit', function (e) {
 
             e.preventDefault();
 
             // test if form is valid 
-            if ($('#wizard-1').validate().form()) {
+            if ($('#wizard-2').validate().form()) {
 
 
-                if (editCompany == 0 && companyCreated == 0) {
+                if (companyCreated == 0 && editContract == 0) {
 
-                    var myform = document.getElementById("wizard-1");
+                    var myform = document.getElementById("wizard-2");
                     var data = new FormData(myform);
+                    data.append('room_contract_id', contract_id);
 
                     $.ajax({
-                        url: '{{ route("admin.companies.store") }}',
+                        url: '{{ route("company.companies.store") }}',
                         data: data,
                         cache: false,
                         contentType: false,
@@ -360,31 +361,31 @@
                         type: 'POST', // For jQuery < 1.9
                         success: function (data) {
                             // myform.pxWizard('goTo', 2);
-                            company_id = data.company.id;
                             companyCreated = data.success;
-
-                            // console.log(data);
+                            company_id = data.company.id;
+                            console.log(data);
                         },
                         error: function (xhr, status, error) {
-
+                            console.log(error);
                         }
 
                     });
 
                 } else {
 
-                    var myform = document.getElementById("wizard-1");
+                    var myform = document.getElementById("wizard-2");
                     var data = new FormData(myform);
-                    data.append('company_id', editCompany);
+                    data.append('room_contract_id', contract_id);
+                    data.append('company_id', company_id);
 
                     <?php
                       if (isset($company)) {
-                         $updateRoute = route("admin.companies.update", [$company->id]);
+                         $updateRoute = route("company.companies.update", [$company->id]);
                       } else {
                         $updateRoute = '';
                       }
                     ?>
-
+                    console.log("{{ $updateRoute }}");
                     $.ajax({
                         url: '{{ $updateRoute }}',
                         data: data,
@@ -448,25 +449,25 @@
 
         var contactPersonCreated = 0;
 
-        $('#wizard-2').validate();
+        $('#wizard-3').validate();
 
-        $('#wizard-2').on('submit', function (e) {
+        $('#wizard-3').on('submit', function (e) {
 
             e.preventDefault();
 
             // test if form is valid 
-            if ($('#wizard-2').validate().form()) {
+            if ($('#wizard-3').validate().form()) {
 
-                if (editCompany == 0 && contactPersonCreated == 0) {
+                if (editContract == 0 && contactPersonCreated == 0) {
 
-                    var myform = document.getElementById("wizard-2");
+                    var myform = document.getElementById("wizard-3");
                     var data = new FormData(myform);
                     data.append('company_id', company_id);
 
                     // console.log(data);
 
                     $.ajax({
-                        url: '{{ route("admin.companyContactPeople.store") }}',
+                        url: '{{ route("company.companyContactPeople.store") }}',
                         data: data,
                         cache: false,
                         contentType: false,
@@ -474,7 +475,7 @@
                         type: 'POST', // For jQuery < 1.9
                         success: function (data) {
                             contactPersonCreated = data.success;
-
+                            location.href = "{{ route('company.contracts.index') }}";
                             // console.log(data);
                         },
                         error: function (xhr, status, error) {
@@ -484,14 +485,14 @@
                     });
                 } else {
 
-                    var myform = document.getElementById("wizard-2");
+                    var myform = document.getElementById("wizard-3");
                     var data = new FormData(myform);
-                    data.append('company_id', editCompany);
+                    data.append('company_id', company_id);
 
                     // console.log(data);
 
                     $.ajax({
-                        url: '{{ route("admin.companyContactPeople.update") }}',
+                        url: '{{ route("company.companyContactPeople.update") }}',
                         data: data,
                         cache: false,
                         contentType: false,
@@ -530,6 +531,7 @@
                             });
 
                             // contactPersonCreated = data.success;
+                            location.href = "{{ route('company.contracts.index') }}";
 
                             // console.log(data);
                         },
@@ -539,205 +541,6 @@
 
                     });
                 }
-            } else {
-                // console.log("does not validate");
-            }
-        });
-
-
-        var companyBuildingCreated = 0;
-
-        $('#wizard-3').validate();
-
-        $('#wizard-3').on('submit', function (e) {
-
-            e.preventDefault();
-
-            // test if form is valid 
-            if ($('#wizard-3').validate().form()) {
-
-                if (editCompany == 0 && companyBuildingCreated == 0) {
-
-                    var myform = document.getElementById("wizard-3");
-                    var data = new FormData(myform);
-                    data.append('company_id', company_id);
-
-                    $.ajax({
-                        url: '{{ route("admin.companyBuildings.store") }}',
-                        data: data,
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        type: 'POST', // For jQuery < 1.9
-                        success: function (data) {
-                            // myform.pxWizard('goTo', 2);
-
-                            companyBuildingCreated = data.success;
-
-                            // console.log(data);
-                        },
-                        error: function (xhr, status, error) {
-
-                        }
-
-                    });
-
-                } else {
-
-                    var myform = document.getElementById("wizard-3");
-                    var data = new FormData(myform);
-                    data.append('company_id', editCompany);
-
-                    // console.log(data);
-
-                    $.ajax({
-                        url: '{{ route("admin.companyBuildings.update") }}',
-                        data: data,
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        type: 'POST', // For jQuery < 1.9
-                        success: function (data) {
-
-
-                            $.each(data.createdFields, function (index, value) {
-
-
-                                $('input[data-building-id="new-' + index + '"]').val(value['id']);
-                                $('input[data-building-id="new-' + index + '"]').attr('name', "building_data[" + value['id'] + "][id]");
-                                $('input[data-building-id="new-' + index + '"]').attr("data-building-id", value['id']);
-
-                                $('input[data-building-name="new-' + index + '"]').attr('name', "building_data[" + value['id'] + "][name]");
-                                $('input[data-building-name="new-' + index + '"]').attr("data-building-name", value['id']);
-
-                                $('input[data-building-address="new-' + index + '"]').attr('name', "building_data[" + value['id'] + "][address]");
-                                $('input[data-building-address="new-' + index + '"]').attr("data-building-address", value['id']);
-
-                                $('input[data-building-zipcode="new-' + index + '"]').attr('name', "building_data[" + value['id'] + "][zipcode]");
-                                $('input[data-building-zipcode="new-' + index + '"]').attr("data-building-zipcode", value['id']);
-
-                                $('input[data-building-numfloors="new-' + index + '"]').attr('name', "building_data[" + value['id'] + "][num_floors]");
-                                $('input[data-building-numfloors="new-' + index + '"]').attr("data-building-numfloors", value['id']);
-
-                                $.each(value.floors, function (flIndex, flValue) {
-
-                                    $('input[data-floor-id="new-' + flValue['index'] + '"]').val(flValue['floorId']);
-                                    $('input[data-floor-id="new-' + flValue['index'] + '"]').attr('name', "building_data[" + value['id'] + "][floor][" + flValue['floorId'] + "][id]");
-                                    $('input[data-floor-id="new-' + flValue['index'] + '"]').attr("data-floor-id", flValue['floorId']);
-
-                                    $('input[data-floor-number="new-' + flValue['index'] + '"]').attr('name', "building_data[" + value['id'] + "][floor][" + flValue['floorId'] + "][floor_number]");
-                                    $('input[data-floor-number="new-' + flValue['index'] + '"]').attr("data-floor-number", flValue['floorId']);
-
-                                    $('input[data-floor-rooms="new-' + flValue['index'] + '"]').attr('name', "building_data[" + value['id'] + "][floor][" + flValue['floorId'] + "][floor_rooms]");
-                                    $('input[data-floor-rooms="new-' + flValue['index'] + '"]').attr("data-floor-rooms", flValue['floorId']);
-
-                                });
-
-                                // $('input[data-person-designation="new-'+index+'"]').attr('name', "building_data["+value['id']+"][designation]");
-                                // $('input[data-person-designation="new-'+index+'"]').attr("data-person-designation", value);
-
-                            });
-
-                            // contactPersonCreated = data.success;
-
-                            // console.log(data);
-                        },
-                        error: function (xhr, status, error) {
-
-                        }
-
-                    });
-                }
-
-            } else {
-                // console.log("does not validate");
-            }
-        });
-
-
-        var companyModuleCreated = 0;
-
-        $('#wizard-5').validate();
-
-        $('#wizard-5').on('submit', function (e) {
-
-            e.preventDefault();
-
-            // test if form is valid 
-            if ($('#wizard-5').validate().form()) {
-
-                if (editCompany == 0 && companyModuleCreated == 0) {
-                    var myform = document.getElementById("wizard-5");
-                    var data = new FormData(myform);
-                    data.append('company_id', company_id);
-
-                    // console.log(data);
-
-                    $.ajax({
-                        url: '{{ route("admin.companyModules.store") }}',
-                        data: data,
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        type: 'POST', // For jQuery < 1.9
-                        success: function (data) {
-                            // myform.pxWizard('goTo', 2);
-
-                            companyModuleCreated = data.success;
-
-                            // console.log(data);
-                        },
-                        error: function (xhr, status, error) {
-
-                        }
-
-                    });
-
-                } else {
-
-                    var myform = document.getElementById("wizard-5");
-                    var data = new FormData(myform);
-                    data.append('company_id', editCompany);
-
-                    $.ajax({
-                        url: '{{ route("admin.companyModules.update") }}',
-                        data: data,
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        type: 'POST', // For jQuery < 1.9
-                        success: function (data) {
-                            // myform.pxWizard('goTo', 2);
-
-                            $.each(data.createdFields, function (index, value) {
-
-                                $('input[data-module-pk="new-' + index + '"]').val(value);
-                                $('input[data-module-pk="new-' + index + '"]').attr('name', "module[" + value + "][pk]");
-                                $('input[data-module-pk="new-' + index + '"]').attr("data-module-pk", value);
-
-                                $('select[data-module-id="new-' + index + '"]').attr('name', "module[" + value + "][id]");
-                                $('select[data-module-id="new-' + index + '"]').attr("data-module-id", value);
-
-                                $('input[data-module-price="new-' + index + '"]').attr('name', "module[" + value + "][price]");
-                                $('input[data-module-price="new-' + index + '"]').attr("data-module-price", value);
-
-                                $('input[data-module-users="new-' + index + '"]').attr('name', "module[" + value + "][users_limit]");
-                                $('input[data-module-users="new-' + index + '"]').attr("data-module-users", value);
-
-                            });
-
-
-                            // console.log(data);
-                        },
-                        error: function (xhr, status, error) {
-
-                        }
-
-                    });
-                }
-
-
-                // console.log("validates");
             } else {
                 // console.log("does not validate");
             }
@@ -745,19 +548,20 @@
 
 
         var companyAdminCreated = 0;
+        var editCompany = 0;
 
-        $('#wizard-6').validate();
+        $('#wizard-4').validate();
 
-        $('#wizard-6').on('submit', function (e) {
+        $('#wizard-4').on('submit', function (e) {
 
             e.preventDefault();
 
             // test if form is valid 
-            if ($('#wizard-6').validate().form()) {
+            if ($('#wizard-4').validate().form()) {
 
-                if (editCompany == 0 && companyAdminCreated == 0) {
+                if (editContract == 0 && companyAdminCreated == 0) {
 
-                    var myform = document.getElementById("wizard-6");
+                    var myform = document.getElementById("wizard-4");
                     var data = new FormData(myform);
                     data.append('company_id', company_id);
 
@@ -774,23 +578,22 @@
                             // myform.pxWizard('goTo', 2);
                             if (data.success == 1) {
                                 companyAdminCreated = data.success;
-                                location.href = "{{ route('admin.companies.index') }}";
+                                location.href = "{{ route('company.contracts.index') }}";
                             } else {
-                                alert("Could not create company admins(s)");
+                                alert("Could not create company customers");
                             }
                             // console.log(data);
                         },
                         error: function (xhr, status, error) {
 
                         }
-
                     });
 
                 } else {
 
-                    var myform = document.getElementById("wizard-6");
+                    var myform = document.getElementById("wizard-4");
                     var data = new FormData(myform);
-                    data.append('company_id', editCompany);
+                    data.append('company_id', company_id);
 
                     $.ajax({
                         url: '{{ route("admin.companyUsers.update") }}',
@@ -1474,19 +1277,6 @@
                 email: true,
                 notEqualToGroup: ['.admin-email'],
                 remote: {
-                    // url: "{{ route('validate.admin') }}",
-                    // type: "POST",
-                    // cache: false,
-                    // dataType: "json",
-                    // data: {
-                    //     admin_email: function() { return adminEmail.val(); }
-                    // },
-                    // dataFilter: function(response) {
-
-                    //     // console.log(response);
-                    //     return checkField(response);
-                    // }
-
                     param: {
                         url: "{{ route('validate.admin') }}",
                         type: "POST",

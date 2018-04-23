@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Company;
 
 use App\Http\Requests\Admin\CreateCompanyContactPersonRequest;
 use App\Http\Requests\Admin\UpdateCompanyContactPersonRequest;
@@ -140,6 +140,7 @@ class CompanyContactPersonController extends AppBaseController
 
         $data = $request->all();
 
+
         $arr = [];
 
         if (isset($data['person'])) {
@@ -179,10 +180,6 @@ class CompanyContactPersonController extends AppBaseController
                     }
 
                 }
-                
-
-                
-
         }
 
         return response()->json([

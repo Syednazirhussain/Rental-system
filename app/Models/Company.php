@@ -62,7 +62,8 @@ class Company extends Model
         'uuid',
         'user_role_code',
         'max_users',
-        'user_status_id'
+        'user_status_id',
+        'room_contract_id'
     ];
 
     /**

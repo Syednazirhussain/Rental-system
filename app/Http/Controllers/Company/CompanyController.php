@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Company;
 
 use App\Http\Requests\Admin\CreateCompanyRequest;
 use App\Http\Requests\Admin\UpdateCompanyRequest;
@@ -22,7 +22,6 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use PDF;
-use App\Models\Company;
 
 class CompanyController extends AppBaseController
 {
@@ -76,7 +75,8 @@ class CompanyController extends AppBaseController
 
         $this->companyRepository->pushCriteria(new RequestCriteria($request));
         
-        $companies = Company::where('room_contract_id', NULL)->get();
+        $companies = $this->companyRepository->all();
+
 
         $data = ['companies' => $companies];
 
@@ -252,17 +252,17 @@ class CompanyController extends AppBaseController
             if ($request->hasFile('logo') && !empty($request->hasFile('logo'))) {
 
                 if (isset($input['logo_hidden']) && $company->logo == $input['logo_hidden']) {
-                   $oldLogo = true;
+                    $oldLogo = true;
 
                 } else {
-                     $path = $request->file('logo')->store('public/company_logos');
-                     $path = explode("/", $path);
-                     $input['logo'] = $path[2];
+                    $path = $request->file('logo')->store('public/company_logos');
+                    $path = explode("/", $path);
+                    $input['logo'] = $path[2];
 
-                     $oldLogo = false;
+                    $oldLogo = false;
                 }
             }
-            
+
             $company = $this->companyRepository->update($input, $id);
 
             $success = 1;
@@ -271,7 +271,7 @@ class CompanyController extends AppBaseController
 
 
         return response()->json(['success'=>$success, 'msg'=>$msg]);
-        
+
     }
 
     /**

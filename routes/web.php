@@ -301,6 +301,14 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::delete('company/contracts/{contracts}', ['as'=> 'company.contracts.destroy', 'uses' => 'Company\RoomContractController@destroy']);
     Route::get('company/contracts/{contracts}', ['as'=> 'company.contracts.show', 'uses' => 'Company\RoomContractController@show']);
     Route::get('company/contracts/{contracts}/edit', ['as'=> 'company.contracts.edit', 'uses' => 'Company\RoomContractController@edit']);
+
+    Route::post('company/companies', ['as'=> 'company.companies.store', 'uses' => 'Company\CompanyController@store']);
+    Route::put('company/companies/{companies}', ['as'=> 'company.companies.update', 'uses' => 'Company\CompanyController@update']);
+    Route::patch('company/companies/{companies}', ['as'=> 'company.companies.update', 'uses' => 'Company\CompanyController@update']);
+    Route::post('company/companyContactPeople', ['as'=> 'company.companyContactPeople.store', 'uses' => 'Company\CompanyContactPersonController@store']);
+    Route::put('company/companyContactPeople', ['as'=> 'company.companyContactPeople.update', 'uses' => 'Company\CompanyContactPersonController@update']);
+    Route::patch('company/companyContactPeople', ['as'=> 'company.companyContactPeople.update', 'uses' => 'Company\CompanyContactPersonController@update']);
+
 });
 
 /********** Company Admin accessible routes as an Authenticated User end **********/

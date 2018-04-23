@@ -33,15 +33,17 @@ class RoomContracts extends Model
 
 
     public $fillable = [
-        'room_id',
         'company_id',
-        'customer_id',
-        'company_contract_id',
-        'contract_number',
+        'room_id',
+        'number',
+        'content',
         'start_date',
         'end_date',
-        'price',
-        'content',
+        'termindation_date',
+        'payment_method',
+        'payment_cycle',
+        'discount',
+        'discount_type'
     ];
 
     /**

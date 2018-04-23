@@ -4,11 +4,6 @@ namespace App\Http\Controllers\Company;
 
 use App\Http\Requests\CreateRoomContractRequest;
 use App\Http\Requests\UpdateRoomContractRequest;
-use App\Models\DiscountType;
-use App\Models\Module;
-use App\Models\PaymentCycle;
-use App\Models\PaymentMethod;
-use App\Models\UserStatus;
 use App\Repositories\RoomContractRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
@@ -25,6 +20,11 @@ use App\Models\RoomContracts;
 use App\Models\Country;
 use App\Models\State;
 use App\Models\City;
+use App\Models\DiscountType;
+use App\Models\Module;
+use App\Models\PaymentCycle;
+use App\Models\PaymentMethod;
+use App\Models\UserStatus;
 
 class RoomContractController extends AppBaseController
 {
@@ -45,8 +45,7 @@ class RoomContractController extends AppBaseController
     public function index(Request $request)
     {
         $company_id = Auth::user()->companyUser()->first()->company_id;
-        $room_contracts = RoomContracts::where('company_id', $company_id);
-
+        $room_contracts = RoomContracts::where('company_id', $company_id)->get();
 
         return view('company.contracts.index', ['room_contracts' => $room_contracts]);
     }
@@ -92,62 +91,20 @@ class RoomContractController extends AppBaseController
      *
      * @return Response
      */
-    public function store(CreateRoomRequest $request)
+    public function store(CreateRoomContractRequest $request)
     {
-        $company_id = Auth::user()->companyUser()->first()->company_id;
         $input = $request->all();
+        $company_id = Auth::user()->companyUser()->first()->company_id;
+
         $input['company_id'] = $company_id;
-        $input['image1'] = '';
-        $input['image2'] = '';
-        $input['image3'] = '';
-        $input['image4'] = '';
-        $input['image5'] = '';
+        $input['start_date'] = date('Y-m-d', strtotime($input['start_date']));
+        $input['end_date'] = date('Y-m-d', strtotime($input['end_date']));
 
-        if($request->image1)
-        {
-            $image_link = $request->image1->hashName();
-            $request->image1->move(public_path('/uploadedimages'), $image_link);
-            $input['image1'] = $image_link;
-        }
-        if($request->image2)
-        {
-            $image_link = $request->image2->hashName();
-            $request->image2->move(public_path('/uploadedimages'), $image_link);
-            $input['image2'] = $image_link;
-        }
-        if($request->image3)
-        {
-            $image_link = $request->image3->hashName();
-            $request->image3->move(public_path('/uploadedimages'), $image_link);
-            $input['image3'] = $image_link;
-        }
-        if($request->image4)
-        {
-            $image_link = $request->image4->hashName();
-            $request->image4->move(public_path('/uploadedimages'), $image_link);
-            $input['image4'] = $image_link;
-        }
-        if($request->image5)
-        {
-            $image_link = $request->image5->hashName();
-            $request->image5->move(public_path('/uploadedimages'), $image_link);
-            $input['image5'] = $image_link;
-        }
+        $roomContract = $this->roomContractRepository->create($input);
 
-        $floor = CompanyFloorRoom::find($input['floor_id']);
-        $room_count = Room::where('company_id', $company_id)->where('floor_id',$input['floor_id'])->count();
-        //Check if room count over than specified floor room number
-        if($floor->num_rooms <= $room_count) {
-            $request->session()->flash('msg.error', 'You can not create any more room on '.$floor->floor.'floor.');
-            return redirect(route('company.rooms.index'));
-        }
-
-        $this->roomRepository->create($input);
-
-        Flash::success('Company Floor Room saved successfully.');
-
-        return redirect(route('company.rooms.index'));
+        return response()->json(['success'=>1, 'msg'=>'Company contract has been generated successfully', 'room_contract_id'=>$roomContract->id]);
     }
+
 
     /**
      * Display the specified Room.
@@ -185,24 +142,35 @@ class RoomContractController extends AppBaseController
      */
     public function edit($id)
     {
+        $contract = RoomContracts::find($id);
+        $company = Company::where('room_contract_id', $contract->id)->first();
         $company_id = Auth::user()->companyUser()->first()->company_id;
-        $company = Company::find($company_id);
-        $companyFloors = CompanyFloorRoom::where('company_id', $company_id)->get();
-        $companyBuildings = CompanyBuilding::pluck('name', 'id');
-        $services = Service::where('company_id', $company_id)->get();
+        $rooms = Room::where('company_id', $company_id)->get();
+        $countries = Country::all();
+        $states = State::all();
+        $cities = City::all();
+        $userstatus = UserStatus::all();
+        $discountTypes = DiscountType::all();
+        $modules = Module::all();
+        $paymentCycles = PaymentCycle::all();
+        $paymentMethods = PaymentMethod::all();
 
-        $room = $this->roomRepository->findWithoutFail($id);
+        $data = [
+            'contract' => $contract,
+            'company' => $company,
+            'rooms' => $rooms,
+            'countries' => $countries,
+            'states' => $states,
+            'cities' => $cities,
+            'userStatus' => $userstatus,
+            'discountTypes' => $discountTypes,
+            'modules' => $modules,
+            'paymentCycles' => $paymentCycles,
+            'paymentMethods' => $paymentMethods,
+        ];
+        //dd($rooms);
 
-        if (empty($room)) {
-            Flash::error('Company Room not found');
-
-            return redirect(route('company.rooms.index'));
-        }
-
-        $floor_name = CompanyBuilding::find(CompanyFloorRoom::find($room->floor_id)->building_id)->name.' - Floor'.CompanyFloorRoom::find($room->floor_id)->floor;
-        $service_name = Service::find($room->service_id)->name;
-        return view('company.rooms.edit', ['room' => $room, 'company' => $company, 'companyFloors' => $companyFloors,
-            'companyBuildings' => $companyBuildings, 'services' => $services, 'service_name' => $service_name, 'floor_name' => $floor_name]);
+        return view('company.contracts.edit', $data);
     }
 
     /**
@@ -213,61 +181,25 @@ class RoomContractController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateRoomRequest $request)
+    public function update($id, UpdateRoomContractRequest $request)
     {
-        $room = $this->roomRepository->findWithoutFail($id);
-        $input = $request->all();
-        $data = request()->except(['_token', '_method']);
 
-        if (empty($room)) {
+        $input = $request->all();
+        $room_contract = $this->roomContractRepository->findWithoutFail($id);
+
+        if (empty($room_contract)) {
             Flash::error('Company Room not found');
 
             return redirect(route('company.rooms.index'));
         }
-        if($request->image1)
-        {
-            $image_link = $request->image1->hashName();
-            $request->image1->move(public_path('/uploadedimages'), $image_link);
-            $input['image1'] = $image_link;
-        }else
-            $input['image1'] = $room['image1'];
 
-        if($request->image2)
-        {
-            $image_link = $request->image2->hashName();
-            $request->image2->move(public_path('/uploadedimages'), $image_link);
-            $input['image2'] = $image_link;
-        }else
-            $input['image2'] = $room['image2'];
+        $input['start_date'] = date('Y-m-d', strtotime($input['start_date']));
+        $input['end_date'] = date('Y-m-d', strtotime($input['end_date']));
 
-        if($request->image3)
-        {
-            $image_link = $request->image3->hashName();
-            $request->image3->move(public_path('/uploadedimages'), $image_link);
-            $input['image3'] = $image_link;
-        }else
-            $input['image3'] = $room['image3'];
+        $this->roomContractRepository->update($input, $id);
 
-        if($request->image4)
-        {
-            $image_link = $request->image4->hashName();
-            $request->image4->move(public_path('/uploadedimages'), $image_link);
-            $input['image4'] = $image_link;
-        }else
-            $input['image4'] = $room['image4'];
+        return response()->json(['success'=>1, 'msg'=>'Company contract has been updated successfully', 'room_contract_id'=>$id]);
 
-        if($request->image5)
-        {
-            $image_link = $request->image5->hashName();
-            $request->image5->move(public_path('/uploadedimages'), $image_link);
-            $input['image5'] = $image_link;
-        }else
-            $input['image5'] = $room['image5'];
-
-        $this->roomRepository->update($input, $id);
-        $request->session()->flash('msg.success', 'Company Room updated successfully.');
-
-        return redirect(route('company.rooms.index'));
     }
 
     /**
