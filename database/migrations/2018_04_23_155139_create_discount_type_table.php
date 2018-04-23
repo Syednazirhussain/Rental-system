@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateConferenceDurationsTable extends Migration {
+class CreateDiscountTypeTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,11 +12,10 @@ class CreateConferenceDurationsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('conference_durations', function(Blueprint $table)
+		Schema::create('discount_type', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('code', 50)->nullable()->unique('code');
-			$table->string('name', 191);
+			$table->string('name', 100)->nullable();
 		});
 	}
 
@@ -28,7 +27,7 @@ class CreateConferenceDurationsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('conference_durations');
+		Schema::drop('discount_type');
 	}
 
 }

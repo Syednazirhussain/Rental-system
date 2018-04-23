@@ -23,5 +23,6 @@ class DatabaseSeeder extends Seeder
         $this->call(UsersTableSeeder::class);
         $this->call(GeneralSettingsTableSeeder::class);
         $this->call(ConferenceDurationsTableSeeder::class);
+        $this->call(ConferenceEquipmentsCriteriaTableSeeder::class);
     }
 }
