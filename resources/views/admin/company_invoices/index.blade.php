@@ -60,16 +60,7 @@
             });
 
 
-            // angular js code
-            var app = angular.module('myApp', []);
-            app.controller('myCtrl', function($scope, $http) {
 
-              $http.get("admin.viewInvoice")
-              .then(function(response) {
-                  $scope.myWelcome = response.data;
-              });
-
-            });
 
 
         </script>

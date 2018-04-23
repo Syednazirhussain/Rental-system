@@ -21,7 +21,6 @@
         <link href="{{ asset('/skin-1/assets/css/custom.css') }}" rel="stylesheet">
         <!-- holder.js -->
         <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/holder/2.9.0/holder.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
         <!-- Pace.js -->
         <script src="{{ asset('/skin-1/assets/pace/pace.min.js') }}"></script>
         <script src="{{ asset('/skin-1/assets/demo/demo.js') }}"></script>
