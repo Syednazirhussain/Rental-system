@@ -24,6 +24,7 @@
         <!-- Pace.js -->
         <script src="{{ asset('/skin-1/assets/pace/pace.min.js') }}"></script>
         <script src="{{ asset('/skin-1/assets/demo/demo.js') }}"></script>
+        
         <!-- Custom styling -->
         <style>
             .page-header-form .input-group-addon,

@@ -11,10 +11,17 @@
     <tbody>
     @foreach($packages as $packages)
         <tr>
-            <td>{!! $packages->title !!}</td>
-            <td>{!! $packages->items !!}</td>
-            <td>{!! $packages->price !!}</td>
-            <td>{!! $packages->status !!}</td>
+            <td>{!! ucfirst($packages->title) !!}</td>
+            <td>
+                <label class="label label-primary">
+                <?php 
+                    $pieces = explode(",", $packages->items);
+                    echo count($pieces);
+                ?>
+                </label>
+            </td>
+            <td>{!! $packages->price !!} kr</td>
+            <td>@if($packages->status == 'active') <label class="label label-success">@else <label class="label label-danger"> @endif{!! ucfirst($packages->status) !!}</label> </td>
             <td>
                 {!! Form::open(['route' => ['company.conference.packages.destroy', $packages->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>
