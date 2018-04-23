@@ -17,7 +17,8 @@
           <input type="text" name="due_day" value="{{ $data['general_setting']->due_day }}" id="grid-input-16" class="form-control">
       </div>
       <div class="col-sm-12">
-        <button type="submit" class="btn btn-primary">@if(!isset($userStatus)) <i class="fa fa-refresh"></i>  Update Settings @else <i class="fa fa-plus"></i>  Add Status @endif</button>
+        <button type="submit" class="btn btn-primary"><i class="fa fa-refresh"></i>  UPDATE</button>
+        <a href="{!! route('admin.dashboard') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
       </div>
       @endif
 </div>                

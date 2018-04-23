@@ -70,6 +70,9 @@ class CompanyController extends AppBaseController
      */
     public function index(Request $request)
     {
+        /*echo storage_path("app");
+        exit;*/
+
         $this->companyRepository->pushCriteria(new RequestCriteria($request));
         
         $companies = $this->companyRepository->all();

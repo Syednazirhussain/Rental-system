@@ -179,6 +179,38 @@ class CompanyInvoiceController extends AppBaseController
     }
 
 
+    public function viewInvoiceByCompanyId($company_id,$invoice_id)
+    {
+        if($this->companyContractRepository->checkCompanyContract($company_id))
+        {
+
+            $company_infomation = $this->getCompanyDetailById($company_id);
+            $general_setting = $this->generalSettingRepository->getVendorInfomation();
+            $company_infomation['general_setting'] = json_decode($general_setting->meta_value);            
+
+
+            $setting    = json_decode($general_setting->meta_value);
+            $country_id = $setting->country_id;
+            $state_id   = $setting->state_id;
+            $city_id    = $setting->city_id;
+            $due_day    = $setting->due_day;
+
+            $company_infomation['names'] = $this->generalSettingRepository->getCityStateCountryName($city_id,$state_id,$country_id);
+
+            $dt = Carbon\Carbon::now();
+            $extended_date = $dt->addDays($due_day);
+            $company_infomation['extented_date'] = $extended_date;
+            $company_infomation['Invoice_id'] = $invoice_id;
+
+            return view('admin.companies.invoice')->with('Invoice',$company_infomation);
+        }
+        else
+        {
+            return json_encode(['status' => 'Failed','result' => 'Company contract expire']);
+        }        
+    }
+
+
     // This is the responsible to Insert and generate invoice by company ID  
     public function createInvoiceByCompanyId($company_id)
     {
@@ -189,7 +221,7 @@ class CompanyInvoiceController extends AppBaseController
             $general_setting = $this->generalSettingRepository->getVendorInfomation();
             $company_infomation['general_setting'] = json_decode($general_setting->meta_value);            
 
-            // return $general_setting->meta_value;
+
             $setting    = json_decode($general_setting->meta_value);
             $country_id = $setting->country_id;
             $state_id   = $setting->state_id;
@@ -218,18 +250,12 @@ class CompanyInvoiceController extends AppBaseController
                 'due_date'           => $extended_date
             ];
 
-           /* echo "<pre>";
-            print_r($Invoice);
-            echo "</pre>";
-
-            exit;*/
 
             // ---------------------  For Testing Invoice without entry into database ------------------ //
 
             // $lastInvoice =  $this->companyInvoiceRepository->getLastInsertedInvoiceId();
             // $Invoice_id =  $lastInvoice->id;
             // $company_infomation['Invoice_id'] = $Invoice_id;
-            
             // $data = ['Invoice' => $company_infomation];
             // $filename = $Invoice_id."_Invoices.pdf";
             // $lastInsertedInvoice = $this->companyInvoiceRepository->findWithoutFail($Invoice_id);
@@ -286,9 +312,25 @@ class CompanyInvoiceController extends AppBaseController
                         // return view('admin.companies.invoice')->with('Invoice',$company_infomation);
 
                         // For saved pdf in company invoice directory
-                        $filePath = public_path().DIRECTORY_SEPARATOR."storage".DIRECTORY_SEPARATOR."company_invoices".DIRECTORY_SEPARATOR.$filename;
+                        $filePath = storage_path("app").DIRECTORY_SEPARATOR."public".DIRECTORY_SEPARATOR."company_invoices";
+                        
+                        /*echo Storage::exists($filePath);
+                        exit;*/
+
+                        if (!file_exists($filePath)) {
+                            mkdir($filePath);
+                        };
+
+
+                        $filePath = $filePath.DIRECTORY_SEPARATOR.$filename;
+
                         $pdf = PDF::loadView('admin.companies.invoice', $data);
                         $pdf->save($filePath);
+
+                        // $path = Storage::put('public/company_invoices', $pdf);
+                        // $path = explode("/", $path);
+
+                        // $input['logo'] = $path[2];
 
                         $data = ['Path' => $filePath];
                         foreach ($company_infomation['Contact_Person'] as $person) 
@@ -296,7 +338,10 @@ class CompanyInvoiceController extends AppBaseController
                             Mail::to($person->email)->send(new NewInvoiceMail($data));
                         }
 
-                        Session::Flash("InvoiceSuccess","Invoice successfully created.");
+                        // Session::Flash("InvoiceSuccess","Invoice successfully created.");
+                        
+                        session()->flash('msg.success', 'Company has been created successfully');
+
                         return redirect()->route('admin.companies.index');
                     }
                     else
@@ -333,7 +378,11 @@ class CompanyInvoiceController extends AppBaseController
             $index++;    
         }
 
+       /* echo "<pre>";
+        print_r($company_modules);*/
 
+
+        $modules = [];
 
         $collection = $this->moduleRepository->find($modules_id,['id','name','price']);
 

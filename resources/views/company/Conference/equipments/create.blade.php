@@ -24,26 +24,26 @@
         </div>
     </div>
 
+@endsection
 
 
-    @section('js')
+@section('js')
 
 
-    <script>
+<script>
 
-        // -------------------------------------------------------------------------
-        // Initialize Select2
+    // -------------------------------------------------------------------------
+    // Initialize Select2
 
-        $(function() {
-          $('.select2-example').select2({
-            placeholder: 'Select value',
-          });
-        });
+    $(function() {
+      $('.select2-example').select2({
+        placeholder: 'Select value',
+      });
+    });
 
-    </script>
-
-
-    @endsection
+</script>
 
 
 @endsection
+
+

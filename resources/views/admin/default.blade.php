@@ -58,6 +58,7 @@
                                     <li><a href="{{ route('admin.companies.index') }}"><i class="fa fa-building-o"></i>&nbsp;&nbsp;Companies</a></li>
                                 </ul>
                             </li>
+                            <li><a href="{{ route('admin.companyInvoices.index') }}">Invoices</a></li>
                             <li class="dropdown-toggle">
                                 <a href>Settings</a>
                                 <ul class="dropdown-menu">
@@ -65,12 +66,11 @@
                                    <li class="divider"></li>
                                    <li><a href="{{ route('admin.userStatuses.index') }}"><i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;User Status</a></li>
                                    <li class="divider"></li>
-                                   <li><a href="{{ route('admin.settings.general') }}"><i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;General Settings</a></li>
+                                   <li><a href="{{ route('admin.settings.general') }}"><i class="fa fa-cog"></i>&nbsp;&nbsp;General Settings</a></li>
                                 </ul>
                              </li>
-                            <li class="divider"></li>
-                            <li><a href="{{ route('admin.companyInvoices.index') }}">Invoices</a></li>
-                            <li><a href="#">Help</a></li>
+                            <!-- <li class="divider"></li> -->
+                            <!-- <li><a href="#">Help</a></li> -->
                         </ul>
                     </li>
                 </ul>
