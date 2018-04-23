@@ -16,6 +16,20 @@
       <div class="panel-body">
 
 
+          
+        @if(Session::has('successMessage'))
+        <div class="alert alert-success alert-dismissable" style="text-align: center;">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong><i class="fa fa-check-circle fa-lg"></i>&nbsp;&nbsp;{{Session::get('successMessage')}}</strong>
+        </div>
+        @elseif(Session::has('deleteMessage'))
+        <div class="alert alert-danger alert-dismissable" style="text-align: center;">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong><i class="fa fa-times-circle fa-lg"></i>&nbsp;&nbsp;{{Session::get('deleteMessage')}}</strong>
+        </div>
+        @endif
+
+
 
         <div class="text-right m-b-3">
             <a href="{!! route('company.conference.packages.create') !!}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Package</a>

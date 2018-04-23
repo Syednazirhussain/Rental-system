@@ -12,7 +12,12 @@
     @foreach($packages as $packages)
         <tr>
             <td>{!! $packages->title !!}</td>
-            <td>{!! $packages->items !!}</td>
+            <td>
+                <?php 
+                    $pieces = explode(",", $packages->items);
+                    echo count($pieces);
+                ?>
+            </td>
             <td>{!! $packages->price !!}</td>
             <td>{!! $packages->status !!}</td>
             <td>

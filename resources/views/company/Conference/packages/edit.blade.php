@@ -13,7 +13,7 @@
                         <div class="panel-title">Edit Package</div>
                     </div>
                     <div class="panel-body">
-                      <form action="{{ route('company.conference.packages.update', $packages->id) }}" method="POST">
+                      <form id="packageForm" action="{{ route('company.conference.packages.update', $packages->id) }}" method="POST">
                       <input name="_method" type="hidden" value="PATCH">
 
                         @include('company.Conference.packages.fields')
