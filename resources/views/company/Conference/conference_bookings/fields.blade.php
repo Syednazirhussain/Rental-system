@@ -26,24 +26,26 @@
 
         <div class="form-group m-t-2">
             <label for="attendees">Attendees</label>
-            <input type="number" id="attendees" placeholder="" value="" name="attendees" class="form-control">
+            <input type="number" id="attendees" placeholder="" value="1" name="attendees" class="form-control">
         </div>
 
 
         <!-- Room Id Field -->
         <div class="form-group m-t-2">
             <label for="room_id">Room</label>
-            <select class="form-control select2" id="room_id" name="room_id">
-                <option>Class Room</option>
-                <option>Conference Hall</option>
-                <option>Meeting Room</option>
+            <select class="form-control select2-rooms" id="room_id" name="room_id">
+                <option value=""></option>
+                @foreach ($rooms as $room)
+                <option value="{{ $room->id }}">{{ $room->name }}</option>
+                @endforeach
             </select>
         </div>
 
         <!-- Room Layout Id Field -->
         <div class="form-group m-t-2">
             <label for="room_layout_id">Room Layout</label>
-            <select class="form-control select2" id="room_layout_id" name="room_layout_id">
+            <select class="form-control select2-layouts" id="room_layout_id" name="room_layout_id">
+                <option value=""></option>                
                 <option>Class Room</option>
                 <option>Conference Hall</option>
                 <option>Meeting Room</option>
@@ -52,11 +54,12 @@
 
         <!-- Duration Code Field -->
         <div class="form-group m-t-2">
-            <label for="duration_code">Duration Code</label>
-            <select class="form-control select2" id="duration_code" name="duration_code">
-                <option>Class Room</option>
-                <option>Conference Hall</option>
-                <option>Meeting Room</option>
+            <label for="duration_code">Duration</label>
+            <select class="form-control select2-duration" id="duration_code" name="duration_code">
+                <option value=""></option>
+                @foreach ($conferenceDurations as $duration)
+                <option value="{{ $duration->code }}">{{ $duration->name }}</option>
+                @endforeach
             </select>
         </div>
 
@@ -91,20 +94,22 @@
             <!-- Booking Status Field -->
             <div class="form-group m-t-2">
                 <label for="booking_status">Booking Status</label>
-                <select class="form-control select2" id="booking_status" name="booking_status">
-                    <option>Class Room</option>
-                    <option>Conference Hall</option>
-                    <option>Meeting Room</option>
+                <select class="form-control select2-status" id="booking_status" name="booking_status">
+                    <option value=""></option>
+                    <option value="cancelled">Cancelled</option>
+                    <option value="confirmed">Confirmed</option>
+                    <option value="pending">Pending</option>
                 </select>
             </div>
 
             <!-- Payment Method Code Field -->
             <div class="form-group m-t-2">
                 <label for="payment_method_code">Payment Method</label>
-                <select class="form-control select2" id="payment_method_code" name="payment_method_code">
-                    <option>Class Room</option>
-                    <option>Conference Hall</option>
-                    <option>Meeting Room</option>
+                <select class="form-control select2-payment-methods" id="payment_method_code" name="payment_method_code">
+                    <option value=""></option>
+                    @foreach ($paymentMethods as $payMethod)
+                    <option value="{{ $payMethod->code }}">{{ $payMethod->name }}</option>
+                    @endforeach
                 </select>
             </div>
 
@@ -112,7 +117,7 @@
             <div class="form-group m-t-2">
                 <label for="room_price">Room Price</label>
                 <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-usd"></i></span>
+                    <span class="input-group-addon">SEK</span>
                     <input type="number" id="room_price" placeholder="" value="" name="room_price" class="form-control">
                 </div>
             </div>
@@ -122,7 +127,7 @@
             <div class="form-group m-t-2">
                 <label for="equipment_price">Equipment Price</label>
                 <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-usd"></i></span>
+                    <span class="input-group-addon">SEK</span>
                     <input type="number" id="equipment_price" placeholder="" value="" name="equipment_price" class="form-control">
                 </div>
             </div>
@@ -132,7 +137,7 @@
             <div class="form-group m-t-2">
                 <label for="food_price">Food Price</label>
                 <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-usd"></i></span>
+                    <span class="input-group-addon">SEK</span>
                     <input type="number" id="food_price" placeholder="" value="" name="food_price" class="form-control">
                 </div>
             </div>
@@ -141,7 +146,7 @@
             <div class="form-group m-t-2">
                 <label for="tax">Tax</label>
                 <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-usd"></i></span>
+                    <span class="input-group-addon">SEK</span>
                     <input type="number" id="tax" placeholder="" value="" name="tax" class="form-control">
                 </div>
             </div>
@@ -151,7 +156,7 @@
             <div class="form-group m-t-2">
                 <label for="total_price">Total Price</label>
                 <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-usd"></i></span>
+                    <span class="input-group-addon">SEK</span>
                     <input type="number" id="total_price" placeholder="" value="" name="total_price" class="form-control">
                 </div>
             </div>
@@ -160,7 +165,7 @@
             <div class="form-group m-t-2">
                 <label for="deposit">Deposit</label>
                 <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-usd"></i></span>
+                    <span class="input-group-addon">SEK</span>
                     <input type="number" id="deposit" placeholder="" value="" name="deposit" class="form-control">
                 </div>
             </div>
@@ -191,38 +196,31 @@
                 <td><p><strong>Price</strong></p></td>
             </tr>
 
+            @foreach ($equipments as $eqp)
             <tr>
                 <td>
-                     <p>Wi-Fi</p>
+                     <p>{{ $eqp->title }}</p>
                 </td>
                 <td>
-                    <p>1</p>
+                    @if ($eqp->is_multi_units == 0)
+                        <p>1</p>
+                    @else
+                        <p><input type="number" name="units" value="1" min="1" class="form-control"></p>
+                    @endif
                 </td>
                 <td>
                     <label class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input">
                             <span class="custom-control-indicator"></span>
-                            €99.00 per booking
+                            @if ($eqp->criteria_id == 1)
+                                SEK {{ $eqp->price }} per booking
+                            @else
+                                SEK {{ $eqp->price }} per hour
+                            @endif
                     </label>
                 </td>
             </tr>
-
-            <tr>
-                <td>
-                     <p>Wi-Fi</p>
-                </td>
-                <td>
-                    <p><input type="number" name="units" value="1" min="1" class="form-control"></p>
-                </td>
-                <td>
-                    <label class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input">
-                            <span class="custom-control-indicator"></span>
-                            €99.00 per booking
-                    </label>
-                </td>
-            </tr>
-
+            @endforeach
 
         </table>
     </div>
@@ -246,9 +244,10 @@
                 <td><p><strong>Price</strong></p></td>
             </tr>
 
+            @foreach ($foodItems as $food)
             <tr>
                 <td>
-                     <p>Tea</p>
+                     <p>{{ $food->title }}</p>
                 </td>
                 <td>
                     <p><input type="number" name="units" value="1" min="1" class="form-control"></p>
@@ -257,10 +256,11 @@
                     <label class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input">
                             <span class="custom-control-indicator"></span>
-                            €3.00 per attendee
+                            SEK {{ $food->price }} per attendee
                     </label>
                 </td>
             </tr>
+            @endforeach
 
 
         </table>

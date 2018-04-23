@@ -3,6 +3,7 @@
 
 @section('content')
 
+
      <div class="px-content">
         <div class="page-header">
             <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Conference Bookings / </span>Add Conference Booking</h1>
@@ -33,30 +34,52 @@
 
     <script>
 
-<<<<<<< HEAD
-
-
-    // -------------------------------------------------------------------------
-    // Initialize Select2
-=======
             // -------------------------------------------------------------------------
             // Initialize Select2
->>>>>>> master
+
 
             $(function() {
-              $('.select2').select2({
-                placeholder: 'Select value',
-              });
+              $('.select2-rooms').select2({
+                placeholder: 'Select Room',
+              })
             });
 
+            $(function() {
+              $('.select2-layouts').select2({
+                placeholder: 'Select Room Layout',
+              })
+            });
+
+            $(function() {
+              $('.select2-duration').select2({
+                placeholder: 'Select Duration',
+              })
+            });
+
+            $(function() {
+              $('.select2-duration').select2({
+                placeholder: 'Select Duration',
+              })
+            });
+
+            $(function() {
+              $('.select2-status').select2({
+                placeholder: 'Select Booking Status',
+              })
+            });
+
+            $(function() {
+              $('.select2-payment-methods').select2({
+                placeholder: 'Select Payment Method',
+              })
+            });
 
             
           $('#booking_date').daterangepicker({
             singleDatePicker: true,
             showDropdowns: true,
-            timePicker: true,
             locale: {
-                format: 'MM/DD/YYYY h:mm A'
+                format: 'MM/DD/YYYY'
             }
           },
           function(start, end, label) {

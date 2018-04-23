@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use DB;
 
 class ConferenceBookingController extends AppBaseController
 {
@@ -52,12 +53,19 @@ class ConferenceBookingController extends AppBaseController
     {
         $this->conferenceBookingRepository->pushCriteria(new RequestCriteria($request));
         $conferenceBookings = $this->conferenceBookingRepository->all();
-        $conferenceBookings = $this->conferenceBookingRepository->all();
+        $paymentMethods = $this->paymentMethodRepository->all();
         $conferenceDurations = $this->conferenceDurationRepository->all();
+        $roomLayouts = $this->roomLayoutRepository->all();
+        $equipments = $this->equipmentRepository->all();
+        $foodItems = $this->foodRepository->all();
 
         $data = [
                 'conferenceBookings' => $conferenceBookings,
                 'conferenceDurations' => $conferenceDurations,
+                'paymentMethods' => $paymentMethods,
+                'roomLayouts' => $roomLayouts,
+                'equipments' => $equipments,
+                'foodItems' => $foodItems,
             ];
 
         return view('company.Conference.conference_bookings.index', $data);
@@ -70,7 +78,27 @@ class ConferenceBookingController extends AppBaseController
      */
     public function create()
     {
-        return view('company.Conference.conference_bookings.create');
+        $conferenceBookings = $this->conferenceBookingRepository->all();
+        $paymentMethods = $this->paymentMethodRepository->all();
+        $conferenceDurations = $this->conferenceDurationRepository->all();
+        $roomLayouts = $this->roomLayoutRepository->all();
+        $equipments = $this->equipmentRepository->all();
+        $foodItems = $this->foodRepository->all();
+        $rooms = DB::table('rooms')->orderBy('name', 'asc')->get();
+
+        // dd($rooms);
+
+        $data = [
+                'conferenceBookings' => $conferenceBookings,
+                'conferenceDurations' => $conferenceDurations,
+                'paymentMethods' => $paymentMethods,
+                'roomLayouts' => $roomLayouts,
+                'equipments' => $equipments,
+                'foodItems' => $foodItems,
+                'rooms' => $rooms,
+
+            ];
+        return view('company.Conference.conference_bookings.create', $data);
     }
 
     /**
