@@ -16,6 +16,17 @@
 	    font-family: Arial, Helvetica, sans-serif;
 	}
 
+@media print {
+
+	@page{
+        size: auto;   /* auto is the current printer page size */
+        margin: 0mm;  /* this affects the margin in the printer settings */
+    }
+     #btn_print{ display: none !important; } 
+  
+}
+
+
 </style>
 @unless(empty($Invoice))
 <div id="doc">
@@ -23,7 +34,7 @@
 	<div>
 		
 		<div style="width: 50%; padding: 10px; display: inline-block;">
-			<h1 style="color: #48af4d;">HIGHNOX</h1>
+			<h1 id="logo" style="color: #48af4d;">HIGHNOX</h1>
 		</div>
 
 		<div style="width: 30%; padding: 10px; display: inline-block;">
@@ -32,7 +43,7 @@
 
 <!-- 			<p style="margin: 10px 0;"><strong>$Invoice['Company']->phone </strong></p>
 			<p style="margin: 10px 0;"><strong>$Invoice['Company']->address</strong></p> -->
-			<button style="float: right;padding: 5px;"><i class="fa fa-print"></i>&nbsp;print</button>
+			<button id="btn_print" style="float: right;padding: 5px;"><i class="fa fa-print"></i>&nbsp;print</button>
 		</div>
 
 	</div>
@@ -178,7 +189,6 @@
 
 	$('button').click(function(){
 
-		$('button').hide();	
 		window.print();
 
 		// var WinPrint = window.open('','','left=100,top=10,width=600,height=600,toolbar=0,scrollbars=0,status=0');
