@@ -24,7 +24,7 @@ class ConferenceDuration extends Model
     public $table = 'conference_durations';
     
 
-    $timestamps = false;
+    public $timestamps = false;
 
     public $fillable = [
         'code',

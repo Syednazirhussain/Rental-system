@@ -5,6 +5,11 @@ namespace App\Http\Controllers\Company\Conference;
 use App\Http\Requests\Company\Conference\CreateConferenceBookingRequest;
 use App\Http\Requests\Company\Conference\UpdateConferenceBookingRequest;
 use App\Repositories\ConferenceBookingRepository;
+use App\Repositories\RoomLayoutRepository;
+use App\Repositories\ConferenceDurationRepository;
+use App\Repositories\EquipmentsRepository;
+use App\Repositories\PaymentMethodRepository;
+use App\Repositories\FoodRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
@@ -15,10 +20,26 @@ class ConferenceBookingController extends AppBaseController
 {
     /** @var  ConferenceBookingRepository */
     private $conferenceBookingRepository;
+    private $roomLayoutRepository;
+    private $conferenceDurationRepository;
+    private $equipmentRepository;
+    private $paymentMethodRepository;
+    private $foodRepository;
 
-    public function __construct(ConferenceBookingRepository $conferenceBookingRepo)
+    public function __construct(ConferenceBookingRepository $conferenceBookingRepo,
+                                RoomLayoutRepository $roomLayoutRepo,
+                                EquipmentsRepository $equipmentRepo,
+                                PaymentMethodRepository $paymentMethodRepo,
+                                FoodRepository $foodRepo,
+                                ConferenceDurationRepository $conferenceDurationRepo
+                                )
     {
         $this->conferenceBookingRepository = $conferenceBookingRepo;
+        $this->roomLayoutRepository = $roomLayoutRepo;
+        $this->conferenceDurationRepository = $conferenceDurationRepo;
+        $this->equipmentRepository = $equipmentRepo;
+        $this->paymentMethodRepository = $paymentMethodRepo;
+        $this->foodRepository = $foodRepo;
     }
 
     /**
@@ -31,9 +52,15 @@ class ConferenceBookingController extends AppBaseController
     {
         $this->conferenceBookingRepository->pushCriteria(new RequestCriteria($request));
         $conferenceBookings = $this->conferenceBookingRepository->all();
+        $conferenceBookings = $this->conferenceBookingRepository->all();
+        $conferenceDurations = $this->conferenceDurationRepository->all();
 
-        return view('company.Conference.conference_bookings.index')
-            ->with('conferenceBookings', $conferenceBookings);
+        $data = [
+                'conferenceBookings' => $conferenceBookings,
+                'conferenceDurations' => $conferenceDurations,
+            ];
+
+        return view('company.Conference.conference_bookings.index', $data);
     }
 
     /**

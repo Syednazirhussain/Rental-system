@@ -20,6 +20,7 @@ class ConferenceBookingRepository extends BaseRepository
      * @var array
      */
     protected $fieldSearchable = [
+        'customer_id',
         'booking_date',
         'start_dateime',
         'end_datetime',
