@@ -33,6 +33,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string|\Carbon\Carbon updated_at
  * @property string|\Carbon\Carbon deleted_at
  */
+
 class User extends Authenticatable
 {
 
@@ -135,5 +136,13 @@ class User extends Authenticatable
     public function companyUser()
     {
         return $this->hasOne('App\Models\CompanyUser', 'user_id', 'id');
+    }
+
+    /**
+     * A user has many groups - one to many relation
+     */
+    public function groups()
+    {
+        return $this->hasMany('App\Models\Group','user_id', 'id');
     }
 }

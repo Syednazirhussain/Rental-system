@@ -21,6 +21,7 @@
     @yield('css')
 
     <link href="{{ asset('/skin-1/assets/css/custom.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
     <!-- holder.js -->
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/holder/2.9.0/holder.js"></script>
     <!-- Pace.js -->
@@ -54,6 +55,29 @@
                             {{--<li><a href="{{ route('company.users.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
                                     User</a></li>--}}
                             <li><a href="{{ route('company.users.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Company Admin Users</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-toggle">
+                        <a href="{{ route('company.newsletter.dashboard') }}">NewsLetter System</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ route('company.newsletter.dashboard') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Dashboard</a>
+                            </li>
+                            <li><a href="{{ route('company.newsletterGroups.sendmail') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Send Mail</a>
+                            </li>
+                            <li class="dropdown-toggle">
+                                <a href>Group</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ route('company.newsletterGroups.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Group</a></li>
+                                    <li><a href="{{ route('company.newsletterGroups.index') }}"><i class="fa fa-cube"></i>&nbsp;&nbsp;Groups</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-toggle">
+                                <a href>Customers</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ route('company.newsletterCustomers.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Customers</a></li>
+                                    <li><a href="{{ route('company.newsletterCustomers.list') }}"><i class="fa fa-cube"></i>&nbsp;&nbsp;Customers</a></li>
+                                </ul>
                             </li>
                         </ul>
                     </li>
