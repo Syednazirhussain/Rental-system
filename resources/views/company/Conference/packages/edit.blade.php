@@ -4,13 +4,13 @@
 
      <div class="px-content">
         <div class="page-header">
-            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Packages / </span>Edit Package</h1>
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Packages / </span>Edit "{{$packages->title}}"</h1>
         </div>
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
                 <div class="panel">
                     <div class="panel-heading">
-                        <div class="panel-title">Edit Package</div>
+                        <div class="panel-title">Edit "{{$packages->title}}"</div>
                     </div>
                     <div class="panel-body">
                       <form id="packageForm" action="{{ route('company.conference.packages.update', $packages->id) }}" method="POST">

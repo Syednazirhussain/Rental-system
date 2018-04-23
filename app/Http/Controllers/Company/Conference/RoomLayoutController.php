@@ -138,6 +138,17 @@ class RoomLayoutController extends AppBaseController
             return redirect(route('company.conference.roomLayouts.index'));
         }
 
+
+        if ($request->hasFile('image') && !empty($request->hasFile('image'))) {
+
+                $path = $request->file('image')->store('public/room_layouts_images');
+                $path = explode("/", $path);
+                $request->image = $path[2];
+
+        }
+
+
+
         $roomLayout = $this->roomLayoutRepository->update($request->all(), $id);
 
         Session::flash("successMessage", "The Room Layout has been updated successfully.");

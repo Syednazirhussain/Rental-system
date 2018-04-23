@@ -60,7 +60,7 @@
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
-    <button type="submit" class="btn btn-primary">@if(isset($packages)) <i class="fa fa-refresh"></i>  Update Package @else<i class="fa fa-plus"></i>  Add Package @endif</button>
+    <button type="submit" class="btn btn-primary">@if(isset($packages)) <i class="fa fa-refresh"></i>  Update  @else<i class="fa fa-plus"></i>  Add  @endif</button>
     <a href="{!! route('company.conference.packages.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> Cancel</a>
 </div>
 
