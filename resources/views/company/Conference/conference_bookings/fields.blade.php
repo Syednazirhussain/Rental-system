@@ -36,7 +36,9 @@
             <select class="form-control select2-rooms" id="room_id" name="room_id">
                 <option value=""></option>
                 @foreach ($rooms as $room)
-                <option value="{{ $room->id }}">{{ $room->name }}</option>
+                <option value="{{ $room->id }}" data-hour-price="{{ $room->perhour_price }}" data-day-price="{{ $room->perday_price }}">
+                {{ $room->name }}
+                </option>
                 @endforeach
             </select>
         </div>
@@ -45,20 +47,20 @@
         <div class="form-group m-t-2">
             <label for="room_layout_id">Room Layout</label>
             <select class="form-control select2-layouts" id="room_layout_id" name="room_layout_id">
-                <option value=""></option>                
-                <option>Class Room</option>
-                <option>Conference Hall</option>
-                <option>Meeting Room</option>
+                <option value=""></option>   
+                @foreach ($roomLayouts as $layout)
+                <option value="{{ $layout->id }}">{{ $layout->title }}</option>
+                @endforeach
             </select>
         </div>
 
         <!-- Duration Code Field -->
-        <div class="form-group m-t-2">
+        <div class="form-group m-t-2" id="duration-section">
             <label for="duration_code">Duration</label>
             <select class="form-control select2-duration" id="duration_code" name="duration_code">
                 <option value=""></option>
                 @foreach ($conferenceDurations as $duration)
-                <option value="{{ $duration->code }}">{{ $duration->name }}</option>
+                <option value="{{ $duration->code }}" data-duration-code="{{ $duration->code }}">{{ $duration->name }}</option>
                 @endforeach
             </select>
         </div>
@@ -66,15 +68,15 @@
 
         <!-- Start Dateime Field -->
 
-        <div class="form-group m-t-2">
-            <label for="start_dateime">Start Datetime</label>
-            <input type="text" id="start_dateime" placeholder="" value="" name="start_dateime" class="form-control">
+        <div class="form-group m-t-2 start-time">
+            <label for="start_datetime">Start Datetime</label>
+            <input type="text" id="start_datetime" placeholder="" value="" name="start_datetime" class="form-control">
         </div>
 
 
         <!-- End Datetime Field -->
 
-        <div class="form-group m-t-2">
+        <div class="form-group m-t-2 end-time">
             <label for="end_datetime">End Datetime</label>
             <input type="text" id="end_datetime" placeholder="" value="" name="end_datetime" class="form-control">
         </div>
