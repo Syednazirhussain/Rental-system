@@ -159,6 +159,14 @@
                         </ul>
                     </li>
                     <li class="dropdown-toggle">
+                        <a href="{{ route('company.companyInvoices.index') }}">Invoices</a>
+                        <ul class="dropdown-menu">
+
+                            <li><a href="{{ route('company.companyInvoices.index') }}"><i class="fa fa-building-o"></i>&nbsp;&nbsp;Invoices</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-toggle">
                         <a href>Settings</a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ route('admin.userRoles.index') }}"><i class="fa fa-users"></i>&nbsp;&nbsp;User

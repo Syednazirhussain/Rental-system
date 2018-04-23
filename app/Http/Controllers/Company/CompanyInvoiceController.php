@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\UpdateCompanyInvoiceRequest;
 use App\Models\City;
 use App\Models\Company;
 use App\Models\Country;
+use App\Models\PaymentCycle;
 use App\Models\Room;
 use App\Models\RoomContracts;
 use App\Repositories\CompanyInvoiceRepository;
@@ -87,7 +88,7 @@ class CompanyInvoiceController extends AppBaseController
         $this->companyInvoiceRepository->pushCriteria(new RequestCriteria($request));
 
         $Invoices = $this->companyInvoiceRepository->all();
-        return view('admin.company_invoices.index')->with('Invoices', $Invoices);
+        return view('company.company_invoices.index')->with('Invoices', $Invoices);
     }
 
     public function getCompanyDetailById($company_id)
@@ -217,13 +218,29 @@ class CompanyInvoiceController extends AppBaseController
             $tax        = $company_infomation['discount'];
             $total      = '5000';
 
+            $company_admin_id = Auth::user()->companyUser()->first()->id;
+            $company_admin = Company::find($company_admin_id);
+            $admin_address = [
+                'city' => City::find($company_admin->city_id)->name,
+                'state' => State::find($company_admin->state_id)->name,
+                'country' => Country::find($company_admin->country_id)->name
+            ];
+
+            $current_room = Room::find(RoomContracts::find($contract_id)->room_id);
+            $price = [
+                'basic_price' => $current_room->price,
+                'discount' => RoomContracts::find($contract_id)->discount,
+                'tax' => $current_room->price * 0.25,
+                'total' => $current_room->price * 0.25 + $current_room->price,
+            ];
+
             $Invoice = [
                 'company_id'         => $company_id,
-                'payment_cycle_id'   => $company_infomation['PaymentCycleId'],
-                'payment_cycle'      => $company_infomation['PaymentMethod'],
+                'payment_cycle_id'   => $company_infomation->payment_cycle,
+                'payment_cycle'      => PaymentCycle::find($company_infomation->payment_cycle)->name,
                 'discount'           => $discount,
-                'tax'                => $tax,
-                'total'              => $total,
+                'tax'                => $current_room->price * 0.25,
+                'total'              =>  $current_room->price * 0.25 + $current_room->price,
                 'due_date'           => $extended_date
             ];
 
@@ -234,26 +251,11 @@ class CompanyInvoiceController extends AppBaseController
                 $lastInvoice =  $this->companyInvoiceRepository->getLastInsertedInvoiceId();
                 $Invoice_id =  $lastInvoice->id;
                 $company_infomation['Invoice_id'] = $Invoice_id;
-                $company_admin_id = Auth::user()->companyUser()->first()->id;
+
 
                 $Invoice_Item = ['invoice_id' => $Invoice_id, 'company_id' => $company_id];
                 if ($this->companyInvoiceItemRepository->create($Invoice_Item)) 
                 {
-                    $company_admin = Company::find($company_admin_id);
-                    $admin_address = [
-                        'city' => City::find($company_admin->city_id)->name,
-                        'state' => State::find($company_admin->state_id)->name,
-                        'country' => Country::find($company_admin->country_id)->name
-                    ];
-
-                    $current_room = Room::find(RoomContracts::find($contract_id)->room_id);
-                    $price = [
-                        'basic_price' => $current_room->price,
-                        'discount' => RoomContracts::find($contract_id)->discount,
-                        'tax' => $current_room->price * 0.25,
-                        'total' => $current_room->price * 0.25 + $current_room->price,
-                    ];
-
                     $company = [
                         'Company' => Company::find($company_id),
                         'Invoice_id' => $Invoice_id,
@@ -306,7 +308,7 @@ class CompanyInvoiceController extends AppBaseController
                         
                         session()->flash('msg.success', 'Invoice Message sent successfully');
 
-                        return redirect()->route('company.contracts.index');
+                        return redirect()->route('company.companyInvoices.index');
                     }
                     else
                     {
