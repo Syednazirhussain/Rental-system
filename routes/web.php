@@ -210,6 +210,68 @@ Route::group(['middleware' => ['admin.auth']], function () {
 
 
 
+
+
+
+
+
+
+
+
+	//Route::group(['middleware' => ['auth']], function() {
+	    // Group Create/Edit/Delete Routes
+	    // Route::resource('group', 'Admin\AdminGroupController');
+
+
+	Route::get('admin/groups', ['as'=> 'admin.newsletter.groups.index', 'uses' => 'Admin\AdminGroupController@index']);
+	Route::post('admin/groups', ['as'=> 'admin.newsletter.groups.store', 'uses' => 'Admin\AdminGroupController@store']);
+	Route::get('admin/groups/create', ['as'=> 'admin.newsletter.groups.create', 'uses' => 'Admin\AdminGroupController@create']);
+	Route::put('admin/groups/{group}/update', ['as'=> 'admin.newsletter.groups.update', 'uses' => 'Admin\AdminGroupController@update']);
+	Route::patch('admin/groups/{group}/update', ['as'=> 'admin.newsletter.groups.update', 'uses' => 'Admin\AdminGroupController@update']);
+	Route::delete('admin/groups/{group}/delete', ['as'=> 'admin.newsletter.groups.destroy', 'uses' => 'Admin\AdminGroupController@destroy']);
+	Route::get('admin/groups/{group}', ['as'=> 'admin.newsletter.groups.show', 'uses' => 'Admin\AdminGroupController@show']);
+	Route::get('admin/groups/{group}/edit', ['as'=> 'admin.newsletter.groups.edit', 'uses' => 'Admin\AdminGroupController@edit']);
+	Route::post('admin/groups/upload', ['as'=> 'admin.newsletter.groups.upload', 'uses' => 'Admin\AdminGroupController@upload']);
+	Route::get('admin/groups/get', ['as'=> 'admin.newsletter.groups.get', 'uses' => 'Admin\AdminGroupController@sendmail']);
+	Route::post('admin/groups/mailto', ['as'=> 'admin.newsletter.groups.mailto', 'uses' => 'Admin\AdminGroupController@mailto']);
+
+
+
+
+
+	    Route::resource('customer', 'Admin\AdminCustomerController');
+	    //Send mail view
+	    Route::get('/sendmail', ['as'=> 'admin.newsletter.sendmail', 'uses' => 'Admin\AdminGroupController@sendmail']);
+//	});
+	/*
+	 * Mail Send
+	 /
+	Route::post('/group/mailto', 'GroupController@mailto')->name("group.mailto");
+	/
+	  File Upload
+	 /
+	Route::post('/group/upload', 'GroupController@upload');
+	/*
+	 * Analytics from sendgrid
+	 */
+	Route::get('admin/newsletter/dashboard', ['as'=> 'admin.newsletter.dashboard', 'uses' => 'Admin\AdminNewsLetterController@analytic']);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 });
 
 
