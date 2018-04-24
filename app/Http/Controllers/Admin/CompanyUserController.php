@@ -104,8 +104,6 @@ class CompanyUserController extends AppBaseController
 
             $companyUser[$i]['user_id'] = $user->id;
             $companyUser[$i]['company_id'] = $data['company_id'];
-
-
             $i++;
         }
 

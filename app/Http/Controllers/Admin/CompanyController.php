@@ -70,17 +70,20 @@ class CompanyController extends AppBaseController
      */
     public function index(Request $request)
     {
-        /*echo storage_path("app");
-        exit;*/
-
         $this->companyRepository->pushCriteria(new RequestCriteria($request));
-        
         $companies = $this->companyRepository->all();
-
-
         $data = ['companies' => $companies];
-
         return view('admin.companies.index', $data);
+    }
+
+    public function profile($id)
+    {
+        $company = $this->companyRepository->findWithoutFail($id);
+        // foreach ($company->companyBuildings as $value) {
+        //     echo $value->name;
+        // }
+        // exit;
+        return view('admin.companies.profile',compact('company'));
     }
 
     /**

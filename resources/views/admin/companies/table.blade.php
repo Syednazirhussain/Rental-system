@@ -14,8 +14,8 @@
 
 @foreach($companies as $company)
   <tr class="odd gradeX">
-    <td>{{ ucfirst($company->name) }}</td>
-    <td>{{ $company->second_name }}</td>
+    <td><a href="{{ route('admin.company.profile',[$company->id]) }}">{{ ucfirst($company->name) }}</a></td>
+    <td><a href="{{ route('admin.company.profile',[$company->id]) }}">{{ $company->second_name }}</a></td>
     <td>{{ $company->address }}</td>
     <td>{{ $company->zipcode }}</td>
     <td>{{ $company->phone }}</td>
