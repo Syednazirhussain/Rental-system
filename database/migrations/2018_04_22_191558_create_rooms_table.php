@@ -15,8 +15,8 @@ class CreateRoomsTable extends Migration
     {
         Schema::create('rooms', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('floor_id')->unsigned();
-            $table->integer('company_id')->unsigned();
+            $table->integer('floor_id')->unsigned()->nullable()->index('floor_id');
+            $table->integer('company_id')->unsigned()->nullable()->index('company_id');
             $table->integer('service_id')->unsigned()->nullable()->index('service_id');
             $table->string('name');
             $table->integer('area');

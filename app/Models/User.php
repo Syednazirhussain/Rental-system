@@ -146,12 +146,4 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Group','user_id', 'id');
     }
 
-
-    /**
-     * A user has many groups - one to many relation
-     */
-    public function groups()
-    {
-        return $this->hasMany('App\Models\Group','user_id', 'id');
-    }
 }
