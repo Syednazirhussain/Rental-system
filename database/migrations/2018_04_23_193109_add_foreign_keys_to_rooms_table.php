@@ -16,6 +16,7 @@ class AddForeignKeysToRoomsTable extends Migration {
 		{
 			$table->foreign('company_id')->references('id')->on('companies')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 			$table->foreign('floor_id')->references('id')->on('company_floor_rooms')->onUpdate('RESTRICT')->onDelete('RESTRICT');
+			$table->foreign('service_id')->references('id')->on('services')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 		});
 	}
 
@@ -31,6 +32,7 @@ class AddForeignKeysToRoomsTable extends Migration {
 		{
 			$table->dropForeign('rooms_company_id_foreign');
 			$table->dropForeign('rooms_floor_id_foreign');
+			$table->dropForeign('rooms_service_id_foreign');
 		});
 	}
 

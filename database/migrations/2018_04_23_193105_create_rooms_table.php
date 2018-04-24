@@ -29,10 +29,6 @@ class CreateRoomsTable extends Migration
             $table->string('image5');
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('floor_id')->references('id')->on('company_floor_rooms');
-            $table->foreign('company_id')->references('id')->on('companies');
-            $table->foreign('service_id')->references('id')->on('services');
         });
     }
 
@@ -43,11 +39,6 @@ class CreateRoomsTable extends Migration
      */
     public function down()
     {
-        Schema::table('rooms', function (Blueprint $table) {
-            $table->dropForeign('rooms_floor_id_foreign');
-            $table->dropForeign('rooms_company_id_foreign');
-            $table->dropForeign('rooms_service_id_foreign');
-        });
         Schema::dropIfExists('rooms');
     }
 }
