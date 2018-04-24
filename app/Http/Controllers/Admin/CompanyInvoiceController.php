@@ -78,6 +78,7 @@ class CompanyInvoiceController extends AppBaseController
         $this->companyInvoiceRepository->pushCriteria(new RequestCriteria($request));
 
         $Invoices = $this->companyInvoiceRepository->all();
+
         return view('admin.company_invoices.index')->with('Invoices', $Invoices);
     }
 
@@ -179,6 +180,38 @@ class CompanyInvoiceController extends AppBaseController
     }
 
 
+    public function viewInvoiceByCompanyId($company_id,$invoice_id)
+    {
+        if($this->companyContractRepository->checkCompanyContract($company_id))
+        {
+
+            $company_infomation = $this->getCompanyDetailById($company_id);
+            $general_setting = $this->generalSettingRepository->getVendorInfomation();
+            $company_infomation['general_setting'] = json_decode($general_setting->meta_value);            
+
+
+            $setting    = json_decode($general_setting->meta_value);
+            $country_id = $setting->country_id;
+            $state_id   = $setting->state_id;
+            $city_id    = $setting->city_id;
+            $due_day    = $setting->due_day;
+
+            $company_infomation['names'] = $this->generalSettingRepository->getCityStateCountryName($city_id,$state_id,$country_id);
+
+            $dt = Carbon\Carbon::now();
+            $extended_date = $dt->addDays($due_day);
+            $company_infomation['extented_date'] = $extended_date;
+            $company_infomation['Invoice_id'] = $invoice_id;
+
+            return view('admin.companies.invoice')->with('Invoice',$company_infomation);
+        }
+        else
+        {
+            return json_encode(['status' => 'Failed','result' => 'Company contract expire']);
+        }        
+    }
+
+
     // This is the responsible to Insert and generate invoice by company ID  
     public function createInvoiceByCompanyId($company_id)
     {
@@ -189,7 +222,7 @@ class CompanyInvoiceController extends AppBaseController
             $general_setting = $this->generalSettingRepository->getVendorInfomation();
             $company_infomation['general_setting'] = json_decode($general_setting->meta_value);            
 
-            // return $general_setting->meta_value;
+
             $setting    = json_decode($general_setting->meta_value);
             $country_id = $setting->country_id;
             $state_id   = $setting->state_id;
@@ -218,18 +251,12 @@ class CompanyInvoiceController extends AppBaseController
                 'due_date'           => $extended_date
             ];
 
-           /* echo "<pre>";
-            print_r($Invoice);
-            echo "</pre>";
-
-            exit;*/
 
             // ---------------------  For Testing Invoice without entry into database ------------------ //
 
             // $lastInvoice =  $this->companyInvoiceRepository->getLastInsertedInvoiceId();
             // $Invoice_id =  $lastInvoice->id;
             // $company_infomation['Invoice_id'] = $Invoice_id;
-            
             // $data = ['Invoice' => $company_infomation];
             // $filename = $Invoice_id."_Invoices.pdf";
             // $lastInsertedInvoice = $this->companyInvoiceRepository->findWithoutFail($Invoice_id);
@@ -422,13 +449,14 @@ class CompanyInvoiceController extends AppBaseController
      */
     public function store(CreateCompanyInvoiceRequest $request)
     {
+
         $input = $request->all();
 
         $companyInvoice = $this->companyInvoiceRepository->create($input);
 
         Flash::success('Company Invoice saved successfully.');
 
-        return redirect(route('admin.companyInvoices.index'));
+        return redirect()->route('admin.companyInvoices.index');
     }
 
     /**
@@ -480,19 +508,23 @@ class CompanyInvoiceController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateCompanyInvoiceRequest $request)
+    public function update(UpdateCompanyInvoiceRequest $request)
     {
-        $companyInvoice = $this->companyInvoiceRepository->findWithoutFail($id);
 
-        if (empty($companyInvoice)) {
-            Flash::error('Company Invoice not found');
-
-            return redirect(route('admin.companyInvoices.index'));
+        $Invoice = explode("|", $request->checkboxes_hidden);
+        $status =  $request->status;
+        $i = 0;
+        foreach($Invoice as $inv)
+        {
+            if(isset($inv[$i]))
+            {
+                $Invoice = $this->companyInvoiceRepository->findWithoutFail($inv);
+                $Invoice->status = $status;
+                $Invoice->save();   
+            }
         }
-
-        $companyInvoice = $this->companyInvoiceRepository->update($request->all(), $id);
-
-        Flash::success('Company Invoice updated successfully.');
+        
+        session()->flash('msg.success','Marked invoices status change to '.$status);
 
         return redirect(route('admin.companyInvoices.index'));
     }
@@ -506,17 +538,20 @@ class CompanyInvoiceController extends AppBaseController
      */
     public function destroy($id)
     {
+
         $companyInvoice = $this->companyInvoiceRepository->findWithoutFail($id);
 
         if (empty($companyInvoice)) {
-            Flash::error('Company Invoice not found');
+            session()->flash('msg.error', 'Company invoice not found');
 
             return redirect(route('admin.companyInvoices.index'));
         }
 
         $this->companyInvoiceRepository->delete($id);
 
-        Flash::success('Company Invoice deleted successfully.');
+
+        session()->flash('msg.success', 'Company invoice deleted successfully.');
+
 
         return redirect(route('admin.companyInvoices.index'));
     }

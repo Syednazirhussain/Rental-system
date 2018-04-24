@@ -3,7 +3,7 @@
         <tr>
             <th>Title</th>
             <th>Price</th>
-            <th>Criteria Id</th>
+            <th>Booking Criteria</th>
             <th>Is Multi Units</th>
             <th>Action</th>
         </tr>
@@ -14,7 +14,7 @@
             <td>{!! $equipments->title !!}</td>
             <td>{!! $equipments->price !!}</td>
             <td>{!! $equipments->conferenceEquipmentsCriterion->title !!}</td>
-            <td>@if($equipments->is_multi_units == '1') Multiple @else Once @endif </td>
+            <td>@if($equipments->is_multi_units == '1') <label class="label label-success">Yes</label> @else <label class="label label-danger">No</label> @endif </td>
             <td>
                 {!! Form::open(['route' => ['company.conference.equipments.destroy', $equipments->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>

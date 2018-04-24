@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateTranslatorLanguagesTable extends Migration {
+class CreateRoomLayoutsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,13 +12,11 @@ class CreateTranslatorLanguagesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('translator_languages', function(Blueprint $table)
+		Schema::create('room_layouts', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('locale', 10)->unique();
-			$table->string('name', 60)->unique();
-			$table->timestamps();
-			$table->softDeletes();
+			$table->integer('room_id')->unsigned()->index('room_id');
+			$table->integer('room_layout_id')->unsigned()->index('room_layout_id');
 		});
 	}
 
@@ -30,7 +28,7 @@ class CreateTranslatorLanguagesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('translator_languages');
+		Schema::drop('room_layouts');
 	}
 
 }

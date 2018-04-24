@@ -13,7 +13,7 @@
                         <div class="panel-title">Add Package</div>
                     </div>
                     <div class="panel-body">
-                        <form action="{{ route('company.conference.packages.store') }}" method="POST" id="">
+                        <form action="{{ route('company.conference.packages.store') }}" method="POST" id="packageForm">
                     
 
                             @include('company.Conference.packages.fields')
@@ -28,31 +28,8 @@
 
 
 
-    @section('js')
-
-
-    <script>
-
-
-        // -------------------------------------------------------------------------
-        // Initialize Select2
-
-        $(function() {
-          $('.select2-example').select2({
-            placeholder: 'Select value',
-          });
-        });
-        $(function() {
-          $('.select2-example').select2({
-            placeholder: 'Select value',
-          });
-        });
-
-
-    </script>
-
-
-    @endsection
-
 
 @endsection
+
+
+

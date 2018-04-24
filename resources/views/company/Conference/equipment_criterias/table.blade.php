@@ -2,7 +2,6 @@
 <table class="table table-striped table-bordered" id="datatables">
     <thead>
         <tr>
-            <th>Code</th>
             <th>Title</th>
             <th>Action</th>
         </tr>
@@ -10,7 +9,6 @@
     <tbody>
         @foreach($equipmentCriterias as $equipmentCriteria)
              <tr class="odd gradeX">
-                <td>{{$equipmentCriteria->code}}</td>
                 <td>{{$equipmentCriteria->title}}</td>
                 <td>
                     {!! Form::open(['route' => ['company.conference.equipmentCriterias.destroy', $equipmentCriteria->id], 'method' => 'delete']) !!}

@@ -4,16 +4,16 @@
 
      <div class="px-content">
         <div class="page-header">
-            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Food &amp; Drinks / </span>Edit Food &amp; Drink</h1>
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Food &amp; Drinks / </span>Edit "{{$food->title}}"</h1>
         </div>
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel">
                     <div class="panel-heading">
-                        <div class="panel-title">Edit Food &amp; Drink</div>
+                        <div class="panel-title">Edit "{{$food->title}}"</div>
                     </div>
                     <div class="panel-body">
-                        <form action="{{ route('company.conference.foods.update', $food->id) }}" method="POST" id="">
+                        <form action="{{ route('company.conference.foods.update', $food->id) }}" method="POST" id="foodForm">
                            <input name="_method" type="hidden" value="PATCH">
                             @include('company.Conference.foods.fields')
 

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Session;
 
 class EquipmentCriteriaController extends AppBaseController
 {
@@ -59,11 +60,37 @@ class EquipmentCriteriaController extends AppBaseController
         
         $input = $request->all();
 
-        $equipmentCriteria = $this->equipmentCriteriaRepository->create($input);
 
-        Flash::success('Equipment Criteria saved successfully.');
+        if ( preg_match('/\s/',$input['title']) ) {
 
-        return redirect(route('company.conference.equipmentCriterias.index'));
+            $input['code'] = strtolower(str_replace(' ', '-', $input['title']));
+            $code = $input['code'];
+            
+        } else {
+            $input['code'] = strtolower($input['title']);
+            $code = $input['code'];
+        }
+
+        $checkCodeDuplication = $this->equipmentCriteriaRepository->checkCodeDuplication($code);
+
+
+
+        if ($checkCodeDuplication > 0) {
+
+            Session::flash("errorMessage", "The Equipment Criteria ".$input['title']." already Exist.");
+            return view('company.Conference.equipment_criterias.create');
+
+        } else {
+
+            $equipmentCriteria = $this->equipmentCriteriaRepository->create($input);
+
+            Session::flash("successMessage", "The Equipment Criteria has been added successfully.");
+
+            return redirect(route('company.conference.equipmentCriterias.index'));
+        }
+
+
+
     }
 
     /**
@@ -126,7 +153,7 @@ class EquipmentCriteriaController extends AppBaseController
 
         $equipmentCriteria = $this->equipmentCriteriaRepository->update($request->all(), $id);
 
-        Flash::success('Equipment Criteria updated successfully.');
+        Session::flash("successMessage", "The Equipment Criteria has been updated successfully.");
 
         return redirect(route('company.conference.equipmentCriterias.index'));
     }
@@ -150,7 +177,7 @@ class EquipmentCriteriaController extends AppBaseController
 
         $this->equipmentCriteriaRepository->delete($id);
 
-        Flash::success('Equipment Criteria deleted successfully.');
+        Session::flash("deleteMessage", "The Equipment Criteria has been deleted successfully.");
 
         return redirect(route('company.conference.equipmentCriterias.index'));
     }

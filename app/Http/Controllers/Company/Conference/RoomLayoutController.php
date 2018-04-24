@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Session;
 
 class RoomLayoutController extends AppBaseController
 {
@@ -74,7 +75,7 @@ class RoomLayoutController extends AppBaseController
 
         $roomLayout = $this->roomLayoutRepository->create($input);
 
-        Flash::success('Room Layout saved successfully.');
+        Session::flash("successMessage", "The Room Layout has been added successfully.");
 
         return redirect(route('company.conference.roomLayouts.index'));
     }
@@ -137,9 +138,20 @@ class RoomLayoutController extends AppBaseController
             return redirect(route('company.conference.roomLayouts.index'));
         }
 
+
+        if ($request->hasFile('image') && !empty($request->hasFile('image'))) {
+
+                $path = $request->file('image')->store('public/room_layouts_images');
+                $path = explode("/", $path);
+                $request->image = $path[2];
+
+        }
+
+
+
         $roomLayout = $this->roomLayoutRepository->update($request->all(), $id);
 
-        Flash::success('Room Layout updated successfully.');
+        Session::flash("successMessage", "The Room Layout has been updated successfully.");
 
         return redirect(route('company.conference.roomLayouts.index'));
     }
@@ -163,7 +175,7 @@ class RoomLayoutController extends AppBaseController
 
         $this->roomLayoutRepository->delete($id);
 
-        Flash::success('Room Layout deleted successfully.');
+        Session::flash("deleteMessage", "The Room Layout has been deleted successfully.");
 
         return redirect(route('company.conference.roomLayouts.index'));
     }

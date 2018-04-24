@@ -4,20 +4,21 @@
 
      <div class="px-content">
         <div class="page-header">
-            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Equipments / </span>Edit Equipment</h1>
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Equipments / </span>Edit {{$equipments->title}}</h1>
         </div>
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
                 <div class="panel">
                     <div class="panel-heading">
-                        <div class="panel-title">Edit Equipment</div>
+                        <div class="panel-title">Edit {{$equipments->title}}</div>
                     </div>
                     <div class="panel-body">
-                   {!! Form::model($equipments, ['route' => ['company.conference.equipments.update', $equipments->id], 'method' => 'patch']) !!}
+                        <form action="{{ route('company.conference.equipments.update', $equipments->id) }}" method="Post" id="equipmentForm">
+                            <input type="hidden" name="_method" value="PATCH">
 
-                        @include('company.Conference.equipments.fields')
+                            @include('company.Conference.equipments.fields')
 
-                   {!! Form::close() !!}
+                       </form>
                     </div>
                 </div>
             </div>

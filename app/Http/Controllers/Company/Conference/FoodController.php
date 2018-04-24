@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Session;
 
 class FoodController extends AppBaseController
 {
@@ -59,7 +60,7 @@ class FoodController extends AppBaseController
 
         $food = $this->foodRepository->create($input);
 
-        Flash::success('Food saved successfully.');
+        Session::flash("successMessage", "The Food and Drink has been added successfully.");
 
         return redirect(route('company.conference.foods.index'));
     }
@@ -124,8 +125,7 @@ class FoodController extends AppBaseController
 
         $food = $this->foodRepository->update($request->all(), $id);
 
-        Flash::success('Food updated successfully.');
-
+        Session::flash("successMessage", "The Food and Drink has been updated successfully.");
         return redirect(route('company.conference.foods.index'));
     }
 
@@ -148,8 +148,7 @@ class FoodController extends AppBaseController
 
         $this->foodRepository->delete($id);
 
-        Flash::success('Food deleted successfully.');
-
+        Session::flash("deleteMessage", "The Food and Drink has been deleted successfully.");
         return redirect(route('company.conference.foods.index'));
     }
 }

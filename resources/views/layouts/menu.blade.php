@@ -87,3 +87,15 @@
     <a href="{!! route('company.conference.equipments.index') !!}"><i class="fa fa-edit"></i><span>Equipments</span></a>
 </li>
 
+<li class="{{ Request::is('conferenceBookings*') ? 'active' : '' }}">
+    <a href="{!! route('company/Conference.conferenceBookings.index') !!}"><i class="fa fa-edit"></i><span>Conference Bookings</span></a>
+</li>
+
+<li class="{{ Request::is('conferenceDurations*') ? 'active' : '' }}">
+    <a href="{!! route('company/Conference.conferenceDurations.index') !!}"><i class="fa fa-edit"></i><span>Conference Durations</span></a>
+</li>
+
+<li class="{{ Request::is('conferenceBookingItems*') ? 'active' : '' }}">
+    <a href="{!! route('company/Conference.conferenceBookingItems.index') !!}"><i class="fa fa-edit"></i><span>Conference Booking Items</span></a>
+</li>
+

@@ -13,7 +13,7 @@
                         <div class="panel-title">Add Equipment</div>
                     </div>
                     <div class="panel-body">
-                        <form action="{{ route('company.conference.equipments.store') }}" method="POST" id="">
+                        <form action="{{ route('company.conference.equipments.store') }}" method="POST" id="equipmentForm">
 
                             @include('company.Conference.equipments.fields')
 
@@ -24,26 +24,26 @@
         </div>
     </div>
 
+@endsection
 
 
-    @section('js')
+@section('js')
 
 
-    <script>
+<script>
 
-        // -------------------------------------------------------------------------
-        // Initialize Select2
+    // -------------------------------------------------------------------------
+    // Initialize Select2
 
-        $(function() {
-          $('.select2-example').select2({
-            placeholder: 'Select value',
-          });
-        });
+    $(function() {
+      $('.select2-example').select2({
+        placeholder: 'Select value',
+      });
+    });
 
-    </script>
-
-
-    @endsection
+</script>
 
 
 @endsection
+
+

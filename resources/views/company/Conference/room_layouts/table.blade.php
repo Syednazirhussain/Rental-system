@@ -2,16 +2,22 @@
 <table class="table table-striped table-bordered" id="datatables">
     <thead>
         <tr>
+            <th width="100px">Image</th>
             <th>Title</th>
-            <th>Image</th>
-            <th>Action</th>
+            <th width="200px">Action</th>
         </tr>
     </thead>
     <tbody>
     @foreach($roomLayouts as $roomLayout)
         <tr>
-            <td>{!! $roomLayout->title !!}</td>
-            <td><img src="{{ asset('storage/room_layouts_images/'.$roomLayout->image) }}"></td>
+            <td width="100px">
+                @if($roomLayout->image != "default.png")
+                    <img src="{{ asset('storage/room_layouts_images/'.$roomLayout->image) }}" width="80px" class="border-panel b-a-1">
+                @else
+                    <img src="{{ asset('/skin-1/assets/images/default.png') }}" width="80px" class="border-panel b-a-1">
+                @endif
+            </td>
+            <td>{!! ucfirst($roomLayout->title) !!}</td>
             <td>
                 {!! Form::open(['route' => ['company.conference.roomLayouts.destroy', $roomLayout->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>

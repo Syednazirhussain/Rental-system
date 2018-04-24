@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Session;
 
 class PackagesController extends AppBaseController
 {
@@ -37,15 +38,8 @@ class PackagesController extends AppBaseController
         $this->packagesRepository->pushCriteria(new RequestCriteria($request));
         $packages = $this->packagesRepository->all();
 
-        // foreach ($packages as $key => $value) {
-        //     echo $value->items;
-        //     echo "<br>";
-        // }
-        // // dd($packages);
-        // exit;
-
         return view('company.Conference.packages.index')
-            ->with('packages', $packages);
+                ->with('packages', $packages);
     }
 
     /**
@@ -78,11 +72,9 @@ class PackagesController extends AppBaseController
 
         $input['items'] = json_encode($input['items']);
 
-
-
         $packages = $this->packagesRepository->create($input);
 
-        Flash::success('Packages saved successfully.');
+        Session::flash("successMessage", "The Package has been added successfully.");
 
         return redirect(route('company.conference.packages.index'));
     }
@@ -122,15 +114,25 @@ class PackagesController extends AppBaseController
         $getFoodItems = $this->foodRepository->getFoodItems();
 
 
+        $pieces = explode(",", $packages->items);
+
+        $pieces = str_replace('"', '', $pieces);
+        $pieces = str_replace(']', '', $pieces);
+        $pieces = str_replace('[', '', $pieces);
+
+
         if (empty($packages)) {
             Flash::error('Packages not found');
 
             return redirect(route('company.conference.packages.index'));
         }
 
+        // dd($pieces);
+
         $data = [
                     'getFoodItems' => $getFoodItems,
-                    'packages'=> $packages
+                    'packages'=> $packages,
+                    'pieces' => $pieces
                 ];
 
 
@@ -162,7 +164,7 @@ class PackagesController extends AppBaseController
 
         $packages = $this->packagesRepository->update($request->all(), $id);
 
-        Flash::success('Packages updated successfully.');
+        Session::flash("successMessage", "The Package has been updated successfully.");
 
         return redirect(route('company.conference.packages.index'));
     }
@@ -186,7 +188,7 @@ class PackagesController extends AppBaseController
 
         $this->packagesRepository->delete($id);
 
-        Flash::success('Packages deleted successfully.');
+        Session::flash("deleteMessage", "The Package has been deleted successfully.");
 
         return redirect(route('company.conference.packages.index'));
     }

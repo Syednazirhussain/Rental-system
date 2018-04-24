@@ -48,16 +48,47 @@
         <script type="text/javascript">
             // -------------------------------------------------------------------------
             // Initialize DataTables
-
+      $('document').ready(function(){
             $(function() {
               $('#datatables').dataTable({
                 
                 "order": [[ 0, "desc" ]]
               });
-
+              $('#datatables_wrapper .btn btn-default dropdown-toggle button').attr('name', 'status').attr('id','status');
               $('#datatables_wrapper .table-caption').text('Inovices');
               $('#datatables_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
             });
+
+            
+            $('#statusFrom').on('submit', function(e) {
+
+                var checkboxArr = "";
+
+                $('.invoice-checkbox').each(function() {
+                    if ($(this).is(":checked")) {
+                        checkboxArr += $(this).val()+"|";
+                    }
+                });
+
+                $('#checkboxes_hidden').val(checkboxArr);
+
+                if ($('#status-dropdown').val() == 0) {
+                   alert('Please select the invoice status');
+                   return false;
+                }
+
+                if ($('#checkboxes_hidden').val() == "") {
+                   alert('Please select atleast one item');
+                   return false;
+                }
+
+                return true;
+              
+            });
+
+            
+      });
+
         </script>
 @endsection
 
