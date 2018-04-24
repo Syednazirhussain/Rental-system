@@ -123,7 +123,6 @@ class CompanyController extends AppBaseController
      */
     public function store(CreateCompanyRequest $request)
     {
-
         $input = $request->all();
 
         if ($request->hasFile('logo')) {

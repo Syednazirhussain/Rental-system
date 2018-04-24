@@ -772,6 +772,7 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
                     var data = new FormData(myform);
                     data.append('company_id', company_id);
 
+
                     // console.log(data);
 
                     $.ajax({

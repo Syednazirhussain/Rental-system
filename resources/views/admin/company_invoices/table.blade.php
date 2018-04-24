@@ -33,7 +33,7 @@
                 <tr>
                   <td>
                     <div class="checkbox">
-                      <input type="checkbox" class="chk invoice-checkbox" name="invoice_checkboxes[]" value="{{ $Invoice->id }}">
+                      <input type="checkbox" class="chk invoice-checkbox" value="{{ $Invoice->id }}">
                     </div>
                   </td>
                   <td>{{ $Invoice->id }}</td>

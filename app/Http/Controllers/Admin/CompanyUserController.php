@@ -13,11 +13,15 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Faker\Factory as Faker;
 use Session;
 
+use App\Mail\AdminAccountConfirmation;
+use Mail;
+
 class CompanyUserController extends AppBaseController
 {
     /** @var  CompanyUserRepository */
     private $companyUserRepository;
     private $userRepository;
+
 
     public function __construct(CompanyUserRepository $companyUserRepo, UserRepository $userRepo)
     {
@@ -59,7 +63,23 @@ class CompanyUserController extends AppBaseController
      */
     public function store(CreateCompanyUserRequest $request)
     {
+
         $data = $request->all();
+
+        $email = [];
+        $password = [];
+        $name = [];
+
+        for($i = 0 ; $i<count($data['admin']) ; $i++)
+        {
+            $name[$i]     = $data['admin'][$i]['name'];
+            $email[$i]    = $data['admin'][$i]['email'];
+            $password[$i] = $data['admin'][$i]['password'];
+        }
+
+        // For Testing admin user emails
+        // $this->sendEmailAndPasswordToCompanyUsersAccount($name,$email,$password);
+        // exit;die();
 
         $input = [];
         $userIds = [];
@@ -90,6 +110,11 @@ class CompanyUserController extends AppBaseController
         }
 
         $companyUser = $this->companyUserRepository->insert($companyUser);
+
+        if($companyUser)
+        {
+            $this->sendEmailAndPasswordToCompanyUsersAccount($name,$email,$password);
+        }
 
         app('App\Http\Controllers\Admin\CompanyInvoiceController')->createInvoiceByCompanyId($data['company_id']);
         
@@ -147,16 +172,45 @@ class CompanyUserController extends AppBaseController
      *
      * @return Response
      */
+
+    private function sendEmailAndPasswordToCompanyUsersAccount($username = [],$email = [] , $password = [])
+    {
+        for($i = 0 ; $i<count($email) ; $i++)
+        {
+            $data = [
+                'username'  => $username[$i],
+                'email'     => $email[$i],
+                'password'  => $password[$i],
+                'url'       => route('temp.company.authenticate')
+            ];
+
+            Mail::to($email[$i])->send(new AdminAccountConfirmation($data));
+        }
+
+    }
+
+
+
     public function update(UpdateCompanyUserRequest $request)
     {
 
         $data = $request->all();
 
-       /* echo "<pre>";
-        print_r($data);
-        echo "</pre>";
+        // IF Anyone want email confirmation functionality on edit
+        // $email = [];
+        // $password = [];
+        // $name = [];
 
-        exit;*/
+        // for($i = 0 ; $i<count($data['admin']) ; $i++)
+        // {
+        //     $name[$i]     = $data['admin'][$i]['name'];
+        //     $email[$i]    = $data['admin'][$i]['email'];
+        //     $password[$i] = $data['admin'][$i]['password'];
+        // }
+        
+        // For Testing admin user emails
+        // $this->sendEmailAndPasswordToCompanyUsersAccount($name,$email,$password);
+        // exit;die();
 
         $input = [];
         $companyInput = [];
@@ -202,7 +256,6 @@ class CompanyUserController extends AppBaseController
                     /*echo "<pre>";
                     print_r($input);
                     echo "</pre>";
-
                     exit;*/
                 }
                 
@@ -215,6 +268,16 @@ class CompanyUserController extends AppBaseController
                 $companyInput['company_id'] = $data['company_id'];
 
                 $companyUser = $this->companyUserRepository->updateOrCreate($whereAdmin, $companyInput);
+
+                // IF Anyone want email confirmation functionality on edit
+
+                // If true then created otherwise maybe updated
+                // $wasCreated = $companyUser->wasRecentlyCreated; 
+
+                // if($wasCreated)
+                // {
+                //     $this->sendEmailAndPasswordToCompanyUsersAccount($name,$email,$password);
+                // }
 
 
                 if (strpos($admin['user_id'], 'new-') !== false) {
