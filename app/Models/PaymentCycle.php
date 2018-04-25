@@ -46,6 +46,6 @@ class PaymentCycle extends Model
     **/
     public function paymentMethod()
     {
-        return $this->hasMany(\App\Models\PaymentCycle::class);
+        return $this->hasMany(\App\Models\CompanyContract::class);
     }
 }

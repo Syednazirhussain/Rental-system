@@ -1,7 +1,7 @@
 @extends('admin.default')
 
 @section('css')
-
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
 <style type="text/css">
 	.form-group span{
 		border : 0;
@@ -16,15 +16,19 @@
 <div class="px-content">
     <div class="row m-t-1">
 
-	    <div class="col-md-4 col-lg-3">
+	    <div class="col-md-2">
 
 	        <div class="text-xs-center">
-	        	<img src="{{ storage_path('app').DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'company_logos'.DIRECTORY_SEPARATOR.$company->logo }}" alt="" class="page-profile-v1-avatar border-round">
+	        	@if( isset($company->logo) != 'default.png' )
+	        	<img src="{{ asset('storage/company_logos/'.$company->logo) }}" alt="" class="page-profile-v1-avatar border-round" width="150px">
+	        	@else
+	        	<img src="{{ asset('/skin-1/assets/images/default.png') }}" alt="" class="page-profile-v1-avatar border-round" width="150px">
+	        	@endif
 	        </div>
 
 	        <div class="panel panel-transparent">
 	          <div class="panel-heading p-x-1">
-	            <span class="panel-title">Description</span>
+	            <span class="panel-title"><strong>Description</strong></span>
 	          </div>
 	          <div class="panel-body p-a-1">
 	          	{{ $company->description }}
@@ -33,18 +37,32 @@
 
 	        <div class="panel panel-transparent">
 	          <div class="panel-heading p-x-1">
-	            <span class="panel-title">Location</span>
+	            <span class="panel-title"><strong>Location</strong></span>
 	          </div>
-	          <div class="list-group m-y-1">
-	            <p class="list-group-item p-x-1 b-a-0"><strong>Country&nbsp;</strong>{{ $company->country->name }}</p>
-	            <p class="list-group-item p-x-1 b-a-0"><strong>State&nbsp;</strong>{{ $company->state->name }}</p>
-	            <p class="list-group-item p-x-1 b-a-0"><strong>City&nbsp;</strong>{{ $company->city->name }}</p>
-	          </div>
-	        </div>
 
-	        <div class="panel panel-transparent">
+	          <div class="list-group m-y-1">
+	          	<table class="table">
+	          		<tr>
+	          			<td>Country</td>
+	          			<td><em>{{ $company->country->name }}</em></td>
+	          		</tr>
+	          		<tr>
+	          			<td>State</td>
+	          			<td><em>{{ $company->state->name }}</em></td>
+	          		</tr>
+	          		<tr>
+	          			<td>City</td>
+	          			<td>{{ $company->city->name }}</td>
+	          		</tr>
+	          		<tr>
+	          			<td>Zip Code</td>
+	          			<td><em>{{ $company->zipcode }}</em></td>
+	          		</tr>
+	          	</table>
+	          </div>
+
 	          <div class="panel-heading p-x-1">
-	            <span class="panel-title">Address</span>
+	            <span class="panel-title"><strong>Address</strong></span>
 	          </div>
 	          <div class="panel-body p-a-1">
 	          	{{ $company->address }}
@@ -52,11 +70,13 @@
 	        </div>
 
 
+
+
 	      </div>
 
 	      <hr class="page-wide-block visible-xs visible-sm">
 
-	      <div class="col-md-8 col-lg-9">
+	      <div class="col-md-10">
 
 	        <h1 class="font-size-20 m-y-4">{{ $company->name }}<span class="font-weight-normal">'s profile</span></h1>
 
@@ -95,86 +115,74 @@
 
 	        <div class="tab-content tab-content-bordered p-a-0 bg-white">
 	          <div class="tab-pane p-a-3 fade in active" id="contact_person">
-                            <h3 class="m-t-0">Company Contact Persons</h3>
-                            <div class="row">
-                                <div class="col-md-12" id="sectionContactPerson">
-                                    <div class="person">
+                    <h3 class="m-t-0">Contact Persons <a href="" title="Edit contact person"><i class="fa fa-pencil-square-o m-l-1"></i></a></h3>
+                    <div class="px-content">
+                    	@if (count($company->companyContactPeople) > 0)
+					    
+					        <div class="table-default">
+					          <table class="table" id="datatables1">
+					            <thead>
+					              <tr>
+					                <th>Name</th>
+					                <th>Email</th>
+					                <th>Phone</th>
+					                <th width="200px">Address</th>
+					                <th>Fax</th>
+					                <th>Department</th>
+					                <th>Designation</th>
+					              </tr>
+					            </thead>
+					            <tbody>
+					            @foreach ($company->companyContactPeople as $contactPerson)
+					              <tr class="odd gradeX">
+					              	<td>{{ $contactPerson->name }}</td>
+					              	<td>{{ $contactPerson->email }}</td>
+					              	<td>{{ $contactPerson->phone }}</td>
+					              	<td>{{ $contactPerson->address }}</td>
+					              	<td>{{ $contactPerson->fax }}</td>
+					              	<td>{{ $contactPerson->department }}</td>
+					              	<td>{{ $contactPerson->designation }}</td>
+					              </tr>
+					            @endforeach
+					            </tbody>
+					          </table>
+					        </div>
+					    @else
+					    	<div class="well">
+					    		<span class="text-center">No record found</span>
+					    	</div>
+					    @endif
+					</div>
 
-                                    @if (isset($company))
-                                        @foreach ($company->companyContactPeople as $contactPerson)
-                                        <div class="contactPersonFields">
-
-                                                <div class="row">
-                                                <div class="col-sm-6 form-group">
-                                                <fieldset class="form-group">
-                                                <label for="person-name">Name</label>
-                                                <span class="form-control">{{ $contactPerson->name }}</span>
-                                                </fieldset>
-                                                </div>
-                                                <div class="col-sm-6 form-group">
-                                                <fieldset class="form-group">
-                                                <label for="person-email">Email</label>
-                                                <span class="form-control">{{ $contactPerson->email }}</span>
-                                                </fieldset>
-                                                </div>
-                                                <div class="col-sm-6 form-group">
-                                                <fieldset class="form-group">
-                                                <label for="person-phone">Phone</label>
-                                                <span class="form-control">{{ $contactPerson->phone }}</span>
-                                                </fieldset>
-                                                </div>
-                                                <div class="col-sm-6 form-group">
-                                                <fieldset class="form-group">
-                                                <label for="person-fax">Fax</label>
-												<span class="form-control">{{ $contactPerson->fax }}</span>
-                                                </fieldset>
-                                                </div>
-                                                <div class="col-sm-12 form-group">
-                                                <fieldset class="form-group">
-                                                <label for="person-address">Address</label>
-												<span class="form-control">{{ $contactPerson->address }}</span>
-                                                </fieldset>
-                                                </div>
-                                                <div class="col-sm-6 form-group">
-                                                <fieldset class="form-group">
-                                                <label for="person-department">Department</label>
-                                                <span class="form-control">{{ $contactPerson->department }}</span>
-                                                </fieldset>
-                                                </div>
-                                                <div class="col-sm-6 form-group">
-                                                <fieldset class="form-group">
-                                                <label for="person-designation">Designation</label>
-                                                <span class="form-control">{{ $contactPerson->designation }}</span>
-                                                </fieldset>
-                                                </div>
-                                                </div>
-                                        </div>
-                                        @endforeach
-                                    @endif
-                                    </div>
-
-                                </div>
-                            </div>
 	          </div>
 	          <div class="tab-pane p-a-3 fade" id="contract">
-                                <h3 class="m-t-0">Company Contract Information</h3>
+                    <h3 class="m-t-0">Contract Information <a href="" title="Edit contact person"><i class="fa fa-pencil-square-o m-l-1"></i></a></h3>
                                 <div class="row">
                                     <div class="col-sm-12 form-group">
-                                        <label for="contract-no">Contract No.</label>
-                                        <span class="form-control">{{ $company->companySingleContract->number }}</span>
+                                    	<fieldset class="form-group">
+	                                        <label for="contract-no">Contract No.</label>
+	                                        <span class="form-control">{{ $company->companySingleContract->number }}</span>
+                                        </fieldset>
                                     </div>
                                     <div class="col-sm-12 form-group">
-                                        <label for="contract-description">Contract</label>
-                                        <span class="form-control">{{ strip_tags($company->companySingleContract->content) }}</span><br>
+                                    	<fieldset class="form-group">
+	                                        <label for="contract-description">Contract</label>
+	                                        <span class="form-control">{{ strip_tags($company->companySingleContract->content) }}</span><br>
+                                        </fieldset>
                                     </div>
                                     <div class="col-sm-6 form-group">
-                                        <label for="start-date">Start Date</label>
-                                        <span class="form-control">{{ date('m/d/Y', strtotime($company->companySingleContract->start_date)) }}</span>
+                                    	<fieldset class="form-group">
+	                                        <label for="start-date">Start Date</label>
+	                                        <span class="form-control">{{ Carbon\Carbon::parse($company->companySingleContract->start_date)->format('F d, Y') }}</span>
+                                        </fieldset>
                                     </div>
                                     <div class="col-sm-6 form-group">
-                                        <label for="end-date">End Date</label>
-                                        <span class="form-control">{{ date('m/d/Y', strtotime($company->companySingleContract->end_date)) }}</span>
+                                    	<fieldset class="form-group">
+	                                        <label for="end-date">End Date</label>
+	                                        <span class="form-control">{{ Carbon\Carbon::parse($company->companySingleContract->end_date)->format('F d, Y') }}</span>
+                                        </fieldset>
                                     </div>
+
                                     <div class="col-sm-6 form-group">
                                       <fieldset class="form-group">
                                           <label for="payment-method">Payment Method</label>
@@ -184,43 +192,90 @@
                                     <div class="col-sm-6 form-group">
                                         <fieldset class="form-group">
                                             <label for="payment-cycle">Payment Cycle</label>
-                                            <span class="form-control">{{ $company->companySingleContract->discount }}</span>
+                                            <span class="form-control">{{ $company->companySingleContract->paymentCycle->name }}</span>
                                         </fieldset>
                                     </div>
+
                                     <div class="col-sm-6 form-group">
-                                        <label for="discount">Discount</label>
-                                        <span class="form-control">{{ $company->companySingleContract->discount }}</span>
+                                    	<fieldset class="form-group">
+	                                        <label for="discount">Discount</label>
+	                                        <span class="form-control">{{ $company->companySingleContract->discount }}&nbsp;SEK</span>
+                                        </fieldset>
                                     </div>
                                      <div class="col-sm-6 form-group">
-                                        <label for="discountType">Discount Type</label>
-                                        <span class="form-control">{{ $company->companySingleContract->discountType->name }}</span>
+                                     	<fieldset class="form-group">
+	                                        <label for="discountType">Discount Type</label>
+	                                        <span class="form-control">{{ $company->companySingleContract->discountType->name }}</span>
+                                        </fieldset>
                                     </div>
                                 </div>
 	          </div>
 	          <div class="tab-pane p-a-3 fade" id="building">
+					<h3 class="m-t-0">Buildings Information <a href="" title="Edit contact person"><i class="fa fa-pencil-square-o m-l-1"></i></a></h3>
+					@if ( count($company->companyBuildings) > 0 )
+                    <table class="table">
+                    	@foreach ($company->companyBuildings as $building)
+                    	<thead>
+                    		<th width="300px">Building Name</th>
+                    		<th >Address</th>
+                    		<th>Zip Code</th>
+                    		<th>No. of Floors</th>
+                    	</thead>
+                    	<tbody>
+                    		<tr>
+                    			<td>{{ $building->name }}</td>
+                    			<td>{{ $building->address }}</td>
+                    			<td>{{ $building->zipcode }}</td>
+                    			<td>{{ $building->num_floors }}</td>
+                    		</tr>
+							@foreach ($company->companyFloorRoom as $floor)
+								@if ($floor->building_id == $building->id)
+								<tr>
+									<td>Floor Name: <span class="label label-success">{{ $floor->floor }}</span></td>
+									<td>No. of Rooms: <span class="label label-success">{{ $floor->num_rooms }}</span></td>
+								</tr>
+								@endif
+							@endforeach
+                    	</tbody>
+                    	@endforeach
+                    </table>
+                    @else
+			    	<div class="well">
+			    		<span class="text-center">No record found</span>
+			    	</div>
+                    @endif
 
-                                <h3 class="m-t-0">Building Information</h3>
+<!-- 
+
                                 <div id="sectionBuilding">
                                     <div class="building">
-                                        @if (isset($company))
+                                        @if ( count($company->companyBuildings) > 0 )
                                           @foreach ($company->companyBuildings as $building)
                                               <div class="buildingFields">
                                               <div class="row">
                                               <div class="col-sm-6 form-group">
+                                              <fieldset class="form-group">
                                               <label for="building-name">Building Name</label><br>
                                               <span class="label label-success">{{ $building->name }}</span>
+                                              </fieldset>
                                               </div>
                                               <div class="col-sm-6 form-group">
+                                              <fieldset class="form-group">
                                               <label for="building-address">Address</label>
                                               <span class="form-control">{{ $building->address }}</span>
+                                              </fieldset>
                                               </div>
                                               <div class="col-sm-6 form-group">
+                                              <fieldset class="form-group">
                                               <label for="building-zip">Zip Code</label>
                                               <span class="form-control">{{ $building->zipcode }}</span>
+                                              </fieldset>
                                               </div>
                                               <div class="col-sm-6 form-group">
+                                              <fieldset class="form-group">
                                               <label for="building-no-of-floors">No. of Floors</label>
                                               <span class="form-control">{{ $building->num_floors }}</span>
+                                              </fieldset>
                                               </div>
                                               </div>
 
@@ -231,13 +286,17 @@
                                                           <div class="row">
 
                                                           <div class="col-sm-6 form-group">
+                                                          <fieldset class="form-group">
                                                           <label for="building-floor-no">Floor Name</label>
                                                           <span class="form-control">{{ $floor->floor }}</span>
+                                                          </fieldset>
                                                           </div>
 
                                                           <div class="col-sm-6 form-group">
+                                                          <fieldset class="form-group">
                                                           <label for="building-floor-no-of-rooms">No. of Rooms</label>
                                                           <span class="form-control">{{ $floor->num_rooms }}</span>
+                                                          </fieldset>
                                                           </div>
 
                                                           </div>
@@ -249,133 +308,134 @@
                                               </div>
                                               <hr>
                                           @endforeach
+                                      @else
+								    	<div class="well">
+								    		<span class="text-center">No record found</span>
+								    	</div>
                                       @endif
                                     </div>
-                                </div>
+                                </div> -->
 
 	          </div>
 	          <div class="tab-pane p-a-3 fade" id="modules">
-                                <h3 class="m-t-0">Company Modules Information</h3>
-                                <div id="sectionModule">
-                                    <div class="module">
-                                        @if (isset($company))
-                                            @foreach ($company->companyModules as $comModule)
-                                              <div class="moduleFields">
-
-                                              <div class="row">
-
-                                              <div class="col-sm-6 form-group">
-                                              <label for="module">Module</label><br>
-                                              <span class="label label-success">{{ $comModule->module_id }}</span>
-                                              </div>
-                                              <div class="col-sm-6 form-group">
-                                              <label for="price">Module Name</label>
-                                              <span class="form-control">{{ $comModule->module->name }}</span>
-                                              </div>
-
-                                              <div class="col-sm-6 form-group">
-                                              <label for="price">Price</label>
-                                              <span class="form-control">{{ $comModule->price }}</span>
-                                              </div>
-
-                                              <div class="col-sm-6 form-group">
-                                              <label for="users_limit">Users Limit</label>
-                                              <span class="form-control">{{ $comModule->users_limit }}</span>
-                                              </div>
-
-                                              </div>
-                                              </div>
-                                              <hr>
-                                            @endforeach
-                                        @endif
-
-                                    </div>
-                                </div>
+					<h3 class="m-t-0">Modules Information <a href="" title="Edit contact person"><i class="fa fa-pencil-square-o m-l-1"></i></a></h3>
+                    <div id="sectionModule">
+                    	@if (isset($company))
+                        <div class="module">
+ 							<table class="table" id="datatables3">
+				              <thead>
+				                <tr>
+				                  <th>Module ID</th>
+				                  <th>Name</th>
+				                  <th>Price</th>
+				                  <th>Users Limit</th>
+				                </tr>
+				              </thead>
+				              <tbody>
+				                @foreach ($company->companyModules as $comModule)
+				                <tr>
+				                  <td><span class="label label-success">{{ $comModule->module_id }}</span></td>
+				                  <td>{{ $comModule->module->name }}</td>
+				                  <td>{{ $comModule->price }}&nbsp;SEK</td>
+				                  <td>{{ $comModule->users_limit }}</td>
+				                </tr>
+				                @endforeach
+				              </tbody>
+				            </table>                        	
+                        </div>
+                        @else
+							<div class="well">
+								<span class="text-center">No record found</span>
+							</div>
+                        @endif
+                    </div>
 	          </div>
 
 	          <div class="tab-pane p-a-3 fade" id="admin">
-                                <h3 class="m-t-0">Company Admin Information</h3>
-                                <div id="sectionAdmin">
-                                    <div class="admin">
-                                        @if (isset($company))
-                                          @foreach ($company->companyUsers as $admin)
-                                          
-                                            <div class="adminFields">
-
-                                            <div class="row">
-												<div class="col-md-6">
-												        <div class="panel box">
-<!-- 												          <div class="page-about-us-team-avatar box-cell p-y-3 p-l-3 valign-top">
-												            <img src="assets/demo/avatars/1.jpg" alt="" class="border-round">
-												          </div> -->
-												          <div class="box-cell p-y-2 p-x-3 valign-middle">
-												            <div class="font-size-14"><strong>{{ $admin->user->name }}</strong></div>
-												            <p class="text-muted font-size-11 font-weight-semibold">
-												            	{{ $admin->user->email }}
-												            </p>
-												            <p>
-												            	Role: <strong><?php echo ucfirst(str_replace('_', ' ', $admin->user->user_role_code)); ?></strong>
-												            </p>
-												          </div>
-												        </div>
-												</div>
-                                            </div>
-                                            </div>
-                                            <hr>
-                                          @endforeach
-
-                                        @endif
-                                    </div>
-                                </div>
+                    <h3 class="m-t-0">Admins Information <a href="" title="Edit contact person"><i class="fa fa-pencil-square-o m-l-1"></i></a></h3>
+                    <div id="sectionAdmin">
+                    	@if (isset($company))
+                        <div class="admin">
+ 							<table class="table">
+				              <thead>
+				                <tr>
+				                  <th>Name</th>
+				                  <th>Email</th>
+				                  <th>Role</th>
+				                </tr>
+				              </thead>
+				              <tbody>
+				              	
+				                @foreach ($company->companyUsers as $admin)
+				                <tr>
+				                  <td>{{ $admin->user->name }}</td>
+				                  <td>{{ $admin->user->email }}</td>
+				                  <td><?php echo ucfirst(str_replace('_', ' ', $admin->user->user_role_code)); ?></td>
+				                </tr>
+				                @endforeach
+				              </tbody>
+				            </table>                                        
+                        </div>
+                        @else
+							<div class="well">
+								<span class="text-center">No record found</span>
+							</div>
+                        @endif
+                    </div>
 	          </div>
-	          
+
 	          <div class="tab-pane p-a-3 fade" id="invoices">
-                                <h3 class="m-t-0">Company Invoices</h3>
-                                <div id="sectionBuilding">
-                                    <div class="building">
-                                        @if (isset($company->companyInvoices))
-                                          @foreach ($company->companyInvoices as $invoice)
-                                              <div class="buildingFields">
-
-                                              <div class="row">
-
-                                              <div class="col-sm-6 form-group">
-                                              <label for="building-name">Status</label><br>
-                                              @if($invoice->status == 'paid')
-                                              <span class="label label-success">{{ $invoice->status }}</span>
-                                              @else
-                                              <span class="label label-danger">{{ $invoice->status }}</span>
-                                              @endif
-                                              </div>
-                                              <div class="col-sm-6 form-group">
-                                              <label for="building-zip">Due Date</label>
-                                              <span class="form-control">{{ $invoice->due_date }}</span>
-                                              </div>
-                                              <div class="col-sm-6 form-group">
-                                              <label for="building-address">Payment Cycle</label>
-                                              <span class="form-control">{{ $invoice->paymentCycle->name }}</span>
-                                              </div>
-                                              <div class="col-sm-6 form-group">
-                                              <label for="building-no-of-floors">Discount</label>
-                                              <span class="form-control">{{ $invoice->discount }}</span>
-                                              </div>
-                                              <div class="col-sm-6 form-group">
-                                              <label for="building-no-of-floors">Tax</label>
-                                              <span class="form-control">{{ $invoice->tax }}</span>
-                                              </div>
-                                              <div class="col-sm-6 form-group">
-                                              <label for="building-no-of-floors">Total</label>
-                                              <span class="form-control">{{ $invoice->total }}</span>
-                                              </div>
-
-                                              </div>
-
-                                              </div>
-                                              <hr>
-                                          @endforeach
-                                      @endif
-                                    </div>
-                                </div>
+                    <h3 class="m-t-0">Invoices</h3>
+                    <div id="sectionBuilding">
+                        <div class="building">
+                   			@if ( count($company->companyInvoices) > 0)
+							<table class="table" id="datatables2">
+				              <thead>
+				                <tr>
+				                  <th>Payment Cycle</th>
+				                  <th>Discount</th>
+				                  <th>Tax</th>
+				                  <th>Total</th>
+				                  <th>Due Date</th>
+				                  <th>Status</th>
+				                  <th></th>
+				                </tr>
+				              </thead>
+				              <tbody>
+				                @foreach ($company->companyInvoices as $invoice)
+				                <tr>
+				                  <td>{{ $invoice->paymentCycle->name }}</td>
+				                  <td>{{ $invoice->discount }}&nbsp;SEK</td>
+				                  <td>{{ $invoice->tax }}&nbsp;SEK</td>
+				                  <td>{{ $invoice->total }}&nbsp;SEK</td>
+				                  <td>{{ Carbon\Carbon::parse($invoice->due_date)->format('F d, Y')  }}</td>
+				                  <td>
+				                  	@if($invoice->status == 'paid')
+				                        <span class="label label-success">{{ $invoice->status }}</span>
+				                    @else
+				                        <span class="label label-danger">{{ $invoice->status }}</span>
+				                    @endif
+				                  </td>
+				                  <td>
+				                  	<a href="{{ route('admin.viewInvoice',[$company->id,$invoice->id]) }}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;View</a>
+				                  	<form class="form-inline" style="display: inline;" action="{{ route('admin.companyInvoices.destroy', [$invoice->id]) }}" method="post">
+				                      <input name="_method" type="hidden" value="DELETE">
+				                      <input name="_token" type="hidden" value="{{ csrf_token() }}">
+				                      <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')""><i class="fa fa-trash"></i> Delete</button>
+				                    </form>
+				                  	<a href="{{ route('admin.sendInvoiceById',[$company->id,$invoice->id]) }}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-envelope"></span>&nbsp;Send Email</a>
+				                  </td>
+				                </tr>
+				                @endforeach
+				              </tbody>
+				            </table>
+				            @else
+				            	<div class="well">
+				            		<span class="text-md-center">No record available</span>
+				            	</div>
+				            @endif
+                        </div>
+                    </div>
 	          </div>
 	        </div>
 	    </div>
@@ -384,4 +444,29 @@
 </div>
 @endsection
 
+@section('js')
 
+  <script>
+
+
+    $(function() {
+      $('#datatables1').dataTable();
+      $('#datatables1_wrapper .table-caption').text('');
+      $('#datatables1_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
+    });
+
+    $(function() {
+      $('#datatables2').dataTable();
+      $('#datatables2_wrapper .table-caption').text('');
+      $('#datatables2_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
+    });
+
+    $(function() {
+      $('#datatables3').dataTable();
+      $('#datatables3_wrapper .table-caption').text('');
+      $('#datatables3_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
+    });
+
+  </script>
+
+@endsection

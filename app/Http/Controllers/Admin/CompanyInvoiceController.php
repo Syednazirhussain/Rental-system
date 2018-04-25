@@ -30,6 +30,7 @@ use Flash;
 use Response;
 use Carbon;
 use PDF;
+use URL;
 
 class CompanyInvoiceController extends AppBaseController
 {
@@ -161,6 +162,22 @@ class CompanyInvoiceController extends AppBaseController
     {
         $lastInvoice =  $this->companyInvoiceRepository->getLastInsertedInvoiceId();
         $Invoice_id =  $lastInvoice->id;      
+        $filename = $Invoice_id."_Invoices.pdf";         
+        $filePath = public_path().DIRECTORY_SEPARATOR."storage".DIRECTORY_SEPARATOR."company_invoices".DIRECTORY_SEPARATOR.$filename;
+        $data = ['Path' => $filePath];
+        $company_infomation = $this->getCompanyDetailById($company_id); 
+        foreach ($company_infomation['Contact_Person'] as $person) 
+        {
+            Mail::to($person->email)->send(new NewInvoiceMail($data));
+        }
+        $Invoices = $this->companyInvoiceRepository->all();
+        Session::Flash('SendEmails','Invoice send successfully to company contract persons');
+        return redirect()->route('admin.companyInvoices.index');
+    }
+
+    public function sendInvoiceToCompanyContractPersonByInvoiceId($company_id,$invoice_id)
+    {
+        $Invoice_id =  $invoice_id;      
         $filename = $Invoice_id."_Invoices.pdf";         
         $filePath = public_path().DIRECTORY_SEPARATOR."storage".DIRECTORY_SEPARATOR."company_invoices".DIRECTORY_SEPARATOR.$filename;
         $data = ['Path' => $filePath];
@@ -529,18 +546,36 @@ class CompanyInvoiceController extends AppBaseController
      */
     public function destroy($id)
     {
-
-        $companyInvoice = $this->companyInvoiceRepository->findWithoutFail($id);
-
-        if (empty($companyInvoice)) 
+        // dd(URL::previous());
+        
+        $arr = explode('/', URL::previous());
+        $urlLastParmeter = $arr[count($arr)-1];
+        if ($urlLastParmeter == 'profile') 
         {
-            session()->flash('msg.error', 'Company invoice not found');
+            $companyInvoice = $this->companyInvoiceRepository->findWithoutFail($id);
+            if (empty($companyInvoice)) 
+            {
+                session()->flash('msg.error', 'Company invoice not found');
+                return redirect(URL::previous());
+            }
+            $this->companyInvoiceRepository->delete($id);
+
+            session()->flash('msg.success', 'Company invoice deleted successfully.');
+            return redirect(URL::previous());
+        }
+        else
+        {
+            $companyInvoice = $this->companyInvoiceRepository->findWithoutFail($id);
+            if (empty($companyInvoice)) 
+            {
+                session()->flash('msg.error', 'Company invoice not found');
+                return redirect(route('admin.companyInvoices.index'));
+            }
+            $this->companyInvoiceRepository->delete($id);
+
+            session()->flash('msg.success', 'Company invoice deleted successfully.');
             return redirect(route('admin.companyInvoices.index'));
         }
 
-        $this->companyInvoiceRepository->delete($id);
-
-        session()->flash('msg.success', 'Company invoice deleted successfully.');
-        return redirect(route('admin.companyInvoices.index'));
     }
 }

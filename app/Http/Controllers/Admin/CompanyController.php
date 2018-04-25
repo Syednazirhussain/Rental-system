@@ -22,6 +22,7 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use PDF;
+use URL;
 
 class CompanyController extends AppBaseController
 {
@@ -79,9 +80,6 @@ class CompanyController extends AppBaseController
     public function profile($id)
     {
         $company = $this->companyRepository->findWithoutFail($id);
-
-        // return $company->companyInvoices;
-
         return view('admin.companies.profile',compact('company'));
     }
 

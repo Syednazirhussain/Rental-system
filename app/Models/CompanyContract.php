@@ -100,4 +100,9 @@ class CompanyContract extends Model
         return $this->belongsTo(\App\Models\DiscountType::class, 'discount_type', 'id');
     }
 
+    public function paymentCycle()
+    {
+        return $this->belongsTo(\App\Models\PaymentCycle::class, 'payment_cycle', 'id');
+    }
+
 }
