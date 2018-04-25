@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\CreateCompanyContactPersonRequest;
 use App\Http\Requests\Admin\UpdateCompanyContactPersonRequest;
-use App\Repositories\CompanyContactPersonRepository;
+use App\Repositories\Admin\CompanyContactPersonRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
@@ -139,7 +139,6 @@ class CompanyContactPersonController extends AppBaseController
     {
 
         $data = $request->all();
-
 
         $arr = [];
 

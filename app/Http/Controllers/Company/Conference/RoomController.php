@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Company\Conference;
 use App\Repositories\CountryRepository;
 use App\Repositories\StateRepository;
 use App\Repositories\CityRepository;
-use App\Repositories\UserRepository;
+use App\Repositories\Admin\UserRepository;
 
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;

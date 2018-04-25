@@ -5,7 +5,7 @@
 
 @section('css')
 
-        <!-- styles -->
+    <!-- styles -->
 
 
 @endsection
@@ -14,14 +14,14 @@
 @section('content')
 
 
-        <div class="px-content">
-            <div class="page-header">
-                <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Companies / </span>Add Company</h1>
-            </div>
-
-            @include('admin.companies.fields')
-
+    <div class="px-content">
+        <div class="page-header">
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Companies / </span>Add Company</h1>
         </div>
+
+        @include('admin.companies.fields')
+
+    </div>
 
 
 
@@ -35,13 +35,11 @@
 
 @section('js')
 
-<!-- js start -->
+    <!-- js start -->
 
-            @include('admin.companies.js')
+    @include('admin.companies.js')
 
 
-<!-- js end -->
+    <!-- js end -->
 
 @endsection
-
-

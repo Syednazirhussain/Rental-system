@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\CreateModuleRequest;
 use App\Http\Requests\Admin\UpdateModuleRequest;
-use App\Repositories\ModuleRepository;
+use App\Repositories\Admin\ModuleRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;

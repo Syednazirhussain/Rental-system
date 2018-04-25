@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\CreateUserRequest;
 use App\Http\Requests\Admin\UpdateUserRequest;
-
-use App\Repositories\UserRepository;
-
+use App\Repositories\Admin\UserRepository;
 
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
@@ -14,6 +12,10 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use Auth;
+use App\Models\UserRole;
+use App\Models\User;
+use App\Models\UserStatus;
+
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends AppBaseController
@@ -36,9 +38,10 @@ class UserController extends AppBaseController
     {
         $this->userRepository->pushCriteria(new RequestCriteria($request));
         $users = $this->userRepository->all();
+        $user_roles = UserRole::pluck('name', 'code');
+        $user_status = UserStatus::pluck('name', 'id');
 
-        return view('admin.users.index')
-            ->with('users', $users);
+        return view('admin.users.index', ['users' => $users, 'user_roles' => $user_roles, 'user_status' => $user_status]);
     }
 
     /**
@@ -48,7 +51,8 @@ class UserController extends AppBaseController
      */
     public function create()
     {
-        return view('admin.users.create');
+        $user_role = UserRole::all();
+        return view('admin.users.create', ['user_role' => $user_role]);
     }
 
     /**
@@ -61,11 +65,18 @@ class UserController extends AppBaseController
     public function store(CreateUserRequest $request)
     {
         $input = $request->all();
+        $password =  bcrypt($request->password);
+        $input['password'] = $password;
+        $input['user_status_id'] = "1";
 
-        $user = $this->userRepository->create($input);
+        $user = User::where('email', $request->email)->first();
+        if($user !== null) {
+            $request->session()->flash('msg.error', 'User Email already exists.');
+            return redirect(route('admin.users.index'));
+        }
 
-        Flash::success('User saved successfully.');
-
+        User::create($input);
+        $request->session()->flash('msg.success', 'User saved successfully.');
         return redirect(route('admin.users.index'));
     }
 
@@ -79,6 +90,8 @@ class UserController extends AppBaseController
     public function show($id)
     {
         $user = $this->userRepository->findWithoutFail($id);
+        $user_roles = UserRole::pluck('name', 'code');
+        $user_status = UserStatus::pluck('name', 'id');
 
         if (empty($user)) {
             Flash::error('User not found');
@@ -86,7 +99,7 @@ class UserController extends AppBaseController
             return redirect(route('admin.users.index'));
         }
 
-        return view('admin.users.show')->with('user', $user);
+        return view('admin.users.show', ['user' => $user, 'user_roles' => $user_roles, 'user_status' => $user_status]);
     }
 
     /**
@@ -99,6 +112,8 @@ class UserController extends AppBaseController
     public function edit($id)
     {
         $user = $this->userRepository->findWithoutFail($id);
+        $user_role = UserRole::all();
+        $all_roles = UserRole::pluck('name', 'code');
 
         if (empty($user)) {
             Flash::error('User not found');
@@ -106,7 +121,7 @@ class UserController extends AppBaseController
             return redirect(route('admin.users.index'));
         }
 
-        return view('admin.users.edit')->with('user', $user);
+        return view('admin.users.edit', ['user' => $user, 'user_role' => $user_role, 'all_roles' => $all_roles]);
     }
 
     /**
@@ -117,20 +132,14 @@ class UserController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateUserRequest $request)
+    public function update(Request $request, $id)
     {
-        $user = $this->userRepository->findWithoutFail($id);
+        $input = request()->except(['_token', '_method']);
+        $password =  bcrypt($request->password);
+        $input['password'] = $password;
 
-        if (empty($user)) {
-            Flash::error('User not found');
-
-            return redirect(route('admin.users.index'));
-        }
-
-        $user = $this->userRepository->update($request->all(), $id);
-
-        Flash::success('User updated successfully.');
-
+        User::where('id', $id)->update($input);
+        $request->session()->flash('msg.success', 'User updated successfully.');
         return redirect(route('admin.users.index'));
     }
 

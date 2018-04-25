@@ -21,7 +21,11 @@ use Eloquent as Model;
 class CompanyFloorRoom extends Model
 {
     public $table = 'company_floor_rooms';
-    
+
+
+    public $timestamps = true;
+
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     public $fillable = [
         'building_id',
@@ -30,7 +34,6 @@ class CompanyFloorRoom extends Model
         'num_rooms'
     ];
 
-    public $timestamps = false;
 
     /**
      * The attributes that should be casted to native types.
@@ -63,11 +66,19 @@ class CompanyFloorRoom extends Model
     }
 
 
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
     public function building()
     {
         return $this->belongsTo(\App\Models\CompanyBuilding::class, 'id', 'building_id');
+    }
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     **/
+    public function rooms()
+    {
+        return $this->hasMany('App\Models\Room', 'floor_id', 'id');
     }
 }

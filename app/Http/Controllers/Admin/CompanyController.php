@@ -4,16 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\CreateCompanyRequest;
 use App\Http\Requests\Admin\UpdateCompanyRequest;
-use App\Repositories\CompanyRepository;
-use App\Repositories\CompanyFloorRoomRepository;
+use App\Repositories\Admin\CompanyRepository;
+use App\Repositories\Admin\CompanyFloorRoomRepository;
 use App\Repositories\CountryRepository;
 use App\Repositories\StateRepository;
 use App\Repositories\CityRepository;
-use App\Repositories\PaymentCycleRepository;
-use App\Repositories\PaymentMethodRepository;
+use App\Repositories\Admin\PaymentCycleRepository;
+use App\Repositories\Admin\PaymentMethodRepository;
 use App\Repositories\UserStatusRepository;
 use App\Repositories\DiscountTypeRepository;
-use App\Repositories\ModuleRepository;
+use App\Repositories\Admin\ModuleRepository;
 
 
 use App\Http\Controllers\AppBaseController;
@@ -22,7 +22,13 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use PDF;
+
+
+
 use URL;
+
+use App\Models\Company;
+
 
 class CompanyController extends AppBaseController
 {
@@ -72,7 +78,15 @@ class CompanyController extends AppBaseController
     public function index(Request $request)
     {
         $this->companyRepository->pushCriteria(new RequestCriteria($request));
+
         $companies = $this->companyRepository->all();
+
+        
+        $companies = Company::where('room_contract_id', NULL)->get();
+
+
+
+
         $data = ['companies' => $companies];
         return view('admin.companies.index', $data);
     }

@@ -15,6 +15,7 @@ class AddForeignKeysToGroupsTable extends Migration {
 		Schema::table('groups', function(Blueprint $table)
 		{
 			$table->foreign('user_id')->references('id')->on('users')->onUpdate('RESTRICT')->onDelete('RESTRICT');
+            $table->foreign('company_id')->references('id')->on('companies')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 		});
 	}
 
@@ -29,6 +30,7 @@ class AddForeignKeysToGroupsTable extends Migration {
 		Schema::table('groups', function(Blueprint $table)
 		{
 			$table->dropForeign('groups_user_id_foreign');
+			$table->dropForeign('groups_company_id_foreign');
 		});
 	}
 

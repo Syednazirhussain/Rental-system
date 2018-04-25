@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\CreateCompanyFloorRoomRequest;
 use App\Http\Requests\Admin\UpdateCompanyFloorRoomRequest;
-use App\Repositories\CompanyFloorRoomRepository;
+use App\Repositories\Admin\CompanyFloorRoomRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;

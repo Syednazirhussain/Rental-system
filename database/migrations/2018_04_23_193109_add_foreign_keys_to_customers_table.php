@@ -15,6 +15,7 @@ class AddForeignKeysToCustomersTable extends Migration {
 		Schema::table('customers', function(Blueprint $table)
 		{
 			$table->foreign('group_id')->references('id')->on('groups')->onUpdate('RESTRICT')->onDelete('RESTRICT');
+			$table->foreign('company_id')->references('id')->on('companies')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 		});
 	}
 
@@ -29,6 +30,7 @@ class AddForeignKeysToCustomersTable extends Migration {
 		Schema::table('customers', function(Blueprint $table)
 		{
 			$table->dropForeign('customers_group_id_foreign');
+			$table->dropForeign('customers_company_id_foreign');
 		});
 	}
 

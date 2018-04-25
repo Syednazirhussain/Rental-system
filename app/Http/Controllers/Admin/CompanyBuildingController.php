@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\CreateCompanyBuildingRequest;
 use App\Http\Requests\Admin\UpdateCompanyBuildingRequest;
-use App\Repositories\CompanyBuildingRepository;
-use App\Repositories\CompanyFloorRoomRepository;
+use App\Repositories\Admin\CompanyBuildingRepository;
+use App\Repositories\Admin\CompanyFloorRoomRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;

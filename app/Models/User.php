@@ -33,15 +33,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string|\Carbon\Carbon updated_at
  * @property string|\Carbon\Carbon deleted_at
  */
+
 class User extends Authenticatable
 {
 
     use SoftDeletes;
-    
 
     public $table = 'users';
     
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
@@ -57,10 +57,7 @@ class User extends Authenticatable
         'profile_pic',
         'user_status_id',
         'uuid',
-        'remember_token',
-        'created_at',
-        'updated_at',
-        'deleted_at'
+        'first_login',
     ];
 
     /**
@@ -72,13 +69,12 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-
-
     /**
      * The attributes that should be casted to native types.
      *
      * @var array
      */
+
     protected $casts = [
         'id' => 'integer',
         'name' => 'string',
@@ -137,11 +133,10 @@ class User extends Authenticatable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function companyUsers()
+    public function companyUser()
     {
-        return $this->hasMany(\App\Models\Admin\CompanyUser::class);
+        return $this->hasOne('App\Models\CompanyUser', 'user_id', 'id');
     }
-
 
     /**
      * A user has many groups - one to many relation
@@ -150,4 +145,5 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Group','user_id', 'id');
     }
+
 }

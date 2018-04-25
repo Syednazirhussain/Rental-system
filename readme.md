@@ -23,6 +23,13 @@ php artisan migrate
 php artisan db:seed
 ```
 
+## Link the Storage 
+
+To link the app storage use this commnad 
+```    
+php artisan storage:link
+```
+
 ## Clear Config Cache
 
 If you have made any changes to project config, make sure to run the config cache command below
