@@ -44,5 +44,12 @@ class DiscountType extends Model
         
     ];
 
+
+    public function companyContract()
+    {
+        return $this->hasMany(\App\Models\CompanyContract::class);
+    }
     
+
+
 }

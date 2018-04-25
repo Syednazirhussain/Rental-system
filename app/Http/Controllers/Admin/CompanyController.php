@@ -79,10 +79,9 @@ class CompanyController extends AppBaseController
     public function profile($id)
     {
         $company = $this->companyRepository->findWithoutFail($id);
-        // foreach ($company->companyBuildings as $value) {
-        //     echo $value->name;
-        // }
-        // exit;
+
+        // return $company->companyInvoices;
+
         return view('admin.companies.profile',compact('company'));
     }
 

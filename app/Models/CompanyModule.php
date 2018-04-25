@@ -71,8 +71,10 @@ class CompanyModule extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
+
+    
     public function module()
     {
-        return $this->belongsTo(\App\Models\Module::class);
+        return $this->belongsTo(\App\Models\Module::class,'module_id','id');
     }
 }

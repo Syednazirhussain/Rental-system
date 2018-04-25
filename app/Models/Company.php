@@ -181,6 +181,15 @@ class Company extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
+    public function companyFloorRoom()
+    {
+        return $this->hasMany(\App\Models\CompanyFloorRoom::class,'company_id','id');
+    }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
     public function companySingleContract()
     {
         return $this->hasOne(\App\Models\CompanyContract::class);

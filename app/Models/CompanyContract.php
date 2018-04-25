@@ -92,4 +92,12 @@ class CompanyContract extends Model
     {
         return $this->belongsTo(\App\Models\Company::class);
     }
+
+
+
+    public function discountType()
+    {
+        return $this->belongsTo(\App\Models\DiscountType::class, 'discount_type', 'id');
+    }
+
 }

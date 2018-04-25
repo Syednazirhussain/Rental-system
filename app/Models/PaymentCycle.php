@@ -41,5 +41,11 @@ class PaymentCycle extends Model
         'name' => 'required|string'
     ];
 
-    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    **/
+    public function paymentMethod()
+    {
+        return $this->hasMany(\App\Models\PaymentCycle::class);
+    }
 }

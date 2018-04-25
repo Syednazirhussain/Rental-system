@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\Company;
+use App\Models\CompanyContract;
+
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
@@ -44,7 +46,6 @@ class CompanyRepository extends BaseRepository
         return Company::class;
     }
 
-
     public function companyCount()
     {
         return Company::count();
@@ -59,5 +60,10 @@ class CompanyRepository extends BaseRepository
     {
         return Company::find($company_id);
     }
+
+
+
+
+
 
 }
