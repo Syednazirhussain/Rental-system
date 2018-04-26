@@ -287,18 +287,6 @@ class ConferenceBookingController extends AppBaseController
             return redirect(route('company.conference.conferenceBookings.index'));
         }
 
-        foreach ($bookingItems as $key => $value) {
-        
-            // echo $value['entity_type'] . "..." . $value['entity_id'];
-            echo "<pre>";
-            print_r($value->entity_type);
-            echo "</pre>";
-
-        }
-
-        // dd($bookingItems);
-
-        exit();
 
         $data = [
                 'conferenceDurations'   => $conferenceDurations,

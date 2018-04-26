@@ -233,15 +233,40 @@
                     @endif
                 </td>
                 <td>
-                    <label class="custom-control custom-checkbox">
-                            <input type="checkbox" name="equipments[]" value="{{$eqp->id}}" class="custom-control-input equipment-check-box" data-eqpid="{{$eqp->id}}" data-eqpprice="{{$eqp->price}}" data-isMultiUnits="{{$eqp->is_multi_units}}" >
-                            <span class="custom-control-indicator"></span>
-                            @if ($eqp->criteria_id == 1)
-                                SEK {{ $eqp->price }} per booking
-                            @else
-                                SEK {{ $eqp->price }} per hour
-                            @endif
-                    </label>
+                    @if(isset($conferenceBooking))
+
+                        <label class="custom-control custom-checkbox">
+                                <input type="checkbox" name="equipments[]" value="{{$eqp->id}}" class="custom-control-input equipment-check-box" data-eqpid="{{$eqp->id}}" data-eqpprice="{{$eqp->price}}" data-isMultiUnits="{{$eqp->is_multi_units}}" 
+
+
+                                    <?php  
+
+                                     
+
+                                    ?>
+
+                                >
+                                <span class="custom-control-indicator"></span>
+                                @if ($eqp->criteria_id == 1)
+                                    SEK {{ $eqp->price }} per booking
+                                @else
+                                    SEK {{ $eqp->price }} per hour
+                                @endif
+                        </label>
+
+                    @else
+
+                        <label class="custom-control custom-checkbox">
+                                <input type="checkbox" name="equipments[]" value="{{$eqp->id}}" class="custom-control-input equipment-check-box" data-eqpid="{{$eqp->id}}" data-eqpprice="{{$eqp->price}}" data-isMultiUnits="{{$eqp->is_multi_units}}" >
+                                <span class="custom-control-indicator"></span>
+                                @if ($eqp->criteria_id == 1)
+                                    SEK {{ $eqp->price }} per booking
+                                @else
+                                    SEK {{ $eqp->price }} per hour
+                                @endif
+                        </label>
+
+                    @endif
                 </td>
             </tr>
             @endforeach
@@ -255,7 +280,7 @@
 
 
 
-
+            
 
 <div class="row">
 
@@ -269,9 +294,15 @@
                 <td><p><strong>Price</strong></p></td>
             </tr>
 
-            
 
             @foreach ($foodItems as $food)
+
+
+                <!-- @foreach ($bookingItems as $asd)
+                    <p>{{ $asd->entity_id }}</p>
+                    <p>{{ $asd->entity_type }}</p>
+                @endforeach -->
+
 
             <tr>
                 <td>
@@ -281,11 +312,37 @@
                     <p><input type="number" name="foodUnits[{{$food->id}}][qty]" class="form-control foodUnits" id="{{$food->id}}"  value="1" min="1" class="form-control"></p>
                 </td>
                 <td>
-                    <label class="custom-control custom-checkbox">
-                            <input type="checkbox" name="foods[]" value="{{$food->id}}" class="custom-control-input food-check-box" data-foodid="{{$food->id}}" data-foodprice="{{$food->price_per_attendee}}">
-                            <span class="custom-control-indicator "></span>
-                            SEK {{ $food->price_per_attendee }} per attendee
-                    </label>
+
+                    @if(isset($conferenceBooking))
+                    
+                        <label class="custom-control custom-checkbox">
+                                <input type="checkbox" name="foods[]" value="{{$food->id}}" class="custom-control-input food-check-box" data-foodid="{{$food->id}}" data-foodprice="{{$food->price_per_attendee}}" 
+
+                                    <?php  
+
+                                        foreach ($bookingItems as $key => $value) {
+                                            if ($value->entity_type == 'food' && $value->entity_id == $food->id) {
+                                                 echo "checked='checked'";
+                                             } 
+                                        }
+
+                                    ?>
+
+                                >
+                                <span class="custom-control-indicator "></span>
+                                SEK {{ $food->price_per_attendee }} per attendee
+                        </label>
+
+                    @else
+
+                        <label class="custom-control custom-checkbox">
+                                <input type="checkbox" name="foods[]" value="{{$food->id}}" class="custom-control-input food-check-box" data-foodid="{{$food->id}}" data-foodprice="{{$food->price_per_attendee}}"   >
+                                <span class="custom-control-indicator "></span>
+                                SEK {{ $food->price_per_attendee }} per attendee
+                        </label>
+
+                    @endif
+
                 </td>
             </tr>
 
