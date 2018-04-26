@@ -13,7 +13,8 @@
         <link href="{{ asset('/skin-1/assets/css/pixeladmin.min.css') }}" rel="stylesheet">
         <link href="{{ asset('/skin-1/assets/css/widgets.min.css') }}" rel="stylesheet">
         <link href="{{ asset('/skin-1/assets/css/themes/candy-green.min.css') }}" rel="stylesheet">
-        <link href="{{ asset('/skin-1/assets/css/bootstrap-timepicker.min.css') }}" rel="stylesheet">
+        <!-- timepicker commit by moiz bcz it is already available in theme and if we uncomment it, it will effect on timepicker plugins arrows -->
+        <!-- <link href="{{ asset('/skin-1/assets/css/bootstrap-timepicker.min.css') }}" rel="stylesheet"> -->
         <link href="{{ asset('/skin-1/assets/plugins/jasny-bootstrap/css/jasny-bootstrap.min.css') }}" rel="stylesheet">
 
         
@@ -160,7 +161,8 @@
         <script src="{{ asset('/skin-1/assets/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('/skin-1/assets/js/pixeladmin.min.js') }}"></script>
         <script src="{{ asset('/skin-1/assets/plugins/jasny-bootstrap/js/jasny-bootstrap.min.js') }}"></script>
-        <script src="{{ asset('/skin-1/assets/js/bootstrap-timepicker.min.js') }}"></script>
+        <!-- timepicker commit by moiz bcz it is already available in theme and if we uncomment it, it will effect on timepicker plugins arrows -->
+        <!-- <script src="{{ asset('/skin-1/assets/js/bootstrap-timepicker.min.js') }}"></script> -->
 
         <script src="{{ asset('/skin-1/assets/js/jquery.validate.min.js') }}"></script>
         <script src="{{ asset('/skin-1/assets/js/custom.js') }}"></script>

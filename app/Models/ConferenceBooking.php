@@ -51,7 +51,7 @@ class ConferenceBooking extends Model
     public $fillable = [
         'customer_id',
         'booking_date',
-        'start_dateime',
+        'start_datetime',
         'end_datetime',
         'attendees',
         'room_id',
@@ -62,6 +62,7 @@ class ConferenceBooking extends Model
         'room_price',
         'equipment_price',
         'food_price',
+        'package_price',
         'tax',
         'total_price',
         'deposit',

@@ -8,7 +8,7 @@
 
 
 
-<div class="row">
+<div class="row" id="firstRow">
 
 
     <div class="col-sm-12"><p class="bg-primary p-x-1"><strong>DATE &amp; ROOM</strong></p></div>
@@ -26,7 +26,7 @@
 
         <div class="form-group m-t-2">
             <label for="attendees">Attendees</label>
-            <input type="number" id="attendees" placeholder="" value="1" name="attendees" class="form-control">
+            <input type="number" id="attendees" placeholder="" value="@if(isset($conferenceBooking)){{$conferenceBooking->attendees}}@endif" name="attendees" class="form-control">
         </div>
 
 
@@ -36,7 +36,7 @@
             <select class="form-control select2-rooms" id="room_id" name="room_id">
                 <option value=""></option>
                 @foreach ($rooms as $room)
-                <option value="{{ $room->id }}" data-hour-price="{{ $room->perhour_price }}" data-day-price="{{ $room->perday_price }}">
+                <option <?php if(isset($conferenceBooking) && $conferenceBooking->room_id == $room->id ) { echo "selected='selected'"; } ?> value="{{ $room->id }}" data-hour-price="{{ $room->perhour_price }}" data-day-price="{{ $room->perday_price }}">
                 {{ $room->name }}
                 </option>
                 @endforeach
@@ -49,7 +49,7 @@
             <select class="form-control select2-layouts" id="room_layout_id" name="room_layout_id">
                 <option value=""></option>   
                 @foreach ($roomLayouts as $layout)
-                <option value="{{ $layout->id }}">{{ $layout->title }}</option>
+                <option <?php if(isset($conferenceBooking) && $conferenceBooking->room_layout_id == $layout->id ) { echo "selected='selected'"; } ?> value="{{ $layout->id }}">{{ $layout->title }}</option>
                 @endforeach
             </select>
         </div>
@@ -60,11 +60,15 @@
             <select class="form-control select2-duration" id="duration_code" name="duration_code">
                 <option value=""></option>
                 @foreach ($conferenceDurations as $duration)
-                <option value="{{ $duration->code }}" data-duration-code="{{ $duration->code }}">{{ $duration->name }}</option>
+                <option <?php if(isset($conferenceBooking) && $conferenceBooking->duration_code == $duration->code ) { echo "selected='selected'"; } ?> value="{{ $duration->code }}" data-duration-code="{{ $duration->code }}">{{ $duration->name }}</option>
                 @endforeach
             </select>
         </div>
 
+        <!-- <div class="form-group m-t-2 start-time">
+            <label for="start_datetime">Start </label>
+            <input type="text" class="form-control m-b-2" id="s">
+        </div> -->
 
         <!-- Start Dateime Field -->
 
@@ -98,9 +102,9 @@
                 <label for="booking_status">Booking Status</label>
                 <select class="form-control select2-status" id="booking_status" name="booking_status">
                     <option value=""></option>
-                    <option value="cancelled">Cancelled</option>
-                    <option value="confirmed">Confirmed</option>
-                    <option value="pending">Pending</option>
+                    <option <?php if(isset($conferenceBooking) && $conferenceBooking->booking_status == 'cancelled' ) { echo "selected='selected'"; } ?> value="cancelled">Cancelled</option>
+                    <option <?php if(isset($conferenceBooking) && $conferenceBooking->booking_status == 'confirmed' ) { echo "selected='selected'"; } ?> value="confirmed">Confirmed</option>
+                    <option <?php if(isset($conferenceBooking) && $conferenceBooking->booking_status == 'pending' ) { echo "selected='selected'"; } ?> value="pending">Pending</option>
                 </select>
             </div>
 
@@ -110,7 +114,7 @@
                 <select class="form-control select2-payment-methods" id="payment_method_code" name="payment_method_code">
                     <option value=""></option>
                     @foreach ($paymentMethods as $payMethod)
-                    <option value="{{ $payMethod->code }}">{{ $payMethod->name }}</option>
+                    <option <?php if(isset($conferenceBooking) && $conferenceBooking->payment_method_code == $payMethod->code ) { echo "selected='selected'"; } ?> value="{{ $payMethod->code }}">{{ $payMethod->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -120,7 +124,7 @@
                 <label for="room_price">Room Price</label>
                 <div class="input-group">
                     <span class="input-group-addon">SEK</span>
-                    <input type="number" id="room_price" placeholder="" value="" name="room_price" class="form-control">
+                    <input type="number" id="room_price" placeholder="" value="@if(isset($conferenceBooking)){{$conferenceBooking->room_price}}@endif" name="room_price" class="form-control" readonly>
                 </div>
             </div>
 
@@ -130,7 +134,7 @@
                 <label for="equipment_price">Equipment Price</label>
                 <div class="input-group">
                     <span class="input-group-addon">SEK</span>
-                    <input type="number" id="equipment_price" placeholder="" value="" name="equipment_price" class="form-control">
+                    <input type="number" id="equipment_price" placeholder="" value="@if(isset($conferenceBooking)){{$conferenceBooking->equipment_price}}@endif" name="equipment_price" class="form-control" readonly>
                 </div>
             </div>
 
@@ -140,7 +144,17 @@
                 <label for="food_price">Food Price</label>
                 <div class="input-group">
                     <span class="input-group-addon">SEK</span>
-                    <input type="number" id="food_price" placeholder="" value="" name="food_price" class="form-control">
+                    <input type="number" id="food_price" placeholder="" value="@if(isset($conferenceBooking)){{$conferenceBooking->food_price}}@endif" name="food_price" class="form-control" readonly>
+                </div>
+            </div>
+
+
+            <!-- Package Price Field -->
+            <div class="form-group m-t-2">
+                <label for="package_price">Package Price</label>
+                <div class="input-group">
+                    <span class="input-group-addon">SEK</span>
+                    <input type="number" id="package_price" placeholder="" value="@if(isset($conferenceBooking)){{$conferenceBooking->package_price}}@endif" name="package_price" class="form-control" readonly>
                 </div>
             </div>
 
@@ -149,7 +163,7 @@
                 <label for="tax">Tax</label>
                 <div class="input-group">
                     <span class="input-group-addon">SEK</span>
-                    <input type="number" id="tax" placeholder="" value="" name="tax" class="form-control">
+                    <input type="number" id="tax" placeholder="" value="50.00" name="tax" class="form-control" readonly>
                 </div>
             </div>
 
@@ -159,7 +173,7 @@
                 <label for="total_price">Total Price</label>
                 <div class="input-group">
                     <span class="input-group-addon">SEK</span>
-                    <input type="number" id="total_price" placeholder="" value="" name="total_price" class="form-control">
+                    <input type="number" id="total_price" placeholder="" value="@if(isset($conferenceBooking)){{$conferenceBooking->total_price}}@endif" name="total_price" class="form-control" readonly>
                 </div>
             </div>
 
@@ -168,10 +182,9 @@
                 <label for="deposit">Deposit</label>
                 <div class="input-group">
                     <span class="input-group-addon">SEK</span>
-                    <input type="number" id="deposit" placeholder="" value="" name="deposit" class="form-control">
+                    <input type="number" id="deposit" placeholder="0.00" value="@if(isset($conferenceBooking)){{$conferenceBooking->deposit}}@endif"  name="deposit" class="form-control" >
                 </div>
             </div>
-
 
 
     </div> <!-- col-sm-5 -->
@@ -207,12 +220,12 @@
                     @if ($eqp->is_multi_units == 0)
                         <p>1</p>
                     @else
-                        <p><input type="number" name="units" value="1" min="1" class="form-control"></p>
+                        <p><input type="number" name="equipmentsUnits[{{$eqp->id}}][qty]"  class="form-control eqpUnits" id="{{$eqp->id}}"  value="1" min="1" class="form-control"></p>
                     @endif
                 </td>
                 <td>
                     <label class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input">
+                            <input type="checkbox" name="equipments[]" value="{{$eqp->id}}" class="custom-control-input equipment-check-box" data-eqpid="{{$eqp->id}}" data-eqpprice="{{$eqp->price}}" data-isMultiUnits="{{$eqp->is_multi_units}}">
                             <span class="custom-control-indicator"></span>
                             @if ($eqp->criteria_id == 1)
                                 SEK {{ $eqp->price }} per booking
@@ -225,6 +238,7 @@
             @endforeach
 
         </table>
+
     </div>
 
 
@@ -252,13 +266,58 @@
                      <p>{{ $food->title }}</p>
                 </td>
                 <td>
-                    <p><input type="number" name="units" value="1" min="1" class="form-control"></p>
+                    <p><input type="number" name="foodUnits[{{$food->id}}][qty]" class="form-control foodUnits" id="{{$food->id}}"  value="1" min="1" class="form-control"></p>
                 </td>
                 <td>
                     <label class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input">
-                            <span class="custom-control-indicator"></span>
-                            SEK {{ $food->price }} per attendee
+                            <input type="checkbox" name="foods[]" value="{{$food->id}}" class="custom-control-input food-check-box" data-foodid="{{$food->id}}" data-foodprice="{{$food->price_per_attendee}}">
+                            <span class="custom-control-indicator "></span>
+                            SEK {{ $food->price_per_attendee }} per attendee
+                    </label>
+                </td>
+            </tr>
+            @endforeach
+
+        </table>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="row">
+
+    <div class="col-sm-12"><p class="bg-primary p-x-1"><strong>FOOD PACKAGES</strong></p></div>
+
+    <div class="col-sm-12">
+        <table class=" table table-bordered">
+
+            <tr>
+                <td width="300px"><p><strong>Title</strong></p></td>
+                <td width="150px"><p><strong>People</strong></p></td>
+                <td><p><strong>Price</strong></p></td>
+            </tr>
+
+            @foreach ($packages as $package)
+            <tr>
+                <td>
+                     <p>{{ $package->title }} </p>
+                </td>
+                <td>
+                    <p><input type="number" name="packageUnits[{{$package->id}}][qty]" class="form-control packageUnits" id="{{$package->id}}"  value="1" min="1" class="form-control"></p>
+                </td>
+                <td>
+                    <label class="custom-control custom-checkbox">
+                            <input type="checkbox" name="packages[]" value="{{$package->id}}" class="custom-control-input package-check-box" data-packageid="{{$package->id}}" data-packageprice="{{$package->price}}">
+                            <span class="custom-control-indicator "></span>
+                            SEK {{ $package->price }} per attendee
                     </label>
                 </td>
             </tr>
@@ -269,6 +328,13 @@
     </div>
 
 </div>
+
+
+
+
+
+
+
 
 
 
@@ -308,5 +374,8 @@
     </div>
 
 </div>
+
+
+
 
 

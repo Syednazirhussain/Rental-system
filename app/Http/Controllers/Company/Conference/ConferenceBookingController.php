@@ -5,42 +5,52 @@ namespace App\Http\Controllers\Company\Conference;
 use App\Http\Requests\Company\Conference\CreateConferenceBookingRequest;
 use App\Http\Requests\Company\Conference\UpdateConferenceBookingRequest;
 use App\Repositories\ConferenceBookingRepository;
+use App\Repositories\ConferenceBookingItemRepository;
 use App\Repositories\RoomLayoutRepository;
 use App\Repositories\ConferenceDurationRepository;
 use App\Repositories\EquipmentsRepository;
 use App\Repositories\PaymentMethodRepository;
 use App\Repositories\FoodRepository;
+use App\Repositories\PackagesRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use DB;
+use Session;
+
 
 class ConferenceBookingController extends AppBaseController
 {
     /** @var  ConferenceBookingRepository */
     private $conferenceBookingRepository;
+    private $conferenceBookingItemRepository;
     private $roomLayoutRepository;
     private $conferenceDurationRepository;
     private $equipmentRepository;
     private $paymentMethodRepository;
     private $foodRepository;
+    private $packagesRepository;
 
     public function __construct(ConferenceBookingRepository $conferenceBookingRepo,
+                                ConferenceBookingItemRepository $conferenceBookingItemRepo,
                                 RoomLayoutRepository $roomLayoutRepo,
                                 EquipmentsRepository $equipmentRepo,
                                 PaymentMethodRepository $paymentMethodRepo,
                                 FoodRepository $foodRepo,
-                                ConferenceDurationRepository $conferenceDurationRepo
+                                ConferenceDurationRepository $conferenceDurationRepo,
+                                PackagesRepository $packagesRepo
                                 )
     {
-        $this->conferenceBookingRepository = $conferenceBookingRepo;
-        $this->roomLayoutRepository = $roomLayoutRepo;
-        $this->conferenceDurationRepository = $conferenceDurationRepo;
-        $this->equipmentRepository = $equipmentRepo;
-        $this->paymentMethodRepository = $paymentMethodRepo;
-        $this->foodRepository = $foodRepo;
+        $this->conferenceBookingRepository      = $conferenceBookingRepo;
+        $this->conferenceBookingItemRepository  = $conferenceBookingItemRepo;
+        $this->roomLayoutRepository             = $roomLayoutRepo;
+        $this->conferenceDurationRepository     = $conferenceDurationRepo;
+        $this->equipmentRepository              = $equipmentRepo;
+        $this->paymentMethodRepository          = $paymentMethodRepo;
+        $this->foodRepository                   = $foodRepo;
+        $this->packagesRepository               = $packagesRepo;
     }
 
     /**
@@ -78,27 +88,30 @@ class ConferenceBookingController extends AppBaseController
      */
     public function create()
     {
-        $conferenceBookings = $this->conferenceBookingRepository->all();
-        $paymentMethods = $this->paymentMethodRepository->all();
-        $conferenceDurations = $this->conferenceDurationRepository->all();
-        $roomLayouts = $this->roomLayoutRepository->all();
-        $equipments = $this->equipmentRepository->all();
-        $foodItems = $this->foodRepository->all();
-        $rooms = DB::table('rooms')->orderBy('name', 'asc')->get();
+        $conferenceBookings     = $this->conferenceBookingRepository->all();
+        $paymentMethods         = $this->paymentMethodRepository->all();
+        $conferenceDurations    = $this->conferenceDurationRepository->all();
+        $roomLayouts            = $this->roomLayoutRepository->all();
+        $equipments             = $this->equipmentRepository->all();
+        $foodItems              = $this->foodRepository->all();
+        $packages               = $this->packagesRepository->all();
+        $rooms                  = DB::table('rooms')->orderBy('name', 'asc')->get();
 
         // dd($rooms);
 
         $data = [
-                'conferenceBookings' => $conferenceBookings,
-                'conferenceDurations' => $conferenceDurations,
-                'paymentMethods' => $paymentMethods,
-                'roomLayouts' => $roomLayouts,
-                'equipments' => $equipments,
-                'foodItems' => $foodItems,
-                'rooms' => $rooms,
-
+                'conferenceBookings'    => $conferenceBookings,
+                'conferenceDurations'   => $conferenceDurations,
+                'paymentMethods'        => $paymentMethods,
+                'roomLayouts'           => $roomLayouts,
+                'equipments'            => $equipments,
+                'foodItems'             => $foodItems,
+                'rooms'                 => $rooms,
+                'packages'              => $packages,
             ];
+
         return view('company.Conference.conference_bookings.create', $data);
+
     }
 
     /**
@@ -112,9 +125,94 @@ class ConferenceBookingController extends AppBaseController
     {
         $input = $request->all();
 
+        // dd($input);
+
+        $input['customer_id'] = '1';
+
+        $booking_date   = date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $input['booking_date'])));
+        $start_datetime = date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $input['start_datetime'])));
+        $end_datetime   = date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $input['end_datetime'])));
+
+        $input['booking_date']      = $booking_date;
+        $input['start_datetime']    = $start_datetime;
+        $input['end_datetime']      = $end_datetime;
+
         $conferenceBooking = $this->conferenceBookingRepository->create($input);
 
-        Flash::success('Conference Booking saved successfully.');
+
+        // ==========================================================================
+
+
+        $packagesUnit       = $input['packageUnits'];
+        $packagesItemsID    = $input['packages'];
+
+        $packagesData = array_intersect_key($packagesUnit, array_flip($packagesItemsID));
+
+        foreach ($packagesData as $key=>$val) {
+
+            $package = $this->packagesRepository->findWithoutFail($key);
+
+            $packageInput['booking_id']    = $conferenceBooking->id;
+            $packageInput['entity_id']     = $key;
+            $packageInput['entity_type']   = "package";
+            $packageInput['entity_name']   = $package->title;
+            $packageInput['entity_price']  = $package->price;
+            $packageInput['entity_qty']    = $val['qty'];
+
+            $this->conferenceBookingItemRepository->create($packageInput);
+        }
+
+
+        // ==========================================================================
+
+
+        $foodUnits      = $input['foodUnits'];
+        $foodItemsID    = $input['foods'];
+
+        $foodsData = array_intersect_key($foodUnits, array_flip($foodItemsID));
+
+        foreach ($foodsData as $key=>$val) {
+
+            $food = $this->foodRepository->findWithoutFail($key);
+
+            $foodInput['booking_id']    = $conferenceBooking->id;
+            $foodInput['entity_id']     = $key;
+            $foodInput['entity_type']   = "food";
+            $foodInput['entity_name']   = $food->title;
+            $foodInput['entity_price']  = $food->price_per_attendee;
+            $foodInput['entity_qty']    = $val['qty'];
+
+            $this->conferenceBookingItemRepository->create($foodInput);
+        }
+
+
+        // ==========================================================================
+
+
+        $equipmentsUnits      = $input['equipmentsUnits'];
+        $equipmentsItemsID    = $input['equipments'];
+
+        $equipmentsData = array_intersect_key($equipmentsUnits, array_flip($equipmentsItemsID));
+
+        foreach ($equipmentsData as $key=>$val) {
+
+            $equipment = $this->equipmentRepository->findWithoutFail($key);
+
+            $equipmentInput['booking_id']    = $conferenceBooking->id;
+            $equipmentInput['entity_id']     = $key;
+            $equipmentInput['entity_type']   = "equipments";
+            $equipmentInput['entity_name']   = $equipment->title;
+            $equipmentInput['entity_price']  = $equipment->price;
+            $equipmentInput['entity_qty']    = $val['qty'];
+
+            $this->conferenceBookingItemRepository->create($equipmentInput);
+        }
+
+
+        // ==========================================================================
+
+
+        Session::flash("successMessage", "The Conference Bookingk has been added successfully.");
 
         return redirect(route('company.conference.conferenceBookings.index'));
     }
@@ -148,6 +246,17 @@ class ConferenceBookingController extends AppBaseController
      */
     public function edit($id)
     {
+
+        $conferenceBookings     = $this->conferenceBookingRepository->all();
+        $paymentMethods         = $this->paymentMethodRepository->all();
+        $conferenceDurations    = $this->conferenceDurationRepository->all();
+        $roomLayouts            = $this->roomLayoutRepository->all();
+        $equipments             = $this->equipmentRepository->all();
+        $foodItems              = $this->foodRepository->all();
+        $packages               = $this->packagesRepository->all();
+        $rooms                  = DB::table('rooms')->orderBy('name', 'asc')->get();
+
+
         $conferenceBooking = $this->conferenceBookingRepository->findWithoutFail($id);
 
         if (empty($conferenceBooking)) {
@@ -156,7 +265,22 @@ class ConferenceBookingController extends AppBaseController
             return redirect(route('company.conference.conferenceBookings.index'));
         }
 
-        return view('company.Conference.conference_bookings.edit')->with('conferenceBooking', $conferenceBooking);
+
+        // dd($conferenceBooking);
+
+        $data = [
+                'conferenceBookings'    => $conferenceBookings,
+                'conferenceDurations'   => $conferenceDurations,
+                'paymentMethods'        => $paymentMethods,
+                'roomLayouts'           => $roomLayouts,
+                'equipments'            => $equipments,
+                'foodItems'             => $foodItems,
+                'rooms'                 => $rooms,
+                'packages'              => $packages,
+                'conferenceBooking'     => $conferenceBooking,
+            ];
+
+        return view('company.Conference.conference_bookings.edit', $data);
     }
 
     /**
@@ -179,7 +303,7 @@ class ConferenceBookingController extends AppBaseController
 
         $conferenceBooking = $this->conferenceBookingRepository->update($request->all(), $id);
 
-        Flash::success('Conference Booking updated successfully.');
+        Session::flash("successMessage", "The Conference Bookingk has been updated successfully.");
 
         return redirect(route('company.conference.conferenceBookings.index'));
     }
@@ -203,7 +327,7 @@ class ConferenceBookingController extends AppBaseController
 
         $this->conferenceBookingRepository->delete($id);
 
-        Flash::success('Conference Booking deleted successfully.');
+        Session::flash("successMessage", "The Conference Bookingk has been deleted successfully.");
 
         return redirect(route('company.conference.conferenceBookings.index'));
     }

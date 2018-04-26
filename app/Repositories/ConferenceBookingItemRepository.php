@@ -21,6 +21,7 @@ class ConferenceBookingItemRepository extends BaseRepository
      */
     protected $fieldSearchable = [
         'booking_id',
+        'entity_id',
         'entity_type',
         'entity_name',
         'entity_price',

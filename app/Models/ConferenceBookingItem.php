@@ -32,6 +32,7 @@ class ConferenceBookingItem extends Model
 
     public $fillable = [
         'booking_id',
+        'entity_id',
         'entity_type',
         'entity_name',
         'entity_price',
@@ -46,6 +47,7 @@ class ConferenceBookingItem extends Model
     protected $casts = [
         'id' => 'integer',
         'booking_id' => 'integer',
+        'entity_id' => 'integer',
         'entity_type' => 'string',
         'entity_name' => 'string',
         'entity_qty' => 'integer'

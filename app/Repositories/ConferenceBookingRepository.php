@@ -33,6 +33,7 @@ class ConferenceBookingRepository extends BaseRepository
         'room_price',
         'equipment_price',
         'food_price',
+        'package_price',
         'tax',
         'total_price',
         'deposit',
