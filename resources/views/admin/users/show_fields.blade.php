@@ -14,15 +14,15 @@
     </tr>
     <tr>
         <th scope="row" width="200px">Country</th>
-        <td>{{ $user_country[$user->country_id ]}}</td>
+        <td>@if(isset($user_country[$user->country_id ])){{ $user_country[$user->country_id ]}}@endif</td>
     </tr>
     <tr>
         <th scope="row" width="200px">State</th>
-        <td>{{ $user_state[$user->state_id ] }}</td>
+        <td>@if(isset($user_state[$user->state_id ])){{ $user_state[$user->state_id ] }}@endif</td>
     </tr>
     <tr>
         <th scope="row" width="200px">City</th>
-        <td>{{ $user_city[$user->city_id] }}</td>
+        <td>@if(isset($user_city[$user->city_id])){{ $user_city[$user->city_id] }}@endif</td>
     </tr>
     <tr>
         <th scope="row" width="200px">Status</th>
