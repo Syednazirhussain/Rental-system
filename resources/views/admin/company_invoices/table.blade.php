@@ -38,9 +38,11 @@
                       </div>
                     </td>
                     <td>{{ $Invoice->id }}</td>
+                    <td>
                     @if(!is_null($Invoice->company))
-                      <td>{{ $Invoice->company->name }}</td>
+                      {{ $Invoice->company->name }}
                     @endif
+                    </td>
                     <td>{{ $Invoice->payment_cycle }}</td>
                     <td> <span class="label label-success">{{ date("M d, Y", strtotime($Invoice->created_at)) }}</span></td>
                     <td>
