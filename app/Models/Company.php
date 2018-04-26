@@ -95,7 +95,7 @@ class Company extends Model
      * @var array
      */
     public static $rules = [
-     /*   'name' => 'required|string|between:3,100',
+        'name' => 'required|string|between:3,100',
         'second_name' => 'string|nullable|max:100',
         'logo' => 'image',
         'description' => 'string|nullable',
@@ -106,7 +106,7 @@ class Company extends Model
         'state_id' => 'required|integer',
         'city_id' => 'required|integer',
         // 'user_role_code' => 'required|string',
-        'max_users' => 'integer',*/
+        'max_users' => 'integer',
 
     ];
 
