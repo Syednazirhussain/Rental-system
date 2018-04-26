@@ -8,6 +8,6 @@
     	  <br>
           <h4>A new invoice has been generated for your Company Contract</h4>
 		  <br>
-          <p>You may find the invoice attached with this email.</p>
+          <p>You may find the invoice attached with this email.</p>i
     </body>
 </html>
