@@ -76,6 +76,7 @@ class CompanyInvoiceController extends AppBaseController
     public function index(Request $request)
     {
 
+
         $this->companyInvoiceRepository->pushCriteria(new RequestCriteria($request));
 
         $Invoices = $this->companyInvoiceRepository->all();
