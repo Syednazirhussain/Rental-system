@@ -5,31 +5,31 @@
         <th>{{ $user->id }}</th>
     </tr>
     <tr>
-        <th scope="row" width="200px">Code</th>
+        <th scope="row" width="200px">Name</th>
         <td>{{ $user->name }}</td>
     </tr>
     <tr>
-        <th scope="row" width="200px">Code</th>
+        <th scope="row" width="200px">Email</th>
         <td>{{ $user->email }}</td>
     </tr>
     <tr>
-        <th scope="row" width="200px">Code</th>
+        <th scope="row" width="200px">User Role</th>
         <td>{{ $user_roles[$user->user_role_code] }}</td>
     </tr>
     <tr>
-        <th scope="row" width="200px">Code</th>
+        <th scope="row" width="200px">Country</th>
         <td>{{ $user->country_id }}</td>
     </tr>
     <tr>
-        <th scope="row" width="200px">Code</th>
+        <th scope="row" width="200px">State</th>
         <td>{{ $user->state_id }}</td>
     </tr>
     <tr>
-        <th scope="row" width="200px">Code</th>
+        <th scope="row" width="200px">City</th>
         <td>{{ $user->city_id }}</td>
     </tr>
     <tr>
-        <th scope="row" width="200px">Name</th>
+        <th scope="row" width="200px">Status</th>
         <td>{{ $user_status[$user->user_status_id] }}</td>
     </tr>
     <tr>
