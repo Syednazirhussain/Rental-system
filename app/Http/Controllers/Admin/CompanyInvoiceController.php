@@ -13,13 +13,13 @@ use App\Mail\NewInvoiceMail;
 use Mail;
 
 
-use App\Repositories\Admin\CompanyRepository;
-use App\Repositories\Admin\CompanyBuildingRepository;
-use App\Repositories\Admin\CompanyContactPersonRepository;
-use App\Repositories\Admin\CompanyContractRepository;
-use App\Repositories\Admin\CompanyModuleRepository;
-use App\Repositories\Admin\ModuleRepository;
-use App\Repositories\Admin\PaymentCycleRepository;
+use App\Repositories\CompanyRepository;
+use App\Repositories\CompanyBuildingRepository;
+use App\Repositories\CompanyContactPersonRepository;
+use App\Repositories\CompanyContractRepository;
+use App\Repositories\CompanyModuleRepository;
+use App\Repositories\ModuleRepository;
+use App\Repositories\PaymentCycleRepository;
 use App\Repositories\DiscountTypeRepository;
 use App\Repositories\CompanyInvoiceItemRepository;
 use App\Repositories\GeneralSettingRepository;
@@ -175,7 +175,7 @@ class CompanyInvoiceController extends AppBaseController
         return redirect()->route('admin.companyInvoices.index');
     }
 
-    public function sendInvoiceToCompanyContractPersonByInvoiceId($company_id,$invoice_id)
+    public function sendInvoiceToCompanyContactPersonByInvoiceId($company_id,$invoice_id)
     {
         $Invoice_id =  $invoice_id;      
         $filename = $Invoice_id."_Invoices.pdf";         

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Repositories\Admin;
+namespace App\Repositories;
 
-use App\Models\PaymentCycle;
+use App\Models\PaymentMethod;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
- * Class PaymentCycleRepository
+ * Class PaymentMethodRepository
  * @package App\Repositories
  * @version April 11, 2018, 2:26 pm UTC
  *
@@ -14,13 +14,14 @@ use InfyOm\Generator\Common\BaseRepository;
  * @method State find($id, $columns = ['*'])
  * @method State first($columns = ['*'])
 */
-class PaymentCycleRepository extends BaseRepository
+class PaymentMethodRepository extends BaseRepository
 {
     /**
      * @var array
      */
     protected $fieldSearchable = [
-        'name'
+        'name',
+        'code',
     ];
 
     /**
@@ -28,12 +29,7 @@ class PaymentCycleRepository extends BaseRepository
      **/
     public function model()
     {
-        return PaymentCycle::class;
-    }
-
-    public function getPaymentCycleById($id)
-    {
-        return PaymentCycle::find($id)->name;
+        return PaymentMethod::class;
     }
 
 }

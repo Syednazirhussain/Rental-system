@@ -4,16 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\CreateCompanyRequest;
 use App\Http\Requests\Admin\UpdateCompanyRequest;
-use App\Repositories\Admin\CompanyRepository;
-use App\Repositories\Admin\CompanyFloorRoomRepository;
+use App\Repositories\CompanyRepository;
+use App\Repositories\CompanyFloorRoomRepository;
 use App\Repositories\CountryRepository;
 use App\Repositories\StateRepository;
 use App\Repositories\CityRepository;
-use App\Repositories\Admin\PaymentCycleRepository;
-use App\Repositories\Admin\PaymentMethodRepository;
+use App\Repositories\PaymentCycleRepository;
+use App\Repositories\PaymentMethodRepository;
 use App\Repositories\UserStatusRepository;
 use App\Repositories\DiscountTypeRepository;
-use App\Repositories\Admin\ModuleRepository;
+use App\Repositories\ModuleRepository;
 
 
 use App\Http\Controllers\AppBaseController;

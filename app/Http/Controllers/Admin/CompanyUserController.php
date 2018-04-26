@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\CreateCompanyUserRequest;
 use App\Http\Requests\Admin\UpdateCompanyUserRequest;
-use App\Repositories\Admin\CompanyUserRepository;
-use App\Repositories\Admin\UserRepository;
+use App\Repositories\CompanyUserRepository;
+use App\Repositories\UserRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
