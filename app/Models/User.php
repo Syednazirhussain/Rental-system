@@ -103,7 +103,7 @@ class User extends Authenticatable
      **/
     public function city()
     {
-        return $this->belongsTo(\App\Models\Admin\City::class);
+        return $this->belongsTo(\App\Models\City::class);
     }
 
     /**
@@ -111,7 +111,7 @@ class User extends Authenticatable
      **/
     public function country()
     {
-        return $this->belongsTo(\App\Models\Admin\Country::class);
+        return $this->belongsTo(\App\Models\Country::class);
     }
 
     /**
@@ -119,7 +119,7 @@ class User extends Authenticatable
      **/
     public function state()
     {
-        return $this->belongsTo(\App\Models\Admin\State::class);
+        return $this->belongsTo(\App\Models\State::class);
     }
 
     /**
@@ -127,7 +127,7 @@ class User extends Authenticatable
      **/
     public function userStatus()
     {
-        return $this->belongsTo(\App\Models\Admin\UserStatus::class);
+        return $this->belongsTo(\App\Models\UserStatus::class);
     }
 
     /**

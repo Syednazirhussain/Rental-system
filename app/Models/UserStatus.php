@@ -53,7 +53,7 @@ class UserStatus extends Model
      **/
     public function companies()
     {
-        return $this->hasMany(\App\Models\Admin\Company::class);
+        return $this->hasMany(\App\Models\Company::class);
     }
 
     /**
@@ -61,6 +61,6 @@ class UserStatus extends Model
      **/
     public function users()
     {
-        return $this->hasMany(\App\Models\Admin\User::class);
+        return $this->hasMany(\App\Models\User::class);
     }
 }
