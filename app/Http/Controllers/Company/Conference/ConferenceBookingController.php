@@ -269,7 +269,7 @@ class ConferenceBookingController extends AppBaseController
     public function edit($id)
     {
 
-        $conferenceBookings     = $this->conferenceBookingRepository->findWithoutFail($id);
+        $conferenceBooking      = $this->conferenceBookingRepository->findWithoutFail($id);
         $paymentMethods         = $this->paymentMethodRepository->all();
         $conferenceDurations    = $this->conferenceDurationRepository->all();
         $roomLayouts            = $this->roomLayoutRepository->all();
@@ -278,9 +278,8 @@ class ConferenceBookingController extends AppBaseController
         $packages               = $this->packagesRepository->all();
         $rooms                  = DB::table('rooms')->orderBy('name', 'asc')->get();
 
-        $bookingItems           = $this->conferenceBookingItemRepository->getBookingItems($conferenceBookings->id);
+        $bookingItems           = $this->conferenceBookingItemRepository->getBookingItems($conferenceBooking->id);
 
-        $conferenceBooking = $this->conferenceBookingRepository->findWithoutFail($id);
 
         if (empty($conferenceBooking)) {
             Flash::error('Conference Booking not found');
@@ -288,11 +287,20 @@ class ConferenceBookingController extends AppBaseController
             return redirect(route('company.conference.conferenceBookings.index'));
         }
 
+        foreach ($bookingItems as $key => $value) {
+        
+            // echo $value['entity_type'] . "..." . $value['entity_id'];
+            echo "<pre>";
+            print_r($value->entity_type);
+            echo "</pre>";
 
-        // dd($conferenceBooking);
+        }
+
+        // dd($bookingItems);
+
+        exit();
 
         $data = [
-                'conferenceBookings'    => $conferenceBookings,
                 'conferenceDurations'   => $conferenceDurations,
                 'paymentMethods'        => $paymentMethods,
                 'roomLayouts'           => $roomLayouts,
@@ -317,6 +325,9 @@ class ConferenceBookingController extends AppBaseController
      */
     public function update($id, UpdateConferenceBookingRequest $request)
     {
+
+        dd($request->all());
+
         $conferenceBooking = $this->conferenceBookingRepository->findWithoutFail($id);
 
         if (empty($conferenceBooking)) {

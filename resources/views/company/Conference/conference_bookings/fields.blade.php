@@ -269,7 +269,10 @@
                 <td><p><strong>Price</strong></p></td>
             </tr>
 
+            
+
             @foreach ($foodItems as $food)
+
             <tr>
                 <td>
                      <p>{{ $food->title }}</p>
@@ -285,6 +288,7 @@
                     </label>
                 </td>
             </tr>
+
             @endforeach
 
         </table>
@@ -359,7 +363,7 @@
             <!-- Remarks Field -->
             <div class="form-group m-t-2">
                 <label for="remarks">Remarks</label>
-                <textarea name="remarks" id="remarks" rows="5" class="form-control"></textarea>
+                <textarea name="remarks" id="remarks" rows="5" class="form-control">@if(isset($conferenceBooking)){{$conferenceBooking->remarks}}@endif</textarea>
             </div>
 
     </div>

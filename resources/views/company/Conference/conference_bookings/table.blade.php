@@ -2,8 +2,8 @@
     <thead>
         <tr>
             <th>ID</th>
-            <th>Booking Date</th>
             <th>Attendees</th>
+            <th>Booking Date</th>
             <th>Room</th>
             <th>Room Layout</th>
             <th>Total Price</th>
@@ -16,13 +16,13 @@
         @foreach($conferenceBookings as $conferenceBooking)
             <tr>
                 <td>{!! $conferenceBooking->id !!}</td>
-                <td>{!! $conferenceBooking->booking_date !!}</td>
                 <td>{!! $conferenceBooking->attendees !!}</td>
+                <td><?php echo date('F d, Y', strtotime($conferenceBooking->booking_date)); ?></td>
                 <td>{!! $conferenceBooking->room_id !!}</td>
                 <td>{!! $conferenceBooking->room_layout_id !!}</td>
                 <td>{!! $conferenceBooking->total_price !!}</td>
                 <td>{!! $conferenceBooking->deposit !!}</td>
-                <td>{!! $conferenceBooking->booking_status !!}</td>
+                <td>@if($conferenceBooking->booking_status == 'confirmed') <span class="label label-success">{!! ucfirst($conferenceBooking->booking_status) !!}</span> @elseif($conferenceBooking->booking_status == 'pending') <span class="label label-warning"> {!! ucfirst($conferenceBooking->booking_status) !!}</span> @else <span class="label label-danger"> {!! ucfirst($conferenceBooking->booking_status) !!}</span> @endif</td>
                 <td>
                     {!! Form::open(['route' => ['company.conference.conferenceBookings.destroy', $conferenceBooking->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
