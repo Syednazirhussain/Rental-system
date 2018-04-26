@@ -21,7 +21,7 @@
             <td>{{ $user->email }}</td>
             <td>{{ $user_roles[$user->user_role_code] }}</td>
             <td>@if(isset($user_country[$user->country_id ])){{  $user_country[$user->country_id ] }}@endif</td>
-            <td>@if(isset($user_state[$user->state_id)){{ $user_state[$user->state_id ] }}@endif</td>
+            <td>@if(isset($user_state[$user->state_id ])){{ $user_state[$user->state_id ] }}@endif</td>
             <td>@if(isset($user_city[$user->city_id])){{ $user_city[$user->city_id] }}@endif</td>
             <td>{{ $user_status[$user->user_status_id] }}</td>
             <td>{{ date('F d, Y', strtotime($user->created_at)) }}</td>
