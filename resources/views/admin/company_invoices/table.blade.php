@@ -29,43 +29,50 @@
               <th></th>
             </thead>
             <tbody>
-                @foreach($Invoices as $Invoice)
-                <tr>
-                  <td>
-                    <div class="checkbox">
-                      <input type="checkbox" class="chk invoice-checkbox" value="{{ $Invoice->id }}">
-                    </div>
-                  </td>
-                  <td>{{ $Invoice->id }}</td>
-                  <td>{{ ucfirst($Invoice->company->name) }}</td>
-                  <td>{{ ucfirst($Invoice->payment_cycle) }}</td>
-                  <td> <span class="label label-success">{{ date("M d, Y", strtotime($Invoice->created_at)) }}</span></td>
-                  <td>
-                  @if ($Invoice->status == "unpaid")
-                    <span class="label label-danger">{{ ucfirst($Invoice->status) }}</span>
-                  @elseif ($Invoice->status == "paid")
-                    <span class="label label-success">{{ ucfirst($Invoice->status) }}</span>
-                  @endif
-                  </td>
-                  <td>
-                  @if ($Invoice->status == "unpaid")
-                    <span class="label label-warning">{{ date("M d, Y", strtotime($Invoice->due_date)) }}</span>
-                  @elseif ($Invoice->status == "paid")
-                    <span> - </span>
-                  @endif
-                  </td>
-                  <td class="pull-right">
-                    <a href="{{ route('admin.sendInvoice',['company_id' => $Invoice->company->id ]) }}" class="btn btn-default btn-sm">Send Email</a>
-                    <a href="{{ route('admin.viewInvoice',['company_id' => $Invoice->company->id,'invoice_id' => $Invoice->id]) }}" class="btn btn-info btn-sm">View Invoice</a>
-                    <form class="form-inline" style="display: inline;" action="{{ route('admin.companyInvoices.destroy', [$Invoice->id]) }}" method="post">
-                      <input name="_method" type="hidden" value="DELETE">
-                      <input name="_token" type="hidden" value="{{ csrf_token() }}">
-                      <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')"">Delete Invoice</button>
-                    </form>
-                  </td>
-                </tr>
+   
+                  @foreach($Invoices as $Invoice)
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <input type="checkbox" class="chk invoice-checkbox" value="{{ $Invoice->id }}">
+                      </div>
+                    </td>
+                    <td>{{ $Invoice->id }}</td>
+                    @if(!is_null($Invoice->company))
+                      <td>{{ $Invoice->company->name }}</td>
+                    @endif
+                    <td>{{ $Invoice->payment_cycle }}</td>
+                    <td> <span class="label label-success">{{ date("M d, Y", strtotime($Invoice->created_at)) }}</span></td>
+                    <td>
+                    @if ($Invoice->status == "unpaid")
+                      <span class="label label-danger">{{ ucfirst($Invoice->status) }}</span>
+                    @elseif ($Invoice->status == "paid")
+                      <span class="label label-success">{{ ucfirst($Invoice->status) }}</span>
+                    @endif
+                    </td>
+                    <td>
+                    @if ($Invoice->status == "unpaid")
+                      <span class="label label-warning">{{ date("M d, Y", strtotime($Invoice->due_date)) }}</span>
+                    @elseif ($Invoice->status == "paid")
+                      <span> - </span>
+                    @endif
+                    </td>
+                    <td class="pull-right">
+                    @if(!is_null($Invoice->company))
+                      <a href="{{ route('admin.sendInvoice',['company_id' => $Invoice->company->id ]) }}" class="btn btn-default btn-sm">Send Email</a>
+                      <a href="{{ route('admin.viewInvoice',['company_id' => $Invoice->company->id,'invoice_id' => $Invoice->id]) }}" class="btn btn-info btn-sm">View Invoice</a>
+                    @endif
+                     
+                      <form class="form-inline" style="display: inline;" action="{{ route('admin.companyInvoices.destroy', [$Invoice->id]) }}" method="post">
+                        <input name="_method" type="hidden" value="DELETE">
+                        <input name="_token" type="hidden" value="{{ csrf_token() }}">
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')"">Delete Invoice</button>
+                      </form>
+                    </td>
+                  </tr>
 
-                @endforeach
+                  @endforeach
+
             </tbody>
           </table>
 
