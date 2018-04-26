@@ -125,7 +125,7 @@ class ConferenceBookingController extends AppBaseController
     {
         $input = $request->all();
 
-        // dd($input);
+        // ==========================================================================
 
         $input['customer_id'] = '1';
 
@@ -137,75 +137,96 @@ class ConferenceBookingController extends AppBaseController
         $input['start_datetime']    = $start_datetime;
         $input['end_datetime']      = $end_datetime;
 
+        if (empty($input['packages'])) {
+            $input['package_price'] = 0.00;
+        } 
+
+        if (empty($input['foods'])) {
+            $input['food_price'] = 0.00;
+        } 
+
+        if (empty($input['equipments'])) {
+            $input['equipment_price'] = 0.00;
+        } 
+
         $conferenceBooking = $this->conferenceBookingRepository->create($input);
 
 
         // ==========================================================================
 
 
-        $packagesUnit       = $input['packageUnits'];
-        $packagesItemsID    = $input['packages'];
+        if (!empty($input['packages'])) {
 
-        $packagesData = array_intersect_key($packagesUnit, array_flip($packagesItemsID));
+            $packagesUnit       = $input['packageUnits'];
+            $packagesItemsID    = $input['packages'];
 
-        foreach ($packagesData as $key=>$val) {
+            $packagesData = array_intersect_key($packagesUnit, array_flip($packagesItemsID));
 
-            $package = $this->packagesRepository->findWithoutFail($key);
+            foreach ($packagesData as $key=>$val) {
 
-            $packageInput['booking_id']    = $conferenceBooking->id;
-            $packageInput['entity_id']     = $key;
-            $packageInput['entity_type']   = "package";
-            $packageInput['entity_name']   = $package->title;
-            $packageInput['entity_price']  = $package->price;
-            $packageInput['entity_qty']    = $val['qty'];
+                $package = $this->packagesRepository->findWithoutFail($key);
 
-            $this->conferenceBookingItemRepository->create($packageInput);
+                $packageInput['booking_id']    = $conferenceBooking->id;
+                $packageInput['entity_id']     = $key;
+                $packageInput['entity_type']   = "package";
+                $packageInput['entity_name']   = $package->title;
+                $packageInput['entity_price']  = $package->price;
+                $packageInput['entity_qty']    = $val['qty'];
+
+                $this->conferenceBookingItemRepository->create($packageInput);
+            }
         }
 
 
         // ==========================================================================
 
 
-        $foodUnits      = $input['foodUnits'];
-        $foodItemsID    = $input['foods'];
+        if (!empty($input['foods'])) {
 
-        $foodsData = array_intersect_key($foodUnits, array_flip($foodItemsID));
+            $foodUnits      = $input['foodUnits'];
+            $foodItemsID    = $input['foods'];
 
-        foreach ($foodsData as $key=>$val) {
+            $foodsData = array_intersect_key($foodUnits, array_flip($foodItemsID));
 
-            $food = $this->foodRepository->findWithoutFail($key);
+            foreach ($foodsData as $key=>$val) {
 
-            $foodInput['booking_id']    = $conferenceBooking->id;
-            $foodInput['entity_id']     = $key;
-            $foodInput['entity_type']   = "food";
-            $foodInput['entity_name']   = $food->title;
-            $foodInput['entity_price']  = $food->price_per_attendee;
-            $foodInput['entity_qty']    = $val['qty'];
+                $food = $this->foodRepository->findWithoutFail($key);
 
-            $this->conferenceBookingItemRepository->create($foodInput);
+                $foodInput['booking_id']    = $conferenceBooking->id;
+                $foodInput['entity_id']     = $key;
+                $foodInput['entity_type']   = "food";
+                $foodInput['entity_name']   = $food->title;
+                $foodInput['entity_price']  = $food->price_per_attendee;
+                $foodInput['entity_qty']    = $val['qty'];
+
+                $this->conferenceBookingItemRepository->create($foodInput);
+            }
         }
 
 
         // ==========================================================================
 
 
-        $equipmentsUnits      = $input['equipmentsUnits'];
-        $equipmentsItemsID    = $input['equipments'];
+        if (!empty($input['equipments'])) {
 
-        $equipmentsData = array_intersect_key($equipmentsUnits, array_flip($equipmentsItemsID));
+            $equipmentsUnits      = $input['equipmentsUnits'];
+            $equipmentsItemsID    = $input['equipments'];
 
-        foreach ($equipmentsData as $key=>$val) {
+            $equipmentsData = array_intersect_key($equipmentsUnits, array_flip($equipmentsItemsID));
 
-            $equipment = $this->equipmentRepository->findWithoutFail($key);
+            foreach ($equipmentsData as $key=>$val) {
 
-            $equipmentInput['booking_id']    = $conferenceBooking->id;
-            $equipmentInput['entity_id']     = $key;
-            $equipmentInput['entity_type']   = "equipments";
-            $equipmentInput['entity_name']   = $equipment->title;
-            $equipmentInput['entity_price']  = $equipment->price;
-            $equipmentInput['entity_qty']    = $val['qty'];
+                $equipment = $this->equipmentRepository->findWithoutFail($key);
 
-            $this->conferenceBookingItemRepository->create($equipmentInput);
+                $equipmentInput['booking_id']    = $conferenceBooking->id;
+                $equipmentInput['entity_id']     = $key;
+                $equipmentInput['entity_type']   = "equipments";
+                $equipmentInput['entity_name']   = $equipment->title;
+                $equipmentInput['entity_price']  = $equipment->price;
+                $equipmentInput['entity_qty']    = $val['qty'];
+
+                $this->conferenceBookingItemRepository->create($equipmentInput);
+            }
         }
 
 
@@ -213,8 +234,9 @@ class ConferenceBookingController extends AppBaseController
 
 
         Session::flash("successMessage", "The Conference Bookingk has been added successfully.");
-
         return redirect(route('company.conference.conferenceBookings.index'));
+
+
     }
 
     /**
@@ -247,7 +269,7 @@ class ConferenceBookingController extends AppBaseController
     public function edit($id)
     {
 
-        $conferenceBookings     = $this->conferenceBookingRepository->all();
+        $conferenceBookings     = $this->conferenceBookingRepository->findWithoutFail($id);
         $paymentMethods         = $this->paymentMethodRepository->all();
         $conferenceDurations    = $this->conferenceDurationRepository->all();
         $roomLayouts            = $this->roomLayoutRepository->all();
@@ -256,6 +278,7 @@ class ConferenceBookingController extends AppBaseController
         $packages               = $this->packagesRepository->all();
         $rooms                  = DB::table('rooms')->orderBy('name', 'asc')->get();
 
+        $bookingItems           = $this->conferenceBookingItemRepository->getBookingItems($conferenceBookings->id);
 
         $conferenceBooking = $this->conferenceBookingRepository->findWithoutFail($id);
 
@@ -278,6 +301,7 @@ class ConferenceBookingController extends AppBaseController
                 'rooms'                 => $rooms,
                 'packages'              => $packages,
                 'conferenceBooking'     => $conferenceBooking,
+                'bookingItems'          => $bookingItems,
             ];
 
         return view('company.Conference.conference_bookings.edit', $data);

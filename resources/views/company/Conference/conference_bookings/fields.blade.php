@@ -26,7 +26,8 @@
 
         <div class="form-group m-t-2">
             <label for="attendees">Attendees</label>
-            <input type="number" id="attendees" placeholder="" value="@if(isset($conferenceBooking)){{$conferenceBooking->attendees}}@endif" name="attendees" class="form-control">
+            <input type="number" id="attendees" placeholder="100" value="@if(isset($conferenceBooking)){{$conferenceBooking->attendees}}@endif" name="attendees" class="form-control">
+            <div class="errorTxt"></div>
         </div>
 
 
@@ -41,6 +42,7 @@
                 </option>
                 @endforeach
             </select>
+            <div class="errorTxt"></div>
         </div>
 
         <!-- Room Layout Id Field -->
@@ -52,6 +54,7 @@
                 <option <?php if(isset($conferenceBooking) && $conferenceBooking->room_layout_id == $layout->id ) { echo "selected='selected'"; } ?> value="{{ $layout->id }}">{{ $layout->title }}</option>
                 @endforeach
             </select>
+            <div class="errorTxt"></div>
         </div>
 
         <!-- Duration Code Field -->
@@ -63,6 +66,7 @@
                 <option <?php if(isset($conferenceBooking) && $conferenceBooking->duration_code == $duration->code ) { echo "selected='selected'"; } ?> value="{{ $duration->code }}" data-duration-code="{{ $duration->code }}">{{ $duration->name }}</option>
                 @endforeach
             </select>
+            <div class="errorTxt"></div>
         </div>
 
         <!-- <div class="form-group m-t-2 start-time">
@@ -106,6 +110,7 @@
                     <option <?php if(isset($conferenceBooking) && $conferenceBooking->booking_status == 'confirmed' ) { echo "selected='selected'"; } ?> value="confirmed">Confirmed</option>
                     <option <?php if(isset($conferenceBooking) && $conferenceBooking->booking_status == 'pending' ) { echo "selected='selected'"; } ?> value="pending">Pending</option>
                 </select>
+                <div class="errorTxt"></div>
             </div>
 
             <!-- Payment Method Code Field -->
@@ -117,6 +122,7 @@
                     <option <?php if(isset($conferenceBooking) && $conferenceBooking->payment_method_code == $payMethod->code ) { echo "selected='selected'"; } ?> value="{{ $payMethod->code }}">{{ $payMethod->name }}</option>
                     @endforeach
                 </select>
+                <div class="errorTxt"></div>
             </div>
 
             <!-- Room Price Field -->
@@ -211,7 +217,10 @@
                 <td><p><strong>Price</strong></p></td>
             </tr>
 
+
             @foreach ($equipments as $eqp)
+
+
             <tr>
                 <td>
                      <p>{{ $eqp->title }}</p>
@@ -225,7 +234,7 @@
                 </td>
                 <td>
                     <label class="custom-control custom-checkbox">
-                            <input type="checkbox" name="equipments[]" value="{{$eqp->id}}" class="custom-control-input equipment-check-box" data-eqpid="{{$eqp->id}}" data-eqpprice="{{$eqp->price}}" data-isMultiUnits="{{$eqp->is_multi_units}}">
+                            <input type="checkbox" name="equipments[]" value="{{$eqp->id}}" class="custom-control-input equipment-check-box" data-eqpid="{{$eqp->id}}" data-eqpprice="{{$eqp->price}}" data-isMultiUnits="{{$eqp->is_multi_units}}" >
                             <span class="custom-control-indicator"></span>
                             @if ($eqp->criteria_id == 1)
                                 SEK {{ $eqp->price }} per booking

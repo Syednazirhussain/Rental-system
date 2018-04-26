@@ -35,4 +35,12 @@ class ConferenceBookingItemRepository extends BaseRepository
     {
         return ConferenceBookingItem::class;
     }
+
+    public function getBookingItems($id)
+    {
+  
+        return ConferenceBookingItem::where('booking_id', $id)->orderBy('id', 'asc')->get();
+    }
+
+
 }

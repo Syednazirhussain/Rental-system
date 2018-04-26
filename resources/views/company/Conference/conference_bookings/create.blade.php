@@ -15,7 +15,7 @@
                         <div class="panel-title">Add Conference Booking</div>
                     </div>
                     <div class="panel-body">
-                        <form action="{{ route('company.conference.conferenceBookings.store') }}" method="POST" id="">
+                        <form action="{{ route('company.conference.conferenceBookings.store') }}" method="POST" id="bookingForm">
 
                             @include('company.Conference.conference_bookings.fields')
 
@@ -33,18 +33,68 @@
 
 
 
-
-
-    <script>
+<script type="text/javascript">
 
 
 
 
-    /*$(function() {
-      $('#timepicker-base').timepicker();
-    });*/
+              // Initialize validator
+              $('#bookingForm').validate({
+                    
+                    rules: {
 
+                          'attendees': {
+                            required: true,
+                          },
+                          'room_id': {
+                            required: true,
+                          },
+                          'room_layout_id': {
+                            required: true,
+                          },
+                          'duration_code': {
+                            required: true,
+                          },
+                          'booking_status': {
+                            required: true,
+                          },
+                          'payment_method_code': {
+                            required: true,
+                          },
 
+                    },
+
+                    messages: {
+                          'attendees': {
+                            required: "Please enter attendees",
+                          },
+                          'room_id': {
+                            required: "Please select room",
+                          },
+                          'room_layout_id': {
+                            required: "Please select room layout",
+                          },
+                          'duration_code': {
+                            required: "Please select duration",
+                          },
+                          'booking_status': {
+                            required: "Please select status",
+                          },
+                          'payment_method_code': {
+                            required: "Please select pay method",
+                          },
+                    },
+
+                    errorPlacement: function(error, element) {
+                        var placement = $(element).parent().find('.errorTxt');
+                        if (placement) {
+                          $(placement).append(error)
+                        } else {
+                          error.insertAfter(element);
+                        }
+                    }
+
+              });
 
 
 
