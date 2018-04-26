@@ -1,8 +1,6 @@
 <?php
 
 
-Auth::routes();
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes for Admin Panel
@@ -438,13 +436,13 @@ Route::group(['middleware' => ['company.auth']], function () {
 /********** Conference module routes start here **********/
 
 
-	Route::get('temp_company/login', ['as'=> 'temp.company.login', 'uses' => 'Company\Conference\LoginController@index']);
-	Route::post('temp_company/authenticate', ['as'=> 'temp.company.authenticate', 'uses' => 'Company\Conference\LoginController@authenticate']);
-	Route::get('temp_company/dashboard', ['as'=> 'temp.company.dashboard', 'uses' => 'Company\Conference\LoginController@dashboard']);
+	// Route::get('company/login', ['as'=> 'temp.company.login', 'uses' => 'Company\Conference\LoginController@index']);
+	// Route::post('company/authenticate', ['as'=> 'temp.company.authenticate', 'uses' => 'Company\Conference\LoginController@authenticate']);
+	// Route::get('company/dashboard', ['as'=> 'temp.company.dashboard', 'uses' => 'Company\Conference\LoginController@dashboard']);
 	Route::get('mail', ['as'=> 'mail.send', 'uses' => 'General\ValidationController@sendMail']);
 
 	// Temporary Routes By Moiz for UIs Designing
-	Route::get('temp_company/booking/add', ['as'=> 'temp.company.booking.add', 'uses' => 'Company\Conference\RoomController@addBooking']);
+/*	Route::get('temp_company/booking/add', ['as'=> 'temp.company.booking.add', 'uses' => 'Company\Conference\RoomController@addBooking']);
 	Route::get('temp_company/room/add', ['as'=> 'temp.company.room.add', 'uses' => 'Company\Conference\RoomController@addRoom']);
 	Route::get('temp_company/roomLayout/add', ['as'=> 'temp.company.roomLayout.add', 'uses' => 'Company\Conference\RoomController@addRoomLayout']);
 	Route::get('temp_company/equipment/add', ['as'=> 'temp.company.equipments.add', 'uses' => 'Company\Conference\RoomController@addEquipments']);
@@ -452,7 +450,7 @@ Route::group(['middleware' => ['company.auth']], function () {
 	Route::get('temp_company/foodndrink/add', ['as'=> 'temp.company.foodndrinks.add', 'uses' => 'Company\Conference\RoomController@addFoodnDrinks']);
 	Route::get('temp_company/package/add', ['as'=> 'temp.company.package.add', 'uses' => 'Company\Conference\RoomController@addPackage']);
 	Route::get('temp_company/customer/add', ['as'=> 'temp.company.customer.add', 'uses' => 'Company\Conference\RoomController@addCustomer']);
-
+*/
 	// Conference Room Layout Routes
 	Route::get('company/Conference/roomLayouts', ['as'=> 'company.conference.roomLayouts.index', 'uses' => 'Company\Conference\RoomLayoutController@index']);
 	Route::post('company/Conference/roomLayouts', ['as'=> 'company.conference.roomLayouts.store', 'uses' => 'Company\Conference\RoomLayoutController@store']);

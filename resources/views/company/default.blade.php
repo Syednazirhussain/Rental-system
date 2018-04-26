@@ -90,19 +90,12 @@
                         <ul class="dropdown-menu">
                             <li><a href="{{ route('company.companyBuildings.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Buildings</a>
                             </li>
-                            <li class="dropdown-toggle">
+                          <!--   <li class="dropdown-toggle">
 
                                 <a href>Bookings</a>
                                 <ul class="dropdown-menu">
                                     <li><a href="{{ route('company.conference.conferenceBookings.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Booking</a></li>
                                     <li><a href="{{ route('company.conference.conferenceBookings.index') }}"><i class="fa fa-cube"></i>&nbsp;&nbsp;Bookings</a></li>
-                                </ul>
-                            </li>
-                            <!-- <li class="dropdown-toggle">
-                                <a href>Rooms</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="{{ route('temp.company.room.add') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Room</a></li>
-                                    <li><a href=""><i class="fa fa-cube"></i>&nbsp;&nbsp;Rooms</a></li>
                                 </ul>
                             </li> -->
                             <li class="dropdown-toggle">
@@ -140,13 +133,7 @@
                                     <li><a href="{{ route('company.conference.packages.index') }}"><i class="fa fa-cube"></i>&nbsp;&nbsp;Packages</a></li>
                                 </ul>
                             </li>
-                            <!-- <li class="dropdown-toggle">
-                                <a href>Customers</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="{{ route('temp.company.customer.add') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Customer</a></li>
-                                    <li><a href=""><i class="fa fa-cube"></i>&nbsp;&nbsp;Customers</a></li>
-                                </ul>
-                            </li> -->
+
                             <li class="divider"></li>
                             <li><a href="#">Help</a></li>
                         </ul>
