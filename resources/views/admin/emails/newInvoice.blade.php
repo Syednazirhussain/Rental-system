@@ -24,19 +24,14 @@
 
         /* /\/\/\/\/\/\/\/\/\/\ STANDARD STYLING: COMMON PAGE ELEMENTS /\/\/\/\/\/\/\/\/\/\ */
 
-        /**
-        * @tab Page
-        * @section background color
-			* @tip Set the background color for your email. You may want to choose one that matches your company's branding.
-			* @theme page
-			*/
+
         body, #backgroundTable{
             /*@editable*/ background-color:#FAFAFA;
         }
 
         /**
         * @tab Page
-        * @section email border
+        *  email border
 			* @tip Set the border for your email.
 			*/
         #templateContainer{
@@ -45,7 +40,7 @@
 
         /**
         * @tab Page
-        * @section heading 1
+        *  heading 1
 			* @tip Set the styling for all first-level headings in your emails. These should be the largest of your headings.
 			* @style heading 1
 			*/
@@ -65,7 +60,7 @@
 
         /**
         * @tab Page
-        * @section heading 2
+        *  heading 2
 			* @tip Set the styling for all second-level headings in your emails.
 			* @style heading 2
 			*/
@@ -85,7 +80,7 @@
 
         /**
         * @tab Page
-        * @section heading 3
+        *  heading 3
 			* @tip Set the styling for all third-level headings in your emails.
 			* @style heading 3
 			*/
@@ -105,7 +100,7 @@
 
         /**
         * @tab Page
-        * @section heading 4
+        *  heading 4
 			* @tip Set the styling for all fourth-level headings in your emails. These should be the smallest of your headings.
 			* @style heading 4
 			*/
@@ -127,7 +122,7 @@
 
         /**
         * @tab Header
-        * @section header style
+        *  header style
 			* @tip Set the background color and border for your email's header area.
 			* @theme header
 			*/
@@ -138,7 +133,7 @@
 
         /**
         * @tab Header
-        * @section header text
+        *  header text
 			* @tip Set the styling for your email's header text. Choose a size and color that is easy to read.
 			*/
         .headerContent{
@@ -154,7 +149,7 @@
 
         /**
         * @tab Header
-        * @section header link
+        *  header link
 			* @tip Set the styling for your email's header links. Choose a color that helps them stand out from your text.
 			*/
         .headerContent a:link, .headerContent a:visited, /* Yahoo! Mail Override */ .headerContent a .yshortcuts /* Yahoo! Mail Override */{
@@ -172,7 +167,7 @@
 
         /**
         * @tab Body
-        * @section body style
+        *  body style
 			* @tip Set the background color for your email's body area.
 			*/
         #templateContainer, .bodyContent{
@@ -181,7 +176,7 @@
 
         /**
         * @tab Body
-        * @section body text
+        *  body text
 			* @tip Set the styling for your email's main content text. Choose a size and color that is easy to read.
 			* @theme main
 			*/
@@ -195,7 +190,7 @@
 
         /**
         * @tab Body
-        * @section body link
+        *  body link
 			* @tip Set the styling for your email's main content links. Choose a color that helps them stand out from your text.
 			*/
         .bodyContent div a:link, .bodyContent div a:visited, /* Yahoo! Mail Override */ .bodyContent div a .yshortcuts /* Yahoo! Mail Override */{
@@ -206,7 +201,7 @@
 
         /**
         * @tab Body
-        * @section button style
+        *  button style
 			* @tip Set the styling for your email's button. Choose a style that draws attention.
 			*/
         .templateButton{
@@ -220,7 +215,7 @@
 
         /**
         * @tab Body
-        * @section button style
+        *  button style
 			* @tip Set the styling for your email's button. Choose a style that draws attention.
 			*/
         .templateButton, .templateButton a:link, .templateButton a:visited, /* Yahoo! Mail Override */ .templateButton a .yshortcuts /* Yahoo! Mail Override */{
@@ -243,7 +238,7 @@
 
         /**
         * @tab Footer
-        * @section footer style
+        *  footer style
 			* @tip Set the background color and top border for your email's footer area.
 			* @theme footer
 			*/
@@ -254,7 +249,7 @@
 
         /**
         * @tab Footer
-        * @section footer text
+        *  footer text
 			* @tip Set the styling for your email's footer text. Choose a size and color that is easy to read.
 			* @theme footer
 			*/
@@ -268,7 +263,7 @@
 
         /**
         * @tab Footer
-        * @section footer link
+        *  footer link
 			* @tip Set the styling for your email's footer links. Choose a color that helps them stand out from your text.
 			*/
         .footerContent div a:link, .footerContent div a:visited, /* Yahoo! Mail Override */ .footerContent div a .yshortcuts /* Yahoo! Mail Override */{
@@ -283,7 +278,7 @@
 
         /**
         * @tab Footer
-        * @section utility bar style
+        *  utility bar style
 			* @tip Set the background color and border for your email's footer utility bar.
 			* @theme footer
 			*/
@@ -294,7 +289,7 @@
 
         /**
         * @tab Footer
-        * @section utility bar style
+        *  utility bar style
 			* @tip Set the background color and border for your email's footer utility bar.
 			*/
         #utility div{
