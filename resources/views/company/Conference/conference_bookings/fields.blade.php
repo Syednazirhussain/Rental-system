@@ -229,7 +229,11 @@
                     @if ($eqp->is_multi_units == 0)
                         <p>1</p>
                     @else
-                        <p><input type="number" name="equipmentsUnits[{{$eqp->id}}][qty]"  class="form-control eqpUnits" id="{{$eqp->id}}"  value="1" min="1" class="form-control"></p>
+                        @if(isset($conferenceBooking))
+                            <p><input type="number" name="equipmentsUnits[{{$eqp->id}}][qty]"  class="form-control eqpUnits" id="{{$eqp->id}}"  value="<?php   foreach ($getBookingEquipmentsItems as $key => $value) {  if ($value->entity_id == $eqp->id) {  echo $value->entity_qty; }   }   ?>" placeholder="1" min="1" class="form-control"></p>
+                        @else
+                            <p><input type="number" name="equipmentsUnits[{{$eqp->id}}][qty]"  class="form-control eqpUnits" id="{{$eqp->id}}"  value="1" min="1" class="form-control"></p>
+                        @endif
                     @endif
                 </td>
                 <td>
@@ -238,10 +242,13 @@
                         <label class="custom-control custom-checkbox">
                                 <input type="checkbox" name="equipments[]" value="{{$eqp->id}}" class="custom-control-input equipment-check-box" data-eqpid="{{$eqp->id}}" data-eqpprice="{{$eqp->price}}" data-isMultiUnits="{{$eqp->is_multi_units}}" 
 
-
                                     <?php  
 
-                                     
+                                        foreach ($getBookingEquipmentsItems as $key => $value) {
+                                            if ($value->entity_id == $eqp->id) {
+                                                 echo "checked='checked'";
+                                             } 
+                                        }
 
                                     ?>
 
@@ -297,19 +304,16 @@
 
             @foreach ($foodItems as $food)
 
-
-                <!-- @foreach ($bookingItems as $asd)
-                    <p>{{ $asd->entity_id }}</p>
-                    <p>{{ $asd->entity_type }}</p>
-                @endforeach -->
-
-
             <tr>
                 <td>
                      <p>{{ $food->title }}</p>
                 </td>
                 <td>
-                    <p><input type="number" name="foodUnits[{{$food->id}}][qty]" class="form-control foodUnits" id="{{$food->id}}"  value="1" min="1" class="form-control"></p>
+                    @if(isset($conferenceBooking))
+                        <p><input type="number" name="foodUnits[{{$food->id}}][qty]" class="form-control foodUnits" id="{{$food->id}}"  value="<?php   foreach ($getBookingFoodsItems as $key => $value) {  if ($value->entity_id == $food->id) {  echo $value->entity_qty; }   }   ?>" placeholder="1" min="1" class="form-control"></p>
+                    @else
+                        <p><input type="number" name="foodUnits[{{$food->id}}][qty]" class="form-control foodUnits" id="{{$food->id}}"  value="1" min="1" class="form-control"></p>
+                    @endif
                 </td>
                 <td>
 
@@ -320,8 +324,8 @@
 
                                     <?php  
 
-                                        foreach ($bookingItems as $key => $value) {
-                                            if ($value->entity_type == 'food' && $value->entity_id == $food->id) {
+                                        foreach ($getBookingFoodsItems as $key => $value) {
+                                            if ($value->entity_id == $food->id) {
                                                  echo "checked='checked'";
                                              } 
                                         }
@@ -376,19 +380,59 @@
             </tr>
 
             @foreach ($packages as $package)
+
+
+
+
+                                    
+
+
+
+
+
+
             <tr>
                 <td>
                      <p>{{ $package->title }} </p>
                 </td>
                 <td>
-                    <p><input type="number" name="packageUnits[{{$package->id}}][qty]" class="form-control packageUnits" id="{{$package->id}}"  value="1" min="1" class="form-control"></p>
+                    @if(isset($conferenceBooking))
+                        <p><input type="number" name="packageUnits[{{$package->id}}][qty]" class="form-control packageUnits" id="{{$package->id}}"  value="<?php   foreach ($getBookingPackagesItems as $key => $value) {  if ($value->entity_id == $package->id) {  echo $value->entity_qty; }   }   ?>" min="1" placeholder="1" class="form-control"></p>
+                    @else
+                        <p><input type="number" name="packageUnits[{{$package->id}}][qty]" class="form-control packageUnits" id="{{$package->id}}"  value="1" min="1" class="form-control"></p>
+                    @endif
                 </td>
                 <td>
-                    <label class="custom-control custom-checkbox">
-                            <input type="checkbox" name="packages[]" value="{{$package->id}}" class="custom-control-input package-check-box" data-packageid="{{$package->id}}" data-packageprice="{{$package->price}}">
-                            <span class="custom-control-indicator "></span>
-                            SEK {{ $package->price }} per attendee
-                    </label>
+                    @if(isset($conferenceBooking))
+                    
+                        <label class="custom-control custom-checkbox">
+                                <input type="checkbox" name="packages[]" value="{{$package->id}}" class="custom-control-input package-check-box" data-packageid="{{$package->id}}" data-packageprice="{{$package->price}}"
+
+
+                                    <?php  
+
+                                        foreach ($getBookingPackagesItems as $key => $value) {
+                                            if ($value->entity_id == $package->id) {
+                                                 echo "checked='checked'";
+                                             } 
+                                        }
+
+                                    ?>
+
+                                >
+                                <span class="custom-control-indicator "></span>
+                                SEK {{ $package->price }} per attendee
+                        </label>
+
+                    @else
+
+                        <label class="custom-control custom-checkbox">
+                                <input type="checkbox" name="packages[]" value="{{$package->id}}" class="custom-control-input package-check-box" data-packageid="{{$package->id}}" data-packageprice="{{$package->price}}">
+                                <span class="custom-control-indicator "></span>
+                                SEK {{ $package->price }} per attendee
+                        </label>
+
+                    @endif
                 </td>
             </tr>
             @endforeach
@@ -436,7 +480,7 @@
         
 
 
-            <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i>  Add Booking </button>
+            <button type="submit" class="btn btn-primary">@if(isset($conferenceBooking))  <i class="fa fa-refresh"></i>  Update Booking  @else <i class="fa fa-plus"></i>  Add Booking @endif</button>
             <a href="{!! route('company.conference.conferenceBookings.index') !!}" class="btn btn-default"> <i class="fa fa-times"></i> Cancel</a>
         
 

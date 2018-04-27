@@ -108,6 +108,7 @@ class ConferenceBookingController extends AppBaseController
                 'foodItems'             => $foodItems,
                 'rooms'                 => $rooms,
                 'packages'              => $packages,
+                'bookingItems'          => "",
             ];
 
         return view('company.Conference.conference_bookings.create', $data);
@@ -278,8 +279,9 @@ class ConferenceBookingController extends AppBaseController
         $packages               = $this->packagesRepository->all();
         $rooms                  = DB::table('rooms')->orderBy('name', 'asc')->get();
 
-        $bookingItems           = $this->conferenceBookingItemRepository->getBookingItems($conferenceBooking->id);
-
+        $getBookingPackagesItems        = $this->conferenceBookingItemRepository->getBookingPackagesItems($conferenceBooking->id);
+        $getBookingEquipmentsItems      = $this->conferenceBookingItemRepository->getBookingEquipmentsItems($conferenceBooking->id);
+        $getBookingFoodsItems           = $this->conferenceBookingItemRepository->getBookingFoodsItems($conferenceBooking->id);
 
         if (empty($conferenceBooking)) {
             Flash::error('Conference Booking not found');
@@ -287,18 +289,19 @@ class ConferenceBookingController extends AppBaseController
             return redirect(route('company.conference.conferenceBookings.index'));
         }
 
-
         $data = [
-                'conferenceDurations'   => $conferenceDurations,
-                'paymentMethods'        => $paymentMethods,
-                'roomLayouts'           => $roomLayouts,
-                'equipments'            => $equipments,
-                'foodItems'             => $foodItems,
-                'rooms'                 => $rooms,
-                'packages'              => $packages,
-                'conferenceBooking'     => $conferenceBooking,
-                'bookingItems'          => $bookingItems,
-            ];
+                    'conferenceDurations'   => $conferenceDurations,
+                    'paymentMethods'        => $paymentMethods,
+                    'roomLayouts'           => $roomLayouts,
+                    'equipments'            => $equipments,
+                    'foodItems'             => $foodItems,
+                    'rooms'                 => $rooms,
+                    'packages'              => $packages,
+                    'conferenceBooking'     => $conferenceBooking,
+                    'getBookingPackagesItems'   => $getBookingPackagesItems,
+                    'getBookingEquipmentsItems' => $getBookingEquipmentsItems,
+                    'getBookingFoodsItems'      => $getBookingFoodsItems,
+                ];
 
         return view('company.Conference.conference_bookings.edit', $data);
     }

@@ -36,10 +36,24 @@ class ConferenceBookingItemRepository extends BaseRepository
         return ConferenceBookingItem::class;
     }
 
-    public function getBookingItems($id)
+    public function getBookingPackagesItems($id)
     {
   
-        return ConferenceBookingItem::where('booking_id', $id)->orderBy('id', 'asc')->get();
+        return ConferenceBookingItem::where('booking_id', $id)->where('entity_type', 'package')->orderBy('id', 'asc')->get();
+    }
+
+
+    public function getBookingEquipmentsItems($id)
+    {
+  
+        return ConferenceBookingItem::where('booking_id', $id)->where('entity_type', 'equipments')->orderBy('id', 'asc')->get();
+    }
+
+
+    public function getBookingFoodsItems($id)
+    {
+  
+        return ConferenceBookingItem::where('booking_id', $id)->where('entity_type', 'food')->orderBy('id', 'asc')->get();
     }
 
 
