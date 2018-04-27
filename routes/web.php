@@ -9,10 +9,7 @@
 | These are the routes declared for Admin Panel
 |
 */
-Route::get('/', function() {
 
-    return redirect()->route('company.login');
-});
 
 /********** Admin accessible routes as a Guest User start **********/
 
@@ -25,17 +22,8 @@ Route::group(['middleware' => ['admin.guest']], function () {
 
 });
 
-/******* Redirect to admin login *********/
-Route::get('/admin', function() {
 
-	return redirect()->route('admin.login');
-});
 
-/***** Redirect to Customer login ***/
-Route::get('/company', function() {
-
-    return redirect()->route('company.login');
-});
 
 /********** Admin accessible routes as a Guest User start **********/
 
@@ -56,6 +44,8 @@ Route::group(['middleware' => ['admin.guest']], function () {
 /********** Admin accessible routes as an Authenticated User start **********/
 
 Route::group(['middleware' => ['admin.auth']], function () {
+
+	
 
 	# Admin Account related routes
 	Route::get('admin/dashboard', ['as'=> 'admin.dashboard', 'uses' => 'Admin\DashboardController@index']);
@@ -290,10 +280,45 @@ Route::group(['middleware' => ['admin.auth']], function () {
 
 });
 
+
+
+
+
+
+# ---------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes for Company Admin
+|--------------------------------------------------------------------------
+|
+| These are the routes declared for Company Admin
+|
+*/
+
+
+
+// main route
+Route::get('/', function() {
+    return redirect()->route('company.login');
+});
+
+
+
 /********** Company Admin accessible routes as a Guest User start **********/
 
-
 Route::group(['middleware' => ['company.guest']], function () {
+
+	Route::get('company', function() {
+	    return redirect()->route('company.login');
+	});
     Route::get("admin/settings/city/{id}",['uses' => 'Admin\UserController@getCityByStateId']);
     Route::get('company/login', ['as'=> 'company.login', 'uses' => 'Company\UserController@viewLogin']);
     Route::post('company/authenticate', ['as'=> 'company.users.authenticate', 'uses' => 'Company\UserController@authenticate']);
@@ -302,15 +327,21 @@ Route::group(['middleware' => ['company.guest']], function () {
 
 /********** Company Admin accessible routes as a Guest User end **********/
 
+
+
+
 /********** Company Admin accessible routes as an Authenticated User start **********/
 
 Route::group(['middleware' => ['company.auth']], function () {
 
+	# Compand Admin account related routes
     Route::get('company/dashboard', ['as' => 'company.dashboard', 'uses' => 'Company\DashboardController@index']);
     Route::get('company/dashboard/profile', ['as' => 'company.dashboard.profile', 'uses' => 'Company\DashboardController@profile']);
-
     Route::get('company/logout', ['as' => 'company.logout', 'uses' => 'Company\UserController@logout']);
 
+
+
+    # Company Users Section routes
     Route::get('company/users', ['as' => 'company.users.index', 'uses' => 'Company\UserController@index']);
     Route::post('company/users', ['as' => 'company.users.store', 'uses' => 'Company\UserController@store']);
     Route::get('company/users/create', ['as' => 'company.users.create', 'uses' => 'Company\UserController@create']);
@@ -320,6 +351,10 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::get('company/users/{users}', ['as' => 'company.users.show', 'uses' => 'Company\UserController@show']);
     Route::get('company/users/{users}/edit', ['as' => 'company.users.edit', 'uses' => 'Company\UserController@edit']);
 
+
+
+
+     # Company Buildings Section routes
     Route::get('company/companyBuildings', ['as'=> 'company.companyBuildings.index', 'uses' => 'Company\CompanyBuildingController@index']);
     //Route::post('company/companyBuildings', ['as'=> 'company.companyBuildings.store', 'uses' => 'Company\CompanyBuildingController@store']);
     //Route::get('company/companyBuildings/create', ['as'=> 'company.companyBuildings.create', 'uses' => 'Company\CompanyBuildingController@create']);
@@ -329,6 +364,10 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::get('company/companyBuildings/{companyBuildings}', ['as'=> 'company.companyBuildings.show', 'uses' => 'Company\CompanyBuildingController@show']);
     Route::get('company/companyBuildings/{companyBuildings}/edit', ['as'=> 'company.companyBuildings.edit', 'uses' => 'Company\CompanyBuildingController@edit']);
 
+
+
+
+    # Company Floor Rooms routes
     Route::get('company/companyFloorRooms', ['as'=> 'company.companyFloorRooms.index', 'uses' => 'Company\CompanyFloorRoomController@index']);
     Route::post('company/companyFloorRooms', ['as'=> 'company.companyFloorRooms.store', 'uses' => 'Company\CompanyFloorRoomController@store']);
     Route::get('company/companyFloorRooms/create', ['as'=> 'company.companyFloorRooms.create', 'uses' => 'Company\CompanyFloorRoomController@create']);
@@ -338,6 +377,10 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::get('company/companyFloorRooms/{companyFloorRooms}', ['as'=> 'company.companyFloorRooms.show', 'uses' => 'Company\CompanyFloorRoomController@show']);
     Route::get('company/companyFloorRooms/{companyFloorRooms}/edit', ['as'=> 'company.companyFloorRooms.edit', 'uses' => 'Company\CompanyFloorRoomController@edit']);
 
+
+
+
+    # Company Services section routes
     Route::get('company/services', ['as'=> 'company.services.index', 'uses' => 'Company\ServiceController@index']);
     Route::post('company/services', ['as'=> 'company.services.store', 'uses' => 'Company\ServiceController@store']);
     Route::get('company/services/create', ['as'=> 'company.services.create', 'uses' => 'Company\ServiceController@create']);
@@ -347,6 +390,9 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::get('company/services/{services}', ['as'=> 'company.services.show', 'uses' => 'Company\ServiceController@show']);
     Route::get('company/services/{services}/edit', ['as'=> 'company.services.edit', 'uses' => 'Company\ServiceController@edit']);
 
+
+
+    # Company Rooms Section routes
     Route::get('company/rooms', ['as'=> 'company.rooms.index', 'uses' => 'Company\RoomController@index']);
     Route::post('company/rooms', ['as'=> 'company.rooms.store', 'uses' => 'Company\RoomController@store']);
     Route::get('company/rooms/create', ['as'=> 'company.rooms.create', 'uses' => 'Company\RoomController@create']);
@@ -356,6 +402,9 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::get('company/rooms/{rooms}', ['as'=> 'company.rooms.show', 'uses' => 'Company\RoomController@show']);
     Route::get('company/rooms/{rooms}/edit', ['as'=> 'company.rooms.edit', 'uses' => 'Company\RoomController@edit']);
 
+
+
+    # Company Contracts Section routes
     Route::get('company/contracts', ['as'=> 'company.contracts.index', 'uses' => 'Company\RoomContractController@index']);
     Route::post('company/contracts', ['as'=> 'company.contracts.store', 'uses' => 'Company\RoomContractController@store']);
     Route::get('company/contracts/create', ['as'=> 'company.contracts.create', 'uses' => 'Company\RoomContractController@create']);
@@ -365,12 +414,16 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::get('company/contracts/{contracts}', ['as'=> 'company.contracts.show', 'uses' => 'Company\RoomContractController@show']);
     Route::get('company/contracts/{contracts}/edit', ['as'=> 'company.contracts.edit', 'uses' => 'Company\RoomContractController@edit']);
 
+
+    # Company Contract Persons Section routes
     Route::post('company/companies', ['as'=> 'company.companies.store', 'uses' => 'Company\CompanyController@store']);
     Route::put('company/companies/{companies}', ['as'=> 'company.companies.update', 'uses' => 'Company\CompanyController@update']);
     Route::patch('company/companies/{companies}', ['as'=> 'company.companies.update', 'uses' => 'Company\CompanyController@update']);
     Route::post('company/companyContactPeople', ['as'=> 'company.companyContactPeople.store', 'uses' => 'Company\CompanyContactPersonController@store']);
     Route::put('company/companyContactPeople', ['as'=> 'company.companyContactPeople.update', 'uses' => 'Company\CompanyContactPersonController@update']);
     Route::patch('company/companyContactPeople', ['as'=> 'company.companyContactPeople.update', 'uses' => 'Company\CompanyContactPersonController@update']);
+
+
 
     // Invoice Generator
     // routes created by nazir start
@@ -421,34 +474,17 @@ Route::group(['middleware' => ['company.auth']], function () {
 
 
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes for Conference Module
-|--------------------------------------------------------------------------
-|
-| These are the routes declared for General purpose
-|
-*/
+
 
 
 /********** Conference module routes start here **********/
 
-
+Route::group(['middleware' => ['company.auth']], function () {
 	// Route::get('company/login', ['as'=> 'temp.company.login', 'uses' => 'Company\Conference\LoginController@index']);
 	// Route::post('company/authenticate', ['as'=> 'temp.company.authenticate', 'uses' => 'Company\Conference\LoginController@authenticate']);
 	// Route::get('company/dashboard', ['as'=> 'temp.company.dashboard', 'uses' => 'Company\Conference\LoginController@dashboard']);
-	Route::get('mail', ['as'=> 'mail.send', 'uses' => 'General\ValidationController@sendMail']);
 
-	// Temporary Routes By Moiz for UIs Designing
-/*	Route::get('temp_company/booking/add', ['as'=> 'temp.company.booking.add', 'uses' => 'Company\Conference\RoomController@addBooking']);
-	Route::get('temp_company/room/add', ['as'=> 'temp.company.room.add', 'uses' => 'Company\Conference\RoomController@addRoom']);
-	Route::get('temp_company/roomLayout/add', ['as'=> 'temp.company.roomLayout.add', 'uses' => 'Company\Conference\RoomController@addRoomLayout']);
-	Route::get('temp_company/equipment/add', ['as'=> 'temp.company.equipments.add', 'uses' => 'Company\Conference\RoomController@addEquipments']);
-	Route::get('temp_company/equipment/criteria/add', ['as'=> 'temp.company.equipment.criteria.add', 'uses' => 'Company\Conference\RoomController@addEquipmentsCriteria']);
-	Route::get('temp_company/foodndrink/add', ['as'=> 'temp.company.foodndrinks.add', 'uses' => 'Company\Conference\RoomController@addFoodnDrinks']);
-	Route::get('temp_company/package/add', ['as'=> 'temp.company.package.add', 'uses' => 'Company\Conference\RoomController@addPackage']);
-	Route::get('temp_company/customer/add', ['as'=> 'temp.company.customer.add', 'uses' => 'Company\Conference\RoomController@addCustomer']);
-*/
+
 	// Conference Room Layout Routes
 	Route::get('company/Conference/roomLayouts', ['as'=> 'company.conference.roomLayouts.index', 'uses' => 'Company\Conference\RoomLayoutController@index']);
 	Route::post('company/Conference/roomLayouts', ['as'=> 'company.conference.roomLayouts.store', 'uses' => 'Company\Conference\RoomLayoutController@store']);
@@ -501,6 +537,36 @@ Route::group(['middleware' => ['company.auth']], function () {
 
 
 
+	Route::get('company/conference/bookings', ['as'=> 'company.conference.conferenceBookings.index', 'uses' => 'Company\Conference\ConferenceBookingController@index']);
+	Route::post('company/conference/bookings', ['as'=> 'company.conference.conferenceBookings.store', 'uses' => 'Company\Conference\ConferenceBookingController@store']);
+	Route::get('company/conference/bookings/create', ['as'=> 'company.conference.conferenceBookings.create', 'uses' => 'Company\Conference\ConferenceBookingController@create']);
+	Route::put('company/conference/bookings/{conferenceBookings}', ['as'=> 'company.conference.conferenceBookings.update', 'uses' => 'Company\Conference\ConferenceBookingController@update']);
+	Route::patch('company/conference/bookings/{conferenceBookings}', ['as'=> 'company.conference.conferenceBookings.update', 'uses' => 'Company\Conference\ConferenceBookingController@update']);
+	Route::delete('company/conference/bookings/{conferenceBookings}', ['as'=> 'company.conference.conferenceBookings.destroy', 'uses' => 'Company\Conference\ConferenceBookingController@destroy']);
+	Route::get('company/conference/bookings/{conferenceBookings}', ['as'=> 'company.conference.conferenceBookings.show', 'uses' => 'Company\Conference\ConferenceBookingController@show']);
+	Route::get('company/conference/bookings/{conferenceBookings}/edit', ['as'=> 'company.conference.conferenceBookings.edit', 'uses' => 'Company\Conference\ConferenceBookingController@edit']);
+
+
+	Route::get('company/Conference/conferenceDurations', ['as'=> 'company/Conference.conferenceDurations.index', 'uses' => 'Company/conference\ConferenceDurationController@index']);
+	Route::post('company/Conference/conferenceDurations', ['as'=> 'company/Conference.conferenceDurations.store', 'uses' => 'Company/conference\ConferenceDurationController@store']);
+	Route::get('company/Conference/conferenceDurations/create', ['as'=> 'company/Conference.conferenceDurations.create', 'uses' => 'Company/conference\ConferenceDurationController@create']);
+	Route::put('company/Conference/conferenceDurations/{conferenceDurations}', ['as'=> 'company/Conference.conferenceDurations.update', 'uses' => 'Company/conference\ConferenceDurationController@update']);
+	Route::patch('company/Conference/conferenceDurations/{conferenceDurations}', ['as'=> 'company/Conference.conferenceDurations.update', 'uses' => 'Company/conference\ConferenceDurationController@update']);
+	Route::delete('company/Conference/conferenceDurations/{conferenceDurations}', ['as'=> 'company/Conference.conferenceDurations.destroy', 'uses' => 'Company/conference\ConferenceDurationController@destroy']);
+	Route::get('company/Conference/conferenceDurations/{conferenceDurations}', ['as'=> 'company/Conference.conferenceDurations.show', 'uses' => 'Company/conference\ConferenceDurationController@show']);
+	Route::get('company/Conference/conferenceDurations/{conferenceDurations}/edit', ['as'=> 'company/Conference.conferenceDurations.edit', 'uses' => 'Company/conference\ConferenceDurationController@edit']);
+
+
+	Route::get('company/Conference/conferenceBookingItems', ['as'=> 'company/Conference.conferenceBookingItems.index', 'uses' => 'Company/conference\ConferenceBookingItemController@index']);
+	Route::post('company/Conference/conferenceBookingItems', ['as'=> 'company/Conference.conferenceBookingItems.store', 'uses' => 'Company/conference\ConferenceBookingItemController@store']);
+	Route::get('company/Conference/conferenceBookingItems/create', ['as'=> 'company/Conference.conferenceBookingItems.create', 'uses' => 'Company/conference\ConferenceBookingItemController@create']);
+	Route::put('company/Conference/conferenceBookingItems/{conferenceBookingItems}', ['as'=> 'company/Conference.conferenceBookingItems.update', 'uses' => 'Company/conference\ConferenceBookingItemController@update']);
+	Route::patch('company/Conference/conferenceBookingItems/{conferenceBookingItems}', ['as'=> 'company/Conference.conferenceBookingItems.update', 'uses' => 'Company/conference\ConferenceBookingItemController@update']);
+	Route::delete('company/Conference/conferenceBookingItems/{conferenceBookingItems}', ['as'=> 'company/Conference.conferenceBookingItems.destroy', 'uses' => 'Company/conference\ConferenceBookingItemController@destroy']);
+	Route::get('company/Conference/conferenceBookingItems/{conferenceBookingItems}', ['as'=> 'company/Conference.conferenceBookingItems.show', 'uses' => 'Company/conference\ConferenceBookingItemController@show']);
+	Route::get('company/Conference/conferenceBookingItems/{conferenceBookingItems}/edit', ['as'=> 'company/Conference.conferenceBookingItems.edit', 'uses' => 'Company/conference\ConferenceBookingItemController@edit']);
+
+});
 
 
 
@@ -528,6 +594,7 @@ Route::group(['middleware' => ['company.auth']], function () {
 Route::post('cities', ['as'=> 'cities.list', 'uses' => 'General\GeoController@getCities']);
 Route::post('validate/contract_no', ['as'=> 'validate.contract', 'uses' => 'General\ValidationController@contractNo']);
 Route::post('validate/admin', ['as'=> 'validate.admin', 'uses' => 'General\ValidationController@adminEmail']);
+Route::get('mail', ['as'=> 'mail.send', 'uses' => 'General\ValidationController@sendMail']);
 
 
 /********** General routes end here **********/
@@ -558,34 +625,3 @@ Route::post('validate/admin', ['as'=> 'validate.admin', 'uses' => 'General\Valid
 
 
 
-
-
-
-Route::get('company/conference/bookings', ['as'=> 'company.conference.conferenceBookings.index', 'uses' => 'Company\Conference\ConferenceBookingController@index']);
-Route::post('company/conference/bookings', ['as'=> 'company.conference.conferenceBookings.store', 'uses' => 'Company\Conference\ConferenceBookingController@store']);
-Route::get('company/conference/bookings/create', ['as'=> 'company.conference.conferenceBookings.create', 'uses' => 'Company\Conference\ConferenceBookingController@create']);
-Route::put('company/conference/bookings/{conferenceBookings}', ['as'=> 'company.conference.conferenceBookings.update', 'uses' => 'Company\Conference\ConferenceBookingController@update']);
-Route::patch('company/conference/bookings/{conferenceBookings}', ['as'=> 'company.conference.conferenceBookings.update', 'uses' => 'Company\Conference\ConferenceBookingController@update']);
-Route::delete('company/conference/bookings/{conferenceBookings}', ['as'=> 'company.conference.conferenceBookings.destroy', 'uses' => 'Company\Conference\ConferenceBookingController@destroy']);
-Route::get('company/conference/bookings/{conferenceBookings}', ['as'=> 'company.conference.conferenceBookings.show', 'uses' => 'Company\Conference\ConferenceBookingController@show']);
-Route::get('company/conference/bookings/{conferenceBookings}/edit', ['as'=> 'company.conference.conferenceBookings.edit', 'uses' => 'Company\Conference\ConferenceBookingController@edit']);
-
-
-Route::get('company/Conference/conferenceDurations', ['as'=> 'company/Conference.conferenceDurations.index', 'uses' => 'Company/conference\ConferenceDurationController@index']);
-Route::post('company/Conference/conferenceDurations', ['as'=> 'company/Conference.conferenceDurations.store', 'uses' => 'Company/conference\ConferenceDurationController@store']);
-Route::get('company/Conference/conferenceDurations/create', ['as'=> 'company/Conference.conferenceDurations.create', 'uses' => 'Company/conference\ConferenceDurationController@create']);
-Route::put('company/Conference/conferenceDurations/{conferenceDurations}', ['as'=> 'company/Conference.conferenceDurations.update', 'uses' => 'Company/conference\ConferenceDurationController@update']);
-Route::patch('company/Conference/conferenceDurations/{conferenceDurations}', ['as'=> 'company/Conference.conferenceDurations.update', 'uses' => 'Company/conference\ConferenceDurationController@update']);
-Route::delete('company/Conference/conferenceDurations/{conferenceDurations}', ['as'=> 'company/Conference.conferenceDurations.destroy', 'uses' => 'Company/conference\ConferenceDurationController@destroy']);
-Route::get('company/Conference/conferenceDurations/{conferenceDurations}', ['as'=> 'company/Conference.conferenceDurations.show', 'uses' => 'Company/conference\ConferenceDurationController@show']);
-Route::get('company/Conference/conferenceDurations/{conferenceDurations}/edit', ['as'=> 'company/Conference.conferenceDurations.edit', 'uses' => 'Company/conference\ConferenceDurationController@edit']);
-
-
-Route::get('company/Conference/conferenceBookingItems', ['as'=> 'company/Conference.conferenceBookingItems.index', 'uses' => 'Company/conference\ConferenceBookingItemController@index']);
-Route::post('company/Conference/conferenceBookingItems', ['as'=> 'company/Conference.conferenceBookingItems.store', 'uses' => 'Company/conference\ConferenceBookingItemController@store']);
-Route::get('company/Conference/conferenceBookingItems/create', ['as'=> 'company/Conference.conferenceBookingItems.create', 'uses' => 'Company/conference\ConferenceBookingItemController@create']);
-Route::put('company/Conference/conferenceBookingItems/{conferenceBookingItems}', ['as'=> 'company/Conference.conferenceBookingItems.update', 'uses' => 'Company/conference\ConferenceBookingItemController@update']);
-Route::patch('company/Conference/conferenceBookingItems/{conferenceBookingItems}', ['as'=> 'company/Conference.conferenceBookingItems.update', 'uses' => 'Company/conference\ConferenceBookingItemController@update']);
-Route::delete('company/Conference/conferenceBookingItems/{conferenceBookingItems}', ['as'=> 'company/Conference.conferenceBookingItems.destroy', 'uses' => 'Company/conference\ConferenceBookingItemController@destroy']);
-Route::get('company/Conference/conferenceBookingItems/{conferenceBookingItems}', ['as'=> 'company/Conference.conferenceBookingItems.show', 'uses' => 'Company/conference\ConferenceBookingItemController@show']);
-Route::get('company/Conference/conferenceBookingItems/{conferenceBookingItems}/edit', ['as'=> 'company/Conference.conferenceBookingItems.edit', 'uses' => 'Company/conference\ConferenceBookingItemController@edit']);
