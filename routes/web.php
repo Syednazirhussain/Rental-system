@@ -11,7 +11,7 @@
 */
 Route::get('/', function() {
 
-    return redirect()->route('login');
+    return redirect()->route('company.login');
 });
 
 /********** Admin accessible routes as a Guest User start **********/
@@ -111,7 +111,8 @@ Route::group(['middleware' => ['admin.auth']], function () {
 	Route::put('admin/companies/update/{companies}', ['as'=> 'admin.companies.update', 'uses' => 'Admin\CompanyController@update']);
 	Route::patch('admin/companies/update/{companies}', ['as'=> 'admin.companies.update', 'uses' => 'Admin\CompanyController@update']);
 	Route::delete('admin/companies/{companies}', ['as'=> 'admin.companies.destroy', 'uses' => 'Admin\CompanyController@destroy']);
-	Route::get('admin/companies/{companies}/view', ['as'=> 'admin.companies.show', 'uses' => 'Admin\CompanyController@show']);
+	// Route::get('admin/companies/{companies}', ['as'=> 'admin.companies.show', 'uses' => 'Admin\CompanyController@show'])
+	// 		->where(['companies'=>'[0-9]+']);
 	Route::get('admin/companies/{companies}/edit', ['as'=> 'admin.companies.edit', 'uses' => 'Admin\CompanyController@edit']);
 
 	// Company Profile route
@@ -273,21 +274,6 @@ Route::group(['middleware' => ['admin.auth']], function () {
 	 * Analytics from sendgrid
 	 */
 	Route::get('admin/newsletter/dashboard', ['as'=> 'admin.newsletter.dashboard', 'uses' => 'Admin\AdminNewsLetterController@analytic']);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 });
