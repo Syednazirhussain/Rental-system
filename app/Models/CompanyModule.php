@@ -77,4 +77,13 @@ class CompanyModule extends Model
     {
         return $this->belongsTo(\App\Models\Module::class,'module_id','id');
     }
+
+
+
+    public function getAllUsers()
+    {
+        return $this->hasMany(\App\Models\CompanyUser::class, 'company_id');
+    } 
+
+
 }
