@@ -1,19 +1,20 @@
-@extends('layouts.app')
+@extends('admin.default')
 
 @section('content')
-    <section class="content-header">
-        <h1>
-            User
-        </h1>
-    </section>
-    <div class="content">
-        <div class="box box-primary">
-            <div class="box-body">
-                <div class="row" style="padding-left: 20px">
-                    @include('admin.users.show_fields')
-                    <a href="{!! route('admin.users.index') !!}" class="btn btn-default">Back</a>
-                </div>
+
+    <div class="px-content">
+        <div class="page-header">
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i>Settings / User / </span>{!! $user->id !!}
+            </h1>
+        </div>
+
+        <div class="panel">
+            <div class="panel-body">
+                @include('admin.users.show_fields')
+
+                <a href="{!! route('admin.users.index') !!}" class="btn btn-default">Back</a>
             </div>
         </div>
     </div>
+
 @endsection

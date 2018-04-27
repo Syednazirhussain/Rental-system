@@ -30,6 +30,7 @@ use Flash;
 use Response;
 use Carbon;
 use PDF;
+use URL;
 
 class CompanyInvoiceController extends AppBaseController
 {
@@ -74,6 +75,7 @@ class CompanyInvoiceController extends AppBaseController
 
     public function index(Request $request)
     {
+
 
         $this->companyInvoiceRepository->pushCriteria(new RequestCriteria($request));
 
@@ -143,11 +145,6 @@ class CompanyInvoiceController extends AppBaseController
 
             $company_discount_detail =  $this->companyInvoiceRepository->totalAndDiscountedTotal($temp);
 
-            /*echo "<pre>";
-            print_r($company_discount_detail);
-            exit;*/
-
-
             // This array contain company related all invoice information
             $company_infomation = [
                 'Company'           => $company_details['company'],
@@ -166,7 +163,23 @@ class CompanyInvoiceController extends AppBaseController
     {
         $lastInvoice =  $this->companyInvoiceRepository->getLastInsertedInvoiceId();
         $Invoice_id =  $lastInvoice->id;      
-        $filename = $Invoice_id."_Invoices.pdf";         
+        $filename = "invoice_".$Invoice_id.".pdf";         
+        $filePath = public_path().DIRECTORY_SEPARATOR."storage".DIRECTORY_SEPARATOR."company_invoices".DIRECTORY_SEPARATOR.$filename;
+        $data = ['Path' => $filePath];
+        $company_infomation = $this->getCompanyDetailById($company_id); 
+        foreach ($company_infomation['Contact_Person'] as $person) 
+        {
+            Mail::to($person->email)->send(new NewInvoiceMail($data));
+        }
+        $Invoices = $this->companyInvoiceRepository->all();
+        Session::Flash('SendEmails','Invoice send successfully to company contract persons');
+        return redirect()->route('admin.companyInvoices.index');
+    }
+
+    public function sendInvoiceToCompanyContactPersonByInvoiceId($company_id,$invoice_id)
+    {
+        $Invoice_id =  $invoice_id;      
+        $filename = "invoice_".$Invoice_id.".pdf";         
         $filePath = public_path().DIRECTORY_SEPARATOR."storage".DIRECTORY_SEPARATOR."company_invoices".DIRECTORY_SEPARATOR.$filename;
         $data = ['Path' => $filePath];
         $company_infomation = $this->getCompanyDetailById($company_id); 
@@ -212,7 +225,7 @@ class CompanyInvoiceController extends AppBaseController
     }
 
 
-    // This is the responsible to Insert and generate invoice by company ID  
+    // This method is the responsible to Insert and generate invoice by company ID  
     public function createInvoiceByCompanyId($company_id)
     {
         if($this->companyContractRepository->checkCompanyContract($company_id))
@@ -318,9 +331,10 @@ class CompanyInvoiceController extends AppBaseController
                         /*echo Storage::exists($filePath);
                         exit;*/
 
-                        if (!file_exists($filePath)) {
+                        if (!file_exists($filePath)) 
+                        {
                             mkdir($filePath);
-                        };
+                        }
 
 
                         $filePath = $filePath.DIRECTORY_SEPARATOR.$filename;
@@ -330,19 +344,14 @@ class CompanyInvoiceController extends AppBaseController
 
                         // $path = Storage::put('public/company_invoices', $pdf);
                         // $path = explode("/", $path);
-
                         // $input['logo'] = $path[2];
 
                         $data = ['Path' => $filePath];
-                        foreach ($company_infomation['Contact_Person'] as $person) 
+                        foreach ($company_infomation['Contact_Person'] as $person)
                         {
                             Mail::to($person->email)->send(new NewInvoiceMail($data));
                         }
-
-                        // Session::Flash("InvoiceSuccess","Invoice successfully created.");
-                        
                         session()->flash('msg.success', 'Company has been created successfully');
-
                         return redirect()->route('admin.companies.index');
                     }
                     else
@@ -538,21 +547,36 @@ class CompanyInvoiceController extends AppBaseController
      */
     public function destroy($id)
     {
+        // dd(URL::previous());
+        
+        $arr = explode('/', URL::previous());
+        $urlLastParmeter = $arr[count($arr)-1];
+        if ($urlLastParmeter == 'profile') 
+        {
+            $companyInvoice = $this->companyInvoiceRepository->findWithoutFail($id);
+            if (empty($companyInvoice)) 
+            {
+                session()->flash('msg.error', 'Company invoice not found');
+                return redirect(URL::previous());
+            }
+            $this->companyInvoiceRepository->delete($id);
 
-        $companyInvoice = $this->companyInvoiceRepository->findWithoutFail($id);
+            session()->flash('msg.success', 'Company invoice deleted successfully.');
+            return redirect(URL::previous());
+        }
+        else
+        {
+            $companyInvoice = $this->companyInvoiceRepository->findWithoutFail($id);
+            if (empty($companyInvoice)) 
+            {
+                session()->flash('msg.error', 'Company invoice not found');
+                return redirect(route('admin.companyInvoices.index'));
+            }
+            $this->companyInvoiceRepository->delete($id);
 
-        if (empty($companyInvoice)) {
-            session()->flash('msg.error', 'Company invoice not found');
-
+            session()->flash('msg.success', 'Company invoice deleted successfully.');
             return redirect(route('admin.companyInvoices.index'));
         }
 
-        $this->companyInvoiceRepository->delete($id);
-
-
-        session()->flash('msg.success', 'Company invoice deleted successfully.');
-
-
-        return redirect(route('admin.companyInvoices.index'));
     }
 }

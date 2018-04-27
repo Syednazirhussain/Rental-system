@@ -1,84 +1,35 @@
-<!-- Id Field -->
-<div class="form-group">
-    {!! Form::label('id', 'Id:') !!}
-    <p>{!! $user->id !!}</p>
-</div>
-
-<!-- Name Field -->
-<div class="form-group">
-    {!! Form::label('name', 'Name:') !!}
-    <p>{!! $user->name !!}</p>
-</div>
-
-<!-- Email Field -->
-<div class="form-group">
-    {!! Form::label('email', 'Email:') !!}
-    <p>{!! $user->email !!}</p>
-</div>
-
-<!-- Password Field -->
-<div class="form-group">
-    {!! Form::label('password', 'Password:') !!}
-    <p>{!! $user->password !!}</p>
-</div>
-
-<!-- User Role Code Field -->
-<div class="form-group">
-    {!! Form::label('user_role_code', 'User Role Code:') !!}
-    <p>{!! $user->user_role_code !!}</p>
-</div>
-
-<!-- Country Id Field -->
-<div class="form-group">
-    {!! Form::label('country_id', 'Country Id:') !!}
-    <p>{!! $user->country_id !!}</p>
-</div>
-
-<!-- State Id Field -->
-<div class="form-group">
-    {!! Form::label('state_id', 'State Id:') !!}
-    <p>{!! $user->state_id !!}</p>
-</div>
-
-<!-- City Id Field -->
-<div class="form-group">
-    {!! Form::label('city_id', 'City Id:') !!}
-    <p>{!! $user->city_id !!}</p>
-</div>
-
-<!-- User Status Id Field -->
-<div class="form-group">
-    {!! Form::label('user_status_id', 'User Status Id:') !!}
-    <p>{!! $user->user_status_id !!}</p>
-</div>
-
-<!-- Uuid Field -->
-<div class="form-group">
-    {!! Form::label('uuid', 'Uuid:') !!}
-    <p>{!! $user->uuid !!}</p>
-</div>
-
-<!-- Remember Token Field -->
-<div class="form-group">
-    {!! Form::label('remember_token', 'Remember Token:') !!}
-    <p>{!! $user->remember_token !!}</p>
-</div>
-
-<!-- Created At Field -->
-<div class="form-group">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{!! $user->created_at !!}</p>
-</div>
-
-<!-- Updated At Field -->
-<div class="form-group">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{!! $user->updated_at !!}</p>
-</div>
-
-<!-- Deleted At Field -->
-<div class="form-group">
-    {!! Form::label('deleted_at', 'Deleted At:') !!}
-    <p>{!! $user->deleted_at !!}</p>
-</div>
-
+<table class="table table-striped">
+    <tbody>
+    <tr>
+        <th scope="row" width="200px">Name</th>
+        <td>{{ $user->name }}</td>
+    </tr>
+    <tr>
+        <th scope="row" width="200px">Email</th>
+        <td>{{ $user->email }}</td>
+    </tr>
+    <tr>
+        <th scope="row" width="200px">User Role</th>
+        <td>{{ $user_roles[$user->user_role_code] }}</td>
+    </tr>
+    <tr>
+        <th scope="row" width="200px">Country</th>
+        <td>@if(isset($user_country[$user->country_id ])){{ $user_country[$user->country_id ]}}@endif</td>
+    </tr>
+    <tr>
+        <th scope="row" width="200px">State</th>
+        <td>@if(isset($user_state[$user->state_id ])){{ $user_state[$user->state_id ] }}@endif</td>
+    </tr>
+    <tr>
+        <th scope="row" width="200px">City</th>
+        <td>@if(isset($user_city[$user->city_id])){{ $user_city[$user->city_id] }}@endif</td>
+    </tr>
+    <tr>
+        <th scope="row" width="200px">Status</th>
+        <td>{{ $user_status[$user->user_status_id] }}</td>
+    </tr>
+    <tr>
+        <th scope="row" width="200px">Created On</th>
+        <td>{{ date('F d, Y', strtotime($user->created_at)) }}</td>
+    </tbody>
+</table>

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
+use Illuminate\Database\Eloquent\Model as Model;
 
 /**
  * Class DiscountType
@@ -44,5 +44,12 @@ class DiscountType extends Model
         
     ];
 
+
+    public function companyContract()
+    {
+        return $this->hasMany(\App\Models\CompanyContract::class);
+    }
     
+
+
 }

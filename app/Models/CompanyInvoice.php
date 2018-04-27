@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
+use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
@@ -78,7 +78,7 @@ class CompanyInvoice extends Model
      **/
     public function paymentCycle()
     {
-        return $this->belongsTo(\App\Models\PaymentCycle::class);
+        return $this->belongsTo(\App\Models\PaymentCycle::class,'payment_cycle_id','id');
     }
 
     /**

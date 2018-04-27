@@ -1,22 +1,23 @@
-@extends('layouts.app')
+@extends('admin.default')
 
 @section('content')
-    <section class="content-header">
-        <h1>
-            User
-        </h1>
-    </section>
-    <div class="content">
-        @include('adminlte-templates::common.errors')
-        <div class="box box-primary">
+    <div class="px-content">
+        <div class="page-header">
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Settings / </span>Add Users</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div class="panel-title">Add User</div>
+                    </div>
+                    <div class="panel-body">
+                        <form action="{{ route('admin.users.store') }}" method="POST" id="userForm">
 
-            <div class="box-body">
-                <div class="row">
-                    {!! Form::open(['route' => 'admin.users.store']) !!}
+                            @include('admin.users.fields')
 
-                        @include('admin.users.fields')
-
-                    {!! Form::close() !!}
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

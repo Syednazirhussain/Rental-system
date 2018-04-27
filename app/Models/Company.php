@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
+use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Faker\Factory as Faker;
 
@@ -62,7 +62,8 @@ class Company extends Model
         'uuid',
         'user_role_code',
         'max_users',
-        'user_status_id'
+        'user_status_id',
+        'room_contract_id'
     ];
 
     /**
@@ -175,6 +176,15 @@ class Company extends Model
     public function companyContactPeople()
     {
         return $this->hasMany(\App\Models\CompanyContactPerson::class);
+    }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function companyFloorRoom()
+    {
+        return $this->hasMany(\App\Models\CompanyFloorRoom::class,'company_id','id');
     }
 
 

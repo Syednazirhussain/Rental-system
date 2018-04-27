@@ -29,13 +29,14 @@ class UserRolesTableSeeder extends Seeder
                 'code' => 'company',
                 'name' => 'Company',
             ),
-            2 => 
+            2 =>
             array (
                 'id' => 7,
                 'code' => 'company_admin',
                 'name' => 'Company Admin',
             ),
-            3 => 
+
+            3 =>
             array (
                 'id' => 8,
                 'code' => 'company_customer',

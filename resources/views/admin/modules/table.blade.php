@@ -1,9 +1,8 @@
-
 <table class="table table-striped table-bordered" id="datatables">
 <thead>
   <tr>
     <th>Name</th>
-    <th>Price</th>
+    <th>Price (SEK)</th>
     <th width="200px">Actions</th>
   </tr>
 </thead>

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
+use Illuminate\Database\Eloquent\Model as Model;
 
 /**
  * Class PaymentCycle
@@ -41,5 +41,11 @@ class PaymentCycle extends Model
         'name' => 'required|string'
     ];
 
-    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    **/
+    public function paymentMethod()
+    {
+        return $this->hasMany(\App\Models\CompanyContract::class);
+    }
 }

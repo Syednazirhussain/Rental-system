@@ -43,6 +43,16 @@ class UserRepository extends BaseRepository
         return User::class;
     }
 
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function userDetail()
+    {
+        return $this->hasOne(\App\Models\User::class);
+    }
+
+
     /**
      * Bulk insert
      **/

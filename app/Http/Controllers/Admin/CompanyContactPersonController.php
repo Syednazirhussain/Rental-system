@@ -140,7 +140,6 @@ class CompanyContactPersonController extends AppBaseController
 
         $data = $request->all();
 
-
         $arr = [];
 
         if (isset($data['person'])) {

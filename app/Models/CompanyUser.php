@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
+use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -22,6 +22,7 @@ class CompanyUser extends Model
     use SoftDeletes;
 
     public $table = 'company_users';
+    public $timestamps = true;
     
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
@@ -60,7 +61,7 @@ class CompanyUser extends Model
      **/
     public function user()
     {
-        return $this->belongsTo(\App\Models\User::class);
+        return $this->belongsTo(\App\Models\User::class,'user_id','id');
     }
 
     /**

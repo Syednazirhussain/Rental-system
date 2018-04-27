@@ -23,6 +23,13 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use PDF;
 
+
+
+use URL;
+
+use App\Models\Company;
+
+
 class CompanyController extends AppBaseController
 {
     /** @var  CompanyRepository */
@@ -70,17 +77,24 @@ class CompanyController extends AppBaseController
      */
     public function index(Request $request)
     {
-        /*echo storage_path("app");
-        exit;*/
-
         $this->companyRepository->pushCriteria(new RequestCriteria($request));
-        
+
         $companies = $this->companyRepository->all();
+
+        
+        $companies = Company::where('room_contract_id', NULL)->get();
+
+
 
 
         $data = ['companies' => $companies];
-
         return view('admin.companies.index', $data);
+    }
+
+    public function profile($id)
+    {
+        $company = $this->companyRepository->findWithoutFail($id);
+        return view('admin.companies.profile',compact('company'));
     }
 
     /**
@@ -123,7 +137,6 @@ class CompanyController extends AppBaseController
      */
     public function store(CreateCompanyRequest $request)
     {
-
         $input = $request->all();
 
         if ($request->hasFile('logo')) {
