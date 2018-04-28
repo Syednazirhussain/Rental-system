@@ -2,6 +2,7 @@
 <thead>
   <tr>
     <th>Name</th>
+    <th>Module Code</th>
     <th>Price</th>
     <th width="200px">Actions</th>
   </tr>
@@ -11,6 +12,7 @@
 @foreach($modules as $module)
   <tr class="odd gradeX">
     <td>{{ ucfirst($module->name) }}</td>
+    <td>{{ $module->code }}</td>
     <td>{{ $module->price }}</td>
     <td  width="200px" class="center">
         {!! Form::open(['route' => ['admin.modules.destroy', $module->id], 'method' => 'delete']) !!}

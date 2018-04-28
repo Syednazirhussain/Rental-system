@@ -382,6 +382,14 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::get('company/companyInvoices/generate/{company_id}',['as' => 'company.generateInvoice','uses' => 'Company\CompanyInvoiceController@createInvoiceByCompanyId']);
     Route::get('company/companyInvoices/sendInvoice/{company_id}',['as' => 'company.sendInvoice','uses' => 'Company\CompanyInvoiceController@sendLatestInvoiceToCompanyContractPerson']);
 
+    Route::get('company/companies/companyservices', ['as'=> 'company.companyServices.index', 'uses' => 'Company\CompanyServiceController@index']);
+    Route::post('company/companies/companyservices', ['as'=> 'company.companyServices.store', 'uses' => 'Company\CompanyServiceController@store']);
+    Route::get('company/companies/companyservices/create', ['as'=> 'company.companyServices.create', 'uses' => 'Company\CompanyServiceController@create']);
+    Route::put('company/companies/companyservices/update', ['as'=> 'company.companyServices.update', 'uses' => 'Company\CompanyServiceController@update']);
+    Route::patch('company/companies/companyservices/update', ['as'=> 'company.companyServices.update', 'uses' => 'Company\CompanyServiceController@update']);
+    Route::delete('company/companies/companyservices/delete', ['as'=> 'company.companyServices.destroy', 'uses' => 'Company\CompanyServiceController@destroy']);
+    Route::get('company/companies/companyservices/{companyservices}', ['as'=> 'company.companyServices.show', 'uses' => 'Company\CompanyServiceController@show']);
+    Route::get('company/companies/companyservices/{companyservices}/edit', ['as'=> 'company.companyServices.edit', 'uses' => 'Company\CompanyServiceController@edit']);
 
     Route::group(['middleware' => ['newsletter.auth']], function () {
         //NewsLetter System Integration

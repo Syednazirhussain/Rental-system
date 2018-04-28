@@ -59,7 +59,7 @@
                         </ul>
                     </li>
                     <?php   use App\Models\CompanyModule;
-                            $module = CompanyModule::where('company_id', Auth::user()->companyUser()->first()->company_id)->join('modules', 'module_id', '=', 'modules.id')->where('modules.name', 'newsletter_module')->first(); ?>
+                            $module = CompanyModule::where('company_id', Auth::user()->companyUser()->first()->company_id)->join('modules', 'module_id', '=', 'modules.id')->where('modules.code', 'newsletter_module')->first(); ?>
                     @if($module)
                     <li class="dropdown-toggle">
                         <a href="{{ route('company.newsletter.dashboard') }}">NewsLetter System</a>

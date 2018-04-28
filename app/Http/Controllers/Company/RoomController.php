@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Company;
 
 use App\Http\Requests\Company\CreateRoomRequest;
 use App\Http\Requests\Company\UpdateRoomRequest;
+use App\Models\CompanyService;
 use App\Repositories\Company\RoomRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
@@ -60,7 +61,7 @@ class RoomController extends AppBaseController
         $services = Service::where('company_id', $company_id)->get();
 
         return view('company.rooms.create', ['company' => $company, 'companyFloors' => $companyFloors,
-            'companyBuildings' => $companyBuildings, 'services' => $services]);
+            'companyBuildings' => $companyBuildings, 'services' => $services, 'companyServices' => $services]);
     }
 
     /**
@@ -117,14 +118,12 @@ class RoomController extends AppBaseController
         //Check if room count over than specified floor room number
         if($floor->num_rooms <= $room_count) {
             $request->session()->flash('msg.error', 'You can not create any more room on '.$floor->floor.'floor.');
-            return redirect(route('company.rooms.index'));
+            return response()->json(['success'=> 0, 'msg'=>'Can not create room anymore']);
         }
 
-        $this->roomRepository->create($input);
+        $room = $this->roomRepository->create($input);
 
-        Flash::success('Company Floor Room saved successfully.');
-
-        return redirect(route('company.rooms.index'));
+        return response()->json(['success'=> 1, 'msg'=>'Company has been created successfully', 'room'=>$room]);
     }
 
     /**
@@ -170,6 +169,8 @@ class RoomController extends AppBaseController
         $services = Service::where('company_id', $company_id)->get();
 
         $room = $this->roomRepository->findWithoutFail($id);
+        $companyServices = Service::where('company_id', $company_id)->get();
+        $roomServices = CompanyService::where('room_id', $room->id)->get();
 
         if (empty($room)) {
             Flash::error('Company Room not found');
@@ -177,10 +178,12 @@ class RoomController extends AppBaseController
             return redirect(route('company.rooms.index'));
         }
 
+
         $floor_name = CompanyBuilding::find(CompanyFloorRoom::find($room->floor_id)->building_id)->name.' - Floor'.CompanyFloorRoom::find($room->floor_id)->floor;
         $service_name = Service::find($room->service_id)->name;
         return view('company.rooms.edit', ['room' => $room, 'company' => $company, 'companyFloors' => $companyFloors,
-            'companyBuildings' => $companyBuildings, 'services' => $services, 'service_name' => $service_name, 'floor_name' => $floor_name]);
+            'companyBuildings' => $companyBuildings, 'services' => $services, 'service_name' => $service_name, 'floor_name' => $floor_name,
+            'companyServices' => $companyServices, 'roomServices' => $roomServices]);
     }
 
     /**
@@ -199,6 +202,7 @@ class RoomController extends AppBaseController
 
         if (empty($room)) {
             Flash::error('Company Room not found');
+            $success = 0;
 
             return redirect(route('company.rooms.index'));
         }
@@ -243,9 +247,11 @@ class RoomController extends AppBaseController
             $input['image5'] = $room['image5'];
 
         $this->roomRepository->update($input, $id);
-        $request->session()->flash('msg.success', 'Company Room updated successfully.');
 
-        return redirect(route('company.rooms.index'));
+        $success = 1;
+        $msg = "Company has been updated successfully";
+
+        return response()->json(['success'=>$success, 'msg'=>$msg]);
     }
 
     /**
