@@ -92,10 +92,10 @@
                                 <a href>Settings</a>
                                 <ul class="dropdown-menu">
                                    <li><a href="{{ route('admin.settings.general') }}"><i class="fa fa-cog"></i>&nbsp;&nbsp;General Settings</a></li>
+                                   <li class="divider"></li>
                                    <li><a href="{{ route('admin.userRoles.index') }}"><i class="fa fa-users"></i>&nbsp;&nbsp;User Roles</a></li>
                                    <li class="divider"></li>
                                    <li><a href="{{ route('admin.userStatuses.index') }}"><i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;User Status</a></li>
-                                   <li class="divider"></li>
                                 </ul>
                              </li>
                              
