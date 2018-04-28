@@ -23,7 +23,7 @@
                     @foreach($groups as $group)
                         <tr>
                             <th scope="row">{{ $loop->index }}</th>
-                            <td><a href="{{ route('customer.index', ['group_id' => $group->id]) }}">{{ $group->name }}</a></td>
+                            <td><a href="{{ route('admin.customers.index', ['group_id' => $group->id]) }}">{{ $group->name }}</a></td>
                             <td>{{ $group->customers->count() }}</td>
                             <td><a href="{{ route('admin.newsletter.groups.edit', $group->id) }}" class="btn btn-link">Edit</a></td>
                             <td>

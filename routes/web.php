@@ -268,12 +268,12 @@ Route::group(['middleware' => ['admin.auth']], function () {
 			->where(['group'=>'[0-9]+']);;
 	Route::delete('admin/newsletter/groups/{group}/delete', ['as'=> 'admin.newsletter.groups.destroy', 'uses' => 'Admin\AdminGroupController@destroy'])
 			->where(['group'=>'[0-9]+']);
-	Route::get('admin/newsletter/groups/{group}', ['as'=> 'admin.newsletter.groups.show', 'uses' => 'Admin\AdminGroupController@show'])
-			->where(['group'=>'[0-9]+']);
+	// Route::get('admin/newsletter/groups/{group}', ['as'=> 'admin.newsletter.groups.show', 'uses' => 'Admin\AdminGroupController@show'])
+	// 		->where(['group'=>'[0-9]+']);
 	Route::get('admin/newsletter/groups/{group}/edit', ['as'=> 'admin.newsletter.groups.edit', 'uses' => 'Admin\AdminGroupController@edit'])
 			->where(['group'=>'[0-9]+']);
 	Route::post('admin/newsletter/groups/upload', ['as'=> 'admin.newsletter.groups.upload', 'uses' => 'Admin\AdminGroupController@upload']);
-	Route::get('admin/newsletter/groups/get', ['as'=> 'admin.newsletter.groups.get', 'uses' => 'Admin\AdminGroupController@sendmail']);
+	// Route::get('admin/newsletter/groups/get', ['as'=> 'admin.newsletter.groups.get', 'uses' => 'Admin\AdminGroupController@sendmail']);
 	Route::post('admin/newsletter/groups/mailto', ['as'=> 'admin.newsletter.groups.mailto', 'uses' => 'Admin\AdminGroupController@mailto']);
 	Route::get('admin/newsletter/sendmail', ['as'=> 'admin.newsletter.sendmail', 'uses' => 'Admin\AdminGroupController@sendmail']);
 
@@ -286,8 +286,19 @@ Route::group(['middleware' => ['admin.auth']], function () {
 
 
 	# Admin Newsletter Section --->  Customer routes
-	Route::resource('customer', 'Admin\AdminCustomerController');
-
+	Route::get('admin/customer', ['as'=> 'admin.customers.index', 'uses' => 'Admin\AdminCustomerController@index']);
+	Route::post('admin/customer', ['as'=> 'admin.customers.store', 'uses' => 'Admin\AdminCustomerController@store']);
+	Route::get('admin/customer/create', ['as'=> 'admin.customers.create', 'uses' => 'Admin\AdminCustomerController@create']);
+	Route::put('admin/customer/{customer}', ['as'=> 'admin.customers.update', 'uses' => 'Admin\AdminCustomerController@update'])
+			->where(['customer'=>'[0-9]+']);
+	Route::patch('admin/customer/{customer}', ['as'=> 'admin.customers.update', 'uses' => 'Admin\AdminCustomerController@update'])
+			->where(['customer'=>'[0-9]+']);
+	Route::delete('admin/customer/{customer}', ['as'=> 'admin.customers.destroy', 'uses' => 'Admin\AdminCustomerController@destroy'])
+			->where(['customer'=>'[0-9]+']);
+	// Route::get('admin/modules/{modules}', ['as'=> 'admin.customers.show', 'uses' => 'Admin\AdminCustomerController@show'])
+	// 		->where(['modules'=>'[0-9]+']);
+	Route::get('admin/customer/{customer}/edit', ['as'=> 'admin.customers.edit', 'uses' => 'Admin\AdminCustomerController@edit'])
+			->where(['customer'=>'[0-9]+']);
 
 
 

@@ -9,7 +9,8 @@
     <div class="panel">
       <div class="panel-body">
             <div class="col-md-12">
-                <button onclick="window.location='{{ url("/customer/create") }}'" type="button" class="btn btn-primary">Add New Customer</button>
+                <!-- <button onclick="window.location='{{ url("/customer/create") }}'" type="button" class="btn btn-primary">Add New Customer</button> -->
+                <a href="{{ route('admin.customers.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Customer</a>
             </div>
             <div class="col-md-12">
                 <table class="table">
@@ -30,9 +31,9 @@
                             <td>{{ $customer->name }}</td>
                             <td>{{ $customer->email }}</td>
                             <td>{{ $customer->description }}</td>
-                            <td><a href="{{ route('customer.edit', $customer->id) }}" class="btn btn-link">Edit</a></td>
+                            <td><a href="{{ route('admin.customers.edit', $customer->id) }}" class="btn btn-link">Edit</a></td>
                             <td>
-                                <form action="{{ route('customer.destroy', $customer->id) }}" method="post">
+                                <form action="{{ route('admin.customers.destroy', $customer->id) }}" method="post">
                                     {{ csrf_field() }}
                                     <input type="hidden" name="_method" value="DELETE">
                                     <input type="submit" value="Delete" class="btn btn-danger btn-block" onclick="return confirm('Are you sure to delete?')">

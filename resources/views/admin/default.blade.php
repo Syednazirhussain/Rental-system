@@ -83,7 +83,7 @@
                                     <li><a href="{{ route('admin.newsletter.dashboard') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Newsletter Dashboard</a></li>
                                     <li><a href="{{ route('admin.newsletter.groups.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Create Groups</a></li>
                                     <li><a href="{{ route('admin.newsletter.groups.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;View Groups</a></li>
-                                    <li><a href="{{ route('customer.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Clients to Groups</a></li>
+                                    <li><a href="{{ route('admin.customers.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Clients to Groups</a></li>
                                     <li><a href="{{ route('admin.newsletter.sendmail') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Send Emails/NewsLetters</a></li>
                                  </ul>
                             </li>
