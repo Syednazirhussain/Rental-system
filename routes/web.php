@@ -291,7 +291,6 @@ Route::group(['middleware' => ['admin.auth']], function () {
 
 
 
-
 	# Admin AJAX requests routes
 	Route::post('ajax/validate/admin_email', ['as'=> 'validate.siteAdmin.email', 'uses' => 'General\ValidationController@siteAdminEmail']);
 	
