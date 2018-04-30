@@ -3,6 +3,7 @@
 
     var contract_id = "{{ isset($contract) ? $contract->id: 0 }}";
     var editContract = "{{ isset($contract) ? $contract->id: 0 }}";
+    var editCompany = "{{ isset($company) ? $company->id: 0 }}";
 
     // -------------------------------------------------------------------------
 
@@ -475,7 +476,7 @@
                         type: 'POST', // For jQuery < 1.9
                         success: function (data) {
                             contactPersonCreated = data.success;
-                            location.href = "{{ route('company.contracts.index') }}";
+                            //location.href = "{{ route('company.contracts.index') }}";
                             // console.log(data);
                         },
                         error: function (xhr, status, error) {
@@ -530,8 +531,8 @@
 
                             });
 
-                            // contactPersonCreated = data.success;
-                            location.href = "{{ route('company.contracts.index') }}";
+                            contactPersonCreated = data.success;
+                            //location.href = "{{ route('company.contracts.index') }}";
 
                             // console.log(data);
                         },
@@ -548,7 +549,6 @@
 
 
         var companyAdminCreated = 0;
-        var editCompany = 0;
 
         $('#wizard-4').validate();
 
@@ -568,7 +568,7 @@
                     // console.log(data);
 
                     $.ajax({
-                        url: '{{ route("admin.companyUsers.store") }}',
+                        url: '{{ route("company.customerUsers.store") }}',
                         data: data,
                         cache: false,
                         contentType: false,
@@ -596,7 +596,7 @@
                     data.append('company_id', company_id);
 
                     $.ajax({
-                        url: '{{ route("admin.companyUsers.update") }}',
+                        url: '{{ route("company.customerUsers.update") }}',
                         data: data,
                         cache: false,
                         contentType: false,
@@ -639,7 +639,7 @@
                             adminValidationRules();
 
                             if (data.success == 1) {
-                                location.href = "{{ route('admin.companies.index') }}";
+                                location.href = "{{ route('company.contracts.index') }}";
                             } else {
                                 alert("Could not update admins(s)");
                             }
@@ -1371,7 +1371,7 @@
                 // console.log(data);
 
                 $.ajax({
-                    url: '{{ route("admin.companyUsers.destroy") }}',
+                    url: '{{ route("company.customerUsers.destroy") }}',
                     data: data,
                     cache: false,
                     type: 'POST', // For jQuery < 1.9

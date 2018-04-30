@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Company;
 
 use App\Http\Requests\CreateRoomContractRequest;
 use App\Http\Requests\UpdateRoomContractRequest;
+use App\Models\CompanyUser;
 use App\Repositories\RoomContractRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
@@ -78,6 +79,7 @@ class RoomContractController extends AppBaseController
             'modules' => $modules,
             'paymentCycles' => $paymentCycles,
             'paymentMethods' => $paymentMethods,
+            'companyUsers' => '',
         ];
         //dd($rooms);
 
@@ -154,6 +156,7 @@ class RoomContractController extends AppBaseController
         $modules = Module::all();
         $paymentCycles = PaymentCycle::all();
         $paymentMethods = PaymentMethod::all();
+        $companyUsers = CompanyUser::where('company_id', $company->id)->get();
 
         $data = [
             'contract' => $contract,
@@ -167,6 +170,7 @@ class RoomContractController extends AppBaseController
             'modules' => $modules,
             'paymentCycles' => $paymentCycles,
             'paymentMethods' => $paymentMethods,
+            'companyUsers' => $companyUsers,
         ];
         //dd($rooms);
 
@@ -211,7 +215,7 @@ class RoomContractController extends AppBaseController
      */
     public function destroy($id, Request $request)
     {
-        $room = $this->roomRepository->findWithoutFail($id);
+        $room = $this->roomContractRepository->findWithoutFail($id);
 
         if (empty($room)) {
             Flash::error('Company Room not found');
@@ -219,10 +223,10 @@ class RoomContractController extends AppBaseController
             return redirect(route('company.rooms.index'));
         }
 
-        $this->roomRepository->delete($id);
+        $this->roomContractRepository->delete($id);
 
         $request->session()->flash('msg.success', 'Company Room deleted successfully.');
 
-        return redirect(route('company.rooms.index'));
+        return redirect(route('company.contracts.index'));
     }
 }

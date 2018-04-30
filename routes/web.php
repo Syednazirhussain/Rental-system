@@ -375,6 +375,11 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::post('company/companyContactPeople', ['as'=> 'company.companyContactPeople.store', 'uses' => 'Company\CompanyContactPersonController@store']);
     Route::put('company/companyContactPeople', ['as'=> 'company.companyContactPeople.update', 'uses' => 'Company\CompanyContactPersonController@update']);
     Route::patch('company/companyContactPeople', ['as'=> 'company.companyContactPeople.update', 'uses' => 'Company\CompanyContactPersonController@update']);
+    //company customer admin
+    Route::post('company/customers/users', ['as'=> 'company.customerUsers.store', 'uses' => 'Company\CustomerUserController@store']);
+    Route::put('company/customers/users/update', ['as'=> 'company.customerUsers.update', 'uses' => 'Company\CustomerUserController@update']);
+    Route::patch('company/customers/users/update', ['as'=> 'company.customerUsers.update', 'uses' => 'Company\CustomerUserController@update']);
+    Route::delete('company/customers/users/delete', ['as'=> 'company.customerUsers.destroy', 'uses' => 'Company\CustomerUserController@destroy']);
 
     // Invoice Generator
     // routes created by nazir start
