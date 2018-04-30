@@ -12,6 +12,7 @@ use App\Repositories\EquipmentsRepository;
 use App\Repositories\PaymentMethodRepository;
 use App\Repositories\FoodRepository;
 use App\Repositories\PackagesRepository;
+use App\Repositories\GeneralSettingRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
@@ -32,6 +33,7 @@ class ConferenceBookingController extends AppBaseController
     private $paymentMethodRepository;
     private $foodRepository;
     private $packagesRepository;
+    private $generalSettingRepository;
 
     public function __construct(ConferenceBookingRepository $conferenceBookingRepo,
                                 ConferenceBookingItemRepository $conferenceBookingItemRepo,
@@ -40,7 +42,8 @@ class ConferenceBookingController extends AppBaseController
                                 PaymentMethodRepository $paymentMethodRepo,
                                 FoodRepository $foodRepo,
                                 ConferenceDurationRepository $conferenceDurationRepo,
-                                PackagesRepository $packagesRepo
+                                PackagesRepository $packagesRepo,
+                                GeneralSettingRepository $generalSettingRepo
                                 )
     {
         $this->conferenceBookingRepository      = $conferenceBookingRepo;
@@ -51,6 +54,7 @@ class ConferenceBookingController extends AppBaseController
         $this->paymentMethodRepository          = $paymentMethodRepo;
         $this->foodRepository                   = $foodRepo;
         $this->packagesRepository               = $packagesRepo;
+        $this->generalSettingRepository         = $generalSettingRepo;
     }
 
     /**
@@ -95,21 +99,24 @@ class ConferenceBookingController extends AppBaseController
         $equipments             = $this->equipmentRepository->all();
         $foodItems              = $this->foodRepository->all();
         $packages               = $this->packagesRepository->all();
+        $generalSetting         = $this->generalSettingRepository->getBookingTaxValue();
+
         $rooms                  = DB::table('rooms')->orderBy('name', 'asc')->get();
 
-        // dd($rooms);
+        // dd($generalSetting->meta_value);
 
         $data = [
-                'conferenceBookings'    => $conferenceBookings,
-                'conferenceDurations'   => $conferenceDurations,
-                'paymentMethods'        => $paymentMethods,
-                'roomLayouts'           => $roomLayouts,
-                'equipments'            => $equipments,
-                'foodItems'             => $foodItems,
-                'rooms'                 => $rooms,
-                'packages'              => $packages,
-                'bookingItems'          => "",
-            ];
+                    'conferenceBookings'    => $conferenceBookings,
+                    'conferenceDurations'   => $conferenceDurations,
+                    'paymentMethods'        => $paymentMethods,
+                    'roomLayouts'           => $roomLayouts,
+                    'equipments'            => $equipments,
+                    'foodItems'             => $foodItems,
+                    'rooms'                 => $rooms,
+                    'packages'              => $packages,
+                    'generalSetting'        => $generalSetting,
+                    'bookingItems'          => "",
+                ];
 
         return view('company.Conference.conference_bookings.create', $data);
 
@@ -279,6 +286,8 @@ class ConferenceBookingController extends AppBaseController
         $packages               = $this->packagesRepository->all();
         $rooms                  = DB::table('rooms')->orderBy('name', 'asc')->get();
 
+        $generalSetting         = $this->generalSettingRepository->getBookingTaxValue();
+
         $getBookingPackagesItems        = $this->conferenceBookingItemRepository->getBookingPackagesItems($conferenceBooking->id);
         $getBookingEquipmentsItems      = $this->conferenceBookingItemRepository->getBookingEquipmentsItems($conferenceBooking->id);
         $getBookingFoodsItems           = $this->conferenceBookingItemRepository->getBookingFoodsItems($conferenceBooking->id);
@@ -301,6 +310,7 @@ class ConferenceBookingController extends AppBaseController
                     'getBookingPackagesItems'   => $getBookingPackagesItems,
                     'getBookingEquipmentsItems' => $getBookingEquipmentsItems,
                     'getBookingFoodsItems'      => $getBookingFoodsItems,
+                    'generalSetting'        => $generalSetting,
                 ];
 
         return view('company.Conference.conference_bookings.edit', $data);

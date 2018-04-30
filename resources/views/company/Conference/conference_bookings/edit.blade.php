@@ -168,9 +168,13 @@
 
               // alert(room_price+ " . "+equipment_price+ " . "+food_price+ " . "+package_price+ " . "+tax);
 
-              var totalPrice = parseFloat(room_price) + parseFloat(equipment_price) + parseFloat(food_price) + parseFloat(package_price) + parseFloat(tax);
+              var totalPrice = parseFloat(room_price) + parseFloat(equipment_price) + parseFloat(food_price) + parseFloat(package_price);
               
-              $('#total_price').val(parseFloat(totalPrice).toFixed(2));
+              var totalPriceAfterTax = (parseFloat(totalPrice) / 100) * parseFloat(tax);
+
+              var finalTotal = parseFloat(totalPriceAfterTax) + parseFloat(totalPrice);
+              
+              $('#total_price').val(parseFloat(finalTotal).toFixed(2));
           }
 
 
@@ -311,6 +315,7 @@
 
           $(document).ready(function() {
               $('#duration-section').show();
+              durationCode = $('#duration-section').find(':selected').attr('data-duration-code');
           });
 
           $("#room_id").on('change', function() {

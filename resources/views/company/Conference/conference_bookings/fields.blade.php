@@ -26,7 +26,11 @@
 
         <div class="form-group m-t-2">
             <label for="attendees">Attendees</label>
-            <input type="number" id="attendees" placeholder="100" value="@if(isset($conferenceBooking)){{$conferenceBooking->attendees}}@endif" name="attendees" class="form-control">
+            @if(isset($conferenceBooking))
+            <input type="number" id="attendees" placeholder="100" value="{{$conferenceBooking->attendees}}" name="attendees" class="form-control">
+            @else
+            <input type="number" id="attendees" placeholder="100" value="1" name="attendees" class="form-control">
+            @endif
             <div class="errorTxt"></div>
         </div>
 
@@ -37,9 +41,9 @@
             <select class="form-control select2-rooms" id="room_id" name="room_id">
                 <option value=""></option>
                 @foreach ($rooms as $room)
-                <option <?php if(isset($conferenceBooking) && $conferenceBooking->room_id == $room->id ) { echo "selected='selected'"; } ?> value="{{ $room->id }}" data-hour-price="{{ $room->perhour_price }}" data-day-price="{{ $room->perday_price }}">
-                {{ $room->name }}
-                </option>
+                    <option <?php if(isset($conferenceBooking) && $conferenceBooking->room_id == $room->id ) { echo "selected='selected'"; } ?> value="{{ $room->id }}" data-hour-price="{{ $room->price }}" data-day-price="{{ $room->price }}">
+                        {{ $room->name }}
+                    </option>
                 @endforeach
             </select>
             <div class="errorTxt"></div>
@@ -168,8 +172,8 @@
             <div class="form-group m-t-2">
                 <label for="tax">Tax</label>
                 <div class="input-group">
-                    <span class="input-group-addon">SEK</span>
-                    <input type="number" id="tax" placeholder="" value="50.00" name="tax" class="form-control" readonly>
+                    <span class="input-group-addon"><i class="fa fa-percent text-muted"></i></span>
+                    <input type="number" id="tax" placeholder="" value="{{$generalSetting->meta_value}}" name="tax" class="form-control" readonly>
                 </div>
             </div>
 
