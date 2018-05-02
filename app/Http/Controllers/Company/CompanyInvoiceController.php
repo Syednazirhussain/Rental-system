@@ -86,8 +86,12 @@ class CompanyInvoiceController extends AppBaseController
     {
 
         $this->companyInvoiceRepository->pushCriteria(new RequestCriteria($request));
+        $company_id = Auth::user()->companyUser()->first()->company_id;
 
-        $Invoices = $this->companyInvoiceRepository->all();
+        $Invoices = RoomContracts::join('companies', 'room_contracts.id', '=', 'companies.room_contract_id')
+            ->join('company_invoices', 'companies.id', '=', 'company_invoices.company_id')
+            ->select('company_invoices.*', 'companies.name')->get();
+
         return view('company.company_invoices.index')->with('Invoices', $Invoices);
     }
 
@@ -107,8 +111,9 @@ class CompanyInvoiceController extends AppBaseController
 
             $company_modules = $this->mergeCompanyRelatedModuleWithModule($company_details['company_modules']);
 
-            $payment_cycle_id = $company_details['company_contract']->payment_cycle;
-            $discount_type_id = $company_details['company_contract']->discount_type;
+            $contract = RoomContracts::join('companies', 'room_contracts.id', '=', 'companies.room_contract_id')->where('companies.id', $company_id)->first();
+            $payment_cycle_id = $contract->payment_cycle;
+            $discount_type_id = $contract->discount_type;
 
             if (isset($discount_type_id)) 
             {
@@ -116,9 +121,9 @@ class CompanyInvoiceController extends AppBaseController
                 $vat = $this->generalSettingRepository->getCompanyInvoiceVat();
                 $payment_method = $this->paymentCycleRepository->getPaymentCycleById($payment_cycle_id);
 
-                $discount = $company_details['company_contract']->discount;
-                $contract_start_date =  $company_details['company_contract']->start_date;
-                $contract_end_date = $company_details['company_contract']->end_date;
+                $discount = $contract->discount;
+                $contract_start_date =  $contract->start_date;
+                $contract_end_date = $contract->end_date;
 
                 $temp = [
                     'discount'              => $discount,
@@ -150,7 +155,7 @@ class CompanyInvoiceController extends AppBaseController
                 ];
             }
 
-            $company_discount_detail =  $this->companyInvoiceRepository->totalAndDiscountedTotal($temp);
+            //$company_discount_detail =  $this->companyInvoiceRepository->totalAndDiscountedTotal($temp);
 
             /*echo "<pre>";
             print_r($company_discount_detail);
@@ -161,9 +166,9 @@ class CompanyInvoiceController extends AppBaseController
             $company_infomation = [
                 'Company'           => $company_details['company'],
                 'Contact_Person'    => $company_details['company_contract_persons'],
-                'Contract'          => $company_details['company_contract'],
+                'Contract'          => $contract,
                 'Modules'           => $company_modules,
-                'Discount'          => $company_discount_detail,
+                //'Discount'          => $company_discount_detail,
                 'PaymentCycleId'    => $payment_cycle_id,
                 'PaymentMethod'     => $payment_method
             ];
@@ -173,6 +178,9 @@ class CompanyInvoiceController extends AppBaseController
 
     public function sendLatestInvoiceToCompanyContractPerson($company_id)
     {
+        // Increase Execution time
+        ini_set('max_execution_time', 300);
+        
         $lastInvoice =  $this->companyInvoiceRepository->getLastInsertedInvoiceId();
         $Invoice_id =  $lastInvoice->id;      
         $filename = $Invoice_id."_Invoices.pdf";         
