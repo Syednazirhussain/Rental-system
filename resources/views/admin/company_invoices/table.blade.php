@@ -64,8 +64,6 @@
                     <a href="{{ route('admin.sendInvoice',['company_id' => $Invoice->company->id ]) }}" class="btn btn-default btn-sm"><i class="fa fa-envelope"></i>&nbsp;Send Email</a>
                   </td>
                 </tr>
-
-                @endforeach
             </tbody>
           </table>
 

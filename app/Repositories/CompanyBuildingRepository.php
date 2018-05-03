@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\Admin;
+namespace App\Repositories;
 
 use App\Models\CompanyBuilding;
 use App\Models\CompanyFloorRoom;

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
+use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -71,4 +71,12 @@ class CompanyUser extends Model
     {
         return $this->belongsTo(\App\Models\Company::class, 'id', 'company_id');
     }
+
+
+    public function getAllModules()
+    {
+        return $this->belongsToMany(\App\Models\CompanyModule::class, 'company_id', 'company_id');
+    } 
+
+
 }

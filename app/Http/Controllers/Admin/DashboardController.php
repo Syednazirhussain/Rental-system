@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 
-use App\Repositories\Admin\CompanyRepository;
-use App\Repositories\Admin\CompanyBuildingRepository;
+use App\Repositories\CompanyRepository;
+use App\Repositories\CompanyBuildingRepository;
 
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;

@@ -72,7 +72,6 @@ class RoomLayoutController extends AppBaseController
 
         }
 
-
         $roomLayout = $this->roomLayoutRepository->create($input);
 
         Session::flash("successMessage", "The Room Layout has been added successfully.");

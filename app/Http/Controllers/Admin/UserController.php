@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\CreateUserRequest;
 use App\Http\Requests\Admin\UpdateUserRequest;
-use App\Repositories\Admin\UserRepository;
+use App\Repositories\UserRepository;
 
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
@@ -15,6 +15,9 @@ use Auth;
 use App\Models\UserRole;
 use App\Models\User;
 use App\Models\UserStatus;
+use App\Models\Country;
+use App\Models\State;
+use App\Models\City;
 
 use Illuminate\Support\Facades\Storage;
 
@@ -40,8 +43,18 @@ class UserController extends AppBaseController
         $users = $this->userRepository->all();
         $user_roles = UserRole::pluck('name', 'code');
         $user_status = UserStatus::pluck('name', 'id');
+        $user_country = Country::pluck('name', 'id');
+        $user_state = State::pluck('name', 'id');
+        $user_city = City::pluck('name', 'id');
 
-        return view('admin.users.index', ['users' => $users, 'user_roles' => $user_roles, 'user_status' => $user_status]);
+        return view('admin.users.index',
+            ['users' => $users,
+                'user_roles' => $user_roles,
+                'user_status' => $user_status,
+                'user_country' => $user_country,
+                'user_state' => $user_state,
+                'user_city' => $user_city
+            ]);
     }
 
     /**
@@ -92,6 +105,10 @@ class UserController extends AppBaseController
         $user = $this->userRepository->findWithoutFail($id);
         $user_roles = UserRole::pluck('name', 'code');
         $user_status = UserStatus::pluck('name', 'id');
+        $user_country = Country::pluck('name', 'id');
+        $user_state = State::pluck('name', 'id');
+        $user_city = City::pluck('name', 'id');
+
 
         if (empty($user)) {
             Flash::error('User not found');
@@ -99,7 +116,14 @@ class UserController extends AppBaseController
             return redirect(route('admin.users.index'));
         }
 
-        return view('admin.users.show', ['user' => $user, 'user_roles' => $user_roles, 'user_status' => $user_status]);
+        return view('admin.users.show',
+            ['user' => $user,
+                'user_roles' => $user_roles,
+                'user_status' => $user_status,
+                'user_country' => $user_country,
+                'user_state' => $user_state,
+                'user_city' => $user_city
+                ]);
     }
 
     /**

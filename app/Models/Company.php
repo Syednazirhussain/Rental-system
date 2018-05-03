@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
+use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Faker\Factory as Faker;
 

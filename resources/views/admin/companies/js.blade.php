@@ -806,6 +806,9 @@ if(!isEmpty(wizard))
             // test if form is valid 
             if( $('#wizard-6').validate().form() ) {
 
+                $('#finish-btn').attr('disabled', 'disabled');
+                $('#finish-btn').text('Processing..');
+
                 if (editCompany == 0 && companyAdminCreated == 0) {
 
                     var myform = document.getElementById("wizard-6");

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Company;
 
 use App\Http\Requests\Admin\CreateUserRequest;
 use App\Http\Requests\Admin\UpdateUserRequest;
-use App\Repositories\Admin\UserRepository;
+use App\Repositories\UserRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;

@@ -44,15 +44,8 @@
                 <ul class="nav navbar-nav bg-green">
                     <li class="dropdown" id="admin-menu-button">
                         <a href class="dropdown-toggle color-white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars fa-2x m-r-1 vertical-a-mid"></i><span class="">Menu</span></a>
-                        <ul class="dropdown-menu">
-                            <li class="dropdown-toggle">
-                                <a href="{{ route('admin.users.index') }}">Users</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="{{ route('admin.users.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add User</a></li>
-                                    <li><a href="{{ route('admin.users.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Users</a></li>
-                                </ul>
-                            </li>
 
+                        <ul class="dropdown-menu">                            
                             <li class="dropdown-toggle">
                                 <a href>Modules</a>
                                 <ul class="dropdown-menu">
@@ -78,25 +71,44 @@
                             </li>
                             <li><a href="{{ route('admin.companyInvoices.index') }}">Invoices</a></li>
                             <li class="dropdown-toggle">
+                                <a href>Newsletters</a>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-toggle">
+                                        <a href>Groups</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="{{ route('admin.newsletter.groups.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Group</a></li>
+                                            <li><a href="{{ route('admin.newsletter.groups.index') }}"><i class="fa fa-users"></i>&nbsp;&nbsp;Groups</a></li>
+                                         </ul>
+                                    </li>
+                                    <li class="dropdown-toggle">
+                                        <a href>Subscribers</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="{{ route('admin.customers.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Subscriber</a></li>
+                                         </ul>
+                                    </li>
+                                    <li><a href="{{ route('admin.newsletter.sendmail') }}"><i class="fa fa-paper-plane"></i>&nbsp;&nbsp;Send Newsletter</a></li>
+                                    <li><a href="{{ route('admin.newsletter.dashboard') }}"><i class="fa fa-pie-chart"></i>&nbsp;&nbsp;Report</a></li>
+                                 </ul>
+                            </li>
+                            <li class="dropdown-toggle">
+                                <a href="{{ route('admin.users.index') }}">Users</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ route('admin.users.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add User</a></li>
+                                    <li><a href="{{ route('admin.users.index') }}"><i class="fa fa-users"></i>&nbsp;&nbsp;Users</a></li>
+                                </ul>
+                            </li>
+                            <li class="divider"></li>                            
+                            <li class="dropdown-toggle">
                                 <a href>Settings</a>
                                 <ul class="dropdown-menu">
+                                   <li><a href="{{ route('admin.settings.general') }}"><i class="fa fa-cog"></i>&nbsp;&nbsp;General Settings</a></li>
+                                   <li class="divider"></li>
                                    <li><a href="{{ route('admin.userRoles.index') }}"><i class="fa fa-users"></i>&nbsp;&nbsp;User Roles</a></li>
                                    <li class="divider"></li>
                                    <li><a href="{{ route('admin.userStatuses.index') }}"><i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;User Status</a></li>
-                                   <li class="divider"></li>
-                                   <li><a href="{{ route('admin.settings.general') }}"><i class="fa fa-cog"></i>&nbsp;&nbsp;General Settings</a></li>
                                 </ul>
                              </li>
-                             <li class="dropdown-toggle">
-                                <a href>Email and NewsLetters</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="{{ route('admin.newsletter.dashboard') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Newsletter Dashboard</a></li>
-                                    <li><a href="{{ route('admin.newsletter.groups.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Create Groups</a></li>
-                                    <li><a href="{{ route('admin.newsletter.groups.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;View Groups</a></li>
-                                    <li><a href="{{ route('customer.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Clients to Groups</a></li>
-                                    <li><a href="{{ route('admin.newsletter.sendmail') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Send Emails/NewsLetters</a></li>
-                                 </ul>
-                            </li>
+                             
                             <!-- <li class="divider"></li> -->
                             <!-- <li><a href="#">Help</a></li> -->
                         </ul>

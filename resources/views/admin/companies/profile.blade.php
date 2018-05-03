@@ -19,7 +19,7 @@
 	    <div class="col-md-2">
 
 	        <div class="text-xs-center">
-	        	@if( isset($company->logo) != 'default.png' )
+	        	@if( $company->logo != 'default.png' )
 	        	<img src="{{ asset('storage/company_logos/'.$company->logo) }}" alt="" class="page-profile-v1-avatar border-round" width="150px">
 	        	@else
 	        	<img src="{{ asset('/skin-1/assets/images/default.png') }}" alt="" class="page-profile-v1-avatar border-round" width="150px">
@@ -116,6 +116,7 @@
 	        <div class="tab-content tab-content-bordered p-a-0 bg-white">
 	          <div class="tab-pane p-a-3 fade in active" id="contact_person">
                     <h3 class="m-t-0">Contact Persons <a href="{{ route('admin.companies.edit',[$company->id,'wizard-2']) }}" title="Edit contact person"><i class="fa fa-pencil-square-o m-l-1"></i></a></h3>
+
                     <div class="px-content">
                     	@if (count($company->companyContactPeople) > 0)
 					    
@@ -135,7 +136,7 @@
 					            <tbody>
 					            @foreach ($company->companyContactPeople as $contactPerson)
 					              <tr class="odd gradeX">
-					              	<td>{{ $contactPerson->name }}</td>
+					              	<td>{{ ucfirst($contactPerson->name) }}</td>
 					              	<td>{{ $contactPerson->email }}</td>
 					              	<td>{{ $contactPerson->phone }}</td>
 					              	<td>{{ $contactPerson->address }}</td>
@@ -186,7 +187,7 @@
                                     <div class="col-sm-6 form-group">
                                       <fieldset class="form-group">
                                           <label for="payment-method">Payment Method</label>
-                                          <span class="form-control">{{ $company->companySingleContract->payment_method }}</span>
+                                          <span class="form-control">{{ ucfirst($company->companySingleContract->payment_method) }}</span>
                                       </fieldset>
                                     </div>
                                     <div class="col-sm-6 form-group">
@@ -196,6 +197,7 @@
                                         </fieldset>
                                     </div>
 
+                                    @if ($company->companySingleContract->discount > 0)
                                     <div class="col-sm-6 form-group">
                                     	<fieldset class="form-group">
 	                                        <label for="discount">Discount</label>
@@ -208,9 +210,11 @@
 	                                        <span class="form-control">{{ $company->companySingleContract->discountType->name }}</span>
                                         </fieldset>
                                     </div>
+                                    @endif
                                 </div>
 	          </div>
 	          <div class="tab-pane p-a-3 fade" id="building">
+
 					<h3 class="m-t-0">Buildings Information <a href="{{ route('admin.companies.edit',[$company->id,'wizard-3']) }}" title="Edit contact person"><i class="fa fa-pencil-square-o m-l-1"></i></a></h3>
 					@if ( count($company->companyBuildings) > 0 )
                     <table class="table">
@@ -339,9 +343,9 @@
 				                  <td>{{ Carbon\Carbon::parse($invoice->due_date)->format('F d, Y')  }}</td>
 				                  <td>
 				                  	@if($invoice->status == 'paid')
-				                        <span class="label label-success">{{ $invoice->status }}</span>
+				                        <span class="label label-success">{{ ucfirst($invoice->status) }}</span>
 				                    @else
-				                        <span class="label label-danger">{{ $invoice->status }}</span>
+				                        <span class="label label-danger">{{ ucfirst($invoice->status) }}</span>
 				                    @endif
 				                  </td>
 				                  <td>
