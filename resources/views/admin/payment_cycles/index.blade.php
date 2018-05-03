@@ -3,7 +3,7 @@
 @section('content')
     <div class="px-content">
         <div class="page-header">
-            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i>Modules / </span></h1>
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i>Payment / </span></h1>
         </div>
 
         <div class="panel">
@@ -19,11 +19,12 @@
 
 
                 <div class="text-right m-b-3">
-                    <a href="{{ route('admin.modules.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i>Add Module</a>
+                    <a href="{{ route('admin.paymentCycles.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i>Add
+                        Payment Cycle</a>
                 </div>
 
                 <div class="table-primary">
-                    @include('admin.modules.table')
+                    @include('admin.payment_cycles.table')
                 </div>
             </div>
         </div>
@@ -36,7 +37,7 @@
         // Initialize DataTables
         $(function () {
             $('#datatables').dataTable();
-            $('#datatables_wrapper .table-caption').text('Modules');
+            $('#datatables_wrapper .table-caption').text('Payment Cycle');
             $('#datatables_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
         });
     </script>

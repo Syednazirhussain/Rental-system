@@ -346,10 +346,10 @@ class CompanyInvoiceController extends AppBaseController
                         // $input['logo'] = $path[2];
 
                         $data = ['Path' => $filePath];
-                        foreach ($company_infomation['Contact_Person'] as $person)
+                        /*foreach ($company_infomation['Contact_Person'] as $person)
                         {
                             Mail::to($person->email)->send(new NewInvoiceMail($data));
-                        }
+                        }*/
                         session()->flash('msg.success', 'Company has been created successfully');
                         return redirect()->route('admin.companies.index');
                     }

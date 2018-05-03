@@ -190,7 +190,7 @@ class CompanyController extends AppBaseController
      *
      * @return Response
      */
-    public function edit($id)
+    public function edit($id,$wizard = '')
     {
         $company = $this->companyRepository->findWithoutFail($id);
 
@@ -211,8 +211,24 @@ class CompanyController extends AppBaseController
         $paymentCycles = $this->paymentCycleRepository->all();
         $paymentMethods = $this->paymentMethodRepository->all();
 
-
-        $data = [
+        if($wizard == '')
+        {
+            $data = [
+                'countries' => $countries,
+                'states' => $states,
+                'cities' => $cities,
+                'userStatus' => $userstatus,
+                'discountTypes' => $discountTypes,
+                'modules' => $modules,
+                'paymentCycles' => $paymentCycles,
+                'paymentMethods' => $paymentMethods,                
+                'company' => $company,
+                'companyBuildingFloors' => $companyBuildingFloors
+            ];
+        }
+        else
+        {
+            $data = [
                 'countries' => $countries,
                 'states' => $states,
                 'cities' => $cities,
@@ -223,7 +239,11 @@ class CompanyController extends AppBaseController
                 'paymentMethods' => $paymentMethods,                
                 'company' => $company,
                 'companyBuildingFloors' => $companyBuildingFloors,
+                'wizard'  => $wizard
             ];
+        }
+
+
 
         if (empty($company)) {
 

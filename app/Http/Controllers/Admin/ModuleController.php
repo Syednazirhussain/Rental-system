@@ -33,8 +33,7 @@ class ModuleController extends AppBaseController
 
         $modules = $this->moduleRepository->orderBy('name', 'asc')->get();
 
-        return view('admin.modules.index')
-            ->with('modules', $modules);
+        return view('admin.modules.index')->with('modules', $modules);
     }
 
     /**

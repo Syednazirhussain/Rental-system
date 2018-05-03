@@ -52,6 +52,7 @@
                                     <li><a href="{{ route('admin.users.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Users</a></li>
                                 </ul>
                             </li>
+
                             <li class="dropdown-toggle">
                                 <a href>Modules</a>
                                 <ul class="dropdown-menu">
@@ -59,6 +60,15 @@
                                     <li><a href="{{ route('admin.modules.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Modules</a></li>
                                 </ul>
                             </li>
+
+                            <li class="dropdown-toggle">
+                                <a href><i class="fa fa-money"></i>&nbsp;&nbsp;Payments</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ route('admin.paymentMethods.index') }}"><i class="fa fa-tasks"></i>&nbsp;&nbsp;Payment Method</a></li>
+                                    <li><a href="{{ route('admin.paymentCycles.index') }}"><i class="fa fa-recycle"></i>&nbsp;&nbsp;Payment Cycle</a></li>
+                                </ul>
+                            </li>
+
                             <li class="dropdown-toggle">
                                 <a href>Companies</a>
                                 <ul class="dropdown-menu">
