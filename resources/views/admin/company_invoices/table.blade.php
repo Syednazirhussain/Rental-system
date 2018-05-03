@@ -55,13 +55,13 @@
                   @endif
                   </td>
                   <td class="pull-right">
-                    <a href="{{ route('admin.sendInvoice',['company_id' => $Invoice->company->id ]) }}" class="btn btn-default btn-sm">Send Email</a>
-                    <a href="{{ route('admin.viewInvoice',['company_id' => $Invoice->company->id,'invoice_id' => $Invoice->id]) }}" class="btn btn-info btn-sm">View Invoice</a>
+                    <a href="{{ route('admin.viewInvoice',['company_id' => $Invoice->company->id,'invoice_id' => $Invoice->id]) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i>&nbsp;View Invoice</a>
                     <form class="form-inline" style="display: inline;" action="{{ route('admin.companyInvoices.destroy', [$Invoice->id]) }}" method="post">
                       <input name="_method" type="hidden" value="DELETE">
                       <input name="_token" type="hidden" value="{{ csrf_token() }}">
-                      <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')"">Delete Invoice</button>
+                      <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')""><span class="fa fa-trash"></span>&nbsp;Delete Invoice</button>
                     </form>
+                    <a href="{{ route('admin.sendInvoice',['company_id' => $Invoice->company->id ]) }}" class="btn btn-default btn-sm"><i class="fa fa-envelope"></i>&nbsp;Send Email</a>
                   </td>
                 </tr>
 
