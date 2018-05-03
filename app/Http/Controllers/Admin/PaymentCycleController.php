@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\CreatePaymentCycleRequest;
 use App\Http\Requests\Admin\UpdatePaymentCycleRequest;
-use App\Repositories\Admin\PaymentCycleRepository;
+use App\Repositories\PaymentCycleRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;

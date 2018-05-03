@@ -7,6 +7,7 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
+
 /**
  * Class PaymentCycle
  * @package App\Models\Admin

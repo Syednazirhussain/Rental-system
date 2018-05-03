@@ -4,7 +4,6 @@
         <tr>
             <th>Name</th>
             <th>Code</th>
-            <th>Created At</th>
             <th width="200px">Actions</th>
         </tr>
     </thead>
@@ -14,7 +13,6 @@
             <tr>
                 <td>{{ $payment->name }}</td>
                 <td>{{ $payment->code }}</td>
-                <td>{{ $payment->created_at }}</td>
                 <td  width="200px" class="text-center">
                     {!! Form::open(['route' => ['admin.paymentMethods.destroy', $payment->id], 'method' => 'delete']) !!}
 

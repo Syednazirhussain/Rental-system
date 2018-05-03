@@ -3,7 +3,6 @@
     <thead>
         <tr>
             <th>Name</th>
-            <th>Created At</th>
             <th width="200px">Actions</th>
         </tr>
     </thead>
@@ -12,7 +11,6 @@
         @foreach($paymentCycles as $paymentCyc)
             <tr>
                 <td>{{ $paymentCyc->name }}</td>
-                <td>{{ $paymentCyc->created_at }}</td>
                 <td  width="200px" class="text-center">
                     {!! Form::open(['route' => ['admin.paymentCycles.destroy', $paymentCyc->id], 'method' => 'delete']) !!}
 
