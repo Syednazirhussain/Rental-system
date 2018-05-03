@@ -206,6 +206,7 @@
                         </ul>
                     </li>
                     <li class="divider"></li>
+                    <li><a href="{{ route('company.contracts.status') }}">Contract Calendar</a></li>
                     <li><a href="#">Help</a></li>
                 </ul>
             </li>

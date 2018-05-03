@@ -229,4 +229,23 @@ class RoomContractController extends AppBaseController
 
         return redirect(route('company.contracts.index'));
     }
+
+
+    /**
+     * Get contract status as calendar view
+     * */
+
+    public function status()
+    {
+        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $contracts = Room::leftJoin('room_contracts', 'rooms.id', '=', 'room_contracts.room_id')
+            ->join('company_floor_rooms', 'rooms.floor_id', '=', 'company_floor_rooms.id')
+            ->join('company_buildings', 'company_floor_rooms.building_id', '=', 'company_buildings.id')
+            ->where('rooms.company_id', $company_id)
+            ->select('rooms.id','rooms.name', 'start_date', 'end_date', 'company_buildings.name as buildingName', 'company_floor_rooms.floor')
+            ->distinct('rooms.id')->orderBy('company_buildings.id', 'DESC')->get();
+        $data = json_encode($contracts);
+
+        return view('company.contracts.status', ['data' => $data]);
+    }
 }
