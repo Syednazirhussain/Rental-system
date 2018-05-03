@@ -55,7 +55,7 @@
                             </li>
 
                             <li class="dropdown-toggle">
-                                <a href><i class="fa fa-money"></i>&nbsp;&nbsp;Payments</a>
+                                <a href>Payments</a>
                                 <ul class="dropdown-menu">
                                     <li><a href="{{ route('admin.paymentMethods.index') }}"><i class="fa fa-tasks"></i>&nbsp;&nbsp;Payment Method</a></li>
                                     <li><a href="{{ route('admin.paymentCycles.index') }}"><i class="fa fa-recycle"></i>&nbsp;&nbsp;Payment Cycle</a></li>

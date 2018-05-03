@@ -57,7 +57,7 @@ class PaymentMethodController extends AppBaseController
 
         $this->validate($request,[
             'name' => 'required',
-            'code' => 'required'
+            'code' => 'required|unique:payment_methods,code'
         ]);
 
         $input = $request->all();
