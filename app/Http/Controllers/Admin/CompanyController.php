@@ -14,18 +14,14 @@ use App\Repositories\Admin\PaymentMethodRepository;
 use App\Repositories\UserStatusRepository;
 use App\Repositories\DiscountTypeRepository;
 use App\Repositories\Admin\ModuleRepository;
-
-
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use PDF;
-
-
-
 use URL;
+
 
 use App\Models\Company;
 
