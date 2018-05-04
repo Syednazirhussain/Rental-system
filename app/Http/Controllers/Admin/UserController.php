@@ -65,7 +65,27 @@ class UserController extends AppBaseController
     public function create()
     {
         $user_role = UserRole::all();
-        return view('admin.users.create', ['user_role' => $user_role]);
+
+        $userStatus = UserStatus::all(); 
+
+        $technicalSettings = [
+            'module'    => 'Modules',
+            'payment'   => 'Payments',
+            'companies' => 'Companies',
+            'invoices'  => 'Invoices',
+            'newletter' => 'News Letters',
+            'user'      => 'Users',
+            'setting'   => 'Setting'
+        ];
+
+        $data = [
+            'user_role'         => $user_role,
+            'technicalSettings' => $technicalSettings,
+            'userStatus'        => $userStatus
+        ];
+
+
+        return view('admin.users.create',$data);
     }
 
     /**
@@ -77,20 +97,83 @@ class UserController extends AppBaseController
      */
     public function store(CreateUserRequest $request)
     {
-        $input = $request->all();
+        $this->validate($request,[
+            'name' => 'required',
+            'email' => 'required|unique:users,email',
+            'password' => 'required|min:6',
+            'user_role_code' => 'required',
+            'user_status_id' => 'required'   
+        ]);
+
+        $input = $request->except(['user_permission']);
         $password =  bcrypt($request->password);
         $input['password'] = $password;
-        $input['user_status_id'] = "1";
+        $input['permissions'] = $request->permissions;
 
-        $user = User::where('email', $request->email)->first();
-        if($user !== null) {
-            $request->session()->flash('msg.error', 'User Email already exists.');
-            return redirect(route('admin.users.index'));
-        }
+
+
+        // $user = User::where('email', $request->email)->first();
+        // if($user !== null) {
+        //     $request->session()->flash('msg.error', 'User Email already exists.');
+        //     return redirect(route('admin.users.index'));
+        // }
 
         User::create($input);
         $request->session()->flash('msg.success', 'User saved successfully.');
         return redirect(route('admin.users.index'));
+    }
+
+
+    public function updateUser(Request $request)
+    {
+        $input = $request->all();
+
+        // echo "<pre>";
+        // print_r($input);
+
+        $user =  $this->userRepository->findWithoutFail($input['userId']);
+        $permissionArr =  explode(',',$user->permissions);
+
+        if($input['Action'] == 'Remove')
+        {
+
+            if (in_array($input['permissions'], $permissionArr)) 
+            {
+                unset($permissionArr[array_search($input['permissions'],$permissionArr)]);
+            }
+
+            $permissions =  implode(',',$permissionArr);
+
+            $status = $this->userRepository->updateUserPermission($input['userId'],$permissions);
+
+            if($status != 'updated')
+            {
+                session()->flash('msg.error','User permission cannot be modified');
+            }
+            else
+            {
+                return $status;
+            }
+        }
+        else if($input['Action'] == 'Add')
+        {
+
+            array_push($permissionArr,$input['permissions']);
+
+            $permissions =  implode(',',$permissionArr);
+
+            $status = $this->userRepository->updateUserPermission($input['userId'],$permissions);
+
+            if($status != 'updated')
+            {
+                session()->flash('msg.error','User permission cannot be modified');
+            }
+            else
+            {
+                return $status;
+            }
+
+        }
     }
 
     /**
@@ -136,7 +219,10 @@ class UserController extends AppBaseController
     public function edit($id)
     {
         $user = $this->userRepository->findWithoutFail($id);
+
         $user_role = UserRole::all();
+        $userStatus = UserStatus::all();
+
         $all_roles = UserRole::pluck('name', 'code');
 
         if (empty($user)) {
@@ -145,7 +231,28 @@ class UserController extends AppBaseController
             return redirect(route('admin.users.index'));
         }
 
-        return view('admin.users.edit', ['user' => $user, 'user_role' => $user_role, 'all_roles' => $all_roles]);
+        $technicalSettings = [
+            'module'    => 'Modules',
+            'payment'   => 'Payments',
+            'companies' => 'Companies',
+            'invoices'  => 'Invoices',
+            'newletter' => 'News Letters',
+            'user'      => 'Users',
+            'setting'   => 'Setting'
+        ];
+
+        $permissions =  explode(',',$user->permissions);
+
+        $data = [
+            'user'              => $user,
+            'user_role'         => $user_role,
+            'all_roles'         => $all_roles,
+            'technicalSettings' => $technicalSettings,
+            'permissions'       => $permissions,
+            'userStatus'        => $userStatus
+        ];
+
+        return view('admin.users.edit',$data);
     }
 
     /**
@@ -159,14 +266,51 @@ class UserController extends AppBaseController
     public function update(Request $request, $id)
     {
 
-        $input = request()->except(['_token', '_method']);
-        $password =  bcrypt($request->password);
-        $input['password'] = $password;
+
+        $input = request()->except(['_token', '_method','user_permission']);
+        $user = $this->userRepository->findWithoutFail($id);
+
+        if($input['updatePassword'] == null)
+        {
+             $input['password'] = $user->password;
+        }        
+        else
+        {
+            $password =  bcrypt($request->updatePassword);
+            $input['password'] = $password;
+        }
+        unset($input['updatePassword']);
 
 
         User::where('id', $id)->update($input);
         $request->session()->flash('msg.success', 'User updated successfully.');
         return redirect(route('admin.users.index'));
+    }
+
+
+    public function verifyEmail(Request $request)
+    {
+        $input = $request->all();
+        if( count($input) > 0)
+        {
+            $user = $this->userRepository->verifyEmailExist($input['email']);
+            if( count($user) > 0)
+            {
+                $success = 0;
+                $response = 401;
+            }
+            else
+            {
+                $success = 1;
+                $response = 200;
+            }
+        }
+        else
+        {
+            $success = 0;
+            $response = 404;
+        }
+        return response()->json(['success' => $success,'code' => $response]);
     }
 
     /**
@@ -204,6 +348,7 @@ class UserController extends AppBaseController
     // authenticate user
     public function authenticate(Request $request)
     {
+        // dd($request->all());        
         if (Auth::attempt(array('email'=>$request->input('email'), 'password'=>$request->input('password'),'user_role_code'=>'admin')))
         {
             return redirect()->route('admin.dashboard');

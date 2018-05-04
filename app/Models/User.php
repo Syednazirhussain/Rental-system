@@ -58,6 +58,7 @@ class User extends Authenticatable
         'user_status_id',
         'uuid',
         'first_login',
+        'permissions'
     ];
 
     /**

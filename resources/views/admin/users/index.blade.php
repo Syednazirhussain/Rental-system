@@ -18,7 +18,7 @@
                 @endif
 
                 <div class="text-right m-b-3">
-                    <a href="{{ route('admin.users.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i>Add
+                    <a href="{{ route('admin.users.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add
                         User</a>
                 </div>
 

@@ -54,8 +54,9 @@ Route::group(['middleware' => ['admin.auth']], function () {
 	Route::post('admin/settings/account', ['as'=> 'admin.accountSettings.store', 'uses' => 'Admin\UserController@accountSettingsStore']);
 	Route::post('admin/settings/account/removeProfilePic', ['as'=> 'admin.accountSettings.removeProfilePic', 'uses' => 'Admin\UserController@accountSettingsRemoveProfilePic']);
 
-
-
+	Route::post('admin/users/updateUser', ['as'=> 'admin.users.updateUser', 'uses' => 'Admin\UserController@updateUser']);
+	
+	Route::post('admin/users/verifyEmail', ['as'=> 'admin.users.verifyEmail', 'uses' => 'Admin\UserController@verifyEmail']);
 	# Admin Users Section routes
 	Route::get('admin/users', ['as'=> 'admin.users.index', 'uses' => 'Admin\UserController@index']);
 	Route::post('admin/users', ['as'=> 'admin.users.store', 'uses' => 'Admin\UserController@store']);
