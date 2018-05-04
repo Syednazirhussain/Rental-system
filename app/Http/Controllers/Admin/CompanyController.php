@@ -121,7 +121,7 @@ class CompanyController extends AppBaseController
 
             if (!$logged_in)
             {
-                session()->flash('msg.error','Error Occured');
+                session()->flash('msg.error','Error Occured while logged in as company admin');
                 return redirect()->back();
             }
             else

@@ -158,9 +158,11 @@ class UserController extends AppBaseController
      */
     public function update(Request $request, $id)
     {
+
         $input = request()->except(['_token', '_method']);
         $password =  bcrypt($request->password);
         $input['password'] = $password;
+
 
         User::where('id', $id)->update($input);
         $request->session()->flash('msg.success', 'User updated successfully.');
