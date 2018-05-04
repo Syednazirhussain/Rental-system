@@ -19,14 +19,19 @@ class CompanyAuthMiddleware
         if(Auth::check())
         {
 
-            if (Auth::user()->user_role_code == 'company_admin') {
+            if (Auth::user()->user_role_code == 'company_admin') 
+            {
                 return $next($request);    
-            } else {
+            } 
+            else 
+            {
                 $request->session()->flush();
                 return redirect()->route('company.dashboard');
             }
             
-        } else {
+        }
+        else 
+        {
             return redirect()->route('company.login');
         }
     }

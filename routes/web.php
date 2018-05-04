@@ -118,12 +118,12 @@ Route::group(['middleware' => ['admin.auth']], function () {
 	Route::get('admin/discountTypes/{discountTypes}/edit', ['as'=> 'admin.discountTypes.edit', 'uses' => 'Admin\DiscountTypeController@edit']);
 
 
+	Route::get('admin/companies/login/{company}', ['as'=> 'admin.companies.login', 'uses' => 'Admin\CompanyController@adminLoginAsCompanyAdmin']);	
 
 	# Admin Companies Section ----> Companies routes
 	Route::get('admin/companies', ['as'=> 'admin.companies.index', 'uses' => 'Admin\CompanyController@index']);
 	Route::post('admin/companies', ['as'=> 'admin.companies.store', 'uses' => 'Admin\CompanyController@store']);
 	Route::get('admin/companies/create', ['as'=> 'admin.companies.create', 'uses' => 'Admin\CompanyController@create']);
-
 	Route::put('admin/companies/{companies}', ['as'=> 'admin.companies.update', 'uses' => 'Admin\CompanyController@update']);
 	Route::patch('admin/companies/{companies}', ['as'=> 'admin.companies.update', 'uses' => 'Admin\CompanyController@update']);
 	Route::delete('admin/companies/{companies}', ['as'=> 'admin.companies.destroy', 'uses' => 'Admin\CompanyController@destroy']);
@@ -440,7 +440,7 @@ Route::group(['middleware' => ['company.guest']], function () {
 Route::group(['middleware' => ['company.auth']], function () {
 
 	# Compand Admin account related routes
-    Route::get('company/dashboard', ['as' => 'company.dashboard', 'uses' => 'Company\DashboardController@index']);
+    Route::get('company/dashboard/{company?}', ['as' => 'company.dashboard', 'uses' => 'Company\DashboardController@index']);
     Route::get('company/dashboard/profile', ['as' => 'company.dashboard.profile', 'uses' => 'Company\DashboardController@profile']);
     Route::get('company/logout', ['as' => 'company.logout', 'uses' => 'Company\UserController@logout']);
 
@@ -783,4 +783,3 @@ Route::patch('admin/paymentCycles/{paymentCycles}', ['as'=> 'admin.paymentCycles
 Route::delete('admin/paymentCycles/{paymentCycles}', ['as'=> 'admin.paymentCycles.destroy', 'uses' => 'Admin\PaymentCycleController@destroy']);
 Route::get('admin/paymentCycles/{paymentCycles}', ['as'=> 'admin.paymentCycles.show', 'uses' => 'Admin\PaymentCycleController@show']);
 Route::get('admin/paymentCycles/{paymentCycles}/edit', ['as'=> 'admin.paymentCycles.edit', 'uses' => 'Admin\PaymentCycleController@edit']);
-
