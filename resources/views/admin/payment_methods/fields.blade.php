@@ -13,11 +13,12 @@
         <label for="user_email">Code</label>
         <input type="text" name="code" id="code" class="form-control" value="@if(isset($paymentMethod)){{ $paymentMethod->code }}@endif">
     </div>
-
+    <input type="hidden" id="compareCode" value="@if(isset($paymentMethod)){{ $paymentMethod->code }}@endif">
     <div class="col-sm-12">
         <button type="submit" class="btn btn-primary">@if(isset($paymentMethod)) <i class="fa fa-refresh"></i>  Update @else <i class="fa fa-plus"></i> Add @endif</button>
         <a href="{!! route('admin.paymentMethods.index') !!}" class="btn btn-default">Cancel</a>
     </div>
+
 </div>
 
 
@@ -33,11 +34,51 @@
                     required: true
                 },
                 'code': {
-                    required: true
+                    required: true,
+                    remote : {
+                        param : {
+                            url  : "{{ route('admin.paymentMethods.verifyCodeExist') }}",
+                            type : "POST",
+                            dataType : "json",
+                            data : {
+                                code : function(){
+                                    return $('#code').val();
+                                }
+                            },
+                            dataFilter : function(response){
+                                return checkField(response);
+                            }
+                        },
+                        depends : function(element){
+                            return ( $(element).val() != $('#compareCode').val() );
+                        }
+                    }
+                }
+            },
+            messages : {
+                'code' : {
+                    remote : "code already exists"
                 }
             }
 
         });
+
+        checkField = function(response) {
+          switch ($.parseJSON(response).code) {
+              case 200:
+                  return "true"; // <-- the quotes are important!
+              case 401:
+                  //alert("Sorry, our system has detected that an account with this email address already exists.");
+                  break;
+              case 404:
+                  console.log('missing code');
+                  break;
+              default:
+                  alert("An undefined error occurred");
+                  break;
+          }
+          return false;
+        };
 
 
     </script>

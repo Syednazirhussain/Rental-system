@@ -89,6 +89,31 @@ class PaymentMethodController extends AppBaseController
         return view('admin.payment_methods.show')->with('paymentMethod', $paymentMethod);
     }
 
+    public function verifyCodeExist(Request $request)
+    {
+        $input = $request->all();
+        if( count($input) > 0)
+        {
+            $paymentMethod = $this->paymentMethodRepository->verifyPaymentMethodCodeExist($input['code']);
+            if( count($paymentMethod) > 0)
+            {
+                $success = 0;
+                $response = 401;
+            }
+            else
+            {
+                $success = 1;
+                $response = 200;
+            }
+        }
+        else
+        {
+            $success = 0;
+            $response = 404;
+        }
+        return response()->json(['success' => $success,'code' => $response]);
+    }
+
     /**
      * Show the form for editing the specified PaymentMethod.
      *

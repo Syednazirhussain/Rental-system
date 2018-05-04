@@ -764,6 +764,7 @@ Route::get('company/Conference/conferenceBookingItems/{conferenceBookingItems}',
 Route::get('company/Conference/conferenceBookingItems/{conferenceBookingItems}/edit', ['as'=> 'company/Conference.conferenceBookingItems.edit', 'uses' => 'Company/conference\ConferenceBookingItemController@edit']);
 
 
+Route::post('admin/paymentMethods/code', ['as'=> 'admin.paymentMethods.verifyCodeExist', 'uses' => 'Admin\PaymentMethodController@verifyCodeExist']);
 Route::get('admin/paymentMethods', ['as'=> 'admin.paymentMethods.index', 'uses' => 'Admin\PaymentMethodController@index']);
 Route::post('admin/paymentMethods', ['as'=> 'admin.paymentMethods.store', 'uses' => 'Admin\PaymentMethodController@store']);
 Route::get('admin/paymentMethods/create', ['as'=> 'admin.paymentMethods.create', 'uses' => 'Admin\PaymentMethodController@create']);

@@ -31,4 +31,10 @@ class PaymentMethodRepository extends BaseRepository
     {
         return PaymentMethod::class;
     }
+
+    public function verifyPaymentMethodCodeExist($code)
+    {
+        $PaymentMethod = PaymentMethod::where('code',$code)->first();
+        return $PaymentMethod;
+    }
 }
