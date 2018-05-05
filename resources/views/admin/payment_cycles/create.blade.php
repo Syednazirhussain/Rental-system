@@ -3,7 +3,7 @@
 @section('content')
     <div class="px-content">
         <div class="page-header">
-            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Payment Method / </span>Add Payment Cycle</h1>
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Payment Cycles / </span>Add Payment Cycle</h1>
         </div>
         <div class="row">
             <div class="col-md-6 col-md-offset-3">

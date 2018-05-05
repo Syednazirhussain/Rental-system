@@ -3,7 +3,7 @@
 @section('content')
     <div class="px-content">
         <div class="page-header">
-            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i>Payment / Payment Cycle</span></h1>
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i>Payment / Payment Cycles</span></h1>
         </div>
 
         <div class="panel">
@@ -19,8 +19,7 @@
 
 
                 <div class="text-right m-b-3">
-                    <a href="{{ route('admin.paymentCycles.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i>Add
-                        Payment Cycle</a>
+                    <a href="{{ route('admin.paymentCycles.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;Add Payment Cycle</a>
                 </div>
 
                 <div class="table-primary">

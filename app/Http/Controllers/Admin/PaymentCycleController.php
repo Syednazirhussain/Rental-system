@@ -64,7 +64,7 @@ class PaymentCycleController extends AppBaseController
 
         $paymentCycle = $this->paymentCycleRepository->create($input);
 
-        Flash::success('Payment Cycle saved successfully.');
+        session()->flash('msg.success', 'Payment Cycle saved successfully.');
 
         return redirect(route('admin.paymentCycles.index'));
     }
@@ -134,7 +134,8 @@ class PaymentCycleController extends AppBaseController
 
         $paymentCycle = $this->paymentCycleRepository->update($request->all(), $id);
 
-        Flash::success('Payment Cycle updated successfully.');
+
+        session()->flash('msg.success', 'Payment Cycle updated successfully.');
 
         return redirect(route('admin.paymentCycles.index'));
     }
@@ -158,7 +159,7 @@ class PaymentCycleController extends AppBaseController
 
         $this->paymentCycleRepository->delete($id);
 
-        Flash::success('Payment Cycle deleted successfully.');
+        session()->flash('msg.success', 'Payment cycle deleted successfully.');
 
         return redirect(route('admin.paymentCycles.index'));
     }

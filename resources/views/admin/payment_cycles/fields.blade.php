@@ -13,7 +13,7 @@
 
     <div class="col-sm-12">
         <button type="submit" class="btn btn-primary">@if(isset($paymentCycle)) <i class="fa fa-refresh"></i>  Update @else <i class="fa fa-plus"></i> Add @endif</button>
-        <a href="{!! route('admin.paymentCycles.index') !!}" class="btn btn-default">Cancel</a>
+        <a href="{!! route('admin.paymentCycles.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> Cancel</a>
     </div>
 </div>
 

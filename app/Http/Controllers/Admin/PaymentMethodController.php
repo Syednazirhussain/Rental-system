@@ -180,7 +180,7 @@ class PaymentMethodController extends AppBaseController
 
         $this->paymentMethodRepository->delete($id);
 
-        Flash::success('Payment Method deleted successfully.');
+        session()->flash('msg.success', 'Payment method deleted successfully.');
 
         return redirect(route('admin.paymentMethods.index'));
     }

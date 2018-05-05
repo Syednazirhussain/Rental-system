@@ -15,8 +15,8 @@
     </div>
     <input type="hidden" id="compareCode" value="@if(isset($paymentMethod)){{ $paymentMethod->code }}@endif">
     <div class="col-sm-12">
-        <button type="submit" class="btn btn-primary">@if(isset($paymentMethod)) <i class="fa fa-refresh"></i>  Update @else <i class="fa fa-plus"></i> Add @endif</button>
-        <a href="{!! route('admin.paymentMethods.index') !!}" class="btn btn-default">Cancel</a>
+        <button type="submit" class="btn btn-primary">@if(isset($paymentMethod)) <i class="fa fa-refresh"></i>  Update @else <i class="fa fa-plus"></i> Add Payment Method @endif</button>
+        <a href="{!! route('admin.paymentMethods.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> Cancel</a>
     </div>
 
 </div>

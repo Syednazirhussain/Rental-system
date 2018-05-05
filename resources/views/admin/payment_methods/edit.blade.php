@@ -6,7 +6,7 @@
             <h1>
                 <span class="text-muted font-weight-light">
                     <i class="page-header-icon ion-android-checkbox-outline"></i>
-                    Payment Method / Edit Payment Method
+                    Payment Methods / @if(isset($paymentMethod)){{$paymentMethod->name}}@endif
                 </span>
             </h1>
         </div>
@@ -15,7 +15,7 @@
             <div class="col-md-6 col-md-offset-3">
                 <div class="panel">
                     <div class="panel-heading">
-                        <div class="panel-title">Edit Payment Method</div>
+                        <div class="panel-title">@if(isset($paymentMethod)){{$paymentMethod->name}}@endif</div>
                     </div>
                     <div class="panel-body">
                         <form action="{{ route('admin.paymentMethods.update', [$paymentMethod->id]) }}" method="POST" id="paymentForm">
