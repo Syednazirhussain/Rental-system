@@ -65,8 +65,8 @@
     </div>
 
     <div class="col-sm-12">
-        <button type="submit" class="btn btn-primary">@if(isset($user)) <i class="fa fa-refresh"></i>  Update User @else <i class="fa fa-plus"></i>  Add User @endif</button>
-        <a href="{!! route('admin.users.index') !!}" class="btn btn-default">Cancel</a>
+        <button type="submit" class="btn btn-primary">@if(isset($user)) <i class="fa fa-refresh"></i>  Update @else <i class="fa fa-plus"></i>  Add User @endif</button>
+        <a href="{!! route('admin.users.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> Cancel</a>
     </div>
 </div>
 
@@ -128,7 +128,8 @@
 
         $('document').ready(function(){
 
-            var edit = "{{ (isset($user) && $user->code == 'admin-technical-support')? 1 : 0 }}";
+            var edit = "{{ (isset($user) && $user->user_role_code == 'admin-technical-support')? 1 : 0 }}";
+ 
 
             if(edit == true)
             {

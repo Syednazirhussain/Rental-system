@@ -8,11 +8,7 @@
                     <i class="page-header-icon ion-android-checkbox-outline"></i>
                     Settings /
                 </span>
-                @if(isset($user))
-                    {{ "Edit" }}
-                @else
-                    {{ "Add" }}
-                @endif User
+                Edit &nbsp;@if(isset($user)){{ $user->name }}@endif
             </h1>
         </div>
 
@@ -20,7 +16,7 @@
             <div class="col-md-6 col-md-offset-3">
                 <div class="panel">
                     <div class="panel-heading">
-                        <div class="panel-title">@if(isset($user)){{ "Edit" }}@else{{ "Add" }}@endif User</div>
+                        <div class="panel-title">@if(isset($user)){{ $user->name  }}@endif</div>
                     </div>
                     <div class="panel-body">
                         <form action="{{ route('admin.users.update', [$user->id]) }}" method="POST" id="userForm">
