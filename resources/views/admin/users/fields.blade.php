@@ -128,7 +128,7 @@
 
         $('document').ready(function(){
 
-            var edit = "{{ isset($permissions) ? 1 : 0 }}";
+            var edit = "{{ (isset($user) && $user->code == 'admin-technical-support')? 1 : 0 }}";
 
             if(edit == true)
             {
@@ -162,13 +162,7 @@
                 console.log(response);
               });
             }
-
-
         });
-
-
-
-
 
         $('#modules').on('select2:unselect', function (e) {
             var data = e.params.data;
