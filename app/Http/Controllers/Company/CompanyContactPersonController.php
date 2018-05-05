@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Company;
 
 use App\Http\Requests\Admin\CreateCompanyContactPersonRequest;
 use App\Http\Requests\Admin\UpdateCompanyContactPersonRequest;
-use App\Repositories\Admin\CompanyContactPersonRepository;
+use App\Repositories\CompanyContactPersonRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;

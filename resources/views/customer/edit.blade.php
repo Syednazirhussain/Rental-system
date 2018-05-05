@@ -12,7 +12,7 @@
 
             <div class="col-md-8">
 
-                <form method="post" action="{{ route('customer.update', $customer->id) }}">
+                <form method="post" action="{{ route('admin.customers.update', $customer->id) }}">
                     {{ csrf_field() }}
                     <input type="hidden" name="_method" value="PUT">
                     <div class="form-group">

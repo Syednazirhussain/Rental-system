@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
+use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -12,10 +12,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @package App\Models\Admin
  * @version April 4, 2018, 12:33 pm UTC
  *
- * @property \App\Models\Admin\City city
- * @property \App\Models\Admin\Country country
- * @property \App\Models\Admin\State state
- * @property \App\Models\Admin\UserStatus userStatus
+ * @property \App\Models\City city
+ * @property \App\Models\Country country
+ * @property \App\Models\State state
+ * @property \App\Models\UserStatus userStatus
  * @property \Illuminate\Database\Eloquent\Collection companyContracts
  * @property \Illuminate\Database\Eloquent\Collection companyModules
  * @property \Illuminate\Database\Eloquent\Collection CompanyUser
@@ -103,7 +103,8 @@ class User extends Authenticatable
      **/
     public function city()
     {
-        return $this->belongsTo(\App\Models\Admin\City::class);
+
+        return $this->belongsTo(\App\Models\City::class);
     }
 
     /**
@@ -111,7 +112,7 @@ class User extends Authenticatable
      **/
     public function country()
     {
-        return $this->belongsTo(\App\Models\Admin\Country::class);
+        return $this->belongsTo(\App\Models\Country::class);
     }
 
     /**
@@ -119,7 +120,7 @@ class User extends Authenticatable
      **/
     public function state()
     {
-        return $this->belongsTo(\App\Models\Admin\State::class);
+        return $this->belongsTo(\App\Models\State::class);
     }
 
     /**
@@ -127,7 +128,7 @@ class User extends Authenticatable
      **/
     public function userStatus()
     {
-        return $this->belongsTo(\App\Models\Admin\UserStatus::class);
+        return $this->belongsTo(\App\Models\UserStatus::class);
     }
 
     /**

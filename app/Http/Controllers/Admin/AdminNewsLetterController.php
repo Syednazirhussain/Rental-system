@@ -43,7 +43,7 @@ class AdminNewsLetterController extends AppBaseController
         //dd('https://api.sendgrid.com/v3/messages?limit=10&query=last_event_time%20BETWEEN%20TIMESTAMP%20%'.$start_date.'%22%20AND%20TIMESTAMP%20%22'.$end_date.'%22');
 
         // Get sendgrid data via sendgrid 3rd party api using GuzzleHttp
-        $client = new Client(['headers' => ['authorization' => 'Bearer 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']]);
+        $client = new Client(['headers' => ['authorization' => 'Bearer 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']]);
         $res = $client->request('GET', 'http://api.sendgrid.com/v3/messages?limit=100&query=from_email%3D%22'.Auth::user()->email.'%22');
         $status_code =  $res->getStatusCode();
 

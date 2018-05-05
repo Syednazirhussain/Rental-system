@@ -47,5 +47,10 @@ class GeneralSettingRepository extends BaseRepository
     	return ['country' => $country_name,'city' => $city_name,'state' => $state_name];
     }
 
+    public function getBookingTaxValue()
+    {
+        return GeneralSetting::where('meta_key','booking_tax')->first();
+    }
+
 
 }

@@ -8,7 +8,7 @@
 
     <div class="panel">
       <div class="panel-body">
-                <form method="post" action="{{ route('customer.store') }}">
+                <form method="post" action="{{ route('admin.customers.store') }}">
                     {{ csrf_field() }}
                     <div class="form-group">
                         <label for="customer_name">Name</label>
