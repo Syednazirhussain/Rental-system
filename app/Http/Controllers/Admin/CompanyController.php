@@ -13,6 +13,7 @@ use App\Repositories\PaymentCycleRepository;
 use App\Repositories\PaymentMethodRepository;
 use App\Repositories\UserStatusRepository;
 use App\Repositories\DiscountTypeRepository;
+
 use App\Repositories\CompanyUserRepository;
 use App\Repositories\UserRepository;
 
@@ -21,7 +22,14 @@ use App\Repositories\UserRepository;
 use App\Repositories\ModuleRepository;
 
 
+
+//use App\Repositories\Admin\ModuleRepository;
+
+use App\Repositories\ModuleRepository;
+
+
 use Auth;
+
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
