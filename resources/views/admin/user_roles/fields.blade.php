@@ -5,13 +5,14 @@
 	<input name="_method" type="hidden" value="PATCH">
 @endif
 
-<div class="row">                           
+<div class="row">
+
+<input type="hidden" class="userRoleId" id="@if(isset($userRole)){{ $userRole->id }}@endif" >                           
 	                                
 	<div class="col-sm-12 form-group">
     	<label for="code">Code</label>
         <input type="text" name="code" id="code" class="form-control" value="@if(isset($userRole)){{$userRole->code}}@endif">
 	</div>
-
   <input type="hidden" id="checkCode" value="@if(isset($userRole)){{$userRole->code}}@endif" >
 
 	<div class="col-sm-12 form-group">
@@ -25,7 +26,13 @@
       <label for="user_role_codes">Permission</label>
       <select class="form-control select2-example"  id="permissions" multiple>
           @foreach($permissions as $permission)
-              <option value="{{$permission->id}}">{{$permission->name}}</option>
+              @if(isset($userRole))
+                <option value="{{$permission->id}}" <?php foreach ($userRole->roleHasPermission as  $value) { if($value->permission_id == $permission->id){ echo "selected"; }} ?> >
+                  {{$permission->name}}
+                </option>
+              @else
+                <option value="{{$permission->id}}">{{$permission->name}}</option>
+              @endif
           @endforeach
       </select>
   </div>
@@ -89,6 +96,54 @@
         }
 
       });
+
+
+        var userRoleId = $('.userRoleId').attr('id');
+
+        $('#permissions').on('select2:select', function (e) {
+            var data = e.params.data;
+
+            var jsObj = {
+              'userRoleId' : userRoleId,
+              'permissions' : data.id,
+              'Action'     : 'Add'
+            }
+
+            console.log(jsObj);
+
+
+            if (userRoleId == "" || userRoleId === null) {
+
+            }
+            else
+            {
+              $.post("{{ route('admin.users.changePermission') }}",jsObj,function(response){
+                console.log(response);
+              });
+            }
+        });
+
+        $('#permissions').on('select2:unselect', function (e) {
+            var data = e.params.data;
+            
+            var jsObj = {
+              'userRoleId' : userRoleId,
+              'permissions' : data.id,
+              'Action'     : 'Remove'
+            }
+
+            console.log(jsObj);
+
+            if (userRoleId == "" || userRoleId === null) {
+
+            }
+            else
+            {
+                $.post("{{ route('admin.users.changePermission') }}",jsObj,function(response){
+                  console.log(response);
+                });
+            }
+        });
 
       $('#userRolesForm').on('submit', function(e) {
 

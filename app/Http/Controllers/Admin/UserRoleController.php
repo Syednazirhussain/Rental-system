@@ -96,6 +96,13 @@ class UserRoleController extends AppBaseController
      */
     public function store(CreateUserRoleRequest $request)
     {
+
+        $this->validate($request,[
+            'name' => 'required|string',
+            'code' => 'required|string',
+            'permissions' => 'required'
+        ]);
+
         $input = $request->all();
 
         $permissionArr =  explode(',', $input['permissions']);
@@ -158,7 +165,24 @@ class UserRoleController extends AppBaseController
             'userRole'    => $userRole  
         ];
 
-        return view('admin.user_roles.edit');
+        return view('admin.user_roles.edit',$data);
+    }
+
+
+    public function changePermission(Request $request)
+    {
+         $input = $request->all();
+
+         $role = Role::find($input['userRoleId']);
+
+        if($input['Action'] == 'Remove')
+        {
+            $role->revokePermissionTo($input['permissions']);
+        }
+        else if($input['Action'] == 'Add')
+        {
+            $role->givePermissionTo($input['permissions']);
+        }       
     }
 
     /**
@@ -171,20 +195,41 @@ class UserRoleController extends AppBaseController
      */
     public function update($id, UpdateUserRoleRequest $request)
     {
-        $userRole = $this->userRoleRepository->findWithoutFail($id);
 
-        if (empty($userRole)) {
+        $this->validate($request,[
+            'name' => 'required|string',
+            'code' => 'required|string',
+            'permissions' => 'required'
+        ]);
+
+        $input = $request->all();
+
+        $role = Role::find($id);
+
+        if (empty($role)) 
+        {
             session()->flash('msg.error', 'User Role not found');
-
             return redirect(route('admin.userRoles.index'));
         }
+        else
+        {
+            $permissionArr =  explode(',', $input['permissions']);
+            $input = [
+                        'name' => $input['name'],
+                        'code' => $input['code']
+                    ];
 
-        $userRole = $this->userRoleRepository->update($request->all(), $id);
+            $role->syncPermissions($permissionArr);            
+        }
+
+        // dd($role);
+
+        $role->update($input);
 
         $request->session()->flash('msg.success', 'User Role updated successfully.');
-
-
+        
         return redirect(route('admin.userRoles.index'));
+
     }
 
     /**

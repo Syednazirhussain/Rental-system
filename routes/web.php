@@ -78,6 +78,8 @@ Route::group(['middleware' => ['admin.auth']], function () {
 
 
 	Route::post('admin/settings/user_roles/checkCode', ['as'=> 'admin.userRoles.checkCode', 'uses' => 'Admin\UserRoleController@checkCode']);
+
+	Route::post('admin/settings/change_permission', ['as'=> 'admin.users.changePermission', 'uses' => 'Admin\UserRoleController@changePermission']);
 	# Admin Settings Section ----> User Roles routes
 	Route::get('admin/settings/user_roles', ['as'=> 'admin.userRoles.index', 'uses' => 'Admin\UserRoleController@index']);
 	Route::post('admin/settings/user_roles', ['as'=> 'admin.userRoles.store', 'uses' => 'Admin\UserRoleController@store']);
