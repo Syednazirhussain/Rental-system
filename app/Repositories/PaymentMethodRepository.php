@@ -7,12 +7,12 @@ use InfyOm\Generator\Common\BaseRepository;
 
 /**
  * Class PaymentMethodRepository
- * @package App\Repositories
- * @version April 11, 2018, 2:26 pm UTC
+ * @package App\Repositories\Admin
+ * @version May 3, 2018, 9:08 am UTC
  *
- * @method State findWithoutFail($id, $columns = ['*'])
- * @method State find($id, $columns = ['*'])
- * @method State first($columns = ['*'])
+ * @method PaymentMethod findWithoutFail($id, $columns = ['*'])
+ * @method PaymentMethod find($id, $columns = ['*'])
+ * @method PaymentMethod first($columns = ['*'])
 */
 class PaymentMethodRepository extends BaseRepository
 {
@@ -20,8 +20,8 @@ class PaymentMethodRepository extends BaseRepository
      * @var array
      */
     protected $fieldSearchable = [
-        'name',
         'code',
+        'name'
     ];
 
     /**
@@ -32,4 +32,9 @@ class PaymentMethodRepository extends BaseRepository
         return PaymentMethod::class;
     }
 
+    public function verifyPaymentMethodCodeExist($code)
+    {
+        $PaymentMethod = PaymentMethod::where('code',$code)->first();
+        return $PaymentMethod;
+    }
 }

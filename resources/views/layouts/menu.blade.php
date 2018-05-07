@@ -99,3 +99,11 @@
     <a href="{!! route('company/Conference.conferenceBookingItems.index') !!}"><i class="fa fa-edit"></i><span>Conference Booking Items</span></a>
 </li>
 
+<li class="{{ Request::is('paymentMethods*') ? 'active' : '' }}">
+    <a href="{!! route('admin.paymentMethods.index') !!}"><i class="fa fa-edit"></i><span>Payment Methods</span></a>
+</li>
+
+<li class="{{ Request::is('paymentCycles*') ? 'active' : '' }}">
+    <a href="{!! route('admin.paymentCycles.index') !!}"><i class="fa fa-edit"></i><span>Payment Cycles</span></a>
+</li>
+

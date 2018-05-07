@@ -7,8 +7,48 @@
 
 var company_id = "";
 var editCompany = "{{ isset($company) ? $company->id: 0 }}";
+var wizard = "{{ isset($wizard) ? $wizard: 0 }}";
 
 
+
+function isEmpty(val){
+    return (val === undefined || val == null || val.length <= 0) ? true : false;
+}
+
+if(!isEmpty(wizard))
+{
+
+  if (wizard == 'wizard-2') 
+  {
+      $('ul li:nth-child(1)').removeClass('active');
+      $('ul li:nth-child(2)').addClass('active');
+
+      // Another Technique
+      // wizard = "#"+wizard;
+      // $('li').attr('data-target', wizard).addClass('active');
+  }
+  else if(wizard == 'wizard-4')
+  {
+      $('ul li:nth-child(1)').removeClass('active');
+      $('ul li:nth-child(4)').addClass('active');
+  }
+  else if(wizard == 'wizard-3')
+  {
+      $('ul li:nth-child(1)').removeClass('active');
+      $('ul li:nth-child(3)').addClass('active'); 
+  }
+  else if(wizard == 'wizard-5')
+  {
+      $('ul li:nth-child(1)').removeClass('active');
+      $('ul li:nth-child(5)').addClass('active');  
+  }
+  else if(wizard == 'wizard-6')
+  {
+      $('ul li:nth-child(1)').removeClass('active');
+      $('ul li:nth-child(6)').addClass('active');  
+  }
+
+}
 
             // -------------------------------------------------------------------------
 
@@ -765,6 +805,9 @@ var editCompany = "{{ isset($company) ? $company->id: 0 }}";
 
             // test if form is valid 
             if( $('#wizard-6').validate().form() ) {
+
+                $('#finish-btn').attr('disabled', 'disabled');
+                $('#finish-btn').text('Processing..');
 
                 if (editCompany == 0 && companyAdminCreated == 0) {
 

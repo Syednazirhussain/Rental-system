@@ -19,8 +19,9 @@
 
 
                 <div class="text-right m-b-3">
-                    <a href="{{ route('admin.modules.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i>Add
-                        Module</a>
+
+                    <a href="{{ route('admin.modules.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Module</a>
+
                 </div>
 
                 <div class="table-primary">

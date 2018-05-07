@@ -18,7 +18,6 @@ class CompanyGuestMiddleware
     {
         if(Auth::check())
         {
-
             if (Auth::user()->user_role_code == 'company_admin') {
                 return redirect()->route('company.dashboard');
             } else {

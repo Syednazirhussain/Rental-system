@@ -2,25 +2,41 @@
 
 namespace App\Models;
 
+
 use Eloquent as Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 /**
- * Class PaymentMethods
- * @package App\Models
- * @version April 11, 2018, 3:24 pm UTC
+ * Class PaymentMethod
+ * @package App\Models\Admin
+ * @version May 3, 2018, 9:08 am UTC
  *
+ * @property \Illuminate\Database\Eloquent\Collection companyFloorRooms
+ * @property \Illuminate\Database\Eloquent\Collection companyInvoiceItems
+ * @property \Illuminate\Database\Eloquent\Collection companyInvoices
+ * @property \Illuminate\Database\Eloquent\Collection companyModules
+ * @property \Illuminate\Database\Eloquent\Collection companyUsers
+ * @property \Illuminate\Database\Eloquent\Collection customers
+ * @property \Illuminate\Database\Eloquent\Collection groups
+ * @property \Illuminate\Database\Eloquent\Collection roomLayouts
+ * @property string code
  * @property string name
  */
 class PaymentMethod extends Model
 {
 
     public $table = 'payment_methods';
+    
+    const CREATED_AT = 'created_at';
+    const UPDATED_AT = 'updated_at';
 
+
+    // protected $dates = ['deleted_at'];
 
 
     public $fillable = [
-        'name',
-        'code',
+        'name','code'
     ];
 
     /**
@@ -30,8 +46,8 @@ class PaymentMethod extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'name' => 'string',
         'code' => 'string',
+        'name' => 'string'
     ];
 
     /**
@@ -40,8 +56,7 @@ class PaymentMethod extends Model
      * @var array
      */
     public static $rules = [
-        'name' => 'required|string|max:100',
-        'code' => 'required|string|max:50',
+
     ];
 
     

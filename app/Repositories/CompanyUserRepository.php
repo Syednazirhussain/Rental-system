@@ -49,4 +49,18 @@ class CompanyUserRepository extends BaseRepository
         $user = User::where('email', $adminEmail)->where('user_role_code', 'company_admin')->first();
         return $user;
     }
+
+    public function getCompanyUserByCompanyId($company_id)
+    {
+        $CompanyUser = CompanyUser::where('company_id',$company_id)->first();
+        if (count($CompanyUser)) 
+        {
+            return $CompanyUser;
+        }
+        else
+        {
+            return [];
+        }
+    }
+
 }

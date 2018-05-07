@@ -179,7 +179,7 @@ class CompanyUserController extends AppBaseController
                 'username'  => $username[$i],
                 'email'     => $email[$i],
                 'password'  => $password[$i],
-                'url'       => route('temp.company.authenticate')
+                'url'       => route('company.login')
             ];
 
             Mail::to($email[$i])->send(new AdminAccountConfirmation($data));

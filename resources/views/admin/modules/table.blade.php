@@ -3,7 +3,7 @@
   <tr>
     <th>Name</th>
     <th>Module Code</th>
-    <th>Price</th>
+    <th>Price (SEK)</th>
     <th width="200px">Actions</th>
   </tr>
 </thead>

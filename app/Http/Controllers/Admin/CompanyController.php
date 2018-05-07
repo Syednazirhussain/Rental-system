@@ -13,19 +13,22 @@ use App\Repositories\PaymentCycleRepository;
 use App\Repositories\PaymentMethodRepository;
 use App\Repositories\UserStatusRepository;
 use App\Repositories\DiscountTypeRepository;
+use App\Repositories\CompanyUserRepository;
+use App\Repositories\UserRepository;
+
+// use App\Repositories\Admin\ModuleRepository;
+
 use App\Repositories\ModuleRepository;
 
-
+use Auth;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use PDF;
-
-
-
 use URL;
+
 
 use App\Models\Company;
 
@@ -43,6 +46,8 @@ class CompanyController extends AppBaseController
     private $moduleRepository;
     private $paymentCycleRepository;
     private $paymentMethodRepository;
+    private $companyUserRepository;
+    private $userRepository;
 
 
     public function __construct(CompanyRepository $companyRepo, 
@@ -54,7 +59,9 @@ class CompanyController extends AppBaseController
                                 ModuleRepository $moduleRepo,
                                 PaymentCycleRepository $paymentCycleRepo,
                                 PaymentMethodRepository $paymentMethodRepo,
-                                CompanyFloorRoomRepository $companyFloorRoomRepo
+                                CompanyFloorRoomRepository $companyFloorRoomRepo,
+                                CompanyUserRepository $CompanyUserRepository,
+                                UserRepository $UserRepository
                                 )
     {
         $this->companyRepository = $companyRepo;
@@ -67,6 +74,8 @@ class CompanyController extends AppBaseController
         $this->paymentCycleRepository = $paymentCycleRepo;
         $this->paymentMethodRepository = $paymentMethodRepo;
         $this->companyFloorRoomRepository = $companyFloorRoomRepo;
+        $this->companyUserRepository = $CompanyUserRepository;
+        $this->userRepository = $UserRepository;
     }
 
     /**
@@ -81,15 +90,53 @@ class CompanyController extends AppBaseController
 
         $companies = $this->companyRepository->all();
 
-        
         $companies = Company::where('room_contract_id', NULL)->get();
 
-
-
-
         $data = ['companies' => $companies];
+
         return view('admin.companies.index', $data);
     }
+
+
+    public function adminLoginAsCompanyAdmin($id)
+    {
+        // return "Company ID : ".$id;
+
+        $companyUser = $this->companyUserRepository->getCompanyUserByCompanyId($id);
+
+        if ( count($companyUser) > 0) 
+        {
+            $user = $this->userRepository->findWithoutFail($companyUser->user_id);
+
+            $email = $user->email;
+            $password = $user->password;
+            // echo "<pre>";
+            // echo $email."  ".$password;exit;die();
+            // Auth::login($user);
+            $logged_in = Auth::loginUsingId($user->id);
+            // $logged_in = Auth::guard('company')->attempt(array('email'=> $email , 'password' => $password ,'user_role_code'=>'company_admin'));
+
+            // $logged_in = Auth::once(['email' => $email, 'password' => $password,'user_role_code'=>'company_admin']);
+
+            if (!$logged_in)
+            {
+                session()->flash('msg.error','Error Occured while logged in as company admin');
+                return redirect()->back();
+            }
+            else
+            {
+              return redirect(route('company.dashboard'));   
+            }
+        }
+        else
+        {
+            session()->flash('msg.error','No user found related to this company');
+            return redirect()->back();
+        }
+        // return redirect()->route('company.dashboard',[$id]);
+    }
+
+
 
     public function profile($id)
     {
@@ -194,7 +241,7 @@ class CompanyController extends AppBaseController
      *
      * @return Response
      */
-    public function edit($id)
+    public function edit($id,$wizard = '')
     {
         $company = $this->companyRepository->findWithoutFail($id);
 
@@ -215,8 +262,24 @@ class CompanyController extends AppBaseController
         $paymentCycles = $this->paymentCycleRepository->all();
         $paymentMethods = $this->paymentMethodRepository->all();
 
-
-        $data = [
+        if($wizard == '')
+        {
+            $data = [
+                'countries' => $countries,
+                'states' => $states,
+                'cities' => $cities,
+                'userStatus' => $userstatus,
+                'discountTypes' => $discountTypes,
+                'modules' => $modules,
+                'paymentCycles' => $paymentCycles,
+                'paymentMethods' => $paymentMethods,                
+                'company' => $company,
+                'companyBuildingFloors' => $companyBuildingFloors
+            ];
+        }
+        else
+        {
+            $data = [
                 'countries' => $countries,
                 'states' => $states,
                 'cities' => $cities,
@@ -227,7 +290,11 @@ class CompanyController extends AppBaseController
                 'paymentMethods' => $paymentMethods,                
                 'company' => $company,
                 'companyBuildingFloors' => $companyBuildingFloors,
+                'wizard'  => $wizard
             ];
+        }
+
+
 
         if (empty($company)) {
 

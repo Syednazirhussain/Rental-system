@@ -183,7 +183,7 @@ class CompanyInvoiceController extends AppBaseController
         
         $lastInvoice =  $this->companyInvoiceRepository->getLastInsertedInvoiceId();
         $Invoice_id =  $lastInvoice->id;      
-        $filename = $Invoice_id."_Invoices.pdf";         
+        $filename = "invoice_".$Invoice_id.".pdf";         
         $filePath = public_path().DIRECTORY_SEPARATOR."storage".DIRECTORY_SEPARATOR."company_invoices".DIRECTORY_SEPARATOR.$filename;
         $data = ['Path' => $filePath];
         $company_infomation = $this->getCompanyDetailById($company_id); 

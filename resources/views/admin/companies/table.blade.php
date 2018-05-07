@@ -19,9 +19,14 @@
     <td>{{ $company->address }}</td>
     <td>{{ $company->zipcode }}</td>
     <td>{{ $company->phone }}</td>
-    <td  width="200px" class="center">
+    <td  width="300px" class="center">
         {!! Form::open(['route' => ['admin.companies.destroy', $company->id], 'method' => 'delete']) !!}
-          <a href="{{ route('admin.generateInvoice', ['company_id' => $company->id]) }}" class="btn btn-primary btn-xs">Generate Invoice&nbsp;<i class="fa fa-arrow-right fa-md"></i></a>
+
+          <a href="{{ route('admin.companies.login', [$company->id] ) }}" class="btn btn-primary btn-xs">Login&nbsp;<i class="fa fa-arrow-right fa-md"></i></a>
+
+          <a href="{{ route('admin.companyInvoices.generateInvoice', ['company_id' => $company->id]) }}" class="btn btn-primary btn-xs">Generate Invoice&nbsp;<i class="fa fa-arrow-right fa-md"></i></a>
+
+
           <a href="{{ route('admin.company.profile',[$company->id]) }}"><i class="fa fa-eye"></i></a>
           <a href="{!! route('admin.companies.edit', [$company->id]) !!}"><i class="fa fa-edit fa-lg text-info"></i></a>
           {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}

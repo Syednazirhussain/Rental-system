@@ -76,6 +76,7 @@ class CompanyInvoiceController extends AppBaseController
     public function index(Request $request)
     {
 
+
         $this->companyInvoiceRepository->pushCriteria(new RequestCriteria($request));
 
         $Invoices = $this->companyInvoiceRepository->all();
@@ -162,7 +163,7 @@ class CompanyInvoiceController extends AppBaseController
     {
         $lastInvoice =  $this->companyInvoiceRepository->getLastInsertedInvoiceId();
         $Invoice_id =  $lastInvoice->id;      
-        $filename = $Invoice_id."_Invoices.pdf";         
+        $filename = "invoice_".$Invoice_id.".pdf";         
         $filePath = public_path().DIRECTORY_SEPARATOR."storage".DIRECTORY_SEPARATOR."company_invoices".DIRECTORY_SEPARATOR.$filename;
         $data = ['Path' => $filePath];
         $company_infomation = $this->getCompanyDetailById($company_id); 
@@ -178,7 +179,7 @@ class CompanyInvoiceController extends AppBaseController
     public function sendInvoiceToCompanyContactPersonByInvoiceId($company_id,$invoice_id)
     {
         $Invoice_id =  $invoice_id;      
-        $filename = $Invoice_id."_Invoices.pdf";         
+        $filename = "invoice_".$Invoice_id.".pdf";         
         $filePath = public_path().DIRECTORY_SEPARATOR."storage".DIRECTORY_SEPARATOR."company_invoices".DIRECTORY_SEPARATOR.$filename;
         $data = ['Path' => $filePath];
         $company_infomation = $this->getCompanyDetailById($company_id); 
@@ -225,7 +226,7 @@ class CompanyInvoiceController extends AppBaseController
 
 
     // This method is the responsible to Insert and generate invoice by company ID  
-    public function createInvoiceByCompanyId($company_id)
+    public function createInvoiceByCompanyId($company_id, $generateEmail = false)
     {
         if($this->companyContractRepository->checkCompanyContract($company_id))
         {
@@ -346,9 +347,12 @@ class CompanyInvoiceController extends AppBaseController
                         // $input['logo'] = $path[2];
 
                         $data = ['Path' => $filePath];
-                        foreach ($company_infomation['Contact_Person'] as $person)
-                        {
-                            Mail::to($person->email)->send(new NewInvoiceMail($data));
+                        
+                        if ($generateEmail == true)
+                            foreach ($company_infomation['Contact_Person'] as $person)
+                            {
+                                Mail::to($person->email)->send(new NewInvoiceMail($data));
+                            }
                         }
                         session()->flash('msg.success', 'Company has been created successfully');
                         return redirect()->route('admin.companies.index');
