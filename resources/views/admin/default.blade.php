@@ -45,7 +45,9 @@
                     <li class="dropdown" id="admin-menu-button">
                         <a href class="dropdown-toggle color-white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars fa-2x m-r-1 vertical-a-mid"></i><span class="">Menu</span></a>
 
-                        <ul class="dropdown-menu">                            
+
+                        <ul class="dropdown-menu">
+                            @role('admin')
                             <li class="dropdown-toggle">
                                 <a href>Modules</a>
                                 <ul class="dropdown-menu">
@@ -53,6 +55,10 @@
                                     <li><a href="{{ route('admin.modules.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Modules</a></li>
                                 </ul>
                             </li>
+                            @else
+
+                            @endrole                            
+
 
                             <li class="dropdown-toggle">
                                 <a href>Payments</a>

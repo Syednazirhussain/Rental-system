@@ -50,6 +50,22 @@ class UserController extends AppBaseController
         $user_state = State::pluck('name', 'id');
         $user_city = City::pluck('name', 'id');
 
+        $user = Auth::user();
+
+        // dd( $user->hasAnyRole(Role::all()) );
+
+        // dd( $user->hasAnyPermission(['module','payment']) );
+
+        // dd( $user->hasPermissionTo( Permission::find(5)->id ) );
+
+
+        // dd( Permission::find(5)->id );
+
+        // dd( $user->can('Admin') );
+
+        // dd( $user->hasRole('Admin') );
+
+
         return view('admin.users.index',
             ['users' => $users,
                 'user_roles' => $user_roles,
@@ -71,19 +87,19 @@ class UserController extends AppBaseController
 
         $userStatus = UserStatus::all(); 
 
-        $technicalSettings = [
-            'module'    => 'Modules',
-            'payment'   => 'Payments',
-            'companies' => 'Companies',
-            'invoices'  => 'Invoices',
-            'newletter' => 'News Letters',
-            'user'      => 'Users',
-            'setting'   => 'Setting'
-        ];
+        // $technicalSettings = [
+        //     'module'    => 'Modules',
+        //     'payment'   => 'Payments',
+        //     'companies' => 'Companies',
+        //     'invoices'  => 'Invoices',
+        //     'newletter' => 'News Letters',
+        //     'user'      => 'Users',
+        //     'setting'   => 'Setting'
+        // ];
 
         $data = [
             'user_role'         => $user_role,
-            'technicalSettings' => $technicalSettings,
+            // 'technicalSettings' => $technicalSettings,
             'userStatus'        => $userStatus
         ];
 
@@ -101,29 +117,32 @@ class UserController extends AppBaseController
     public function store(CreateUserRequest $request)
     {
         $this->validate($request,[
-            'name' => 'required',
+            'name' => 'required|string',
             'email' => 'required|unique:users,email',
             'password' => 'required|min:6',
-            'user_role_code' => 'required',
             'user_status_id' => 'required'   
         ]);
 
         $input = $request->except(['user_permission']);
+
+        // $user->assignRole($input['role']);
+
         $password =  bcrypt($request->password);
         $input['password'] = $password;
-        $input['permissions'] = $request->permissions;
 
+        $input['name'] = $request->name;
+        $input['email'] = $request->email;
+        $input['user_status_id'] = $request->user_status_id;
+        
 
+        $user = User::create($input);
 
-        // $user = User::where('email', $request->email)->first();
-        // if($user !== null) {
-        //     $request->session()->flash('msg.error', 'User Email already exists.');
-        //     return redirect(route('admin.users.index'));
-        // }
+        $user->assignRole($input['role']);
 
-        User::create($input);
         $request->session()->flash('msg.success', 'User saved successfully.');
+        
         return redirect(route('admin.users.index'));
+    
     }
 
 
@@ -234,24 +253,23 @@ class UserController extends AppBaseController
             return redirect(route('admin.users.index'));
         }
 
-        $technicalSettings = [
-            'module'    => 'Modules',
-            'payment'   => 'Payments',
-            'companies' => 'Companies',
-            'invoices'  => 'Invoices',
-            'newletter' => 'News Letters',
-            'user'      => 'Users',
-            'setting'   => 'Setting'
-        ];
+        // $technicalSettings = [
+        //     'module'    => 'Modules',
+        //     'payment'   => 'Payments',
+        //     'companies' => 'Companies',
+        //     'invoices'  => 'Invoices',
+        //     'newletter' => 'News Letters',
+        //     'user'      => 'Users',
+        //     'setting'   => 'Setting'
+        // ];
 
-        $permissions =  explode(',',$user->permissions);
+        // $permissions =  explode(',',$user->permissions);
 
         $data = [
             'user'              => $user,
             'user_role'         => $user_role,
-            'all_roles'         => $all_roles,
-            'technicalSettings' => $technicalSettings,
-            'permissions'       => $permissions,
+            // 'technicalSettings' => $technicalSettings,
+            // 'permissions'       => $permissions,
             'userStatus'        => $userStatus
         ];
 
@@ -269,9 +287,21 @@ class UserController extends AppBaseController
     public function update(Request $request, $id)
     {
 
-
         $input = request()->except(['_token', '_method','user_permission']);
+
         $user = $this->userRepository->findWithoutFail($id);
+
+        dd($input['role']);
+
+        if($user->hasRole($input['role']))
+        {
+            
+        }
+        else
+        {
+            $user->assignRole($input['role']);
+        }
+        exit;die();
 
         if($input['updatePassword'] == null)
         {
@@ -282,10 +312,12 @@ class UserController extends AppBaseController
             $password =  bcrypt($request->updatePassword);
             $input['password'] = $password;
         }
-        unset($input['updatePassword']);
 
+        unset($input['updatePassword']);
+        unset($input['role']);
 
         User::where('id', $id)->update($input);
+
         $request->session()->flash('msg.success', 'User updated successfully.');
         return redirect(route('admin.users.index'));
     }
