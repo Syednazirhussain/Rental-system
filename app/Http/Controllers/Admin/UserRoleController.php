@@ -5,20 +5,30 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\Admin\CreateUserRoleRequest;
 use App\Http\Requests\Admin\UpdateUserRoleRequest;
 use App\Repositories\UserRoleRepository;
+use App\Repositories\PermissionRepository;
+
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+
 class UserRoleController extends AppBaseController
 {
     /** @var  UserRoleRepository */
     private $userRoleRepository;
+    private $permissionRepository;
 
-    public function __construct(UserRoleRepository $userRoleRepo)
+    public function __construct(
+        UserRoleRepository $userRoleRepo,
+        PermissionRepository $PermissionRepository
+    )
     {
         $this->userRoleRepository = $userRoleRepo;
+        $this->permissionRepository = $PermissionRepository;
     }
 
     /**
@@ -32,8 +42,7 @@ class UserRoleController extends AppBaseController
         $this->userRoleRepository->pushCriteria(new RequestCriteria($request));
         $userRoles = $this->userRoleRepository->all();
 
-        return view('admin.user_roles.index')
-            ->with('userRoles', $userRoles);
+        return view('admin.user_roles.index')->with('userRoles', $userRoles);
     }
 
     /**
@@ -43,7 +52,39 @@ class UserRoleController extends AppBaseController
      */
     public function create()
     {
-        return view('admin.user_roles.create');
+        $permissions = $this->permissionRepository->all();
+
+        $data = [
+            'permissions' => $permissions
+        ];
+
+        return view('admin.user_roles.create',$data);
+    }
+
+
+    public function checkCode(Request $request)
+    {
+        $input = $request->all();
+        if( count($input) > 0)
+        {
+            $roleCode = $this->userRoleRepository->verfiyRoleCodeExist($input['code']);
+            if( count($roleCode) > 0)
+            {
+                $success = 0;
+                $response = 401;
+            }
+            else
+            {
+                $success = 1;
+                $response = 200;
+            }
+        }
+        else
+        {
+            $success = 0;
+            $response = 404;
+        }
+        return response()->json(['success' => $success,'code' => $response]);
     }
 
     /**
@@ -57,9 +98,17 @@ class UserRoleController extends AppBaseController
     {
         $input = $request->all();
 
-        $userRole = $this->userRoleRepository->create($input);
+        $permissionArr =  explode(',', $input['permissions']);
 
-        // Flash::success('User Role saved successfully.');
+        $role = Role::create([
+            'name' => $input['name'],
+            'code' => $input['code']
+        ]);
+
+        $role->givePermissionTo($permissionArr);
+
+        // $userRole = $this->userRoleRepository->create($input);
+
         $request->session()->flash('msg.success', 'User Role saved successfully.');
 
         return redirect(route('admin.userRoles.index'));
@@ -96,13 +145,20 @@ class UserRoleController extends AppBaseController
     {
         $userRole = $this->userRoleRepository->findWithoutFail($id);
 
+        $permissions = $this->permissionRepository->all();
+
         if (empty($userRole)) {
             session()->flash('msg.error', 'User Role not found');
 
             return redirect(route('admin.userRoles.index'));
         }
 
-        return view('admin.user_roles.edit')->with('userRole', $userRole);
+        $data = [
+            'permissions' => $permissions,
+            'userRole'    => $userRole  
+        ];
+
+        return view('admin.user_roles.edit');
     }
 
     /**

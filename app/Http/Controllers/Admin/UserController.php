@@ -19,6 +19,9 @@ use App\Models\Country;
 use App\Models\State;
 use App\Models\City;
 
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends AppBaseController

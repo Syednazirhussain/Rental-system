@@ -128,7 +128,7 @@
 
         $('document').ready(function(){
 
-            var edit = "{{ (isset($user) && $user->user_role_code == 'admin-technical-support')? 1 : 0 }}";
+            var edit = "{{ (isset($user) && $user->user_role_code == 'admin_technical_support')? 1 : 0 }}";
  
 
             if(edit == true)

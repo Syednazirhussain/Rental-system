@@ -107,3 +107,7 @@
     <a href="{!! route('admin.paymentCycles.index') !!}"><i class="fa fa-edit"></i><span>Payment Cycles</span></a>
 </li>
 
+<li class="{{ Request::is('permissions*') ? 'active' : '' }}">
+    <a href="{!! route('admin.permissions.index') !!}"><i class="fa fa-edit"></i><span>Permissions</span></a>
+</li>
+

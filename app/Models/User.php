@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use Spatie\Permission\Traits\HasRoles;
+
 
 /**
  * Class User
@@ -38,6 +40,8 @@ class User extends Authenticatable
 {
 
     use SoftDeletes;
+    use HasRoles;
+
 
     public $table = 'users';
     

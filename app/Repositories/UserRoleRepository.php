@@ -31,4 +31,10 @@ class UserRoleRepository extends BaseRepository
     {
         return UserRole::class;
     }
+
+    public function verfiyRoleCodeExist($code)
+    {
+        $userRole = UserRole::where('code',$code)->first();
+        return $userRole;
+    }
 }

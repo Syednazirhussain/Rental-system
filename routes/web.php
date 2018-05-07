@@ -23,6 +23,15 @@ Route::group(['middleware' => ['admin.guest']], function () {
 });
 
 
+// Test Route For User Roles and Permission
+
+Route::get('permissions/role/{name}', ['uses' => 'Admin\TestController@addRole']);
+Route::get('permissions/permission/{name}', ['uses' => 'Admin\TestController@addPermission']);
+Route::get('permissions/assignRole/{user_id}/{name}', ['uses' => 'Admin\TestController@assignRoleToUser']);
+Route::get('permissions/assignPermission/{user_id}/{name}', ['uses' => 'Admin\TestController@assignPermissionToUser']);
+Route::get('permissions/{role}/{permission}', ['uses' => 'Admin\TestController@assignPermissionToRole']);
+
+
 
 
 /********** Admin accessible routes as a Guest User start **********/
@@ -68,7 +77,7 @@ Route::group(['middleware' => ['admin.auth']], function () {
 	Route::get('admin/users/{users}/edit', ['as'=> 'admin.users.edit', 'uses' => 'Admin\UserController@edit']);
 
 
-
+	Route::post('admin/settings/user_roles/checkCode', ['as'=> 'admin.userRoles.checkCode', 'uses' => 'Admin\UserRoleController@checkCode']);
 	# Admin Settings Section ----> User Roles routes
 	Route::get('admin/settings/user_roles', ['as'=> 'admin.userRoles.index', 'uses' => 'Admin\UserRoleController@index']);
 	Route::post('admin/settings/user_roles', ['as'=> 'admin.userRoles.store', 'uses' => 'Admin\UserRoleController@store']);
@@ -784,3 +793,13 @@ Route::patch('admin/paymentCycles/{paymentCycles}', ['as'=> 'admin.paymentCycles
 Route::delete('admin/paymentCycles/{paymentCycles}', ['as'=> 'admin.paymentCycles.destroy', 'uses' => 'Admin\PaymentCycleController@destroy']);
 Route::get('admin/paymentCycles/{paymentCycles}', ['as'=> 'admin.paymentCycles.show', 'uses' => 'Admin\PaymentCycleController@show']);
 Route::get('admin/paymentCycles/{paymentCycles}/edit', ['as'=> 'admin.paymentCycles.edit', 'uses' => 'Admin\PaymentCycleController@edit']);
+
+
+Route::get('admin/permissions', ['as'=> 'admin.permissions.index', 'uses' => 'Admin\PermissionController@index']);
+Route::post('admin/permissions', ['as'=> 'admin.permissions.store', 'uses' => 'Admin\PermissionController@store']);
+Route::get('admin/permissions/create', ['as'=> 'admin.permissions.create', 'uses' => 'Admin\PermissionController@create']);
+Route::put('admin/permissions/{permissions}', ['as'=> 'admin.permissions.update', 'uses' => 'Admin\PermissionController@update']);
+Route::patch('admin/permissions/{permissions}', ['as'=> 'admin.permissions.update', 'uses' => 'Admin\PermissionController@update']);
+Route::delete('admin/permissions/{permissions}', ['as'=> 'admin.permissions.destroy', 'uses' => 'Admin\PermissionController@destroy']);
+Route::get('admin/permissions/{permissions}', ['as'=> 'admin.permissions.show', 'uses' => 'Admin\PermissionController@show']);
+Route::get('admin/permissions/{permissions}/edit', ['as'=> 'admin.permissions.edit', 'uses' => 'Admin\PermissionController@edit']);
