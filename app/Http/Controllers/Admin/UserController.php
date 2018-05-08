@@ -52,21 +52,7 @@ class UserController extends AppBaseController
         $user_state = State::pluck('name', 'id');
         $user_city = City::pluck('name', 'id');
 
-        $user = Auth::user();
-
-        // dd( $user->hasAnyRole(Role::all()) );
-
-        // dd( $user->hasAnyPermission(['module','payment']) );
-
-        // dd( $user->hasPermissionTo( Permission::find(5)->id ) );
-
-
-        // dd( Permission::find(5)->id );
-
-        // dd( $user->can('Admin') );
-
-        // dd( $user->hasRole('Admin') );
-
+        $user = Auth::guard('admin')->user();
 
         return view('admin.users.index',
             ['users' => $users,
@@ -391,13 +377,20 @@ class UserController extends AppBaseController
     // authenticate user
     public function authenticate(Request $request)
     {
-        // dd($request->all());        
-        if (Auth::attempt(array('email'=>$request->input('email'), 'password'=>$request->input('password'),'user_role_code'=>'admin')))
+        // dd($request->all());
+
+        // authenticate admin_technical_support_user        
+        if (Auth::guard('admin')->attempt(['email'=>$request->input('email'), 'password'=>$request->input('password'), 'user_role_code'=>'admin_technical_support']))
         {
-            return redirect()->route('admin.dashboard');
-        } 
-        else 
+           return redirect()->route('admin.dashboard');
+        
+        } // authenticate admin user 
+        else if (Auth::guard('admin')->attempt(['email'=>$request->input('email'), 'password'=>$request->input('password'), 'user_role_code'=>'admin']))
         {
+
+           return redirect()->route('admin.dashboard');
+            
+        } else {
             return redirect()->route('admin.login')
             ->with('errorLogin', 'Ooops! Invalid Email or Password')
             ->withInput();
@@ -408,9 +401,9 @@ class UserController extends AppBaseController
     // logging out user from admin panel
     public function logout(Request $request) {
 
-        if (Auth::check()) {
+        if (Auth::guard('admin')->check()) {
             
-            Auth::logout();
+            Auth::guard('admin')->logout();
             $request->session()->flush();
             return redirect()->route('admin.login');
         } 
@@ -430,7 +423,7 @@ class UserController extends AppBaseController
     public function accountSettingsStore(Request $request)
     {   
 
-        $id                 = Auth::user()->id;
+        $id                 = Auth::guard('admin')->user()->id;
         $name               = $request->name;
         $email              = $request->email;
         $password           = $request->password;

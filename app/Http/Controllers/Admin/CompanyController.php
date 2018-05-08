@@ -112,11 +112,11 @@ class CompanyController extends AppBaseController
             $password = $user->password;
             // echo "<pre>";
             // echo $email."  ".$password;exit;die();
-            // Auth::login($user);
-            $logged_in = Auth::loginUsingId($user->id);
-            // $logged_in = Auth::guard('company')->attempt(array('email'=> $email , 'password' => $password ,'user_role_code'=>'company_admin'));
+            // Auth::guard('admin')->login($user);
+            $logged_in = Auth::guard('admin')->loginUsingId($user->id);
+            // $logged_in = Auth::guard('admin')->guard('company')->attempt(array('email'=> $email , 'password' => $password ,'user_role_code'=>'company_admin'));
 
-            // $logged_in = Auth::once(['email' => $email, 'password' => $password,'user_role_code'=>'company_admin']);
+            // $logged_in = Auth::guard('admin')->once(['email' => $email, 'password' => $password,'user_role_code'=>'company_admin']);
 
             if (!$logged_in)
             {

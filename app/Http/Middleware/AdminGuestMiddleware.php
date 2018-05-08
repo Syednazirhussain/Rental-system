@@ -16,10 +16,11 @@ class AdminGuestMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::check())
+        if(Auth::guard('admin')->check())
         {
 
-            if (Auth::user()->user_role_code == 'admin') {
+            if (Auth::guard('admin')->user()->user_role_code == 'admin' || 
+                Auth::guard('admin')->user()->user_role_code == 'admin_technical_support') {
                 return redirect()->route('admin.dashboard');  
             } else {
                 return $next($request);

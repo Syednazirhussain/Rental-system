@@ -28,7 +28,7 @@ class AdminNewsLetterController extends AppBaseController
      */
     public function index()
     {
-        return view('home.index', ['groups' => Auth::user()->groups()->get()]);
+        return view('home.index', ['groups' => Auth::guard('admin')->user()->groups()->get()]);
     }
 
     /**
@@ -44,7 +44,7 @@ class AdminNewsLetterController extends AppBaseController
 
         // Get sendgrid data via sendgrid 3rd party api using GuzzleHttp
         $client = new Client(['headers' => ['authorization' => 'Bearer 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']]);
-        $res = $client->request('GET', 'http://api.sendgrid.com/v3/messages?limit=100&query=from_email%3D%22'.Auth::user()->email.'%22');
+        $res = $client->request('GET', 'http://api.sendgrid.com/v3/messages?limit=100&query=from_email%3D%22'.Auth::guard('admin')->user()->email.'%22');
         $status_code =  $res->getStatusCode();
 
         // Manipulate data if it's successed to get data from sendgrid api

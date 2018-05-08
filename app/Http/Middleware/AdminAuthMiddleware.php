@@ -16,10 +16,20 @@ class AdminAuthMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::check())
+        if(Auth::guard('admin')->check())
         {
+            if (Auth::guard('admin')->user()->user_role_code == 'admin' || 
+                Auth::guard('admin')->user()->user_role_code == 'admin_technical_support') {
 
-            if (Auth::user()->user_role_code == 'admin') {
+                $collection = auth()->guard('admin')->user()->getPermissionsViaRoles();
+                $permissions = [];
+                foreach ($collection as $key=>$value) 
+                {
+                    $permissions[] = $value['name'];
+                }
+
+                session(['permissions' => $permissions]);
+
                 return $next($request);    
             } else {
                 $request->session()->flush();
