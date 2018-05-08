@@ -12,6 +12,8 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use Auth;
+
+use App\Models\ModelHasRole;
 use App\Models\UserRole;
 use App\Models\User;
 use App\Models\UserStatus;
@@ -83,28 +85,28 @@ class UserController extends AppBaseController
      */
     public function create()
     {
-        $user_role = UserRole::all();
+        $user_roles = UserRole::all();
+        $userStatus = UserStatus::all();
 
-        $userStatus = UserStatus::all(); 
 
-        // $technicalSettings = [
-        //     'module'    => 'Modules',
-        //     'payment'   => 'Payments',
-        //     'companies' => 'Companies',
-        //     'invoices'  => 'Invoices',
-        //     'newletter' => 'News Letters',
-        //     'user'      => 'Users',
-        //     'setting'   => 'Setting'
-        // ];
+        $userRoleArr = [];
+
+        foreach ($user_roles as $key => $value) 
+        {
+            if (substr( $value->code, 0, 5 ) === "admin") 
+            {
+                $userRoleArr[$key] = $value;
+            }
+
+        }
 
         $data = [
-            'user_role'         => $user_role,
-            // 'technicalSettings' => $technicalSettings,
+            'user_role'         => $userRoleArr,
             'userStatus'        => $userStatus
         ];
 
-
         return view('admin.users.create',$data);
+    
     }
 
     /**
@@ -125,19 +127,26 @@ class UserController extends AppBaseController
 
         $input = $request->except(['user_permission']);
 
-        // $user->assignRole($input['role']);
-
         $password =  bcrypt($request->password);
         $input['password'] = $password;
 
         $input['name'] = $request->name;
         $input['email'] = $request->email;
         $input['user_status_id'] = $request->user_status_id;
-        
 
+        $user_role = $input['role'];
+
+        $role_code =  strtolower($input['role']);
+
+        $code = str_replace(' ', '_', $role_code );
+
+        $input['user_role_code'] = $code;
+        
+        unset( $input['role'] );
+        
         $user = User::create($input);
 
-        $user->assignRole($input['role']);
+        $user->assignRole($user_role);
 
         $request->session()->flash('msg.success', 'User saved successfully.');
         
@@ -244,6 +253,7 @@ class UserController extends AppBaseController
 
         $user_role = UserRole::all();
         $userStatus = UserStatus::all();
+        $userHasRole = ModelHasRole::where('model_id',$id)->first();
 
         $all_roles = UserRole::pluck('name', 'code');
 
@@ -253,26 +263,24 @@ class UserController extends AppBaseController
             return redirect(route('admin.users.index'));
         }
 
-        // $technicalSettings = [
-        //     'module'    => 'Modules',
-        //     'payment'   => 'Payments',
-        //     'companies' => 'Companies',
-        //     'invoices'  => 'Invoices',
-        //     'newletter' => 'News Letters',
-        //     'user'      => 'Users',
-        //     'setting'   => 'Setting'
-        // ];
+        $userRoleArr = [];
 
-        // $permissions =  explode(',',$user->permissions);
+        foreach ($user_role as $key => $value) 
+        {
+            if (substr( $value->code, 0, 5 ) === "admin") 
+            {
+                $userRoleArr[$key] = $value;
+            }
+
+        }
 
         $data = [
             'user'              => $user,
-            'user_role'         => $user_role,
-            // 'technicalSettings' => $technicalSettings,
-            // 'permissions'       => $permissions,
+            'user_role'         => $userRoleArr,
+            'user_has_role'     => $userHasRole,
             'userStatus'        => $userStatus
-        ];
-
+        ];            
+    
         return view('admin.users.edit',$data);
     }
 
@@ -291,17 +299,17 @@ class UserController extends AppBaseController
 
         $user = $this->userRepository->findWithoutFail($id);
 
-        dd($input['role']);
+        $user_current_role =  $input['role'];
 
-        if($user->hasRole($input['role']))
-        {
-            
-        }
-        else
-        {
-            $user->assignRole($input['role']);
-        }
-        exit;die();
+        $user->syncRoles([ $user_current_role ]);
+
+        $role_code = strtolower($input['role']);
+
+        $code = str_replace(' ', '_', $role_code );
+
+        $input['user_role_code'] = $code;
+        
+        unset( $input['role'] );
 
         if($input['updatePassword'] == null)
         {
@@ -313,12 +321,12 @@ class UserController extends AppBaseController
             $input['password'] = $password;
         }
 
-        unset($input['updatePassword']);
-        unset($input['role']);
+        unset( $input['updatePassword'] );
 
         User::where('id', $id)->update($input);
 
         $request->session()->flash('msg.success', 'User updated successfully.');
+
         return redirect(route('admin.users.index'));
     }
 

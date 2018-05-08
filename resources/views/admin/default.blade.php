@@ -47,7 +47,7 @@
 
 
                         <ul class="dropdown-menu">
-                            @role('admin')
+                            @role('Admin')
                             <li class="dropdown-toggle">
                                 <a href>Modules</a>
                                 <ul class="dropdown-menu">

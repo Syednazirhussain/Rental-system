@@ -29,7 +29,11 @@
         <label for="user_role_codes">User Role</label>
         <select type="text" name="role" class="form-control">
             @foreach($user_role as $role)
-            <option value="{{ $role->name }}">{{ $role->name }}</option>
+                @if( isset($user_has_role) && $user_has_role->role_id == $role->id )
+                    <option value="{{ $role->name }}" selected="selected">{{ $role->name }}</option>
+                @else
+                    <option value="{{ $role->name }}">{{ $role->name }}</option>
+                @endif
             @endforeach
         </select>
     </div>
