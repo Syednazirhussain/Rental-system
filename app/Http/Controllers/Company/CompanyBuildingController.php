@@ -37,9 +37,9 @@ class CompanyBuildingController extends AppBaseController
     public function index(Request $request)
     {
         $company_id = Auth::user()->companyUser()->first()->company_id;
-        $companyBuildings = CompanyBuilding::where('company_id', $company_id)->get();
+        $companyBuildings = CompanyBuilding::all();
 
-        return view('company.company_buildings.index', ['companyBuildings' => $companyBuildings]);
+        return view('company.company_buildings.index', ['companyBuildings' => $companyBuildings, 'owner' => $company_id]);
     }
 
     /**

@@ -8,7 +8,7 @@
     <div class="col-sm-12 form-group">
         <label for="company_id">Company Name</label>
         <input type="text" id="company_id" class="form-control"
-               value="@if(isset($companyFloorRoom)){{ $company->name }}@endif" disabled>
+               value="@if(isset($companyFloorRoom)){{ $companies[$companyFloorRoom->company_id] }}@endif" disabled>
     </div>
     <div class="col-sm-12 form-group">
         <label for="building_id">Building Name</label>

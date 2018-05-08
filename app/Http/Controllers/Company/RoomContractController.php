@@ -46,9 +46,9 @@ class RoomContractController extends AppBaseController
     public function index(Request $request)
     {
         $company_id = Auth::user()->companyUser()->first()->company_id;
-        $room_contracts = RoomContracts::where('company_id', $company_id)->get();
+        $room_contracts = RoomContracts::all();
 
-        return view('company.contracts.index', ['room_contracts' => $room_contracts]);
+        return view('company.contracts.index', ['room_contracts' => $room_contracts, 'owner' => $company_id]);
     }
 
     /**

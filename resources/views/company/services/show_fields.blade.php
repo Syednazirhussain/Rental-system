@@ -6,7 +6,7 @@
         </tr>
         <tr>
             <th scope="row" width="200px">Company Name</th>
-            <th>{{ $company->name }}</th>
+            <th>{{ $companies[$service->company_id] }}</th>
         </tr>
         <tr>
             <th scope="row" width="200px">Service Name</th>

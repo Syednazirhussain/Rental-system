@@ -24,8 +24,10 @@
             <td  width="200px" class="text-center">
                 {!! Form::open(['route' => ['company.rooms.destroy', $room->id], 'method' => 'delete']) !!}
                 <a href="{!! route('company.rooms.show', [$room->id]) !!}"><i class="fa fa-eye fa-lg text-info"></i></a>
+                @if($company->id == $room->company_id)
                 <a href="{!! route('company.rooms.edit', [$room->id]) !!}"><i class="fa fa-edit fa-lg text-info"></i></a>
                 {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                @endif
                 {!! Form::close() !!}
             </td>
         </tr>
