@@ -242,10 +242,22 @@ class RoomContractController extends AppBaseController
             ->join('company_floor_rooms', 'rooms.floor_id', '=', 'company_floor_rooms.id')
             ->join('company_buildings', 'company_floor_rooms.building_id', '=', 'company_buildings.id')
             ->where('rooms.company_id', $company_id)
+            ->where('room_contracts.deleted_at', NULL)
             ->select('rooms.id','rooms.name', 'start_date', 'end_date', 'company_buildings.name as buildingName', 'company_floor_rooms.floor')
             ->distinct('rooms.id')->orderBy('company_buildings.id', 'DESC')->get();
         $data = json_encode($contracts);
 
         return view('company.contracts.status', ['data' => $data]);
+    }
+
+    /**
+     * Return Period data by Room ID
+     **/
+
+    public function getPeriod(Request $request)
+    {
+        $input = $request->room_id;
+        $contracts = RoomContracts::where('room_id', $input)->get();
+        return response()->json(['success'=>1, 'msg'=>'Fetched Room Contract Period successfully', 'data' => $contracts]);
     }
 }

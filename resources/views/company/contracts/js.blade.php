@@ -27,16 +27,113 @@
     });
 
 
+    /*var bookStart = moment().add(3, 'days'),
+        bookEnd = moment().add(10, 'days');
     $('#daterange-3').daterangepicker({
+        selectPastInvalidDate: false,
+        minDate: moment(),
+        isInvalidDate: function(date) {
+            if(date.format('DD-MM-YYYY') == bookStart.format('DD-MM-YYYY'))
+                return true;
+
+            if(date.format('DD-MM-YYYY') == bookEnd.format('DD-MM-YYYY'))
+                return true;
+
+            if(date.isAfter(bookStart) && date.isBefore(bookEnd))
+                return true;
+
+            return false;
+        },
+        customDateClassname: function(date) {
+            if(date.format('DD-MM-YYYY') == bookStart.format('DD-MM-YYYY'))
+                return 'turnoverin';
+
+            if(date.format('DD-MM-YYYY') == bookEnd.format('DD-MM-YYYY'))
+                return 'turnoverout';
+
+            if(date.isAfter(bookStart) && date.isBefore(bookEnd))
+                return 'booked';
+
+            return false;
+        }
+    }, function(start, end, label) {
+        console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+    });*/
+
+    /**
+     * Disable dates when query changes
+     **/
+
+    var period_data = [];
+
+    $("#room_id").on('change', function(event){
+        var id = event.target.value;
+        var myform = document.getElementById("wizard-1");
+        var data = new FormData(myform);
+        $.ajax({
+            url: '{{ route("company.contracts.period") }}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST', // For jQuery < 1.9
+            success: function (data) {
+                period_data = data.data;
+                console.log(data.success);
+            },
+            error: function (xhr, status, error) {
+
+            }
+
+        });
+    })
+
+    $('#daterange-3').daterangepicker({
+        minDate: moment(),
         singleDatePicker: true,
         showDropdowns: true,
-        startDate: "01/01/2018",
+        startDate: moment(),
+        isInvalidDate: function (date) {
+            if(period_data.length > 0) {
+                for( var i=0; i< period_data.length; i++) {
+                    var bookStart = moment(period_data[i].start_date);
+                    var bookEnd = moment(period_data[i].end_date);
+                    if(date.format('DD-MM-YYYY') == bookStart.format('DD-MM-YYYY'))
+                        return true;
+
+                    if(date.format('DD-MM-YYYY') == bookEnd.format('DD-MM-YYYY'))
+                        return true;
+
+                    if(date.isAfter(bookStart) && date.isBefore(bookEnd))
+                        return true;
+                }
+            }else
+                return false;
+        }
     });
 
     $('#daterange-4').daterangepicker({
+        minDate: moment(),
         singleDatePicker: true,
         showDropdowns: true,
-        startDate: "12/31/2018",
+        startDate: moment(),
+        isInvalidDate: function (date) {
+            if(period_data.length > 0) {
+                for( var i=0; i< period_data.length; i++) {
+                    var bookStart = moment(period_data[i].start_date);
+                    var bookEnd = moment(period_data[i].end_date);
+                    if(date.format('DD-MM-YYYY') == bookStart.format('DD-MM-YYYY'))
+                        return true;
+
+                    if(date.format('DD-MM-YYYY') == bookEnd.format('DD-MM-YYYY'))
+                        return true;
+
+                    if(date.isAfter(bookStart) && date.isBefore(bookEnd))
+                        return true;
+                }
+            }else
+                return false;
+        }
 
     });
     // -------------------------------------------------------------------------
@@ -694,6 +791,7 @@
         // $('.remove-module').hide();
         // $('.remove-admin').hide();
         // $('.remove-building').hide();
+        $("#room_id").trigger("change");
 
         if (editCompany == 0) {
             $('#addFieldBtn').trigger('click');

@@ -1,3 +1,34 @@
+@section('css')
+<style type="text/css">
+    .daterangepicker td.turnoverin,
+    .daterangepicker td.turnoverout,
+    .daterangepicker td.booked {
+        color: #fff;
+        text-decoration: none;
+    }
+    .daterangepicker td.turnoverin {
+        background: linear-gradient(to right bottom, #fff 25%, #C390D4 26%);
+    }
+    .daterangepicker td.turnoverout {
+        background: linear-gradient(to left top, #fff 25%, #C390D4 26%);
+    }
+    .daterangepicker td.booked {
+        background: #C390D4;
+    }
+    .legend {
+        line-height: 2.2em;
+    }
+    span.bookedlegend {
+        background: #C390D4;
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        margin-top: -2px;
+        border-radius: 50%;
+        vertical-align: middle;
+    }
+</style>
+@endsection
 <div class="row">
 
     <div class="col-md-12">
@@ -53,7 +84,12 @@
                                 <label for="contract-no">Select a Room</label>
                                 <select id="room_id" name="room_id" class="form-control">
                                     @foreach($rooms as $room)
+                                        @if ((isset($contract)) && $room->id == $contract->room_id)
+                                            <option value="{{ $room->id }}"
+                                                    selected="selected">{{ $room->name }} ( Area: {{ $room->area }} sqm, Price: ${{ $room->price }} )</option>
+                                        @else
                                         <option value="{{ $room->id }}">{{ $room->name }} ( Area: {{ $room->area }} sqm, Price: ${{ $room->price }} )</option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
