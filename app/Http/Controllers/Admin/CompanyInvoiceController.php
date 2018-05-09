@@ -349,6 +349,7 @@ class CompanyInvoiceController extends AppBaseController
                         $data = ['Path' => $filePath];
                         
                         if ($generateEmail == true)
+                        {
                             foreach ($company_infomation['Contact_Person'] as $person)
                             {
                                 Mail::to($person->email)->send(new NewInvoiceMail($data));

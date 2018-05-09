@@ -18,8 +18,8 @@ class NewsLetterGroupController extends AppBaseController
      */
     public function index()
     {
-        $id = Auth::user()->id;
-        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $id = Auth::guard('company')->user()->id;
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $groups = Group::where('user_id', $id)->where('company_id', $company_id)->get();
 
         return view('company.newsletter_group.index', ['groups' => $groups]);
@@ -43,11 +43,11 @@ class NewsLetterGroupController extends AppBaseController
      */
     public function store(Request $request)
     {
-        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         request()->validate([
             'name' => 'required',
         ]);
-        Group::create(array_merge($request->all(), ['user_id' => Auth::user()->id, 'company_id' => $company_id]));
+        Group::create(array_merge($request->all(), ['user_id' => Auth::guard('company')->user()->id, 'company_id' => $company_id]));
         return redirect()->route('company.newsletterGroups.index')->with('success', 'New Group has been created!');
     }
 
@@ -88,7 +88,7 @@ class NewsLetterGroupController extends AppBaseController
         ]);
 
         $data = request()->except(['_token', '_method']);
-        Group::where('id', $id)->update(array_merge($data, ['user_id' => Auth::user()->id]));
+        Group::where('id', $id)->update(array_merge($data, ['user_id' => Auth::guard('company')->user()->id]));
         return redirect()->route('company.newsletterGroups.index')->with('success', 'New Group has been created!');
     }
 
@@ -136,7 +136,7 @@ class NewsLetterGroupController extends AppBaseController
         $group_id = $request->group_id;
         $data = $request->message_content;
         $customers = Customer::where('group_id', $group_id)->get();
-        $from_email = Auth::user()->email;
+        $from_email = Auth::guard('company')->user()->email;
 
         // Send message if users exist to deliver.
         if($customers)

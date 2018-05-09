@@ -99,7 +99,7 @@ class CompanyController extends AppBaseController
 
 
     public function adminLoginAsCompanyAdmin($company_id,$user_id = 0)
-    {
+     {
         // return "Company ID : ".$id;
 
         if($user_id == 0)

@@ -36,7 +36,7 @@ class RoomController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $company = Company::find($company_id);
         $rooms = Room::where('company_id', $company_id)->get();
         $services = Service::where('company_id', $company_id)->pluck('name', 'id');
@@ -53,7 +53,7 @@ class RoomController extends AppBaseController
      */
     public function create()
     {
-        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $company = Company::find($company_id);
         $companyFloors = CompanyFloorRoom::where('company_id', $company_id)->get();
         $companyBuildings = CompanyBuilding::pluck('name', 'id');
@@ -72,7 +72,7 @@ class RoomController extends AppBaseController
      */
     public function store(CreateRoomRequest $request)
     {
-        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $input = $request->all();
         $input['company_id'] = $company_id;
         $input['image1'] = '';
@@ -136,7 +136,7 @@ class RoomController extends AppBaseController
      */
     public function show($id)
     {
-        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $company = Company::find($company_id);
         $room = $this->roomRepository->findWithoutFail($id);
         $building = CompanyBuilding::find(CompanyFloorRoom::find($room->floor_id)->building_id);
@@ -163,7 +163,7 @@ class RoomController extends AppBaseController
      */
     public function edit($id)
     {
-        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $company = Company::find($company_id);
         $companyFloors = CompanyFloorRoom::where('company_id', $company_id)->get();
         $companyBuildings = CompanyBuilding::pluck('name', 'id');

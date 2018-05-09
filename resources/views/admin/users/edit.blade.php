@@ -6,9 +6,9 @@
             <h1>
                 <span class="text-muted font-weight-light">
                     <i class="page-header-icon ion-android-checkbox-outline"></i>
-                    Settings /
+                    <a href="{{ route('admin.users.index') }}">Users</a> /
                 </span>
-                Edit &nbsp;@if(isset($user)){{ $user->name }}@endif
+                @if(isset($user)){{ $user->name }}@endif
             </h1>
         </div>
 

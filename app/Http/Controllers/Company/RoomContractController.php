@@ -44,7 +44,7 @@ class RoomContractController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $room_contracts = RoomContracts::where('company_id', $company_id)->get();
 
         return view('company.contracts.index', ['room_contracts' => $room_contracts]);
@@ -57,7 +57,7 @@ class RoomContractController extends AppBaseController
      */
     public function create()
     {
-        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $rooms = Room::where('company_id', $company_id)->get();
         $countries = Country::all();
         $states = State::all();
@@ -94,7 +94,7 @@ class RoomContractController extends AppBaseController
     public function store(CreateRoomContractRequest $request)
     {
         $input = $request->all();
-        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
 
         $input['company_id'] = $company_id;
         $input['start_date'] = date('Y-m-d', strtotime($input['start_date']));
@@ -115,7 +115,7 @@ class RoomContractController extends AppBaseController
      */
     public function show($id)
     {
-        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $company = Company::find($company_id);
         $room = $this->roomRepository->findWithoutFail($id);
         $building = CompanyBuilding::find(CompanyFloorRoom::find($room->floor_id)->building_id);
@@ -144,7 +144,7 @@ class RoomContractController extends AppBaseController
     {
         $contract = RoomContracts::find($id);
         $company = Company::where('room_contract_id', $contract->id)->first();
-        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $rooms = Room::where('company_id', $company_id)->get();
         $countries = Country::all();
         $states = State::all();

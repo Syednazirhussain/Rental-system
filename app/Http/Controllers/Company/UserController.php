@@ -92,7 +92,7 @@ class UserController extends AppBaseController
             return redirect(route('company.users.index'));
         }
 
-        $company_admin = Auth::user();
+        $company_admin = Auth::guard('company')->user();
         $created_user = User::create($input);
 
         if($created_user) {
@@ -104,7 +104,7 @@ class UserController extends AppBaseController
                 });
         }
         $company_user['user_id'] = $created_user->id;
-        $company_user['company_id'] = Auth::user()->companyUser()->first()->company_id;
+        $company_user['company_id'] = Auth::guard('company')->user()->companyUser()->first()->company_id;
         // Create companyUser after creating the user.
         CompanyUser::create($company_user);
 

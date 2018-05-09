@@ -70,7 +70,7 @@ Route::group(['middleware' => ['admin.auth']], function () {
 	Route::post('admin/users/verifyEmail', ['as'=> 'admin.users.verifyEmail', 'uses' => 'Admin\UserController@verifyEmail']);
 	# Admin Users Section routes
 
-	Route::group(['middleware' => ['admin.users:users']], function () {
+	Route::group(['middleware' => ['admin.permissions:users']], function () {
 
 		Route::get('admin/users', ['as'=> 'admin.users.index', 'uses' => 'Admin\UserController@index']);
 		Route::post('admin/users', ['as'=> 'admin.users.store', 'uses' => 'Admin\UserController@store']);
@@ -83,7 +83,7 @@ Route::group(['middleware' => ['admin.auth']], function () {
 
 	});
 
-	Route::group(['middleware' => ['admin.users:settings']], function () {
+	Route::group(['middleware' => ['admin.permissions:settings']], function () {
 
 		Route::post('admin/settings/user_roles/checkCode', ['as'=> 'admin.userRoles.checkCode', 'uses' => 'Admin\UserRoleController@checkCode']);
 		Route::post('admin/settings/change_permission', ['as'=> 'admin.users.changePermission', 'uses' => 'Admin\UserRoleController@changePermission']);
@@ -136,7 +136,7 @@ Route::group(['middleware' => ['admin.auth']], function () {
 
 
 
-	Route::group(['middleware' => ['admin.users:newletters']], function () {
+	Route::group(['middleware' => ['admin.permissions:newletters']], function () {
 
 		# Admin Newsletter Section --->  Groups routes
 		Route::get('admin/newsletter/groups', ['as'=> 'admin.newsletter.groups.index', 'uses' => 'Admin\AdminGroupController@index']);
@@ -180,7 +180,7 @@ Route::group(['middleware' => ['admin.auth']], function () {
 
 	});
 
-	Route::group(['middleware' => ['admin.users:modules']], function () {
+	Route::group(['middleware' => ['admin.permissions:modules']], function () {
 
 		# Admin Modules Section routes
 		Route::get('admin/modules', ['as'=> 'admin.modules.index', 'uses' => 'Admin\ModuleController@index']);
@@ -200,7 +200,7 @@ Route::group(['middleware' => ['admin.auth']], function () {
 	});
 
 
-	Route::group(['middleware' => ['admin.users:payments']], function () {
+	Route::group(['middleware' => ['admin.permissions:payments']], function () {
 
 		Route::post('admin/paymentMethods/code', ['as'=> 'admin.paymentMethods.verifyCodeExist', 'uses' => 'Admin\PaymentMethodController@verifyCodeExist']);
 		Route::get('admin/paymentMethods', ['as'=> 'admin.paymentMethods.index', 'uses' => 'Admin\PaymentMethodController@index']);
@@ -225,24 +225,30 @@ Route::group(['middleware' => ['admin.auth']], function () {
 	});
 
 
-	Route::group(['middleware' => ['admin.users:companies']], function () {
+	Route::group(['middleware' => ['admin.permissions:companies']], function () {
 	# Admin Companies Section ----> Companies routes
 
 		// Quick login for admin in company admin user account
-		Route::get('admin/companies/login/{company}/{user?}', ['as'=> 'admin.companies.login', 'uses' => 'Admin\CompanyController@adminLoginAsCompanyAdmin']);	
+		Route::get('admin/companies/login/{company}/{user?}', ['as'=> 'admin.companies.login', 'uses' => 'Admin\CompanyController@adminLoginAsCompanyAdmin'])
+					->where(['company'=>'[0-9]+', 'user'=>'[0-9]+']);	
 
 
 		Route::get('admin/companies', ['as'=> 'admin.companies.index', 'uses' => 'Admin\CompanyController@index']);
 		Route::post('admin/companies', ['as'=> 'admin.companies.store', 'uses' => 'Admin\CompanyController@store']);
 		Route::get('admin/companies/create', ['as'=> 'admin.companies.create', 'uses' => 'Admin\CompanyController@create']);
-		Route::put('admin/companies/{companies}', ['as'=> 'admin.companies.update', 'uses' => 'Admin\CompanyController@update']);
-		Route::patch('admin/companies/{companies}', ['as'=> 'admin.companies.update', 'uses' => 'Admin\CompanyController@update']);
-		Route::delete('admin/companies/{companies}', ['as'=> 'admin.companies.destroy', 'uses' => 'Admin\CompanyController@destroy']);
-		Route::get('admin/companies/{companies}', ['as'=> 'admin.companies.show', 'uses' => 'Admin\CompanyController@show']);
-		Route::get('admin/companies/{companies}/edit/{wizard?}', ['as'=> 'admin.companies.edit', 'uses' => 'Admin\CompanyController@edit']);
+		Route::put('admin/companies/{companies}', ['as'=> 'admin.companies.update', 'uses' => 'Admin\CompanyController@update'])
+				->where(['companies'=>'[0-9]+']);
+		Route::patch('admin/companies/{companies}', ['as'=> 'admin.companies.update', 'uses' => 'Admin\CompanyController@update'])
+				->where(['companies'=>'[0-9]+']);
+		Route::delete('admin/companies/{companies}', ['as'=> 'admin.companies.destroy', 'uses' => 'Admin\CompanyController@destroy'])
+				->where(['companies'=>'[0-9]+']);
+		// Route::get('admin/companies/{companies}', ['as'=> 'admin.companies.show', 'uses' => 'Admin\CompanyController@show']);
+		Route::get('admin/companies/{companies}/edit/{wizard?}', ['as'=> 'admin.companies.edit', 'uses' => 'Admin\CompanyController@edit'])
+				->where(['companies'=>'[0-9]+']);
 
 		// Company Profile route
-		Route::get('admin/company/{id}/profile', ['as'=> 'admin.company.profile', 'uses' => 'Admin\CompanyController@profile']);
+		Route::get('admin/company/{id}/profile', ['as'=> 'admin.company.profile', 'uses' => 'Admin\CompanyController@profile'])
+				->where(['id'=>'[0-9]+']);
 
 
 		Route::get('admin/companyContactPeople', ['as'=> 'admin.companyContactPeople.index', 'uses' => 'Admin\CompanyContactPersonController@index']);
@@ -406,7 +412,7 @@ Route::group(['middleware' => ['admin.auth']], function () {
 	});
 
 
-	Route::group(['middleware' => ['admin.users:invoices']], function () {
+	Route::group(['middleware' => ['admin.permissions:invoices']], function () {
 
 		# Admin Companies Section ----> Company Invoices routes
 		Route::get('admin/companies/invoices', ['as'=> 'admin.companyInvoices.index', 'uses' => 'Admin\CompanyInvoiceController@index']);

@@ -289,6 +289,7 @@ class UserController extends AppBaseController
 
         $user->syncRoles([ $user_current_role ]);
 
+
         $role_code = strtolower($input['role']);
 
         $code = str_replace(' ', '_', $role_code );

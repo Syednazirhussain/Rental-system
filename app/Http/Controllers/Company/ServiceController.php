@@ -32,7 +32,7 @@ class ServiceController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $company = Company::find($company_id);
         $services = Service::where('company_id', $company_id)->get();
 
@@ -46,7 +46,7 @@ class ServiceController extends AppBaseController
      */
     public function create()
     {
-        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $company = Company::find($company_id);
         return view('company.services.create', ['company' => $company]);
     }
@@ -60,7 +60,7 @@ class ServiceController extends AppBaseController
      */
     public function store(CreateServiceRequest $request)
     {
-        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $input = $request->all();
 
         if($request->freeService)
@@ -85,7 +85,7 @@ class ServiceController extends AppBaseController
      */
     public function show($id)
     {
-        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $company = Company::find($company_id);
         $service = $this->serviceRepository->findWithoutFail($id);
 
@@ -107,7 +107,7 @@ class ServiceController extends AppBaseController
      */
     public function edit($id)
     {
-        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $company = Company::find($company_id);
         $service = $this->serviceRepository->findWithoutFail($id);
 
@@ -141,7 +141,7 @@ class ServiceController extends AppBaseController
             return redirect(route('company.services.index'));
         }
 
-        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $input = $request->all();
 
         if($request->freeService)

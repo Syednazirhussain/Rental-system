@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class AdminUsersMiddleware
+class AdminPermissionsMiddleware
 {
     /**
      * Handle an incoming request.
@@ -13,7 +13,7 @@ class AdminUsersMiddleware
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next,$permission)
+    public function handle($request, Closure $next, $permission)
     {
         if (in_array($permission, session('permissions'))) 
         {

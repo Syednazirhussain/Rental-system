@@ -40,7 +40,7 @@ class NewsLetterCustomerController extends AppBaseController
     public function store(Request $request)
     {
         $input = $request->all();
-        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         request()->validate([
             'name' => 'required',
             'email' => 'required',
@@ -69,7 +69,7 @@ class NewsLetterCustomerController extends AppBaseController
      * */
     public function lists()
     {
-        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         return view('company.newsletter_customer.index', ['customers' => Customer::where('company_id', $company_id)->get()]);
     }
     /**
