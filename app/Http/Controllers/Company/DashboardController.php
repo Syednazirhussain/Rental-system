@@ -28,7 +28,7 @@ class DashboardController extends AppBaseController
      */
     public function index()
     {
-        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $contract_count = RoomContracts::where('company_id', $company_id)->count();
         $room_count = Room::where('company_id', $company_id)->count();
         $user_count = CompanyUser::where('company_id', $company_id)->count();
@@ -40,7 +40,7 @@ class DashboardController extends AppBaseController
     }
 
     public function profile() {
-        $user = User::find(Auth::user()->id);
+        $user = User::find(Auth::guard('company')->user()->id);
         $countries = Country::pluck('name', 'id');
         $cities = City::pluck('name', 'id');
         $states = State::pluck('name', 'id');

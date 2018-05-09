@@ -40,7 +40,7 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-
+        // to make session information seprate
         'admin' => [
             'driver' => 'session',
             'provider' => 'admin',

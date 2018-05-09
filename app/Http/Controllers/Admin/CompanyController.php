@@ -108,15 +108,7 @@ class CompanyController extends AppBaseController
         {
             $user = $this->userRepository->findWithoutFail($companyUser->user_id);
 
-            $email = $user->email;
-            $password = $user->password;
-            // echo "<pre>";
-            // echo $email."  ".$password;exit;die();
-            // Auth::guard('admin')->login($user);
-            $logged_in = Auth::guard('admin')->loginUsingId($user->id);
-            // $logged_in = Auth::guard('admin')->guard('company')->attempt(array('email'=> $email , 'password' => $password ,'user_role_code'=>'company_admin'));
-
-            // $logged_in = Auth::guard('admin')->once(['email' => $email, 'password' => $password,'user_role_code'=>'company_admin']);
+            $logged_in = Auth::guard('company')->loginUsingId($user->id);
 
             if (!$logged_in)
             {

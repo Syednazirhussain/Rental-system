@@ -398,7 +398,7 @@ class UserController extends AppBaseController
         else if (Auth::guard('admin')->attempt(['email'=>$request->input('email'), 'password'=>$request->input('password'), 'user_role_code'=>'admin']))
         {
 
-            $collection = auth()->guard('admin')->user()->getPermissionsViaRoles();
+            $collection = Auth::guard('admin')->user()->getPermissionsViaRoles();
             $permissions = [];
             foreach ($collection as $key=>$value) 
             {
@@ -409,10 +409,10 @@ class UserController extends AppBaseController
 
            return redirect()->route('admin.dashboard');
             
-        } else {
-            return redirect()->route('admin.login')
-            ->with('errorLogin', 'Ooops! Invalid Email or Password')
-            ->withInput();
+        } 
+        else 
+        {
+            return redirect()->route('admin.login')->with('errorLogin', 'Ooops! Invalid Email or Password')->withInput();
         }
     }
 

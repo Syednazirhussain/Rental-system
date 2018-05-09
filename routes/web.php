@@ -227,6 +227,11 @@ Route::group(['middleware' => ['admin.auth']], function () {
 
 	Route::group(['middleware' => ['admin.users:companies']], function () {
 	# Admin Companies Section ----> Companies routes
+
+		// Quick login for admin in company admin user account
+		Route::get('admin/companies/login/{company}', ['as'=> 'admin.companies.login', 'uses' => 'Admin\CompanyController@adminLoginAsCompanyAdmin']);	
+
+
 		Route::get('admin/companies', ['as'=> 'admin.companies.index', 'uses' => 'Admin\CompanyController@index']);
 		Route::post('admin/companies', ['as'=> 'admin.companies.store', 'uses' => 'Admin\CompanyController@store']);
 		Route::get('admin/companies/create', ['as'=> 'admin.companies.create', 'uses' => 'Admin\CompanyController@create']);
@@ -439,7 +444,7 @@ Route::group(['middleware' => ['admin.auth']], function () {
 	Route::get('admin/discountTypes/{discountTypes}/edit', ['as'=> 'admin.discountTypes.edit', 'uses' => 'Admin\DiscountTypeController@edit']);
 
 
-	Route::get('admin/companies/login/{company}', ['as'=> 'admin.companies.login', 'uses' => 'Admin\CompanyController@adminLoginAsCompanyAdmin']);	
+
 
 	
 
