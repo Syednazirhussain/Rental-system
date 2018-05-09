@@ -48,11 +48,7 @@
 
                         <ul class="dropdown-menu">
 
-                            <?php
-
-                            $permissions = session('permissions');
-
-                            ?>
+                            <?php $permissions = session('permissions'); ?>
                             
                             @if (in_array('modules', $permissions))
                             <li class="dropdown-toggle">

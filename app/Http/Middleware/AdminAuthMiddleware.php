@@ -19,24 +19,19 @@ class AdminAuthMiddleware
         if(Auth::guard('admin')->check())
         {
             if (Auth::guard('admin')->user()->user_role_code == 'admin' || 
-                Auth::guard('admin')->user()->user_role_code == 'admin_technical_support') {
-
-                $collection = auth()->guard('admin')->user()->getPermissionsViaRoles();
-                $permissions = [];
-                foreach ($collection as $key=>$value) 
-                {
-                    $permissions[] = $value['name'];
-                }
-
-                session(['permissions' => $permissions]);
-
+                Auth::guard('admin')->user()->user_role_code == 'admin_technical_support') 
+            {
                 return $next($request);    
-            } else {
+            } 
+            else 
+            {
                 $request->session()->flush();
                 return redirect()->route('admin.login');
             }
             
-        } else {
+        } 
+        else 
+        {
             return redirect()->route('admin.login');
         }
     }

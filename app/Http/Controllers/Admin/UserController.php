@@ -382,11 +382,30 @@ class UserController extends AppBaseController
         // authenticate admin_technical_support_user        
         if (Auth::guard('admin')->attempt(['email'=>$request->input('email'), 'password'=>$request->input('password'), 'user_role_code'=>'admin_technical_support']))
         {
+
+            $collection = auth()->guard('admin')->user()->getPermissionsViaRoles();
+            $permissions = [];
+            foreach ($collection as $key=>$value) 
+            {
+                $permissions[] = $value['name'];
+            }
+
+            session(['permissions' => $permissions]);
+
            return redirect()->route('admin.dashboard');
         
         } // authenticate admin user 
         else if (Auth::guard('admin')->attempt(['email'=>$request->input('email'), 'password'=>$request->input('password'), 'user_role_code'=>'admin']))
         {
+
+            $collection = auth()->guard('admin')->user()->getPermissionsViaRoles();
+            $permissions = [];
+            foreach ($collection as $key=>$value) 
+            {
+                $permissions[] = $value['name'];
+            }
+
+            session(['permissions' => $permissions]);
 
            return redirect()->route('admin.dashboard');
             
