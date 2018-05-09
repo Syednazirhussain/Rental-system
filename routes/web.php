@@ -229,7 +229,7 @@ Route::group(['middleware' => ['admin.auth']], function () {
 	# Admin Companies Section ----> Companies routes
 
 		// Quick login for admin in company admin user account
-		Route::get('admin/companies/login/{company}', ['as'=> 'admin.companies.login', 'uses' => 'Admin\CompanyController@adminLoginAsCompanyAdmin']);	
+		Route::get('admin/companies/login/{company}/{user?}', ['as'=> 'admin.companies.login', 'uses' => 'Admin\CompanyController@adminLoginAsCompanyAdmin']);	
 
 
 		Route::get('admin/companies', ['as'=> 'admin.companies.index', 'uses' => 'Admin\CompanyController@index']);

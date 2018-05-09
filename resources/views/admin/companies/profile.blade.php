@@ -294,6 +294,7 @@
 				                  <th>Name</th>
 				                  <th>Email</th>
 				                  <th>Role</th>
+				              	  <th>Actions</th>
 				                </tr>
 				              </thead>
 				              <tbody>
@@ -303,8 +304,12 @@
 				                  <td>{{ $admin->user->name }}</td>
 				                  <td>{{ $admin->user->email }}</td>
 				                  <td><?php echo ucfirst(str_replace('_', ' ', $admin->user->user_role_code)); ?></td>
+				              	  <td class="center">
+          							<a href="{{ route('admin.companies.login', [$company->id,$admin->user->id] ) }}" class="btn btn-primary btn-xs">Login&nbsp;<i class="fa fa-arrow-right fa-md"></i></a>
+				              	  </td>
 				                </tr>
 				                @endforeach
+
 				              </tbody>
 				            </table>                                        
                         </div>

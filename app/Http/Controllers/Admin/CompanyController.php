@@ -98,15 +98,39 @@ class CompanyController extends AppBaseController
     }
 
 
-    public function adminLoginAsCompanyAdmin($id)
+    public function adminLoginAsCompanyAdmin($company_id,$user_id = 0)
     {
         // return "Company ID : ".$id;
 
-        $companyUser = $this->companyUserRepository->getCompanyUserByCompanyId($id);
-
-        if ( count($companyUser) > 0) 
+        if($user_id == 0)
         {
-            $user = $this->userRepository->findWithoutFail($companyUser->user_id);
+            $companyUser = $this->companyUserRepository->getCompanyUserByCompanyId($company_id);
+
+            if ( count($companyUser) > 0) 
+            {
+                $user = $this->userRepository->findWithoutFail($companyUser->user_id);
+
+                $logged_in = Auth::guard('company')->loginUsingId($user->id);
+
+                if (!$logged_in)
+                {
+                    session()->flash('msg.error','Error Occured while logged in as company admin');
+                    return redirect()->back();
+                }
+                else
+                {
+                  return redirect(route('company.dashboard'));   
+                }
+            }
+            else
+            {
+                session()->flash('msg.error','No user found related to this company');
+                return redirect()->back();
+            }
+        }
+        else
+        {
+            $user = $this->userRepository->findWithoutFail($user_id);
 
             $logged_in = Auth::guard('company')->loginUsingId($user->id);
 
@@ -120,12 +144,6 @@ class CompanyController extends AppBaseController
               return redirect(route('company.dashboard'));   
             }
         }
-        else
-        {
-            session()->flash('msg.error','No user found related to this company');
-            return redirect()->back();
-        }
-        // return redirect()->route('company.dashboard',[$id]);
     }
 
 
