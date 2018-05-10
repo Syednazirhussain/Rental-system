@@ -860,3 +860,7 @@ Route::get('company/Conference/conferenceBookingItems/{conferenceBookingItems}/e
 
 
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

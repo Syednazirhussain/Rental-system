@@ -19,8 +19,7 @@
         "laravelcollective/html": "^5.5.0",
         "orangehill/iseed": "^2.5",
         "spatie/laravel-permission": "^2.12",
-        "unisharp/laravel-ckeditor": "^4.7",
-        "waavi/translation": "2.3.x"
+        "unisharp/laravel-ckeditor": "^4.7"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

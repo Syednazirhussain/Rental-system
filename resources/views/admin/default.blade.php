@@ -129,8 +129,8 @@
                                    <li><a href="{{ route('admin.userRoles.index') }}"><i class="fa fa-users"></i>&nbsp;&nbsp;User Roles</a></li>
                                    <li class="divider"></li>
                                    <li><a href="{{ route('admin.userStatuses.index') }}"><i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;User Status</a></li>
-                                    <li class="divider"></li>
-                                   <li><a href="{{ route('admin.permissions.index') }}"><i class="fa fa-universal-access"></i>&nbsp;&nbsp;Permission</a></li>
+                                    <!-- <li class="divider"></li> -->
+<!--                                    <li><a href="{{ route('admin.permissions.index') }}"><i class="fa fa-universal-access"></i>&nbsp;&nbsp;Permission</a></li> -->
                                 </ul>
                              </li>
                              @endif
@@ -161,23 +161,7 @@
             <!-- /.navbar-collapse -->
         </nav>
 
-
-
-
-
-
-
-
-
-
         @yield('content') 
-
-
-
-
-
-
-
 
 
         <div class="m-t-4 p-b-4" id="empty-space"></div>

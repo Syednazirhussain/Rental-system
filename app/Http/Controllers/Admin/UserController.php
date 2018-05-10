@@ -285,6 +285,7 @@ class UserController extends AppBaseController
 
         $user = $this->userRepository->findWithoutFail($id);
 
+
         $user_current_role =  $input['role'];
 
         $user->syncRoles([ $user_current_role ]);

@@ -43,7 +43,7 @@ class User extends Authenticatable
     use HasRoles;
 
 
-    public $table = 'users';
+    protected $table = 'users';
     
     public $timestamps = true;
 

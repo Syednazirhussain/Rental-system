@@ -161,7 +161,7 @@ return [
         Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
         Illuminate\Session\SessionServiceProvider::class,
         // Illuminate\Translation\TranslationServiceProvider::class,
-        Waavi\Translation\TranslationServiceProvider::class,
+        Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
@@ -178,6 +178,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        // Waavi\Translation\TranslationServiceProvider::class,
+        
 
         Collective\Html\HtmlServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
@@ -245,12 +247,9 @@ return [
         'Form'      => Collective\Html\FormFacade::class,
         'Html'      => Collective\Html\HtmlFacade::class,
         'Flash'     => Laracasts\Flash\Flash::class,
-        'TranslationCache' => \Waavi\Translation\Facades\TranslationCache::class,
-        'UriLocalizer'  => Waavi\Translation\Facades\UriLocalizer::class,
+        // 'TranslationCache' => \Waavi\Translation\Facades\TranslationCache::class,
+        // 'UriLocalizer'  => Waavi\Translation\Facades\UriLocalizer::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
-
-
-
     ],
 
 ];
