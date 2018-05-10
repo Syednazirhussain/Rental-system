@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repositories\Admin;
+namespace App\Repositories;
 
-use App\Models\Admin\SupportStatus;
+use App\Models\SupportStatus;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**

@@ -1,24 +1,23 @@
-<table class="table table-responsive" id="supportPriorities-table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th colspan="3">Action</th>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach($supportPriorities as $supportPriorities)
-        <tr>
-            <td>{!! $supportPriorities->name !!}</td>
-            <td>
-                {!! Form::open(['route' => ['admin.supportPriorities.destroy', $supportPriorities->id], 'method' => 'delete']) !!}
-                <div class='btn-group'>
-                    <a href="{!! route('admin.supportPriorities.show', [$supportPriorities->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
-                    <a href="{!! route('admin.supportPriorities.edit', [$supportPriorities->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-edit"></i></a>
-                    {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
-                </div>
-                {!! Form::close() !!}
-            </td>
-        </tr>
-    @endforeach
-    </tbody>
+<table class="table table-striped table-bordered" id="datatables">
+<thead>
+  <tr>
+    <th>Name</th>
+    <th width="200px">Actions</th>
+  </tr>
+</thead>
+<tbody>
+
+@foreach($supportPriorities as $supportPriority)
+  <tr class="odd gradeX">
+    <td>{{ ucfirst($supportPriority->name) }}</td>
+    <td  width="200px" class="center">
+        {!! Form::open(['route' => ['admin.supportPriorities.destroy', $supportPriority->id], 'method' => 'delete']) !!}
+          <a href="{!! route('admin.supportPriorities.edit', [$supportPriority->id]) !!}"><i class="fa fa-edit fa-lg text-info"></i></a>
+          {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+        {!! Form::close() !!}
+    </td>
+  </tr>
+@endforeach
+
+</tbody>
 </table>

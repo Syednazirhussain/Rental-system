@@ -1,24 +1,23 @@
-<table class="table table-responsive" id="supportStatuses-table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th colspan="3">Action</th>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach($supportStatuses as $supportStatus)
-        <tr>
-            <td>{!! $supportStatus->name !!}</td>
-            <td>
-                {!! Form::open(['route' => ['admin.supportStatuses.destroy', $supportStatus->id], 'method' => 'delete']) !!}
-                <div class='btn-group'>
-                    <a href="{!! route('admin.supportStatuses.show', [$supportStatus->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
-                    <a href="{!! route('admin.supportStatuses.edit', [$supportStatus->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-edit"></i></a>
-                    {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
-                </div>
-                {!! Form::close() !!}
-            </td>
-        </tr>
-    @endforeach
-    </tbody>
+<table class="table table-striped table-bordered" id="datatables">
+<thead>
+  <tr>
+    <th>Name</th>
+    <th width="200px">Actions</th>
+  </tr>
+</thead>
+<tbody>
+
+@foreach($supportStatuses as $supportStatus)
+  <tr class="odd gradeX">
+    <td>{{ ucfirst($supportStatus->name) }}</td>
+    <td  width="200px" class="center">
+        {!! Form::open(['route' => ['admin.supportStatuses.destroy', $supportStatus->id], 'method' => 'delete']) !!}
+          <a href="{!! route('admin.supportStatuses.edit', [$supportStatus->id]) !!}"><i class="fa fa-edit fa-lg text-info"></i></a>
+          {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+        {!! Form::close() !!}
+    </td>
+  </tr>
+@endforeach
+
+</tbody>
 </table>

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Models\Admin;
+namespace App\Models;
 
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class SupportCategory
+ * Class SupportPriorities
  * @package App\Models\Admin
- * @version May 10, 2018, 1:32 pm UTC
+ * @version May 10, 2018, 1:33 pm UTC
  *
  * @property \Illuminate\Database\Eloquent\Collection companyContracts
  * @property \Illuminate\Database\Eloquent\Collection companyFloorRooms
@@ -23,11 +23,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Database\Eloquent\Collection Support
  * @property string name
  */
-class SupportCategory extends Model
+class SupportPriorities extends Model
 {
     use SoftDeletes;
 
-    public $table = 'support_categories';
+    public $table = 'support_priorities';
     
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\CreateSupportPrioritiesRequest;
 use App\Http\Requests\Admin\UpdateSupportPrioritiesRequest;
-use App\Repositories\Admin\SupportPrioritiesRepository;
+use App\Repositories\SupportPrioritiesRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
@@ -55,11 +55,17 @@ class SupportPrioritiesController extends AppBaseController
      */
     public function store(CreateSupportPrioritiesRequest $request)
     {
+        $this->validate($request,[
+            'name' => 'required'
+        ]);
+
         $input = $request->all();
 
         $supportPriorities = $this->supportPrioritiesRepository->create($input);
 
-        Flash::success('Support Priorities saved successfully.');
+
+
+        session()->flash('msg.success','Support Priorities saved successfully.');
 
         return redirect(route('admin.supportPriorities.index'));
     }
@@ -114,6 +120,10 @@ class SupportPrioritiesController extends AppBaseController
      */
     public function update($id, UpdateSupportPrioritiesRequest $request)
     {
+        $this->validate($request,[
+            'name' => 'required'
+        ]);
+
         $supportPriorities = $this->supportPrioritiesRepository->findWithoutFail($id);
 
         if (empty($supportPriorities)) {

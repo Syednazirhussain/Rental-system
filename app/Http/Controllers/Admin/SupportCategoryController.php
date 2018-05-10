@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\CreateSupportCategoryRequest;
 use App\Http\Requests\Admin\UpdateSupportCategoryRequest;
-use App\Repositories\Admin\SupportCategoryRepository;
+use App\Repositories\SupportCategoryRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
@@ -55,11 +55,18 @@ class SupportCategoryController extends AppBaseController
      */
     public function store(CreateSupportCategoryRequest $request)
     {
+
+        $this->validate($request,[
+            'name' => 'required'
+        ]);
+
         $input = $request->all();
 
         $supportCategory = $this->supportCategoryRepository->create($input);
 
-        Flash::success('Support Category saved successfully.');
+        // Flash::success('Support Category saved successfully.');
+
+        session()->flash('msg.success','Support Category saved successfully.');
 
         return redirect(route('admin.supportCategories.index'));
     }
@@ -114,6 +121,10 @@ class SupportCategoryController extends AppBaseController
      */
     public function update($id, UpdateSupportCategoryRequest $request)
     {
+        $this->validate($request,[
+            'name' => 'required'
+        ]);
+
         $supportCategory = $this->supportCategoryRepository->findWithoutFail($id);
 
         if (empty($supportCategory)) {
@@ -124,7 +135,9 @@ class SupportCategoryController extends AppBaseController
 
         $supportCategory = $this->supportCategoryRepository->update($request->all(), $id);
 
-        Flash::success('Support Category updated successfully.');
+        // Flash::success('Support Category updated successfully.');
+
+        session()->flash('msg.success','Support Category updated successfully.');
 
         return redirect(route('admin.supportCategories.index'));
     }

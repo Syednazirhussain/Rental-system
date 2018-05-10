@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\CreateSupportRequest;
 use App\Http\Requests\Admin\UpdateSupportRequest;
-use App\Repositories\Admin\SupportRepository;
+use App\Repositories\SupportRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;

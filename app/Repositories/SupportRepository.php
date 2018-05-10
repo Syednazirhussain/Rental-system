@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repositories\Admin;
+namespace App\Repositories;
 
-use App\Models\Admin\Support;
+use App\Models\Support;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**

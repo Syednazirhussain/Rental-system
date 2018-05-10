@@ -1,23 +1,26 @@
-@extends('layouts.app')
+@extends('admin.default')
 
 @section('content')
-    <section class="content-header">
-        <h1>
-            Support Status
-        </h1>
-   </section>
-   <div class="content">
-       @include('adminlte-templates::common.errors')
-       <div class="box box-primary">
-           <div class="box-body">
-               <div class="row">
-                   {!! Form::model($supportStatus, ['route' => ['admin.supportStatuses.update', $supportStatus->id], 'method' => 'patch']) !!}
 
-                        @include('admin.support_statuses.fields')
+     <div class="px-content">
+        <div class="page-header">
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Support / Status </span>{{ $supportStatus->name }}</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div class="panel-title">{{ $supportStatus->name }}</div>
+                    </div>
+                    <div class="panel-body">
+                        <form action="{{ route('admin.supportStatuses.update', [$supportStatus->id]) }}" method="POST" id="supportStatusForm">
+                        
+                            @include('admin.support_statuses.fields')
 
-                   {!! Form::close() !!}
-               </div>
-           </div>
-       </div>
-   </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

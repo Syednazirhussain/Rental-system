@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\CreateSupportStatusRequest;
 use App\Http\Requests\Admin\UpdateSupportStatusRequest;
-use App\Repositories\Admin\SupportStatusRepository;
+use App\Repositories\SupportStatusRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
@@ -55,11 +55,17 @@ class SupportStatusController extends AppBaseController
      */
     public function store(CreateSupportStatusRequest $request)
     {
+        $this->validate($request,[
+            'name' => 'required'
+        ]);
+
         $input = $request->all();
 
         $supportStatus = $this->supportStatusRepository->create($input);
 
-        Flash::success('Support Status saved successfully.');
+        // Flash::success('Support Status saved successfully.');
+
+        session()->flash('msg.success','Support Status saved successfully.');
 
         return redirect(route('admin.supportStatuses.index'));
     }
@@ -114,6 +120,9 @@ class SupportStatusController extends AppBaseController
      */
     public function update($id, UpdateSupportStatusRequest $request)
     {
+        $this->validate($request,[
+            'name' => 'required'
+        ]);
         $supportStatus = $this->supportStatusRepository->findWithoutFail($id);
 
         if (empty($supportStatus)) {

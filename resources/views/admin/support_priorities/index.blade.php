@@ -1,26 +1,46 @@
-@extends('layouts.app')
+@extends('admin.default')
 
 @section('content')
-    <section class="content-header">
-        <h1 class="pull-left">Support Priorities</h1>
-        <h1 class="pull-right">
-           <a class="btn btn-primary pull-right" style="margin-top: -10px;margin-bottom: 5px" href="{!! route('admin.supportPriorities.create') !!}">Add New</a>
-        </h1>
-    </section>
-    <div class="content">
-        <div class="clearfix"></div>
+    <div class="px-content">
+        <div class="page-header">
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i><a href="{{ route('admin.supports.index') }}">Support</a> / <a href="{{route('admin.supportPriorities.index')}}">Priorities</a></span></h1>
+        </div>
 
-        @include('flash::message')
+        <div class="panel">
+            <div class="panel-body">
 
-        <div class="clearfix"></div>
-        <div class="box box-primary">
-            <div class="box-body">
+                @if (session()->has('msg.success'))
+                    @include('layouts.success_msg')
+                @endif
+
+                @if (session()->has('msg.error'))
+                    @include('layouts.error_msg')
+                @endif
+
+
+                <div class="text-right m-b-3">
+
+                    <a href="{{ route('admin.supportPriorities.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Priority</a>
+
+                </div>
+
+                <div class="table-primary">
                     @include('admin.support_priorities.table')
+                </div>
             </div>
         </div>
-        <div class="text-center">
-        
-        </div>
     </div>
+@endsection
+
+@section('js')
+    <script type="text/javascript">
+        // -------------------------------------------------------------------------
+        // Initialize DataTables
+        $(function () {
+            $('#datatables').dataTable();
+            $('#datatables_wrapper .table-caption').text('Priorities');
+            $('#datatables_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
+        });
+    </script>
 @endsection
 
