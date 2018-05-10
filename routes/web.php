@@ -864,3 +864,13 @@ Route::get('company/Conference/conferenceBookingItems/{conferenceBookingItems}/e
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::get('admin/supportStatuses', ['as'=> 'admin.supportStatuses.index', 'uses' => 'Admin\SupportStatusController@index']);
+Route::post('admin/supportStatuses', ['as'=> 'admin.supportStatuses.store', 'uses' => 'Admin\SupportStatusController@store']);
+Route::get('admin/supportStatuses/create', ['as'=> 'admin.supportStatuses.create', 'uses' => 'Admin\SupportStatusController@create']);
+Route::put('admin/supportStatuses/{supportStatuses}', ['as'=> 'admin.supportStatuses.update', 'uses' => 'Admin\SupportStatusController@update']);
+Route::patch('admin/supportStatuses/{supportStatuses}', ['as'=> 'admin.supportStatuses.update', 'uses' => 'Admin\SupportStatusController@update']);
+Route::delete('admin/supportStatuses/{supportStatuses}', ['as'=> 'admin.supportStatuses.destroy', 'uses' => 'Admin\SupportStatusController@destroy']);
+Route::get('admin/supportStatuses/{supportStatuses}', ['as'=> 'admin.supportStatuses.show', 'uses' => 'Admin\SupportStatusController@show']);
+Route::get('admin/supportStatuses/{supportStatuses}/edit', ['as'=> 'admin.supportStatuses.edit', 'uses' => 'Admin\SupportStatusController@edit']);

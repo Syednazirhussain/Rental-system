@@ -111,3 +111,7 @@
     <a href="{!! route('admin.permissions.index') !!}"><i class="fa fa-edit"></i><span>Permissions</span></a>
 </li>
 
+<li class="{{ Request::is('supportStatuses*') ? 'active' : '' }}">
+    <a href="{!! route('admin.supportStatuses.index') !!}"><i class="fa fa-edit"></i><span>Support Statuses</span></a>
+</li>
+
