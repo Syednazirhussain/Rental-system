@@ -18,6 +18,22 @@
 @section('js')
 
   <script type="text/javascript">
+
+
+      $.validator.addMethod(
+              "regex",
+              function(value, element, regexp) {
+                  var re = new RegExp(regexp);
+                  return this.optional(element) || re.test(value);
+              },
+              "Please check your input."
+      );
+
+
+
+      /*$.validator.addMethod("stringOnly",function(value,){
+
+      });*/
       
       // Initialize validator
       $('#supportCategoryForm').pxValidate({
@@ -26,8 +42,11 @@
           'name': {
             required: true,
             maxlength: 100,
+            regex: "^[a-zA-Z'.\\s]{1,100}$"
           }
         },
+
+
 
         messages: {
           'name': {

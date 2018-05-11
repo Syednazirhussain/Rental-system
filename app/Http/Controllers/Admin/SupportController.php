@@ -73,15 +73,17 @@ class SupportController extends AppBaseController
      */
     public function show($id)
     {
-        $support = $this->supportRepository->findWithoutFail($id);
+        // $support = $this->supportRepository->findWithoutFail($id);
 
-        if (empty($support)) {
-            Flash::error('Support not found');
+        // if (empty($support)) {
+        //     Flash::error('Support not found');
 
-            return redirect(route('admin.supports.index'));
-        }
+        //     return redirect(route('admin.supports.index'));
+        // }
 
-        return view('admin.supports.show')->with('support', $support);
+        // return view('admin.supports.show')->with('support', $support);
+
+        return view('admin.supports.show');
     }
 
     /**

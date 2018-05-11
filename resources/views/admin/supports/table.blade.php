@@ -1,38 +1,26 @@
-<table class="table table-responsive" id="supports-table">
+<table class="table table-striped table-bordered" id="datatables">
     <thead>
         <tr>
-            <th>Parent Id</th>
-        <th>Subject</th>
-        <th>Content</th>
-        <th>Html</th>
-        <th>Status Id</th>
-        <th>Priority Id</th>
-        <th>User Id</th>
-        <th>Category Id</th>
-            <th colspan="3">Action</th>
+            <th>#</th>
+            <th>Subject</th>
+            <th>Status</th>
+            <th>Last Updated</th>
+            <th>Agent</th>
+            <th>Priority</th>
+            <th>Owner</th>
+            <th>Category</th>
         </tr>
     </thead>
     <tbody>
-    @foreach($supports as $support)
-        <tr>
-            <td>{!! $support->parent_id !!}</td>
-            <td>{!! $support->subject !!}</td>
-            <td>{!! $support->content !!}</td>
-            <td>{!! $support->html !!}</td>
-            <td>{!! $support->status_id !!}</td>
-            <td>{!! $support->priority_id !!}</td>
-            <td>{!! $support->user_id !!}</td>
-            <td>{!! $support->category_id !!}</td>
-            <td>
-                {!! Form::open(['route' => ['admin.supports.destroy', $support->id], 'method' => 'delete']) !!}
-                <div class='btn-group'>
-                    <a href="{!! route('admin.supports.show', [$support->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
-                    <a href="{!! route('admin.supports.edit', [$support->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-edit"></i></a>
-                    {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
-                </div>
-                {!! Form::close() !!}
-            </td>
-        </tr>
-    @endforeach
+      <tr class="odd gradeX">
+        <td>1</td>
+        <td>sfxczcvxzcsdrfsdc sdfcxzc</td>
+        <td>asdasd</td>
+        <td>date</td>
+        <td>cvzfz</td>
+        <td>cxvd</td>
+        <td>asdfasd</td>
+        <td>xvzzxcv</td>
+      </tr>
     </tbody>
 </table>

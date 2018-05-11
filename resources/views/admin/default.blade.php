@@ -127,6 +127,7 @@
                                    <li><a href="{{ route('admin.supportCategories.index') }}"><i class="fa fa-users"></i>&nbsp;&nbsp;Categories</a></li>
                                    <li class="divider"></li>
                                    <li><a href="{{ route('admin.supportPriorities.index') }}"><i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;Priorities</a></li>
+                                    <li><a href="{{ route('admin.supportPriorities.index') }}"><i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;Support Show</a></li>
                                 </ul>
                              </li>
 
@@ -138,7 +139,7 @@
                                    <li class="divider"></li>
                                    <li><a href="{{ route('admin.userRoles.index') }}"><i class="fa fa-users"></i>&nbsp;&nbsp;User Roles</a></li>
                                    <li class="divider"></li>
-                                   <li><a href="{{ route('admin.userStatuses.index') }}"><i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;User Status</a></li>
+                                   <li><a href="{{ route('admin.supports.show',[1]) }}"><i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;User Status</a></li>
                                     <!-- <li class="divider"></li> -->
 <!--                                    <li><a href="{{ route('admin.permissions.index') }}"><i class="fa fa-universal-access"></i>&nbsp;&nbsp;Permission</a></li> -->
                                 </ul>
