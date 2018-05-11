@@ -211,13 +211,17 @@
 
                     <li class="dropdown-toggle">
                         <a href="{{ route('company.users.index') }}">Company Admin</a>
-
                         <ul class="dropdown-menu">
                             {{--<li><a href="{{ route('company.users.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
                                     User</a></li>--}}
                             <li><a href="{{ route('company.users.index') }}"><i class="fa fa-user-secret"></i>&nbsp;&nbsp;Company Admin Users</a>
                             </li>
                         </ul>
+                    </li>
+
+
+                    <li class="dropdown-toggle">
+                        <a href="{{ route('company.supports.index') }}">Support</a>
                     </li>
 
                 

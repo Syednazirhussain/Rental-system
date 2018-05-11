@@ -219,7 +219,6 @@ class UserController extends AppBaseController
     // authenticate user
     public function authenticate(Request $request)
     {
-      
         if (Auth::guard('company')->attempt(array('email'=>$request->input('email'), 'password'=>$request->input('password'),'user_role_code'=>'company_admin'))) 
         {
             if (Auth::guard('company')->user()->first_login)

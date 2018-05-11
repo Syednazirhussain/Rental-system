@@ -31,10 +31,32 @@ class SupportController extends AppBaseController
     {
         $this->supportRepository->pushCriteria(new RequestCriteria($request));
         $supports = $this->supportRepository->all();
-
-        return view('admin.supports.index')
-            ->with('supports', $supports);
+        return view('admin.supports.index')->with('supports', $supports);
     }
+
+
+    public function companyIndex(Request $request)
+    {   
+        return view('company.supports.index');
+    }
+
+
+    public function companyCreate()
+    {
+        return view('company.supports.create');        
+    }
+
+    public function companyShow()
+    {
+        return view('company.supports.show');   
+    }
+
+
+    public function companyCompleteTicket()
+    {
+        return view('company.supports.completeTicket');   
+    }
+
 
     /**
      * Show the form for creating a new Support.
