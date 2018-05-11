@@ -90,9 +90,9 @@ class CompanyInvoiceController extends AppBaseController
 
         $Invoices = RoomContracts::join('companies', 'room_contracts.id', '=', 'companies.room_contract_id')
             ->join('company_invoices', 'companies.id', '=', 'company_invoices.company_id')
-            ->select('company_invoices.*', 'companies.name', 'room_contracts.company_id as companyId')->get();
+            ->select('company_invoices.*', 'companies.name')->get();
 
-        return view('company.company_invoices.index', ['Invoices' => $Invoices, 'owner' => $company_id]);
+        return view('company.company_invoices.index')->with('Invoices', $Invoices);
     }
 
     public function getCompanyDetailById($company_id)
@@ -226,7 +226,7 @@ class CompanyInvoiceController extends AppBaseController
             $tax        = $company_infomation['discount'];
             $total      = '5000';
 
-            $company_admin_id = Auth::user()->companyUser()->first()->company_id;
+            $company_admin_id = Auth::user()->companyUser()->first()->id;
             $company_admin = Company::find($company_admin_id);
             $admin_address = [
                 'city' => City::find($company_admin->city_id)->name,

@@ -34,12 +34,12 @@ class CompanyFloorRoomController extends AppBaseController
     public function index(Request $request)
     {
         $company_id = Auth::user()->companyUser()->first()->company_id;
-        $companies = Company::pluck('name', 'id');
+        $company = Company::find($company_id);
         $companyBuildings = CompanyBuilding::pluck('name', 'id');
-        $companyFloorRooms = CompanyFloorRoom::all();
+        $companyFloorRooms = CompanyFloorRoom::where('company_id', $company_id)->get();
 
         return view('company.company_floor_rooms.index', ['companyFloorRooms' => $companyFloorRooms,
-            'companies' => $companies, 'companyBuildings' => $companyBuildings, 'owner' => $company_id]);
+            'company' => $company, 'companyBuildings' => $companyBuildings]);
     }
 
     /**
@@ -80,7 +80,7 @@ class CompanyFloorRoomController extends AppBaseController
     public function show($id)
     {
         $company_id = Auth::user()->companyUser()->first()->company_id;
-        $companies = Company::pluck('name', 'id');
+        $company = Company::find($company_id);
         $companyBuildings = CompanyBuilding::pluck('name', 'id');
         $companyFloorRoom = $this->companyFloorRoomRepository->findWithoutFail($id);
 
@@ -91,7 +91,7 @@ class CompanyFloorRoomController extends AppBaseController
         }
 
         return view('company.company_floor_rooms.show', ['companyFloorRoom' => $companyFloorRoom,
-            'companies' => $companies, 'companyBuildings' => $companyBuildings]);
+            'company' => $company, 'companyBuildings' => $companyBuildings]);
     }
 
     /**
@@ -104,7 +104,7 @@ class CompanyFloorRoomController extends AppBaseController
     public function edit($id)
     {
         $company_id = Auth::user()->companyUser()->first()->company_id;
-        $companies = Company::pluck('name', 'id');
+        $company = Company::find($company_id);
         $companyBuildings = CompanyBuilding::pluck('name', 'id');
         $companyFloorRoom = $this->companyFloorRoomRepository->findWithoutFail($id);
 
@@ -115,7 +115,7 @@ class CompanyFloorRoomController extends AppBaseController
         }
 
         return view('company.company_floor_rooms.edit', ['companyFloorRoom' => $companyFloorRoom,
-            'companies' => $companies, 'companyBuildings' => $companyBuildings]);
+            'company' => $company, 'companyBuildings' => $companyBuildings]);
     }
 
     /**

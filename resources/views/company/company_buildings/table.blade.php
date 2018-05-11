@@ -21,7 +21,7 @@
             <td>{{ $companyBuilding->company_id }}</td>
             <td  width="200px" class="text-center">
                 <a href="{!! route('company.companyBuildings.show', [$companyBuilding->id]) !!}"><i class="fa fa-eye fa-lg text-info"></i></a>
-                @if ($owner == $companyBuilding->company_id) <a href="{!! route('company.companyBuildings.edit', [$companyBuilding->id]) !!}"><i class="fa fa-edit fa-lg text-info"></i></a> @endif
+                <a href="{!! route('company.companyBuildings.edit', [$companyBuilding->id]) !!}"><i class="fa fa-edit fa-lg text-info"></i></a>
             </td>
         </tr>
     @endforeach

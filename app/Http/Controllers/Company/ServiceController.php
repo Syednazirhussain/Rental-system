@@ -33,10 +33,10 @@ class ServiceController extends AppBaseController
     public function index(Request $request)
     {
         $company_id = Auth::user()->companyUser()->first()->company_id;
-        $companies = Company::pluck('name', 'id');
-        $services = Service::all();
+        $company = Company::find($company_id);
+        $services = Service::where('company_id', $company_id)->get();
 
-        return view('company.services.index', ['services' => $services, 'companies' => $companies, 'owner' => $company_id]);
+        return view('company.services.index', ['services' => $services, 'company' => $company]);
     }
 
     /**
@@ -85,8 +85,8 @@ class ServiceController extends AppBaseController
      */
     public function show($id)
     {
-        //$company_id = Auth::user()->companyUser()->first()->company_id;
-        $companies = Company::pluck('name', 'id');
+        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company = Company::find($company_id);
         $service = $this->serviceRepository->findWithoutFail($id);
 
         if (empty($service)) {
@@ -95,7 +95,7 @@ class ServiceController extends AppBaseController
             return redirect(route('company.services.index'));
         }
 
-        return view('company.services.show', ['service' => $service, 'companies' => $companies]);
+        return view('company.services.show', ['service' => $service, 'company' => $company]);
     }
 
     /**
@@ -108,8 +108,7 @@ class ServiceController extends AppBaseController
     public function edit($id)
     {
         $company_id = Auth::user()->companyUser()->first()->company_id;
-        $company = Company::find($company_id)->get();
-        $companies = Company::pluck('name', 'id');
+        $company = Company::find($company_id);
         $service = $this->serviceRepository->findWithoutFail($id);
 
         if (empty($service)) {
@@ -121,7 +120,7 @@ class ServiceController extends AppBaseController
         if($service->price == 0)
             $free_service = true;
 
-        return view('company.services.edit', ['service' => $service, 'companies' => $companies, 'free_service' => $free_service, 'company' => $company]);
+        return view('company.services.edit', ['service' => $service, 'company' => $company, 'free_service' => $free_service]);
     }
 
     /**

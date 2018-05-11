@@ -555,7 +555,6 @@
                                 // myform.pxWizard('goTo', 2);
 
                                 companyModuleCreated = data.success;
-                                location.href = '/company/rooms';
 
                                 // console.log(data);
                             },
@@ -595,7 +594,7 @@
 
                                 });
 
-                                location.href = '/company/rooms';
+
                                 // console.log(data);
                             },
                             error: function(xhr,status,error)  {

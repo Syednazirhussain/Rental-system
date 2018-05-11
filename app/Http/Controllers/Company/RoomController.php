@@ -39,9 +39,9 @@ class RoomController extends AppBaseController
     {
         $company_id = Auth::user()->companyUser()->first()->company_id;
         $company = Company::find($company_id);
-        $rooms = Room::all();
-        $services = Service::pluck('name', 'id');
-        $floors = CompanyFloorRoom::pluck('floor', 'id');
+        $rooms = Room::where('company_id', $company_id)->get();
+        $services = Service::where('company_id', $company_id)->pluck('name', 'id');
+        $floors = CompanyFloorRoom::where('company_id', $company_id)->pluck('floor', 'id');
 
         return view('company.rooms.index', ['rooms' => $rooms, 'company' => $company, 'services' => $services,
             'floors' => $floors]);
@@ -135,8 +135,8 @@ class RoomController extends AppBaseController
      */
     public function show($id)
     {
-        //$company_id = Auth::user()->companyUser()->first()->company_id;
-        $companies = Company::pluck('name', 'id');
+        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company = Company::find($company_id);
         $room = $this->roomRepository->findWithoutFail($id);
         $building = CompanyBuilding::find(CompanyFloorRoom::find($room->floor_id)->building_id);
         $floor = CompanyFloorRoom::find($room->floor_id)->floor;
@@ -149,7 +149,7 @@ class RoomController extends AppBaseController
             return redirect(route('company.rooms.index'));
         }
 
-        return view('company.rooms.show', ['room' => $room, 'companies' => $companies, 'building' => $building, 'floor' => $floor,
+        return view('company.rooms.show', ['room' => $room, 'company' => $company, 'building' => $building, 'floor' => $floor,
             'service' => $service, 'roomContracts' => $roomContracts]);
     }
 

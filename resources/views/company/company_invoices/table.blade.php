@@ -31,10 +31,8 @@
                 @endif
             </td>
             <td>
-                @if ($owner == $Invoice->companyId)
                 <a href="{{ route('company.sendInvoice',['company_id' => $Invoice->company_id ]) }}"
                    class="btn btn-default">Send Email</a>
-                @endif
             </td>
         </tr>
 
