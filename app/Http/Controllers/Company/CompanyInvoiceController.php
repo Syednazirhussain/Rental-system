@@ -90,7 +90,8 @@ class CompanyInvoiceController extends AppBaseController
 
         $Invoices = RoomContracts::join('companies', 'room_contracts.id', '=', 'companies.room_contract_id')
             ->join('company_invoices', 'companies.id', '=', 'company_invoices.company_id')
-            ->select('company_invoices.*', 'companies.name')->get();
+            ->select('company_invoices.*', 'companies.name')
+            ->where('room_contracts.company_id', $company_id)->get();
 
         return view('company.company_invoices.index')->with('Invoices', $Invoices);
     }
