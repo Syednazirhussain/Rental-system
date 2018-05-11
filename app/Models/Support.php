@@ -10,10 +10,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @package App\Models\Admin
  * @version May 10, 2018, 1:34 pm UTC
  *
- * @property \App\Models\Admin\SupportCategory supportCategory
- * @property \App\Models\Admin\SupportPriority supportPriority
- * @property \App\Models\Admin\SupportStatus supportStatus
- * @property \App\Models\Admin\User user
+ * @property \App\Models\SupportCategory supportCategory
+ * @property \App\Models\SupportPriority supportPriority
+ * @property \App\Models\SupportStatus supportStatus
+ * @property \App\Models\User user
  * @property \Illuminate\Database\Eloquent\Collection companyContracts
  * @property \Illuminate\Database\Eloquent\Collection companyFloorRooms
  * @property \Illuminate\Database\Eloquent\Collection companyInvoiceItems
@@ -50,7 +50,6 @@ class Support extends Model
         'parent_id',
         'subject',
         'content',
-        'html',
         'status_id',
         'priority_id',
         'user_id',
@@ -88,15 +87,16 @@ class Support extends Model
      **/
     public function supportCategory()
     {
-        return $this->belongsTo(\App\Models\Admin\SupportCategory::class);
+        return $this->belongsTo(\App\Models\SupportCategory::class,'category_id','id');
     }
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
     public function supportPriority()
     {
-        return $this->belongsTo(\App\Models\Admin\SupportPriority::class);
+        return $this->belongsTo(\App\Models\SupportPriorities::class,'priority_id','id');
     }
 
     /**
@@ -104,7 +104,7 @@ class Support extends Model
      **/
     public function supportStatus()
     {
-        return $this->belongsTo(\App\Models\Admin\SupportStatus::class);
+        return $this->belongsTo(\App\Models\SupportStatus::class,'status_id','id');
     }
 
     /**
@@ -112,6 +112,6 @@ class Support extends Model
      **/
     public function user()
     {
-        return $this->belongsTo(\App\Models\Admin\User::class);
+        return $this->belongsTo(\App\Models\User::class);
     }
 }

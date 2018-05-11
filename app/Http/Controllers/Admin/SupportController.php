@@ -11,6 +11,12 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
+// use App\Models\Support;
+use App\Models\SupportPriorities;
+use App\Models\SupportCategory;
+use App\Models\SupportStatus;
+use Auth;
+
 class SupportController extends AppBaseController
 {
     /** @var  SupportRepository */
@@ -36,20 +42,68 @@ class SupportController extends AppBaseController
 
 
     public function companyIndex(Request $request)
-    {   
-        return view('company.supports.index');
+    {
+        $user_id = Auth::guard('company')->user()->id;
+        $tickets = $this->supportRepository->getAllTicketsByUserId($user_id);
+
+        return view('company.supports.index',compact('tickets'));
     }
 
 
     public function companyCreate()
     {
-        return view('company.supports.create');        
+        $priorities = SupportPriorities::all();
+        $categories = SupportCategory::all();
+
+        $data = [
+            'priorities' => $priorities,
+            'categories' => $categories
+        ];
+
+        return view('company.supports.create',$data);        
     }
 
-    public function companyShow()
+    public function companyStore(CreateSupportRequest $request)
     {
-        return view('company.supports.show');   
+
+        $this->validate($request,[
+            'subject' => 'required',
+            'content' => 'required',
+            'category_id' => 'required',
+            'priority_id' => 'required'
+        ]);
+
+        $input = $request->except(['files']);
+
+        $support_status_id = SupportStatus::where('name','Pending')->first()->id;
+
+        $user_id = Auth::guard('company')->user()->id;
+
+        $input['parent_id'] = 0;
+        $input['user_id'] = $user_id;
+        $input['status_id'] = $support_status_id;
+
+
+        $support = $this->supportRepository->create($input);
+
+
+        // Flash::success('Support saved successfully.');
+
+        session()->flash('msg.success','Support saved successfully.');
+
+        return redirect(route('company.supports.index'));
     }
+
+    public function companyShow($ticket_id)
+    {
+        $ticketId = (int)$ticket_id;
+
+        $ticket = $this->supportRepository->getMasterTicket(0,$ticketId);
+
+        return view('company.supports.show',compact('ticket'));   
+    }
+
+
 
 
     public function companyCompleteTicket()

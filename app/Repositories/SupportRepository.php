@@ -37,4 +37,14 @@ class SupportRepository extends BaseRepository
     {
         return Support::class;
     }
+
+    public function getAllTicketsByUserId($user_id)
+    {
+        return Support::where('user_id',$user_id)->get();
+    }
+
+    public function getMasterTicket($parent_id,$ticket_id)
+    {
+        return Support::where('parent_id',$parent_id)->where('id',$ticket_id)->first();
+    }
 }

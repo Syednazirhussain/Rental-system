@@ -64,6 +64,6 @@ class SupportCategory extends Model
      **/
     public function supports()
     {
-        return $this->hasMany(\App\Models\Admin\Support::class);
+        return $this->hasMany(\App\Models\Support::class);
     }
 }

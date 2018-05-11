@@ -17,7 +17,7 @@
                     <div class="panel-body">
                         <div class="content">
                             <h2 class="header">
-                                Hello world
+                                {{ $ticket->subject }}
                                 <span class="pull-right">
                                     <a href="#" class="btn btn-success">Mark Complete</a>
                                 </span>
@@ -26,23 +26,23 @@
                                 <div class="panel-body">
                                     <div class="col-md-12">
                                         <div class="col-md-6">
-                                            <p> <strong>Owner</strong>: Orin Waters</p>
+                                            <p> <strong>Owner</strong>: {{ $ticket->user->name  }}</p>
                                             <p> <strong>Status</strong>: 
-                                                <span style="color: #e69900">Pending</span>
+                                                <span style="color: #e69900">{{ $ticket->supportStatus->name }}</span>
                                             </p>
                                             <p>
                                                 <strong>Priority</strong>: 
-                                                <span style="color: #069900">Low</span>
+                                                <span style="color: #069900">{{ $ticket->supportPriority->name }}</span>
                                             </p>
                                         </div>
                                         <div class="col-md-6">
-                                            <p> <strong>Responsible</strong>: Prof. Susie Gaylord II</p>
+<!--                                             <p> <strong>Responsible</strong>: Prof. Susie Gaylord II</p> -->
                                             <p>
                                                 <strong>Category</strong>: 
-                                                <span style="color: #0014f4">Technical</span>
+                                                <span style="color: #0014f4">{{ $ticket->supportCategory->name }}</span>
                                             </p>
-                                            <p> <strong>Created</strong>: 1 minute ago</p>
-                                            <p> <strong>Last Update</strong>: 34 seconds ago</p>
+                                            <p> <strong>Created</strong>: {{ \Carbon\Carbon::parse($ticket->created_at)->format('F d, Y')  }}</p>
+                                            <p> <strong>Last Update</strong>: {{ \Carbon\Carbon::parse($ticket->created_at)->format('F d, Y')  }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -68,7 +68,6 @@
                         </div>
                     </div>
                 </div> -->
-
 
                 <div class="panel panel-default">
                     <div class="panel-body">
