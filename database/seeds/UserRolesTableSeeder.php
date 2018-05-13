@@ -58,6 +58,17 @@ class UserRolesTableSeeder extends Seeder
                 'updated_at' => date('Y-m-d h:i:s'),
                 
             ),
+
+            4 =>
+            array (
+                'id' => 9,
+                'code' => 'admin_technical_support',
+                'name' => 'Admin Technical Support',
+                'guard_name' => 'admin',
+                'created_at' => date('Y-m-d h:i:s'),
+                'updated_at' => date('Y-m-d h:i:s'),
+                
+            ),
         ));
         
         
