@@ -11,6 +11,7 @@
     <tbody>
     @if(isset($tickets))
         @foreach($tickets as $ticket)
+            @if( $ticket->parent_id == 0)
           <tr class="odd gradeX">
             <td>{{ $loop->index + 1 }}</td>
             <td> <a href="{{ route('company.supports.show',[$ticket->id]) }}">{{ $ticket->subject }}</a></td>
@@ -25,9 +26,10 @@
                     <span class="label label-default">{{ $ticket->supportStatus->name }}</span>
                 @endif
             </td>
-            <td>{{  \Carbon\Carbon::parse($ticket->updated_at)->format('F d, Y') }}</td>
+            <td>{{  \Carbon\Carbon::parse($ticket->updated_at)->diffForHumans() }}</td>
             <td>my_agent</td>
           </tr>
+          @endif
         @endforeach
       @else
       <p>No records</p>

@@ -12,15 +12,23 @@
         </tr>
     </thead>
     <tbody>
-      <tr class="odd gradeX">
-        <td>1</td>
-        <td>sfxczcvxzcsdrfsdc sdfcxzc</td>
-        <td>asdasd</td>
-        <td>date</td>
-        <td>cvzfz</td>
-        <td>cxvd</td>
-        <td>asdfasd</td>
-        <td>xvzzxcv</td>
-      </tr>
+        @if(isset($supports))
+            @foreach($supports as $support)
+              @if($support->parent_id == 0) 
+              <tr class="odd gradeX">
+                <td>{{ $loop->index + 1 }}</td>
+                <td> <a href="{{ route('admin.supports.show',[$support->id]) }}">{{ $support->subject }}</a> </td>
+                <td>{{ $support->supportStatus->name }}  </td>
+                <td>{{ $support->updated_at }}</td>
+                <td>no agent</td>
+                <td>{{ $support->supportPriority->name }}</td>
+                <td>{{ $support->user->name }}</td>
+                <td>{{ $support->supportCategory->name }}</td>
+              </tr>
+              @endif
+          @endforeach
+      @else 
+        <p>No records</p>
+      @endif
     </tbody>
 </table>

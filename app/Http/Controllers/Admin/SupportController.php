@@ -11,7 +11,7 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
-// use App\Models\Support;
+use App\Models\Support;
 use App\Models\SupportPriorities;
 use App\Models\SupportCategory;
 use App\Models\SupportStatus;
@@ -37,6 +37,7 @@ class SupportController extends AppBaseController
     {
         $this->supportRepository->pushCriteria(new RequestCriteria($request));
         $supports = $this->supportRepository->all();
+
         return view('admin.supports.index')->with('supports', $supports);
     }
 
@@ -44,6 +45,7 @@ class SupportController extends AppBaseController
     public function companyIndex(Request $request)
     {
         $user_id = Auth::guard('company')->user()->id;
+
         $tickets = $this->supportRepository->getAllTicketsByUserId($user_id);
 
         return view('company.supports.index',compact('tickets'));
@@ -75,19 +77,21 @@ class SupportController extends AppBaseController
 
         $input = $request->except(['files']);
 
-        $support_status_id = SupportStatus::where('name','Pending')->first()->id;
+        if(isset($input['parent_id']))
+        {
+            $support = $this->supportRepository->create($input);
+        }   
+        else
+        {
+            $support_status_id = SupportStatus::where('name','Pending')->first()->id;
 
-        $user_id = Auth::guard('company')->user()->id;
+            $user_id = Auth::guard('company')->user()->id;
 
-        $input['parent_id'] = 0;
-        $input['user_id'] = $user_id;
-        $input['status_id'] = $support_status_id;
-
-
-        $support = $this->supportRepository->create($input);
-
-
-        // Flash::success('Support saved successfully.');
+            $input['parent_id'] = 0;
+            $input['user_id'] = $user_id;
+            $input['status_id'] = $support_status_id;
+            $support = $this->supportRepository->create($input);
+        }        
 
         session()->flash('msg.success','Support saved successfully.');
 
@@ -100,7 +104,29 @@ class SupportController extends AppBaseController
 
         $ticket = $this->supportRepository->getMasterTicket(0,$ticketId);
 
-        return view('company.supports.show',compact('ticket'));   
+        if (empty($ticket)) 
+        {
+            session()->flash('msg.error','Support not found');
+            return redirect(route('admin.supports.index'));
+        }
+
+        $reply = Support::where('parent_id',$ticketId)->get();
+
+        if(isset($reply))
+        {
+            $data = [
+                'ticket' => $ticket,
+                'reply'   => $reply  
+            ];
+        }
+        else
+        {
+            $data = [
+                'ticket' => $ticket  
+            ];
+        }
+
+        return view('company.supports.show',$data);   
     }
 
 
@@ -131,11 +157,22 @@ class SupportController extends AppBaseController
      */
     public function store(CreateSupportRequest $request)
     {
-        $input = $request->all();
+
+        $this->validate($request,[
+            'subject' => 'required',
+            'content' => 'required',
+            'category_id' => 'required',
+            'priority_id' => 'required',
+            'status_id' => 'required',
+            'user_id' => 'required',
+            'parent_id' => 'required',
+        ]);
+
+        $input = $request->except(['files']);
 
         $support = $this->supportRepository->create($input);
 
-        Flash::success('Support saved successfully.');
+        session()->flash('msg.success','Support saved successfully.');
 
         return redirect(route('admin.supports.index'));
     }
@@ -149,17 +186,31 @@ class SupportController extends AppBaseController
      */
     public function show($id)
     {
-        // $support = $this->supportRepository->findWithoutFail($id);
+        $support = $this->supportRepository->findWithoutFail($id);
 
-        // if (empty($support)) {
-        //     Flash::error('Support not found');
+        if (empty($support)) 
+        {
+            session()->flash('msg.error','Support not found');
+            return redirect(route('admin.supports.index'));
+        }
 
-        //     return redirect(route('admin.supports.index'));
-        // }
+        $reply = Support::where('parent_id',$id)->get();
 
-        // return view('admin.supports.show')->with('support', $support);
+        if(isset($reply))
+        {
+            $data = [
+                'support' => $support,
+                'reply'   => $reply  
+            ];
+        }
+        else
+        {
+            $data = [
+                'support' => $support  
+            ];
+        }
 
-        return view('admin.supports.show');
+        return view('admin.supports.show',$data);
     }
 
     /**
