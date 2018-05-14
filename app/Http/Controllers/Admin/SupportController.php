@@ -36,7 +36,33 @@ class SupportController extends AppBaseController
     public function index(Request $request)
     {
         $this->supportRepository->pushCriteria(new RequestCriteria($request));
-        $supports = $this->supportRepository->all();
+
+        $status_id = SupportStatus::where('name','Solved')->first()->id;
+
+
+        $supportsParent = Support::where('status_id', '!=' ,$status_id)->where('parent_id',0)->get();
+
+        $supportsParentIds = [];        
+
+        $i = 0;
+        foreach ($supportsParent as  $sp) 
+        {
+            $supportsParentIds[$i] = $sp->id;
+            $i++;
+        }
+
+        $supports = [];
+
+        for ($i=0; $i < count($supportsParentIds); $i++) 
+        { 
+            $supports[$i] = Support::where('parent_id', $supportsParentIds[$i])->orderBy('id', 'desc')->first();
+
+            if(empty($supports[$i]) || $supports[$i] == null )
+            {
+                $supports[$i] = Support::where('id', $supportsParentIds[$i])->first();
+            }
+        }    
+         
 
         return view('admin.supports.index')->with('supports', $supports);
     }
@@ -55,7 +81,10 @@ class SupportController extends AppBaseController
     {
         $user_id = Auth::guard('company')->user()->id;
 
-        $tickets = $this->supportRepository->getAllTicketsByUserId($user_id);
+        $status_id = SupportStatus::where('name','Solved')->first()->id;
+        $tickets = Support::where('status_id', '!=' ,$status_id)
+                                ->where('user_id',$user_id)
+                                ->get();
 
         return view('company.supports.index',compact('tickets'));
     }
@@ -128,17 +157,17 @@ class SupportController extends AppBaseController
 
         $reply = Support::where('parent_id',$ticketId)->get();
 
-        if(isset($reply))
+        if(isset($reply) && count($reply) == 0)
         {
             $data = [
-                'ticket' => $ticket,
-                'reply'   => $reply  
+                'ticket' => $ticket  
             ];
         }
         else
         {
             $data = [
-                'ticket' => $ticket  
+                'ticket' => $ticket,
+                'reply'   => $reply  
             ];
         }
 
@@ -210,6 +239,9 @@ class SupportController extends AppBaseController
     {
         $support = $this->supportRepository->findWithoutFail($id);
 
+        // $support = Support::find($id);
+        // dd($support);
+
         if (empty($support)) 
         {
             session()->flash('msg.error','Support not found');
@@ -218,18 +250,19 @@ class SupportController extends AppBaseController
 
         $reply = Support::where('parent_id',$id)->get();
 
-        if(isset($reply))
+        if(isset($reply) && count($reply) == 0)
         {
             $data = [
-                'support' => $support,
-                'reply'   => $reply  
+                'support' => $support  
             ];
         }
         else
         {
             $data = [
-                'support' => $support  
+                'support' => $support,
+                'reply'   => $reply  
             ];
+
         }
 
         return view('admin.supports.show',$data);

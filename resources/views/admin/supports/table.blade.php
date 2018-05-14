@@ -5,64 +5,73 @@
             <th>Subject</th>
             <th>Status</th>
             <th>Last Updated</th>
-            <th>Agent</th>
+            <th>Last Comment</th>
             <th>Priority</th>
             <th>Owner</th>
+            <th>Company</th>
             <th>Category</th>
         </tr>
     </thead>
     <tbody>
-        @if(isset($supports))
-            @foreach($supports as $support)
-              @if($support->parent_id == 0) 
+      @if(isset($supports))
+
+        @for($i=0 ; $i < count($supports) ; $i++) 
               <tr class="odd gradeX">
-                <td>{{ $loop->index + 1 }}</td>
-                <td> <a href="{{ route('admin.supports.show',[$support->id]) }}">{{ $support->subject }}</a> </td>
+                <td>{{ $i + 1 }}</td>
+                <td> 
+                  <a href="{{ route('admin.supports.show',[$supports[$i]->parent_id]) }}">{{ $supports[$i]->subject }}</a> 
+                </td>
                 <td>
 
-                  @if($support->supportStatus->name == 'Pending')
+                  @if($supports[$i]->supportStatus->name == 'Pending')
 
-                  <span class="label label-warning">{{ $support->supportStatus->name }}</span>
+                  <span class="label label-warning">{{ $supports[$i]->supportStatus->name }}</span>
 
-                  @elseif($support->supportStatus->name == 'Solved')
+                  @elseif($supports[$i]->supportStatus->name == 'Solved')
 
-                  <span class="label label-success">{{ $support->supportStatus->name }}</span>
+                  <span class="label label-success">{{ $supports[$i]->supportStatus->name }}</span>
 
-                  @elseif($support->supportStatus->name == 'Bug')
+                  @elseif($supports[$i]->supportStatus->name == 'Bug')
 
-                  <span class="label label-danger">{{ $support->supportStatus->name }}</span>
+                  <span class="label label-danger">{{ $supports[$i]->supportStatus->name }}</span>
                   
                   @endif
   
                 </td>
-                <td>{{  \Carbon\Carbon::parse($support->updated_at)->diffForHumans() }}</td>
-                <td>no agent</td>
+                <td>{{  \Carbon\Carbon::parse($supports[$i]->updated_at)->diffForHumans() }}</td>
                 <td>
-                  @if($support->supportPriority->name == 'Low')
+                  {{ $supports[$i]->user->name }}
+                </td>
+                <td>
+                  @if($supports[$i]->supportPriority->name == 'Low')
 
-                  <span class="label label-info">{{ $support->supportPriority->name }}</span>
+                  <span class="label label-info">{{ $supports[$i]->supportPriority->name }}</span>
 
-                  @elseif($support->supportPriority->name == 'Normal')
+                  @elseif($supports[$i]->supportPriority->name == 'Normal')
 
-                  <span class="label label-warning">{{ $support->supportPriority->name }}</span>
+                  <span class="label label-warning">{{ $supports[$i]->supportPriority->name }}</span>
 
-                  @elseif($support->supportPriority->name == 'Critical')
+                  @elseif($supports[$i]->supportPriority->name == 'Critical')
 
-                  <span class="label label-danger">{{ $support->supportPriority->name }}</span>
+                  <span class="label label-danger">{{ $supports[$i]->supportPriority->name }}</span>
 
                   @else
 
-                  <span class="label label-default">{{ $support->supportPriority->name }}</span>
+                  <span class="label label-default">{{ $supports[$i]->supportPriority->name }}</span>
 
                   @endif
                 </td>
-                <td>{{ $support->user->name }}</td>
+                <td>{{ $supports[$i]->user->name }}</td>
                 <td>
-                  <span class="label label-default">{{ $support->supportCategory->name }}</span>                  
+                  compnsay name
+ 
+                </td>
+                <td>
+                  <span class="label label-default">{{ $supports[$i]->supportCategory->name }}</span>                  
                 </td>
               </tr>
-              @endif
-          @endforeach
+        @endfor
+
       @else 
         <p>No records</p>
       @endif

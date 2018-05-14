@@ -57,8 +57,16 @@
                                             <p> 
                                                 <strong>Last Update</strong>:
                                                 <?php
-                                                    $last = count($reply);
-                                                    echo \Carbon\Carbon::parse($reply[$last-1]->updated_at)->diffForHumans();
+                                                    if(isset($reply))
+                                                    {
+                                                        $last = count($reply);
+                                                        echo \Carbon\Carbon::parse($reply[$last-1]->updated_at)->diffForHumans();                                                        
+                                                    }
+                                                    else
+                                                    {
+                                                       echo \Carbon\Carbon::parse($ticket->updated_at)->diffForHumans(); 
+                                                    }
+
                                                 ?>
                                         </div>
                                     </div>
