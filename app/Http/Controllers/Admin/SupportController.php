@@ -79,7 +79,12 @@ class SupportController extends AppBaseController
 
         if(isset($input['parent_id']))
         {
+            $parent_id =  $input['parent_id'];
             $support = $this->supportRepository->create($input);
+
+            session()->flash('msg.success','Message sent successfully.');
+
+            return redirect()->route('company.supports.show',[$parent_id]);
         }   
         else
         {
@@ -91,11 +96,13 @@ class SupportController extends AppBaseController
             $input['user_id'] = $user_id;
             $input['status_id'] = $support_status_id;
             $support = $this->supportRepository->create($input);
+
+            session()->flash('msg.success','Support saved successfully.');
+
+            return redirect(route('company.supports.index'));
         }        
 
-        session()->flash('msg.success','Support saved successfully.');
 
-        return redirect(route('company.supports.index'));
     }
 
     public function companyShow($ticket_id)
@@ -168,13 +175,16 @@ class SupportController extends AppBaseController
             'parent_id' => 'required',
         ]);
 
+
         $input = $request->except(['files']);
+
+        $parent_id =  $input['parent_id'];
 
         $support = $this->supportRepository->create($input);
 
         session()->flash('msg.success','Support saved successfully.');
 
-        return redirect(route('admin.supports.index'));
+        return redirect()->route('admin.supports.show',[$parent_id]);
     }
 
     /**

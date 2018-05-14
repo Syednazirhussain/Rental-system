@@ -54,7 +54,12 @@
                                                 <span class="label label-success">{{ $ticket->supportCategory->name }}</span>
                                             </p>
                                             <p> <strong>Created</strong>: {{ \Carbon\Carbon::parse($ticket->created_at)->diffForHumans() }}</p>
-                                            <p> <strong>Last Update</strong>: {{ \Carbon\Carbon::parse($ticket->updated_at)->diffForHumans()}}</p>
+                                            <p> 
+                                                <strong>Last Update</strong>:
+                                                <?php
+                                                    $last = count($reply);
+                                                    echo \Carbon\Carbon::parse($reply[$last-1]->updated_at)->diffForHumans();
+                                                ?>
                                         </div>
                                     </div>
                                 </div>
@@ -104,7 +109,8 @@
                                         <span class="help-block">Describe your issue here in details</span>
                                     </div>
                                 </div>
-                                <div class="text-right col-md-12">
+                                <div class="col-md-12">
+                                    <a href="{{ route('company.supports.index') }}" class="btn btn-default"><i class="fa fa-long-arrow-left"></i>&nbsp;Back</a>
                                     <input class="btn btn-primary" type="submit" value="Submit">
                                 </div>
                             </fieldset>

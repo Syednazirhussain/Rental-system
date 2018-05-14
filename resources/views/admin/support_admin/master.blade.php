@@ -18,16 +18,16 @@
         </a>
         <ul class="dropdown-menu">
             <li role="presentation" class="">
-                <a href="">Statuses</a>
+                <a href="{{ route('admin.supportStatuses.index') }}">Statuses</a>
             </li>
             <li role="presentation" class="">
-                <a href="">Priorities</a>
+                <a href="{{ route('admin.supportPriorities.index') }}">Priorities</a>
             </li>
             <li role="presentation" class="">
                 <a href="">Agents</a>
             </li>
             <li role="presentation" class="">
-                <a href="">Categories</a>
+                <a href="{{ route('admin.supportCategories.index') }}">Categories</a>
             </li>
             <li role="presentation" class="">
                 <a href="">Configuration</a>
