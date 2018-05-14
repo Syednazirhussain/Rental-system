@@ -1,11 +1,11 @@
 <ul class="nav nav-tabs m-b-2">
     <li role="presentation" class="active">
-        <a href="#">Active Tickets
+        <a href="{{ route('admin.supports.index') }}">Active Tickets
             <span class="badge">2</span>
         </a>
     </li>
     <li role="presentation">
-        <a href="#">Completed Tickets
+        <a href="{{ route('admin.supports.completed') }}">Completed Tickets
             <span class="badge">90</span>
         </a>
     </li>

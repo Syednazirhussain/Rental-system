@@ -41,6 +41,15 @@ class SupportController extends AppBaseController
         return view('admin.supports.index')->with('supports', $supports);
     }
 
+    public function completedTicket()
+    {
+
+        $status_id = SupportStatus::where('name','Solved')->first()->id;
+        $supports = Support::where('status_id',$status_id)->get();
+
+        return view('admin.supports.index')->with('supports', $supports);
+    }
+
 
     public function companyIndex(Request $request)
     {
@@ -139,9 +148,12 @@ class SupportController extends AppBaseController
 
 
 
-    public function companyCompleteTicket()
+    public function companyCompleteTicket(Request $request)
     {
-        return view('company.supports.completeTicket');   
+        $status_id = SupportStatus::where('name','Solved')->first()->id;
+        $tickets = Support::where('status_id',$status_id)->get();
+
+        return view('company.supports.index',compact('tickets'));  
     }
 
 
@@ -266,6 +278,28 @@ class SupportController extends AppBaseController
         Flash::success('Support updated successfully.');
 
         return redirect(route('admin.supports.index'));
+    }
+
+
+    public function solved($id)
+    {
+        $support = $this->supportRepository->findWithoutFail($id);
+
+        $status_id = SupportStatus::where('name','Solved')->first()->id;
+
+        $support->status_id = $status_id;
+
+        if( $support->save() )
+        {
+            Support::where('parent_id',$id)->update(['status_id' => $status_id]);
+            return redirect()->route('admin.supports.show',[$id]);
+        }
+        else
+        {
+            session()->flash('msg.error','Ticket Status cannot be updated');
+            return redirect(route('admin.supports.index'));
+        } 
+
     }
 
     /**

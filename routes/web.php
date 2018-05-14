@@ -898,10 +898,11 @@ Route::get('admin/supportPriorities/{supportPriorities}/edit', ['as'=> 'admin.su
 Route::get('company/supports', ['as'=> 'company.supports.index', 'uses' => 'Admin\SupportController@companyIndex']);
 Route::get('company/supports/create', ['as'=> 'company.supports.create', 'uses' => 'Admin\SupportController@companyCreate']);
 Route::get('company/supports/{supports}', ['as'=> 'company.supports.show', 'uses' => 'Admin\SupportController@companyShow']);
-Route::get('company/supports/complete/{supports}', ['as'=> 'company.supports.completeTicket', 'uses' => 'Admin\SupportController@companyCompleteTicket']);
 Route::post('company/supports', ['as'=> 'company.supports.store', 'uses' => 'Admin\SupportController@companyStore']);
+Route::get('company/supports/ticket/completed', ['as'=> 'company.supports.completed', 'uses' => 'Admin\SupportController@companyCompleteTicket']);
 
-
+Route::get('admin/supports/solved/{supports}', ['as'=> 'admin.supports.solved', 'uses' => 'Admin\SupportController@solved']);
+Route::get('admin/supports/completed', ['as'=> 'admin.supports.completed', 'uses' => 'Admin\SupportController@completedTicket']);
 
 Route::get('admin/supports', ['as'=> 'admin.supports.index', 'uses' => 'Admin\SupportController@index']);
 Route::post('admin/supports', ['as'=> 'admin.supports.store', 'uses' => 'Admin\SupportController@store']);

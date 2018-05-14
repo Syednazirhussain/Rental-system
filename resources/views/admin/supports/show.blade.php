@@ -21,7 +21,7 @@
                             <h2 class="header">
                                 {{ $support->subject }}
                                 <span class="pull-right">
-                                    <a href="#" class="btn btn-success">Mark Complete</a>
+                                    <a href="{{ route('admin.supports.solved',[$support->id]) }}" class="btn btn-success">Mark Complete</a>
 
                                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-default">Edit</button>
 
