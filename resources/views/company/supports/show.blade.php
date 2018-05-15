@@ -11,6 +11,7 @@
         <div class="panel">
             <div class="panel-body">
 
+
                 @include('company.support_company.master')
 
                 <div class="panel panel-default">
@@ -122,8 +123,8 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12">
-                                    <a href="{{ route('company.supports.index') }}" class="btn btn-default"><i class="fa fa-long-arrow-left"></i>&nbsp;Back</a>
                                     <input class="btn btn-primary" type="submit" value="Submit">
+                                    <a href="{{ route('company.supports.index') }}" class="btn btn-default"><i class="fa fa-times"></i>&nbsp;CANCEL</a>
                                 </div>
                             </fieldset>
                         </form>

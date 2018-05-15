@@ -39,7 +39,7 @@
         // Initialize DataTables
         $(function () {
             $('#datatables').dataTable();
-            $('#datatables_wrapper .table-caption').text('My Tickets');
+            $('#datatables_wrapper .table-caption').text('Tickets');
             $('#datatables_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
         });
     </script>

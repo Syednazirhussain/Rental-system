@@ -243,25 +243,17 @@ class SupportController extends AppBaseController
         if($support)
         {
             $parent_id =  $input['parent_id'];
-
             $company_id = (int)$input['company_id'];
-
             $company_user = CompanyUser::select('user_id')->where('company_id',$company_id)->first();
-
             $user_id = $company_user->user_id;
-
-            $email = User::find($user_id)->email;
-
-            $input['header'] = 'From';
-
-            $input['sub_header'] = 'This is the response of your ticket subject ';
-
+            $user = User::find($user_id);
+            $email = $user->email;
+            $name = $user->name;
+            $input['header'] = 'Hi '.$name;
+            $input['sub_header'] = 'A response has been generated from ';
             Mail::to($email)->send(new TicketEmail($input));
-
             $updateSupport = Support::where('id',$parent_id)->first();
-
             $updateSupport->last_comment = $input['last_comment'];
-
             $updateSupport->save();
 
         }
@@ -386,6 +378,8 @@ class SupportController extends AppBaseController
         $support->status_id     = $input['status_id'];
 
         $support->save();
+
+        session()->flash('msg.success','Ticket updated successfully');
 
         return redirect()->back();
     }

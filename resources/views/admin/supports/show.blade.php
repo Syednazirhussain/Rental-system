@@ -11,9 +11,12 @@
         <div class="panel">
             <div class="panel-body">
 
+                @if(session()->has('msg.success'))
+                    @include('layouts.success_msg')
+                @endif
+
+
                 @include('admin.support_admin.master')
-
-
 
                 <div class="panel panel-default">
                     <div class="panel-body">
@@ -21,9 +24,16 @@
                             <h2 class="header">
                                 {{ $support->subject }}
                                 <span class="pull-right">
-                                    <a href="{{ route('admin.supports.solved',[$support->id]) }}" class="btn btn-success">Mark Complete</a>
+
+                                    @if($support->status_id == 5)
+                                        
+                                    @else
+                                        <a href="{{ route('admin.supports.solved',[$support->id]) }}" class="btn btn-success">Mark Complete</a>
+                                    @endif
 
                                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-default">Edit</button>
+
+                                    
 
 <!--                                     <a href="#" class="btn btn-danger deleteit" form="delete-ticket-27" node="Asperiores praesentium vero et quo quaerat sunt.">Delete</a> -->
 
@@ -54,8 +64,12 @@
                                             </p>
                                         </div>
                                         <div class="col-md-6">
-                                            <p> <strong>Responsible</strong>: {{ auth()->guard('admin')->user()->name }}</p>
-                                                <p><strong>Category</strong>:
+                                            <p> 
+                                                <strong>Responsible</strong>:
+                                                 {{ auth()->guard('admin')->user()->name }}
+                                             </p>
+                                            <p>
+                                                <strong>Category</strong>:
                                                     <span class="label label-success">{{ $support->supportCategory->name }}</span>
                                             </p>
                                             <p> <strong>Created</strong>: {{ \Carbon\Carbon::parse($support->created_at)->diffForHumans() }}</p>
@@ -106,7 +120,7 @@
 
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <form method="POST" action="{{ route('admin.supports.store') }}" accept-charset="UTF-8" class="form-horizontal">
+                        <form  action="{{ route('admin.supports.store') }}" method="POST" id="commentForm" class="form-horizontal">
 
                             <input name="_token" type="hidden" value="{{ csrf_token() }}">
                             <input name="parent_id" type="hidden" value="{{ $support->id }}">
@@ -122,13 +136,13 @@
                                 <legend>Reply</legend>
                                 <div class="form-group">
                                     <div class="col-lg-12">
-                                        <textarea class="summernote-base" name="content"></textarea>
+                                        <textarea class="summernote-base1" type="text" name="content"></textarea>
                                         <span class="help-block">Describe your issue here in details</span>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
-                                    <a href="{{ route('admin.supports.index') }}" class="btn btn-default"><i class="fa fa-long-arrow-left"></i>&nbsp;Back</a>
                                     <input class="btn btn-primary" type="submit" value="Submit">
+                                    <a href="{{ route('admin.supports.index') }}" class="btn btn-default"><i class="fa fa-times"></i>&nbsp;CANCEL</a>
                                 </div>
                             </fieldset>
                         </form>
@@ -138,7 +152,7 @@
                 <div class="modal fade in" id="modal-default" tabindex="-1">
                   <div class="modal-dialog modal-lg">
                     <div class="modal-content">
-                        <form method="POST" action="{{ route('admin.supports.update',[$support->id]) }}" accept-charset="UTF-8" class="form-horizontal">
+                        <form method="POST" action="{{ route('admin.supports.update',[$support->id]) }}" id="modalForm" class="form-horizontal">
 
                             <input name="_method" type="hidden" value="PATCH">
                             <input name="_token" type="hidden" value="{{ csrf_token() }}">
@@ -154,57 +168,60 @@
                                         <input class="form-control" required="required" name="subject" type="text" value="{{ $support->subject }}">
                                     </div>
                                     <div class="form-group">
-                                        <textarea class="summernote-base" name="content"></textarea>
+                                        <textarea class="summernote-base2" name="content" required="required"></textarea>
                                     </div>
                                 </div>
-                                
-                                <div class="col-sm-6">
-                                    <label for="priority_id" class="control-label">Priority: </label>
-                                    <select class="form-control" name="priority_id">
-                                        @if(isset($priorities))
-                                            @foreach($priorities as $priority)
-                                                <option value="{{ $priority->id }}">{{ $priority->name }}</option>
-                                            @endforeach
-                                        @endif
-                                    </select>
-                                </div>
-                    
-                                <div class="col-sm-6">
-                                    <label for="agent_id" class="control-label">Agent: </label>
-                                    <select class="form-control" name="agent_id">
-                                        @if(isset($userRoles))
-                                            @foreach($userRoles as $role)
-                                                <option value="{{ $role->id }}">{{ $role->name }}</option>
-                                            @endforeach
-                                        @endif
-                                    </select>
-                                </div>
-                   
-                                <div class="col-sm-6">
-                                    <label for="category_id" class="control-label">Category: </label>
-                                    <select class="form-control" name="category_id">
-                                        @if(isset($categories))
-                                            @foreach($categories as $category)
-                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                            @endforeach
-                                        @endif
-                                    </select>
-                                </div>
-                         
-                                <div class="col-sm-6">
-                                    <label for="status_id" class="control-label">Status: </label>
-                                    <select class="form-control" name="status_id">
-                                        @if(isset($statues))
-                                            @foreach($statues as $status)
-                                                <option value="{{ $status->id }}">{{ $status->name }}</option>
-                                            @endforeach
-                                        @endif
-                                    </select>
-                                </div>
 
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <label for="priority_id" class="control-label">Priority: </label>
+                                        <select class="form-control" name="priority_id">
+                                            @if(isset($priorities))
+                                                @foreach($priorities as $priority)
+                                                    @if($support->priority_id == $priority->id)
+                                                        <option value="{{ $priority->id }}" selected="selected">{{ $priority->name }}</option>
+                                                    @else
+                                                        <option value="{{ $priority->id }}">{{ $priority->name }}</option>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                       
+                                    <div class="col-sm-4">
+                                        <label for="category_id" class="control-label">Category: </label>
+                                        <select class="form-control" name="category_id">
+                                            @if(isset($categories))
+                                                @foreach($categories as $category)
+                                                    @if($support->category_id == $category->id)
+                                                        <option value="{{ $category->id }}" selected="selected">{{ $category->name }}</option>
+                                                    @else
+                                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                             
+                                    <div class="col-sm-4">
+                                        <label for="status_id" class="control-label">Status: </label>
+                                        <select class="form-control" name="status_id">
+                                            @if(isset($statues))
+                                                @foreach($statues as $status)
+                                                    @if($support->status_id == $status->id)
+                                                    <option value="{{ $status->id }}" selected="selected">{{ $status->name }}</option>
+                                                    @else
+                                                    <option value="{{ $status->id }}">{{ $status->name }}</option>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>                                    
+                                </div>
+                            
                                 <div class="col-sm-12 m-b-3 m-t-3">
-                                    <input class="btn btn-primary" type="submit" value="Submit">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <input class="btn btn-primary" type="submit" value="Update">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                                 </div>  
                             </div>
                         </form>
@@ -216,15 +233,38 @@
         </div>
     </div>
 
+    <input type="hidden" id="editTextBox" value="{{ $support->content }}">
+
 @endsection
 
 
 @section('js')
     <script type="text/javascript">
 
+
+    // Initialize validator
+
+
+
+    $('#commentForm').pxValidate({
+        focusInvalid: false,
+        rules: {
+          'content': {
+            required: true
+          }
+        },
+        messages: {
+          'content': {
+            required: "Please enter the content",
+          }
+        }
+    });
+
+
+
     // Initialize Summernote
     $(function() {
-      $('.summernote-base').summernote({
+      $('.summernote-base1').summernote({
         height: 200,
         toolbar: [
           ['parastyle', ['style']],
@@ -241,6 +281,38 @@
         ],
       });
     });
+
+
+
+
+    // Initialize Summernote
+    $(function() {
+      $('.summernote-base2').summernote({
+        height: 200,
+        toolbar: [
+          ['parastyle', ['style']],
+          ['fontstyle', ['fontname', 'fontsize']],
+          ['style', ['bold', 'italic', 'underline', 'clear']],
+          ['font', ['strikethrough', 'superscript', 'subscript']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['height', ['height']],
+          ['insert', ['picture', 'link', 'video', 'table', 'hr']],
+          ['history', ['undo', 'redo']],
+          ['misc', ['codeview', 'fullscreen']],
+          ['help', ['help']]
+        ],
+      });
+    });
+
+
+
+
+    $(document).ready(function() { 
+        var value = $('#editTextBox').val();
+        $('.summernote-base2').summernote('editor.pasteHTML', value);
+    });
+
 
     </script>
 @endsection
