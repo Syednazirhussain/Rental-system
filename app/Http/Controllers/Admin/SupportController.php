@@ -16,7 +16,14 @@ use App\Models\SupportPriorities;
 use App\Models\SupportCategory;
 use App\Models\SupportStatus;
 use App\Models\User;
+use App\Models\CompanyUser;
+
+use App\Mail\TicketEmail;
+use Mail;
+
 use Auth;
+
+
 
 class SupportController extends AppBaseController
 {
@@ -49,7 +56,9 @@ class SupportController extends AppBaseController
     {
 
         $status_id = SupportStatus::where('name','Solved')->first()->id;
-        $supports = Support::where('status_id',$status_id)->get();
+        $supports = Support::where('status_id',$status_id)
+                            ->where('parent_id',0)
+                            ->get();
 
         return view('admin.supports.index')->with('supports', $supports);
     }
@@ -119,6 +128,7 @@ class SupportController extends AppBaseController
             $support_status_id = SupportStatus::where('name','Pending')->first()->id;
 
             $user_id = Auth::guard('company')->user()->id;
+            $email = Auth::guard('company')->user()->email;
             $user_name = Auth::guard('company')->user()->name;
 
             $user = User::find($user_id);
@@ -134,6 +144,15 @@ class SupportController extends AppBaseController
             $input['last_comment'] = $user_name;
 
             $support = $this->supportRepository->create($input);
+
+            if($support)
+            {
+                $input['header'] = 'Dear';
+
+                $input['sub_header'] = 'You have created a new ticket subject';
+                
+                Mail::to($email)->send(new TicketEmail($input));                
+            }
 
             session()->flash('msg.success','Support saved successfully.');
 
@@ -218,12 +237,26 @@ class SupportController extends AppBaseController
 
         $input = $request->except(['files']);
 
-        $parent_id =  $input['parent_id'];
-
         $support = $this->supportRepository->create($input);
 
         if($support)
         {
+            $parent_id =  $input['parent_id'];
+
+            $company_id = (int)$input['company_id'];
+
+            $company_user = CompanyUser::select('user_id')->where('company_id',$company_id)->first();
+
+            $user_id = $company_user->user_id;
+
+            $email = User::find($user_id)->email;
+
+            $input['header'] = 'From';
+
+            $input['sub_header'] = 'This is the response of your ticket subject ';
+
+            Mail::to($email)->send(new TicketEmail($input));
+
             $updateSupport = Support::where('id',$parent_id)->first();
 
             $updateSupport->last_comment = $input['last_comment'];
@@ -231,9 +264,13 @@ class SupportController extends AppBaseController
             $updateSupport->save();
 
         }
+        else
+        {
+            session()->flash('msg.success','Support saved successfully.');
+            return redirect()->route('admin.supports.index');
+        }
 
         session()->flash('msg.success','Support saved successfully.');
-
         return redirect()->route('admin.supports.show',[$parent_id]);
     }
 
