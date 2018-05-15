@@ -8,7 +8,7 @@
     'timezone' => 'UTC',
     'locale' => 'en',
     'fallback_locale' => 'en',
-    'key' => 'base64:NzMwYTfYDbqNOtkbZYRXI3CMnb3M0hSOqnywiiWjanw=',
+    'key' => 'base64:YktPoJZJ9T5pkfP01+XHY7tT0dyFn37Tsh55G3c4S8Q=',
     'cipher' => 'AES-256-CBC',
     'log' => 'single',
     'log_level' => 'debug',
@@ -204,7 +204,7 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'F:\\Projects\\laravel_rental\\storage\\framework/cache/data',
+        'path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -244,7 +244,7 @@
       'sqlite' => 
       array (
         'driver' => 'sqlite',
-        'database' => 'react_test2',
+        'database' => 'rental',
         'prefix' => '',
       ),
       'mysql' => 
@@ -252,7 +252,7 @@
         'driver' => 'mysql',
         'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'react_test2',
+        'database' => 'rental',
         'username' => 'root',
         'password' => 'testing123',
         'unix_socket' => '',
@@ -267,7 +267,7 @@
         'driver' => 'pgsql',
         'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'react_test2',
+        'database' => 'rental',
         'username' => 'root',
         'password' => 'testing123',
         'charset' => 'utf8',
@@ -280,7 +280,7 @@
         'driver' => 'sqlsrv',
         'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'react_test2',
+        'database' => 'rental',
         'username' => 'root',
         'password' => 'testing123',
         'charset' => 'utf8',
@@ -309,12 +309,12 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'F:\\Projects\\laravel_rental\\storage\\app',
+        'root' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\storage\\app',
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'F:\\Projects\\laravel_rental\\storage\\app/public',
+        'root' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\storage\\app/public',
         'url' => 'http://localhost/storage',
         'visibility' => 'public',
       ),
@@ -332,18 +332,18 @@
   array (
     'config' => 
     array (
-      'model_template_path' => 'F:\\Projects\\laravel_rental\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/model.txt',
-      'scaffold_model_template_path' => 'F:\\Projects\\laravel_rental\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/scaffolding/model.txt',
-      'controller_template_path' => 'F:\\Projects\\laravel_rental\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/controller.txt',
-      'scaffold_controller_template_path' => 'F:\\Projects\\laravel_rental\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/scaffolding/controller.txt',
-      'migration_template_path' => 'F:\\Projects\\laravel_rental\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/migration.txt',
-      'seed_template_path' => 'F:\\Projects\\laravel_rental\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/seed.txt',
-      'view_template_path' => 'F:\\Projects\\laravel_rental\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/view.txt',
-      'model_target_path' => 'F:\\Projects\\laravel_rental\\app',
-      'controller_target_path' => 'F:\\Projects\\laravel_rental\\app\\Http/Controllers',
-      'migration_target_path' => 'F:\\Projects\\laravel_rental\\database/migrations',
-      'seed_target_path' => 'F:\\Projects\\laravel_rental\\database/seeds',
-      'view_target_path' => 'F:\\Projects\\laravel_rental\\resources/views',
+      'model_template_path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/model.txt',
+      'scaffold_model_template_path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/scaffolding/model.txt',
+      'controller_template_path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/controller.txt',
+      'scaffold_controller_template_path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/scaffolding/controller.txt',
+      'migration_template_path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/migration.txt',
+      'seed_template_path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/seed.txt',
+      'view_template_path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/view.txt',
+      'model_target_path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\app',
+      'controller_target_path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\app\\Http/Controllers',
+      'migration_target_path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\database/migrations',
+      'seed_target_path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\database/seeds',
+      'view_target_path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\resources/views',
     ),
   ),
   'infyom' => 
@@ -352,23 +352,23 @@
     array (
       'path' => 
       array (
-        'migration' => 'F:\\Projects\\laravel_rental\\database/migrations/',
-        'model' => 'F:\\Projects\\laravel_rental\\app\\Models/',
-        'datatables' => 'F:\\Projects\\laravel_rental\\app\\DataTables/',
-        'repository' => 'F:\\Projects\\laravel_rental\\app\\Repositories/',
-        'routes' => 'F:\\Projects\\laravel_rental\\routes/web.php',
-        'api_routes' => 'F:\\Projects\\laravel_rental\\routes/api.php',
-        'request' => 'F:\\Projects\\laravel_rental\\app\\Http/Requests/',
-        'api_request' => 'F:\\Projects\\laravel_rental\\app\\Http/Requests/API/',
-        'controller' => 'F:\\Projects\\laravel_rental\\app\\Http/Controllers/',
-        'api_controller' => 'F:\\Projects\\laravel_rental\\app\\Http/Controllers/API/',
-        'test_trait' => 'F:\\Projects\\laravel_rental\\tests/traits/',
-        'repository_test' => 'F:\\Projects\\laravel_rental\\tests/',
-        'api_test' => 'F:\\Projects\\laravel_rental\\tests/',
-        'views' => 'F:\\Projects\\laravel_rental\\resources/views/',
-        'schema_files' => 'F:\\Projects\\laravel_rental\\resources/model_schemas/',
-        'templates_dir' => 'F:\\Projects\\laravel_rental\\resources/infyom/infyom-generator-templates/',
-        'modelJs' => 'F:\\Projects\\laravel_rental\\resources/assets/js/models/',
+        'migration' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\database/migrations/',
+        'model' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\app\\Models/',
+        'datatables' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\app\\DataTables/',
+        'repository' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\app\\Repositories/',
+        'routes' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\routes/web.php',
+        'api_routes' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\routes/api.php',
+        'request' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\app\\Http/Requests/',
+        'api_request' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\app\\Http/Requests/API/',
+        'controller' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\app\\Http/Controllers/',
+        'api_controller' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\app\\Http/Controllers/API/',
+        'test_trait' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\tests/traits/',
+        'repository_test' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\tests/',
+        'api_test' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\tests/',
+        'views' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\resources/views/',
+        'schema_files' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\resources/model_schemas/',
+        'templates_dir' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\resources/infyom/infyom-generator-templates/',
+        'modelJs' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\resources/assets/js/models/',
       ),
       'namespace' => 
       array (
@@ -420,23 +420,23 @@
   'mail' => 
   array (
     'driver' => 'smtp',
-    'host' => 'smtp.sendgrid.net',
-    'port' => '587',
+    'host' => 'smtp.mailtrap.io',
+    'port' => '2525',
     'from' => 
     array (
       'address' => 'admin@highnox.com',
       'name' => 'HighNox',
     ),
     'encryption' => NULL,
-    'username' => 'qaiserpc',
-    'password' => 'Allahisone786',
+    'username' => NULL,
+    'password' => NULL,
     'sendmail' => '/usr/sbin/sendmail -bs',
     'markdown' => 
     array (
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'F:\\Projects\\laravel_rental\\resources\\views/vendor/mail',
+        0 => 'C:\\xampp\\htdocs\\rental-system-backend-new\\resources\\views/vendor/mail',
       ),
     ),
   ),
@@ -563,9 +563,9 @@
     ),
     'generator' => 
     array (
-      'basePath' => 'F:\\Projects\\laravel_rental\\app',
+      'basePath' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\app',
       'rootNamespace' => 'App\\',
-      'stubsOverridePath' => 'F:\\Projects\\laravel_rental\\app',
+      'stubsOverridePath' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\app',
       'paths' => 
       array (
         'models' => 'Entities',
@@ -610,7 +610,7 @@
     'lifetime' => '120',
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'F:\\Projects\\laravel_rental\\storage\\framework/sessions',
+    'files' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -665,9 +665,9 @@
   array (
     'paths' => 
     array (
-      0 => 'F:\\Projects\\laravel_rental\\resources\\views',
+      0 => 'C:\\xampp\\htdocs\\rental-system-backend-new\\resources\\views',
     ),
-    'compiled' => 'F:\\Projects\\laravel_rental\\storage\\framework\\views',
+    'compiled' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\storage\\framework\\views',
   ),
   'dompdf' => 
   array (
@@ -675,10 +675,10 @@
     'orientation' => 'portrait',
     'defines' => 
     array (
-      'font_dir' => 'F:\\Projects\\laravel_rental\\storage\\fonts/',
-      'font_cache' => 'F:\\Projects\\laravel_rental\\storage\\fonts/',
-      'temp_dir' => 'C:\\Users\\Faizan\\AppData\\Local\\Temp',
-      'chroot' => 'F:\\Projects\\laravel_rental',
+      'font_dir' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\storage\\fonts/',
+      'font_cache' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\storage\\fonts/',
+      'temp_dir' => 'C:\\Users\\STY-3-PC\\AppData\\Local\\Temp',
+      'chroot' => 'C:\\xampp\\htdocs\\rental-system-backend-new',
       'enable_font_subsetting' => false,
       'pdf_backend' => 'CPDF',
       'default_media_type' => 'screen',
