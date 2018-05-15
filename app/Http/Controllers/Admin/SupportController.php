@@ -191,8 +191,6 @@ class SupportController extends AppBaseController
             ];
         }
 
-        dd( $data );
-
         return view('company.supports.show',$data);   
     }
 

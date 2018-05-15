@@ -1,17 +1,17 @@
 <ul class="nav nav-tabs m-b-2">
     <li role="presentation" class="active">
         <a href="{{ route('admin.supports.index') }}">Active Tickets
-            <span class="badge">2</span>
+            <!-- <span class="badge">2</span> -->
         </a>
     </li>
     <li role="presentation">
         <a href="{{ route('admin.supports.completed') }}">Completed Tickets
-            <span class="badge">90</span>
+            <!-- <span class="badge">90</span> -->
         </a>
     </li>
-    <li role="presentation">
+<!--     <li role="presentation">
             <a href="#">Dashboard</a>
-    </li>
+    </li> -->
     <li role="presentation" class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
             Settings 
@@ -24,7 +24,7 @@
                 <a href="{{ route('admin.supportPriorities.index') }}">Priorities</a>
             </li>
             <li role="presentation" class="">
-                <a href="">Agents</a>
+                <a href="{{ route('admin.users.index') }}">Agents</a>
             </li>
             <li role="presentation" class="">
                 <a href="{{ route('admin.supportCategories.index') }}">Categories</a>
@@ -32,9 +32,9 @@
             <li role="presentation" class="">
                 <a href="">Configuration</a>
             </li>
-            <li role="presentation" class="">
+<!--             <li role="presentation" class="">
                 <a href="">Administrator</a>
-            </li>
+            </li> -->
         </ul>
     </li>
 </ul>
