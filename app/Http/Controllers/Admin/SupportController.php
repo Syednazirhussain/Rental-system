@@ -17,6 +17,7 @@ use App\Models\SupportCategory;
 use App\Models\SupportStatus;
 use App\Models\User;
 use App\Models\CompanyUser;
+use App\Models\UserRole;
 
 use App\Mail\TicketEmail;
 use Mail;
@@ -179,16 +180,18 @@ class SupportController extends AppBaseController
         if(isset($reply) && count($reply) == 0)
         {
             $data = [
-                'ticket' => $ticket  
+                'ticket' => $ticket       
             ];
         }
         else
         {
             $data = [
                 'ticket' => $ticket,
-                'reply'   => $reply  
+                'reply'   => $reply
             ];
         }
+
+        dd( $data );
 
         return view('company.supports.show',$data);   
     }
@@ -295,24 +298,45 @@ class SupportController extends AppBaseController
             return redirect(route('admin.supports.index'));
         }
 
-        $reply = Support::where('parent_id',$ticketId)->get();
+        $priorities =  SupportPriorities::all();
+        $categories =  SupportCategory::all();
+        $statues =  SupportStatus::all();
+        $user_role = UserRole::all();
 
+        $userRoleArr = [];
+
+        foreach ($user_role as $key => $value) 
+        {
+            if (substr( $value->code, 0, 5 ) === "admin") 
+            {
+                $userRoleArr[$key] = $value;
+            }
+
+        }
+
+        $reply = Support::where('parent_id',$ticketId)->get();
 
         if(isset($reply) && count($reply) == 0)
         {
             $data = [
-                'support' => $support  
+                'support' => $support,
+                'priorities' => $priorities,
+                'categories' => $categories,
+                'statues'    => $statues,
+                'userRoles'  => $userRoleArr     
             ];
         }
         else
         {
             $data = [
                 'support' => $support,
-                'reply'   => $reply  
+                'reply'   => $reply,
+                'priorities' => $priorities,
+                'categories' => $categories,
+                'statues'    => $statues,
+                'userRoles'  => $userRoleArr    
             ];
         }
-
-
 
         return view('admin.supports.show',$data);
     }
@@ -347,19 +371,25 @@ class SupportController extends AppBaseController
      */
     public function update($id, UpdateSupportRequest $request)
     {
-        $support = $this->supportRepository->findWithoutFail($id);
+
+        $input = $request->except(['files']);
+
+        $support = Support::find($id);
 
         if (empty($support)) {
-            Flash::error('Support not found');
-
+            session()->flash('msg.error','Support not found');
             return redirect(route('admin.supports.index'));
         }
 
-        $support = $this->supportRepository->update($request->all(), $id);
+        $support->subject       = $input['subject'];
+        $support->content       = $input['content'];
+        $support->priority_id   = $input['priority_id'];
+        $support->category_id   = $input['category_id'];
+        $support->status_id     = $input['status_id'];
 
-        Flash::success('Support updated successfully.');
+        $support->save();
 
-        return redirect(route('admin.supports.index'));
+        return redirect()->back();
     }
 
 

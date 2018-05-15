@@ -25,7 +25,7 @@
 
                                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-default">Edit</button>
 
-                                    <a href="#" class="btn btn-danger deleteit" form="delete-ticket-27" node="Asperiores praesentium vero et quo quaerat sunt.">Delete</a>
+<!--                                     <a href="#" class="btn btn-danger deleteit" form="delete-ticket-27" node="Asperiores praesentium vero et quo quaerat sunt.">Delete</a> -->
 
                                 </span>
                             </h2>
@@ -122,7 +122,7 @@
                                 <legend>Reply</legend>
                                 <div class="form-group">
                                     <div class="col-lg-12">
-                                        <textarea id="summernote-base" name="content"></textarea>
+                                        <textarea class="summernote-base" name="content"></textarea>
                                         <span class="help-block">Describe your issue here in details</span>
                                     </div>
                                 </div>
@@ -138,56 +138,67 @@
                 <div class="modal fade in" id="modal-default" tabindex="-1">
                   <div class="modal-dialog modal-lg">
                     <div class="modal-content">
-                        <form method="POST" action="" accept-charset="UTF-8" class="form-horizontal">
-                            <input name="_method" type="hidden" value="PATCH"><input name="_token" type="hidden" value="">
+                        <form method="POST" action="{{ route('admin.supports.update',[$support->id]) }}" accept-charset="UTF-8" class="form-horizontal">
+
+                            <input name="_method" type="hidden" value="PATCH">
+                            <input name="_token" type="hidden" value="{{ csrf_token() }}">
+                            
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                                <h4 class="modal-title" id="ticket-edit-modal-Label">Asperiores praesentium vero et quo quaerat sunt.</h4>
+                                <h4 class="modal-title" id="ticket-edit-modal-Label">{{ $support->subject }}</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label class="control-label">Subject</label>
-                                        <input class="form-control" required="required" name="subject" type="text" value="Asperiores praesentium vero et quo quaerat sunt.">
+                                        <input class="form-control" required="required" name="subject" type="text" value="{{ $support->subject }}">
                                     </div>
                                     <div class="form-group">
-                                        <textarea id="summernote-base">Summernote Editor</textarea>
+                                        <textarea class="summernote-base" name="content"></textarea>
                                     </div>
                                 </div>
-
+                                
                                 <div class="col-sm-6">
                                     <label for="priority_id" class="control-label">Priority: </label>
-                                    <select class="form-control" id="priority_id" name="priority_id">
-                                        <option value="1">Low</option>
-                                        <option value="2" selected="selected">Normal</option>
-                                        <option value="3">Critical</option>
+                                    <select class="form-control" name="priority_id">
+                                        @if(isset($priorities))
+                                            @foreach($priorities as $priority)
+                                                <option value="{{ $priority->id }}">{{ $priority->name }}</option>
+                                            @endforeach
+                                        @endif
                                     </select>
                                 </div>
                     
                                 <div class="col-sm-6">
                                     <label for="agent_id" class="control-label">Agent: </label>
-                                    <select class="form-control" id="agent_id" name="agent_id">
-                                        <option value="auto">Auto Select</option>
-                                        <option value="2" selected="selected">Lera Torphy</option>
-                                        <option value="4">Shana Champlin</option>
+                                    <select class="form-control" name="agent_id">
+                                        @if(isset($userRoles))
+                                            @foreach($userRoles as $role)
+                                                <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                            @endforeach
+                                        @endif
                                     </select>
                                 </div>
                    
                                 <div class="col-sm-6">
                                     <label for="category_id" class="control-label">Category: </label>
-                                    <select class="form-control" id="category_id" name="category_id">
-                                        <option value="1">Technical</option>
-                                        <option value="2" selected="selected">Billing</option>
-                                        <option value="3">Customer Services</option>
+                                    <select class="form-control" name="category_id">
+                                        @if(isset($categories))
+                                            @foreach($categories as $category)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endforeach
+                                        @endif
                                     </select>
                                 </div>
                          
                                 <div class="col-sm-6">
                                     <label for="status_id" class="control-label">Status: </label>
-                                    <select class="form-control" id="status_id" name="status_id">
-                                        <option value="1" selected="selected">Pending</option>
-                                        <option value="2">Solved</option>
-                                        <option value="3">Bug</option>
+                                    <select class="form-control" name="status_id">
+                                        @if(isset($statues))
+                                            @foreach($statues as $status)
+                                                <option value="{{ $status->id }}">{{ $status->name }}</option>
+                                            @endforeach
+                                        @endif
                                     </select>
                                 </div>
 
@@ -213,7 +224,7 @@
 
     // Initialize Summernote
     $(function() {
-      $('#summernote-base').summernote({
+      $('.summernote-base').summernote({
         height: 200,
         toolbar: [
           ['parastyle', ['style']],
