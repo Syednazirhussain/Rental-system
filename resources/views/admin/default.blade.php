@@ -122,6 +122,8 @@
                             <li class="dropdown-toggle">
                                 <a href="{{ route('admin.supports.index') }}">Support</a>
                                 <ul class="dropdown-menu">
+                                   <li><a href="{{ route('admin.supports.index') }}"><i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;Support</a></li>
+                                   <li class="divider"></li>
                                    <li><a href="{{ route('admin.supportStatuses.index') }}"><i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;Status</a></li>
                                    <li class="divider"></li>
                                    <li><a href="{{ route('admin.supportCategories.index') }}"><i class="fa fa-users"></i>&nbsp;&nbsp;Categories</a></li>

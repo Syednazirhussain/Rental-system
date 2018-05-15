@@ -115,6 +115,9 @@
                             <input name="priority_id" type="hidden" value="{{ $support->priority_id }}">
                             <input name="category_id" type="hidden" value="{{ $support->category_id }}">
                             <input name="user_id" type="hidden" value="{{ auth()->guard('admin')->user()->id }}">
+                            <input name="last_comment" type="hidden" value="{{ auth()->guard('admin')->user()->name }}">
+                            <input name="company_id" type="hidden" value="{{ $support->company_id }}">
+                            <input name="company_name" type="hidden" value="{{ $support->company_name }}">
                             <fieldset>
                                 <legend>Reply</legend>
                                 <div class="form-group">

@@ -109,6 +109,10 @@
                             <input name="priority_id" type="hidden" value="{{ $ticket->priority_id }}">
                             <input name="category_id" type="hidden" value="{{ $ticket->category_id }}">
                             <input name="user_id" type="hidden" value="{{ auth()->guard('company')->user()->id }}">
+                            <input name="last_comment" type="hidden" value="{{ auth()->guard('company')->user()->name }}">
+                            <input name="company_id" type="hidden" value="{{ $ticket->company_id }}">
+                            <input name="company_name" type="hidden" value="{{ $ticket->company_name }}">
+
                             <fieldset>
                                 <legend>Reply</legend>
                                 <div class="form-group">

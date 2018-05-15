@@ -15,62 +15,63 @@
     <tbody>
       @if(isset($supports))
 
-        @for($i=0 ; $i < count($supports) ; $i++) 
+        @foreach($supports as $support) 
               <tr class="odd gradeX">
-                <td>{{ $i + 1 }}</td>
+                <td>{{ $loop->index + 1 }}</td>
                 <td> 
-                  <a href="{{ route('admin.supports.show',[$supports[$i]->parent_id]) }}">{{ $supports[$i]->subject }}</a> 
+                  <a href="{{ route('admin.supports.show',[$support->id]) }}">{{ $support->subject }}</a> 
                 </td>
                 <td>
 
-                  @if($supports[$i]->supportStatus->name == 'Pending')
+                  @if($support->supportStatus->name == 'Pending')
 
-                  <span class="label label-warning">{{ $supports[$i]->supportStatus->name }}</span>
+                  <span class="label label-warning">{{ $support->supportStatus->name }}</span>
 
-                  @elseif($supports[$i]->supportStatus->name == 'Solved')
+                  @elseif($support->supportStatus->name == 'Solved')
 
-                  <span class="label label-success">{{ $supports[$i]->supportStatus->name }}</span>
+                  <span class="label label-success">{{ $support->supportStatus->name }}</span>
 
-                  @elseif($supports[$i]->supportStatus->name == 'Bug')
+                  @elseif($support->supportStatus->name == 'Bug')
 
-                  <span class="label label-danger">{{ $supports[$i]->supportStatus->name }}</span>
+                  <span class="label label-danger">{{ $support->supportStatus->name }}</span>
                   
                   @endif
   
                 </td>
-                <td>{{  \Carbon\Carbon::parse($supports[$i]->updated_at)->diffForHumans() }}</td>
+                <td>{{  \Carbon\Carbon::parse($support->updated_at)->diffForHumans() }}</td>
+                
                 <td>
-                  {{ $supports[$i]->user->name }}
+                  {{ $support->last_comment }}
                 </td>
+
                 <td>
-                  @if($supports[$i]->supportPriority->name == 'Low')
+                  @if($support->supportPriority->name == 'Low')
 
-                  <span class="label label-info">{{ $supports[$i]->supportPriority->name }}</span>
+                  <span class="label label-info">{{ $support->supportPriority->name }}</span>
 
-                  @elseif($supports[$i]->supportPriority->name == 'Normal')
+                  @elseif($support->supportPriority->name == 'Normal')
 
-                  <span class="label label-warning">{{ $supports[$i]->supportPriority->name }}</span>
+                  <span class="label label-warning">{{ $support->supportPriority->name }}</span>
 
-                  @elseif($supports[$i]->supportPriority->name == 'Critical')
+                  @elseif($support->supportPriority->name == 'Critical')
 
-                  <span class="label label-danger">{{ $supports[$i]->supportPriority->name }}</span>
+                  <span class="label label-danger">{{ $support->supportPriority->name }}</span>
 
                   @else
 
-                  <span class="label label-default">{{ $supports[$i]->supportPriority->name }}</span>
+                  <span class="label label-default">{{ $support->supportPriority->name }}</span>
 
                   @endif
                 </td>
-                <td>{{ $supports[$i]->user->name }}</td>
                 <td>
-                  compnsay name
- 
+                  {{ $support->user->name }}
                 </td>
+                <td> <a href="{{ route('admin.company.profile',[$support->company_id]) }}">{{ $support->company_name }}</a> </td>
                 <td>
-                  <span class="label label-default">{{ $supports[$i]->supportCategory->name }}</span>                  
+                  <span class="label label-default">{{ $support->supportCategory->name }}</span>                  
                 </td>
               </tr>
-        @endfor
+        @endforeach
 
       @else 
         <p>No records</p>

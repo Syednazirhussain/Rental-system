@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddColumnOnSupportTable extends Migration
+class AddColumnLastCommentToSupport extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,8 @@ class AddColumnOnSupportTable extends Migration
     public function up()
     {
         Schema::table('support', function (Blueprint $table) {
-            $table->string('username', 191)->nullable();
+            $table->string('last_comment',191)->nullable();
+            $table->string('company_name',191)->nullable();
         });
     }
 
@@ -26,7 +27,8 @@ class AddColumnOnSupportTable extends Migration
     public function down()
     {
         Schema::table('support', function (Blueprint $table) {
-            $table->dropColumn('username');
+            $table->dropColumn('last_comment');
+            $table->dropColumn('company_name');
         });
     }
 }

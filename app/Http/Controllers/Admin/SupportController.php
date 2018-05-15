@@ -15,6 +15,7 @@ use App\Models\Support;
 use App\Models\SupportPriorities;
 use App\Models\SupportCategory;
 use App\Models\SupportStatus;
+use App\Models\User;
 use Auth;
 
 class SupportController extends AppBaseController
@@ -39,32 +40,9 @@ class SupportController extends AppBaseController
 
         $status_id = SupportStatus::where('name','Solved')->first()->id;
 
+        $supports = Support::where('status_id', '!=' ,$status_id)->where('parent_id',0)->get();
 
-        $supportsParent = Support::where('status_id', '!=' ,$status_id)->where('parent_id',0)->get();
-
-        $supportsParentIds = [];        
-
-        $i = 0;
-        foreach ($supportsParent as  $sp) 
-        {
-            $supportsParentIds[$i] = $sp->id;
-            $i++;
-        }
-
-        $supports = [];
-
-        for ($i=0; $i < count($supportsParentIds); $i++) 
-        { 
-            $supports[$i] = Support::where('parent_id', $supportsParentIds[$i])->orderBy('id', 'desc')->first();
-
-            if(empty($supports[$i]) || $supports[$i] == null )
-            {
-                $supports[$i] = Support::where('id', $supportsParentIds[$i])->first();
-            }
-        }    
-         
-
-        return view('admin.supports.index')->with('supports', $supports);
+        return view('admin.supports.index')->with('supports',$supports);
     }
 
     public function completedTicket()
@@ -118,7 +96,17 @@ class SupportController extends AppBaseController
         if(isset($input['parent_id']))
         {
             $parent_id =  $input['parent_id'];
+
             $support = $this->supportRepository->create($input);
+
+            if($support)
+            {
+                $updateSupport = Support::where('id',$parent_id)->first();
+
+                $updateSupport->last_comment = $input['last_comment'];
+
+                $updateSupport->save();
+            }
 
             session()->flash('msg.success','Message sent successfully.');
 
@@ -126,13 +114,25 @@ class SupportController extends AppBaseController
         }   
         else
         {
+
+
             $support_status_id = SupportStatus::where('name','Pending')->first()->id;
 
             $user_id = Auth::guard('company')->user()->id;
+            $user_name = Auth::guard('company')->user()->name;
+
+            $user = User::find($user_id);
+
+            $company_name = $user->companyUser->company->name;
+            $company_id   = $user->companyUser->company->id;
 
             $input['parent_id'] = 0;
             $input['user_id'] = $user_id;
             $input['status_id'] = $support_status_id;
+            $input['company_id'] = $company_id;
+            $input['company_name'] = $company_name;
+            $input['last_comment'] = $user_name;
+
             $support = $this->supportRepository->create($input);
 
             session()->flash('msg.success','Support saved successfully.');
@@ -216,12 +216,21 @@ class SupportController extends AppBaseController
             'parent_id' => 'required',
         ]);
 
-
         $input = $request->except(['files']);
 
         $parent_id =  $input['parent_id'];
 
         $support = $this->supportRepository->create($input);
+
+        if($support)
+        {
+            $updateSupport = Support::where('id',$parent_id)->first();
+
+            $updateSupport->last_comment = $input['last_comment'];
+
+            $updateSupport->save();
+
+        }
 
         session()->flash('msg.success','Support saved successfully.');
 
@@ -237,10 +246,11 @@ class SupportController extends AppBaseController
      */
     public function show($id)
     {
-        $support = $this->supportRepository->findWithoutFail($id);
+        $ticketId = (int)$id;
 
-        // $support = Support::find($id);
-        // dd($support);
+        $support = $this->supportRepository->findWithoutFail($ticketId);
+
+        $parent_id =  $support->parent_id;
 
         if (empty($support)) 
         {
@@ -248,7 +258,8 @@ class SupportController extends AppBaseController
             return redirect(route('admin.supports.index'));
         }
 
-        $reply = Support::where('parent_id',$id)->get();
+        $reply = Support::where('parent_id',$ticketId)->get();
+
 
         if(isset($reply) && count($reply) == 0)
         {
@@ -262,8 +273,9 @@ class SupportController extends AppBaseController
                 'support' => $support,
                 'reply'   => $reply  
             ];
-
         }
+
+
 
         return view('admin.supports.show',$data);
     }

@@ -83,7 +83,8 @@ class SupportCategoryController extends AppBaseController
         $supportCategory = $this->supportCategoryRepository->findWithoutFail($id);
 
         if (empty($supportCategory)) {
-            Flash::error('Support Category not found');
+            
+            session()->flash('msg.error','Support Category not found');
 
             return redirect(route('admin.supportCategories.index'));
         }
@@ -103,7 +104,8 @@ class SupportCategoryController extends AppBaseController
         $supportCategory = $this->supportCategoryRepository->findWithoutFail($id);
 
         if (empty($supportCategory)) {
-            Flash::error('Support Category not found');
+
+            session()->flash('msg.error','Support Category not found');
 
             return redirect(route('admin.supportCategories.index'));
         }
@@ -128,14 +130,13 @@ class SupportCategoryController extends AppBaseController
         $supportCategory = $this->supportCategoryRepository->findWithoutFail($id);
 
         if (empty($supportCategory)) {
-            Flash::error('Support Category not found');
+
+            session()->flash('msg.error','Support Category not found');
 
             return redirect(route('admin.supportCategories.index'));
         }
 
         $supportCategory = $this->supportCategoryRepository->update($request->all(), $id);
-
-        // Flash::success('Support Category updated successfully.');
 
         session()->flash('msg.success','Support Category updated successfully.');
 
@@ -161,7 +162,7 @@ class SupportCategoryController extends AppBaseController
 
         $this->supportCategoryRepository->delete($id);
 
-        Flash::success('Support Category deleted successfully.');
+        session()->flash('msg.success','Support Category deleted successfully.');
 
         return redirect(route('admin.supportCategories.index'));
     }
