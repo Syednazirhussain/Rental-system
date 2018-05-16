@@ -30,13 +30,8 @@
                                     @else
                                         <a href="{{ route('admin.supports.solved',[$support->id]) }}" class="btn btn-success">Mark Complete</a>
                                     @endif
-
                                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-default">Edit</button>
-
-                                    
-
 <!--                                     <a href="#" class="btn btn-danger deleteit" form="delete-ticket-27" node="Asperiores praesentium vero et quo quaerat sunt.">Delete</a> -->
-
                                 </span>
                             </h2>
                             <div class="panel well well-sm">
@@ -136,7 +131,7 @@
                                 <legend>Reply</legend>
                                 <div class="form-group">
                                     <div class="col-lg-12">
-                                        <textarea class="summernote-base1" type="text" name="content"></textarea>
+                                        <textarea id="summernote-base1" type="text" name="content"></textarea>
                                         <span class="help-block">Describe your issue here in details</span>
                                     </div>
                                 </div>
@@ -168,7 +163,7 @@
                                         <input class="form-control" required="required" name="subject" type="text" value="{{ $support->subject }}">
                                     </div>
                                     <div class="form-group">
-                                        <textarea class="summernote-base2" name="content" required="required"></textarea>
+                                        <textarea id="summernote-base2" name="content" required="required"></textarea>
                                     </div>
                                 </div>
 
@@ -243,10 +238,8 @@
 
 
     // Initialize validator
-
-
-
     $('#commentForm').pxValidate({
+        ignore: ":hidden:not(#summernote-base1),.note-editable.panel-body",
         focusInvalid: false,
         rules: {
           'content': {
@@ -255,16 +248,30 @@
         },
         messages: {
           'content': {
-            required: "Please enter the content",
+            required: "Please enter the content above",
           }
         }
     });
 
 
+    $('#modalForm').pxValidate({
+        ignore: ":hidden:not(#summernote-base2),.note-editable.panel-body",
+        focusInvalid: false,
+        rules: {
+          'content': {
+            required: true
+          }
+        },
+        messages: {
+          'content': {
+            required: "Please enter the content above",
+          }
+        }
+    });
 
     // Initialize Summernote
     $(function() {
-      $('.summernote-base1').summernote({
+      $('#summernote-base1').summernote({
         height: 200,
         toolbar: [
           ['parastyle', ['style']],
@@ -287,7 +294,7 @@
 
     // Initialize Summernote
     $(function() {
-      $('.summernote-base2').summernote({
+      $('#summernote-base2').summernote({
         height: 200,
         toolbar: [
           ['parastyle', ['style']],
@@ -310,7 +317,7 @@
 
     $(document).ready(function() { 
         var value = $('#editTextBox').val();
-        $('.summernote-base2').summernote('editor.pasteHTML', value);
+        $('#summernote-base2').summernote('editor.pasteHTML', value);
     });
 
 

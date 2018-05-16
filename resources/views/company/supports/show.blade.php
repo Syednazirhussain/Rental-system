@@ -20,7 +20,7 @@
                             <h2 class="header">
                                 {{ $ticket->subject }}
                                 <span class="pull-right">
-                                    <a href="#" class="btn btn-success">Mark Complete</a>
+<!--                                     <a href="#" class="btn btn-success">Mark Complete</a> -->
                                 </span>
                             </h2>
                             <div class="panel well well-sm">
@@ -102,7 +102,7 @@
 
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <form method="POST" action="{{ route('company.supports.store') }}" accept-charset="UTF-8" class="form-horizontal">
+                        <form method="POST" action="{{ route('company.supports.store') }}" id="commentForm" accept-charset="UTF-8" class="form-horizontal">
                             <input name="_token" type="hidden" value="{{ csrf_token() }}">
                             <input name="parent_id" type="hidden" value="{{ $ticket->id }}">
                             <input name="subject" type="hidden" value="{{ $ticket->subject }}">
@@ -140,6 +140,24 @@
 
 @section('js')
     <script type="text/javascript">
+
+
+    // Initialize validator
+    $('#commentForm').pxValidate({
+        ignore: ":hidden:not(#summernote-base),.note-editable.panel-body",
+        focusInvalid: false,
+        rules: {
+          'content': {
+            required: true
+          }
+        },
+        messages: {
+          'content': {
+            required: "Please enter the content above",
+          }
+        }
+    });
+
 
     // Initialize Summernote
     $(function() {

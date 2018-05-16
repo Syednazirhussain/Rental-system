@@ -36,6 +36,28 @@
 @section('js')
     <script type="text/javascript">
         // -------------------------------------------------------------------------
+
+        var url = window.location.href; 
+
+        urlArray = url.split("/");
+
+        var lastUrlString = urlArray[urlArray.length-1];
+
+        if(lastUrlString == 'supports')
+        {
+            $('ul li:nth-child(2)').removeClass('active');
+            $('ul li:nth-child(1)').addClass('active');
+        }
+        else if(lastUrlString == 'completed')
+        {
+            $('ul li:nth-child(1)').removeClass('active');
+            $('ul li:nth-child(2)').addClass('active');
+        }
+
+        $('ul > li').hover(function () {
+            $(this).toggleClass('active').siblings().removeClass('active');
+        });
+
         // Initialize DataTables
         $(function () {
             $('#datatables').dataTable();

@@ -70,11 +70,18 @@ class SupportController extends AppBaseController
         $user_id = Auth::guard('company')->user()->id;
 
         $status_id = SupportStatus::where('name','Solved')->first()->id;
-        $tickets = Support::where('status_id', '!=' ,$status_id)
-                                ->where('user_id',$user_id)
-                                ->get();
 
-        return view('company.supports.index',compact('tickets'));
+        $supports = Support::where('status_id', '!=' ,$status_id)
+                            ->where('parent_id',0)
+                            ->where('user_id',$user_id)
+                            ->get();
+
+        // $status_id = SupportStatus::where('name','Solved')->first()->id;
+        // $tickets = Support::where('status_id', '!=' ,$status_id)
+        //                         ->where('user_id',$user_id)
+        //                         ->get();
+
+        return view('company.supports.index',compact('supports'));
     }
 
 

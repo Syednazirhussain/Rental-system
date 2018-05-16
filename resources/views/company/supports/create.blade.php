@@ -18,7 +18,7 @@
 
                 @include('company.support_company.master')
 <div class="well bs-component">
-        <form method="POST" action="{{ route('company.supports.store') }}" accept-charset="UTF-8" class="form-horizontal">
+        <form method="POST" action="{{ route('company.supports.store') }}" id="createTicket" accept-charset="UTF-8" class="form-horizontal">
 
             <input name="_token" type="hidden" value="{{ csrf_token() }}">
 
@@ -81,6 +81,29 @@
 
 @section('js')
     <script type="text/javascript">
+
+
+    // Initialize validator
+    $('#createTicket').pxValidate({
+        ignore: ":hidden:not(#summernote-base),.note-editable.panel-body",
+        focusInvalid: false,
+        rules: {
+          'content': {
+            required: true
+          },
+          'subject': {
+            required: true
+          }
+        },
+        messages: {
+          'content': {
+            required: "Please enter the content above",
+          },
+          'subject': {
+            required: "Please enter the subject above"
+          }
+        }
+    });
 
     // Initialize Summernote
     $(function() {

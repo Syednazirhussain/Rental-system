@@ -1,4 +1,4 @@
-<table class="table table-striped table-bordered" id="datatables">
+<table class="table table-striped table-bordered" data-order='[[ 0, "desc" ]]' id="datatables">
     <thead>
         <tr>
             <th>#</th>
