@@ -266,7 +266,7 @@ class SupportController extends AppBaseController
         }
         else
         {
-            session()->flash('msg.success','Support saved successfully.');
+            session()->flash('msg.success','Message sent successfully.');
             return redirect()->route('admin.supports.index');
         }
 
