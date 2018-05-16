@@ -61,7 +61,7 @@
             @if(isset($bookingAgency))
 
                      @foreach($companyBuilding as $compbuild)
-                        <option value="{{ $compbuild->id }}" <?php foreach ($selectedCompany as $asd) { if($compbuild->id == $asd->id){ echo "selected"; }}  ?> >
+                        <option value="{{ $compbuild->id }}" <?php foreach ($selectedCompany as $selct) { if($compbuild->id == $selct->id){ echo "selected"; }}  ?> >
                           {{$compbuild->name}}
                         </option>
                           
@@ -94,19 +94,7 @@
    
             </div>
 
-        
 
-
-
-
-
-<!-- 
-
-            <div class="form-group col-sm-12 col-lg-12">
-                <label for="kick_back_room">Buildings:</label>
-                <textarea name="buildings" placeholder="Write buildings" class="form-control">@if(isset($bookingAgency)){{ $bookingAgency->buildings }}@endif</textarea>
-               
-            </div> -->
         <!-- Submit Field -->
             <div class="col-sm-12">
                     <button type="submit" class="btn btn-primary">@if(isset($bookingAgency)) <i class="fa fa-refresh"></i>  Update Agency @else <i class="fa fa-plus"></i>  Add Agency @endif</button>
