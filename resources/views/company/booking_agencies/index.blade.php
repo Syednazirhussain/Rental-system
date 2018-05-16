@@ -5,7 +5,7 @@
 @section('content')
     <div class="px-content">
         <div class="page-header">
-            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i>Booking Agencies / </span></h1>
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i>Booking Agencies </span></h1>
         </div>
 
         <div class="panel">
@@ -37,9 +37,9 @@
         // -------------------------------------------------------------------------
         // Initialize DataTables
         $(function () {
-            $('#servicesTable').dataTable();
-            $('#servicesTable_wrapper .table-caption').text('Booking Agencies');
-            $('#servicesTable_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
+            $('#datatables').dataTable();
+            $('#datatables_wrapper .table-caption').text('Booking Agencies');
+            $('#datatables_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
         });
     </script>
 @endsection

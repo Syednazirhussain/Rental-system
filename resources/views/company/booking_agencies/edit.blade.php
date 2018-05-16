@@ -10,7 +10,7 @@
                     <i class="page-header-icon ion-android-checkbox-outline"></i>
                     Booking Agencies /
                 </span>
-                Edit Booking Agencies
+                Edit
             </h1>
         </div>
 
