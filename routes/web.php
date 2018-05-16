@@ -911,3 +911,13 @@ Route::patch('admin/supports/{supports}', ['as'=> 'admin.supports.update', 'uses
 Route::delete('admin/supports/{supports}', ['as'=> 'admin.supports.destroy', 'uses' => 'Admin\SupportController@destroy']);
 Route::get('admin/supports/{supports}', ['as'=> 'admin.supports.show', 'uses' => 'Admin\SupportController@show']);
 Route::get('admin/supports/{supports}/edit', ['as'=> 'admin.supports.edit', 'uses' => 'Admin\SupportController@edit']);
+
+
+Route::get('company/bookingAgencies', ['as'=> 'company.bookingAgencies.index', 'uses' => 'Company\BookingAgencyController@index']);
+Route::post('company/bookingAgencies', ['as'=> 'company.bookingAgencies.store', 'uses' => 'Company\BookingAgencyController@store']);
+Route::get('company/bookingAgencies/create', ['as'=> 'company.bookingAgencies.create', 'uses' => 'Company\BookingAgencyController@create']);
+Route::put('company/bookingAgencies/{bookingAgencies}', ['as'=> 'company.bookingAgencies.update', 'uses' => 'Company\BookingAgencyController@update']);
+Route::patch('company/bookingAgencies/{bookingAgencies}', ['as'=> 'company.bookingAgencies.update', 'uses' => 'Company\BookingAgencyController@update']);
+Route::delete('company/bookingAgencies/{bookingAgencies}', ['as'=> 'company.bookingAgencies.destroy', 'uses' => 'Company\BookingAgencyController@destroy']);
+Route::get('company/bookingAgencies/{bookingAgencies}', ['as'=> 'company.bookingAgencies.show', 'uses' => 'Company\BookingAgencyController@show']);
+Route::get('company/bookingAgencies/{bookingAgencies}/edit', ['as'=> 'company.bookingAgencies.edit', 'uses' => 'Company\BookingAgencyController@edit']);

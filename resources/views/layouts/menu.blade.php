@@ -127,3 +127,7 @@
     <a href="{!! route('admin.supports.index') !!}"><i class="fa fa-edit"></i><span>Supports</span></a>
 </li>
 
+<li class="{{ Request::is('bookingAgencies*') ? 'active' : '' }}">
+    <a href="{!! route('company.bookingAgencies.index') !!}"><i class="fa fa-edit"></i><span>Booking Agencies</span></a>
+</li>
+

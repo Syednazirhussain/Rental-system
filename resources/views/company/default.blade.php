@@ -48,7 +48,7 @@
                     <?php  
 
                         $companyID      = Auth::guard('company')->user()->companyUser()->first()->company_id;
-                        $companyModules = \App\Models\CompanyModule::where('company_id',$companyID)->get();
+                        $companyModules = \App\Models\CompanyModule::where('company_id',$companyID)->get();    
 
                     ?>
 
@@ -215,6 +215,17 @@
                             {{--<li><a href="{{ route('company.users.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
                                     User</a></li>--}}
                             <li><a href="{{ route('company.users.index') }}"><i class="fa fa-user-secret"></i>&nbsp;&nbsp;Company Admin Users</a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                    <li class="dropdown-toggle">
+                        <a href="{{ route('company.bookingAgencies.index') }}">Booking Agencies</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ route('company.bookingAgencies.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
+                                    Agency</a></li>
+                            <li><a href="{{ route('company.bookingAgencies.index') }}"><i class="fa fa-user-secret"></i>&nbsp;&nbsp;Company Agencies</a>
                             </li>
                         </ul>
                     </li>
