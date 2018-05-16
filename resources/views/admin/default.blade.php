@@ -149,11 +149,6 @@
                              </li>
                              @endif
 
-
-
-                             
-                            <!-- <li class="divider"></li> -->
-                            <!-- <li><a href="#">Help</a></li> -->
                         </ul>
                     </li>
                 </ul>

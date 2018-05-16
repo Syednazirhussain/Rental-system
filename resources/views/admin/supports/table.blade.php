@@ -72,9 +72,6 @@
                 </td>
               </tr>
         @endforeach
-
-      @else 
-        <p>No records</p>
       @endif
     </tbody>
 </table>

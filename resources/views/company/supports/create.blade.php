@@ -66,7 +66,8 @@
             <br>
             <div class="form-group">
                 <div class="col-lg-10 col-lg-offset-2">
-                    <input class="btn btn-primary" type="submit" value="Submit">
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Send</button>
+              <!--       <input class="btn btn-primary" type="submit" value="Send"> -->
                     <a href="{{ route('company.supports.index') }}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
                 </div>
             </div>

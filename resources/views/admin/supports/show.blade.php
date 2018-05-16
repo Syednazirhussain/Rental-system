@@ -136,7 +136,8 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12">
-                                    <input class="btn btn-primary" type="submit" value="Submit">
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i>&nbsp;Send</button>
+                                    <!-- <input class="btn btn-primary" type="submit" value="Submit"> -->
                                     <a href="{{ route('admin.supports.index') }}" class="btn btn-default"><i class="fa fa-times"></i>&nbsp;CANCEL</a>
                                 </div>
                             </fieldset>

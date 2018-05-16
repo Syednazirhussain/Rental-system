@@ -1,4 +1,4 @@
-<ul class="nav nav-tabs m-b-2">
+<ul class="nav nav-tabs m-b-2" id="main_nav">
     
     <li role="presentation" class="active">
         <a href="{{ route('admin.supports.index') }}">Active Tickets
@@ -17,7 +17,7 @@
         <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
             Settings 
         </a>
-        <ul class="dropdown-menu">
+        <ul class="dropdown-menu" id="dropdown">
             <li role="presentation">
                 <a href="{{ route('admin.supportStatuses.index') }}">Statuses</a>
             </li>

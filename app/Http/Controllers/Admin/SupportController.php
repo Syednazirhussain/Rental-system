@@ -207,9 +207,15 @@ class SupportController extends AppBaseController
     public function companyCompleteTicket(Request $request)
     {
         $status_id = SupportStatus::where('name','Solved')->first()->id;
-        $tickets = Support::where('status_id',$status_id)->get();
 
-        return view('company.supports.index',compact('tickets'));  
+        $user_id = Auth::guard('company')->user()->id;
+
+        $supports = Support::where('status_id',$status_id)
+                    ->where('user_id',$user_id)
+                    ->where('parent_id',0)
+                    ->get();
+
+        return view('company.supports.index',compact('supports'));  
     }
 
 

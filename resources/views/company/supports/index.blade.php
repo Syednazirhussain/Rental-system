@@ -22,7 +22,7 @@
                 @include('company.support_company.master')
 
                 <div class="text-right m-b-3">
-                    <a href="{{ route('company.supports.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Create Ticket</a> 
+                    <a href="{{ route('company.supports.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;Create Ticket</a> 
                 </div>
 
                 <div class="table-primary">
@@ -54,9 +54,9 @@
             $('ul li:nth-child(2)').addClass('active');
         }
 
-        $('ul > li').hover(function () {
-            $(this).toggleClass('active').siblings().removeClass('active');
-        });
+        // $('ul > li').hover(function () {
+        //     $(this).toggleClass('active').siblings().removeClass('active');
+        // });
 
         // Initialize DataTables
         $(function () {
