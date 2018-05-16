@@ -105,6 +105,8 @@ class UserRoleController extends AppBaseController
 
         $input = $request->all();
 
+        dd($input);
+
         $permissionArr =  explode(',', $input['permissions']);
 
         $role = Role::create([
@@ -214,6 +216,7 @@ class UserRoleController extends AppBaseController
         else
         {
             $permissionArr =  explode(',', $input['permissions']);
+            
             $input = [
                         'name' => $input['name'],
                         'code' => $input['code']
