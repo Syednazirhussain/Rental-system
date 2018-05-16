@@ -155,14 +155,14 @@ class SupportController extends AppBaseController
 
             if($support)
             {
-                $input['header'] = 'Dear';
+                $input['header'] = 'Dear '.$user_name;
 
                 $input['sub_header'] = 'You have created a new ticket subject';
                 
                 Mail::to($email)->send(new TicketEmail($input));                
             }
 
-            session()->flash('msg.success','Support saved successfully.');
+            session()->flash('msg.success','Ticket generated successfully.');
 
             return redirect(route('company.supports.index'));
         }        
@@ -257,7 +257,7 @@ class SupportController extends AppBaseController
             $email = $user->email;
             $name = $user->name;
             $input['header'] = 'Hi '.$name;
-            $input['sub_header'] = 'A response has been generated from ';
+            $input['sub_header'] = 'responed your ticket ';
             Mail::to($email)->send(new TicketEmail($input));
             $updateSupport = Support::where('id',$parent_id)->first();
             $updateSupport->last_comment = $input['last_comment'];
