@@ -117,6 +117,11 @@
         'driver' => 'session',
         'provider' => 'companies',
       ),
+      'company_customer' => 
+      array (
+        'driver' => 'session',
+        'provider' => 'companies_customers',
+      ),
       'api' => 
       array (
         'driver' => 'token',
@@ -136,6 +141,11 @@
         'model' => 'App\\Models\\User',
       ),
       'companies' => 
+      array (
+        'driver' => 'eloquent',
+        'model' => 'App\\Models\\User',
+      ),
+      'companies_customers' => 
       array (
         'driver' => 'eloquent',
         'model' => 'App\\Models\\User',
