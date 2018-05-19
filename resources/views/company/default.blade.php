@@ -227,7 +227,7 @@
                                 <a href="{{ route('company.supports.index') }}"><i class="fa fa-handshake-o"></i>&nbsp;&nbsp;Support</a>
                             </li>
                             <li>
-                                <a href="{{ route('company.users.index') }}"><i class="fa fa-user"></i>&nbsp;&nbsp;Customer Support</a>
+                                <a href="{{ route('company.companySupports.index') }}"><i class="fa fa-user"></i>&nbsp;&nbsp;Customer Support</a>
                             </li>
                         </ul>
                     </li>

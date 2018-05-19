@@ -916,3 +916,44 @@ Route::get('company/supports/ticket/completed', ['as'=> 'company.supports.comple
 
 
 
+
+Route::get('company/companySupports/completedTicket', ['as'=> 'company.companySupports.completedTicket', 'uses' => 'Company\CompanySupportController@completedTicket']);
+Route::get('company/companySupports', ['as'=> 'company.companySupports.index', 'uses' => 'Company\CompanySupportController@index']);
+Route::post('company/companySupports', ['as'=> 'company.companySupports.store', 'uses' => 'Company\CompanySupportController@store']);
+Route::get('company/companySupports/create', ['as'=> 'company.companySupports.create', 'uses' => 'Company\CompanySupportController@create']);
+Route::put('company/companySupports/{companySupports}', ['as'=> 'company.companySupports.update', 'uses' => 'Company\CompanySupportController@update']);
+Route::patch('company/companySupports/{companySupports}', ['as'=> 'company.companySupports.update', 'uses' => 'Company\CompanySupportController@update']);
+Route::delete('company/companySupports/{companySupports}', ['as'=> 'company.companySupports.destroy', 'uses' => 'Company\CompanySupportController@destroy']);
+Route::get('company/companySupports/{companySupports}', ['as'=> 'company.companySupports.show', 'uses' => 'Company\CompanySupportController@show']);
+Route::get('company/companySupports/{companySupports}/edit', ['as'=> 'company.companySupports.edit', 'uses' => 'Company\CompanySupportController@edit']);
+
+
+Route::get('company/supportStatuses', ['as'=> 'company.supportStatuses.index', 'uses' => 'Company\CompanySupportStatusController@index']);
+Route::post('company/supportStatuses', ['as'=> 'company.supportStatuses.store', 'uses' => 'Company\CompanySupportStatusController@store']);
+Route::get('company/supportStatuses/create', ['as'=> 'company.supportStatuses.create', 'uses' => 'Company\CompanySupportStatusController@create']);
+Route::put('company/supportStatuses/{supportStatuses}', ['as'=> 'company.supportStatuses.update', 'uses' => 'Company\CompanySupportStatusController@update']);
+Route::patch('company/supportStatuses/{supportStatuses}', ['as'=> 'company.supportStatuses.update', 'uses' => 'Company\CompanySupportStatusController@update']);
+Route::delete('company/supportStatuses/{supportStatuses}', ['as'=> 'company.supportStatuses.destroy', 'uses' => 'Company\CompanySupportStatusController@destroy']);
+Route::get('company/supportStatuses/{supportStatuses}', ['as'=> 'company.supportStatuses.show', 'uses' => 'Company\CompanySupportStatusController@show']);
+Route::get('company/supportStatuses/{supportStatuses}/edit', ['as'=> 'company.supportStatuses.edit', 'uses' => 'Company\CompanySupportStatusController@edit']);
+
+
+Route::get('company/supportCategories', ['as'=> 'company.supportCategories.index', 'uses' => 'Company\CompanySupportCategoryController@index']);
+Route::post('company/supportCategories', ['as'=> 'company.supportCategories.store', 'uses' => 'Company\CompanySupportCategoryController@store']);
+Route::get('company/supportCategories/create', ['as'=> 'company.supportCategories.create', 'uses' => 'Company\CompanySupportCategoryController@create']);
+Route::put('company/supportCategories/{supportCategories}', ['as'=> 'company.supportCategories.update', 'uses' => 'Company\CompanySupportCategoryController@update']);
+Route::patch('company/supportCategories/{supportCategories}', ['as'=> 'company.supportCategories.update', 'uses' => 'Company\CompanySupportCategoryController@update']);
+Route::delete('company/supportCategories/{supportCategories}', ['as'=> 'company.supportCategories.destroy', 'uses' => 'Company\CompanySupportCategoryController@destroy']);
+Route::get('company/supportCategories/{supportCategories}', ['as'=> 'company.supportCategories.show', 'uses' => 'Company\CompanySupportCategoryController@show']);
+Route::get('company/supportCategories/{supportCategories}/edit', ['as'=> 'company.supportCategories.edit', 'uses' => 'Company\CompanySupportCategoryController@edit']);
+
+
+Route::get('company/supportPriorities', ['as'=> 'company.supportPriorities.index', 'uses' => 'Company\CompanySupportPrioritiesController@index']);
+Route::post('company/supportPriorities', ['as'=> 'company.supportPriorities.store', 'uses' => 'Company\CompanySupportPrioritiesController@store']);
+Route::get('company/supportPriorities/create', ['as'=> 'company.supportPriorities.create', 'uses' => 'Company\CompanySupportPrioritiesController@create']);
+Route::put('company/supportPriorities/{supportPriorities}', ['as'=> 'company.supportPriorities.update', 'uses' => 'Company\CompanySupportPrioritiesController@update']);
+Route::patch('company/supportPriorities/{supportPriorities}', ['as'=> 'company.supportPriorities.update', 'uses' => 'Company\CompanySupportPrioritiesController@update']);
+Route::delete('company/supportPriorities/{supportPriorities}', ['as'=> 'company.supportPriorities.destroy', 'uses' => 'Company\CompanySupportPrioritiesController@destroy']);
+Route::get('company/supportPriorities/{supportPriorities}', ['as'=> 'company.supportPriorities.show', 'uses' => 'Company\CompanySupportPrioritiesController@show']);
+Route::get('company/supportPriorities/{supportPriorities}/edit', ['as'=> 'company.supportPriorities.edit', 'uses' => 'Company\CompanySupportPrioritiesController@edit']);
+
