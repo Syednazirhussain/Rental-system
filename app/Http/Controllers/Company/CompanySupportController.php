@@ -86,6 +86,32 @@ class CompanySupportController extends AppBaseController
         return view('company.company_supports.index');
     }
 
+
+    public function customerSupportIndex()
+    {
+        $user_id = Auth::guard('company_customer')->user()->id;
+
+        $statuses =  CompanySupportStatus::all();
+
+        if(count($statuses) > 0)
+        {
+            $status_id = CompanySupportStatus::where('name','Solved')->first()->id;
+            if($status_id)
+            {
+                $supports = CompanySupport::where('status_id', '!=' ,$status_id)
+                                    ->where('parent_id',0)
+                                    ->where('user_id',$user_id)
+                                    ->get();
+                if(count($supports) > 0)
+                {
+                    return view('company_customer.supports.index')->with('supports', $supports);                    
+                }       
+            }
+        }
+
+        return view('company_customer.supports.index');
+    }
+
     /**
      * Show the form for creating a new CompanySupport.
      *

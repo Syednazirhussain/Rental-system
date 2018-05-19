@@ -46,7 +46,7 @@
                 <a href class="dropdown-toggle color-white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars fa-2x m-r-1 vertical-a-mid"></i><span class="">Menu</span></a>
                 <ul class="dropdown-menu">
                     <li class="dropdown-toggle">
-                        <a href="javascript:void(0)">Support</a>
+                        <a href="{{ route('companyCustomer.supports.index') }}">Support</a>
                     </li>
                 </ul>
             </li>

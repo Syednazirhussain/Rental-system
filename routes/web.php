@@ -894,14 +894,17 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::get('company_customer/login', ['as'=> 'companyCustomer.login', 'uses' => 'CompanyCustomer\UserController@viewLogin']);
     Route::post('company_customer/authenticate', ['as'=> 'companyCustomer.users.authenticate', 'uses' => 'CompanyCustomer\UserController@authenticate']);
 
+Route::group(['middleware' => ['company.customer.auth']], function () {
 
     Route::get('company_customer/dashboard/{company?}', ['as' => 'companyCustomer.dashboard', 'uses' => 'CompanyCustomer\DashboardController@index']);
     Route::get('company_customer/profile', ['as' => 'companyCustomer.dashboard.profile', 'uses' => 'CompanyCustomer\DashboardController@profile']);
     Route::put('company_customer/profile/{users}', ['as' => 'companyCustomer.users.update', 'uses' => 'CompanyCustomer\UserController@update'])->where(['users'=>'[0-9]+']);
-
     Route::get('company_customer/logout', ['as' => 'companyCustomer.logout', 'uses' => 'CompanyCustomer\UserController@logout']);
 
+    # support routes
+    Route::get('company_customer/companySupports', ['as'=> 'companyCustomer.supports.index', 'uses' => 'Company\CompanySupportController@customerSupportIndex']);
 
+});
 
 
 /********** Conference module routes end  **********/
