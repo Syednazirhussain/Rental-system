@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Company;
 
-use App\Http\Requests\Admin\CreateSupportCategoryRequest;
-use App\Http\Requests\Admin\UpdateSupportCategoryRequest;
+use App\Http\Requests\Company\CreateSupportCategoryRequest;
+use App\Http\Requests\Company\UpdateSupportCategoryRequest;
 use App\Repositories\SupportCategoryRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;

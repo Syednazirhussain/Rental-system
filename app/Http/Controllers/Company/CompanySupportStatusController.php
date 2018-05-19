@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Company;
 
-use App\Http\Requests\Admin\CreateSupportStatusRequest;
-use App\Http\Requests\Admin\UpdateSupportStatusRequest;
+use App\Http\Requests\Company\CreateSupportStatusRequest;
+use App\Http\Requests\Company\UpdateSupportStatusRequest;
 use App\Repositories\SupportStatusRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;

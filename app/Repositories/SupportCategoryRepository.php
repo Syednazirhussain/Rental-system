@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\SupportCategory;
+use App\Models\CompanySupportCategory;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
@@ -28,6 +28,6 @@ class SupportCategoryRepository extends BaseRepository
      **/
     public function model()
     {
-        return SupportCategory::class;
+        return CompanySupportCategory::class;
     }
 }

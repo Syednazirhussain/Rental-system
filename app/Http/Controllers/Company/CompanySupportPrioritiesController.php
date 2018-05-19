@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Company;
 
-use App\Http\Requests\Admin\CreateSupportPrioritiesRequest;
-use App\Http\Requests\Admin\UpdateSupportPrioritiesRequest;
+use App\Http\Requests\Company\CreateSupportPrioritiesRequest;
+use App\Http\Requests\Company\UpdateSupportPrioritiesRequest;
 use App\Repositories\SupportPrioritiesRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;

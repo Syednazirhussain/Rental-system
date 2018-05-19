@@ -14,9 +14,9 @@ class AddForeignKeysToCompanySupportTable extends Migration {
 	{
 		Schema::table('company_support', function(Blueprint $table)
 		{
-			$table->foreign('category_id', 'category_id')->references('id')->on('support_categories')->onUpdate('CASCADE')->onDelete('CASCADE');
-			$table->foreign('priority_id', 'priority_id')->references('id')->on('support_priorities')->onUpdate('CASCADE')->onDelete('CASCADE');
-			$table->foreign('status_id', 'status_id')->references('id')->on('support_status')->onUpdate('CASCADE')->onDelete('CASCADE');
+			$table->foreign('category_id', 'category_id')->references('id')->on('company_support_categories')->onUpdate('CASCADE')->onDelete('CASCADE');
+			$table->foreign('priority_id', 'priority_id')->references('id')->on('company_support_priorities')->onUpdate('CASCADE')->onDelete('CASCADE');
+			$table->foreign('status_id', 'status_id')->references('id')->on('company_support_status')->onUpdate('CASCADE')->onDelete('CASCADE');
 			$table->foreign('user_id', 'user_id')->references('id')->on('users')->onUpdate('CASCADE')->onDelete('CASCADE');
 		});
 	}

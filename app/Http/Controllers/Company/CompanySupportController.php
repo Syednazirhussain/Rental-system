@@ -12,9 +12,12 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
 use App\Models\CompanySupport;
-use App\Models\SupportPriorities;
-use App\Models\SupportCategory;
-use App\Models\SupportStatus;
+
+use App\Models\CompanySupportPriorities;
+use App\Models\CompanySupportCategory;
+use App\Models\CompanySupportStatus;
+
+
 use App\Models\User;
 use App\Models\CompanyUser;
 use App\Models\UserRole;
@@ -45,20 +48,42 @@ class CompanySupportController extends AppBaseController
         $this->companySupportRepository->pushCriteria(new RequestCriteria($request));
         $companySupports = $this->companySupportRepository->all();
 
-        $status_id = SupportStatus::where('name','Solved')->first()->id;
+        $statuses =  CompanySupportStatus::all();
 
-        $companySupports = CompanySupport::where('status_id', '!=' ,$status_id)->where('parent_id',0)->get();
+        if(count($statuses) > 0)
+        {
+            $status_id = CompanySupportStatus::where('name','Solved')->first()->id;
 
-        return view('company.company_supports.index')->with('companySupports', $companySupports);
+            if($status_id)
+            {
+                $companySupports = CompanySupport::where('status_id', '!=' ,$status_id)->where('parent_id',0)->get();
+                return view('company.company_supports.index')->with('companySupports', $companySupports);            
+            }
+        }        
+
+
+
+        return view('company.company_supports.index');
+
     }
 
     public function completedTicket()
     {
-        $status_id = SupportStatus::where('name','Solved')->first()->id;
-        $companySupports = CompanySupport::where('status_id',$status_id)
-                            ->where('parent_id',0)
-                            ->get();
-        return view('company.company_supports.index')->with('companySupports', $companySupports);
+        $statuses =  CompanySupportStatus::all();
+
+        if(count($statuses) > 0)
+        {
+            $status_id = CompanySupportStatus::where('name','Solved')->first()->id;
+            if($status_id)
+            {
+                $companySupports = CompanySupport::where('status_id',$status_id)
+                                    ->where('parent_id',0)
+                                    ->get();
+                return view('company.company_supports.index')->with('companySupports', $companySupports);
+            }
+        }
+
+        return view('company.company_supports.index');
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\SupportStatus;
+use App\Models\CompanySupportStatus;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
@@ -28,6 +28,6 @@ class SupportStatusRepository extends BaseRepository
      **/
     public function model()
     {
-        return SupportStatus::class;
+        return CompanySupportStatus::class;
     }
 }
