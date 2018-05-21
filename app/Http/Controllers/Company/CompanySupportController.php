@@ -20,7 +20,10 @@ use App\Models\CompanySupportStatus;
 
 use App\Models\User;
 use App\Models\CompanyUser;
+use App\Models\CompanyCustomer;
+
 use App\Models\UserRole;
+
 
 use App\Mail\TicketEmail;
 use Mail;
@@ -88,6 +91,8 @@ class CompanySupportController extends AppBaseController
 
     public function customerSupportIndex()
     {
+
+
         $user_id = Auth::guard('company_customer')->user()->id;
 
         $statuses =  CompanySupportStatus::all();
@@ -101,6 +106,9 @@ class CompanySupportController extends AppBaseController
                                     ->where('parent_id',0)
                                     ->where('user_id',$user_id)
                                     ->get();
+
+                // dd($supports);
+
                 if(count($supports) > 0)
                 {
                     return view('company_customer.supports.index')->with('supports', $supports);                    
@@ -170,7 +178,7 @@ class CompanySupportController extends AppBaseController
         {
             $parent_id =  $input['parent_id'];
 
-            $support = $this->supportRepository->create($input);
+            $support = $this->companySupportRepository->create($input);
 
             if($support)
             {
@@ -194,11 +202,13 @@ class CompanySupportController extends AppBaseController
             $email = Auth::guard('company_customer')->user()->email;
             $user_name = Auth::guard('company_customer')->user()->name;
 
-            $user = User::find($user_id);
+            // $user = User::find($user_id);
 
-            $company_name = $user->companyUser->company->name;
+            $companyCustomer =  CompanyCustomer::where('user_id',$user_id)->first();
 
-            $company_id   = $user->companyUser->company->id;
+            $company_name = $companyCustomer->company->name;
+
+            $company_id   = $companyCustomer->company_id;
 
             $input['parent_id'] = 0;
             $input['user_id'] = $user_id;
@@ -207,9 +217,7 @@ class CompanySupportController extends AppBaseController
             $input['company_name'] = $company_name;
             $input['last_comment'] = $user_name;
 
-
-
-            $support = $this->supportRepository->create($input);
+            $support = $this->companySupportRepository->create($input);
 
             if($support)
             {
@@ -222,7 +230,7 @@ class CompanySupportController extends AppBaseController
 
             session()->flash('msg.success','Ticket generated successfully.');
 
-            return redirect(route('company.supports.index'));
+            return redirect(route('companyCustomer.supports.index'));
         }        
 
     }
@@ -245,6 +253,41 @@ class CompanySupportController extends AppBaseController
         }
 
         return view('company.company_supports.show')->with('companySupport', $companySupport);
+    }
+
+    public function customerSupportShow($ticket_id)
+    {
+        $ticketId = (int)$ticket_id;
+
+        // $ticket = $this->companySupportRepository->getMasterTicket(0,$ticketId);
+        $ticket = CompanySupport::where('parent_id',0)->where('id',$ticket_id)->first();
+
+
+        if (empty($ticket)) 
+        {
+            session()->flash('msg.error','Support not found');
+            return redirect(route('admin.supports.index'));
+        }
+
+        $reply = CompanySupport::where('parent_id',$ticketId)->get();
+
+        // dd( $reply );
+
+        if(isset($reply) && count($reply) == 0)
+        {
+            $data = [
+                'ticket' => $ticket       
+            ];
+        }
+        else
+        {
+            $data = [
+                'ticket' => $ticket,
+                'reply'   => $reply
+            ];
+        }
+
+        return view('company_customer.supports.show',$data);
     }
 
     /**

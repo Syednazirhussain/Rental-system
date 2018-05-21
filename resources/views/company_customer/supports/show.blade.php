@@ -1,24 +1,24 @@
-@extends('support_customer.default')
+@extends('company_customer.default')
 
 @section('content')
 
     <div class="px-content">
 
         <div class="page-header">
-            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i><a href="{{ route('support_customer.supports.index') }}">Support</a></span></h1>
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i><a href="{{ route('companyCustomer.supports.index') }}">Support</a></span></h1>
         </div>
 
         <div class="panel">
             <div class="panel-body">
 
 
-                @include('support_customer.support_support_customer.master')
+                @include('company_customer.support_customer.master')
 
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="content">
                             <h2 class="header">
-                                {{ $ticket->subject }}
+                                {{ $ticket->companySubject }}
                                 <span class="pull-right">
 <!--                                     <a href="#" class="btn btn-success">Mark Complete</a> -->
                                 </span>
@@ -29,22 +29,22 @@
                                         <div class="col-md-6">
                                             <p> <strong>Owner</strong>: {{ $ticket->user->name  }}</p>
                                             <p> <strong>Status</strong>: 
-                                                @if($ticket->supportStatus->name == 'Pending')
-                                                <span class="label label-warning">{{ $ticket->supportStatus->name }}</span>
-                                                @elseif($ticket->supportStatus->name == 'Solved')
-                                                <span class="label label-primary">{{ $ticket->supportStatus->name }}</span>
-                                                @elseif($ticket->supportStatus->name == 'Bug')
-                                                <span class="label label-danger">{{ $ticket->supportStatus->name }}</span>
+                                                @if($ticket->companySupportStatus->name == 'Pending')
+                                                <span class="label label-warning">{{ $ticket->companySupportStatus->name }}</span>
+                                                @elseif($ticket->companySupportStatus->name == 'Solved')
+                                                <span class="label label-primary">{{ $ticket->companySupportStatus->name }}</span>
+                                                @elseif($ticket->companySupportStatus->name == 'Bug')
+                                                <span class="label label-danger">{{ $ticket->companySupportStatus->name }}</span>
                                                 @endif
                                             </p>
                                             <p>
                                                 <strong>Priority</strong>: 
-                                                @if($ticket->supportPriority->name == 'Low')
-                                                <span class="label label-info">{{ $ticket->supportPriority->name }}</span>
-                                                @elseif($ticket->supportPriority->name == 'Normal')
-                                                <span class="label label-warning">{{ $ticket->supportPriority->name }}</span>
-                                                @elseif($ticket->supportPriority->name == 'Critical')
-                                                <span class="label label-danger">{{ $ticket->supportPriority->name }}</span>
+                                                @if($ticket->companySupportPriority->name == 'Low')
+                                                <span class="label label-info">{{ $ticket->companySupportPriority->name }}</span>
+                                                @elseif($ticket->companySupportPriority->name == 'Normal')
+                                                <span class="label label-warning">{{ $ticket->companySupportPriority->name }}</span>
+                                                @elseif($ticket->companySupportPriority->name == 'Critical')
+                                                <span class="label label-danger">{{ $ticket->companySupportPriority->name }}</span>
                                                 @endif
                                             </p>
                                         </div>
@@ -52,7 +52,7 @@
 <!--                                             <p> <strong>Responsible</strong>: Prof. Susie Gaylord II</p> -->
                                             <p>
                                                 <strong>Category</strong>: 
-                                                <span class="label label-success">{{ $ticket->supportCategory->name }}</span>
+                                                <span class="label label-success">{{ $ticket->companySupportCategory->name }}</span>
                                             </p>
                                             <p> <strong>Created</strong>: {{ \Carbon\Carbon::parse($ticket->created_at)->diffForHumans() }}</p>
                                             <p> 
@@ -102,11 +102,11 @@
 
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <form method="POST" action="{{ route('support_customer.supports.store') }}" id="commentForm" accept-charset="UTF-8" class="form-horizontal">
+                        <form method="POST" action="{{ route('companyCustomer.supports.store') }}" id="commentForm" accept-charset="UTF-8" class="form-horizontal">
                             <input name="_token" type="hidden" value="{{ csrf_token() }}">
                             <input name="parent_id" type="hidden" value="{{ $ticket->id }}">
-                            <input name="subject" type="hidden" value="{{ $ticket->subject }}">
-                            <input name="status_id" type="hidden" value="{{ $ticket->status_id }}">
+                            <input name="subject" type="hidden" value="{{ $ticket->companySubject }}">
+                            <input name="status_id" type="hidden" value="{{ $ticket->companyStatus_id }}">
                             <input name="priority_id" type="hidden" value="{{ $ticket->priority_id }}">
                             <input name="category_id" type="hidden" value="{{ $ticket->category_id }}">
                             <input name="user_id" type="hidden" value="{{ auth()->guard('company')->user()->id }}">
@@ -126,7 +126,7 @@
 
                                     <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i>&nbsp;Send</button>
                                     <!-- <input class="btn btn-primary" type="submit" value="Submit"> -->
-                                    <a href="{{ route('support_customer.supports.index') }}" class="btn btn-default"><i class="fa fa-times"></i>&nbsp;CANCEL</a>
+                                    <a href="{{ route('companyCustomer.supports.index') }}" class="btn btn-default"><i class="fa fa-times"></i>&nbsp;CANCEL</a>
                                 
                                 </div>
                             </fieldset>

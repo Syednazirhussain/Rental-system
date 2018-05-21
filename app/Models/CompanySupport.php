@@ -87,25 +87,25 @@ class CompanySupport extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
-    public function supportCategory()
+    public function companySupportCategory()
     {
-        return $this->belongsTo(\App\Models\Company\SupportCategory::class);
+        return $this->belongsTo(\App\Models\CompanySupportCategory::class,'category_id','id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
-    public function supportPriority()
+    public function companySupportPriority()
     {
-        return $this->belongsTo(\App\Models\Company\SupportPriority::class);
+        return $this->belongsTo(\App\Models\CompanySupportPriorities::class,'priority_id','id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
-    public function supportStatus()
+    public function companySupportStatus()
     {
-        return $this->belongsTo(\App\Models\Company\SupportStatus::class);
+        return $this->belongsTo(\App\Models\CompanySupportStatus::class,'status_id','id');
     }
 
     /**
@@ -113,6 +113,6 @@ class CompanySupport extends Model
      **/
     public function user()
     {
-        return $this->belongsTo(\App\Models\Company\User::class);
+        return $this->belongsTo(\App\Models\User::class);
     }
 }

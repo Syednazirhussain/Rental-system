@@ -131,3 +131,7 @@
     <a href="{!! route('company.companySupports.index') !!}"><i class="fa fa-edit"></i><span>Company Supports</span></a>
 </li>
 
+<li class="{{ Request::is('companyCustomers*') ? 'active' : '' }}">
+    <a href="{!! route('companyCustomers.index') !!}"><i class="fa fa-edit"></i><span>Company Customers</span></a>
+</li>
+
