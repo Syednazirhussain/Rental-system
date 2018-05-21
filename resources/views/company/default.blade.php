@@ -59,38 +59,6 @@
                             </li>
                         </ul>
                     </li>
-                    <?php   use App\Models\CompanyModule;
-                    $module = CompanyModule::where('company_id', Auth::guard('company')->user()->companyUser()->first()->company_id)->join('modules', 'module_id', '=', 'modules.id')->where('modules.code', 'newsletter_module')->first(); ?>
-                    @if($module)
-                        <li class="dropdown-toggle">
-                            <a href="{{ route('company.newsletter.dashboard') }}">NewsLetter System</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="{{ route('company.newsletter.dashboard') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Dashboard</a>
-                                </li>
-                                <li><a href="{{ route('company.newsletterGroups.sendmail') }}"><i
-                                                class="fa fa-cubes"></i>&nbsp;&nbsp;Send Mail</a>
-                                </li>
-                                <li class="dropdown-toggle">
-                                    <a href>Group</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="{{ route('company.newsletterGroups.create') }}"><i
-                                                        class="fa fa-plus"></i>&nbsp;&nbsp;Add Group</a></li>
-                                        <li><a href="{{ route('company.newsletterGroups.index') }}"><i
-                                                        class="fa fa-cube"></i>&nbsp;&nbsp;Groups</a></li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown-toggle">
-                                    <a href>Customers</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="{{ route('company.newsletterCustomers.create') }}"><i
-                                                        class="fa fa-plus"></i>&nbsp;&nbsp;Add Customers</a></li>
-                                        <li><a href="{{ route('company.newsletterCustomers.list') }}"><i
-                                                        class="fa fa-cube"></i>&nbsp;&nbsp;Customers</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                    @endif
                     <li class="dropdown-toggle">
                         <a href="{{ route('company.companyBuildings.index') }}">Buildings</a>
                         <ul class="dropdown-menu">
@@ -99,11 +67,11 @@
                             <li class="dropdown-toggle">
 
                             <?php
-
+                            use App\Models\CompanyModule;
                             $companyID = Auth::guard('company')->user()->companyUser()->first()->company_id;
-                            $companyModules = \App\Models\CompanyModule::where('company_id', $companyID)->get();
+                            $companyModules = CompanyModule::join('modules', 'module_id', '=', 'modules.id')
+                                ->where('company_modules.company_id', $companyID)->get();
                             ?>
-
 
                             @foreach($companyModules as $module)
 
@@ -112,7 +80,7 @@
                                     <ul class="dropdown-menu">
 
 
-                                        @if($module->module->name == 'Conference_module')
+                                        @if($module->module->code == 'conference_module')
 
 
 
@@ -189,7 +157,7 @@
 
 
 
-                                        @elseif($module->module->name == 'Newsletter_module')
+                                        @elseif($module->module->code == 'newsletter_module')
 
 
 
@@ -223,7 +191,7 @@
 
 
 
-                                        @elseif($module->module->name == 'Rental_module')
+                                        @elseif($module->module->code == 'rental_module')
 
 
 

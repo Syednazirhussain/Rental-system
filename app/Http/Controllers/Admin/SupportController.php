@@ -44,6 +44,7 @@ class SupportController extends AppBaseController
     public function companyIndex(Request $request)
     {
         $user_id = Auth::guard('company')->user()->id;
+        //dd( Auth::guard('company'));
         $tickets = $this->supportRepository->getAllTicketsByUserId($user_id);
 
         return view('company.supports.index',compact('tickets'));
