@@ -22,7 +22,7 @@
                 @include('company_customer.support_customer.master')
 
                 <div class="text-right m-b-3">
-                    <a href="javascript:void(0)" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;Create Ticket</a> 
+                    <a href="{{ route('companyCustomer.supports.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;Create Ticket</a> 
                 </div>
 
                 <div class="table-primary">

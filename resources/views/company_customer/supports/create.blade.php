@@ -1,4 +1,4 @@
-@extends('support_customer.default')
+@extends('company_customer.default')
 
 @section('content')
 
@@ -8,7 +8,7 @@
             <h1>
                 <span class="text-muted font-weight-light">
                     <i class="page-header-icon ion-ios-keypad"></i>
-                    <a href="{{ route('support_customer.supports.index') }}">Support</a>
+                    <a href="{{ route('company.supports.index') }}">Support</a>
                 </span>
             </h1>
         </div>
@@ -16,9 +16,9 @@
         <div class="panel">
             <div class="panel-body">
 
-                @include('support_customer.support_support_customer.master')
+                @include('company_customer.support_customer.master')
 <div class="well bs-component">
-        <form method="POST" action="{{ route('support_customer.supports.store') }}" id="createTicket" accept-charset="UTF-8" class="form-horizontal">
+        <form method="POST" action="{{ route('companyCustomer.supports.store') }}" id="createTicket" accept-charset="UTF-8" class="form-horizontal">
 
             <input name="_token" type="hidden" value="{{ csrf_token() }}">
 
@@ -68,7 +68,7 @@
                 <div class="col-lg-10 col-lg-offset-2">
                     <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Send</button>
               <!--       <input class="btn btn-primary" type="submit" value="Send"> -->
-                    <a href="{{ route('support_customer.supports.index') }}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
+                    <a href="{{ route('companyCustomer.supports.index') }}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
                 </div>
             </div>
         </form>

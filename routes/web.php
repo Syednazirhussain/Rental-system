@@ -904,6 +904,12 @@ Route::group(['middleware' => ['company.customer.auth']], function () {
     # support routes
     Route::get('company_customer/companySupports', ['as'=> 'companyCustomer.supports.index', 'uses' => 'Company\CompanySupportController@customerSupportIndex']);
 
+	Route::get('company_customer/companySupports/create', ['as'=> 'companyCustomer.supports.create', 'uses' => 'Company\CompanySupportController@customerSupportCreate']);
+
+	Route::post('company_customer/companySupports', ['as'=> 'companyCustomer.supports.store', 'uses' => 'Company\CompanySupportController@customerSupportStore']);
+
+
+
 });
 
 

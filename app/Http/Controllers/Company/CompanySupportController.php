@@ -62,7 +62,6 @@ class CompanySupportController extends AppBaseController
         }        
 
 
-
         return view('company.company_supports.index');
 
     }
@@ -122,6 +121,21 @@ class CompanySupportController extends AppBaseController
         return view('company.company_supports.create');
     }
 
+
+    public function customerSupportCreate()
+    {
+        $priorities = CompanySupportPriorities::all();
+        $categories = CompanySupportCategory::all();
+
+        $data = [
+            'priorities' => $priorities,
+            'categories' => $categories
+        ];
+
+        return view('company_customer.supports.create',$data); 
+
+    }
+
     /**
      * Store a newly created CompanySupport in storage.
      *
@@ -138,6 +152,79 @@ class CompanySupportController extends AppBaseController
         Flash::success('Company Support saved successfully.');
 
         return redirect(route('company.companySupports.index'));
+    }
+
+
+    public function customerSupportStore(CreateCompanySupportRequest $request)
+    {
+        $this->validate($request,[
+            'subject' => 'required',
+            'content' => 'required',
+            'category_id' => 'required',
+            'priority_id' => 'required'
+        ]);
+
+        $input = $request->except(['files']);
+
+        if(isset($input['parent_id']))
+        {
+            $parent_id =  $input['parent_id'];
+
+            $support = $this->supportRepository->create($input);
+
+            if($support)
+            {
+                $updateSupport = CompanySupport::where('id',$parent_id)->first();
+
+                $updateSupport->last_comment = $input['last_comment'];
+
+                $updateSupport->save();
+            }
+
+            session()->flash('msg.success','Message sent successfully.');
+
+            return redirect()->route('company.supports.show',[$parent_id]);
+        }   
+        else
+        {
+            $support_status_id = CompanySupportStatus::where('name','Pending')->first()->id;
+
+
+            $user_id = Auth::guard('company_customer')->user()->id;
+            $email = Auth::guard('company_customer')->user()->email;
+            $user_name = Auth::guard('company_customer')->user()->name;
+
+            $user = User::find($user_id);
+
+            $company_name = $user->companyUser->company->name;
+
+            $company_id   = $user->companyUser->company->id;
+
+            $input['parent_id'] = 0;
+            $input['user_id'] = $user_id;
+            $input['status_id'] = $support_status_id;
+            $input['company_id'] = $company_id;
+            $input['company_name'] = $company_name;
+            $input['last_comment'] = $user_name;
+
+
+
+            $support = $this->supportRepository->create($input);
+
+            if($support)
+            {
+                $input['header'] = 'Dear '.$user_name;
+
+                $input['sub_header'] = 'You have created a new ticket subject';
+                
+                Mail::to($email)->send(new TicketEmail($input));                
+            }
+
+            session()->flash('msg.success','Ticket generated successfully.');
+
+            return redirect(route('company.supports.index'));
+        }        
+
     }
 
     /**
