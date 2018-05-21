@@ -260,17 +260,15 @@ class CompanySupportController extends AppBaseController
         $priorities =  CompanySupportPriorities::all();
         $categories =  CompanySupportCategory::all();
         $statues =  CompanySupportStatus::all();
+        
         // $user_role = UserRole::all();
-
         // $userRoleArr = [];
-
         // foreach ($user_role as $key => $value) 
         // {
         //     if (substr( $value->code, 0, 5 ) === "admin") 
         //     {
         //         $userRoleArr[$key] = $value;
         //     }
-
         // }
 
         $reply = CompanySupport::where('parent_id',$ticketId)->get();
@@ -298,18 +296,6 @@ class CompanySupportController extends AppBaseController
         }
 
         return view('company.company_supports.show',$data);
-
-        // $companySupport = $this->companySupportRepository->findWithoutFail($id);
-
-        // dd( $companySupport );
-
-        // if (empty($companySupport)) {
-        //     Flash::error('Company Support not found');
-
-        //     return redirect(route('company.companySupports.index'));
-        // }
-
-        // return view('company.company_supports.show')->with('companySupport', $companySupport);
     }
 
     public function customerSupportShow($ticket_id)
