@@ -45,7 +45,12 @@
                     <li class="dropdown" id="admin-menu-button">
                         <a href class="dropdown-toggle color-white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars fa-2x m-r-1 vertical-a-mid"></i><span class="">Menu</span></a>
 
-                        <ul class="dropdown-menu">                            
+
+                        <ul class="dropdown-menu">
+
+                            <?php $permissions = session('permissions'); ?>
+                            
+                            @if (in_array('modules', $permissions))
                             <li class="dropdown-toggle">
                                 <a href>Modules</a>
                                 <ul class="dropdown-menu">
@@ -53,7 +58,9 @@
                                     <li><a href="{{ route('admin.modules.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Modules</a></li>
                                 </ul>
                             </li>
+                            @endif                         
 
+                            @if (in_array('payments', $permissions))
                             <li class="dropdown-toggle">
                                 <a href>Payments</a>
                                 <ul class="dropdown-menu">
@@ -61,7 +68,9 @@
                                     <li><a href="{{ route('admin.paymentCycles.index') }}"><i class="fa fa-recycle"></i>&nbsp;&nbsp;Payment Cycle</a></li>
                                 </ul>
                             </li>
+                            @endif
 
+                            @if (in_array('companies', $permissions))
                             <li class="dropdown-toggle">
                                 <a href>Companies</a>
                                 <ul class="dropdown-menu">
@@ -69,7 +78,15 @@
                                     <li><a href="{{ route('admin.companies.index') }}"><i class="fa fa-building-o"></i>&nbsp;&nbsp;Companies</a></li>
                                 </ul>
                             </li>
-                            <li><a href="{{ route('admin.companyInvoices.index') }}">Invoices</a></li>
+                            @endif
+
+                            @if (in_array('invoices', $permissions))
+                            <li>
+                                <a href="{{ route('admin.companyInvoices.index') }}">Invoices</a>
+                            </li>
+                            @endif
+
+                            @if (in_array('newletters', $permissions))
                             <li class="dropdown-toggle">
                                 <a href>Newsletters</a>
                                 <ul class="dropdown-menu">
@@ -90,6 +107,9 @@
                                     <li><a href="{{ route('admin.newsletter.dashboard') }}"><i class="fa fa-pie-chart"></i>&nbsp;&nbsp;Report</a></li>
                                  </ul>
                             </li>
+                            @endif
+
+                            @if (in_array('users', $permissions))
                             <li class="dropdown-toggle">
                                 <a href="{{ route('admin.users.index') }}">Users</a>
                                 <ul class="dropdown-menu">
@@ -97,7 +117,21 @@
                                     <li><a href="{{ route('admin.users.index') }}"><i class="fa fa-users"></i>&nbsp;&nbsp;Users</a></li>
                                 </ul>
                             </li>
-                            <li class="divider"></li>                            
+                            @endif
+
+                            <li class="dropdown-toggle">
+                                <a href="{{ route('admin.supports.index') }}">Support</a>
+                                <ul class="dropdown-menu">
+                                   <li><a href="{{ route('admin.supportStatuses.index') }}"><i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;Status</a></li>
+                                   <li class="divider"></li>
+                                   <li><a href="{{ route('admin.supportCategories.index') }}"><i class="fa fa-users"></i>&nbsp;&nbsp;Categories</a></li>
+                                   <li class="divider"></li>
+                                   <li><a href="{{ route('admin.supportPriorities.index') }}"><i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;Priorities</a></li>
+                                    <li><a href="{{ route('admin.supports.show',[1]) }}"><i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;Support Show</a></li>
+                                </ul>
+                             </li>
+
+                            @if (in_array('settings', $permissions))                           
                             <li class="dropdown-toggle">
                                 <a href>Settings</a>
                                 <ul class="dropdown-menu">
@@ -106,8 +140,14 @@
                                    <li><a href="{{ route('admin.userRoles.index') }}"><i class="fa fa-users"></i>&nbsp;&nbsp;User Roles</a></li>
                                    <li class="divider"></li>
                                    <li><a href="{{ route('admin.userStatuses.index') }}"><i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;User Status</a></li>
+                                    <!-- <li class="divider"></li> -->
+<!--                                    <li><a href="{{ route('admin.permissions.index') }}"><i class="fa fa-universal-access"></i>&nbsp;&nbsp;Permission</a></li> -->
                                 </ul>
                              </li>
+                             @endif
+
+
+
                              
                             <!-- <li class="divider"></li> -->
                             <!-- <li><a href="#">Help</a></li> -->
@@ -121,8 +161,8 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <img src="@if(Auth::user()->profile_pic != ''){{ asset('storage/company_logos/'.Auth::user()->profile_pic) }} @else {{ asset('/skin-1/assets/demo/avatars/1.jpg') }} @endif" alt="" class="px-navbar-image">
-                        <span class="hidden-md">{{ ucfirst(Auth::user()->name) }}</span>
+                        <img src="@if(Auth::guard('admin')->user()->profile_pic != ''){{ asset('storage/company_logos/'.Auth::guard('admin')->user()->profile_pic) }} @else {{ asset('/skin-1/assets/demo/avatars/1.jpg') }} @endif" alt="" class="px-navbar-image">
+                        <span class="hidden-md">{{ ucfirst(Auth::guard('admin')->user()->name) }}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ route('admin.accountSettings.view') }}"><i class="dropdown-icon fa fa-cog"></i>&nbsp;&nbsp;Settings</a></li>
@@ -135,23 +175,7 @@
             <!-- /.navbar-collapse -->
         </nav>
 
-
-
-
-
-
-
-
-
-
         @yield('content') 
-
-
-
-
-
-
-
 
 
         <div class="m-t-4 p-b-4" id="empty-space"></div>

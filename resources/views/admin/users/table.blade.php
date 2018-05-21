@@ -4,7 +4,6 @@
             <th>No</th>
             <th>Full Name</th>
             <th>Email</th>
-            <th>User Role</th>
             <th>User Status</th>
             <th>Created At</th>
             <th width="200px">Actions</th>
@@ -16,7 +15,6 @@
             <td>{{ $loop->index + 1 }}</td>
             <td>{{ ucfirst($user->name) }}</td>
             <td>{{ $user->email }}</td>
-            <td>{{ $user_roles[$user->user_role_code] }}</td>
             @if($user_status[$user->user_status_id] == 'active')
                 <td><span class="label label-primary">{{ $user_status[$user->user_status_id] }}</span></td>
             @else

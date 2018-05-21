@@ -12,12 +12,17 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use Auth;
+
+use App\Models\ModelHasRole;
 use App\Models\UserRole;
 use App\Models\User;
 use App\Models\UserStatus;
 use App\Models\Country;
 use App\Models\State;
 use App\Models\City;
+
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 use Illuminate\Support\Facades\Storage;
 
@@ -47,6 +52,8 @@ class UserController extends AppBaseController
         $user_state = State::pluck('name', 'id');
         $user_city = City::pluck('name', 'id');
 
+        $user = Auth::guard('admin')->user();
+
         return view('admin.users.index',
             ['users' => $users,
                 'user_roles' => $user_roles,
@@ -64,28 +71,28 @@ class UserController extends AppBaseController
      */
     public function create()
     {
-        $user_role = UserRole::all();
+        $user_roles = UserRole::all();
+        $userStatus = UserStatus::all();
 
-        $userStatus = UserStatus::all(); 
 
-        $technicalSettings = [
-            'module'    => 'Modules',
-            'payment'   => 'Payments',
-            'companies' => 'Companies',
-            'invoices'  => 'Invoices',
-            'newletter' => 'News Letters',
-            'user'      => 'Users',
-            'setting'   => 'Setting'
-        ];
+        $userRoleArr = [];
+
+        foreach ($user_roles as $key => $value) 
+        {
+            if (substr( $value->code, 0, 5 ) === "admin") 
+            {
+                $userRoleArr[$key] = $value;
+            }
+
+        }
 
         $data = [
-            'user_role'         => $user_role,
-            'technicalSettings' => $technicalSettings,
+            'user_role'         => $userRoleArr,
             'userStatus'        => $userStatus
         ];
 
-
         return view('admin.users.create',$data);
+    
     }
 
     /**
@@ -98,29 +105,39 @@ class UserController extends AppBaseController
     public function store(CreateUserRequest $request)
     {
         $this->validate($request,[
-            'name' => 'required',
+            'name' => 'required|string',
             'email' => 'required|unique:users,email',
             'password' => 'required|min:6',
-            'user_role_code' => 'required',
             'user_status_id' => 'required'   
         ]);
 
         $input = $request->except(['user_permission']);
+
         $password =  bcrypt($request->password);
         $input['password'] = $password;
-        $input['permissions'] = $request->permissions;
 
+        $input['name'] = $request->name;
+        $input['email'] = $request->email;
+        $input['user_status_id'] = $request->user_status_id;
 
+        $user_role = $input['role'];
 
-        // $user = User::where('email', $request->email)->first();
-        // if($user !== null) {
-        //     $request->session()->flash('msg.error', 'User Email already exists.');
-        //     return redirect(route('admin.users.index'));
-        // }
+        $role_code =  strtolower($input['role']);
 
-        User::create($input);
+        $code = str_replace(' ', '_', $role_code );
+
+        $input['user_role_code'] = $code;
+        
+        unset( $input['role'] );
+        
+        $user = User::create($input);
+
+        $user->assignRole($user_role);
+
         $request->session()->flash('msg.success', 'User saved successfully.');
+        
         return redirect(route('admin.users.index'));
+    
     }
 
 
@@ -222,6 +239,7 @@ class UserController extends AppBaseController
 
         $user_role = UserRole::all();
         $userStatus = UserStatus::all();
+        $userHasRole = ModelHasRole::where('model_id',$id)->first();
 
         $all_roles = UserRole::pluck('name', 'code');
 
@@ -231,27 +249,24 @@ class UserController extends AppBaseController
             return redirect(route('admin.users.index'));
         }
 
-        $technicalSettings = [
-            'module'    => 'Modules',
-            'payment'   => 'Payments',
-            'companies' => 'Companies',
-            'invoices'  => 'Invoices',
-            'newletter' => 'News Letters',
-            'user'      => 'Users',
-            'setting'   => 'Setting'
-        ];
+        $userRoleArr = [];
 
-        $permissions =  explode(',',$user->permissions);
+        foreach ($user_role as $key => $value) 
+        {
+            if (substr( $value->code, 0, 5 ) === "admin") 
+            {
+                $userRoleArr[$key] = $value;
+            }
+
+        }
 
         $data = [
             'user'              => $user,
-            'user_role'         => $user_role,
-            'all_roles'         => $all_roles,
-            'technicalSettings' => $technicalSettings,
-            'permissions'       => $permissions,
+            'user_role'         => $userRoleArr,
+            'user_has_role'     => $userHasRole,
             'userStatus'        => $userStatus
-        ];
-
+        ];            
+    
         return view('admin.users.edit',$data);
     }
 
@@ -266,9 +281,23 @@ class UserController extends AppBaseController
     public function update(Request $request, $id)
     {
 
-
         $input = request()->except(['_token', '_method','user_permission']);
+
         $user = $this->userRepository->findWithoutFail($id);
+
+
+        $user_current_role =  $input['role'];
+
+        $user->syncRoles([ $user_current_role ]);
+
+
+        $role_code = strtolower($input['role']);
+
+        $code = str_replace(' ', '_', $role_code );
+
+        $input['user_role_code'] = $code;
+        
+        unset( $input['role'] );
 
         if($input['updatePassword'] == null)
         {
@@ -279,11 +308,13 @@ class UserController extends AppBaseController
             $password =  bcrypt($request->updatePassword);
             $input['password'] = $password;
         }
-        unset($input['updatePassword']);
 
+        unset( $input['updatePassword'] );
 
         User::where('id', $id)->update($input);
+
         $request->session()->flash('msg.success', 'User updated successfully.');
+
         return redirect(route('admin.users.index'));
     }
 
@@ -348,16 +379,42 @@ class UserController extends AppBaseController
     // authenticate user
     public function authenticate(Request $request)
     {
-        // dd($request->all());        
-        if (Auth::attempt(array('email'=>$request->input('email'), 'password'=>$request->input('password'),'user_role_code'=>'admin')))
+        // dd($request->all());
+
+        // authenticate admin_technical_support_user        
+        if (Auth::guard('admin')->attempt(['email'=>$request->input('email'), 'password'=>$request->input('password'), 'user_role_code'=>'admin_technical_support']))
         {
-            return redirect()->route('admin.dashboard');
+
+            $collection = auth()->guard('admin')->user()->getPermissionsViaRoles();
+            $permissions = [];
+            foreach ($collection as $key=>$value) 
+            {
+                $permissions[] = $value['name'];
+            }
+
+            session(['permissions' => $permissions]);
+
+           return redirect()->route('admin.dashboard');
+        
+        } // authenticate admin user 
+        else if (Auth::guard('admin')->attempt(['email'=>$request->input('email'), 'password'=>$request->input('password'), 'user_role_code'=>'admin']))
+        {
+
+            $collection = Auth::guard('admin')->user()->getPermissionsViaRoles();
+            $permissions = [];
+            foreach ($collection as $key=>$value) 
+            {
+                $permissions[] = $value['name'];
+            }
+
+            session(['permissions' => $permissions]);
+
+           return redirect()->route('admin.dashboard');
+            
         } 
         else 
         {
-            return redirect()->route('admin.login')
-            ->with('errorLogin', 'Ooops! Invalid Email or Password')
-            ->withInput();
+            return redirect()->route('admin.login')->with('errorLogin', 'Ooops! Invalid Email or Password')->withInput();
         }
     }
 
@@ -365,9 +422,9 @@ class UserController extends AppBaseController
     // logging out user from admin panel
     public function logout(Request $request) {
 
-        if (Auth::check()) {
+        if (Auth::guard('admin')->check()) {
             
-            Auth::logout();
+            Auth::guard('admin')->logout();
             $request->session()->flush();
             return redirect()->route('admin.login');
         } 
@@ -387,7 +444,7 @@ class UserController extends AppBaseController
     public function accountSettingsStore(Request $request)
     {   
 
-        $id                 = Auth::user()->id;
+        $id                 = Auth::guard('admin')->user()->id;
         $name               = $request->name;
         $email              = $request->email;
         $password           = $request->password;

@@ -15,12 +15,11 @@
     </div>
     <input type="hidden" id="compareEmail" value="@if(isset($user)){{ $user->email }}@endif">
 
-    <input type="hidden" id="@if(isset($user)){{ $user->id }}@endif" class="userId">
-
     <div class="col-sm-12 form-group">
         <label for="user_password">Password</label>
         @if(isset($user))
             <input type="password" name="updatePassword" id="user_password" class="form-control">
+            <label class="text-danger">if you don't want to update password than leave it blank.</label>
         @else
             <input type="password" name="password" id="user_password" class="form-control">
         @endif
@@ -28,10 +27,13 @@
 
     <div class="col-sm-12 form-group">
         <label for="user_role_codes">User Role</label>
-        <select type="text" name="user_role_code" id="user_role_code" class="form-control" value="@if(isset($user)){{ $user->user_role_code }}@endif">
-            @if(isset($user)) <option value="{{ $user->user_role_code }}" selected>{{ $all_roles[$user->user_role_code] }}</option> @endif
+        <select type="text" name="role" class="form-control">
             @foreach($user_role as $role)
-            <option value="{{ $role->code }}">{{ $role->name }}</option>
+                @if( isset($user_has_role) && $user_has_role->role_id == $role->id )
+                    <option value="{{ $role->name }}" selected="selected">{{ $role->name }}</option>
+                @else
+                    <option value="{{ $role->name }}">{{ $role->name }}</option>
+                @endif
             @endforeach
         </select>
     </div>
@@ -49,20 +51,7 @@
         </select>
     </div>
 
-    <input type="hidden" name="permissions" id="per">
 
-    <div class="col-sm-12 form-group" id="permission">
-        <label for="user_role_codes">Permission</label>
-        <select class="form-control select2-example" name="user_permission" id="modules" multiple>
-            @foreach($technicalSettings as $key => $value)
-                @if(isset($permissions))
-                    <option  <?php foreach ($permissions as $per) { if ($per == $key) { echo "selected"; } } ?>   value="{{ $key }}" >{{$value}}</option>
-                @else
-                    <option value="{{$key}}">{{$value}}</option>
-                @endif
-            @endforeach
-        </select>
-    </div>
 
     <div class="col-sm-12">
         <button type="submit" class="btn btn-primary">@if(isset($user)) <i class="fa fa-refresh"></i>  Update @else <i class="fa fa-plus"></i>  Add User @endif</button>
@@ -124,95 +113,6 @@
                 }
             }
         });
-
-
-        $('document').ready(function(){
-
-            var edit = "{{ (isset($user) && $user->user_role_code == 'admin-technical-support')? 1 : 0 }}";
- 
-
-            if(edit == true)
-            {
-                $('#permission').show();
-            }
-            else
-            {
-                $('#permission').hide();
-            }
-
-        });
-
-        var userId = $('.userId').attr('id');
-
-        $('#modules').on('select2:select', function (e) {
-            var data = e.params.data;
-
-            var jsObj = {
-              'userId' : userId,
-              'permissions' : data.id,
-              'Action'     : 'Add'
-            }
-
-
-            if (userId == "" || userId === null) {
-
-            }
-            else
-            {
-              $.post("{{ route('admin.users.updateUser') }}",jsObj,function(response){
-                console.log(response);
-              });
-            }
-        });
-
-        $('#modules').on('select2:unselect', function (e) {
-            var data = e.params.data;
-            
-            var jsObj = {
-              'userId' : userId,
-              'permissions' : data.id,
-              'Action'     : 'Remove'
-            }
-
-            if (userId == "" || userId === null) {
-
-            }
-            else
-            {
-                $.post("{{ route('admin.users.updateUser') }}",jsObj,function(response){
-                  console.log(response);
-                });
-            }
-        });
-
-
-
-
-        $('#user_role_code').on('change',function(){
-
-            var role_code = $(this).val();
-
-            if(role_code == 'admin-technical-support')
-            {
-                $('#permission').show();                
-            }
-            else
-            {
-                $('#permission').hide();
-            } 
-        });
-
-        $('#userForm').on('submit', function(e) {
-
-            var Permission =  $('#modules').val();
-
-            console.log(Permission);
-
-            $('#per').val(Permission);
-
-            return true;
-        });
-
 
 
         // Initialize Select2

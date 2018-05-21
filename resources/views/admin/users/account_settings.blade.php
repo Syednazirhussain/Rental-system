@@ -28,13 +28,13 @@
                         	<div class="col-sm-8">
 								<div class="col-sm-12 form-group">
 								    <label for="grid-input-16">Name</label>
-								    <input type="text" id="name" placeholder="Name" value="{{ucfirst(Auth::user()->name)}}" name="name" class="form-control">
+								    <input type="text" id="name" placeholder="Name" value="{{ucfirst(Auth::guard('admin')->user()->name)}}" name="name" class="form-control">
 									<div class="errorTxt"></div>
 								</div>
 
 								<div class="col-sm-12 form-group">
 								    <label for="grid-input-16">Email</label>
-								    <input type="email" id="email" placeholder="Email" value="{{Auth::user()->email}}" name="email" class="form-control" >
+								    <input type="email" id="email" placeholder="Email" value="{{Auth::guard('admin')->user()->email}}" name="email" class="form-control" >
 									<div class="errorTxt"></div>
 								</div>
 
@@ -52,7 +52,7 @@
 							<div class="col-sm-4 form-group">
 								<div class="fileinput fileinput-new" data-provides="fileinput">
 	                                  <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-	                                        @if(Auth::user()->profile_pic != "") <img id="existingProfilePic" src="{{ asset('storage/company_logos/'.Auth::user()->profile_pic) }}"> @endif
+	                                        @if(Auth::guard('admin')->user()->profile_pic != "") <img id="existingProfilePic" src="{{ asset('storage/company_logos/'.Auth::guard('admin')->user()->profile_pic) }}"> @endif
 	                                  </div>
 	                                  <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
 	                                  <div>
@@ -71,7 +71,7 @@
 							    <a href="{!! route('admin.dashboard') !!}" class="btn btn-default m-l-1"><i class="fa fa-times"></i>  Cancel</a>
 							</div>
 
-							<input type="hidden" id="adminEmailHidden" value="{{Auth::user()->email}}" />
+							<input type="hidden" id="adminEmailHidden" value="{{Auth::guard('admin')->user()->email}}" />
 
                         </form>
                     </div>

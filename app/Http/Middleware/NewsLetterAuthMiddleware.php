@@ -19,7 +19,7 @@ class NewsLetterAuthMiddleware
     public function handle($request, Closure $next)
     {
 
-        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $module = CompanyModule::where('company_id', $company_id)
             ->join('modules', 'module_id', '=', 'modules.id')
             ->where('modules.code', 'newsletter_module')->first();

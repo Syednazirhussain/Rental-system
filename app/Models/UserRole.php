@@ -47,5 +47,14 @@ class UserRole extends Model
         
     ];
 
+
+    /**
+     * A user has many Permission - one to many relation
+     */
+    public function roleHasPermission()
+    {
+        return $this->hasMany('App\Models\RoleHasPermission','role_id', 'id');
+    }
+
     
 }

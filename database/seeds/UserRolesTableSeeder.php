@@ -22,18 +22,30 @@ class UserRolesTableSeeder extends Seeder
                 'id' => 5,
                 'code' => 'admin',
                 'name' => 'Admin',
+                'guard_name' => 'admin',
+                'created_at' => date('Y-m-d h:i:s'),
+                'updated_at' => date('Y-m-d h:i:s'),
             ),
             1 => 
             array (
                 'id' => 6,
                 'code' => 'company',
                 'name' => 'Company',
+                'guard_name' => 'web',
+                'created_at' => date('Y-m-d h:i:s'),
+                'updated_at' => date('Y-m-d h:i:s'),
+                
+
             ),
             2 =>
             array (
                 'id' => 7,
                 'code' => 'company_admin',
                 'name' => 'Company Admin',
+                'guard_name' => 'web',
+                'created_at' => date('Y-m-d h:i:s'),
+                'updated_at' => date('Y-m-d h:i:s'),
+                
             ),
 
             3 =>
@@ -41,6 +53,21 @@ class UserRolesTableSeeder extends Seeder
                 'id' => 8,
                 'code' => 'company_customer',
                 'name' => 'Company Customer',
+                'guard_name' => 'web',
+                'created_at' => date('Y-m-d h:i:s'),
+                'updated_at' => date('Y-m-d h:i:s'),
+                
+            ),
+
+            4 =>
+            array (
+                'id' => 9,
+                'code' => 'admin_technical_support',
+                'name' => 'Admin Technical Support',
+                'guard_name' => 'admin',
+                'created_at' => date('Y-m-d h:i:s'),
+                'updated_at' => date('Y-m-d h:i:s'),
+                
             ),
         ));
         

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\UserRole;
+use App\Models\RoleHasPermission;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
@@ -31,4 +32,11 @@ class UserRoleRepository extends BaseRepository
     {
         return UserRole::class;
     }
+
+    public function verfiyRoleCodeExist($code)
+    {
+        $userRole = UserRole::where('code',$code)->first();
+        return $userRole;
+    }
+
 }

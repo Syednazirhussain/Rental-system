@@ -40,7 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-
+        // to make session information seprate
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admin',
+        ],
         'company' => [
             'driver' => 'session',
             'provider' => 'companies',
@@ -75,15 +79,15 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        'companies' => [
+        'admin' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'companies' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\User::class,
+        ],
     ],
 
     /*

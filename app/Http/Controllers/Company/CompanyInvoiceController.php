@@ -86,7 +86,7 @@ class CompanyInvoiceController extends AppBaseController
     {
 
         $this->companyInvoiceRepository->pushCriteria(new RequestCriteria($request));
-        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
 
         $Invoices = RoomContracts::join('companies', 'room_contracts.id', '=', 'companies.room_contract_id')
             ->join('company_invoices', 'companies.id', '=', 'company_invoices.company_id')
@@ -227,7 +227,7 @@ class CompanyInvoiceController extends AppBaseController
             $tax        = $company_infomation['discount'];
             $total      = '5000';
 
-            $company_admin_id = Auth::user()->companyUser()->first()->id;
+            $company_admin_id = Auth::guard('company')->user()->companyUser()->first()->id;
             $company_admin = Company::find($company_admin_id);
             $admin_address = [
                 'city' => City::find($company_admin->city_id)->name,
