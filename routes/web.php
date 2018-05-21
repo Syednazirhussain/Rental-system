@@ -854,7 +854,7 @@ Route::group(['middleware' => ['company.auth']], function () {
 	Route::put('company/companySupports/{companySupports}', ['as'=> 'company.companySupports.update', 'uses' => 'Company\CompanySupportController@update'])->where(['companySupports'=>'[0-9]+']);
 	Route::patch('company/companySupports/{companySupports}', ['as'=> 'company.companySupports.update', 'uses' => 'Company\CompanySupportController@update'])->where(['companySupports'=>'[0-9]+']);
 	Route::delete('company/companySupports/{companySupports}', ['as'=> 'company.companySupports.destroy', 'uses' => 'Company\CompanySupportController@destroy'])->where(['companySupports'=>'[0-9]+']);
-	// Route::get('company/companySupports/{companySupports}', ['as'=> 'company.companySupports.show', 'uses' => 'Company\CompanySupportController@show']);
+	Route::get('company/companySupports/{companySupports}', ['as'=> 'company.companySupports.show', 'uses' => 'Company\CompanySupportController@show']);
 	Route::get('company/companySupports/{companySupports}/edit', ['as'=> 'company.companySupports.edit', 'uses' => 'Company\CompanySupportController@edit']);
 
 	# Company Customer Support Status Section routes
@@ -902,13 +902,12 @@ Route::group(['middleware' => ['company.customer.auth']], function () {
     Route::get('company_customer/logout', ['as' => 'companyCustomer.logout', 'uses' => 'CompanyCustomer\UserController@logout']);
 
     # support routes
+
     Route::get('company_customer/companySupports', ['as'=> 'companyCustomer.supports.index', 'uses' => 'Company\CompanySupportController@customerSupportIndex']);
 	Route::get('company_customer/companySupports/create', ['as'=> 'companyCustomer.supports.create', 'uses' => 'Company\CompanySupportController@customerSupportCreate']);
 	Route::post('company_customer/companySupports', ['as'=> 'companyCustomer.supports.store', 'uses' => 'Company\CompanySupportController@customerSupportStore']);
-	
 	Route::get('company_customer/companySupports/{supports}', ['as'=> 'companyCustomer.supports.show', 'uses' => 'Company\CompanySupportController@customerSupportShow'])->where(['supports'=>'[0-9]+']);
-
-
+	
 
 });
 

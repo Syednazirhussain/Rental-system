@@ -23,17 +23,17 @@
                 </td>
                 <td>
 
-                  @if($companySupport->supportStatus->name == 'Pending')
+                  @if($companySupport->companySupportStatus->name == 'Pending')
 
-                  <span class="label label-warning">{{ $companySupport->supportStatus->name }}</span>
+                  <span class="label label-warning">{{ $companySupport->companySupportStatus->name }}</span>
 
-                  @elseif($companySupport->supportStatus->name == 'Solved')
+                  @elseif($companySupport->companySupportStatus->name == 'Solved')
 
-                  <span class="label label-success">{{ $companySupport->supportStatus->name }}</span>
+                  <span class="label label-success">{{ $companySupport->companySupportStatus->name }}</span>
 
-                  @elseif($companySupport->supportStatus->name == 'Bug')
+                  @elseif($companySupport->companySupportStatus->name == 'Bug')
 
-                  <span class="label label-danger">{{ $companySupport->supportStatus->name }}</span>
+                  <span class="label label-danger">{{ $companySupport->companySupportStatus->name }}</span>
                   
                   @endif
   
@@ -45,21 +45,21 @@
                 </td>
 
                 <td>
-                  @if($companySupport->supportPriority->name == 'Low')
+                  @if($companySupport->companySupportPriority->name == 'Low')
 
-                  <span class="label label-info">{{ $companySupport->supportPriority->name }}</span>
+                  <span class="label label-info">{{ $companySupport->companySupportPriority->name }}</span>
 
-                  @elseif($companySupport->supportPriority->name == 'Normal')
+                  @elseif($companySupport->companySupportPriority->name == 'Normal')
 
-                  <span class="label label-warning">{{ $companySupport->supportPriority->name }}</span>
+                  <span class="label label-warning">{{ $companySupport->companySupportPriority->name }}</span>
 
-                  @elseif($companySupport->supportPriority->name == 'Critical')
+                  @elseif($companySupport->companySupportPriority->name == 'Critical')
 
-                  <span class="label label-danger">{{ $companySupport->supportPriority->name }}</span>
+                  <span class="label label-danger">{{ $companySupport->companySupportPriority->name }}</span>
 
                   @else
 
-                  <span class="label label-default">{{ $companySupport->supportPriority->name }}</span>
+                  <span class="label label-default">{{ $companySupport->companySupportPriority->name }}</span>
 
                   @endif
                 </td>
@@ -68,7 +68,7 @@
                 </td>
                 <td> <a href="{{ route('admin.company.profile',[$companySupport->company_id]) }}">{{ $companySupport->company_name }}</a> </td>
                 <td>
-                  <span class="label label-default">{{ $companySupport->supportCategory->name }}</span>                  
+                  <span class="label label-default">{{ $companySupport->companySupportCategory->name }}</span>                  
                 </td>
               </tr>
         @endforeach

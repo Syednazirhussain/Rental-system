@@ -60,6 +60,7 @@ class CompanySupportController extends AppBaseController
             if($status_id)
             {
                 $companySupports = CompanySupport::where('status_id', '!=' ,$status_id)->where('parent_id',0)->get();
+                // dd($companySupports);
                 return view('company.company_supports.index')->with('companySupports', $companySupports);            
             }
         }        
@@ -244,15 +245,71 @@ class CompanySupportController extends AppBaseController
      */
     public function show($id)
     {
-        $companySupport = $this->companySupportRepository->findWithoutFail($id);
+        $ticketId = (int)$id;
 
-        if (empty($companySupport)) {
-            Flash::error('Company Support not found');
+        $support = $this->companySupportRepository->findWithoutFail($ticketId);
 
-            return redirect(route('company.companySupports.index'));
+        $parent_id =  $support->parent_id;
+
+        if (empty($support)) 
+        {
+            session()->flash('msg.error','Support not found');
+            return redirect(route('admin.supports.index'));
         }
 
-        return view('company.company_supports.show')->with('companySupport', $companySupport);
+        $priorities =  CompanySupportPriorities::all();
+        $categories =  CompanySupportCategory::all();
+        $statues =  CompanySupportStatus::all();
+        // $user_role = UserRole::all();
+
+        // $userRoleArr = [];
+
+        // foreach ($user_role as $key => $value) 
+        // {
+        //     if (substr( $value->code, 0, 5 ) === "admin") 
+        //     {
+        //         $userRoleArr[$key] = $value;
+        //     }
+
+        // }
+
+        $reply = CompanySupport::where('parent_id',$ticketId)->get();
+
+        if(isset($reply) && count($reply) == 0)
+        {
+            $data = [
+                'support' => $support,
+                'priorities' => $priorities,
+                'categories' => $categories,
+                'statues'    => $statues,
+                // 'userRoles'  => $userRoleArr     
+            ];
+        }
+        else
+        {
+            $data = [
+                'support' => $support,
+                'reply'   => $reply,
+                'priorities' => $priorities,
+                'categories' => $categories,
+                'statues'    => $statues,
+                // 'userRoles'  => $userRoleArr    
+            ];
+        }
+
+        return view('company.company_supports.show',$data);
+
+        // $companySupport = $this->companySupportRepository->findWithoutFail($id);
+
+        // dd( $companySupport );
+
+        // if (empty($companySupport)) {
+        //     Flash::error('Company Support not found');
+
+        //     return redirect(route('company.companySupports.index'));
+        // }
+
+        // return view('company.company_supports.show')->with('companySupport', $companySupport);
     }
 
     public function customerSupportShow($ticket_id)
