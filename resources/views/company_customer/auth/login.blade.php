@@ -75,14 +75,14 @@
     </style>
     <!-- / Custom styling -->
 </head>
-<body style="background-image: url({{ asset('/skin-1/assets/demo/bgs/10.jpg') }}); background-position: center; background-size: cover;">
+<body style="background-image: url({{ asset('/skin-1/assets/demo/bgs/6.jpg') }}); background-position: center; background-size: cover;">
 
 <section>
     <!-- Log In form -->
     <div class="page-signin-container" id="page-signin-form">
 
         <h1 class="m-t-5 m-b-4 text-xs-center font-weight-semibold font-size-30 color-white">HIGHNOX</h1>
-        <h3 class="m-t-0 m-b-4 text-xs-center font-size-20 color-white">Company Login Here!</h3>
+        <h3 class="m-t-0 m-b-4 text-xs-center font-size-20 color-white">Company Customer Login Here!</h3>
 
         <form method="post" action="{{ route('companyCustomer.users.authenticate') }}" class="panel p-a-4"
               id="admin-login-form">

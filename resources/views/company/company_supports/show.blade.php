@@ -25,7 +25,7 @@
                                 {{ $support->subject }}
                                 <span class="pull-right">
 
-                                    @if($support->status_id == 5)
+                                    @if($support->status_id == 3)
                                         
                                     @else
                                         <a href="{{ route('company.companySupports.complete',[$support->id]) }}" class="btn btn-success">Mark Complete</a>
@@ -236,6 +236,16 @@
 
 @section('js')
     <script type="text/javascript">
+
+     var status_id = "<?php echo $support->status_id; ?>";
+
+
+
+    if(status_id == 3)
+    {
+        $('ul#main_nav li:nth-child(1)').removeClass('active');
+        $('ul#main_nav li:nth-child(2)').addClass('active');
+    }
 
 
     // Initialize validator

@@ -8,7 +8,6 @@
             <th>Last Comment</th>
             <th>Priority</th>
             <th>Owner</th>
-            <th>Company</th>
             <th>Category</th>
         </tr>
     </thead>
@@ -66,7 +65,7 @@
                 <td>
                   {{ $companySupport->user->name }}
                 </td>
-                <td> <a href="{{ route('admin.company.profile',[$companySupport->company_id]) }}">{{ $companySupport->company_name }}</a> </td>
+
                 <td>
                   <span class="label label-default">{{ $companySupport->companySupportCategory->name }}</span>                  
                 </td>

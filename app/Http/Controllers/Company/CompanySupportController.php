@@ -311,13 +311,15 @@ class CompanySupportController extends AppBaseController
 
         $support = $this->companySupportRepository->findWithoutFail($ticketId);
 
-        $parent_id =  $support->parent_id;
+
 
         if (empty($support)) 
         {
             session()->flash('msg.error','Support not found');
-            return redirect(route('admin.supports.index'));
+            return redirect()->back();
         }
+
+        $parent_id =  $support->parent_id;
 
         $priorities =  CompanySupportPriorities::all();
         $categories =  CompanySupportCategory::all();
@@ -371,7 +373,7 @@ class CompanySupportController extends AppBaseController
         if (empty($ticket)) 
         {
             session()->flash('msg.error','Support not found');
-            return redirect(route('admin.supports.index'));
+            return redirect()->back();
         }
 
         $reply = CompanySupport::where('parent_id',$ticketId)->get();

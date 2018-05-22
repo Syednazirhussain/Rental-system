@@ -1,4 +1,4 @@
-<ul class="nav nav-tabs m-b-2">
+<ul class="nav nav-tabs m-b-2" id="main_nav">
     <li role="presentation" class="active">
         <a href="{{ route('companyCustomer.supports.index') }}"><i class="fa fa-ticket"></i>&nbsp;Active Tickets
             <!-- <span class="badge">2</span> -->

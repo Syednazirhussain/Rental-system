@@ -144,6 +144,16 @@
 @section('js')
     <script type="text/javascript">
 
+    var status_id = "<?php echo $ticket->status_id; ?>";
+
+
+
+    if(status_id == 3)
+    {
+        $('ul#main_nav li:nth-child(1)').removeClass('active');
+        $('ul#main_nav li:nth-child(2)').addClass('active');
+    }
+
 
     // Initialize validator
     $('#commentForm').pxValidate({
