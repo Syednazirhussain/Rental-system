@@ -28,7 +28,7 @@
                                     @if($support->status_id == 5)
                                         
                                     @else
-                                        <a href="javascript:void(0)" class="btn btn-success">Mark Complete</a>
+                                        <a href="{{ route('company.companySupports.complete',[$support->id]) }}" class="btn btn-success">Mark Complete</a>
                                     @endif
                                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-default">Edit</button>
 <!--                                     <a href="#" class="btn btn-danger deleteit" form="delete-ticket-27" node="Asperiores praesentium vero et quo quaerat sunt.">Delete</a> -->
@@ -42,9 +42,9 @@
                                                 <p><strong>Status</strong>:
                                                     @if($support->companySupportStatus->name == 'Pending')
                                                     <span class="label label-warning">{{ $support->companySupportStatus->name }}</span>
-                                                    @elseif($support->supportStatus->name == 'Solved')
+                                                    @elseif($support->companySupportStatus->name == 'Solved')
                                                     <span class="label label-primary">{{ $support->companySupportStatus->name }}</span>
-                                                    @elseif($support->supportStatus->name == 'Bug')
+                                                    @elseif($support->companySupportStatus->name == 'Bug')
                                                     <span class="label label-danger">{{ $support->companySupportStatus->name }}</span>
                                                     @endif
                                             </p>
@@ -148,7 +148,7 @@
                 <div class="modal fade in" id="modal-default" tabindex="-1">
                   <div class="modal-dialog modal-lg">
                     <div class="modal-content">
-                        <form method="POST" action="{{ route('admin.supports.update',[$support->id]) }}" id="modalForm" class="form-horizontal">
+                        <form method="POST" action="{{ route('company.companySupports.update',[$support->id]) }}" id="modalForm" class="form-horizontal">
 
                             <input name="_method" type="hidden" value="PATCH">
                             <input name="_token" type="hidden" value="{{ csrf_token() }}">

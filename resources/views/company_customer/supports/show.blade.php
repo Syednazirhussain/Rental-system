@@ -18,7 +18,7 @@
                     <div class="panel-body">
                         <div class="content">
                             <h2 class="header">
-                                {{ $ticket->companySubject }}
+                                {{ $ticket->subject }}
                                 <span class="pull-right">
 <!--                                     <a href="#" class="btn btn-success">Mark Complete</a> -->
                                 </span>
@@ -105,12 +105,12 @@
                         <form method="POST" action="{{ route('companyCustomer.supports.store') }}" id="commentForm" accept-charset="UTF-8" class="form-horizontal">
                             <input name="_token" type="hidden" value="{{ csrf_token() }}">
                             <input name="parent_id" type="hidden" value="{{ $ticket->id }}">
-                            <input name="subject" type="hidden" value="{{ $ticket->companySubject }}">
-                            <input name="status_id" type="hidden" value="{{ $ticket->companyStatus_id }}">
+                            <input name="subject" type="hidden" value="{{ $ticket->subject }}">
+                            <input name="status_id" type="hidden" value="{{ $ticket->status_id }}">
                             <input name="priority_id" type="hidden" value="{{ $ticket->priority_id }}">
                             <input name="category_id" type="hidden" value="{{ $ticket->category_id }}">
-                            <input name="user_id" type="hidden" value="{{ auth()->guard('company')->user()->id }}">
-                            <input name="last_comment" type="hidden" value="{{ auth()->guard('company')->user()->name }}">
+                            <input name="user_id" type="hidden" value="{{ auth()->guard('company_customer')->user()->id }}">
+                            <input name="last_comment" type="hidden" value="{{ auth()->guard('company_customer')->user()->name }}">
                             <input name="company_id" type="hidden" value="{{ $ticket->company_id }}">
                             <input name="company_name" type="hidden" value="{{ $ticket->company_name }}">
 

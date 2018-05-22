@@ -48,7 +48,7 @@
             $('ul li:nth-child(2)').removeClass('active');
             $('ul li:nth-child(1)').addClass('active');
         }
-        else if(lastUrlString == 'completed')
+        else if(lastUrlString == 'completedTicket')
         {
             $('ul li:nth-child(1)').removeClass('active');
             $('ul li:nth-child(2)').addClass('active');

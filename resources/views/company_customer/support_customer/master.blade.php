@@ -5,7 +5,7 @@
         </a>
     </li>
     <li role="presentation">
-        <a href="javascript:void(0)"><i class="fa fa-check-circle"></i>&nbsp;Completed Tickets
+        <a href="{{ route('companyCustomer.supports.completedTicket') }}"><i class="fa fa-check-circle"></i>&nbsp;Completed Tickets
             <!-- <span class="badge">90</span> -->
         </a>
     </li>
