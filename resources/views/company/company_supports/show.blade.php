@@ -61,7 +61,7 @@
                                         <div class="col-md-6">
                                             <p> 
                                                 <strong>Responsible</strong>:
-                                                 {{ auth()->guard('company_customer')->user()->name }}
+                                                 {{ auth()->guard('company')->user()->name }}
                                              </p>
                                             <p>
                                                 <strong>Category</strong>:
@@ -115,7 +115,7 @@
 
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <form  action="javascript:void(0)" method="POST" id="commentForm" class="form-horizontal">
+                        <form  action="{{ route('company.companySupports.store') }}" method="POST" id="commentForm" class="form-horizontal">
 
                             <input name="_token" type="hidden" value="{{ csrf_token() }}">
                             <input name="parent_id" type="hidden" value="{{ $support->id }}">
@@ -123,8 +123,8 @@
                             <input name="status_id" type="hidden" value="{{ $support->status_id }}">
                             <input name="priority_id" type="hidden" value="{{ $support->priority_id }}">
                             <input name="category_id" type="hidden" value="{{ $support->category_id }}">
-                            <input name="user_id" type="hidden" value="{{ auth()->guard('company_customer')->user()->id }}">
-                            <input name="last_comment" type="hidden" value="{{ auth()->guard('company_customer')->user()->name }}">
+                            <input name="user_id" type="hidden" value="{{ auth()->guard('company')->user()->id }}">
+                            <input name="last_comment" type="hidden" value="{{ auth()->guard('company')->user()->name }}">
                             <input name="company_id" type="hidden" value="{{ $support->company_id }}">
                             <input name="company_name" type="hidden" value="{{ $support->company_name }}">
                             <fieldset>

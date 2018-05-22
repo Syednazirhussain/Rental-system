@@ -154,13 +154,78 @@ class CompanySupportController extends AppBaseController
      */
     public function store(CreateCompanySupportRequest $request)
     {
-        $input = $request->all();
+        $this->validate($request,[
+            'subject' => 'required',
+            'content' => 'required',
+            'category_id' => 'required',
+            'priority_id' => 'required'
+        ]);
 
-        $companySupport = $this->companySupportRepository->create($input);
+        $input = $request->except(['files']);
 
-        Flash::success('Company Support saved successfully.');
+        if(isset($input['parent_id']))
+        {
+            $parent_id =  $input['parent_id'];
 
-        return redirect(route('company.companySupports.index'));
+            $support = $this->companySupportRepository->create($input);
+
+            if($support)
+            {
+                $updateSupport = CompanySupport::where('id',$parent_id)->first();
+
+                $updateSupport->last_comment = $input['last_comment'];
+
+                $updateSupport->save();
+            }
+
+            session()->flash('msg.success','Message sent successfully.');
+
+            return redirect()->route('company.companySupports.show',[$parent_id]);
+        }   
+        else
+        {
+
+            $support_status_id = CompanySupportStatus::where('name','Pending')->first()->id;
+
+            $user_id = Auth::guard('company')->user()->id;
+            $email = Auth::guard('company')->user()->email;
+            $user_name = Auth::guard('company')->user()->name;
+
+            $user = User::find($user_id);
+
+            $company_name = $user->companyUser->company->name;
+            $company_id   = $user->companyUser->company->id;
+
+            $input['parent_id'] = 0;
+            $input['user_id'] = $user_id;
+            $input['status_id'] = $support_status_id;
+            $input['company_id'] = $company_id;
+            $input['company_name'] = $company_name;
+            $input['last_comment'] = $user_name;
+
+            $support = $this->companySupportRepository->create($input);
+
+            if($support)
+            {
+                $input['header'] = 'Dear '.$user_name;
+
+                $input['sub_header'] = 'You have created a new ticket subject';
+                
+                Mail::to($email)->send(new TicketEmail($input));                
+            }
+
+            session()->flash('msg.success','Ticket generated successfully.');
+
+            return redirect(route('company.companySupports.index'));
+        }  
+
+
+
+        // $companySupport = $this->companySupportRepository->create($input);
+
+        // Flash::success('Company Support saved successfully.');
+
+        // return redirect(route('company.companySupports.index'));
     }
 
 
@@ -174,6 +239,8 @@ class CompanySupportController extends AppBaseController
         ]);
 
         $input = $request->except(['files']);
+
+        dd($input );
 
         if(isset($input['parent_id']))
         {
@@ -294,6 +361,8 @@ class CompanySupportController extends AppBaseController
                 // 'userRoles'  => $userRoleArr    
             ];
         }
+
+
 
         return view('company.company_supports.show',$data);
     }
