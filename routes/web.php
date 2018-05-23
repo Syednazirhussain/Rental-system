@@ -846,16 +846,19 @@ Route::group(['middleware' => ['company.auth']], function () {
 
 
 
+
+
+
 	# Company Customer Support Ticketing Section routes
 	Route::get('company/company_Supports/completedTicket', ['as'=> 'company.companySupports.completedTicket', 'uses' => 'Company\CompanySupportController@completedTicket']);
 	Route::get('company/company_Supports/{companySupports}/complete', ['as'=> 'company.companySupports.complete', 'uses' => 'Company\CompanySupportController@ticketComplete']);
+	
 	Route::get('company/companySupports', ['as'=> 'company.companySupports.index', 'uses' => 'Company\CompanySupportController@index']);
 	Route::post('company/companySupports', ['as'=> 'company.companySupports.store', 'uses' => 'Company\CompanySupportController@store']);
 	Route::get('company/companySupports/create', ['as'=> 'company.companySupports.create', 'uses' => 'Company\CompanySupportController@create']);
-	
 	Route::put('company/companySupports/{companySupports}', ['as'=> 'company.companySupports.update', 'uses' => 'Company\CompanySupportController@update'])->where(['companySupports'=>'[0-9]+']);
 	Route::patch('company/companySupports/{companySupports}', ['as'=> 'company.companySupports.update', 'uses' => 'Company\CompanySupportController@update'])->where(['companySupports'=>'[0-9]+']);
-	Route::delete('company/companySupports/{companySupports}', ['as'=> 'company.companySupports.destroy', 'uses' => 'Company\CompanySupportController@destroy'])->where(['companySupports'=>'[0-9]+']);
+	// Route::delete('company/companySupports/{companySupports}', ['as'=> 'company.companySupports.destroy', 'uses' => 'Company\CompanySupportController@destroy'])->where(['companySupports'=>'[0-9]+']);
 	Route::get('company/companySupports/{companySupports}', ['as'=> 'company.companySupports.show', 'uses' => 'Company\CompanySupportController@show']);
 	Route::get('company/companySupports/{companySupports}/edit', ['as'=> 'company.companySupports.edit', 'uses' => 'Company\CompanySupportController@edit']);
 
