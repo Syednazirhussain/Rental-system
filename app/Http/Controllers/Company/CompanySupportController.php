@@ -247,8 +247,13 @@ class CompanySupportController extends AppBaseController
             $input['header'] = 'Hi '.$name;
             $input['sub_header'] = 'responed your ticket ';
             Mail::to($email)->send(new TicketEmail($input));
+
+            $CompanySupportStatus = CompanySupportStatus::where('name','Progress')->first();
+            $status_id =  $CompanySupportStatus->id;
+
             $updateSupport = CompanySupport::where('id',$parent_id)->first();
             $updateSupport->last_comment = $input['last_comment'];
+            $updateSupport->status_id = $status_id;
             $updateSupport->save();
 
         }

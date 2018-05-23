@@ -46,6 +46,8 @@
                                                     <span class="label label-primary">{{ $support->companySupportStatus->name }}</span>
                                                     @elseif($support->companySupportStatus->name == 'Bug')
                                                     <span class="label label-danger">{{ $support->companySupportStatus->name }}</span>
+                                                    @else
+                                                    <span class="label label-default">{{ $support->companySupportStatus->name }}</span>
                                                     @endif
                                             </p>
                                                 <p><strong>Priority</strong>:
