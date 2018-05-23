@@ -11,6 +11,10 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
+use App\Models\CompanySupportStatus;
+use App\Models\CompanyUser;
+use Auth;
+
 class CompanySupportStatusController extends AppBaseController
 {
     /** @var  SupportStatusRepository */
@@ -30,8 +34,17 @@ class CompanySupportStatusController extends AppBaseController
     public function index(Request $request)
     {
         $this->supportStatusRepository->pushCriteria(new RequestCriteria($request));
-        $supportStatuses = $this->supportStatusRepository->all();
 
+        $user_id = Auth::guard('company')->user()->id;
+
+        $companyUser = CompanyUser::where('user_id',$user_id)->first();
+
+        $company_id = $companyUser->company_id;
+
+        $supportStatuses = CompanySupportStatus::where('company_id',$company_id)->get();
+
+        // dd($supportStatuses);
+        
         return view('company.company_support_statuses.index')->with('supportStatuses', $supportStatuses);
     }
 
@@ -60,13 +73,26 @@ class CompanySupportStatusController extends AppBaseController
 
         $input = $request->all();
 
+        $user_id = Auth::guard('company')->user()->id;
+
+        $companyUser = CompanyUser::where('user_id',$user_id)->first();
+
+        $input['company_id'] = $companyUser->company_id;
+
+
         $supportStatus = $this->supportStatusRepository->create($input);
 
-        // Flash::success('Support Status saved successfully.');
+        if($supportStatus)
+        {
+            session()->flash('msg.success','Support Status saved successfully.');
+            return redirect(route('company.supportStatuses.index'));            
+        }
+        else
+        {
+            session()->flash('msg.error','Support Status cannot saved!');
+            return redirect(route('company.supportStatuses.index'));
+        }
 
-        session()->flash('msg.success','Support Status saved successfully.');
-
-        return redirect(route('company.supportStatuses.index'));
     }
 
     /**

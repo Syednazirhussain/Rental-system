@@ -193,8 +193,15 @@ class CompanySupportController extends AppBaseController
 
     public function customerSupportCreate()
     {
-        $priorities = CompanySupportPriorities::all();
-        $categories = CompanySupportCategory::all();
+
+        $user_id =  Auth::guard('company_customer')->user()->id;
+
+        $companyCustomer = CompanyCustomer::where('user_id',$user_id)->first();
+
+        $company_id = $companyCustomer->company_id;
+
+        $priorities = CompanySupportPriorities::where('company_id',$company_id)->get();
+        $categories = CompanySupportCategory::where('company_id',$company_id)->get();
 
         $data = [
             'priorities' => $priorities,
@@ -352,9 +359,12 @@ class CompanySupportController extends AppBaseController
                 {
                     if($support->parent_id == 0)
                     {
-                        $priorities =  CompanySupportPriorities::all();
-                        $categories =  CompanySupportCategory::all();
-                        $statues =  CompanySupportStatus::all();
+
+                        $company_id = $companyUser->company_id;
+
+                        $priorities =  CompanySupportPriorities::where('company_id',$company_id)->get();
+                        $categories =  CompanySupportCategory::where('company_id',$company_id)->get();
+                        $statues =  CompanySupportStatus::where('company_id',$company_id)->get();
 
                         $support = null;
                         $support = CompanySupport::where('parent_id',0)->where('id',$ticketId)->first();
@@ -386,9 +396,11 @@ class CompanySupportController extends AppBaseController
                     {
                         $ticketId = $support->parent_id;
 
-                        $priorities =  CompanySupportPriorities::all();
-                        $categories =  CompanySupportCategory::all();
-                        $statues =  CompanySupportStatus::all();
+                        $company_id = $companyUser->company_id;
+
+                        $priorities =  CompanySupportPriorities::where('company_id',$company_id)->get();
+                        $categories =  CompanySupportCategory::where('company_id',$company_id)->get();
+                        $statues =  CompanySupportStatus::where('company_id',$company_id)->get();
 
                         $support = null;
                         $support = CompanySupport::where('parent_id',0)->where('id',$ticketId)->first();

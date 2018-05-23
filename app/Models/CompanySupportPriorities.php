@@ -31,7 +31,7 @@ class CompanySupportPriorities extends Model
 
 
     public $fillable = [
-        'name'
+        'name','company_id'
     ];
 
     /**

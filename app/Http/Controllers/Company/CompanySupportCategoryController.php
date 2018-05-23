@@ -11,6 +11,10 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
+use App\Models\CompanySupportCategory;
+use App\Models\CompanyUser;
+use Auth;
+
 class CompanySupportCategoryController extends AppBaseController
 {
     /** @var  SupportCategoryRepository */
@@ -30,10 +34,16 @@ class CompanySupportCategoryController extends AppBaseController
     public function index(Request $request)
     {
         $this->supportCategoryRepository->pushCriteria(new RequestCriteria($request));
-        $supportCategories = $this->supportCategoryRepository->all();
 
-        return view('company.company_support_categories.index')
-            ->with('supportCategories', $supportCategories);
+        $user_id = Auth::guard('company')->user()->id;
+
+        $companyUser = CompanyUser::where('user_id',$user_id)->first();
+
+        $company_id = $companyUser->company_id;
+
+        $supportCategories = CompanySupportCategory::where('company_id',$company_id)->get();
+
+        return view('company.company_support_categories.index')->with('supportCategories', $supportCategories);
     }
 
     /**
@@ -62,9 +72,13 @@ class CompanySupportCategoryController extends AppBaseController
 
         $input = $request->all();
 
-        $supportCategory = $this->supportCategoryRepository->create($input);
+        $user_id = Auth::guard('company')->user()->id;
 
-        // Flash::success('Support Category saved successfully.');
+        $companyUser = CompanyUser::where('user_id',$user_id)->first();
+
+        $input['company_id'] = $companyUser->company_id;
+
+        $supportCategory = $this->supportCategoryRepository->create($input);
 
         session()->flash('msg.success','Support Category saved successfully.');
 

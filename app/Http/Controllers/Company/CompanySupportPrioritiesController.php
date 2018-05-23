@@ -11,6 +11,10 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
+use App\Models\CompanySupportPriorities;
+use App\Models\CompanyUser;
+use Auth;
+
 class CompanySupportPrioritiesController extends AppBaseController
 {
     /** @var  SupportPrioritiesRepository */
@@ -30,10 +34,16 @@ class CompanySupportPrioritiesController extends AppBaseController
     public function index(Request $request)
     {
         $this->supportPrioritiesRepository->pushCriteria(new RequestCriteria($request));
-        $supportPriorities = $this->supportPrioritiesRepository->all();
 
-        return view('company.company_support_priorities.index')
-            ->with('supportPriorities', $supportPriorities);
+        $user_id = Auth::guard('company')->user()->id;
+
+        $companyUser = CompanyUser::where('user_id',$user_id)->first();
+
+        $company_id = $companyUser->company_id;
+
+        $supportPriorities = CompanySupportPriorities::where('company_id',$company_id)->get();
+
+        return view('company.company_support_priorities.index')->with('supportPriorities', $supportPriorities);
     }
 
     /**
@@ -61,9 +71,13 @@ class CompanySupportPrioritiesController extends AppBaseController
 
         $input = $request->all();
 
+        $user_id = Auth::guard('company')->user()->id;
+
+        $companyUser = CompanyUser::where('user_id',$user_id)->first();
+
+        $input['company_id'] = $companyUser->company_id;
+
         $supportPriorities = $this->supportPrioritiesRepository->create($input);
-
-
 
         session()->flash('msg.success','Support Priorities saved successfully.');
 

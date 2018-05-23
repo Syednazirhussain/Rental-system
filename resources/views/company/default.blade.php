@@ -226,8 +226,23 @@
                             <li>
                                 <a href="{{ route('company.supports.index') }}"><i class="fa fa-handshake-o"></i>&nbsp;&nbsp;Support</a>
                             </li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown-toggle">
+                        <a href="{{ route('company.companySupports.index') }}">Customer Support</a>
+                        <ul class="dropdown-menu">
                             <li>
-                                <a href="{{ route('company.companySupports.index') }}"><i class="fa fa-user"></i>&nbsp;&nbsp;Customer Support</a>
+                                <a href="{{ route('company.companySupports.index') }}">Customer Support</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('company.supportStatuses.index') }}">Statuses</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('company.supportPriorities.index') }}">Priorities</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('company.supportCategories.index') }}">Categories</a>
                             </li>
                         </ul>
                     </li>
