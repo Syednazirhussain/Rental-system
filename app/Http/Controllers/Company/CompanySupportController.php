@@ -59,13 +59,26 @@ class CompanySupportController extends AppBaseController
 
             if($status_id)
             {
-                $companySupports = CompanySupport::where('status_id', '!=' ,$status_id)->where('parent_id',0)->get();
-                // dd($companySupports);
-                return view('company.company_supports.index')->with('companySupports', $companySupports);            
+                if(Auth::guard('company')->check())
+                {
+                    $user_id = Auth::guard('company')->user()->id;
+
+                    $CompanyUser = CompanyUser::where('user_id',$user_id)->first();
+
+                    $company_id = $CompanyUser->company_id;
+
+                    $companySupports = CompanySupport::where('status_id', '!=' ,$status_id)
+                                                        ->where('parent_id',0)
+                                                        ->where('company_id',$company_id)
+                                                        ->get();
+                    return view('company.company_supports.index')->with('companySupports', $companySupports);
+                }
+                else
+                {
+                    return redirect()->route('company.login');
+                }            
             }
         }        
-
-
         return view('company.company_supports.index');
 
     }
@@ -80,10 +93,30 @@ class CompanySupportController extends AppBaseController
             $status_id = CompanySupportStatus::where('name','Solved')->first()->id;
             if($status_id)
             {
-                $companySupports = CompanySupport::where('status_id',$status_id)
+                if(Auth::guard('company')->check())
+                {
+                    $user_id = Auth::guard('company')->user()->id;
+
+                    $CompanyUser = CompanyUser::where('user_id',$user_id)->first();
+
+                    $company_id = $CompanyUser->company_id;
+
+                    $companySupports = CompanySupport::where('status_id',$status_id)
                                     ->where('parent_id',0)
+                                    ->where('company_id',$company_id)
                                     ->get();
-                return view('company.company_supports.index')->with('companySupports', $companySupports);
+                    return view('company.company_supports.index')->with('companySupports', $companySupports);
+
+                }
+                else
+                {
+                    return redirect()->route('company.login');
+                }
+            }
+            else
+            {
+                session()->flash('msg.error','Status Solved not defined');
+                return view('company.company_supports.index');                
             }
         }
 
@@ -298,111 +331,184 @@ class CompanySupportController extends AppBaseController
 
     }
 
-    /**
-     * Display the specified CompanySupport.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
     public function show($id)
     {
         $ticketId = (int)$id;
-
         $support = $this->companySupportRepository->findWithoutFail($ticketId);
-
-
-
+        
         if (empty($support)) 
         {
-            session()->flash('msg.error','Support not found');
-            return redirect()->back();
-        }
-
-        $parent_id =  $support->parent_id;
-
-        $priorities =  CompanySupportPriorities::all();
-        $categories =  CompanySupportCategory::all();
-        $statues =  CompanySupportStatus::all();
-        
-        // $user_role = UserRole::all();
-        // $userRoleArr = [];
-        // foreach ($user_role as $key => $value) 
-        // {
-        //     if (substr( $value->code, 0, 5 ) === "admin") 
-        //     {
-        //         $userRoleArr[$key] = $value;
-        //     }
-        // }
-
-        $reply = CompanySupport::where('parent_id',$ticketId)->get();
-
-        if(isset($reply) && count($reply) == 0)
-        {
-            $data = [
-                'support' => $support,
-                'priorities' => $priorities,
-                'categories' => $categories,
-                'statues'    => $statues,
-                // 'userRoles'  => $userRoleArr     
-            ];
+            // session()->flash('msg.error','Support not found');
+            return redirect()->route('company.companySupports.index');
         }
         else
         {
-            $data = [
-                'support' => $support,
-                'reply'   => $reply,
-                'priorities' => $priorities,
-                'categories' => $categories,
-                'statues'    => $statues,
-                // 'userRoles'  => $userRoleArr    
-            ];
-        }
+            if(Auth::guard('company')->check())
+            {
+                $user_id = Auth::guard('company')->user()->id;
+                $companyUser = CompanyUser::where('user_id',$user_id)->first();
 
-        return view('company.company_supports.show',$data);
+                if($companyUser->company_id == $support->company_id)
+                {
+                    if($support->parent_id == 0)
+                    {
+                        $priorities =  CompanySupportPriorities::all();
+                        $categories =  CompanySupportCategory::all();
+                        $statues =  CompanySupportStatus::all();
+
+                        $support = null;
+                        $support = CompanySupport::where('parent_id',0)->where('id',$ticketId)->first();
+                        $reply = CompanySupport::where('parent_id',$ticketId)->get();
+
+                        if(isset($reply) && count($reply) == 0)
+                        {
+                            $data = [
+                                'support' => $support,
+                                'priorities' => $priorities,
+                                'categories' => $categories,
+                                'statues'    => $statues     
+                            ];
+                        }
+                        else
+                        {
+                            $data = [
+                                'support' => $support,
+                                'reply'   => $reply,
+                                'priorities' => $priorities,
+                                'categories' => $categories,
+                                'statues'    => $statues   
+                            ];
+                        }
+
+                        return view('company.company_supports.show',$data);
+                    }
+                    else
+                    {
+                        $ticketId = $support->parent_id;
+
+                        $priorities =  CompanySupportPriorities::all();
+                        $categories =  CompanySupportCategory::all();
+                        $statues =  CompanySupportStatus::all();
+
+                        $support = null;
+                        $support = CompanySupport::where('parent_id',0)->where('id',$ticketId)->first();
+                        $reply = CompanySupport::where('parent_id',$ticketId)->get();
+
+                        if(isset($reply) && count($reply) == 0)
+                        {
+                            $data = [
+                                'support' => $support,
+                                'priorities' => $priorities,
+                                'categories' => $categories,
+                                'statues'    => $statues     
+                            ];
+                        }
+                        else
+                        {
+                            $data = [
+                                'support' => $support,
+                                'reply'   => $reply,
+                                'priorities' => $priorities,
+                                'categories' => $categories,
+                                'statues'    => $statues   
+                            ];
+                        }
+                        return view('company.company_supports.show',$data);
+                    }
+                }
+                else
+                {
+                    return redirect()->back();
+                }
+            }
+            else
+            {
+                session()->flash('msg.error','Please login to your account');
+                return redirect()->route('company.login');
+            }
+        }
     }
 
     public function customerSupportShow($ticket_id)
     {
         $ticketId = (int)$ticket_id;
 
-        // $ticket = $this->companySupportRepository->getMasterTicket(0,$ticketId);
-        $ticket = CompanySupport::where('parent_id',0)->where('id',$ticket_id)->first();
+        $ticket = $this->companySupportRepository->findWithoutFail($ticketId);
 
-
+        // $ticket = CompanySupport::where('parent_id',0)->where('id',$ticket_id)->first();
         if (empty($ticket)) 
         {
-            session()->flash('msg.error','Support not found');
-            return redirect()->back();
-        }
-
-        $reply = CompanySupport::where('parent_id',$ticketId)->get();
-
-        // dd( $reply );
-
-        if(isset($reply) && count($reply) == 0)
-        {
-            $data = [
-                'ticket' => $ticket       
-            ];
+            // session()->flash('msg.error','Support not found');
+            return redirect()->route('companyCustomer.supports.index');
         }
         else
         {
-            $data = [
-                'ticket' => $ticket,
-                'reply'   => $reply
-            ];
-        }
+            if(Auth::guard('company_customer')->check())
+            {
+                $user_id = Auth::guard('company_customer')->user()->id;
+                $companyCustomer = CompanyCustomer::where('user_id',$user_id)->first();
 
-        return view('company_customer.supports.show',$data);
+                if($companyCustomer->company_id == $ticket->company_id)
+                {
+                    if($ticket->parent_id == 0)
+                    {
+                        $ticket = null;
+                        $ticket = CompanySupport::where('parent_id',0)->where('id',$ticketId)->first();
+                        $reply = CompanySupport::where('parent_id',$ticketId)->get();
+                        if(isset($reply) && count($reply) == 0)
+                        {
+                            $data = [
+                                'ticket' => $ticket       
+                            ];
+                        }
+                        else
+                        {
+                            $data = [
+                                'ticket' => $ticket,
+                                'reply'   => $reply
+                            ];
+                        }
+                        return view('company_customer.supports.show',$data);
+                    }
+                    else
+                    {
+                        $ticketId = $ticket->parent_id;
+                        $ticket = null;
+                        $ticket = CompanySupport::where('parent_id',0)->where('id',$ticketId)->first();
+                        $reply = CompanySupport::where('parent_id',$ticketId)->get();
+                        if(isset($reply) && count($reply) == 0)
+                        {
+                            $data = [
+                                'ticket' => $ticket       
+                            ];
+                        }
+                        else
+                        {
+                            $data = [
+                                'ticket' => $ticket,
+                                'reply'   => $reply
+                            ];
+                        }
+                        return view('company_customer.supports.show',$data);
+                    }
+                }
+                else
+                {
+                    return redirect()->back();
+                }
+            }
+            else
+            {
+                session()->flash('msg.error','Please login to your account');
+                return redirect()->route('companyCustomer.login');
+            }
+        }
     }
 
     public function customerCompletedTicket()
     {
         $statuses =  CompanySupportStatus::all();
-
         $user_id = Auth::guard('company_customer')->user()->id;
-
         if(count($statuses) > 0)
         {
             $status_id = CompanySupportStatus::where('name','Solved')->first()->id;
@@ -437,13 +543,11 @@ class CompanySupportController extends AppBaseController
     public function edit($id)
     {
         $companySupport = $this->companySupportRepository->findWithoutFail($id);
-
-        if (empty($companySupport)) {
+        if (empty($companySupport)) 
+        {
             Flash::error('Company Support not found');
-
             return redirect(route('company.companySupports.index'));
         }
-
         return view('company.company_supports.edit')->with('companySupport', $companySupport);
     }
 

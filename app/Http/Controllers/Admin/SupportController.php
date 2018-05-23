@@ -17,6 +17,7 @@ use App\Models\SupportCategory;
 use App\Models\SupportStatus;
 use App\Models\User;
 use App\Models\CompanyUser;
+use App\Models\CompanyCustomer;
 use App\Models\UserRole;
 
 use App\Mail\TicketEmail;
@@ -161,39 +162,79 @@ class SupportController extends AppBaseController
 
             return redirect(route('company.supports.index'));
         }        
-
-
     }
 
     public function companyShow($ticket_id)
     {
         $ticketId = (int)$ticket_id;
 
-        $ticket = $this->supportRepository->getMasterTicket(0,$ticketId);
+        $ticket = $this->supportRepository->findWithoutFail($ticketId);
 
         if (empty($ticket)) 
         {
-            session()->flash('msg.error','Support not found');
-            return redirect(route('admin.supports.index'));
-        }
-
-        $reply = Support::where('parent_id',$ticketId)->get();
-
-        if(isset($reply) && count($reply) == 0)
-        {
-            $data = [
-                'ticket' => $ticket       
-            ];
+            // session()->flash('msg.error','Ticket not found');
+            return redirect(route('company.supports.index'));
         }
         else
         {
-            $data = [
-                'ticket' => $ticket,
-                'reply'   => $reply
-            ];
-        }
+            if(Auth::guard('company')->check())
+            {
+                $user_id = Auth::guard('company')->user()->id;
+                $companyUser = CompanyUser::where('user_id',$user_id)->first();
 
-        return view('company.supports.show',$data);   
+                if($companyUser->company_id == $ticket->company_id)
+                {
+                    if($ticket->parent_id == 0)
+                    {
+                        $ticket = Support::where('parent_id',0)->where('id',$ticketId)->first();
+                        $reply = Support::where('parent_id',$ticketId)->get();
+                        if(isset($reply) && count($reply) == 0)
+                        {
+                            $data = [
+                                'ticket' => $ticket       
+                            ];
+                        }
+                        else
+                        {
+                            $data = [
+                                'ticket' => $ticket,
+                                'reply'   => $reply
+                            ];
+                        }
+                        return view('company.supports.show',$data);
+                    }
+                    else
+                    {
+                        $ticketId = $ticket->parent_id;
+                        $ticket = Support::where('parent_id',0)->where('id',$ticketId)->first();
+                        $reply = Support::where('parent_id',$ticketId)->get();
+                        if(isset($reply) && count($reply) == 0)
+                        {
+                            $data = [
+                                'ticket' => $ticket       
+                            ];
+                        }
+                        else
+                        {
+                            $data = [
+                                'ticket' => $ticket,
+                                'reply'   => $reply
+                            ];
+                        }
+                        return view('company.supports.show',$data);
+                    }
+                }
+                else
+                {
+                    return redirect()->back();
+                }
+            }
+            else
+            {
+                session()->flash('msg.error','Please login to your account');
+                return redirect()->route('company.login');
+            }
+        }
     }
 
 
@@ -288,55 +329,57 @@ class SupportController extends AppBaseController
 
         $support = $this->supportRepository->findWithoutFail($ticketId);
 
-        $parent_id =  $support->parent_id;
-
         if (empty($support)) 
         {
-            session()->flash('msg.error','Support not found');
+            // session()->flash('msg.error','Ticket not found');
             return redirect(route('admin.supports.index'));
-        }
-
-        $priorities =  SupportPriorities::all();
-        $categories =  SupportCategory::all();
-        $statues =  SupportStatus::all();
-        $user_role = UserRole::all();
-
-        $userRoleArr = [];
-
-        foreach ($user_role as $key => $value) 
-        {
-            if (substr( $value->code, 0, 5 ) === "admin") 
-            {
-                $userRoleArr[$key] = $value;
-            }
-
-        }
-
-        $reply = Support::where('parent_id',$ticketId)->get();
-
-        if(isset($reply) && count($reply) == 0)
-        {
-            $data = [
-                'support' => $support,
-                'priorities' => $priorities,
-                'categories' => $categories,
-                'statues'    => $statues,
-                'userRoles'  => $userRoleArr     
-            ];
         }
         else
         {
-            $data = [
-                'support' => $support,
-                'reply'   => $reply,
-                'priorities' => $priorities,
-                'categories' => $categories,
-                'statues'    => $statues,
-                'userRoles'  => $userRoleArr    
-            ];
-        }
+            $parent_id =  $support->parent_id;
 
-        return view('admin.supports.show',$data);
+            $priorities =  SupportPriorities::all();
+            $categories =  SupportCategory::all();
+            $statues =  SupportStatus::all();
+            $user_role = UserRole::all();
+
+            $userRoleArr = [];
+
+            foreach ($user_role as $key => $value) 
+            {
+                if (substr( $value->code, 0, 5 ) === "admin") 
+                {
+                    $userRoleArr[$key] = $value;
+                }
+
+            }
+
+            $reply = Support::where('parent_id',$ticketId)->get();
+
+            if(isset($reply) && count($reply) == 0)
+            {
+                $data = [
+                    'support' => $support,
+                    'priorities' => $priorities,
+                    'categories' => $categories,
+                    'statues'    => $statues,
+                    'userRoles'  => $userRoleArr     
+                ];
+            }
+            else
+            {
+                $data = [
+                    'support' => $support,
+                    'reply'   => $reply,
+                    'priorities' => $priorities,
+                    'categories' => $categories,
+                    'statues'    => $statues,
+                    'userRoles'  => $userRoleArr    
+                ];
+            }
+
+            return view('admin.supports.show',$data);
+        }
     }
 
     /**

@@ -478,7 +478,7 @@ Route::group(['middleware' => ['admin.auth']], function () {
 		Route::put('admin/supports/{supports}', ['as'=> 'admin.supports.update', 'uses' => 'Admin\SupportController@update']);
 		Route::patch('admin/supports/{supports}', ['as'=> 'admin.supports.update', 'uses' => 'Admin\SupportController@update']);
 		Route::delete('admin/supports/{supports}', ['as'=> 'admin.supports.destroy', 'uses' => 'Admin\SupportController@destroy']);
-		Route::get('admin/supports/{supports}', ['as'=> 'admin.supports.show', 'uses' => 'Admin\SupportController@show']);
+		Route::get('admin/supports/{supportsID}', ['as'=> 'admin.supports.show', 'uses' => 'Admin\SupportController@show'])->where(['supportsID'=>'[0-9]+']);
 		Route::get('admin/supports/{supports}/edit', ['as'=> 'admin.supports.edit', 'uses' => 'Admin\SupportController@edit']);
 
 	});
