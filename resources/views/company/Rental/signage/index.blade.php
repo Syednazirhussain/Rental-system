@@ -5,7 +5,7 @@
     <div class="px-content">
 
         <div class="page-header">
-            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i><a href="{{ route('company.rcustomer.index') }}">Contacts</a></span></h1>
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i><a href="{{ route('company.rcustomer.index') }}">Signage</a></span></h1>
         </div>
 
         <div class="panel">
@@ -22,11 +22,11 @@
                 @include('company.rental.master')
 
                 <div class="text-right m-b-3">
-                    <a href="{{ route('company.rcontact.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Create Contact</a>
+                    <a href="{{ route('company.rsignage.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Create Signage</a>
                 </div>
 
                 <div class="table-primary">
-                    @include('company.rental.contacts.table')
+                    @include('company.rental.signage.table')
                 </div>
             </div>
         </div>
@@ -39,7 +39,7 @@
         // Initialize DataTables
         $(function () {
             $('#datatables').dataTable();
-            $('#datatables_wrapper .table-caption').text('Contacts');
+            $('#datatables_wrapper .table-caption').text('Signage');
             $('#datatables_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
         });
     </script>

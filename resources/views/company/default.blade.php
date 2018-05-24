@@ -193,7 +193,9 @@
 
                                         @elseif($module->module->code == 'rental_module')
 
-
+                                            <li class="dropdown-toggle">
+                                                <a href="{{ route('company.rcustomer.index') }}">Customers</a>
+                                            </li>
 
                                             <li class="dropdown-toggle">
                                                 <a href="{{ route('company.companyBuildings.index') }}">Buildings</a>

@@ -6,7 +6,12 @@
     </li>
     <li role="presentation" class="@if($tab == 'contacts') active @endif">
         <a href="{{ route('company.rcontact.index') }}">Contacts
-            <span class="badge">90</span>
+            <span class="badge">2</span>
+        </a>
+    </li>
+    <li role="presentation" class="@if($tab == 'signage') active @endif">
+        <a href="{{ route('company.rsignage.index') }}">Signage
+            <span class="badge">2</span>
         </a>
     </li>
 </ul>

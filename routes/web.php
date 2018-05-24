@@ -666,6 +666,15 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::delete('company/rcontact/{rooms}', ['as'=> 'company.rcontact.destroy', 'uses' => 'Company\Rental\ContactController@destroy']);
     Route::get('company/rcontact/{rcustomer}', ['as'=> 'company.rcontact.show', 'uses' => 'Company\Rental\ContactController@show']);
     Route::get('company/rcontact/{rcustomer}/edit', ['as'=> 'company.rcontact.edit', 'uses' => 'Company\Rental\ContactController@edit']);
+    // Third Tab -  Signage
+    Route::get('company/rsignage', ['as'=> 'company.rsignage.index', 'uses' => 'Company\Rental\SignageController@index']);
+    Route::post('company/rsignage', ['as'=> 'company.rsignage.store', 'uses' => 'Company\Rental\SignageController@store']);
+    Route::get('company/rsignage/create', ['as'=> 'company.rsignage.create', 'uses' => 'Company\Rental\SignageController@create']);
+    Route::put('company/rsignage/{rooms}', ['as'=> 'company.rsignage.update', 'uses' => 'Company\Rental\SignageController@update']);
+    Route::patch('company/rsignage/{rooms}', ['as'=> 'company.rsignage.update', 'uses' => 'Company\Rental\SignageController@update']);
+    Route::delete('company/rsignage/{rooms}', ['as'=> 'company.rsignage.destroy', 'uses' => 'Company\Rental\SignageController@destroy']);
+    Route::get('company/rsignage/{rcustomer}', ['as'=> 'company.rsignage.show', 'uses' => 'Company\Rental\SignageController@show']);
+    Route::get('company/rsignage/{rcustomer}/edit', ['as'=> 'company.rsignage.edit', 'uses' => 'Company\Rental\SignageController@edit']);
 
 
     Route::group(['middleware' => ['newsletter.auth']], function () {
