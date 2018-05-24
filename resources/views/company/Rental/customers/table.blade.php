@@ -2,10 +2,10 @@
     <thead>
         <tr>
             <th>#</th>
-            <th>Subject</th>
-            <th>Status</th>
-            <th>Last Updated</th>
-            <th>Agent</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Door Code</th>
+            <th>Category</th>
         </tr>
     </thead>
     <tbody>

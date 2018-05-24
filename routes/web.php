@@ -648,6 +648,7 @@ Route::group(['middleware' => ['company.auth']], function () {
     /**
     ** Rental Tabs created by Heng.
     */
+    // First Tab -  Customer
     Route::get('company/rcustomer', ['as'=> 'company.rcustomer.index', 'uses' => 'Company\Rental\CustomerController@index']);
     Route::post('company/rcustomer', ['as'=> 'company.rcustomer.store', 'uses' => 'Company\Rental\CustomerController@store']);
     Route::get('company/rcustomer/create', ['as'=> 'company.rcustomer.create', 'uses' => 'Company\Rental\CustomerController@create']);
@@ -656,6 +657,15 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::delete('company/rcustomer/{rooms}', ['as'=> 'company.rcustomer.destroy', 'uses' => 'Company\Rental\CustomerController@destroy']);
     Route::get('company/rcustomer/{rcustomer}', ['as'=> 'company.rcustomer.show', 'uses' => 'Company\Rental\CustomerController@show']);
     Route::get('company/rcustomer/{rcustomer}/edit', ['as'=> 'company.rcustomer.edit', 'uses' => 'Company\Rental\CustomerController@edit']);
+    // Second Tab -  Contact
+    Route::get('company/rcontact', ['as'=> 'company.rcontact.index', 'uses' => 'Company\Rental\ContactController@index']);
+    Route::post('company/rcontact', ['as'=> 'company.rcontact.store', 'uses' => 'Company\Rental\ContactController@store']);
+    Route::get('company/rcontact/create', ['as'=> 'company.rcontact.create', 'uses' => 'Company\Rental\ContactController@create']);
+    Route::put('company/rcontact/{rooms}', ['as'=> 'company.rcontact.update', 'uses' => 'Company\Rental\ContactController@update']);
+    Route::patch('company/rcontact/{rooms}', ['as'=> 'company.rcontact.update', 'uses' => 'Company\Rental\ContactController@update']);
+    Route::delete('company/rcontact/{rooms}', ['as'=> 'company.rcontact.destroy', 'uses' => 'Company\Rental\ContactController@destroy']);
+    Route::get('company/rcontact/{rcustomer}', ['as'=> 'company.rcontact.show', 'uses' => 'Company\Rental\ContactController@show']);
+    Route::get('company/rcontact/{rcustomer}/edit', ['as'=> 'company.rcontact.edit', 'uses' => 'Company\Rental\ContactController@edit']);
 
 
     Route::group(['middleware' => ['newsletter.auth']], function () {

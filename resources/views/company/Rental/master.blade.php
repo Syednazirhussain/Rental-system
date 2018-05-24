@@ -5,7 +5,7 @@
         </a>
     </li>
     <li role="presentation" class="@if($tab == 'contacts') active @endif">
-        <a href="{{ route('company.supports.completeTicket',[1]) }}">Contacts
+        <a href="{{ route('company.rcontact.index') }}">Contacts
             <span class="badge">90</span>
         </a>
     </li>
