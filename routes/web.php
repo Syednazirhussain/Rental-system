@@ -644,6 +644,20 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::get('company/companies/companyservices/{companyservices}', ['as'=> 'company.companyServices.show', 'uses' => 'Company\CompanyServiceController@show']);
     Route::get('company/companies/companyservices/{companyservices}/edit', ['as'=> 'company.companyServices.edit', 'uses' => 'Company\CompanyServiceController@edit']);
 
+
+    /**
+    ** Rental Tabs created by Heng.
+    */
+    Route::get('company/rcustomer', ['as'=> 'company.rcustomer.index', 'uses' => 'Company\Rental\CustomerController@index']);
+    Route::post('company/rcustomer', ['as'=> 'company.rcustomer.store', 'uses' => 'Company\Rental\CustomerController@store']);
+    Route::get('company/rcustomer/create', ['as'=> 'company.rcustomer.create', 'uses' => 'Company\Rental\CustomerController@create']);
+    Route::put('company/rcustomer/{rooms}', ['as'=> 'company.rcustomer.update', 'uses' => 'Company\Rental\CustomerController@update']);
+    Route::patch('company/rcustomer/{rooms}', ['as'=> 'company.rcustomer.update', 'uses' => 'Company\Rental\CustomerController@update']);
+    Route::delete('company/rcustomer/{rooms}', ['as'=> 'company.rcustomer.destroy', 'uses' => 'Company\Rental\CustomerController@destroy']);
+    Route::get('company/rcustomer/{rcustomer}', ['as'=> 'company.rcustomer.show', 'uses' => 'Company\Rental\CustomerController@show']);
+    Route::get('company/rcustomer/{rcustomer}/edit', ['as'=> 'company.rcustomer.edit', 'uses' => 'Company\Rental\CustomerController@edit']);
+
+
     Route::group(['middleware' => ['newsletter.auth']], function () {
         //NewsLetter System Integration
         // Group
