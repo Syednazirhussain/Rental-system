@@ -24,7 +24,7 @@ use App\Models\CompanyCustomer;
 
 use App\Models\UserRole;
 
-
+use App\Mail\ChangedStatusAndPriorityEmail;
 use App\Mail\TicketEmail;
 use Mail;
 
@@ -311,6 +311,9 @@ class CompanySupportController extends AppBaseController
         }   
         else
         {
+
+            dd($input);
+
             $support_status_id = CompanySupportStatus::where('name','Pending')->first()->id;
 
 
@@ -402,7 +405,6 @@ class CompanySupportController extends AppBaseController
                                 'statues'    => $statues   
                             ];
                         }
-
                         return view('company.company_supports.show',$data);
                     }
                     else
@@ -595,6 +597,49 @@ class CompanySupportController extends AppBaseController
             return redirect(route('admin.supports.index'));
         }
 
+        if($support->priority_id != $input['priority_id'] || $support->status_id != $input['status_id'])
+        {
+            $username = $support->user->name;
+            $email = $support->user->email;
+            $messageUser = Auth::guard('company')->user()->name;
+            
+            if($support->priority_id != $input['priority_id'] && $support->status_id == $input['status_id'])
+            {
+                $newPriority = CompanySupportPriorities::find($input['priority_id'])->name;
+                $priority = $support->companySupportPriority->name;
+                $data['header'] = 'Dear, '.$username;
+                $data['body'] = 'Your ticket having subject `'.$support->subject.'` whose priority `'.$priority.'` has been changed to priority `'.$newPriority.'` by admin '.$messageUser;
+                $data['footer'] = 'Regards '.$messageUser;
+
+                Mail::to($email)->send(new ChangedStatusAndPriorityEmail($data));
+
+            }
+            elseif ($support->priority_id == $input['priority_id'] && $support->status_id != $input['status_id']) 
+            {
+                $newStatus = CompanySupportStatus::find($input['status_id'])->name;
+                $status = $support->companySupportStatus->name;
+                $data['header'] = 'Dear, '.$username;
+                $data['body'] = 'Your ticket having subject `'.$support->subject.'` whose status `'.$status.'` has been changed to status `'.$newStatus.'` by admin '.$messageUser;
+                $data['footer'] = 'Regards '.$messageUser;
+
+                Mail::to($email)->send(new ChangedStatusAndPriorityEmail($data));
+
+            }
+            else
+            {
+                $priority = $support->companySupportPriority->name;
+                $status = $support->companySupportStatus->name;
+                $newPriority = CompanySupportPriorities::find($input['priority_id'])->name;
+                $newStatus = CompanySupportStatus::find($input['status_id'])->name;
+                $data['header'] = 'Dear, '.$username;
+                $data['body'] = 'Your ticket having subject `'.$support->subject.'` whose status `'.$status.'` and priority `'.$priority.'` has been changed from status `'.$newStatus.'` and priority `'.$newPriority.'` by admin '.$messageUser;
+                $data['footer'] = 'Regards '.$messageUser;
+
+                Mail::to($email)->send(new ChangedStatusAndPriorityEmail($data));
+            }
+        }
+
+
         $support->subject       = $input['subject'];
         $support->content       = $input['content'];
         $support->priority_id   = $input['priority_id'];
@@ -602,9 +647,7 @@ class CompanySupportController extends AppBaseController
         $support->status_id     = $input['status_id'];
 
         $support->save();
-
         session()->flash('msg.success','Ticket updated successfully');
-
         return redirect()->back();
     }
 

@@ -21,8 +21,9 @@ use App\Models\CompanyCustomer;
 use App\Models\UserRole;
 
 use App\Mail\TicketEmail;
+use App\Mail\ChangedStatusAndPriorityEmail;
+// use Illuminate\Support\Facades\URL;
 use Mail;
-
 use Auth;
 
 
@@ -301,10 +302,22 @@ class SupportController extends AppBaseController
             $input['header'] = 'Hi '.$name;
             $input['sub_header'] = 'responed your ticket ';
             Mail::to($email)->send(new TicketEmail($input));
-            $updateSupport = Support::where('id',$parent_id)->first();
-            $updateSupport->last_comment = $input['last_comment'];
-            $updateSupport->save();
 
+            $supportStatus = SupportStatus::where('name','Progress')->first();
+            if($supportStatus)
+            {
+                $status_id = $supportStatus->id;
+                $updateSupport = Support::where('id',$parent_id)->first();
+                $updateSupport->last_comment = $input['last_comment'];
+                $updateSupport->status_id = $status_id;
+                $updateSupport->save();
+            }
+            else
+            {
+                $updateSupport = Support::where('id',$parent_id)->first();
+                $updateSupport->last_comment = $input['last_comment'];
+                $updateSupport->save();
+            }
         }
         else
         {
@@ -417,11 +430,59 @@ class SupportController extends AppBaseController
 
         $support = Support::find($id);
 
+
         if (empty($support)) {
             session()->flash('msg.error','Support not found');
             return redirect(route('admin.supports.index'));
         }
 
+        if($support->priority_id != $input['priority_id'] || $support->status_id != $input['status_id'])
+        {
+            $username = $support->user->name;
+            $email = $support->user->email;
+            $messageUser = Auth::guard('admin')->user()->name;
+            $data['subject'] = 'Highnox Customer Support [Ticket# '.$id.']'; 
+
+            $url =  url('/').'/company/supports/'.$id;
+            $data['footer1'] = 'Thanks';
+            $data['footer2'] = 'Regards,';
+            $data['footer3'] = 'Highnox';
+
+            if($support->priority_id != $input['priority_id'] && $support->status_id == $input['status_id'])
+            {
+                $newPriority = SupportPriorities::find($input['priority_id'])->name;
+                $priority = $support->supportPriority->name;
+                $data['header'] = 'Dear '.$username.',';
+                $data['body'] = 'Your ticket number# 191 at '.$url.'  priority has been changed from `'.$priority.'` to `'.$newPriority.'`';
+                // $data['footer'] = nl2br("Thanks \n\nRegards,\nHighnox",false);
+                // $data['footer'] = htmlentities('Thanks <br/><br/>Regards,<br/>Highnox', ENT_QUOTES);
+
+                Mail::to($email)->send(new ChangedStatusAndPriorityEmail($data));
+
+            }
+            elseif ($support->priority_id == $input['priority_id'] && $support->status_id != $input['status_id']) 
+            {
+                $newStatus = SupportStatus::find($input['status_id'])->name;
+                $status = $support->supportStatus->name;
+                $data['header'] = 'Dear '.$username.',';
+                $data['body'] = 'Your ticket number# 191 at '.$url.'  status has been changed from `'.$status.'` to `'.$newStatus.'`';
+
+                Mail::to($email)->send(new ChangedStatusAndPriorityEmail($data));
+
+            }
+            else
+            {
+                $priority = $support->supportPriority->name;
+                $status = $support->supportStatus->name;
+                $newPriority = SupportPriorities::find($input['priority_id'])->name;
+                $newStatus = SupportStatus::find($input['status_id'])->name;
+                $data['header'] = 'Dear '.$username.',';
+                $data['body'] = 'Your ticket number# 191 at '.$url.'  status has been changed from `'.$status.'` to `'.$newStatus.'` and priority has been changed from `'.$priority.'` to `'.$newPriority.'`';
+
+                Mail::to($email)->send(new ChangedStatusAndPriorityEmail($data));
+            }
+        }
+    
         $support->subject       = $input['subject'];
         $support->content       = $input['content'];
         $support->priority_id   = $input['priority_id'];
@@ -429,9 +490,7 @@ class SupportController extends AppBaseController
         $support->status_id     = $input['status_id'];
 
         $support->save();
-
         session()->flash('msg.success','Ticket updated successfully');
-
         return redirect()->back();
     }
 
