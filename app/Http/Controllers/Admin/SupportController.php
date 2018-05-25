@@ -441,8 +441,8 @@ class SupportController extends AppBaseController
             $username = $support->user->name;
             $email = $support->user->email;
             $messageUser = Auth::guard('admin')->user()->name;
-            $data['subject'] = 'Highnox Customer Support [Ticket# '.$id.']'; 
 
+            $data['subject'] = 'Highnox Customer Support [Ticket# '.$id.']'; 
             $url =  url('/').'/company/supports/'.$id;
             $data['footer1'] = 'Thanks';
             $data['footer2'] = 'Regards,';
@@ -453,7 +453,8 @@ class SupportController extends AppBaseController
                 $newPriority = SupportPriorities::find($input['priority_id'])->name;
                 $priority = $support->supportPriority->name;
                 $data['header'] = 'Dear '.$username.',';
-                $data['body'] = 'Your ticket number# 191 at '.$url.'  priority has been changed from `'.$priority.'` to `'.$newPriority.'`';
+                $data['body'] = 'Your ticket number# '.$id.' at '.$url.'  priority has been changed from `'.$priority.'` to `'.$newPriority.'`';
+
                 // $data['footer'] = nl2br("Thanks \n\nRegards,\nHighnox",false);
                 // $data['footer'] = htmlentities('Thanks <br/><br/>Regards,<br/>Highnox', ENT_QUOTES);
 
@@ -465,7 +466,8 @@ class SupportController extends AppBaseController
                 $newStatus = SupportStatus::find($input['status_id'])->name;
                 $status = $support->supportStatus->name;
                 $data['header'] = 'Dear '.$username.',';
-                $data['body'] = 'Your ticket number# 191 at '.$url.'  status has been changed from `'.$status.'` to `'.$newStatus.'`';
+                
+                $data['body'] = 'Your ticket number# '.$id.' at '.$url.'  status has been changed from `'.$status.'` to `'.$newStatus.'`';
 
                 Mail::to($email)->send(new ChangedStatusAndPriorityEmail($data));
 
@@ -477,7 +479,7 @@ class SupportController extends AppBaseController
                 $newPriority = SupportPriorities::find($input['priority_id'])->name;
                 $newStatus = SupportStatus::find($input['status_id'])->name;
                 $data['header'] = 'Dear '.$username.',';
-                $data['body'] = 'Your ticket number# 191 at '.$url.'  status has been changed from `'.$status.'` to `'.$newStatus.'` and priority has been changed from `'.$priority.'` to `'.$newPriority.'`';
+                $data['body'] = 'Your ticket number# '.$id.' at '.$url.'  status has been changed from `'.$status.'` to `'.$newStatus.'` and priority has been changed from `'.$priority.'` to `'.$newPriority.'`';
 
                 Mail::to($email)->send(new ChangedStatusAndPriorityEmail($data));
             }
