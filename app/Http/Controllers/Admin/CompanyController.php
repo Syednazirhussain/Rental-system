@@ -223,9 +223,9 @@ class CompanyController extends AppBaseController
         if($company)
         {
             $company_id = $company->id;
-            $this->defaultCompanySupportStatus();
-            $this->defaultCompanySupportPriorities();
-            $this->defaultCompanySupportCategory();
+            $this->defaultCompanySupportStatus($company_id);
+            $this->defaultCompanySupportPriorities($company_id);
+            $this->defaultCompanySupportCategory($company_id);
         }
 
         return response()->json(['success'=> 1, 'msg'=>'Company has been created successfully', 'company'=>$company]);
