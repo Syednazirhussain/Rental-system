@@ -684,7 +684,7 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::delete('company/rarticle/{rarticle}', ['as'=> 'company.rarticle.destroy', 'uses' => 'Company\Rental\ArticleController@destroy']);
     Route::get('company/rarticle/{rarticle}', ['as'=> 'company.rarticle.show', 'uses' => 'Company\Rental\ArticleController@show']);
     Route::get('company/rarticle/{rarticle}/edit', ['as'=> 'company.rarticle.edit', 'uses' => 'Company\Rental\ArticleController@edit']);
-    // Fifth Tab -  Prices
+    // Fifth Tab - Price
     Route::get('company/rprice', ['as'=> 'company.rprice.index', 'uses' => 'Company\Rental\PriceController@index']);
     Route::post('company/rprice', ['as'=> 'company.rprice.store', 'uses' => 'Company\Rental\PriceController@store']);
     Route::get('company/rprice/create', ['as'=> 'company.rprice.create', 'uses' => 'Company\Rental\PriceController@create']);
@@ -693,7 +693,7 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::delete('company/rprice/{rprice}', ['as'=> 'company.rprice.destroy', 'uses' => 'Company\Rental\PriceController@destroy']);
     Route::get('company/rprice/{rprice}', ['as'=> 'company.rprice.show', 'uses' => 'Company\Rental\PriceController@show']);
     Route::get('company/rprice/{rprice}/edit', ['as'=> 'company.rprice.edit', 'uses' => 'Company\Rental\PriceController@edit']);
-    // Sixth Tab -  Prices
+    // Sixth Tab - Stock
     Route::get('company/rstock', ['as'=> 'company.rstock.index', 'uses' => 'Company\Rental\StockController@index']);
     Route::post('company/rstock', ['as'=> 'company.rstock.store', 'uses' => 'Company\Rental\StockController@store']);
     Route::get('company/rstock/create', ['as'=> 'company.rstock.create', 'uses' => 'Company\Rental\StockController@create']);
@@ -702,7 +702,7 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::delete('company/rstock/{rstock}', ['as'=> 'company.rstock.destroy', 'uses' => 'Company\Rental\StockController@destroy']);
     Route::get('company/rstock/{rstock}', ['as'=> 'company.rstock.show', 'uses' => 'Company\Rental\StockController@show']);
     Route::get('company/rstock/{rstock}/edit', ['as'=> 'company.rstock.edit', 'uses' => 'Company\Rental\StockController@edit']);
-    // Seventh Tab -  Prices
+    // Seventh Tab - Financial
     Route::get('company/rfinancial', ['as'=> 'company.rfinancial.index', 'uses' => 'Company\Rental\FinancialController@index']);
     Route::post('company/rfinancial', ['as'=> 'company.rfinancial.store', 'uses' => 'Company\Rental\FinancialController@store']);
     Route::get('company/rfinancial/create', ['as'=> 'company.rfinancial.create', 'uses' => 'Company\Rental\FinancialController@create']);
@@ -711,6 +711,15 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::delete('company/rfinancial/{rfinancial}', ['as'=> 'company.rfinancial.destroy', 'uses' => 'Company\Rental\FinancialController@destroy']);
     Route::get('company/rfinancial/{rfinancial}', ['as'=> 'company.rfinancial.show', 'uses' => 'Company\Rental\FinancialController@show']);
     Route::get('company/rfinancial/{rfinancial}/edit', ['as'=> 'company.rfinancial.edit', 'uses' => 'Company\Rental\FinancialController@edit']);
+    // Building Tab - Building
+    Route::get('company/rbuilding', ['as'=> 'company.rbuilding.index', 'uses' => 'Company\Rental\BuildingController@index']);
+    Route::post('company/rbuilding', ['as'=> 'company.rbuilding.store', 'uses' => 'Company\Rental\BuildingController@store']);
+    Route::get('company/rbuilding/create', ['as'=> 'company.rbuilding.create', 'uses' => 'Company\Rental\BuildingController@create']);
+    Route::put('company/rbuilding/{rbuilding}', ['as'=> 'company.rbuilding.update', 'uses' => 'Company\Rental\BuildingController@update']);
+    Route::patch('company/rbuilding/{rbuilding}', ['as'=> 'company.rbuilding.update', 'uses' => 'Company\Rental\BuildingController@update']);
+    Route::delete('company/rbuilding/{rbuilding}', ['as'=> 'company.rbuilding.destroy', 'uses' => 'Company\Rental\BuildingController@destroy']);
+    Route::get('company/rbuilding/{rbuilding}', ['as'=> 'company.rbuilding.show', 'uses' => 'Company\Rental\BuildingController@show']);
+    Route::get('company/rbuilding/{rbuilding}/edit', ['as'=> 'company.rbuilding.edit', 'uses' => 'Company\Rental\BuildingController@edit']);
 
 
     Route::group(['middleware' => ['newsletter.auth']], function () {

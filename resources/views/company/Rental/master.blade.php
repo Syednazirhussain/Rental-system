@@ -34,4 +34,9 @@
             <span class="badge">2</span>
         </a>
     </li>
+    <li role="presentation" class="@if($tab == 'buildings') active @endif">
+        <a href="{{ route('company.rbuilding.index') }}">Buildings
+            <span class="badge">2</span>
+        </a>
+    </li>
 </ul>
