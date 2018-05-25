@@ -1,3 +1,18 @@
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div class="panel-title">Add Room</div>
+                    </div>
+                    <div class="panel-body">
+                        <form action="{{ route('company.rooms.store') }}" method="POST" id="roomForm" enctype="multipart/form-data">
+
+                            @include('company.rooms.fields')
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
 {{ csrf_field() }}
 @if(isset($room))
     <input name="_method" type="hidden" value="PATCH">
