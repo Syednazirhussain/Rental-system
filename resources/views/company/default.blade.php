@@ -186,6 +186,7 @@
                                         </li>
                                     </ul>
                                 </li>
+
                                 <li class="dropdown-toggle">
                                     <a href="{{ route('company.companyInvoices.index') }}">Invoices</a>
                                     <ul class="dropdown-menu">
@@ -195,7 +196,29 @@
                                     </ul>
                                 </li>
 
+                            
 
+                            @elseif($module->module->name == 'Support_module')
+
+                                <li class="dropdown-toggle">
+                                    <a href="{{ route('company.companySupports.index') }}">Customer Support</a>
+                                </li>
+
+                                <li class="dropdown-toggle">
+                                    <a href="javascript:void(0)">Support Setting</a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="{{ route('company.supportStatuses.index') }}">Statuses</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('company.supportPriorities.index') }}">Priorities</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('company.supportCategories.index') }}">Categories</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                
                             @endif
 
 
@@ -229,23 +252,7 @@
                         </ul>
                     </li>
 
-                    <li class="dropdown-toggle">
-                        <a href="{{ route('company.companySupports.index') }}">Customer Support</a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="{{ route('company.companySupports.index') }}">Customer Support</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('company.supportStatuses.index') }}">Statuses</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('company.supportPriorities.index') }}">Priorities</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('company.supportCategories.index') }}">Categories</a>
-                            </li>
-                        </ul>
-                    </li>
+
 
                 </ul>
             </li>

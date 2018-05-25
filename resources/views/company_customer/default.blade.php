@@ -46,23 +46,35 @@
                 <a href class="dropdown-toggle color-white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars fa-2x m-r-1 vertical-a-mid"></i><span class="">Menu</span></a>
                 <ul class="dropdown-menu">
                     
-<!--                     <li class="dropdown-toggle">
-                        <a href="{{ route('companyCustomer.supports.index') }}">Support</a>
-                    </li> -->
+                    <?php
+
+                        $user_id = Auth::guard('company_customer')->user()->id;
+                        $company_id = \App\Models\CompanyCustomer::where('user_id',$user_id)->first()->id;
+                        $companyModules = \App\Models\CompanyModule::where('company_id',$company_id)->get();
+                        
+                    ?>
+
+                    @foreach($companyModules as $module)
 
 
-                    <li class="dropdown-toggle">
-                        <a href="{{ route('companyCustomer.supports.index') }}">Support</a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="{{ route('companyCustomer.supports.create') }}"><i class="fa fa-ticket"></i>&nbsp;&nbsp;Create Ticket</a>
+                        @if($module->module->name == 'Support_module')
+
+                            <li class="dropdown-toggle">
+                                <a href="{{ route('companyCustomer.supports.index') }}">Support</a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="{{ route('companyCustomer.supports.create') }}"><i class="fa fa-ticket"></i>&nbsp;&nbsp;Create Ticket</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('companyCustomer.supports.index') }}"><i class="fa fa-handshake-o"></i>&nbsp;&nbsp;Support</a>
+                                    </li>
+                                </ul>
                             </li>
-                            <li>
-                                <a href="{{ route('companyCustomer.supports.index') }}"><i class="fa fa-handshake-o"></i>&nbsp;&nbsp;Support</a>
-                            </li>
-                        </ul>
-                    </li>
 
+                        @endif
+
+
+                    @endforeach
 
                 </ul>
             </li>

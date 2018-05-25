@@ -197,29 +197,23 @@ class CompanyController extends AppBaseController
     public function store(CreateCompanyRequest $request)
     {
         $input = $request->all();
-
-        if ($request->hasFile('logo')) {
-
+        if ($request->hasFile('logo')) 
+        {
             $path = $request->file('logo')->store('public/company_logos');
             $path = explode("/", $path);
 
             $input['logo'] = $path[2];
 
         }
-        
-
         $input['user_role_code'] = 'company';
         $input['max_users'] = 1;
 
         /*echo "<pre>";
         print_r($input);
         echo "</pre>";
-
         exit;*/
 
-
         $company = $this->companyRepository->create($input);
-
         if($company)
         {
             $company_id = $company->id;
@@ -227,9 +221,7 @@ class CompanyController extends AppBaseController
             $this->defaultCompanySupportPriorities($company_id);
             $this->defaultCompanySupportCategory($company_id);
         }
-
         return response()->json(['success'=> 1, 'msg'=>'Company has been created successfully', 'company'=>$company]);
-
     }
 
     public function defaultCompanySupportStatus($company_id)
