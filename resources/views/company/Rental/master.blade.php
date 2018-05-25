@@ -14,4 +14,9 @@
             <span class="badge">2</span>
         </a>
     </li>
+    <li role="presentation" class="@if($tab == 'articles') active @endif">
+        <a href="{{ route('company.rarticle.index') }}">Articles
+            <span class="badge">2</span>
+        </a>
+    </li>
 </ul>

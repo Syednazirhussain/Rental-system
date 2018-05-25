@@ -648,7 +648,7 @@ Route::group(['middleware' => ['company.auth']], function () {
     /**
     ** Rental Tabs created by Heng.
     */
-    // First Tab -  Customer
+    // First Tab -  Customers
     Route::get('company/rcustomer', ['as'=> 'company.rcustomer.index', 'uses' => 'Company\Rental\CustomerController@index']);
     Route::post('company/rcustomer', ['as'=> 'company.rcustomer.store', 'uses' => 'Company\Rental\CustomerController@store']);
     Route::get('company/rcustomer/create', ['as'=> 'company.rcustomer.create', 'uses' => 'Company\Rental\CustomerController@create']);
@@ -657,7 +657,7 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::delete('company/rcustomer/{rooms}', ['as'=> 'company.rcustomer.destroy', 'uses' => 'Company\Rental\CustomerController@destroy']);
     Route::get('company/rcustomer/{rcustomer}', ['as'=> 'company.rcustomer.show', 'uses' => 'Company\Rental\CustomerController@show']);
     Route::get('company/rcustomer/{rcustomer}/edit', ['as'=> 'company.rcustomer.edit', 'uses' => 'Company\Rental\CustomerController@edit']);
-    // Second Tab -  Contact
+    // Second Tab -  Contacts
     Route::get('company/rcontact', ['as'=> 'company.rcontact.index', 'uses' => 'Company\Rental\ContactController@index']);
     Route::post('company/rcontact', ['as'=> 'company.rcontact.store', 'uses' => 'Company\Rental\ContactController@store']);
     Route::get('company/rcontact/create', ['as'=> 'company.rcontact.create', 'uses' => 'Company\Rental\ContactController@create']);
@@ -675,6 +675,15 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::delete('company/rsignage/{rooms}', ['as'=> 'company.rsignage.destroy', 'uses' => 'Company\Rental\SignageController@destroy']);
     Route::get('company/rsignage/{rcustomer}', ['as'=> 'company.rsignage.show', 'uses' => 'Company\Rental\SignageController@show']);
     Route::get('company/rsignage/{rcustomer}/edit', ['as'=> 'company.rsignage.edit', 'uses' => 'Company\Rental\SignageController@edit']);
+    // Fourth Tab -  Articles
+    Route::get('company/rarticle', ['as'=> 'company.rarticle.index', 'uses' => 'Company\Rental\ArticleController@index']);
+    Route::post('company/rarticle', ['as'=> 'company.rarticle.store', 'uses' => 'Company\Rental\ArticleController@store']);
+    Route::get('company/rarticle/create', ['as'=> 'company.rarticle.create', 'uses' => 'Company\Rental\ArticleController@create']);
+    Route::put('company/rarticle/{rooms}', ['as'=> 'company.rarticle.update', 'uses' => 'Company\Rental\ArticleController@update']);
+    Route::patch('company/rarticle/{rooms}', ['as'=> 'company.rarticle.update', 'uses' => 'Company\Rental\ArticleController@update']);
+    Route::delete('company/rarticle/{rooms}', ['as'=> 'company.rarticle.destroy', 'uses' => 'Company\Rental\ArticleController@destroy']);
+    Route::get('company/rarticle/{rcustomer}', ['as'=> 'company.rarticle.show', 'uses' => 'Company\Rental\ArticleController@show']);
+    Route::get('company/rarticle/{rcustomer}/edit', ['as'=> 'company.rarticle.edit', 'uses' => 'Company\Rental\ArticleController@edit']);
 
 
     Route::group(['middleware' => ['newsletter.auth']], function () {
