@@ -10,15 +10,15 @@
 
         <div class="panel">
             <div class="panel-body">
-
-                @if (session()->has('msg.success'))
+                @include('flash::message')
+               <!--  @if (session()->has('msg.success'))
                     @include('layouts.success_msg')
                 @endif
 
                 @if (session()->has('msg.error'))
                     @include('layouts.error_msg')
                 @endif
-
+ -->
                 <div class="text-right m-b-3">
                     <a href="{{ route('company.bookingAgencies.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i>Add
                         Agency</a>
