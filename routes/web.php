@@ -684,6 +684,15 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::delete('company/rarticle/{rooms}', ['as'=> 'company.rarticle.destroy', 'uses' => 'Company\Rental\ArticleController@destroy']);
     Route::get('company/rarticle/{rcustomer}', ['as'=> 'company.rarticle.show', 'uses' => 'Company\Rental\ArticleController@show']);
     Route::get('company/rarticle/{rcustomer}/edit', ['as'=> 'company.rarticle.edit', 'uses' => 'Company\Rental\ArticleController@edit']);
+    // Fifth Tab -  Prices
+    Route::get('company/rprice', ['as'=> 'company.rprice.index', 'uses' => 'Company\Rental\PriceController@index']);
+    Route::post('company/rprice', ['as'=> 'company.rprice.store', 'uses' => 'Company\Rental\PriceController@store']);
+    Route::get('company/rprice/create', ['as'=> 'company.rprice.create', 'uses' => 'Company\Rental\PriceController@create']);
+    Route::put('company/rprice/{rooms}', ['as'=> 'company.rprice.update', 'uses' => 'Company\Rental\PriceController@update']);
+    Route::patch('company/rprice/{rooms}', ['as'=> 'company.rprice.update', 'uses' => 'Company\Rental\PriceController@update']);
+    Route::delete('company/rprice/{rooms}', ['as'=> 'company.rprice.destroy', 'uses' => 'Company\Rental\PriceController@destroy']);
+    Route::get('company/rprice/{rcustomer}', ['as'=> 'company.rprice.show', 'uses' => 'Company\Rental\PriceController@show']);
+    Route::get('company/rprice/{rcustomer}/edit', ['as'=> 'company.rprice.edit', 'uses' => 'Company\Rental\PriceController@edit']);
 
 
     Route::group(['middleware' => ['newsletter.auth']], function () {
