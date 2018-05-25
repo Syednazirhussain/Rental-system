@@ -702,6 +702,15 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::delete('company/rstock/{rstock}', ['as'=> 'company.rstock.destroy', 'uses' => 'Company\Rental\StockController@destroy']);
     Route::get('company/rstock/{rstock}', ['as'=> 'company.rstock.show', 'uses' => 'Company\Rental\StockController@show']);
     Route::get('company/rstock/{rstock}/edit', ['as'=> 'company.rstock.edit', 'uses' => 'Company\Rental\StockController@edit']);
+    // Seventh Tab -  Prices
+    Route::get('company/rfinancial', ['as'=> 'company.rfinancial.index', 'uses' => 'Company\Rental\FinancialController@index']);
+    Route::post('company/rfinancial', ['as'=> 'company.rfinancial.store', 'uses' => 'Company\Rental\FinancialController@store']);
+    Route::get('company/rfinancial/create', ['as'=> 'company.rfinancial.create', 'uses' => 'Company\Rental\FinancialController@create']);
+    Route::put('company/rfinancial/{rfinancial}', ['as'=> 'company.rfinancial.update', 'uses' => 'Company\Rental\FinancialController@update']);
+    Route::patch('company/rfinancial/{rfinancial}', ['as'=> 'company.rfinancial.update', 'uses' => 'Company\Rental\FinancialController@update']);
+    Route::delete('company/rfinancial/{rfinancial}', ['as'=> 'company.rfinancial.destroy', 'uses' => 'Company\Rental\FinancialController@destroy']);
+    Route::get('company/rfinancial/{rfinancial}', ['as'=> 'company.rfinancial.show', 'uses' => 'Company\Rental\FinancialController@show']);
+    Route::get('company/rfinancial/{rfinancial}/edit', ['as'=> 'company.rfinancial.edit', 'uses' => 'Company\Rental\FinancialController@edit']);
 
 
     Route::group(['middleware' => ['newsletter.auth']], function () {

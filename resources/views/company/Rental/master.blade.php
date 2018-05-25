@@ -29,4 +29,9 @@
             <span class="badge">2</span>
         </a>
     </li>
+    <li role="presentation" class="@if($tab == 'financial') active @endif">
+        <a href="{{ route('company.rfinancial.index') }}">Financial
+            <span class="badge">2</span>
+        </a>
+    </li>
 </ul>
