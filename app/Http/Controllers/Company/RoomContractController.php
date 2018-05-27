@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Company;
 
 use App\Http\Requests\CreateRoomContractRequest;
 use App\Http\Requests\UpdateRoomContractRequest;
+use App\Models\CompanyUser;
 use App\Repositories\RoomContractRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
@@ -78,6 +79,7 @@ class RoomContractController extends AppBaseController
             'modules' => $modules,
             'paymentCycles' => $paymentCycles,
             'paymentMethods' => $paymentMethods,
+            'companyUsers' => '',
         ];
         //dd($rooms);
 
@@ -154,6 +156,7 @@ class RoomContractController extends AppBaseController
         $modules = Module::all();
         $paymentCycles = PaymentCycle::all();
         $paymentMethods = PaymentMethod::all();
+        $companyUsers = CompanyUser::where('company_id', $company->id)->get();
 
         $data = [
             'contract' => $contract,
@@ -167,6 +170,7 @@ class RoomContractController extends AppBaseController
             'modules' => $modules,
             'paymentCycles' => $paymentCycles,
             'paymentMethods' => $paymentMethods,
+            'companyUsers' => $companyUsers,
         ];
         //dd($rooms);
 
@@ -211,7 +215,7 @@ class RoomContractController extends AppBaseController
      */
     public function destroy($id, Request $request)
     {
-        $room = $this->roomRepository->findWithoutFail($id);
+        $room = $this->roomContractRepository->findWithoutFail($id);
 
         if (empty($room)) {
             Flash::error('Company Room not found');
@@ -219,10 +223,41 @@ class RoomContractController extends AppBaseController
             return redirect(route('company.rooms.index'));
         }
 
-        $this->roomRepository->delete($id);
+        $this->roomContractRepository->delete($id);
 
         $request->session()->flash('msg.success', 'Company Room deleted successfully.');
 
-        return redirect(route('company.rooms.index'));
+        return redirect(route('company.contracts.index'));
+    }
+
+
+    /**
+     * Get contract status as calendar view
+     * */
+
+    public function status()
+    {
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        $contracts = Room::leftJoin('room_contracts', 'rooms.id', '=', 'room_contracts.room_id')
+            ->join('company_floor_rooms', 'rooms.floor_id', '=', 'company_floor_rooms.id')
+            ->join('company_buildings', 'company_floor_rooms.building_id', '=', 'company_buildings.id')
+            ->where('rooms.company_id', $company_id)
+            ->where('room_contracts.deleted_at', NULL)
+            ->select('rooms.id','rooms.name', 'start_date', 'end_date', 'company_buildings.name as buildingName', 'company_floor_rooms.floor')
+            ->distinct('rooms.id')->orderBy('company_buildings.id', 'DESC')->get();
+        $data = json_encode($contracts);
+
+        return view('company.contracts.status', ['data' => $data]);
+    }
+
+    /**
+     * Return Period data by Room ID
+     **/
+
+    public function getPeriod(Request $request)
+    {
+        $input = $request->room_id;
+        $contracts = RoomContracts::where('room_id', $input)->get();
+        return response()->json(['success'=>1, 'msg'=>'Fetched Room Contract Period successfully', 'data' => $contracts]);
     }
 }

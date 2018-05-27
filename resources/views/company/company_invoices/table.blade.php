@@ -13,7 +13,7 @@
 
         <tr>
             <td>{{ $Invoice->id }}</td>
-            <td>{{ ucfirst($Invoice->company->name) }}</td>
+            <td>{{ ucfirst($Invoice->name) }}</td>
             <td>{{ ucfirst($Invoice->payment_cycle) }}</td>
             <td><span class="label label-success">{{ date("M d, Y", strtotime($Invoice->created_at)) }}</span></td>
             <td>
@@ -31,7 +31,7 @@
                 @endif
             </td>
             <td>
-                <a href="{{ route('admin.sendInvoice',['company_id' => $Invoice->company->id ]) }}"
+                <a href="{{ route('company.sendInvoice',['company_id' => $Invoice->company_id ]) }}"
                    class="btn btn-default">Send Email</a>
             </td>
         </tr>
