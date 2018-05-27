@@ -128,54 +128,45 @@ class CompanyModuleController extends AppBaseController
 
         $data = $request->all();
 
-        /*echo "<pre>";
-        print_r($data);
-        echo "</pre>";
-
-        exit;*/
+        // echo "<pre>";
+        // print_r($data);
+        // echo "</pre>";
+        // exit;
         
         $input = [];
         $arr = [];
 
-        if (isset($data['module'])) {
+        if (isset($data['module'])) 
+        {
+            $i = 0;
+            $index = 0;
+            foreach ($data['module'] as $module) 
+            {
+                $input['id'] = $module['pk'];
+                $input['module_id'] = $module['id'];
+                $input['price'] = $module['price'];
+                $input['users_limit'] = $module['users_limit'];
+                $input['company_id'] = $data['company_id'];
 
-                $i = 0;
-                $index = 0;
-
-                foreach ($data['module'] as $module) {
-
-                    $input['id'] = $module['pk'];
-                    $input['module_id'] = $module['id'];
-                    $input['price'] = $module['price'];
-                    $input['users_limit'] = $module['users_limit'];
-                    $input['company_id'] = $data['company_id'];
-
-                    if (strpos($module['pk'], 'new-') === false) {
-                        $id = $module['pk'];
-                    } else {
-                        $index = preg_replace('/[^0-9]/', '', $module['pk']);
-                        $id = "";
-                    }
-                    
-                    $where = ['id' => $id];
-
-                    $companyModule = $this->companyModuleRepository->updateOrCreate($where, $input);
-
-                    if (strpos($module['pk'], 'new-') !== false) {
-
-                        $arr[$index] = $companyModule->id;
-                    }
-
+                if (strpos($module['pk'], 'new-') === false) 
+                {
+                    $id = $module['pk'];
+                } 
+                else 
+                {
+                    $index = preg_replace('/[^0-9]/', '', $module['pk']);
+                    $id = "";
                 }
-
+                $where = ['id' => $id];
+                $companyModule = $this->companyModuleRepository->updateOrCreate($where, $input);
+                if (strpos($module['pk'], 'new-') !== false) 
+                {
+                    $arr[$index] = $companyModule->id;
+                }
+            }
         }
-        
 
-        return response()->json([
-                                'success'=>1, 
-                                'msg'=>'Company modules have been updated successfully',
-                                'createdFields'=>$arr,
-                                ]);
+        return response()->json(['success'=>1,'msg'=>'Company modules have been updated successfully','createdFields'=>$arr]);
     }
 
     /**

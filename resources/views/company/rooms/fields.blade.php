@@ -1,3 +1,4 @@
+
 <div class="wizard" id="wizard-basic">
     <div class="wizard-wrapper">
         <ul class="wizard-steps">
@@ -18,6 +19,34 @@
         </span>
             </li>
         </ul>
+
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div class="panel-title">Add Room</div>
+                    </div>
+                    <div class="panel-body">
+                        <form action="{{ route('company.rooms.store') }}" method="POST" id="roomForm" enctype="multipart/form-data">
+
+                            @include('company.rooms.fields')
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+{{ csrf_field() }}
+@if(isset($room))
+    <input name="_method" type="hidden" value="PATCH">
+@endif
+
+<div class="row">
+    <div class="col-sm-12 form-group">
+        <label for="company_id">Company Name</label>
+        <input type="text" id="company_id" class="form-control" value="@if(isset($company)){{ $company->name }}@endif" disabled>
+
+
+
     </div>
     <div class="wizard-content">
         <form action="{{ route('company.rooms.store') }}" name="createRoomForm" class="wizard-pane active" id="wizard-1" method="post" enctype="multipart/form-data">

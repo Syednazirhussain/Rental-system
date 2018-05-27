@@ -82,7 +82,8 @@ class SupportPrioritiesController extends AppBaseController
         $supportPriorities = $this->supportPrioritiesRepository->findWithoutFail($id);
 
         if (empty($supportPriorities)) {
-            Flash::error('Support Priorities not found');
+
+            session()->flash('msg.error','Support Priorities not found');
 
             return redirect(route('admin.supportPriorities.index'));
         }
@@ -102,7 +103,8 @@ class SupportPrioritiesController extends AppBaseController
         $supportPriorities = $this->supportPrioritiesRepository->findWithoutFail($id);
 
         if (empty($supportPriorities)) {
-            Flash::error('Support Priorities not found');
+
+            session()->flash('msg.error','Support Priorities not found');
 
             return redirect(route('admin.supportPriorities.index'));
         }
@@ -127,14 +129,15 @@ class SupportPrioritiesController extends AppBaseController
         $supportPriorities = $this->supportPrioritiesRepository->findWithoutFail($id);
 
         if (empty($supportPriorities)) {
-            Flash::error('Support Priorities not found');
+
+            session()->flash('msg.error','Support Priorities not found');
 
             return redirect(route('admin.supportPriorities.index'));
         }
 
         $supportPriorities = $this->supportPrioritiesRepository->update($request->all(), $id);
 
-        Flash::success('Support Priorities updated successfully.');
+        session()->flash('msg.success','Support Priorities updated successfully.');
 
         return redirect(route('admin.supportPriorities.index'));
     }
@@ -158,7 +161,7 @@ class SupportPrioritiesController extends AppBaseController
 
         $this->supportPrioritiesRepository->delete($id);
 
-        Flash::success('Support Priorities deleted successfully.');
+        session()->flash('msg.success','Support Priorities deleted successfully.');
 
         return redirect(route('admin.supportPriorities.index'));
     }

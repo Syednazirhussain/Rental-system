@@ -53,7 +53,10 @@ class Support extends Model
         'status_id',
         'priority_id',
         'user_id',
-        'category_id'
+        'category_id',
+        'company_id',
+        'company_name',
+        'last_comment'
     ];
 
     /**
