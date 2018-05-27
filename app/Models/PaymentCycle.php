@@ -4,8 +4,6 @@ namespace App\Models;
 
 
 use Eloquent as Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-
 
 
 /**
@@ -27,12 +25,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class PaymentCycle extends Model
 {
-    use SoftDeletes;
 
     public $table = 'payment_cycles';
     
-    const CREATED_AT = 'created_at';
-    const UPDATED_AT = 'updated_at';
+    public $timestamps = false;
 
 
     // protected $dates = ['deleted_at'];
