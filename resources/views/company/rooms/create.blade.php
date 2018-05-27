@@ -13,6 +13,7 @@
         </div>
         <div class="row">
 
+
             <div class="container">
                 <ul class="nav nav-pills nav-stacked col-md-2">
                   <li class="active"><a href="#tab_a" data-toggle="pill">General Info</a></li>
@@ -195,6 +196,7 @@
                     </div>
                     <div class="tab-pane" id="tab_b">
                          <h4>Conference</h4>
+
                     </div>
                     <div class="tab-pane" id="tab_c">
                          <h4>Rental</h4>

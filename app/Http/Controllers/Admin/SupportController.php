@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
-
 use App\Models\Support;
 use App\Models\SupportPriorities;
 use App\Models\SupportCategory;
@@ -70,6 +69,10 @@ class SupportController extends AppBaseController
     public function companyIndex(Request $request)
     {
         $user_id = Auth::guard('company')->user()->id;
+
+        //dd( Auth::guard('company'));
+        $tickets = $this->supportRepository->getAllTicketsByUserId($user_id);
+
 
         $status_id = SupportStatus::where('name','Solved')->first()->id;
 
