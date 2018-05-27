@@ -260,8 +260,6 @@
                                             </li>
 
 
-                                        @endif
-
                                 <li class="dropdown-toggle">
                                     <a href="{{ route('company.companyFloorRooms.index') }}">Floors</a>
                                     <ul class="dropdown-menu">
