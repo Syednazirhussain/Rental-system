@@ -16,13 +16,7 @@
         <div class="panel">
             <div class="panel-body">
 
-                @include('company.rental.master')
-
-                <div class="well bs-component">
-                    <form method="POST" action="{{ route('company.rcustomer.update') }}" accept-charset="UTF-8">
-                        @include('company.rental.customers.fields')
-                    </form>
-                </div>
+                @include('company.rental.tabs.edit_customers')
 
             </div>
         </div>
