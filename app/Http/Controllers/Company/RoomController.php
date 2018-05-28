@@ -58,10 +58,21 @@ class RoomController extends AppBaseController
         $company = Company::find($company_id);
         $companyFloors = CompanyFloorRoom::where('company_id', $company_id)->get();
         $companyBuildings = CompanyBuilding::pluck('name', 'id');
+
+        $buildings = CompanyBuilding::where('company_id',$company_id)->get();
+
         $services = Service::where('company_id', $company_id)->get();
 
-        return view('company.rooms.create', ['company' => $company, 'companyFloors' => $companyFloors,
-            'companyBuildings' => $companyBuildings, 'services' => $services, 'companyServices' => $services]);
+        $data = [
+            'company' => $company,
+             'companyFloors' => $companyFloors,
+            'companyBuildings' => $companyBuildings,
+             'services' => $services,
+              'companyServices' => $services,
+              'buildings'   => $buildings
+          ];
+
+        return view('company.rooms.create', $data);
     }
 
     /**

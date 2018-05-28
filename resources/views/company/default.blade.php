@@ -67,9 +67,9 @@
                             <li class="dropdown-toggle">
 
                             <?php
-                            use App\Models\CompanyModule;
+
                             $companyID = Auth::guard('company')->user()->companyUser()->first()->company_id;
-                            $companyModules = CompanyModule::join('modules', 'module_id', '=', 'modules.id')
+                            $companyModules = App\Models\CompanyModule::join('modules', 'module_id', '=', 'modules.id')
                                 ->where('company_modules.company_id', $companyID)->get();
                             ?>
 
@@ -80,7 +80,7 @@
                                     <ul class="dropdown-menu">
 
 
-                                        @if($module->module->code == 'conference_module')
+                                        @if($module->module->name == 'Conference_module')
 
 
 
@@ -97,6 +97,7 @@
                                                     </li>
                                                 </ul>
                                             </li>
+
                                             <li class="dropdown-toggle">
                                                 <a href>Rooms Layouts</a>
                                                 <ul class="dropdown-menu">
@@ -157,7 +158,7 @@
 
 
 
-                                        @elseif($module->module->code == 'newsletter_module')
+                                        @elseif($module->module->name == 'Newsletter_module')
 
 
 
@@ -191,15 +192,15 @@
 
 
 
-                                        @elseif($module->module->code == 'rental_module')
+                                        @elseif($module->module->name == 'Rental_module')
 
 
 
                                             <li class="dropdown-toggle">
                                                 <a href="{{ route('company.companyBuildings.index') }}">Buildings</a>
                                                 <ul class="dropdown-menu">
-                                                    <li><a href="{{ route('company.companyBuildings.index') }}"><i
-                                                                    class="fa fa-building"></i>&nbsp;&nbsp;Buildings</a>
+                                                    <li><a href="{{ route('company.companyBuildings.index') }}">
+                                                        <i class="fa fa-building"></i>&nbsp;&nbsp;Buildings</a>
                                                     </li>
                                                 </ul>
                                             </li>
