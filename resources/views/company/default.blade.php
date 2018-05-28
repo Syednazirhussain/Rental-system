@@ -60,6 +60,15 @@
                         </ul>
                     </li>
                     <li class="dropdown-toggle">
+                        <a href="{{ route('company.rcustomer.index') }}">Customers</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ route('company.rcustomer.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
+                                    Customer</a></li>
+                            <li><a href="{{ route('company.rcustomer.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Customers</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-toggle">
                         <a href="{{ route('company.companyBuildings.index') }}">Buildings</a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ route('company.companyBuildings.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Buildings</a>
@@ -194,10 +203,6 @@
                                         @elseif($module->module->code == 'rental_module')
 
                                             <li class="dropdown-toggle">
-                                                <a href="{{ route('company.rcustomer.index') }}">Customers</a>
-                                            </li>
-
-                                            <li class="dropdown-toggle">
                                                 <a href="{{ route('company.companyBuildings.index') }}">Buildings</a>
                                                 <ul class="dropdown-menu">
                                                     <li><a href="{{ route('company.companyBuildings.index') }}"><i
@@ -270,18 +275,6 @@
 
 
                             @endforeach
-
-
-                            <li class="dropdown-toggle">
-                                <a href="{{ route('company.users.index') }}">Company Admin</a>
-                                <ul class="dropdown-menu">
-                                    {{--<li><a href="{{ route('company.users.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
-                                            User</a></li>--}}
-                                    <li><a href="{{ route('company.users.index') }}"><i class="fa fa-user-secret"></i>&nbsp;&nbsp;Company
-                                            Admin Users</a>
-                                    </li>
-                                </ul>
-                            </li>
 
                             <li><a href="{{ route('company.companyInvoices.index') }}"><i class="fa fa-building-o"></i>&nbsp;&nbsp;Invoices</a>
                             </li>

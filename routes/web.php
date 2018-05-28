@@ -720,6 +720,15 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::delete('company/rbuilding/{rbuilding}', ['as'=> 'company.rbuilding.destroy', 'uses' => 'Company\Rental\BuildingController@destroy']);
     Route::get('company/rbuilding/{rbuilding}', ['as'=> 'company.rbuilding.show', 'uses' => 'Company\Rental\BuildingController@show']);
     Route::get('company/rbuilding/{rbuilding}/edit', ['as'=> 'company.rbuilding.edit', 'uses' => 'Company\Rental\BuildingController@edit']);
+    // Invoice Tab - Invoice
+    Route::get('company/rinvoice', ['as'=> 'company.rinvoice.index', 'uses' => 'Company\Rental\InvoiceController@index']);
+    Route::post('company/rinvoice', ['as'=> 'company.rinvoice.store', 'uses' => 'Company\Rental\InvoiceController@store']);
+    Route::get('company/rinvoice/create', ['as'=> 'company.rinvoice.create', 'uses' => 'Company\Rental\InvoiceController@create']);
+    Route::put('company/rinvoice/{rinvoice}', ['as'=> 'company.rinvoice.update', 'uses' => 'Company\Rental\InvoiceController@update']);
+    Route::patch('company/rinvoice/{rinvoice}', ['as'=> 'company.rinvoice.update', 'uses' => 'Company\Rental\InvoiceController@update']);
+    Route::delete('company/rinvoice/{rinvoice}', ['as'=> 'company.rinvoice.destroy', 'uses' => 'Company\Rental\InvoiceController@destroy']);
+    Route::get('company/rinvoice/{rinvoice}', ['as'=> 'company.rinvoice.show', 'uses' => 'Company\Rental\InvoiceController@show']);
+    Route::get('company/rinvoice/{rinvoice}/edit', ['as'=> 'company.rinvoice.edit', 'uses' => 'Company\Rental\InvoiceController@edit']);
 
 
     Route::group(['middleware' => ['newsletter.auth']], function () {
