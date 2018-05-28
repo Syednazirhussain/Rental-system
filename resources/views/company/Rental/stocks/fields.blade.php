@@ -42,7 +42,7 @@
     <div class="col-md-12">
         <div class="form-group">
             <div class="col-md-10 text-right">
-                <input class="btn btn-primary" type="submit" value="Submit">
+                <input class="btn btn-primary" type="submit" value="Save">
                 <a href="{{ route('company.rstock.index') }}" class="btn btn-default">Back</a>
             </div>
         </div>

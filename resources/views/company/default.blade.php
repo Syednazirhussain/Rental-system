@@ -69,6 +69,15 @@
                         </ul>
                     </li>
                     <li class="dropdown-toggle">
+                        <a href="{{ route('company.rarticle.index') }}">Articles</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ route('company.rarticle.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
+                                    Article</a></li>
+                            <li><a href="{{ route('company.rarticle.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Articles</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-toggle">
                         <a href="{{ route('company.companyBuildings.index') }}">Buildings</a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ route('company.companyBuildings.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Buildings</a>

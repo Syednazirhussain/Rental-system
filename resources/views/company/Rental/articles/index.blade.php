@@ -5,7 +5,7 @@
     <div class="px-content">
 
         <div class="page-header">
-            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i><a href="{{ route('company.rcustomer.index') }}">Articles</a></span></h1>
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i><a href="{{ route('company.rarticle.index') }}">Articles</a></span></h1>
         </div>
 
         <div class="panel">
@@ -19,8 +19,6 @@
                     @include('layouts.error_msg')
                 @endif
                 
-                @include('company.rental.master')
-
                 <div class="text-right m-b-3">
                     <a href="{{ route('company.rarticle.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Create Article</a>
                 </div>
