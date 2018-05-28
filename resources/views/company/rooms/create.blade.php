@@ -12,6 +12,7 @@
             <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Settings / </span>Add Room</h1>
         </div>
         <div class="row">
+<<<<<<< HEAD
 
             <div class="container">
                 <ul class="nav nav-pills nav-stacked col-md-2">
@@ -195,6 +196,14 @@
                     </div>
                     <div class="tab-pane" id="tab_b">
                          <h4>Conference</h4>
+=======
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel">
+                    <div class="panel-body">
+
+                        @include('company.rooms.fields')
+
+>>>>>>> master
                     </div>
                     <div class="tab-pane" id="tab_c">
                          <h4>Rental</h4>

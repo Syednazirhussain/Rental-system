@@ -2,8 +2,8 @@
     <thead>
         <tr>
             <th>No</th>
-            <th>Room Name</th>
             <th>Contract No</th>
+            <th>Payment Method</th>
             <th>Start Date</th>
             <th>End Date</th>
             <th width="200px">Action</th>
@@ -14,7 +14,7 @@
         <tr>
             <td>{!! $loop->index + 1 !!}</td>
             <td>{!! $contract->number !!}</td>
-            <td>{!! $contract->number !!}</td>
+            <td>{!! $contract->payment_method !!}</td>
             <td>{!! $contract->start_date !!}</td>
             <td>{!! $contract->end_date !!}</td>
             <td  width="200px" class="text-center">

@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <th>No</th>
-            <th>Company Name</th>
+            <th>Room Name</th>
             <th>Floor</th>
             <th>Service Name</th>
             <th>Price</th>
@@ -15,7 +15,7 @@
     @foreach($rooms as $room)
         <tr>
             <td>{!! $loop->index + 1 !!}</td>
-            <td>{!! $company->name !!}</td>
+            <td>{!! $room->name !!}</td>
             <td>{!! $floors[$room->floor_id] !!}</td>
             <td>{!! $services[$room->service_id] !!}</td>
             <td>$ {!! $room->price !!}</td>

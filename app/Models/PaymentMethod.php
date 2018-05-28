@@ -25,7 +25,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class PaymentMethod extends Model
 {
-    use SoftDeletes;
 
     public $table = 'payment_methods';
     

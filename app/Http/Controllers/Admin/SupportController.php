@@ -71,6 +71,10 @@ class SupportController extends AppBaseController
     {
         $user_id = Auth::guard('company')->user()->id;
 
+        //dd( Auth::guard('company'));
+        $tickets = $this->supportRepository->getAllTicketsByUserId($user_id);
+
+
         $status_id = SupportStatus::where('name','Solved')->first()->id;
 
         $supports = Support::where('status_id', '!=' ,$status_id)
