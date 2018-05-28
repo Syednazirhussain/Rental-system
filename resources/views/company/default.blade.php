@@ -260,64 +260,12 @@
                                             </li>
 
 
-                                        @endif
-
-<<<<<<< HEAD
-                                <li class="dropdown-toggle">
-                                    <a href="{{ route('company.companyFloorRooms.index') }}">Floors</a>
-                                    <ul class="dropdown-menu">
-                                        {{--<li><a href="{{ route('company.companyFloorRooms.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
-                                                Floor</a></li>--}}
-                                        <li><a href="{{ route('company.companyFloorRooms.index') }}"><i class="fa fa-ellipsis-v"></i>&nbsp;&nbsp;Floors</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown-toggle">
-                                    <a href="{{ route('company.services.index') }}">Services</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="{{ route('company.services.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
-                                                Service</a></li>
-                                        <li><a href="{{ route('company.services.index') }}"><i class="fa fa-list"></i>&nbsp;&nbsp;Services</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown-toggle">
-                                    <a href="{{ route('company.rooms.index') }}">Rooms</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="{{ route('company.rooms.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
-                                                Room</a></li>
-                                        <li><a href="{{ route('company.rooms.index') }}"><i class="fa fa-th-large"></i>&nbsp;&nbsp;Rooms</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown-toggle">
-                                    <a href="{{ route('company.contracts.index') }}">Contracts</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="{{ route('company.contracts.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
-                                                Contract</a></li>
-                                        <li><a href="{{ route('company.contracts.index') }}"><i class="fa fa-file-text"></i>&nbsp;&nbsp;Contracts</a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li class="dropdown-toggle">
-                                    <a href="{{ route('company.companyInvoices.index') }}">Invoices</a>
-                                    <ul class="dropdown-menu">
-=======
->>>>>>> master
-
-                                    </ul>
-                                </li>
-
-                            
-
                             @elseif($module->module->name == 'Support_module')
 
                                 <li class="dropdown-toggle">
                                     <a href="{{ route('company.companySupports.index') }}">Customer Support</a>
                                 </li>
 
-<<<<<<< HEAD
                                 <li class="dropdown-toggle">
                                     <a href="javascript:void(0)">Support Setting</a>
                                     <ul class="dropdown-menu">
@@ -342,10 +290,6 @@
 
 
                     @endforeach
-
-=======
-                            @endforeach
->>>>>>> master
 
 
                             <li class="dropdown-toggle">
@@ -373,12 +317,6 @@
                             </li>
                         </ul>
                     </li>
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> master
                 </ul>
             </li>
         </ul>

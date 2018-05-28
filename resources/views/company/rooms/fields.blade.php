@@ -1,4 +1,28 @@
-<<<<<<< HEAD
+
+
+<div class="wizard" id="wizard-basic">
+    <div class="wizard-wrapper">
+        <ul class="wizard-steps">
+            <li data-target="#wizard-1">
+                <span class="wizard-step-number">1</span>
+                <span class="wizard-step-complete"><i class="fa fa-check text-success"></i></span>
+                <span class="wizard-step-caption">
+          Add Room
+          <span class="wizard-step-description">Add Room</span>
+        </span>
+            </li>
+            <li data-target="#wizard-2">
+                <span class="wizard-step-number">2</span>
+                <span class="wizard-step-complete"><i class="fa fa-check text-success"></i></span>
+                <span class="wizard-step-caption">
+          Add Services
+          <span class="wizard-step-description">Add Services</span>
+        </span>
+            </li>
+        </ul>
+
+
+
             <div class="col-md-6 col-md-offset-3">
                 <div class="panel">
                     <div class="panel-heading">
@@ -24,28 +48,7 @@
         <label for="company_id">Company Name</label>
         <input type="text" id="company_id" class="form-control"
                value="@if(isset($company)){{ $company->name }}@endif" disabled>
-=======
-<div class="wizard" id="wizard-basic">
-    <div class="wizard-wrapper">
-        <ul class="wizard-steps">
-            <li data-target="#wizard-1">
-                <span class="wizard-step-number">1</span>
-                <span class="wizard-step-complete"><i class="fa fa-check text-success"></i></span>
-                <span class="wizard-step-caption">
-          Add Room
-          <span class="wizard-step-description">Add Room</span>
-        </span>
-            </li>
-            <li data-target="#wizard-2">
-                <span class="wizard-step-number">2</span>
-                <span class="wizard-step-complete"><i class="fa fa-check text-success"></i></span>
-                <span class="wizard-step-caption">
-          Add Services
-          <span class="wizard-step-description">Add Services</span>
-        </span>
-            </li>
-        </ul>
->>>>>>> master
+        <input type="text" id="company_id" class="form-control" value="@if(isset($company)){{ $company->name }}@endif" disabled>
     </div>
     <div class="wizard-content">
         <form action="{{ route('company.rooms.store') }}" name="createRoomForm" class="wizard-pane active" id="wizard-1" method="post" enctype="multipart/form-data">

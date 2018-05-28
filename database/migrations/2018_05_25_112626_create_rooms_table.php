@@ -12,7 +12,7 @@ class CreateRoomsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('rooms', function(Blueprint $table)
+		/*Schema::create('rooms', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->integer('floor_id')->unsigned()->nullable()->index('floor_id');
@@ -65,7 +65,7 @@ class CreateRoomsTable extends Migration {
 			$table->boolean('rent_available_users')->nullable();
 			$table->timestamps();
 			$table->softDeletes();
-		});
+		});*/
 	}
 
 
