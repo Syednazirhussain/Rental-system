@@ -14,16 +14,11 @@
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
                 <div class="panel">
-                    <div class="panel-heading">
-                        <div class="panel-title">Add Room</div>
-                    </div>
-                    <div class="panel-body">
-                        <form action="{{ route('company.rooms.store') }}" method="POST" id="roomForm" enctype="multipart/form-data">
 
+                    <form action="{{ route('company.rooms.store') }}" method="POST" id="roomForm" enctype="multipart/form-data">
                             @include('company.rooms.field')
-                            
-                        </form>
-                    </div>
+                    </form>
+                    
                 </div>
             </div>
         </div>
