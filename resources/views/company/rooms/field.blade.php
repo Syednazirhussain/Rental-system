@@ -13,18 +13,21 @@
             <div class="row">
               <div class="col-sm-12 col-md-12">
                 <div class="col-sm-8">
+
                   <div class="form-group">
                       <label for="company_id">Company Name</label>
                       <input type="text" id="company_id" class="form-control" value="@if(isset($company)){{ $company->name }}@endif" disabled>
                   </div>
+
                   <div class="form-group">
                       <label for="room_name">Room Name</label>
                       <input type="text" id="room_name" name="name" class="form-control" value="@if(isset($room)){{ $room->name }}@endif">
                       <div class="errorTxt"></div>
-                  </div>                 
+                  </div>   
+                                
                 </div>
-                <div class="col-sm-4">
 
+                <div class="col-sm-4">
                   <div class="fileinput fileinput-new" data-provides="fileinput">
                     <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
                           @if (isset($room))
@@ -40,9 +43,7 @@
                       <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
                     </div>
                   </div>
-
                   <div class="errorTxt"></div>
-
                 </div>
 
               </div>
@@ -69,7 +70,6 @@
                   @if(isset($room))
                   <option value="{{ $room->service_id }}">{{ $service_name }}</option>
                   @endif
-                  <option value="No-Services">Not enough service</option>
                   @foreach ($services as $service)
                       <option value="{{ $service->id }}">{{$service->name }}</option>
                   @endforeach
@@ -293,6 +293,7 @@
             <div class="col-sm-12 col-md-12 form-group">
               <label for="service_id">Room Type</label>
               <select class="form-control" id="rent_room_type" name="rent_room_type">
+                  <option value="">Select</option>
                   <option value="hall">Hall</option>
                   <option value="study">Study</option>
                   <option value="meeting">Meeting</option>
@@ -413,7 +414,19 @@
         </div>
 
         <div class="col-sm-12">
-            <div class="col-md-6">
+
+            <div class="col-md-4">
+              <label for="service_id">Conference Room Type</label>
+              <select class="form-control" id="conf_room_type" name="conf_room_type">
+                  <option value="">Select</option>
+                  <option value="hall">Hall</option>
+                  <option value="study">Study</option>
+                  <option value="meeting">Meeting</option>
+              </select>
+              <div class="errorTxt"></div>                            
+            </div>
+
+            <div class="col-md-4">
               <label class="custom-control custom-checkbox">
                 <input type="checkbox" name="conf_calender_available" id="conf_calender_available" class="custom-control-input">
                 <span class="custom-control-indicator"></span>
@@ -421,7 +434,7 @@
               </label>                             
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-4">
               <label class="custom-control custom-checkbox">
                 <input type="checkbox" name="conf_available_users" id="conf_available_users" class="custom-control-input">
                 <span class="custom-control-indicator"></span>
@@ -468,7 +481,7 @@
 
 <div class="col-xs-12 col-sm-12 col-md-12 m-t-2">
     <button type="submit" class="btn btn-primary">@if(isset($room)) <i class="fa fa-refresh"></i>  Update Room @else <i class="fa fa-plus"></i>  Add Room @endif</button>
-    <a href="{!! route('company.rooms.index') !!}" class="btn btn-default">Cancel</a>
+    <a href="{!! route('company.rooms.index') !!}" class="btn btn-default"><i class="fa fa-times"></i>&nbsp;Cancel</a>
 </div>
 
 @section('js')
@@ -497,6 +510,12 @@
 
         $(function() {
           $('#rent_room_type').select2({
+            placeholder: 'Select Room Type',
+          });
+        });
+
+        $(function() {
+          $('#conf_room_type').select2({
             placeholder: 'Select Room Type',
           });
         });
@@ -562,7 +581,7 @@
             });
 
   
-
+            // if we want to submit form via ajax
             $('#roomForm').on('submit', function(e) {
 
                 var errorCount = 0;
@@ -640,8 +659,8 @@
         });
 
         $.validator.addMethod("stringValue", function(value, element) {
-            return this.optional(element) || /^[a-z\-\s]+$/i.test(value);
-        }, "Field must contain only letters or dashes.");
+            return this.optional(element) || /^[a-z\-\s\d]+$/i.test(value);
+        }, "Field must contain string only.");
 
         $.validator.addMethod("securityCode", function(value, element) {
             return this.optional(element) || /^[a-z\-\s\d]+$/i.test(value);
@@ -713,7 +732,7 @@
                 
                 'end_date': {
                     required: true,
-                    greaterThan: "#start_date" 
+                    greaterThan: "start_date" 
                 },
                 
                 'rent_monthly_rent': {
@@ -741,7 +760,7 @@
                 },
                 'rent_end_date': {
                     required: true,
-                    greaterThan: "#rent_end_date"
+                    greaterThan: "rent_end_date"
                 },
                 'rent_room_type': {
                     required: true,
@@ -754,6 +773,9 @@
                 'conf_half_day_price': {
                     required: true,
                     digits: true
+                },
+                'conf_room_type': {
+                    required: true
                 },
                 'conf_cost': {
                     required: true,
@@ -775,8 +797,7 @@
                     required: true,
                 },
                 'conf_termination_cond': {
-                    required: true,
-                    digits: true
+                    required: true
                 },
                 'conf_vat': {
                     required: true,

@@ -43,6 +43,7 @@ class RoomController extends AppBaseController
         $services = Service::where('company_id', $company_id)->pluck('name', 'id');
         $floors = CompanyFloorRoom::where('company_id', $company_id)->pluck('floor', 'id');
 
+
         return view('company.rooms.index', ['rooms' => $rooms, 'company' => $company, 'services' => $services,
             'floors' => $floors]);
     }
@@ -65,11 +66,11 @@ class RoomController extends AppBaseController
 
         $data = [
             'company' => $company,
-             'companyFloors' => $companyFloors,
+            'companyFloors' => $companyFloors,
             'companyBuildings' => $companyBuildings,
-             'services' => $services,
-              'companyServices' => $services,
-              'buildings'   => $buildings
+            'services' => $services,
+            'companyServices' => $services,
+            'buildings'   => $buildings
           ];
 
         return view('company.rooms.create', $data);
@@ -85,27 +86,18 @@ class RoomController extends AppBaseController
     public function store(CreateRoomRequest $request)
     {
 
-        // dd( $request->all() );
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+
+        $input = $request->all();
+
 
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
-        $input = $request->all();
 
         if ($request->hasFile('logo')) 
         {
             $path = $request->file('logo')->store('public/uploadedimages');
             $path = explode("/", $path);
-            $input['logo'] = $path[2];
-        }
-
-        if ($request->hasFile('image1'))
-        {
-            $path = $request->file('image1')->store('public/uploadedimages');
-            $path = explode("/", $path);
             $input['image1'] = $path[2];
-        }
-        else
-        {
-            $input['image1'] = '';   
         }
 
 
@@ -166,6 +158,7 @@ class RoomController extends AppBaseController
         if($request->has('end_date_continue'))
         {
             $input['end_date_continue'] = 1;
+            $input['end_date'] = null;
         }
         else
         {
@@ -175,81 +168,144 @@ class RoomController extends AppBaseController
         if($request->has('rent_end_date_continue'))
         {
             $input['rent_end_date_continue'] = 1;
+            $input['rent_end_date'] = null;
         }
         else
         {
             $input['rent_end_date_continue'] = 0;
         }
 
+        if($request->has('rent_calender_available'))
+        {
+            $input['rent_calender_available'] = 1;
+        }
+        else
+        {
+            $input['rent_calender_available'] = 0;
+        }
 
 
+        if($request->has('rent_available_users'))
+        {
+            $input['rent_available_users'] = 1;
+        }
+        else
+        {
+            $input['rent_available_users'] = 0;
+        }
 
-        dd( $input );
+        if($request->has('conf_calender_available'))
+        {
+            $input['conf_calender_available'] = 1;
+        }
+        else
+        {
+            $input['conf_calender_available'] = 0;
+        }
+
+        if($request->has('conf_available_users'))
+        {
+            $input['conf_available_users'] = 1;
+        }
+        else
+        {
+            $input['conf_available_users'] = 0;
+        }
+
+        $errors = [];
+
+        if($request->has('start_date') && $request->has('end_date'))
+        {
+            $start_date = strtotime($input['start_date']);
+            $end_date = strtotime($input['end_date']);
+
+            if($end_date < $start_date)
+            {
+
+                $errors[] = 'End date must be greater than start date';
+            }
+        }
+
+        if($request->has('rent_start_date') && $request->has('rent_end_date'))
+        {
+            $start_date = strtotime($input['rent_start_date']);
+            $end_date = strtotime($input['rent_end_date']);
+
+            if($end_date < $start_date)
+            {
+                $errors[] = 'Rent End date must be greater than rent start date';
+            }
+        }
+
+        if($errors)
+        {
+            return redirect()->back()->withErrors($errors);
+        }
+
 
         $room = new Room;
-        $room->floor_id = $input[''];
-        $room->company_id = $input[''];
-        $room->service_id = $input[''];
-        $room->name = $input[''];
-        $room->area = $input[''];
-        $room->price = $input[''];
-        $room->security_code = $input[''];
-        $room->image1 = $input[''];
-        $room->image2 = $input[''];
-        $room->image3 = $input[''];
-        $room->image4 = $input[''];
-        $room->image5 = $input[''];
-        $room->sort_index = $input[''];
-        $room->article_number = $input[''];
-        $room->public_name = $input[''];
-        $room->SQNA = $input[''];
-        $room->building_id = $input[''];
-        $room->address = $input[''];
-        $room->start_date = $input[''];
-        $room->end_date = $input[''];
-        $room->end_date_continue = $input[''];
-        $room->conf_room_type = $input[''];
-        $room->conf_day_price = $input[''];
-        $room->conf_half_day_price = $input[''];
-        $room->conf_cost = $input[''];
-        $room->conf_small_group_price = $input[''];
-        $room->conf_high_price = $input[''];
-        $room->conf_medium_price = $input[''];
-        $room->conf_low_price = $input[''];
-        $room->conf_termination_cond = $input[''];
-        $room->conf_vat = $input[''];
-        $room->conf_calendar_available = $input[''];
-        $room->conf_available_users = $input[''];
-        $room->conf_info_internal = $input[''];
-        $room->conf_info_customer_se = $input[''];
-        $room->conf_info_customer_en = $input[''];
-        $room->conf_info_technical_se = $input[''];
-        $room->conf_info_technical_en = $input[''];
-        $room->rent_monthly_rent = $input[''];
-        $room->rent_num_persons = $input[''];
-        $room->rent_vat = $input[''];
-        $room->rent_new_price = $input[''];
-        $room->rent_start_date = $input[''];
-        $room->rent_end_date = $input[''];
-        $room->rent_end_date_continue = $input[''];
-        $room->rent_room_type = $input[''];
-        $room->rent_calendar_available = $input[''];
-        $room->rent_available_users = $input[''];
-
-
-
-
-
-
-
-
-
+        $room->floor_id = $input['floor_id'];
+        $room->company_id = $company_id;
+        $room->service_id = $input['service_id'];
+        $room->name = $input['name'];
+        $room->area = $input['area'];
+        $room->price = $input['price'];
+        $room->security_code = $input['security_code'];
+        $room->image1 = $input['image1'];
+        $room->image2 = $input['image2'];
+        $room->image3 = $input['image3'];
+        $room->image4 = $input['image4'];
+        $room->image5 = $input['image5'];
+        $room->sort_index = $input['sort_index'];
+        $room->article_number = $input['article_number'];
+        $room->public_name = $input['public_name'];
+        $room->SQNA = $input['SQNA'];
+        $room->building_id = $input['building_id'];
+        $room->address = $input['address'];
+        $room->start_date =  date('Y-m-d', strtotime(str_replace('-', '/', $input['start_date'])));
+        $room->end_date = date('Y-m-d', strtotime(str_replace('-', '/', $input['end_date'])));
+        $room->end_date_continue = $input['end_date_continue'];
+        $room->conf_room_type = $input['conf_room_type'];
+        $room->conf_day_price = $input['conf_day_price'];
+        $room->conf_half_day_price = $input['conf_half_day_price'];
+        $room->conf_cost = $input['conf_cost'];
+        $room->conf_small_group_price = $input['conf_sm_price'];
+        $room->conf_high_price = $input['conf_high_price'];
+        $room->conf_medium_price = $input['conf_medium_price'];
+        $room->conf_low_price = $input['conf_low_price'];
+        $room->conf_termination_cond = $input['conf_termination_cond'];
+        $room->conf_vat = $input['conf_vat'];
+        $room->conf_calendar_available = $input['conf_calender_available'];
+        $room->conf_available_users = $input['conf_available_users'];
+        $room->conf_info_internal = $input['conf_info_internal'];
+        $room->conf_info_customer_se = $input['conf_info_customer_se'];
+        $room->conf_info_customer_en = $input['conf_info_customer_en'];
+        $room->conf_info_technical_se = $input['conf_info_technical_se'];
+        $room->conf_info_technical_en = $input['conf_info_technical_en'];
+        $room->rent_monthly_rent = $input['rent_monthly_rent'];
+        $room->rent_num_persons = $input['rent_number_person'];
+        $room->rent_vat = $input['rent_vat'];
+        $room->rent_new_price = $input['rent_new_price'];
+        $room->rent_start_date = date('Y-m-d', strtotime(str_replace('-', '/', $input['rent_start_date'])));
+        $room->rent_end_date = date('Y-m-d', strtotime(str_replace('-', '/', $input['rent_end_date'])));
+        $room->rent_end_date_continue = $input['rent_end_date_continue'];
+        $room->rent_room_type = $input['rent_room_type'];
+        $room->rent_calendar_available = $input['rent_calender_available'];
+        $room->rent_available_users = $input['rent_available_users'];
         $room->save();
 
-        exit;
-        $room = $this->roomRepository->create($input);
 
-        return response()->json(['success'=> 1, 'msg'=>'Company has been created successfully', 'room'=>$room]);
+        // $room = $this->roomRepository->create($input);
+
+        if($room)
+        {
+            // return response()->json(['success'=> 1, 'msg'=>'Company has been created successfully', 'room'=>$room]);
+
+            session()->flash('msg.success','room successfully created');
+            return redirect()->route('company.rooms.index');            
+        }
+
+
 
 
         // $input['company_id'] = $company_id;
@@ -343,9 +399,14 @@ class RoomController extends AppBaseController
         $companyBuildings = CompanyBuilding::pluck('name', 'id');
         $services = Service::where('company_id', $company_id)->get();
 
-        $room = $this->roomRepository->findWithoutFail($id);
+
+        $room = $this->roomRepository->findWithoutFail($id);        
         $companyServices = Service::where('company_id', $company_id)->get();
-        $roomServices = CompanyService::where('room_id', $room->id)->get();
+        
+        // $roomServices = CompanyService::where('room_id', $room->id)->get();
+
+
+
 
         if (empty($room)) {
             Flash::error('Company Room not found');
@@ -356,9 +417,22 @@ class RoomController extends AppBaseController
 
         $floor_name = CompanyBuilding::find(CompanyFloorRoom::find($room->floor_id)->building_id)->name.' - Floor'.CompanyFloorRoom::find($room->floor_id)->floor;
         $service_name = Service::find($room->service_id)->name;
-        return view('company.rooms.edit', ['room' => $room, 'company' => $company, 'companyFloors' => $companyFloors,
-            'companyBuildings' => $companyBuildings, 'services' => $services, 'service_name' => $service_name, 'floor_name' => $floor_name,
-            'companyServices' => $companyServices, 'roomServices' => $roomServices]);
+
+        $data = [
+            'room' => $room,
+            'company' => $company,
+            'companyFloors' => $companyFloors,
+            'companyBuildings' => $companyBuildings,
+            'services' => $services,
+            'service_name' => $service_name,
+            'floor_name' => $floor_name,
+            'companyServices' => $companyServices,
+            // 'roomServices' => $roomServices
+        ];
+
+        dd( $data );
+
+        return view('company.rooms.edit', $data);
     }
 
     /**
