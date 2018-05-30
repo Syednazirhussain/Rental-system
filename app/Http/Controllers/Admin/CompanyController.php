@@ -208,12 +208,13 @@ class CompanyController extends AppBaseController
         $input['user_role_code'] = 'company';
         $input['max_users'] = 1;
 
-        /*echo "<pre>";
-        print_r($input);
-        echo "</pre>";
-        exit;*/
+        // echo "<pre>";
+        // print_r($input);
+        // echo "</pre>";
+        // exit;
 
         $company = $this->companyRepository->create($input);
+        
         if($company)
         {
             $company_id = $company->id;
