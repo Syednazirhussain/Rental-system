@@ -48,6 +48,16 @@ class RoomController extends AppBaseController
             'floors' => $floors]);
     }
 
+
+    public function getFloorsByBuildingId($building_id)
+    {
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        $floors =   CompanyFloorRoom::where('company_id', $company_id)
+                        ->where('building_id',$building_id)
+                        ->pluck("floor","id");
+        return response()->json($floors);
+    }
+
     /**
      * Show the form for creating a new Room.
      *
@@ -91,59 +101,18 @@ class RoomController extends AppBaseController
         $input = $request->all();
 
 
+
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
 
-        if ($request->hasFile('logo')) 
+        if ($request->hasFile('image1')) 
         {
-            $path = $request->file('logo')->store('public/uploadedimages');
+            $path = $request->file('image1')->store('public/uploadedimages');
             $path = explode("/", $path);
             $input['image1'] = $path[2];
         }
-
-
-        if ($request->hasFile('image2'))
-        {
-            $path = $request->file('image2')->store('public/uploadedimages');
-            $path = explode("/", $path);
-            $input['image2'] = $path[2];
-        }
         else
         {
-            $input['image2'] = '';   
-        }
-
-        if ($request->hasFile('image3'))
-        {
-            $path = $request->file('image3')->store('public/uploadedimages');
-            $path = explode("/", $path);
-            $input['image3'] = $path[2];
-        }
-        else
-        {
-            $input['image3'] = '';   
-        }
-
-        if ($request->hasFile('image4'))
-        {
-            $path = $request->file('image4')->store('public/uploadedimages');
-            $path = explode("/", $path);
-            $input['image4'] = $path[2];
-        }
-        else
-        {
-            $input['image4'] = '';   
-        }
-
-
-        if ($request->hasFile('image5'))
-        {
-            $path = $request->file('image5')->store('public/uploadedimages');
-            $path = explode("/", $path);
-            $input['image5'] = $path[2];
-        }
-        else
-        {
-            $input['image5'] = '';   
+            $input['image1'] = '';
         }
 
         if ($request->has('room_module_type')) 
@@ -252,10 +221,10 @@ class RoomController extends AppBaseController
         $room->price = $input['price'];
         $room->security_code = $input['security_code'];
         $room->image1 = $input['image1'];
-        $room->image2 = $input['image2'];
-        $room->image3 = $input['image3'];
-        $room->image4 = $input['image4'];
-        $room->image5 = $input['image5'];
+        $room->image2 = '';
+        $room->image3 = '';
+        $room->image4 = '';
+        $room->image5 = '';
         $room->sort_index = $input['sort_index'];
         $room->article_number = $input['article_number'];
         $room->public_name = $input['public_name'];

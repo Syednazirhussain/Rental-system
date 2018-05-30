@@ -1,5 +1,5 @@
 <div class="panel-heading">
-    <div class="panel-title"><span class="label label-primary">General Info</span></div>
+    <div class="panel-title">General Information</div>
 </div>
 <div class="panel-body">
   <div class="col-xs-12 col-sm-12 col-md-12">
@@ -15,16 +15,24 @@
                 <div class="col-sm-8">
 
                   <div class="form-group">
-                      <label for="company_id">Company Name</label>
-                      <input type="text" id="company_id" class="form-control" value="@if(isset($company)){{ $company->name }}@endif" disabled>
+                    <label for="building_id">Select Building</label>
+                    <select class="form-control" id="building_id" name="building_id">
+                        <option value="">Select</option>
+                        @foreach ($buildings as $building)
+                            <option value="{{ $building->id }}">{{$building->name }}</option>
+                        @endforeach
+                    </select>
+                    <div class="errorTxt"></div>
                   </div>
 
                   <div class="form-group">
-                      <label for="room_name">Room Name</label>
-                      <input type="text" id="room_name" name="name" class="form-control" value="@if(isset($room)){{ $room->name }}@endif">
-                      <div class="errorTxt"></div>
+                    <label for="select_floor">Floor Name</label>
+                    <select class="form-control" id="select_floor" name="floor_id">
+                      <option value="">Select</option>
+                    </select>
+                    <div class="errorTxt"></div>
                   </div>   
-                                
+                  <div class="col-md-2"><span id="loader"><i class="fa fa-spinner fa-3x fa-spin"></i></span></div>
                 </div>
 
                 <div class="col-sm-4">
@@ -38,8 +46,10 @@
                     </div>
                     <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
                     <div>
-                      <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span>
-                      <input type="file" name="logo" id="logo"></span>
+                      <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change
+                      </span>
+                        <input type="file" name="image1" id="image1">
+                      </span>
                       <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
                     </div>
                   </div>
@@ -52,15 +62,8 @@
 
           <div class="col-sm-12 col-md-12">
             <div class="col-sm-6 col-md-6 form-group">
-              <label for="select_floor">Floor Name</label>
-              <select class="form-control" id="select_floor" name="floor_id">
-                  @if(isset($room))
-                  <option value="{{ $room->floor_id }}">{{ $floor_name }}</option>
-                  @endif
-                  @foreach ($companyFloors as $floor)
-                      <option value="{{ $floor->id }}"><span>{{ $companyBuildings[$floor->building_id] }}</span> Floor {{$floor->floor }}</option>
-                  @endforeach
-              </select>
+              <label for="room_name">Room Name</label>
+              <input type="text" id="room_name" name="name" placeholder="enter room name here" class="form-control" value="@if(isset($room)){{ $room->name }}@endif">
               <div class="errorTxt"></div>
             </div>
             <div class="col-sm-6 col-md-6 form-group">
@@ -81,7 +84,7 @@
           <div class="col-sm-12 col-md-12">
             <div class="col-sm-12 col-md-12 form-group">
               <label for="address">Address</label>
-              <input type="text" id="address" name="address" class="form-control" value="@if(isset($room)){{ $room->name }}@endif">
+              <input type="text" id="address" placeholder="enter address here" name="address" class="form-control" value="@if(isset($room)){{ $room->name }}@endif">
               <div class="errorTxt"></div>
             </div>
           </div>
@@ -89,12 +92,25 @@
           <div class="col-sm-12 col-md-12">
             <div class="col-sm-6 col-md-6 form-group">
               <label for="room_area">Area</label>
-              <input type="number" id="room_area" name="area" class="form-control" value="@if(isset($room)){{ $room->area }}@endif">
+              <input type="number" id="room_area" placeholder="enter area here" name="area" class="form-control" value="@if(isset($room)){{ $room->area }}@endif">
               <div class="errorTxt"></div>          
             </div>
             <div class="col-sm-6 col-md-6 form-group">
               <label for="room_price">Price</label>
-              <input type="number" id="room_price" name="price" class="form-control" value="@if(isset($room)){{ $room->price }}@endif">
+              <input type="number" id="room_price" name="price" placeholder="enter price here" class="form-control" value="@if(isset($room)){{ $room->price }}@endif">
+              <div class="errorTxt"></div>          
+            </div>
+          </div>
+
+          <div class="col-sm-12 col-md-12">
+            <div class="col-sm-6 col-md-6 form-group">
+              <label for="public_name">Public Name</label>
+              <input type="text" id="public_name" placeholder="enter public name here" name="public_name" class="form-control">
+              <div class="errorTxt"></div>         
+            </div>
+            <div class="col-sm-6 col-md-6 form-group">
+              <label for="sort_index">Sort Index</label>
+              <input type="number" id="sort_index" placeholder="enter sort index here" name="sort_index" class="form-control">
               <div class="errorTxt"></div>          
             </div>
           </div>
@@ -102,162 +118,64 @@
           <div class="col-sm-12 col-md-12">
             <div class="col-sm-6 col-md-6 form-group">
               <label for="security_code">Security Code</label>
-              <input type="text" id="security_code" name="security_code" class="form-control" value="@if(isset($room)){{ $room->security_code }}@endif">
-              <div class="errorTxt"></div>          
+              <input type="text" id="security_code" placeholder="enter security code here" name="security_code" class="form-control" value="@if(isset($room)){{ $room->security_code }}@endif">
+              <div class="errorTxt"></div> 
             </div>
-            <div class="col-sm-6 col-md-6 form-group">
-              <label for="sort_index">Sort Index</label>
-              <input type="text" id="sort_index" name="sort_index" class="form-control">
-              <div class="errorTxt"></div>          
-            </div>
-          </div>
-
-          <div class="col-sm-12 col-md-12">
             <div class="col-sm-6 col-md-6 form-group">
               <label for="article_number">Article Number</label>
-              <input type="text" id="article_number" name="article_number" class="form-control">
-              <div class="errorTxt"></div>
-            </div>
-            <div class="col-sm-6 col-md-6 form-group">
-              <label for="public_name">Public Name</label>
-              <input type="text" id="public_name" name="public_name" class="form-control">
+              <input type="text" id="article_number" placeholder="enter article number here" name="article_number" class="form-control">
               <div class="errorTxt"></div>
             </div>
           </div>
 
+
           <div class="col-sm-12 col-md-12">
-            <div class="col-sm-6 col-md-6 form-group">
+            <div class="col-sm-12 col-md-12 form-group">
               <label for="SQNA">SQNA</label>
-              <input type="text" id="SQNA" name="SQNA" class="form-control" value="@if(isset($room)){{ $room->security_code }}@endif">
+              <input type="text" id="SQNA" placeholder="enter sqna here" name="SQNA" class="form-control" value="@if(isset($room)){{ $room->security_code }}@endif">
               <div class="errorTxt"></div>
             </div>
-            <div class="col-sm-6 col-md-6 form-group">
-              <label for="building_id">Building</label>
-              <select class="form-control" id="building_id" name="building_id">
-                  @foreach ($buildings as $building)
-                      <option value="{{ $building->id }}">{{$building->name }}</option>
-                  @endforeach
+          </div>
+
+
+          <div class="col-sm-12 col-md-12">
+              <span class="col-sm-4 col-md-4 form-group">
+                  <label for="start_date">Start Date</label>
+                  <input type="text" id="start_date" name="start_date" value="" class="form-control">
+                  <div class="errorTxt"></div>
+              </span>
+              <span class="col-sm-4 col-md-4 form-group">
+                  <label for="end_date">End Date</label>
+                  <input type="text" id="end_date" name="end_date" class="form-control">
+                  <div class="errorTxt"></div>
+              </span>
+              <span class="col-sm-4 col-md-4 form-group">
+                <label class="custom-control custom-checkbox m-t-4">
+                  <input type="checkbox" name="end_date_continue" id="end_date_continue" class="custom-control-input">
+                  <span class="custom-control-indicator"></span>
+                  Continue
+                </label>
+              </span>
+          </div>
+
+          <div class="col-sm-12 col-md-12">
+            <div class="col-sm-12 col-md-12 form-group">
+              <label for="room_module_type">Select Room Type</label>
+              <select class="form-control" id="room_module_type" name="room_module_type">
+                  <option value="rental">Rental</option>
+                  <option value="conference">Conference</option>
               </select>
               <div class="errorTxt"></div>
             </div>
           </div>
 
-          <div class="col-sm-12 col-md-12">
-              <span class="col-sm-6 form-group">
-                  <label for="start_date">Start Date</label>
-                  <input type="text" id="start_date" name="start_date" value="" class="form-control">
-                  <div class="errorTxt"></div>
-              </span>
-              <span class="col-sm-6 form-group">
-                  <label for="end_date">End Date</label>
-                  <input type="text" id="end_date" name="end_date" class="form-control">
-                  <div class="errorTxt"></div>
-              </span>
-          </div>
-
-          <div class="col-sm-12 col-md-12">
-              <span class="col-sm-6 form-group">
-                <label class="custom-control custom-checkbox">
-                  <input type="checkbox" name="end_date_continue" id="end_date_continue" class="custom-control-input">
-                  <span class="custom-control-indicator"></span>
-                  End Date Continue
-                </label>
-              </span>
-              <span class="col-sm-6 form-group">
-                <label class="custom-control custom-checkbox">
-                  <input type="checkbox" name="room_module_type" id="room_module_type" class="custom-control-input">
-                  <span class="custom-control-indicator"></span>
-                  Is it conference room
-                </label>
-              </span>
-          </div>
-
-          <div class="col-sm-12 col-md-12">
-              <span class="col-sm-3 col-md-3 form-group">
-                <label for="image1">Image 1</label>
-                <input type="file" id="image1" name="image1" style="@if(isset($room)) @if($room->image1 !== '') display:none  @endif @endif">
-                @if(isset($room))
-                    @if($room->image1 !== '')
-                        <div class="col-sm-12" id="div_image1">
-                            <img src="{{ asset('uploadedimages/'.$room->image1) }}" style="width:200px">
-                        </div>
-                        <div class="col-sm-12">
-                            <button class="btn btn-link" id="edit_image1" onclick="editImage(1)">Edit</button>
-                            <button class="btn btn-link" id="cancel_image1" onclick="cancelImage(1)" style="display:none">Cancel</button>
-                        </div>
-                    @endif
-                @endif
-              </span>
-              <span class="col-sm-3 col-md-3 form-group">
-                <label for="image2">Image 2</label>
-                <input type="file" id="image2" name="image2" style="@if(isset($room)) @if($room->image2 !== '') display:none  @endif @endif">
-                @if(isset($room))
-                    @if($room->image2 !== '')
-                        <div class="col-sm-12" id="div_image2">
-                            <img src="{{ asset('uploadedimages/'.$room->image2) }}" style="width:200px">
-                        </div>
-                        <div class="col-sm-12">
-                            <button class="btn btn-link" id="edit_image2" onclick="editImage(2)">Edit</button>
-                            <button class="btn btn-link" id="cancel_image2" onclick="cancelImage(2)" style="display:none">Cancel</button>
-                        </div>
-                    @endif
-                @endif
-              </span>
-              <span class="col-sm-3 col-md-3 form-group">
-                <label for="image3">Image 3</label>
-                <input type="file" id="image3" name="image3" style="@if(isset($room)) @if($room->image3 !== '') display:none  @endif @endif">
-                @if(isset($room))
-                    @if($room->image3 !== '')
-                        <div class="col-sm-12" id="div_image3">
-                            <img src="{{ asset('uploadedimages/'.$room->image3) }}" style="width:200px">
-                        </div>
-                        <div class="col-sm-12">
-                            <button class="btn btn-link" id="edit_image3" onclick="editImage(3)">Edit</button>
-                            <button class="btn btn-link" id="cancel_image3" onclick="cancelImage(3)" style="display:none">Cancel</button>
-                        </div>
-                    @endif
-                @endif
-              </span>
-              <span class="col-sm-3 col-md-3 form-group">
-                <label for="image4">Image 4</label>
-                <input type="file" id="image4" name="image4" style="@if(isset($room)) @if($room->image4 !== '') display:none  @endif @endif">
-                @if(isset($room))
-                    @if($room->image4 !== '')
-                        <div class="col-sm-12" id="div_image4">
-                            <img src="{{ asset('uploadedimages/'.$room->image4) }}" style="width:200px">
-                        </div>
-                        <div class="col-sm-12">
-                            <button class="btn btn-link" id="edit_image4" onclick="editImage(4)">Edit</button>
-                            <button class="btn btn-link" id="cancel_image4" onclick="cancelImage(4)" style="display:none">Cancel</button>
-                        </div>
-                    @endif
-                @endif              
-              </span>
-          </div>
-
-
-          <div class="col-sm-12 col-md-12 form-group">
-              <label for="image5">Image 5</label>
-              <input type="file" id="image5" name="image5" style="@if(isset($room)) @if($room->image5 !== '') display:none  @endif @endif">
-              @if(isset($room))
-                  @if($room->image5 !== '')
-                      <div class="col-sm-12" id="div_image5">
-                          <img src="{{ asset('uploadedimages/'.$room->image5) }}" style="width:200px">
-                      </div>
-                      <div class="col-sm-12">
-                          <button class="btn btn-link" id="edit_image5" onclick="editImage(5)">Edit</button>
-                          <button class="btn btn-link" id="cancel_image5" onclick="cancelImage(5)" style="display:none">Cancel</button>
-                      </div>
-                  @endif
-              @endif
-          </div>
       </div>
   </div>
 </div>
 
 <div id="rental">
   <div class="panel-heading">
-      <div class="panel-title"><span class="label label-primary">Rent</span></div>
+      <div class="panel-title">Rent</div>
   </div>
   <div class="panel-body">
     <div class="col-xs-12 col-sm-12 col-md-12">
@@ -304,38 +222,35 @@
 
 
           <div class="col-sm-12 col-md-12">
-              <span class="col-sm-6 col-md-6 form-group">
+              <span class="col-sm-4 col-md-4 form-group">
                   <label for="rent_start_date">Start Date</label>
                   <input type="text" id="rent_start_date" name="rent_start_date" value="" class="form-control">
                   <div class="errorTxt"></div>
                   <!-- <input type="text" id="daterange-3" value="10/24/1984" class="form-control"> -->
               </span>
-              <span class="col-sm-6 col-md-6 form-group">
+              <span class="col-sm-4 col-md-4 form-group">
                   <label for="rent_end_date">End Date</label>
                   <input type="text" id="rent_end_date" name="rent_end_date" class="form-control">
                   <div class="errorTxt"></div>
               </span>
+              <span class="col-sm-4 col-md-4 form-group">
+                <label class="custom-control custom-checkbox m-t-4">
+                  <input type="checkbox" name="rent_end_date_continue" id="rent_end_date_continue" class="custom-control-input">
+                  <span class="custom-control-indicator"></span>
+                  Continue
+                </label>  
+              </span>
           </div>
 
           <div class="col-sm-12 col-md-12">
-
-              <div class="col-sm-4 col-md-4">
-                <label class="custom-control custom-checkbox">
-                  <input type="checkbox" name="rent_end_date_continue" id="rent_end_date_continue" class="custom-control-input">
-                  <span class="custom-control-indicator"></span>
-                  End Date Continue
-                </label>                          
-              </div>
-
-              <div class="col-sm-4 col-md-4">
+              <div class="col-sm-6 col-md-6">
                 <label class="custom-control custom-checkbox">
                   <input type="checkbox" name="rent_calender_available" id="rent_calender_available" class="custom-control-input">
                   <span class="custom-control-indicator"></span>
                   Calender Available
                 </label>                             
               </div>
-
-              <div class="col-sm-4 col-md-4">
+              <div class="col-sm-6 col-md-6">
                 <label class="custom-control custom-checkbox">
                   <input type="checkbox" name="rent_available_users" id="rent_available_users" class="custom-control-input">
                   <span class="custom-control-indicator"></span>
@@ -343,6 +258,7 @@
                 </label>
               </div>
           </div>
+
         </div>
     </div>
   </div> 
@@ -350,7 +266,7 @@
 
 <div id="conference">
   <div class="panel-heading">
-      <div class="panel-title"><span class="label label-primary">Conference</span></div>
+      <div class="panel-title">Conference</div>
   </div>
   <div class="panel-body">
     <div class="col-xs-12 col-sm-12 col-md-12">
@@ -406,16 +322,7 @@
         </div>
 
         <div class="col-sm-12 col-md-12">
-          <div class="col-sm-12 col-md-12 form-group">
-            <label for="conf_termination_cond">Termination Condition</label>
-            <textarea type="text" id="conf_termination_cond" name="conf_termination_cond" class="form-control"></textarea>
-            <div class="errorTxt"></div>
-          </div>
-        </div>
-
-        <div class="col-sm-12">
-
-            <div class="col-md-4">
+            <div class="col-md-12 col-sm-12 form-group">
               <label for="service_id">Conference Room Type</label>
               <select class="form-control" id="conf_room_type" name="conf_room_type">
                   <option value="">Select</option>
@@ -425,8 +332,10 @@
               </select>
               <div class="errorTxt"></div>                            
             </div>
+        </div>
 
-            <div class="col-md-4">
+        <div class="col-sm-12">
+            <div class="col-sm-6 col-md-6 form-group">
               <label class="custom-control custom-checkbox">
                 <input type="checkbox" name="conf_calender_available" id="conf_calender_available" class="custom-control-input">
                 <span class="custom-control-indicator"></span>
@@ -434,14 +343,21 @@
               </label>                             
             </div>
 
-            <div class="col-md-4">
+            <div class="col-sm-6 col-md-6 form-group">
               <label class="custom-control custom-checkbox">
                 <input type="checkbox" name="conf_available_users" id="conf_available_users" class="custom-control-input">
                 <span class="custom-control-indicator"></span>
                 Available User
               </label>
             </div>
+        </div>
 
+        <div class="col-sm-12 col-md-12">
+          <div class="col-sm-12 col-md-12 form-group">
+            <label for="conf_termination_cond">Termination Condition</label>
+            <textarea type="text" id="conf_termination_cond" name="conf_termination_cond" class="form-control" required="required"></textarea>
+            <div class="errorTxt" id="errorSN6"></div>
+          </div>
         </div>
 
         <div class="col-sm-12">
@@ -504,7 +420,7 @@
 
         $(function() {
           $('#building_id').select2({
-            placeholder: 'Select Service',
+            placeholder: 'Select Building',
           });
         });
 
@@ -537,6 +453,41 @@
         }
 
         $(document).ready(function() {
+
+            $('#loader').css("visibility", "hidden");
+
+            $('select[name="building_id"]').on('change', function(){
+
+                  var buildingId = $(this).val();
+                  
+                  var route = "{{ url('/') }}/company/floor/"+buildingId;
+                  
+                  if(buildingId) {
+                      $.ajax({
+                          url: route,
+                          type:"GET",
+                          dataType:"json",
+                          beforeSend: function(){
+                              $('#loader').css("visibility", "visible");
+                          },
+                          success:function(data) {
+
+                              $('select[name="floor_id"]').empty();
+
+                              $.each(data, function(key, value){
+
+                                  $('select[name="floor_id"]').append('<option value="'+ key +'">' + value + '</option>');
+
+                              });
+                          },
+                          complete: function(){
+                              $('#loader').css("visibility", "hidden");
+                          }
+                      });
+                  } else {
+                      $('select[name="floor_id"]').empty();
+                  }
+            });
           
             $('#conference').hide();
             $('#rental').show();
@@ -566,18 +517,32 @@
             });
 
             $('#room_module_type').change(function() {
-                if ($(this).is(":checked")) 
+                // For dropdown
+                if ($(this).val() == 'conference') 
                 {
                     $('#conference').show();
                     $('#rental').hide();
                     flag = 1;
                 }
-                else
+                else if($(this).val() == 'rental')
                 {
                     $('#conference').hide();
                     $('#rental').show();
                     flag = 0;
-                } 
+                }
+                // For checkbox
+                // if ($(this).is(":checked")) 
+                // {
+                //     $('#conference').show();
+                //     $('#rental').hide();
+                //     flag = 1;
+                // }
+                // else
+                // {
+                //     $('#conference').hide();
+                //     $('#rental').show();
+                //     flag = 0;
+                // } 
             });
 
   
@@ -627,6 +592,12 @@
                         $('#errorSN5').text('This field is required.');
                     }
 
+                    if($('#conf_termination_cond').summernote('isEmpty'))
+                    {
+                        errorCount++;
+                        $('#errorSN6').text('This field is required.');
+                    }
+
                 }
                 else
                 {
@@ -635,6 +606,7 @@
                     $('#errorSN3').text('');
                     $('#errorSN4').text('');
                     $('#errorSN5').text('');
+                    $('#errorSN6').text('');
                 }
 
                 if(errorCount > 0)
@@ -658,8 +630,10 @@
 
         });
 
+
+
         $.validator.addMethod("stringValue", function(value, element) {
-            return this.optional(element) || /^[a-z\-\s\d]+$/i.test(value);
+            return this.optional(element) || /^[a-zA-Z0-9\s]+$/i.test(value);
         }, "Field must contain string only.");
 
         $.validator.addMethod("securityCode", function(value, element) {
@@ -709,7 +683,7 @@
                 },
                 'article_number': {
                     required: true,
-                    digits: true
+                    stringValue: true
                 },
                 
                 'public_name': {
@@ -845,6 +819,7 @@
       $('#end_date').daterangepicker({
         singleDatePicker: true,
         showDropdowns: true,
+        startDate : moment().add('years',1),
         locale: {
             format: 'DD-MM-Y'
         }
@@ -861,6 +836,7 @@
       $('#rent_end_date').daterangepicker({
         singleDatePicker: true,
         showDropdowns: true,
+        startDate : moment().add('years',1),
         locale: {
             format: 'DD-MM-Y'
         }
@@ -961,6 +937,27 @@
         ],
       });
     });
+
+    $(function() {
+      $('#conf_termination_cond').summernote({
+        height: 200,
+        toolbar: [
+          ['parastyle', ['style']],
+          ['fontstyle', ['fontname', 'fontsize']],
+          ['style', ['bold', 'italic', 'underline', 'clear']],
+          ['font', ['strikethrough', 'superscript', 'subscript']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['height', ['height']],
+          ['insert', ['picture', 'link', 'video', 'table', 'hr']],
+          ['history', ['undo', 'redo']],
+          ['misc', ['codeview', 'fullscreen']],
+          ['help', ['help']]
+        ],
+      });
+    });
+
+    
 
 </script>
 
