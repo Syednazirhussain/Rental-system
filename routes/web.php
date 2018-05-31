@@ -992,3 +992,45 @@ Route::get('mail', ['as'=> 'mail.send', 'uses' => 'General\ValidationController@
 
 
 
+
+
+Route::resource('roomSettingArrangments', 'RoomSettingArrangmentController');
+
+Route::get('company/roomSettingArrangments', ['as'=> 'company.roomSettingArrangments.index', 'uses' => 'Company\RoomSettingArrangmentController@index']);
+Route::post('company/roomSettingArrangments', ['as'=> 'company.roomSettingArrangments.store', 'uses' => 'Company\RoomSettingArrangmentController@store']);
+Route::get('company/roomSettingArrangments/create', ['as'=> 'company.roomSettingArrangments.create', 'uses' => 'Company\RoomSettingArrangmentController@create']);
+Route::put('company/roomSettingArrangments/{roomSettingArrangments}', ['as'=> 'company.roomSettingArrangments.update', 'uses' => 'Company\RoomSettingArrangmentController@update']);
+Route::patch('company/roomSettingArrangments/{roomSettingArrangments}', ['as'=> 'company.roomSettingArrangments.update', 'uses' => 'Company\RoomSettingArrangmentController@update']);
+Route::delete('company/roomSettingArrangments/{roomSettingArrangments}', ['as'=> 'company.roomSettingArrangments.destroy', 'uses' => 'Company\RoomSettingArrangmentController@destroy']);
+Route::get('company/roomSettingArrangments/{roomSettingArrangments}', ['as'=> 'company.roomSettingArrangments.show', 'uses' => 'Company\RoomSettingArrangmentController@show']);
+Route::get('company/roomSettingArrangments/{roomSettingArrangments}/edit', ['as'=> 'company.roomSettingArrangments.edit', 'uses' => 'Company\RoomSettingArrangmentController@edit']);
+
+
+Route::get('company/roomImages', ['as'=> 'company.roomImages.index', 'uses' => 'Company\RoomImagesController@index']);
+Route::post('company/roomImages', ['as'=> 'company.roomImages.store', 'uses' => 'Company\RoomImagesController@store']);
+Route::get('company/roomImages/create', ['as'=> 'company.roomImages.create', 'uses' => 'Company\RoomImagesController@create']);
+Route::put('company/roomImages/{roomImages}', ['as'=> 'company.roomImages.update', 'uses' => 'Company\RoomImagesController@update']);
+Route::patch('company/roomImages/{roomImages}', ['as'=> 'company.roomImages.update', 'uses' => 'Company\RoomImagesController@update']);
+Route::delete('company/roomImages/{roomImages}', ['as'=> 'company.roomImages.destroy', 'uses' => 'Company\RoomImagesController@destroy']);
+Route::get('company/roomImages/{roomImages}', ['as'=> 'company.roomImages.show', 'uses' => 'Company\RoomImagesController@show']);
+Route::get('company/roomImages/{roomImages}/edit', ['as'=> 'company.roomImages.edit', 'uses' => 'Company\RoomImagesController@edit']);
+
+
+Route::get('company/roomEquipments', ['as'=> 'company.roomEquipments.index', 'uses' => 'Company\RoomEquipmentsController@index']);
+Route::post('company/roomEquipments', ['as'=> 'company.roomEquipments.store', 'uses' => 'Company\RoomEquipmentsController@store']);
+Route::get('company/roomEquipments/create', ['as'=> 'company.roomEquipments.create', 'uses' => 'Company\RoomEquipmentsController@create']);
+Route::put('company/roomEquipments/{roomEquipments}', ['as'=> 'company.roomEquipments.update', 'uses' => 'Company\RoomEquipmentsController@update']);
+Route::patch('company/roomEquipments/{roomEquipments}', ['as'=> 'company.roomEquipments.update', 'uses' => 'Company\RoomEquipmentsController@update']);
+Route::delete('company/roomEquipments/{roomEquipments}', ['as'=> 'company.roomEquipments.destroy', 'uses' => 'Company\RoomEquipmentsController@destroy']);
+Route::get('company/roomEquipments/{roomEquipments}', ['as'=> 'company.roomEquipments.show', 'uses' => 'Company\RoomEquipmentsController@show']);
+Route::get('company/roomEquipments/{roomEquipments}/edit', ['as'=> 'company.roomEquipments.edit', 'uses' => 'Company\RoomEquipmentsController@edit']);
+
+
+Route::get('company/roomNotes', ['as'=> 'company.roomNotes.index', 'uses' => 'Company\RoomNotesController@index']);
+Route::post('company/roomNotes', ['as'=> 'company.roomNotes.store', 'uses' => 'Company\RoomNotesController@store']);
+Route::get('company/roomNotes/create', ['as'=> 'company.roomNotes.create', 'uses' => 'Company\RoomNotesController@create']);
+Route::put('company/roomNotes/{roomNotes}', ['as'=> 'company.roomNotes.update', 'uses' => 'Company\RoomNotesController@update']);
+Route::patch('company/roomNotes/{roomNotes}', ['as'=> 'company.roomNotes.update', 'uses' => 'Company\RoomNotesController@update']);
+Route::delete('company/roomNotes/{roomNotes}', ['as'=> 'company.roomNotes.destroy', 'uses' => 'Company\RoomNotesController@destroy']);
+Route::get('company/roomNotes/{roomNotes}', ['as'=> 'company.roomNotes.show', 'uses' => 'Company\RoomNotesController@show']);
+Route::get('company/roomNotes/{roomNotes}/edit', ['as'=> 'company.roomNotes.edit', 'uses' => 'Company\RoomNotesController@edit']);
