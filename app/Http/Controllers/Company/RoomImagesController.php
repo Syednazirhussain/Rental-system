@@ -15,6 +15,7 @@ use Auth;
 use App\Models\CompanyBuilding;
 use App\Models\Room;
 use App\Models\Company\RoomSittingArrangment;
+use App\Models\Company\RoomImages;
 
 class RoomImagesController extends AppBaseController
 {
@@ -133,13 +134,24 @@ class RoomImagesController extends AppBaseController
     {
         $roomImages = $this->roomImagesRepository->findWithoutFail($id);
 
-        if (empty($roomImages)) {
-            Flash::error('Room Images not found');
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        
+        $buildings = CompanyBuilding::where('company_id',$company_id)->get();
 
+        if (empty($roomImages)) 
+        {
+            session()->flash('msg.error','Room Images not found');
             return redirect(route('company.roomImages.index'));
         }
 
-        return view('company.room_images.edit')->with('roomImages', $roomImages);
+
+
+        $data = [
+            'buildings' => $buildings,
+            'roomImages'  => $roomImages
+        ];
+
+        return view('company.room_images.edit',$data);
     }
 
     /**
@@ -152,17 +164,53 @@ class RoomImagesController extends AppBaseController
      */
     public function update($id, UpdateRoomImagesRequest $request)
     {
-        $roomImages = $this->roomImagesRepository->findWithoutFail($id);
+        // $roomImages = $this->roomImagesRepository->findWithoutFail($id);
 
-        if (empty($roomImages)) {
-            Flash::error('Room Images not found');
+        // $input = $request->except(['_token','_method']);
 
+        // dd($input);
+
+        $roomImages = RoomImages::find($id);
+
+        if (empty($roomImages)) 
+        {
+            session()->flash('msg.error','Room Images not found');
             return redirect(route('company.roomImages.index'));
         }
 
-        $roomImages = $this->roomImagesRepository->update($request->all(), $id);
+        if($request->hasFile('image_file'))
+        {
+            $path = $request->file('image_file')->store('public/company_rooms_images');
+            $path = explode("/", $path);
 
-        Flash::success('Room Images updated successfully.');
+            $roomImages->building_id = $request->building_id;
+            $roomImages->room_id = $request->room_id;
+            $roomImages->sitting_id = $request->sitting_id;
+            $roomImages->entity_type = 'conference';
+            $roomImages->image_file = $path[2];
+            $room_images =  $roomImages->save();
+        }
+        else
+        {
+            $roomImages->building_id = (int)$request->building_id;
+            $roomImages->room_id = (int)$request->room_id;
+            $roomImages->sitting_id = (int)$request->sitting_id;
+            $roomImages->entity_type = 'conference';
+            $room_images =  $roomImages->save();
+        }
+
+
+
+        // $roomImages = $this->roomImagesRepository->update($input, $id);
+
+        if($room_images)
+        {
+            session()->flash('msg.success','Room image successfully updated');
+        }
+        else
+        {
+            session()->flash('msg.success','Room image not updated');
+        }
 
         return redirect(route('company.roomImages.index'));
     }

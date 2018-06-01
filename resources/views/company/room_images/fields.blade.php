@@ -1,6 +1,6 @@
 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-@if(isset($roomSettingArrangment))
+@if(isset($roomImages))
     <input name="_method" type="hidden" value="PATCH">
 @endif
 
@@ -12,7 +12,7 @@
             <option></option>
             @if(isset($buildings))
                 @foreach($buildings as $building)
-                    @if(isset($roomSettingArrangment) && $roomSettingArrangment->building_id == $building->id)
+                    @if(isset($roomImages) && $roomImages->building_id == $building->id)
                         <option value="{{ $building->id }}" selected="selected">{{ $building->name }}</option>
                     @else
                         <option value="{{ $building->id }}">{{ $building->name }}</option>
@@ -26,8 +26,8 @@
         <label for="room_id">Room</label>
         <select class="form-control select2-example" name="room_id" id="room_id">
             <option value="">Select</option>
-            @if(isset($roomSettingArrangment))
-                <option value="{{ $roomSettingArrangment->room_id }}" selected="selected">{{ $roomSettingArrangment->room->name }}</option>
+            @if(isset($roomImages))
+                <option value="{{ $roomImages->room_id }}" selected="selected">{{ $roomImages->room->name }}</option>
             @endif
         </select>
         <div class="col-md-2"  id="loader_room"><span id="loader"><i class="fa fa-spinner fa-3x fa-spin"></i></span></div>
@@ -37,8 +37,8 @@
         <label for="sitting_id">Room Sitting Arrangement</label>
         <select class="form-control select2-example" name="sitting_id" id="sitting_id">
             <option value="">Select</option>
-            @if(isset($roomSettingArrangment))
-                <option value="{{ $roomSettingArrangment->room_id }}" selected="selected">{{ $roomSettingArrangment->room->name }}</option>
+            @if(isset($roomImages))
+                <option value="{{ $roomImages->sitting_id }}" selected="selected">{{ $roomImages->roomSittingArrangement->name }}</option>
             @endif
         </select>
         <div class="col-md-2"  id="loader_sitting"><span id="loader"><i class="fa fa-spinner fa-3x fa-spin"></i></span></div>
@@ -48,18 +48,16 @@
     <div class="col-sm-12 form-group">
       <div class="fileinput fileinput-new" data-provides="fileinput">
               <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-
-                    @if( isset($roomLayout) && $roomLayout->image != "default.png")
-                        <img src="{{ asset('storage/room_layouts_images/'.$roomLayout->image) }}" >
+                    @if( isset($roomImages) && $roomImages->image_file != "default.png")
+                        <img src="{{ asset('storage/company_rooms_images/'.$roomImages->image_file) }}" >
                     @else
                         <img src="{{ asset('/skin-1/assets/images/default.png') }}" >
                     @endif
-
               </div>
               <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
               <div>
                     <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span>
-                    <input type="file" name="image_file" id="image_file"></span>
+                    <input type="file" name="image_file" id="image_file" ></span>
                     <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
               </div>
         </div>
@@ -67,8 +65,8 @@
 
 
     <div class="col-sm-12">
-        <button type="submit" class="btn btn-primary">@if(isset($roomSettingArrangment)) <i class="fa fa-refresh"></i>  Update  @else <i class="fa fa-plus"></i>  Add  @endif</button>
-        <a href="{!! route('company.roomSettingArrangments.index') !!}" class="btn btn-default">Cancel</a>
+        <button type="submit" class="btn btn-primary">@if(isset($roomImages)) <i class="fa fa-refresh"></i>  Update  @else <i class="fa fa-plus"></i>  Add  @endif</button>
+        <a href="{!! route('company.roomImages.index') !!}" class="btn btn-default">Cancel</a>
     </div>
 </div>
 
@@ -193,9 +191,6 @@
                     required: true,
                 },
                 'sitting_id': {
-                    required: true,
-                },
-                'image_file': {
                     required: true,
                 }
             }

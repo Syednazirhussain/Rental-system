@@ -14,13 +14,11 @@
         <tr>
             <td>
                 <div class="fileinput-new thumbnail" style="width: 75px;">
-
                     @if( isset($roomImages) && $roomImages->image_file != "default.png")
                         <img src="{{ asset('storage/company_rooms_images/'.$roomImages->image_file) }}" >
                     @else
                         <img src="{{ asset('/skin-1/assets/images/default.png') }}" >
                     @endif
-
                 </div>
             </td>
             <td>{{ $roomImages->companyBuilding->name }}</td>
