@@ -217,6 +217,7 @@
                                                     </li>
                                                 </ul>
                                             </li>
+
                                             <li class="dropdown-toggle">
                                                 <a href="{{ route('company.services.index') }}">Services</a>
                                                 <ul class="dropdown-menu">
@@ -228,17 +229,26 @@
                                                     </li>
                                                 </ul>
                                             </li>
+
                                             <li class="dropdown-toggle">
                                                 <a href="{{ route('company.rooms.index') }}">Rooms</a>
                                                 <ul class="dropdown-menu">
-                                                    <li><a href="{{ route('company.rooms.create') }}"><i
+                                                    <li>
+                                                        <a href="{{ route('company.rooms.create') }}"><i
                                                                     class="fa fa-plus"></i>&nbsp;&nbsp;Add
-                                                            Room</a></li>
-                                                    <li><a href="{{ route('company.rooms.index') }}"><i
+                                                            Room</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{ route('company.rooms.index') }}"><i
                                                                     class="fa fa-th-large"></i>&nbsp;&nbsp;Rooms</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{ route('company.roomSettingArrangments.index') }}"><i
+                                                                    class="fa fa-th-large"></i>&nbsp;&nbsp;Room Sitting Arrangment</a>
                                                     </li>
                                                 </ul>
                                             </li>
+
                                             <li class="dropdown-toggle">
                                                 <a href="{{ route('company.contracts.index') }}">Contracts</a>
                                                 <ul class="dropdown-menu">

@@ -1,23 +1,32 @@
-@extends('layouts.app')
+@extends('company.default')
 
 @section('content')
-    <section class="content-header">
-        <h1>
-            Room Setting Arrangment
-        </h1>
-   </section>
-   <div class="content">
-       @include('adminlte-templates::common.errors')
-       <div class="box box-primary">
-           <div class="box-body">
-               <div class="row">
-                   {!! Form::model($roomSettingArrangment, ['route' => ['company.roomSettingArrangments.update', $roomSettingArrangment->id], 'method' => 'patch']) !!}
+    <div class="px-content">
+        <div class="page-header">
+            <h1>
+                <span class="text-muted font-weight-light">
+                    <i class="page-header-icon ion-android-checkbox-outline"></i>
+                    Room Setting Arrangment /
+                </span>
+                Edit Room Setting Arrangment
+            </h1>
+        </div>
 
-                        @include('company.room_setting_arrangments.fields')
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div class="panel-title">Edit Room Setting Arrangment</div>
+                    </div>
+                    <div class="panel-body">
+                        <form action="{{ route('company.roomSettingArrangments.update', [$roomSettingArrangment->id]) }}" method="POST" id="roomSittingForm">
 
-                   {!! Form::close() !!}
-               </div>
-           </div>
-       </div>
-   </div>
+                            @include('company.room_setting_arrangments.fields')
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

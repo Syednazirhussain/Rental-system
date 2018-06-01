@@ -83,7 +83,7 @@ class RoomSettingArrangment extends Model
      **/
     public function room()
     {
-        return $this->belongsTo(\App\Models\Company\Room::class);
+        return $this->belongsTo(\App\Models\Room::class);
     }
 
     /**
@@ -91,7 +91,7 @@ class RoomSettingArrangment extends Model
      **/
     public function company()
     {
-        return $this->belongsTo(\App\Models\Company\Company::class);
+        return $this->belongsTo(\App\Models\Company::class);
     }
 
     /**
@@ -99,7 +99,7 @@ class RoomSettingArrangment extends Model
      **/
     public function companyBuilding()
     {
-        return $this->belongsTo(\App\Models\Company\CompanyBuilding::class);
+        return $this->belongsTo(\App\Models\CompanyBuilding::class,'building_id','id');
     }
 
     /**

@@ -983,19 +983,7 @@ Route::get('mail', ['as'=> 'mail.send', 'uses' => 'General\ValidationController@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-Route::resource('roomSettingArrangments', 'RoomSettingArrangmentController');
-
+Route::get('company/room/{building}', ['as'=> 'company.building.room', 'uses' => 'Company\RoomSettingArrangmentController@getRoomByBuildingId']);
 Route::get('company/roomSettingArrangments', ['as'=> 'company.roomSettingArrangments.index', 'uses' => 'Company\RoomSettingArrangmentController@index']);
 Route::post('company/roomSettingArrangments', ['as'=> 'company.roomSettingArrangments.store', 'uses' => 'Company\RoomSettingArrangmentController@store']);
 Route::get('company/roomSettingArrangments/create', ['as'=> 'company.roomSettingArrangments.create', 'uses' => 'Company\RoomSettingArrangmentController@create']);

@@ -32,8 +32,7 @@ class RoomImagesController extends AppBaseController
         $this->roomImagesRepository->pushCriteria(new RequestCriteria($request));
         $roomImages = $this->roomImagesRepository->all();
 
-        return view('company.room_images.index')
-            ->with('roomImages', $roomImages);
+        return view('company.room_images.index')->with('roomImages', $roomImages);
     }
 
     /**

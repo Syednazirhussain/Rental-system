@@ -11,6 +11,10 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
+use Auth;
+use App\Models\CompanyBuilding;
+use App\Models\Room;
+
 class RoomSettingArrangmentController extends AppBaseController
 {
     /** @var  RoomSettingArrangmentRepository */
@@ -32,8 +36,17 @@ class RoomSettingArrangmentController extends AppBaseController
         $this->roomSettingArrangmentRepository->pushCriteria(new RequestCriteria($request));
         $roomSettingArrangments = $this->roomSettingArrangmentRepository->all();
 
-        return view('company.room_setting_arrangments.index')
-            ->with('roomSettingArrangments', $roomSettingArrangments);
+        // dd($roomSettingArrangments);
+
+        return view('company.room_setting_arrangments.index')->with('roomSettingArrangments', $roomSettingArrangments);
+    }
+
+
+    public function getRoomByBuildingId($building_id)
+    {
+        $rooms =   Room::where('building_id',$building_id)
+                        ->pluck("name","id");
+        return response()->json($rooms);
     }
 
     /**
@@ -43,7 +56,13 @@ class RoomSettingArrangmentController extends AppBaseController
      */
     public function create()
     {
-        return view('company.room_setting_arrangments.create');
+        $buildings = CompanyBuilding::all();
+
+        $data = [
+            'buildings' => $buildings
+        ];
+
+        return view('company.room_setting_arrangments.create',$data);
     }
 
     /**
@@ -57,9 +76,20 @@ class RoomSettingArrangmentController extends AppBaseController
     {
         $input = $request->all();
 
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+
+        $input['company_id'] = $company_id;
+
         $roomSettingArrangment = $this->roomSettingArrangmentRepository->create($input);
 
-        Flash::success('Room Setting Arrangment saved successfully.');
+        if($roomSettingArrangment)
+        {
+            session()->flash('msg.success','Room sitting arrangment successfully created.');            
+        }
+        else
+        {
+            session()->flash('msg.error','Room sitting arrangment not created.');
+        }
 
         return redirect(route('company.roomSettingArrangments.index'));
     }
@@ -95,13 +125,20 @@ class RoomSettingArrangmentController extends AppBaseController
     {
         $roomSettingArrangment = $this->roomSettingArrangmentRepository->findWithoutFail($id);
 
-        if (empty($roomSettingArrangment)) {
-            Flash::error('Room Setting Arrangment not found');
-
+        if (empty($roomSettingArrangment)) 
+        {
+            session()->flash('msg.success','Room Setting Arrangment not found');
             return redirect(route('company.roomSettingArrangments.index'));
         }
 
-        return view('company.room_setting_arrangments.edit')->with('roomSettingArrangment', $roomSettingArrangment);
+        $buildings = CompanyBuilding::all();
+
+        $data = [
+            'buildings' => $buildings,
+            'roomSettingArrangment' => $roomSettingArrangment
+        ];
+
+        return view('company.room_setting_arrangments.edit',$data);
     }
 
     /**
@@ -116,15 +153,22 @@ class RoomSettingArrangmentController extends AppBaseController
     {
         $roomSettingArrangment = $this->roomSettingArrangmentRepository->findWithoutFail($id);
 
-        if (empty($roomSettingArrangment)) {
-            Flash::error('Room Setting Arrangment not found');
-
+        if (empty($roomSettingArrangment)) 
+        {
+            session()->flash('msg.success','Room Setting Arrangment not found');
             return redirect(route('company.roomSettingArrangments.index'));
         }
 
         $roomSettingArrangment = $this->roomSettingArrangmentRepository->update($request->all(), $id);
 
-        Flash::success('Room Setting Arrangment updated successfully.');
+        if($roomSettingArrangment)
+        {
+            session()->flash('msg.success','Room sitting arrangment successfully updated.');            
+        }
+        else
+        {
+            session()->flash('msg.error','Room sitting arrangment not updated.');
+        }
 
         return redirect(route('company.roomSettingArrangments.index'));
     }
