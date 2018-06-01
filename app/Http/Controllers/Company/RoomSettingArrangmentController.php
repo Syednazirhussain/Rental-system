@@ -56,7 +56,9 @@ class RoomSettingArrangmentController extends AppBaseController
      */
     public function create()
     {
-        $buildings = CompanyBuilding::all();
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        
+        $buildings = CompanyBuilding::where('company_id',$company_id)->get();
 
         $data = [
             'buildings' => $buildings

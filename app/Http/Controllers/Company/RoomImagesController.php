@@ -11,6 +11,11 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
+use Auth;
+use App\Models\CompanyBuilding;
+use App\Models\Room;
+use App\Models\Company\RoomSettingArrangment;
+
 class RoomImagesController extends AppBaseController
 {
     /** @var  RoomImagesRepository */
@@ -35,6 +40,14 @@ class RoomImagesController extends AppBaseController
         return view('company.room_images.index')->with('roomImages', $roomImages);
     }
 
+
+    public function getRoomSittingArrangmentByRoomId($room_id)
+    {
+        $rooms =   RoomSettingArrangment::where('room_id',$room_id)
+                        ->pluck("name","id");
+        return response()->json($rooms);
+    }
+
     /**
      * Show the form for creating a new RoomImages.
      *
@@ -42,7 +55,16 @@ class RoomImagesController extends AppBaseController
      */
     public function create()
     {
-        return view('company.room_images.create');
+
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        
+        $buildings = CompanyBuilding::where('company_id',$company_id)->get();
+
+        $data = [
+            'buildings' => $buildings
+        ];
+
+        return view('company.room_images.create',$data);
     }
 
     /**
@@ -56,9 +78,18 @@ class RoomImagesController extends AppBaseController
     {
         $input = $request->all();
 
+        dd($input);
+
         $roomImages = $this->roomImagesRepository->create($input);
 
-        Flash::success('Room Images saved successfully.');
+        if($roomImages)
+        {
+            session()->flash('msg.success','Room image successfully created');
+        }
+        else
+        {
+            session()->flash('msg.success','Room image not created');
+        }
 
         return redirect(route('company.roomImages.index'));
     }

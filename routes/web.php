@@ -994,6 +994,7 @@ Route::get('company/roomSettingArrangments/{roomSettingArrangments}', ['as'=> 'c
 Route::get('company/roomSettingArrangments/{roomSettingArrangments}/edit', ['as'=> 'company.roomSettingArrangments.edit', 'uses' => 'Company\RoomSettingArrangmentController@edit']);
 
 
+Route::get('company/roomSittingArrangment/{room_id}', ['as'=> 'company.roomSittingArrangment', 'uses' => 'Company\RoomImagesController@getRoomSittingArrangmentByRoomId']);
 Route::get('company/roomImages', ['as'=> 'company.roomImages.index', 'uses' => 'Company\RoomImagesController@index']);
 Route::post('company/roomImages', ['as'=> 'company.roomImages.store', 'uses' => 'Company\RoomImagesController@store']);
 Route::get('company/roomImages/create', ['as'=> 'company.roomImages.create', 'uses' => 'Company\RoomImagesController@create']);

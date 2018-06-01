@@ -45,6 +45,7 @@ class RoomImages extends Model
 
 
     public $fillable = [
+        'building_id',
         'room_id',
         'sitting_id',
         'entity_type',
@@ -58,6 +59,7 @@ class RoomImages extends Model
      */
     protected $casts = [
         'id' => 'integer',
+        'building_id' => 'integer',
         'room_id' => 'integer',
         'sitting_id' => 'integer',
         'entity_type' => 'string',
