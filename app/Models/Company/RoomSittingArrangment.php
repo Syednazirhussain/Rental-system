@@ -6,12 +6,13 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class RoomImages
+ * Class RoomSettingArrangment
  * @package App\Models\Company
- * @version May 31, 2018, 12:05 pm UTC
+ * @version May 31, 2018, 12:03 pm UTC
  *
  * @property \App\Models\Company\Room room
- * @property \App\Models\Company\RoomSittingArrangement roomSittingArrangement
+ * @property \App\Models\Company\Company company
+ * @property \App\Models\Company\CompanyBuilding companyBuilding
  * @property \Illuminate\Database\Eloquent\Collection companyContracts
  * @property \Illuminate\Database\Eloquent\Collection companyCustomer
  * @property \Illuminate\Database\Eloquent\Collection companyFloorRooms
@@ -24,18 +25,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Database\Eloquent\Collection groups
  * @property \Illuminate\Database\Eloquent\Collection roleHasPermissions
  * @property \Illuminate\Database\Eloquent\Collection roomEquipments
+ * @property \Illuminate\Database\Eloquent\Collection RoomImage
  * @property \Illuminate\Database\Eloquent\Collection roomLayouts
  * @property \Illuminate\Database\Eloquent\Collection roomNotes
  * @property integer room_id
- * @property integer sitting_id
- * @property string entity_type
- * @property string image_file
+ * @property integer company_id
+ * @property integer building_id
+ * @property string name
+ * @property integer number_persons
  */
-class RoomImages extends Model
+class RoomSittingArrangment extends Model
 {
     use SoftDeletes;
 
-    public $table = 'room_images';
+    public $table = 'room_sitting_arrangements';
     
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
@@ -45,11 +48,11 @@ class RoomImages extends Model
 
 
     public $fillable = [
-        'building_id',
         'room_id',
-        'sitting_id',
-        'entity_type',
-        'image_file'
+        'company_id',
+        'building_id',
+        'name',
+        'number_persons'
     ];
 
     /**
@@ -59,11 +62,11 @@ class RoomImages extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'building_id' => 'integer',
         'room_id' => 'integer',
-        'sitting_id' => 'integer',
-        'entity_type' => 'string',
-        'image_file' => 'string'
+        'company_id' => 'integer',
+        'building_id' => 'integer',
+        'name' => 'string',
+        'number_persons' => 'integer'
     ];
 
     /**
@@ -80,9 +83,16 @@ class RoomImages extends Model
      **/
     public function room()
     {
-        return $this->belongsTo(\App\Models\Room::class,'room_id','id');
+        return $this->belongsTo(\App\Models\Room::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function company()
+    {
+        return $this->belongsTo(\App\Models\Company::class);
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -93,10 +103,10 @@ class RoomImages extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function roomSittingArrangement()
+    public function roomImages()
     {
-        return $this->belongsTo(\App\Models\Company\RoomSittingArrangment::class,'sitting_id','id');
+        return $this->hasMany(\App\Models\Company\RoomImage::class);
     }
 }

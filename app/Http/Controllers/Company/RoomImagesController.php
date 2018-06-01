@@ -14,7 +14,7 @@ use Response;
 use Auth;
 use App\Models\CompanyBuilding;
 use App\Models\Room;
-use App\Models\Company\RoomSettingArrangment;
+use App\Models\Company\RoomSittingArrangment;
 
 class RoomImagesController extends AppBaseController
 {
@@ -43,7 +43,7 @@ class RoomImagesController extends AppBaseController
 
     public function getRoomSittingArrangmentByRoomId($room_id)
     {
-        $rooms =   RoomSettingArrangment::where('room_id',$room_id)
+        $rooms =   RoomSittingArrangment::where('room_id',$room_id)
                         ->pluck("name","id");
         return response()->json($rooms);
     }
@@ -78,7 +78,15 @@ class RoomImagesController extends AppBaseController
     {
         $input = $request->all();
 
-        dd($input);
+        if ($request->hasFile('image_file')) 
+        {
+            $path = $request->file('image_file')->store('public/company_rooms_images');
+            $path = explode("/", $path);
+            $input['image_file'] = $path[2];
+            
+        }
+
+        $input['entity_type'] = 'conference';
 
         $roomImages = $this->roomImagesRepository->create($input);
 

@@ -12,7 +12,7 @@
                         <div class="panel-title">Add Room Images</div>
                     </div>
                     <div class="panel-body">
-                        <form action="{{ route('company.roomImages.store') }}" method="POST" id="roomImagesForm">
+                        <form action="{{ route('company.roomImages.store') }}" method="POST" id="roomImagesForm" enctype="multipart/form-data">
 
                             @include('company.room_images.fields')
 

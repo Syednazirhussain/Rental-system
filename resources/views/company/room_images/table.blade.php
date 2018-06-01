@@ -1,21 +1,32 @@
 <table class="table table-responsive" id="roomImages-table">
     <thead>
         <tr>
+        <th></th>
         <th>Building</th>
         <th>Room </th>
         <th>Sitting Arrangment</th>
         <th>Entity Type</th>
-        <th>Image File</th>
             <th colspan="3">Action</th>
         </tr>
     </thead>
     <tbody>
     @foreach($roomImages as $roomImages)
         <tr>
-            <td>{!! $roomImages->room_id !!}</td>
-            <td>{!! $roomImages->sitting_id !!}</td>
+            <td>
+                <div class="fileinput-new thumbnail" style="width: 75px;">
+
+                    @if( isset($roomImages) && $roomImages->image_file != "default.png")
+                        <img src="{{ asset('storage/company_rooms_images/'.$roomImages->image_file) }}" >
+                    @else
+                        <img src="{{ asset('/skin-1/assets/images/default.png') }}" >
+                    @endif
+
+                </div>
+            </td>
+            <td>{{ $roomImages->companyBuilding->name }}</td>
+            <td>{!! $roomImages->room->name !!}</td>
+            <td>{!! $roomImages->roomSittingArrangement->name !!}</td>
             <td>{!! $roomImages->entity_type !!}</td>
-            <td>{!! $roomImages->image_file !!}</td>
             <td  width="200px" class="text-center">
                 {!! Form::open(['route' => ['company.roomImages.destroy',$roomImages->id], 'method' => 'delete']) !!}
                 <a href="{!! route('company.roomImages.show', [$roomImages->id]) !!}"><i class="fa fa-eye fa-lg text-info"></i></a>

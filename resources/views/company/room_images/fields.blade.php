@@ -44,10 +44,28 @@
         <div class="col-md-2"  id="loader_sitting"><span id="loader"><i class="fa fa-spinner fa-3x fa-spin"></i></span></div>
     </div>
 
-    <div class="col-sm-12 form-group" id="service_price">
-        <label for="entity_type">Entity Type</label>
-        <input type="number" name="entity_type" id="entity_type" placeholder="enter number person" class="form-control" value="@if(isset($roomSettingArrangment)){{ $roomSettingArrangment->number_persons }}@endif">
+
+    <div class="col-sm-12 form-group">
+      <div class="fileinput fileinput-new" data-provides="fileinput">
+              <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+
+                    @if( isset($roomLayout) && $roomLayout->image != "default.png")
+                        <img src="{{ asset('storage/room_layouts_images/'.$roomLayout->image) }}" >
+                    @else
+                        <img src="{{ asset('/skin-1/assets/images/default.png') }}" >
+                    @endif
+
+              </div>
+              <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+              <div>
+                    <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span>
+                    <input type="file" name="image_file" id="image_file"></span>
+                    <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+              </div>
+        </div>
     </div>
+
+
     <div class="col-sm-12">
         <button type="submit" class="btn btn-primary">@if(isset($roomSettingArrangment)) <i class="fa fa-refresh"></i>  Update  @else <i class="fa fa-plus"></i>  Add  @endif</button>
         <a href="{!! route('company.roomSettingArrangments.index') !!}" class="btn btn-default">Cancel</a>
@@ -177,7 +195,7 @@
                 'sitting_id': {
                     required: true,
                 },
-                'entity_type': {
+                'image_file': {
                     required: true,
                 }
             }
