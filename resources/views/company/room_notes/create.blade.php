@@ -1,24 +1,26 @@
-@extends('layouts.app')
+@extends('company.default')
 
 @section('content')
-    <section class="content-header">
-        <h1>
-            Room Notes
-        </h1>
-    </section>
-    <div class="content">
-        @include('adminlte-templates::common.errors')
-        <div class="box box-primary">
+    <div class="px-content">
+        <div class="page-header">
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i><a href="{{ route('company.roomNotes.index') }}">Room Notes</a> / </span>Add Room Notes</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div class="panel-title">Add Room Notes</div>
+                    </div>
+                    <div class="panel-body">
+                        <form action="{{ route('company.roomNotes.store') }}" method="POST" id="roomNotesForm" enctype="multipart/form-data">
 
-            <div class="box-body">
-                <div class="row">
-                    {!! Form::open(['route' => 'company.roomNotes.store']) !!}
+                            @include('company.room_notes.fields')
 
-                        @include('company.room_notes.fields')
-
-                    {!! Form::close() !!}
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 @endsection
+

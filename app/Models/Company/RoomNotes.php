@@ -44,6 +44,7 @@ class RoomNotes extends Model
 
 
     public $fillable = [
+        'building_id',
         'room_id',
         'user_id',
         'note'
@@ -73,9 +74,17 @@ class RoomNotes extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
+    public function companyBuilding()
+    {
+        return $this->belongsTo(\App\Models\CompanyBuilding::class,'building_id','id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
     public function room()
     {
-        return $this->belongsTo(\App\Models\Company\Room::class);
+        return $this->belongsTo(\App\Models\Room::class);
     }
 
     /**
@@ -83,6 +92,6 @@ class RoomNotes extends Model
      **/
     public function user()
     {
-        return $this->belongsTo(\App\Models\Company\User::class);
+        return $this->belongsTo(\App\Models\User::class);
     }
 }

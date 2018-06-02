@@ -11,6 +11,11 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
+use Auth;
+use App\Models\User;
+use App\Models\CompanyBuilding;
+
+
 class RoomNotesController extends AppBaseController
 {
     /** @var  RoomNotesRepository */
@@ -43,7 +48,16 @@ class RoomNotesController extends AppBaseController
      */
     public function create()
     {
-        return view('company.room_notes.create');
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        $buildings = CompanyBuilding::where('company_id',$company_id)->get();
+        $users = User::where('user_role_code','company_admin')->get();
+
+        $data = [
+            'buildings' => $buildings,
+            'users' => $users
+        ];
+
+        return view('company.room_notes.create',$data);
     }
 
     /**
@@ -59,7 +73,14 @@ class RoomNotesController extends AppBaseController
 
         $roomNotes = $this->roomNotesRepository->create($input);
 
-        Flash::success('Room Notes saved successfully.');
+        if($roomNotes)
+        {
+            session()->flash('msg.success','Room Notes saved successfully.');
+        }
+        else
+        {
+            session()->flash('msg.success','Room Notes are not saved successfully.');
+        }
 
         return redirect(route('company.roomNotes.index'));
     }
@@ -94,14 +115,23 @@ class RoomNotesController extends AppBaseController
     public function edit($id)
     {
         $roomNotes = $this->roomNotesRepository->findWithoutFail($id);
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        $buildings = CompanyBuilding::where('company_id',$company_id)->get();
+        $users = User::where('user_role_code','company_admin')->get();
 
-        if (empty($roomNotes)) {
-            Flash::error('Room Notes not found');
-
+        if (empty($roomNotes)) 
+        {
+            session()->flash('msg.error','Room Notes not found');
             return redirect(route('company.roomNotes.index'));
         }
 
-        return view('company.room_notes.edit')->with('roomNotes', $roomNotes);
+        $data = [
+            'buildings' => $buildings,
+            'users' => $users,
+            'roomNotes' => $roomNotes 
+        ];
+
+        return view('company.room_notes.edit',$data);
     }
 
     /**
@@ -116,15 +146,22 @@ class RoomNotesController extends AppBaseController
     {
         $roomNotes = $this->roomNotesRepository->findWithoutFail($id);
 
-        if (empty($roomNotes)) {
-            Flash::error('Room Notes not found');
-
+        if (empty($roomNotes)) 
+        {
+            session()->flash('msg.error','Room Notes not found');
             return redirect(route('company.roomNotes.index'));
         }
 
         $roomNotes = $this->roomNotesRepository->update($request->all(), $id);
 
-        Flash::success('Room Notes updated successfully.');
+        if($roomNotes)
+        {
+            session()->flash('msg.success','Room Notes saved successfully.');
+        }
+        else
+        {
+            session()->flash('msg.success','Room Notes are not saved successfully.');
+        }
 
         return redirect(route('company.roomNotes.index'));
     }

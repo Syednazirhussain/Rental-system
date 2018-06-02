@@ -6,7 +6,7 @@
             <h1>
                 <span class="text-muted font-weight-light">
                     <i class="page-header-icon ion-android-checkbox-outline"></i>
-                    Room Setting Arrangment /
+                    <a href="{{ route('company.roomSettingArrangments.index') }}">Room Setting Arrangements</a> /
                 </span>
                 Edit Room Setting Arrangment
             </h1>

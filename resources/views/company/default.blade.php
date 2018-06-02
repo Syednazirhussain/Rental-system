@@ -254,6 +254,10 @@
                                                         <a href="{{ route('company.roomEquipments.index') }}"><i
                                                                     class="fa fa-th-large"></i>&nbsp;&nbsp;Room Equipment</a>
                                                     </li>
+                                                    <li>
+                                                        <a href="{{ route('company.roomNotes.index') }}"><i
+                                                                    class="fa fa-th-large"></i>&nbsp;&nbsp;Room Notes</a>
+                                                    </li>
                                                 </ul>
                                             </li>
 

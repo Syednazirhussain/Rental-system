@@ -44,7 +44,7 @@
     </div>
     <div class="col-sm-12">
         <button type="submit" class="btn btn-primary">@if(isset($roomSettingArrangment)) <i class="fa fa-refresh"></i>  Update  @else <i class="fa fa-plus"></i>  Add  @endif</button>
-        <a href="{!! route('company.roomSettingArrangments.index') !!}" class="btn btn-default">Cancel</a>
+        <a href="{!! route('company.roomSettingArrangments.index') !!}" class="btn btn-default"><i class="fa fa-times"></i>&nbsp;Cancel</a>
     </div>
 </div>
 
