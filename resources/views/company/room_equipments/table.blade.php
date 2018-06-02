@@ -1,12 +1,12 @@
 <table class="table table-responsive" id="roomEquipments-table">
     <thead>
         <tr>
-            <th>Room Id</th>
-        <th>Room Type</th>
-        <th>Equipment Id</th>
-        <th>Qty</th>
-        <th>Price</th>
-        <th>Info</th>
+            <th>Room</th>
+            <th>Room Type</th>
+            <th>Equipment</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Info</th>
             <th colspan="3">Action</th>
         </tr>
     </thead>
@@ -19,13 +19,11 @@
             <td>{!! $roomEquipments->qty !!}</td>
             <td>{!! $roomEquipments->price !!}</td>
             <td>{!! $roomEquipments->info !!}</td>
-            <td>
-                {!! Form::open(['route' => ['company.roomEquipments.destroy', $roomEquipments->id], 'method' => 'delete']) !!}
-                <div class='btn-group'>
-                    <a href="{!! route('company.roomEquipments.show', [$roomEquipments->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
-                    <a href="{!! route('company.roomEquipments.edit', [$roomEquipments->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-edit"></i></a>
-                    {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
-                </div>
+            <td  width="200px" class="text-center">
+                {!! Form::open(['route' => ['company.roomEquipments.destroy',$roomEquipments->id], 'method' => 'delete']) !!}
+                <a href="{!! route('company.roomEquipments.show', [$roomEquipments->id]) !!}"><i class="fa fa-eye fa-lg text-info"></i></a>
+                <a href="{!! route('company.roomEquipments.edit', [$roomEquipments->id]) !!}"><i class="fa fa-edit fa-lg text-info"></i></a>
+                {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
                 {!! Form::close() !!}
             </td>
         </tr>

@@ -11,6 +11,9 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
+use Auth;
+use App\Models\CompanyBuilding;
+
 class RoomEquipmentsController extends AppBaseController
 {
     /** @var  RoomEquipmentsRepository */
@@ -43,7 +46,15 @@ class RoomEquipmentsController extends AppBaseController
      */
     public function create()
     {
-        return view('company.room_equipments.create');
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        
+        $buildings = CompanyBuilding::where('company_id',$company_id)->get();
+
+        $data = [
+            'buildings' => $buildings
+        ];
+
+        return view('company.room_equipments.create',$data);
     }
 
     /**
