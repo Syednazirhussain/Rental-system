@@ -47,6 +47,7 @@ class RoomEquipments extends Model
 
 
     public $fillable = [
+        'building_id',
         'room_id',
         'room_type',
         'equipment_id',
@@ -83,7 +84,7 @@ class RoomEquipments extends Model
      **/
     public function room()
     {
-        return $this->belongsTo(\App\Models\Company\Room::class);
+        return $this->belongsTo(\App\Models\Room::class,'room_id','id');
     }
 
     /**
@@ -91,6 +92,6 @@ class RoomEquipments extends Model
      **/
     public function conferenceEquipment()
     {
-        return $this->belongsTo(\App\Models\Company\ConferenceEquipment::class);
+        return $this->belongsTo(\App\Models\Equipments::class,'equipment_id','id');
     }
 }

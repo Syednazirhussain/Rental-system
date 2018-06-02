@@ -13,6 +13,7 @@ use Response;
 
 use Auth;
 use App\Models\CompanyBuilding;
+use App\Models\Equipments;
 
 class RoomEquipmentsController extends AppBaseController
 {
@@ -47,11 +48,12 @@ class RoomEquipmentsController extends AppBaseController
     public function create()
     {
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
-        
         $buildings = CompanyBuilding::where('company_id',$company_id)->get();
+        $equipments = Equipments::all();
 
         $data = [
-            'buildings' => $buildings
+            'buildings' => $buildings,
+            'equipments' => $equipments
         ];
 
         return view('company.room_equipments.create',$data);
@@ -70,7 +72,14 @@ class RoomEquipmentsController extends AppBaseController
 
         $roomEquipments = $this->roomEquipmentsRepository->create($input);
 
-        Flash::success('Room Equipments saved successfully.');
+        if($roomEquipments)
+        {
+            session()->flash('msg.success','Room Equipments saved successfully.');
+        }
+        else
+        {
+            session()->flash('msg.error','Room Equipments are not saved');
+        }
 
         return redirect(route('company.roomEquipments.index'));
     }
@@ -106,13 +115,23 @@ class RoomEquipmentsController extends AppBaseController
     {
         $roomEquipments = $this->roomEquipmentsRepository->findWithoutFail($id);
 
-        if (empty($roomEquipments)) {
-            Flash::error('Room Equipments not found');
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        $buildings = CompanyBuilding::where('company_id',$company_id)->get();
+        $equipments = Equipments::all();
 
+        if (empty($roomEquipments)) 
+        {
+            session()->flash('msg.error','Room Equipments not found');
             return redirect(route('company.roomEquipments.index'));
         }
 
-        return view('company.room_equipments.edit')->with('roomEquipments', $roomEquipments);
+        $data = [
+            'buildings' => $buildings,
+            'equipments' => $equipments,
+            'roomEquipments' => $roomEquipments
+        ];
+
+        return view('company.room_equipments.edit',$data);
     }
 
     /**
@@ -127,15 +146,22 @@ class RoomEquipmentsController extends AppBaseController
     {
         $roomEquipments = $this->roomEquipmentsRepository->findWithoutFail($id);
 
-        if (empty($roomEquipments)) {
-            Flash::error('Room Equipments not found');
-
+        if (empty($roomEquipments)) 
+        {
+            session()->flash('msg.error','Room Equipments not found');
             return redirect(route('company.roomEquipments.index'));
         }
 
         $roomEquipments = $this->roomEquipmentsRepository->update($request->all(), $id);
 
-        Flash::success('Room Equipments updated successfully.');
+        if($roomEquipments)
+        {
+            session()->flash('msg.success','Room Equipments updated successfully.');
+        }
+        else
+        {
+            session()->flash('msg.error','Room Equipments are not updated');
+        }
 
         return redirect(route('company.roomEquipments.index'));
     }

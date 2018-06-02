@@ -13,9 +13,9 @@
     <tbody>
     @foreach($roomEquipments as $roomEquipments)
         <tr>
-            <td>{!! $roomEquipments->room_id !!}</td>
+            <td>{!! $roomEquipments->room->name !!}</td>
             <td>{!! $roomEquipments->room_type !!}</td>
-            <td>{!! $roomEquipments->equipment_id !!}</td>
+            <td>{!! $roomEquipments->conferenceEquipment->title !!}</td>
             <td>{!! $roomEquipments->qty !!}</td>
             <td>{!! $roomEquipments->price !!}</td>
             <td>{!! $roomEquipments->info !!}</td>

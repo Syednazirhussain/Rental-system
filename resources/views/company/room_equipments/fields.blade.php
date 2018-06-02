@@ -1,6 +1,6 @@
 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-@if(isset($roomImages))
+@if(isset($roomEquipments))
     <input name="_method" type="hidden" value="PATCH">
 @endif
 
@@ -12,7 +12,7 @@
             <option></option>
             @if(isset($buildings))
                 @foreach($buildings as $building)
-                    @if(isset($roomImages) && $roomImages->building_id == $building->id)
+                    @if(isset($roomEquipments) && $roomEquipments->building_id == $building->id)
                         <option value="{{ $building->id }}" selected="selected">{{ $building->name }}</option>
                     @else
                         <option value="{{ $building->id }}">{{ $building->name }}</option>
@@ -26,53 +26,100 @@
         <label for="room_id">Room</label>
         <select class="form-control select2-example" name="room_id" id="room_id">
             <option value="">Select</option>
-            @if(isset($roomImages))
-                <option value="{{ $roomImages->room_id }}" selected="selected">{{ $roomImages->room->name }}</option>
+            @if(isset($roomEquipments))
+                <option value="{{ $roomEquipments->room_id }}" selected="selected">{{ $roomEquipments->room->name }}</option>
             @endif
         </select>
         <div class="col-md-2"  id="loader_room"><span id="loader"><i class="fa fa-spinner fa-3x fa-spin"></i></span></div>
     </div>
 
     <div class="col-sm-12 form-group">
-        <label for="sitting_id">Room Sitting Arrangement</label>
-        <select class="form-control select2-example" name="sitting_id" id="sitting_id">
+        <label for="room_id">Room Type</label>
+        <select class="form-control select2-example" name="room_type" id="room_type">
             <option value="">Select</option>
-            @if(isset($roomImages))
-                <option value="{{ $roomImages->sitting_id }}" selected="selected">{{ $roomImages->roomSittingArrangement->name }}</option>
+            @if(isset($roomEquipments))
+              @if($roomEquipments->room_type == 'rental')
+                <option value="rental" selected="selected">Rental</option>
+                <option value="conference">Conference</option>
+              @elseif($roomEquipments->room_type == 'conference')
+                <option value="rental">Rental</option>
+                <option value="conference" selected="selected">Conference</option>
+              @endif
+            @else
+              <option value="rental">Rental</option>
+              <option value="conference">Conference</option>
             @endif
         </select>
-        <div class="col-md-2"  id="loader_sitting"><span id="loader"><i class="fa fa-spinner fa-3x fa-spin"></i></span></div>
     </div>
-
 
     <div class="col-sm-12 form-group">
-      <div class="fileinput fileinput-new" data-provides="fileinput">
-              <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-                    @if( isset($roomImages) && $roomImages->image_file != "default.png")
-                        <img src="{{ asset('storage/company_rooms_images/'.$roomImages->image_file) }}" >
+        <label for="equipment_id">Equipments</label>
+        <select class="form-control select2-example" name="equipment_id" id="equipment_id" data-placeholder="Select Equipments">
+            <option></option>
+            @if(isset($equipments))
+                @foreach($equipments as $equipment)
+                    @if(isset($roomEquipments) && $roomEquipments->equipment_id == $equipment->id)
+                        <option value="{{ $equipment->id }}" selected="selected">{{ $equipment->title }}</option>
                     @else
-                        <img src="{{ asset('/skin-1/assets/images/default.png') }}" >
+                        <option value="{{ $equipment->id }}">{{ $equipment->title }}</option>
                     @endif
-              </div>
-              <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
-              <div>
-                    <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span>
-                    <input type="file" name="image_file" id="image_file" ></span>
-                    <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
-              </div>
-        </div>
+                @endforeach
+            @endif
+        </select>
     </div>
 
+    <div class="col-sm-12 form-group" id="service_price">
+        <label for="qty">Quantity</label>
+        <input type="number" name="qty" id="qty" placeholder="enter quantity here" class="form-control" value="@if(isset($roomEquipments)){{ $roomEquipments->qty }}@endif">
+    </div>
+
+    <div class="col-sm-12 form-group" id="service_price">
+        <label for="price">Price</label>
+        <input type="number" name="price" id="price" placeholder="enter price here" class="form-control" value="@if(isset($roomEquipments)){{ $roomEquipments->price }}@endif">
+    </div>
+
+    <div class="col-sm-12 form-group" id="service_price">
+        <label for="info">Information</label>
+        <input type="text" name="info" id="info" placeholder="enter info here" class="form-control" value="@if(isset($roomEquipments)){{ $roomEquipments->info }}@endif">
+    </div>
 
     <div class="col-sm-12">
-        <button type="submit" class="btn btn-primary">@if(isset($roomImages)) <i class="fa fa-refresh"></i>  Update  @else <i class="fa fa-plus"></i>  Add  @endif</button>
-        <a href="{!! route('company.roomImages.index') !!}" class="btn btn-default">Cancel</a>
+        <button type="submit" class="btn btn-primary">@if(isset($roomEquipments)) <i class="fa fa-refresh"></i>  Update  @else <i class="fa fa-plus"></i>  Add  @endif</button>
+        <a href="{!! route('company.roomEquipments.index') !!}" class="btn btn-default">Cancel</a>
     </div>
 </div>
 
 
 @section('js')
     <script type="text/javascript">
+
+        // Initialize validator
+        $('#roomEquipmentsForm').pxValidate({
+            focusInvalid: false,
+            rules: {
+                'building_id': {
+                    required: true,
+                },
+                'room_id': {
+                    required: true,
+                },
+                'room_type': {
+                    required: true,
+                },
+                'equipment_id': {
+                    required: true,
+                },
+                'qty': {
+                    required: true,
+                },
+                'price': {
+                    required: true,
+                },
+                'info': {
+                    required: true,
+                }
+            }
+        });
 
         $(function() {
           $('#building_id').select2({
@@ -85,6 +132,19 @@
           });
         });
 
+      
+        $(function() {
+          $('#room_type').select2({
+            placeholder: 'Select Room Type',
+          });
+        });
+
+        $(function() {
+          $('#equipment_id').select2({
+            placeholder: 'Select Equipments',
+          });
+        });
+
         $(document).ready(function() {
 
             $('#loader_room').hide();
@@ -93,6 +153,7 @@
             $('#loader').css("visibility", "hidden");
 
             $('#building_id').on('change', function(){
+
 
                   var buildingId = $(this).val();
                   
@@ -125,75 +186,12 @@
                               
                           },
 
-                      }).done(function(data){
-
-                        var arr = Object.keys(data);
-
-                        getRoomSittingArrangment( arr[0] );
-
                       });
+
                   } else {
                       $('select[name="room_id"]').empty();
                   }
             });
-
-
-
-
-        });
-
-
-        function getRoomSittingArrangment(roomId)
-        {
-            if(roomId) {
-              var route = "{{ url('/') }}/company/roomSittingArrangment/"+roomId;
-                $.ajax({
-                    url: route,
-                    type:"GET",
-                    dataType:"json",
-                    beforeSend: function(){
-                        $('#loader_sitting').show();
-                        $('#loader').css("visibility", "visible");
-                        
-                    },
-                    success:function(data) {
-
-                        $('select[name="sitting_id"]').empty();
-
-                        $.each(data, function(key, value){
-
-                            $('select[name="sitting_id"]').append('<option value="'+ key +'">' + value + '</option>');
-
-                        });
-                    },
-                    complete: function(){
-
-                        $('#loader_sitting').hide();
-                        $('#loader').css("visibility", "visible");
-                        
-                    },
-
-                });
-            } else {
-                $('select[name="sitting_id"]').empty();
-            }
-        }
-       
-
-        // Initialize validator
-        $('#roomEquipmentsForm').pxValidate({
-            focusInvalid: false,
-            rules: {
-                'building_id': {
-                    required: true,
-                },
-                'room_id': {
-                    required: true,
-                },
-                'sitting_id': {
-                    required: true,
-                }
-            }
         });
 
     </script>
