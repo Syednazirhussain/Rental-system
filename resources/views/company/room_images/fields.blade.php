@@ -46,21 +46,23 @@
 
 
     <div class="col-sm-12 form-group">
+
       <div class="fileinput fileinput-new" data-provides="fileinput">
-              <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-                    @if( isset($roomImages) && $roomImages->image_file != "default.png")
-                        <img src="{{ asset('storage/company_rooms_images/'.$roomImages->image_file) }}" >
-                    @else
-                        <img src="{{ asset('/skin-1/assets/images/default.png') }}" >
-                    @endif
-              </div>
-              <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
-              <div>
-                    <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span>
-                    <input type="file" name="image_file" id="image_file" ></span>
-                    <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
-              </div>
+        <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+              @if( isset($roomImages) && $roomImages->image_file != "default.png")
+                  <img src="{{ asset('storage/company_rooms_images/'.$roomImages->image_file) }}" >
+              @else
+                  <img src="{{ asset('/skin-1/assets/images/default.png') }}" >
+              @endif
         </div>
+        <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+        <div>
+              <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span>
+              <input type="file" name="image_file" id="image_file" ></span>
+              <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+        </div>
+      </div>
+
     </div>
 
 

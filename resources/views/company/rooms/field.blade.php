@@ -1,3 +1,13 @@
+@section('css')
+<style type="text/css">
+    .img-area {
+      width: 20px;
+      height: 20px
+    }  
+</style>
+
+@endsection
+
 <div class="panel-heading">
     <div class="panel-title">General Information</div>
 </div>
@@ -353,6 +363,53 @@
         </div>
 
         <div class="col-sm-12 col-md-12">
+          <div class="panel">
+            <div class="panel-heading">
+              <div class="panel-title">Sitting Arrangment</div>
+            </div>
+            <div class="panel-body">
+              <div class="pull-right">
+                <button class="btn btn-primary addSitting" type="button"><i class="fa fa-plus"></i> Add</button>
+              </div>
+              <div class="row sittingArrangments">
+                  <div class="col-sm-12 col-sm-12 sitting">
+                      <div class="col-sm-3 col-md-3 form-group">
+                        <label for="">Sitting Name</label>
+                        <input type="text" name="" class="form-control" >
+                      </div>
+                      <div class="col-sm-3 col-md-3 form-group">
+                        <label for="">Number of Person</label>
+                        <input type="number" name="" class="form-control" >
+                      </div>
+                      <div class="col-sm-3 col-md-3 form-group">
+
+                        <div class="fileinput fileinput-new img-area" data-provides="fileinput" >
+                          <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                                @if( isset($roomImages) && $roomImages->image_file != "default.png")
+                                    <img src="{{ asset('storage/company_rooms_images/'.$roomImages->image_file) }}" >
+                                @else
+                                    <img src="{{ asset('/skin-1/assets/images/default.png') }}" >
+                                @endif
+                          </div>
+                          <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+                          <div>
+                                <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span>
+                                <input type="file" name="image_file" id="image_file" ></span>
+                                <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                          </div>
+                        </div>
+
+                      </div>
+                      <div class="col-sm-3">
+                        <!-- <i class="fa fa-times fa-lg remove-sitting cursor-p m-t-4"></i> -->
+                      </div>
+                  </div>
+              </div>
+            </div>            
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-md-12">
           <div class="col-sm-12 col-md-12 form-group">
             <label for="conf_termination_cond">Termination Condition</label>
             <textarea type="text" id="conf_termination_cond" name="conf_termination_cond" class="form-control" required="required"></textarea>
@@ -402,7 +459,55 @@
 
 @section('js')
 
+
 <script type="text/javascript">
+
+
+        //  Sitting Arrangment Start
+
+        $('.addSitting').click(function(){
+
+          var sitting = '<div class="col-sm-12 col-sm-12 sitting">';
+          sitting += '<div class="col-sm-3 col-md-3 form-group">';
+          sitting += '<label for="">Sitting Name</label>';
+          sitting += '<input type="text" name="" class="form-control" >';
+          sitting += '</div>';
+          sitting += '<div class="col-sm-3 col-md-3 form-group">';
+          sitting += '<label for="">Number of Person</label>';
+          sitting += '<input type="number" name="" class="form-control" >';
+          sitting += '</div>';
+          sitting += '<div class="col-sm-3 col-md-3 form-group">';
+
+
+          sitting += '<div class="fileinput fileinput-new img-area" data-provides="fileinput" >';
+          sitting += '<div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">';
+          sitting += '<img src="{{ asset("/skin-1/assets/images/default.png") }}" >';
+          sitting += '</div>';
+          sitting += '<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>';
+          sitting += '<div>';
+          sitting += '<span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span>';
+          sitting += '<input type="file" name="image_file" id="image_file" ></span>';
+          sitting += '<a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>';
+          sitting += '</div>';
+          sitting += '</div>';
+
+
+          sitting += '</div>';
+          sitting += '<div class="col-sm-3">';
+          sitting += '<i class="fa fa-times fa-lg remove-sitting cursor-p m-t-4"></i>';
+          sitting += '</div>';
+          sitting += '</div>';
+
+          $('.sittingArrangments').prepend(sitting);
+
+        });
+
+        $(document).on('click', '.remove-sitting', function(){
+          $(this).parent().parent().remove();
+        });
+
+
+        // Sitting Arrangment End
 
           // Initialize Select2
         
