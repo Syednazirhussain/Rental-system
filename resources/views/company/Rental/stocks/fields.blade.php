@@ -54,7 +54,7 @@
     <div class="col-md-12">
         <div class="form-group">
             <div class="col-md-10 text-right">
-                <input class="btn btn-primary" type="submit" id="stock_submit" value="Save">
+                <input class="btn btn-primary" type="submit" id="stock_submit" value="@if(isset($stock)) Update @else Save @endif">
                 <a href="{{ route('company.rstock.index') }}" class="btn btn-default">Back</a>
             </div>
         </div>
