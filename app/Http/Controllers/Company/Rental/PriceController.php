@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Company\Rental;
 
-use App\ArticlePrice;
+use App\Models\Rental\ArticlePrice;
 use App\Models\CompanyUser;
 use App\Repositories\RoomContractRepository;
 use App\Http\Controllers\AppBaseController;
@@ -120,9 +120,24 @@ class PriceController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateRoomContractRequest $request)
+    public function update($id, Request $request)
     {
+        $input = $request->except('_token', '_method');
 
+        $price = ArticlePrice::find($id);
+        if(empty($price)) {
+            $success = 0;
+            $msg = "Article not found";
+        }else {
+            echo "<pre>";
+            print_r($input);
+            echo "</pre>";
+            $price = ArticlePrice::whereId($id)->update($input);
+            $success = 1;
+            $msg = "Company Article has been updated successfully";
+        }
+
+        return response()->json(['success'=>$success, 'msg'=>$msg, 'price'=>$price]);
     }
 
     /**

@@ -8,7 +8,7 @@
             <h1>
                 <span class="text-muted font-weight-light">
                     <i class="page-header-icon ion-ios-keypad"></i>
-                    <a href="{{ route('company.rcustomer.index') }}">Customers</a>
+                    <a href="{{ route('company.rarticle.index') }}">Articles</a>
                 </span>
             </h1>
         </div>
@@ -21,11 +21,11 @@
             </div>
         </div>
 
-        @endsection
-
-
-        @section('js')
-            <script type="text/javascript">
-
-            </script>
+    </div>
+    @section('js')
+        @include('company.rental.articles.js')
+        @include('company.rental.prices.js')
+        @include('company.rental.stocks.js')
+        @include('company.rental.financial.js')
+    @endsection
 @endsection

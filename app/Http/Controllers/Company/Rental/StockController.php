@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Company\Rental;
 
-use App\ArticleStock;
+use App\Models\Rental\ArticleStock;
 use App\Models\CompanyUser;
 use App\Repositories\RoomContractRepository;
 use App\Http\Controllers\AppBaseController;
@@ -106,9 +106,24 @@ class StockController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateRoomContractRequest $request)
+    public function update($id, Request $request)
     {
+        $input = $request->except('_token', '_method');
 
+        $stock = ArticleStock::find($id);
+        if(empty($stock)) {
+            $success = 0;
+            $msg = "Article Stock Invoice not found";
+        }else {
+            echo "<pre>";
+            print_r($input);
+            echo "</pre>";
+            $stock = ArticleStock::whereId($id)->update($input);
+            $success = 1;
+            $msg = "Article Stock has been updated successfully";
+        }
+
+        return response()->json(['success'=>$success, 'msg'=>$msg, 'stock'=>$stock]);
     }
 
     /**

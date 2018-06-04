@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Company\Rental;
 
-use App\CompanyArticle;
+use App\Models\Rental\CompanyArticle;
 use App\Models\CompanyUser;
+use App\Models\Rental\ArticleFinancial;
+use App\Models\Rental\ArticlePrice;
+use App\Models\Rental\ArticleStock;
 use App\Repositories\RoomContractRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
@@ -36,8 +39,10 @@ class ArticleController extends AppBaseController
     public function index(Request $request)
     {
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        $articles = CompanyArticle::where('company_id', $company_id)->get();
         $data = [
-          'tab' => 'articles',
+          'articles' => $articles,
+
         ];
 
         return view('company.rental.articles.index', $data);
@@ -107,7 +112,26 @@ class ArticleController extends AppBaseController
      */
     public function edit($id)
     {
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        $companyBuildings = CompanyBuilding::where('company_id', $company_id)->get();
+        $article = CompanyArticle::find($id);
+        $price = ArticlePrice::where('article_id', $id)->first();
+        $stock = ArticleStock::where('article_id', $id)->first();
+        $financial = ArticleFinancial::where('article_id', $id)->first();
+        $building_name = CompanyBuilding::find($article->building)->name;
 
+        $data = [
+            'company_id' => $company_id,
+            'buildings' => $companyBuildings,
+            'article' => $article,
+            'stock' => $stock,
+            'price' => $price,
+            'financial' => $financial,
+            'building_name' => $building_name,
+        ];
+
+        //dd($article);
+        return view('company.rental.articles.edit', $data);
     }
 
     /**
@@ -118,9 +142,24 @@ class ArticleController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateRoomContractRequest $request)
+    public function update($id, Request $request)
     {
+        $input = $request->except('_token', '_method');
 
+        $article = CompanyArticle::find($id);
+        if(empty($article)) {
+            $success = 0;
+            $msg = "Article not found";
+        }else {
+            echo "<pre>";
+            print_r($input);
+            echo "</pre>";
+            $article = CompanyArticle::whereId($id)->update($input);
+            $success = 1;
+            $msg = "Company Article has been updated successfully";
+        }
+
+        return response()->json(['success'=>$success, 'msg'=>$msg, 'article'=>$article]);
     }
 
     /**

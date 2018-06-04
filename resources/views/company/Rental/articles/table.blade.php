@@ -1,36 +1,42 @@
 <table class="table table-striped table-bordered" id="datatables">
     <thead>
-        <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Door Code</th>
-            <th>Category</th>
-        </tr>
+    <tr>
+        <th>#</th>
+        <th>Module</th>
+        <th>Sales Price</th>
+        <th>In Price</th>
+        <th>Unit</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Vat Fee</th>
+        <th width="200px">Action</th>
+    </tr>
     </thead>
     <tbody>
-    @if(isset($tickets))
-        @foreach($tickets as $ticket)
-          <tr class="odd gradeX">
-            <td>{{ $loop->index + 1 }}</td>
-            <td> <a href="{{ route('company.supports.show',[$ticket->id]) }}">{{ $ticket->subject }}</a></td>
-            <td>
-                @if($ticket->supportStatus->name == 'Pending')
-                    <span class="label label-warning">{{ $ticket->supportStatus->name }}</span>
-                @elseif($ticket->supportStatus->name == 'Solved')
-                    <span class="label label-primary">{{ $ticket->supportStatus->name }}</span>
-                @elseif($ticket->supportStatus->name == 'Bug')
-                    <span class="label label-danger">{{ $ticket->supportStatus->name }}</span>
-                @else
-                    <span class="label label-default">{{ $ticket->supportStatus->name }}</span>
-                @endif
-            </td>
-            <td>{{  \Carbon\Carbon::parse($ticket->updated_at)->format('F d, Y') }}</td>
-            <td>my_agent</td>
-          </tr>
+    @if(isset($articles))
+        @foreach($articles as $article)
+            <tr class="odd gradeX">
+                <td>{{ $loop->index + 1 }}</td>
+                <td>{{ $article->module }}</td>
+                <td>{{ $article->sales_price }}</td>
+                <td>{{ $article->in_price }} $</td>
+                <td>{{ $article->unit }} Per Month</td>
+                <td>{{ $article->start_date }}</td>
+                <td>{{ $article->end_date }}</td>
+                <td>{{ $article->vat }} %</td>
+                <td width="200px" class="text-center">
+                    {!! Form::open(['route' => ['company.rarticle.destroy', $article->id], 'method' => 'delete']) !!}
+                    <a href="{!! route('company.rarticle.show', [$article->id]) !!}"><i
+                                class="fa fa-eye fa-lg text-info"></i></a>
+                    <a href="{!! route('company.rarticle.edit', [$article->id]) !!}"><i
+                                class="fa fa-edit fa-lg text-info"></i></a>
+                    {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                    {!! Form::close() !!}
+                </td>
+            </tr>
         @endforeach
-      @else
-      <p>No records</p>
-      @endif
+    @else
+        <p>No records</p>
+    @endif
     </tbody>
 </table>

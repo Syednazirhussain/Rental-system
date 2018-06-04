@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Company\Rental;
 
-use App\ArticleFinancial;
+use App\Models\Rental\ArticleFinancial;
 use App\Models\CompanyUser;
 use App\Repositories\RoomContractRepository;
 use App\Http\Controllers\AppBaseController;
@@ -120,11 +120,25 @@ class FinancialController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateRoomContractRequest $request)
+    public function update($id, Request $request)
     {
+        $input = $request->except('_token', '_method');
 
+        $financial = ArticleFinancial::find($id);
+        if(empty($financial)) {
+            $success = 0;
+            $msg = "Article Financial Invoice not found";
+        }else {
+            echo "<pre>";
+            print_r($input);
+            echo "</pre>";
+            $financial = ArticleFinancial::whereId($id)->update($input);
+            $success = 1;
+            $msg = "Article Financial has been updated successfully";
+        }
+
+        return response()->json(['success'=>$success, 'msg'=>$msg, 'financial'=>$financial]);
     }
-
     /**
      * Remove the specified Room from storage.
      *

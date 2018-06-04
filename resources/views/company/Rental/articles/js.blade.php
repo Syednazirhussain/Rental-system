@@ -97,9 +97,9 @@
            var data = new FormData(myform);
 
            //Handle checkbox...
-           if ($('#block_customer').is(':checked')) {
+           /*if ($('#block_customer').is(':checked')) {
                data.append('block_customer', 1);
-           }
+           }*/
 
            data.append('company_id', company_id);
 

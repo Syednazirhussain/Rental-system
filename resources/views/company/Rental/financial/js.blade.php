@@ -37,13 +37,13 @@
            var myform = document.getElementById("financial_form");
            var data = new FormData(myform);
            data.append('company_id', company_id);
-           data.append('article_id', 1);
+           data.append('article_id', article_id);
 
            if(financial_id > 0) {
                <?php
                $updateRoute = '';
-               if (isset($invoice)) {
-                   $updateRoute = route("company.rinvoice.update", [$invoice->id]);
+               if (isset($financial)) {
+                   $updateRoute = route("company.rfinancial.update", [$financial->id]);
                }
                ?>
 

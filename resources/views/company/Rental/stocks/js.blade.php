@@ -36,11 +36,11 @@
            data.append('company_id', company_id);
            data.append('article_id', article_id);
 
-           if(price_id > 0) {
+           if(stock_id > 0) {
                <?php
                $updateRoute = '';
-               if (isset($invoice)) {
-                   $updateRoute = route("company.rinvoice.update", [$invoice->id]);
+               if (isset($stock)) {
+                   $updateRoute = route("company.rstock.update", [$stock->id]);
                }
                ?>
 

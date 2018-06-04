@@ -26,6 +26,7 @@ class CreateCompanyArticlesTable extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->string('category');
+            $table->string('shortcut')->nullable();
             $table->float('vat', 10, 0)->nullable();
             $table->integer('rank_index');
             $table->integer('sort_index');
