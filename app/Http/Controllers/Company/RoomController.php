@@ -277,4 +277,15 @@ class RoomController extends AppBaseController
 
         return redirect(route('company.rooms.index'));
     }
+
+    /**
+     * Return Lists of Rooms by Floor change as JSON.
+     */
+    public function getLists(Request $request)
+    {
+        $floor_id = $request->floor_id;
+        $rooms = Room::where('floor_id', $floor_id)->get();
+
+        return response()->json(['success'=> 1, 'rooms'=>$rooms]);
+    }
 }

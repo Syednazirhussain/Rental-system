@@ -165,4 +165,15 @@ class CompanyFloorRoomController extends AppBaseController
 
         return redirect(route('company.companyFloorRooms.index'));
     }
+
+    /**
+     * Return Lists of Floors by Building as JSON.
+     */
+    public function getLists(Request $request)
+    {
+        $building_id = $request->building_id;
+        $floors = CompanyFloorRoom::where('building_id', $building_id)->get();
+
+        return response()->json(['success'=> 1, 'floors'=>$floors]);
+    }
 }

@@ -2,31 +2,44 @@
     <thead>
         <tr>
             <th>#</th>
-            <th>Name</th>
+            <th>Contact Person</th>
+            <th>Customer</th>
+            <th>Org.no</th>
+            <th>Cust Category</th>
+            <th>Tel</th>
+            <th>Mobile</th>
+            <th>Email</th>
             <th>Address</th>
-            <th>Door Code</th>
-            <th>Category</th>
+            <th>Address 2</th>
+            <th>Post Number</th>
+            <th>City</th>
+            <th>Country</th>
+            <th>Website</th>
+            <th>Notes</th>
+            <th>Active</th>
+            <th>Discount</th>
+            <th>Created</th>
+            <th>Changed</th>
+            <th>Changed by</th>
         </tr>
     </thead>
     <tbody>
-    @if(isset($tickets))
-        @foreach($tickets as $ticket)
+    @if(isset($customers))
+        @foreach($customers as $customer)
           <tr class="odd gradeX">
             <td>{{ $loop->index + 1 }}</td>
-            <td> <a href="{{ route('company.supports.show',[$ticket->id]) }}">{{ $ticket->subject }}</a></td>
-            <td>
-                @if($ticket->supportStatus->name == 'Pending')
-                    <span class="label label-warning">{{ $ticket->supportStatus->name }}</span>
-                @elseif($ticket->supportStatus->name == 'Solved')
-                    <span class="label label-primary">{{ $ticket->supportStatus->name }}</span>
-                @elseif($ticket->supportStatus->name == 'Bug')
-                    <span class="label label-danger">{{ $ticket->supportStatus->name }}</span>
-                @else
-                    <span class="label label-default">{{ $ticket->supportStatus->name }}</span>
-                @endif
-            </td>
-            <td>{{  \Carbon\Carbon::parse($ticket->updated_at)->format('F d, Y') }}</td>
-            <td>my_agent</td>
+            <td>{{ $customer->name }}</td>
+            <td>{{ $customer->name }}</td>
+            <td>{{ $customer->org_no }}</td>
+            <td>{{ $customer->category }}</td>
+            <td>{{ $customer->tel_number }}</td>
+            <td>{{ $customer->mobile }}</td>
+            <td>{{ $customer->email }}</td>
+            <td>{{ $customer->address_1 }}</td>
+            <td>{{ $customer->address_2 }}</td>
+            <td>{{ $customer->mobile }}</td>
+            <td>{{ $customer->city }}</td>
+            <td>{{ $customer->country }}</td>
           </tr>
         @endforeach
       @else

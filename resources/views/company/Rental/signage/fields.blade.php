@@ -25,63 +25,89 @@
 
     <div class="col-md-12">
         <div class="col-md-4 form-group">
-            <label for="first_name" class="control-label">First Name </label>
-            <input class="form-control" name="first_name" type="text" id="first_name">
+            <label for="first_name" class="col-md-5 form-label">First Name </label>
+            <div class="col-md-7">
+                <input class="form-control" name="first_name" type="text" id="first_name">
+            </div>
         </div>
         <div class="col-md-4 form-group">
-            <label for="screen_name" class="control-label">Screen Name </label>
-            <input class="form-control" name="screen_name" type="text" id="screen_name">
+            <label for="screen_name" class="col-md-5 form-label">Screen Name </label>
+            <div class="col-md-7">
+                <input class="form-control" name="screen_name" type="text" id="screen_name">
+            </div>
         </div>
-        <div class="col-md-4 form-group">
-            <label for="logo" class="control-label">Attach Logo </label>
-            <input class="form-control" name="logo" type="file" id="logo">
+        <div class="col-md-4  form-group">
+            <label for="logo" class="col-md-5 form-label">Attach Logo </label>
+            <div class="col-md-7">
+                <input class="form-control" name="logo" type="file" id="logo">
+            </div>
         </div>
     </div>
 
     <div class="col-md-12">
         <div class="col-md-4 form-group">
-            <label for="first_name" class="control-label">Second Name </label>
-            <input class="form-control" name="first_name" type="text" id="first_name">
+            <label for="first_name" class="col-md-5 form-label">First Name </label>
+            <div class="col-md-7">
+                <input class="form-control" name="first_name" type="text" id="first_name">
+            </div>
         </div>
         <div class="col-md-4 form-group">
-            <label for="screen_name" class="control-label">Screen Name </label>
-            <input class="form-control" name="screen_name" type="text" id="screen_name">
+            <label for="screen_name" class="col-md-5 form-label">Screen Name </label>
+            <div class="col-md-7">
+                <input class="form-control" name="screen_name" type="text" id="screen_name">
+            </div>
         </div>
-        <div class="col-md-4 form-group">
-            <label for="logo" class="control-label">Attach Logo </label>
-            <input class="form-control" name="logo" type="file" id="logo">
+        <div class="col-md-4  form-group">
+            <label for="logo" class="col-md-5 form-label">Attach Logo </label>
+            <div class="col-md-7">
+                <input class="form-control" name="logo" type="file" id="logo">
+            </div>
         </div>
     </div>
 
     <div class="col-md-12">
         <div class="col-md-4 form-group">
-            <label for="first_name" class="control-label">Third Name </label>
-            <input class="form-control" name="first_name" type="text" id="first_name">
+            <label for="first_name" class="col-md-5 form-label">First Name </label>
+            <div class="col-md-7">
+                <input class="form-control" name="first_name" type="text" id="first_name">
+            </div>
         </div>
         <div class="col-md-4 form-group">
-            <label for="screen_name" class="control-label">Screen Name </label>
-            <input class="form-control" name="screen_name" type="text" id="screen_name">
+            <label for="screen_name" class="col-md-5 form-label">Screen Name </label>
+            <div class="col-md-7">
+                <input class="form-control" name="screen_name" type="text" id="screen_name">
+            </div>
         </div>
-        <div class="col-md-4 form-group">
-            <label for="logo" class="control-label">Attach Logo </label>
-            <input class="form-control" name="logo" type="file" id="logo">
+        <div class="col-md-4  form-group">
+            <label for="logo" class="col-md-5 form-label">Attach Logo </label>
+            <div class="col-md-7">
+                <input class="form-control" name="logo" type="file" id="logo">
+            </div>
         </div>
     </div>
 
+
     <div class="col-md-12">
         <div class="col-md-4 form-group">
-            <label for="first_name" class="control-label">Fourth Name </label>
-            <input class="form-control" name="first_name" type="text" id="first_name">
+            <label for="first_name" class="col-md-5 form-label">First Name </label>
+            <div class="col-md-7">
+                <input class="form-control" name="first_name" type="text" id="first_name">
+            </div>
         </div>
         <div class="col-md-4 form-group">
-            <label for="screen_name" class="control-label">Screen Name </label>
-            <input class="form-control" name="screen_name" type="text" id="screen_name">
+            <label for="screen_name" class="col-md-5 form-label">Screen Name </label>
+            <div class="col-md-7">
+                <input class="form-control" name="screen_name" type="text" id="screen_name">
+            </div>
         </div>
-        <div class="col-md-4 form-group">
-            <label for="logo" class="control-label">Attach Logo </label>
-            <input class="form-control" name="logo" type="file" id="logo">
+        <div class="col-md-4  form-group">
+            <label for="logo" class="col-md-5 form-label">Attach Logo </label>
+            <div class="col-md-7">
+                <input class="form-control" name="logo" type="file" id="logo">
+            </div>
         </div>
     </div>
+
 
     <br>
     <div class="col-md-12">

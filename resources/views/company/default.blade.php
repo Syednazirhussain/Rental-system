@@ -33,6 +33,12 @@
         .page-header-form .form-control {
             background: rgba(0, 0, 0, .05);
         }
+
+        .form-label {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 3px;
+        }
     </style>
     <!-- / Custom styling -->
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Company\Rental;
 
 use App\Models\CompanyUser;
+use App\Models\Rental\CustomerContactPerson;
 use App\Repositories\RoomContractRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
@@ -10,20 +11,6 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use Auth;
-use App\Models\Company;
-use App\Models\CompanyBuilding;
-use App\Models\CompanyFloorRoom;
-use App\Models\Service;
-use App\Models\Room;
-use App\Models\RoomContracts;
-use App\Models\Country;
-use App\Models\State;
-use App\Models\City;
-use App\Models\DiscountType;
-use App\Models\Module;
-use App\Models\PaymentCycle;
-use App\Models\PaymentMethod;
-use App\Models\UserStatus;
 
 class ContactController extends AppBaseController
 {
@@ -73,8 +60,17 @@ class ContactController extends AppBaseController
      *
      * @return Response
      */
-    public function store(CreateRoomContractRequest $request)
+    public function store(Request $request)
     {
+        $input = $request->all();
+
+        echo "<pre>";
+        print_r($input);
+        echo "</pre>";
+
+        $contact = CustomerContactPerson::create($input);
+
+        return response()->json(['success'=> 1, 'msg'=>'Customer Contact has been created successfully', 'contact'=>$contact]);
 
     }
 
