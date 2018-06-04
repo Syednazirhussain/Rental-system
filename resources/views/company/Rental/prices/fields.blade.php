@@ -26,7 +26,7 @@
         </div>
         <div class="col-md-3 form-group">
             <label class="custom-control custom-checkbox">
-                <input type="checkbox" name="new_continues" class="custom-control-input">
+                <input type="checkbox" class="custom-control-input">
                 <span class="custom-control-indicator"></span>
                 Continues
             </label>
@@ -54,7 +54,7 @@
         </div>
         <div class="col-md-3 form-group">
             <label class="custom-control custom-checkbox">
-                <input type="checkbox" name="sales_continues" class="custom-control-input">
+                <input type="checkbox" class="custom-control-input">
                 <span class="custom-control-indicator"></span>
                 Continues
             </label>

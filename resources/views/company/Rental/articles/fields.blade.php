@@ -15,7 +15,7 @@
         <div class="col-md-6 form-group">
             <label for=""></label>
             <label class="custom-control custom-checkbox">
-                <input type="checkbox" name="commission_article" class="custom-control-input" value="@if(isset($article))checked @endif">
+                <input type="checkbox" class="custom-control-input" value="@if(isset($article))checked @endif">
                 <span class="custom-control-indicator"></span>
                 Commission Article
             </label>
@@ -44,7 +44,7 @@
         <div class="col-md-6 form-group">
             <label for=""></label>
             <label class="custom-control custom-checkbox">
-                <input type="checkbox" name="show_in_booking" class="custom-control-input" value="@if(isset($article))checked @endif">
+                <input type="checkbox" class="custom-control-input" value="@if(isset($article))checked @endif">
                 <span class="custom-control-indicator"></span>
                 Show in Booking
             </label>
@@ -61,7 +61,7 @@
         <div class="col-md-6 form-group">
             <label for=""></label>
             <label class="custom-control custom-checkbox">
-                <input type="checkbox" name="show_in_cash" class="custom-control-input" value="@if(isset($article))checked @endif">
+                <input type="checkbox" class="custom-control-input" value="@if(isset($article))checked @endif">
                 <span class="custom-control-indicator"></span>
                 Show in Cash
             </label>
@@ -78,7 +78,7 @@
         <div class="col-md-6 form-group">
             <label for=""></label>
             <label class="custom-control custom-checkbox">
-                <input type="checkbox" name="show_in_online_booking" class="custom-control-input" value="@if(isset($article))checked @endif">
+                <input type="checkbox"class="custom-control-input" value="@if(isset($article))checked @endif">
                 <span class="custom-control-indicator"></span>
                 Show in Online Booking
             </label>
@@ -131,7 +131,7 @@
         <div class="col-md-4 form-group">
             <label for=""></label>
             <label class="custom-control custom-checkbox" style="display: inline-block;">
-                <input type="checkbox" name="continues" class="custom-control-input" value="1">
+                <input type="checkbox" class="custom-control-input" value="1">
                 <span class="custom-control-indicator"></span>
                 Continues
             </label>&nbsp;&nbsp;
@@ -151,7 +151,7 @@
         <div class="col-md-4 form-group col-md-offset-2">
             <label for=""></label>
             <label class="custom-control custom-checkbox" style="display: inline-block;">
-                <input type="radio" name="bonus_article" class="custom-control-input" value="1">
+                <input type="radio" class="custom-control-input" value="1">
                 <span class="custom-control-indicator"></span>
                 Bonus Article
             </label>&nbsp;&nbsp;
@@ -159,7 +159,7 @@
         <div class="col-md-4 form-group">
             <label for=""></label>
             <label class="custom-control custom-checkbox" style="display: inline-block;">
-                <input type="radio" name="package_article" class="custom-control-input" value="1">
+                <input type="radio" class="custom-control-input" value="1">
                 <span class="custom-control-indicator"></span>
                 Package Article
             </label>
