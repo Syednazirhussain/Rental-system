@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Company\Rental;
 
+use App\ArticlePrice;
 use App\Models\CompanyUser;
 use App\Repositories\RoomContractRepository;
 use App\Http\Controllers\AppBaseController;
@@ -73,9 +74,17 @@ class PriceController extends AppBaseController
      *
      * @return Response
      */
-    public function store(CreateRoomContractRequest $request)
+    public function store(Request $request)
     {
+        $input = $request->all();
 
+        echo "<pre>";
+        print_r($input);
+        echo "</pre>";
+
+        $price = ArticlePrice::create($input);
+
+        return response()->json(['success'=> 1, 'msg'=>'Article Price has been created successfully', 'price'=>$price]);
     }
 
 

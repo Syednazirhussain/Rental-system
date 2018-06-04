@@ -21,4 +21,9 @@
             </div>
         </div>
     </div>
+
+    @section('js')
+        @include('company.rental.articles.js')
+        @include('company.rental.prices.js')
+    @endsection
 @endsection

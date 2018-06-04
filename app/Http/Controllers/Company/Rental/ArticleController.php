@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Company\Rental;
 
+use App\CompanyArticle;
 use App\Models\CompanyUser;
 use App\Repositories\RoomContractRepository;
 use App\Http\Controllers\AppBaseController;
@@ -15,15 +16,6 @@ use App\Models\CompanyBuilding;
 use App\Models\CompanyFloorRoom;
 use App\Models\Service;
 use App\Models\Room;
-use App\Models\RoomContracts;
-use App\Models\Country;
-use App\Models\State;
-use App\Models\City;
-use App\Models\DiscountType;
-use App\Models\Module;
-use App\Models\PaymentCycle;
-use App\Models\PaymentMethod;
-use App\Models\UserStatus;
 
 class ArticleController extends AppBaseController
 {
@@ -59,8 +51,15 @@ class ArticleController extends AppBaseController
     public function create()
     {
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        $companyBuildings = CompanyBuilding::where('company_id', $company_id)->get();
+        $companyFloors = CompanyFloorRoom::where('company_id', $company_id)->get();
+        $rooms = Room::where('company_id', $company_id)->get();
+
         $data = [
-            'tab' => 'articles',
+            'company_id' => $company_id,
+            'buildings' => $companyBuildings,
+            'floors' => $companyFloors,
+            'rooms' => $rooms,
         ];
 
         return view('company.rental.articles.create', $data);
@@ -73,9 +72,17 @@ class ArticleController extends AppBaseController
      *
      * @return Response
      */
-    public function store(CreateRoomContractRequest $request)
+    public function store(Request $request)
     {
+        $input = $request->all();
 
+        echo "<pre>";
+        print_r($input);
+        echo "</pre>";
+
+        $article = CompanyArticle::create($input);
+
+        return response()->json(['success'=> 1, 'msg'=>'Company Article has been created successfully', 'article'=>$article]);
     }
 
 
