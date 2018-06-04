@@ -15,7 +15,7 @@
         <div class="col-md-6 form-group">
             <label for="org_no" class="col-md-5 form-label">Organization Number</label>
             <div class="col-md-7">
-                <input class="form-control" name="org_no" type="number" id="org_no" value="@if(isset($customer)){{ $customer->org_no }}@endif">
+                <input class="form-control" name="org_no" type="text" id="org_no" value="@if(isset($customer)){{ $customer->org_no }}@endif">
             </div>
         </div>
     </div>
