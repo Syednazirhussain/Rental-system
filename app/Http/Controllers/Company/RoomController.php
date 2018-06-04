@@ -20,6 +20,9 @@ use App\Models\Room;
 use App\Models\RoomContracts;
 use App\Models\Equipments;
 
+use App\Models\Company\RoomSettingArrangment;
+use App\Models\Company\RoomEquipments;
+
 class RoomController extends AppBaseController
 {
     /** @var  RoomRepository */
@@ -92,7 +95,6 @@ class RoomController extends AppBaseController
     public function getCompanyRoomEquipment()
     {
         $equipments = Equipments::all();
-
         return json_encode($equipments);
     }
 
@@ -111,7 +113,6 @@ class RoomController extends AppBaseController
         $input = $request->all();
 
 
-
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
 
         if ($request->hasFile('image1')) 
@@ -125,14 +126,14 @@ class RoomController extends AppBaseController
             $input['image1'] = '';
         }
 
-        if ($request->has('room_module_type')) 
+/*        if ($request->has('room_module_type')) 
         {
             $input['room_module_type'] = 1;    
         }
         else
         {
             $input['room_module_type'] = 0;   
-        }
+        }*/
 
         if($request->has('end_date_continue'))
         {
@@ -221,6 +222,36 @@ class RoomController extends AppBaseController
             return redirect()->back()->withErrors($errors);
         }
 
+        // For Room Sitting Arrangment table
+        $siiting_name_arr = $input['sitting_name'];
+        $siiting_num_person_arr = $input['sitting_number_person'];
+        // echo "<pre>";
+        // print_r($siiting_name_arr);
+        // echo "<br>";
+        // print_r($siiting_num_person_arr);
+        // exit;
+
+
+        // For Room Equipment Table
+        $room_type = $input['room_module_type'];
+        $equipment_ids_arr = $input['include_equipment_id'];
+        $qty_arr = $input['include_qty'];
+        $price_arr = $input['include_price'];
+        $info_arr = $input['include_info'];
+        // echo "<pre>";
+        // print_r($equipment_ids_arr);
+        // echo "<br>";
+        // print_r($qty_arr);
+        // echo "<br>";
+        // print_r($price_arr);
+        // echo "<br>";
+        // print_r($info_arr);
+        // echo "</pre>";
+        // exit;
+
+        dd($input);
+
+
 
         $room = new Room;
         $room->floor_id = $input['floor_id'];
@@ -278,6 +309,38 @@ class RoomController extends AppBaseController
 
         if($room)
         {
+
+            $room_id = $room->id;
+            $company_id = $room->company_id;
+            $building_id = $room->building_id;
+
+            for($i= 0; $i < count($siiting_name_arr) ; $i++ )
+            {
+                $roomSittingArrangment = new  RoomSettingArrangment;
+                $roomSittingArrangment->room_id  = $room_id;           
+                $roomSittingArrangment->company_id = $company_id;            
+                $roomSittingArrangment->building_id = $building_id;          
+                $roomSittingArrangment->name = $siiting_name_arr[$i];           
+                $roomSittingArrangment->number_persons = $siiting_num_person_arr[$i];
+                $roomSittingArrangment->save();
+            }
+
+
+            
+
+            for ($i=0; $i < count($qty_arr); $i++) 
+            {
+                $roomEquipment = new RoomEquipments; 
+                $roomEquipment->room_id = $room_id;
+                $roomEquipment->building_id = $building_id;
+                $roomEquipment->room_type = $room_type;
+                $roomEquipment->equipment_id = $equipment_ids_arr[$i];
+                $roomEquipment->qty = $qty_arr[$i];
+                $roomEquipment->price = $price_arr[$i];
+                $roomEquipment->info = $info_arr[$i];
+                $roomEquipment->save();
+            }
+
             // return response()->json(['success'=> 1, 'msg'=>'Company has been created successfully', 'room'=>$room]);
 
             session()->flash('msg.success','room successfully created');

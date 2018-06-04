@@ -372,37 +372,25 @@
                 <button class="btn btn-primary addSitting" type="button"><i class="fa fa-plus"></i> Add</button>
               </div>
               <div class="row sittingArrangments">
-                  <div class="col-sm-12 col-sm-12 sitting">
+                  <div class="col-sm-12 col-sm-12">
                       <div class="col-sm-3 col-md-3 form-group">
-                        <label for="">Sitting Name</label>
-                        <input type="text" name="sitting_name" class="form-control" >
+                        <label for="sitting_name">Sitting Name</label>
+                        <input type="text" name="sitting_name[]" id="sitting_name" class="form-control sittingNameField" >
                       </div>
                       <div class="col-sm-3 col-md-3 form-group">
-                        <label for="">Number of Person</label>
-                        <input type="number" name="number_person" class="form-control" >
+                        <label for="sitting_number_person">Number of Person</label>
+                        <input type="number" name="sitting_number_person[]" id="sitting_number_person" class="form-control" >
                       </div>
                       <div class="col-sm-3 col-md-3 form-group">
-
-                        <div class="fileinput fileinput-new img-area" data-provides="fileinput" >
-                          <div class="fileinput-new thumbnail" style="width: 105px; height: 70px;">
-                                @if( isset($roomImages) && $roomImages->image_file != "default.png")
-                                    <img src="{{ asset('storage/company_rooms_images/'.$roomImages->image_file) }}" >
-                                @else
-                                    <img src="{{ asset('/skin-1/assets/images/default.png') }}" >
-                                @endif
-                          </div>
-                          <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
-                          <div>
-                                <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span>
-                                <input type="file" name="image_file" id="image_file" ></span>
-                                <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
-                          </div>
-                        </div>
-
+                        <label for="images">Images</label>
+                        <input type="file" class="form-control" id="images" name="images[]" onchange="preview_images();" multiple/>
                       </div>
                       <div class="col-sm-3">
                         <!-- <i class="fa fa-times fa-lg remove-sitting cursor-p m-t-4"></i> -->
                       </div>
+                  </div>
+                  <div class="col-sm-12 col-sm-12">
+                      <div class="row" id="image_preview"></div>                    
                   </div>
               </div>
             </div>            
@@ -421,8 +409,8 @@
               <div class="row includedItem">
                   <div class="col-sm-12 col-sm-12 included">
                       <div class="col-sm-3 col-md-3 form-group">
-                        <label for="">Item</label>
-                        <select class="form-control" id="equipment_id" name="equipment_id">
+                        <label for="include_equipment_id">Item</label>
+                        <select class="form-control" id="include_equipment_id" name="include_equipment_id[]">
                             <!-- <option value="">Select</option> -->
                             @foreach ($equipments as $equipment)
                                 <option value="{{ $equipment->id }}">{{$equipment->title }}</option>
@@ -430,16 +418,16 @@
                         </select>
                       </div>
                       <div class="col-sm-2 col-md-2 form-group">
-                        <label for="">Quantity</label>
-                        <input type="number" name="qty" class="form-control" >
+                        <label for="include_qty">Quantity</label>
+                        <input type="number" name="include_qty[]" id="include_qty" class="form-control" >
                       </div>
                       <div class="col-sm-2 col-md-2 form-group">
-                        <label for="">Price</label>
-                        <input type="number" name="price" class="form-control" >
+                        <label for="include_price">Price</label>
+                        <input type="number" name="include_price[]" id="include_price" class="form-control" >
                       </div>
                       <div class="col-sm-4 col-md-4 form-group">
-                        <label for="">Information</label>
-                        <input type="text" name="info" class="form-control" >
+                        <label for="include_info">Information</label>
+                        <input type="text" name="include_info[]" id="include_info" class="form-control" >
                       </div>
                       <div class="col-sm-1">
 <!--                         <i class="fa fa-times fa-lg remove-sitting cursor-p m-t-4"></i> -->
@@ -500,29 +488,66 @@
 
 @section('js')
 
+<script>
+
+  function preview_images() 
+  {
+   var total_file = document.getElementById("images").files.length;
+   for(var i=0;i<total_file;i++)
+   {
+    $('#image_preview').append("<div class='col-md-2'><i class='fa fa-times text-danger fa-sm cursor-p remove-img'></i><img class='img-responsive fileinput-new thumbnail' style='width: 105px; height: 70px;' src='"+URL.createObjectURL(event.target.files[i])+"'></div>");
+   }
+  }
+
+  $(document).on('click','.remove-img',function(e){
+     $(this).parent().remove();
+   
+  });
+
+</script>
 
 <script type="text/javascript">
+
+        $.validator.addMethod("stringValue", function(value, element) {
+            return this.optional(element) || /^[a-zA-Z0-9\s]+$/i.test(value);
+        }, "Field must contain string only.");
+
+        $.validator.addMethod("securityCode", function(value, element) {
+            return this.optional(element) || /^[a-z\-\s\d]+$/i.test(value);
+        }, "Field must contain only letters or dashes.");
+
+
+        $.validator.addMethod("greaterThan", function(value, element, params) {
+            if (!/Invalid|NaN/.test(new Date(value))) {
+                return new Date(value) > new Date($(params).val());
+            }
+            return isNaN(value) && isNaN($(params).val()) || (Number(value) > Number($(params).val())); 
+        },'Must be greater than {0}.');
+
+        $.validator.addMethod("dollarsscents", function (value, element) {
+            return this.optional(element) || /^\d{0,4}(\.\d{0,2})?$/i.test(value);
+        }, "You must include two decimal places");
 
         // Initialize validator
       $('#roomForm').validate({
             ignore:":not(:visible)",
             rules: {
-                'equipment_id': {
+                'include_equipment_id': {
                     required: true,
                 },
-                'qty': {
+                'include_qty': {
                     required: true,
                 },
-                'price': {
+                'include_price': {
                     required: true,
                 },
-                'info': {
+                'include_info': {
                     required: true,
                 },
                 'sitting_name': {
                     required: true,
                 },
-                'number_person': {
+                'sitting_number_person': {
                     required: true,
                 },
                 'floor_id': {
@@ -540,11 +565,13 @@
                 },
                 'area': {
                     required: true,
-                    digits: true
+                    digits: true,
+                    maxlength : 11 
                 },
                 'price': {
                     required: true,
-                    digits: true
+                    dollarsscents: true,
+                    maxlength : 11
                 },
                 'security_code': {
                     required: true,
@@ -584,7 +611,7 @@
                 
                 'rent_monthly_rent': {
                     required: true,
-                    digits: true
+                    dollarsscents: true
                 },
                 
                 'rent_number_person': {
@@ -594,12 +621,14 @@
                 
                 'rent_vat': {
                     required: true,
-                    digits: true
+                    dollarsscents: true,
+                    maxlength : 11
                 },
                 
                 'rent_new_price': {
                     required: true,
-                    digits: true
+                    dollarsscents: true,
+                    maxlength : 11
                 },
                 
                 'rent_start_date': {
@@ -615,40 +644,48 @@
                 },
                 'conf_day_price': {
                     required: true,
-                    digits: true
+                    dollarsscents: true
                 },
                 'conf_half_day_price': {
                     required: true,
-                    digits: true
+                    dollarsscents: true,
+                    maxlength : 11
                 },
                 'conf_room_type': {
                     required: true
                 },
                 'conf_cost': {
                     required: true,
-                    digits: true
+                    dollarsscents: true,
+                    maxlength : 11
                 },
                 'conf_sm_price': {
                     required: true,
-                    digits: true
+                    dollarsscents: true,
+                    maxlength : 11
                 },
                 'conf_high_price': {
                     required: true,
-                    digits: true
+                    dollarsscents: true,
+                    maxlength : 11
                 },
                 'conf_medium_price': {
                     required: true,
-                    digits: true
+                    dollarsscents: true,
+                    maxlength : 11
                 },
                 'conf_low_price': {
                     required: true,
+                    dollarsscents : true,
+                    maxlength : 11
                 },
                 'conf_termination_cond': {
                     required: true
                 },
                 'conf_vat': {
                     required: true,
-                    digits: true
+                    dollarsscents: true,
+                    maxlength : 11
                 },
                 'conf_calender_available': {
                     required: true,
@@ -682,32 +719,24 @@
 
 
         //  Sitting Arrangment Start
-
+        var sittingCount = 0;
+        
         $('.addSitting').click(function(){
-
+          sittingCount++;
           var sitting = '<div class="col-sm-12 col-sm-12 sitting">';
           sitting += '<div class="col-sm-3 col-md-3 form-group">';
           sitting += '<label for="">Sitting Name</label>';
-          sitting += '<input type="text" name="" class="form-control" >';
+          sitting += '<input type="text" name="sitting_name[]" class="form-control sittingNameField" >';
           sitting += '</div>';
           sitting += '<div class="col-sm-3 col-md-3 form-group">';
           sitting += '<label for="">Number of Person</label>';
-          sitting += '<input type="number" name="" class="form-control" >';
+          sitting += '<input type="number" name="sitting_number_person[]" class="form-control" >';
           sitting += '</div>';
           sitting += '<div class="col-sm-3 col-md-3 form-group">';
 
 
-          sitting += '<div class="fileinput fileinput-new img-area" data-provides="fileinput" >';
-          sitting += '<div class="fileinput-new thumbnail" style="width: 105px; height: 70px;">';
-          sitting += '<img src="{{ asset("/skin-1/assets/images/default.png") }}" >';
-          sitting += '</div>';
-          sitting += '<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>';
-          sitting += '<div>';
-          sitting += '<span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span>';
-          sitting += '<input type="file" name="image_file" id="image_file" ></span>';
-          sitting += '<a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>';
-          sitting += '</div>';
-          sitting += '</div>';
+          sitting += '<label for="images">Images</label>';
+          sitting += '<input type="file" class="form-control" id="images" name="images[]" onchange="preview_images();" multiple/>';
 
 
           sitting += '</div>';
@@ -715,20 +744,24 @@
           sitting += '<i class="fa fa-times fa-lg remove-sitting cursor-p m-t-4"></i>';
           sitting += '</div>';
           sitting += '</div>';
+          sitting += '<div class="col-sm-12 col-sm-12">';
+          sitting += '<div class="row" id="image_preview"></div>';                    
+          sitting += '</div>';
 
           $('.sittingArrangments').prepend(sitting);
 
         });
 
         $(document).on('click', '.remove-sitting', function(){
+          sittingCount--;
           $(this).parent().parent().remove();
         });
 
 
+        var includedCount = 0;
         // Sitting Arrangment End
-
         $('.addIncluded').click(function(){
-
+          includedCount++;
           var included = '';
           $.ajax({
             url : "{{ route('company.room.equipments') }}",
@@ -738,7 +771,7 @@
                 included += '<div class="col-sm-12 col-sm-12 included">';
                 included += '<div class="col-sm-3 col-md-3 form-group">';
                 included += '<label for="">Item</label>';
-                included += '<select class="form-control" id="equipment_id" name="equipment_id">';
+                included += '<select class="form-control" id="equipment_id" name="include_equipment_id[]">';
                 // included += '<option value="">Select</option>';
                 for(var i = 0 ; i<response.length ; i++)
                 {
@@ -748,15 +781,15 @@
                 included += '</div>';
                 included += '<div class="col-sm-2 col-md-2 form-group">';
                 included += '<label for="">Quantity</label>';
-                included += '<input type="number" name="qty" class="form-control" >';
+                included += '<input type="number" name="include_qty[]" class="form-control" >';
                 included += '</div>';
                 included += '<div class="col-sm-2 col-md-2 form-group">';
                 included += '<label for="">Price</label>';
-                included += '<input type="number" name="price" class="form-control" >';
+                included += '<input type="number" name="include_price[]" class="form-control" >';
                 included += '</div>';
                 included += '<div class="col-sm-4 col-md-4 form-group">';
                 included += '<label for="">Information</label>';
-                included += '<input type="number" name="price" class="form-control" >';
+                included += '<input type="text" name="include_info[]" class="form-control" >';
                 included += '</div>';
                 included += '<div class="col-sm-1">';
                 included += '<i class="fa fa-times fa-lg remove-included cursor-p m-t-4"></i>';
@@ -769,10 +802,9 @@
         });
 
         $(document).on('click','.remove-included',function(){
+          includedCount--;
           $(this).parent().parent().remove();
         });
-
-
 
           // Initialize Select2
         
@@ -919,6 +951,18 @@
             // if we want to submit form via ajax
             $('#roomForm').on('submit', function(e) {
 
+
+
+/*              var input_sitting =  jQuery('<input type="hidden" name="num_sitting" value="'+sittingCount+'">');
+
+              var input_included = jQuery('<input type="hidden" name="num_included" value="'+includedCount+'">');
+
+              jQuery('#roomForm').append(input_sitting);
+
+              jQuery('#roomForm').append(input_included);*/
+
+              // $(this).validate();
+
                 var errorCount = 0;
 
                 if($('#room_module_type').is(':checked'))
@@ -995,30 +1039,13 @@
                     });
 
                     console.log(jsObj);
+
+                    // /cancel submit
+                    // e.preventDefault();
                 }
             });
 
         });
-
-
-
-        $.validator.addMethod("stringValue", function(value, element) {
-            return this.optional(element) || /^[a-zA-Z0-9\s]+$/i.test(value);
-        }, "Field must contain string only.");
-
-        $.validator.addMethod("securityCode", function(value, element) {
-            return this.optional(element) || /^[a-z\-\s\d]+$/i.test(value);
-        }, "Field must contain only letters or dashes.");
-
-
-        $.validator.addMethod("greaterThan", function(value, element, params) {
-            if (!/Invalid|NaN/.test(new Date(value))) {
-                return new Date(value) > new Date($(params).val());
-            }
-            return isNaN(value) && isNaN($(params).val()) || (Number(value) > Number($(params).val())); 
-        },'Must be greater than {0}.');
-
-
 
 
       $('#start_date').daterangepicker({
