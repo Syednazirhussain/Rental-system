@@ -79,11 +79,11 @@ class ArticleController extends AppBaseController
      */
     public function store(Request $request)
     {
-        $input = $request->all();
+        $input = $request->except('_token');
 
-        echo "<pre>";
+        /*echo "<pre>";
         print_r($input);
-        echo "</pre>";
+        echo "</pre>";*/
 
         $article = CompanyArticle::create($input);
 
@@ -144,16 +144,16 @@ class ArticleController extends AppBaseController
      */
     public function update($id, Request $request)
     {
-        $input = $request->except('_token', '_method');
+        $input = $request->except('_token');
 
         $article = CompanyArticle::find($id);
         if(empty($article)) {
             $success = 0;
             $msg = "Article not found";
         }else {
-            echo "<pre>";
+            /*echo "<pre>";
             print_r($input);
-            echo "</pre>";
+            echo "</pre>";*/
             $article = CompanyArticle::whereId($id)->update($input);
             $success = 1;
             $msg = "Company Article has been updated successfully";

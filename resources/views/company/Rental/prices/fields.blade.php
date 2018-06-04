@@ -3,7 +3,7 @@
     <input name="_method" type="hidden" value="PATCH">
 @endif
 
-<legend>Create New Customer</legend>
+<legend>Create New Price</legend>
 <div class="row">
     <div class="col-md-12">
         <div class="col-md-3 form-group">

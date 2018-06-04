@@ -78,10 +78,6 @@ class PriceController extends AppBaseController
     {
         $input = $request->all();
 
-        echo "<pre>";
-        print_r($input);
-        echo "</pre>";
-
         $price = ArticlePrice::create($input);
 
         return response()->json(['success'=> 1, 'msg'=>'Article Price has been created successfully', 'price'=>$price]);
@@ -129,9 +125,6 @@ class PriceController extends AppBaseController
             $success = 0;
             $msg = "Article not found";
         }else {
-            echo "<pre>";
-            print_r($input);
-            echo "</pre>";
             $price = ArticlePrice::whereId($id)->update($input);
             $success = 1;
             $msg = "Company Article has been updated successfully";

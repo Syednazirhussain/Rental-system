@@ -64,10 +64,6 @@ class StockController extends AppBaseController
     {
         $input = $request->all();
 
-        echo "<pre>";
-        print_r($input);
-        echo "</pre>";
-
         $stock = ArticleStock::create($input);
 
         return response()->json(['success'=> 1, 'msg'=>'Article Stock has been created successfully', 'stock'=>$stock]);
@@ -115,9 +111,6 @@ class StockController extends AppBaseController
             $success = 0;
             $msg = "Article Stock Invoice not found";
         }else {
-            echo "<pre>";
-            print_r($input);
-            echo "</pre>";
             $stock = ArticleStock::whereId($id)->update($input);
             $success = 1;
             $msg = "Article Stock has been updated successfully";

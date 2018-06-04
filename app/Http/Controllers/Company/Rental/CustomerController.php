@@ -154,9 +154,7 @@ class CustomerController extends AppBaseController
             $success = 0;
             $msg = "Customer not found";
         }else {
-            echo "<pre>";
-                    print_r($input);
-                    echo "</pre>";
+
             $customer = CompanyCustomer::whereId($id)->update($input);
             $success = 1;
             $msg = "Company customer has been updated successfully";
