@@ -25,5 +25,6 @@
     @section('js')
         @include('company.rental.articles.js')
         @include('company.rental.prices.js')
+        @include('company.rental.stocks.js')
     @endsection
 @endsection

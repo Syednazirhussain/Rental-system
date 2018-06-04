@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Company\Rental;
 
+use App\ArticleStock;
 use App\Models\CompanyUser;
 use App\Repositories\RoomContractRepository;
 use App\Http\Controllers\AppBaseController;
@@ -10,20 +11,6 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use Auth;
-use App\Models\Company;
-use App\Models\CompanyBuilding;
-use App\Models\CompanyFloorRoom;
-use App\Models\Service;
-use App\Models\Room;
-use App\Models\RoomContracts;
-use App\Models\Country;
-use App\Models\State;
-use App\Models\City;
-use App\Models\DiscountType;
-use App\Models\Module;
-use App\Models\PaymentCycle;
-use App\Models\PaymentMethod;
-use App\Models\UserStatus;
 
 class StockController extends AppBaseController
 {
@@ -73,9 +60,17 @@ class StockController extends AppBaseController
      *
      * @return Response
      */
-    public function store(CreateRoomContractRequest $request)
+    public function store(Request $request)
     {
+        $input = $request->all();
 
+        echo "<pre>";
+        print_r($input);
+        echo "</pre>";
+
+        $stock = ArticleStock::create($input);
+
+        return response()->json(['success'=> 1, 'msg'=>'Article Stock has been created successfully', 'stock'=>$stock]);
     }
 
 

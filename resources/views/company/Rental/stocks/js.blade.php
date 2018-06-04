@@ -3,35 +3,35 @@
      * jQuery Validation for all fields
      **/
     // Initialize validator
-    $('#price_form').pxValidate({
+    $('#stock_form').pxValidate({
         focusInvalid: false,
         rules: {
-            'new_in_price': {
+            'qty': {
                 required: true,
             },
-            'new_from': {
+            'value': {
                 required: true,
             },
-            'new_until': {
+            'width': {
                 required: true,
             },
-            'sales_price': {
+            'height': {
                 required: true,
             },
-            'sales_from': {
+            'depth': {
                 required: true,
             },
-            'sales_until': {
+            'weight': {
                 required: true,
             }
         }
     });
 
-    $('#price_submit').on('click', function(e) {
+    $('#stock_submit').on('click', function(e) {
         e.preventDefault();
 
-       if($('#price_form').validate().form()) {
-           var myform = document.getElementById("price_form");
+       if($('#stock_form').validate().form()) {
+           var myform = document.getElementById("stock_form");
            var data = new FormData(myform);
            data.append('company_id', company_id);
            data.append('article_id', article_id);
@@ -60,7 +60,7 @@
                });
            }else {
                $.ajax({
-                   url: '{{ route("company.rprice.store") }}',
+                   url: '{{ route("company.rstock.store") }}',
                    data: data,
                    cache: false,
                    contentType: false,
@@ -69,7 +69,7 @@
                    success: function (data) {
                        console.log(data);
                        if(data.success) {
-                           price_id = data.price.id;
+                           stock_id = data.stock.id;
                        }
                    },
                    error: function (xhr, status, error) {
