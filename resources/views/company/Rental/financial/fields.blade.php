@@ -1,5 +1,5 @@
 <input name="_token" type="hidden" value="{{ csrf_token() }}">
-@if(isset($rfinancial))
+@if(isset($financial))
     <input name="_method" type="hidden" value="PATCH">
 @endif
 
@@ -7,41 +7,55 @@
 <div class="row">
     <div class="col-md-12">
         <div class="col-md-6 form-group">
-            <label for="acc_1" class="control-label">ACC 1</label>
-            <input class="form-control" name="acc_1" type="text" id="acc_1">
+            <label for="acc_1" class="col-md-5 form-label">ACC 1</label>
+            <div class="col-md-7">
+                <input class="form-control" name="acc_1" type="text" id="acc_1" value="@if(isset($financial)){{ $invoice->zipcode }}@endif">
+            </div>
         </div>
         <div class="col-md-6 form-group">
-            <label for="acc_2" class="control-label">ACC 2</label>
-            <input class="form-control" name="acc_2" type="text" id="acc_2">
+            <label for="acc_2" class="col-md-5 form-label">ACC 2</label>
+            <div class="col-md-7">
+                <input class="form-control" name="acc_2" type="text" id="acc_2" value="@if(isset($financial)){{ $invoice->zipcode }}@endif">
+            </div>
         </div>
     </div>
 
     <div class="col-md-12">
         <div class="col-md-6 form-group">
-            <label for="acc_3" class="control-label">ACC 3</label>
-            <input class="form-control" name="acc_3" type="text" id="acc_3">
+            <label for="acc_3" class="col-md-5 form-label">ACC 3</label>
+            <div class="col-md-7">
+                <input class="form-control" name="acc_3" type="text" id="acc_3" value="@if(isset($financial)){{ $invoice->zipcode }}@endif">
+            </div>
         </div>
         <div class="col-md-6 form-group">
-            <label for="acc_4" class="control-label">ACC 4</label>
-            <input class="form-control" name="acc_4" type="text" id="acc_4">
+            <label for="acc_4" class="col-md-5 form-label">ACC 4</label>
+            <div class="col-md-7">
+                <input class="form-control" name="acc_4" type="text" id="acc_4" value="@if(isset($financial)){{ $invoice->zipcode }}@endif">
+            </div>
         </div>
     </div>
 
     <div class="col-md-12">
         <div class="col-md-8 form-group">
-            <label for="article_no" class="control-label">Article Number Financial System</label>
-            <input class="form-control" name="article_no" type="text" id="article_no">
+            <label for="article_no" class="col-md-5 form-label">Article Number Financial System</label>
+            <div class="col-md-7">
+                <input class="form-control" name="article_no" type="number" id="article_no" value="@if(isset($financial)){{ $invoice->zipcode }}@endif">
+            </div>
         </div>
     </div>
 
     <div class="col-md-12">
         <div class="col-md-6 form-group">
-            <label for="cost_no" class="control-label">Cost Number</label>
-            <input class="form-control" name="cost_no" type="text" id="cost_no">
+            <label for="cost_no" class="col-md-5 form-label">Cost Number</label>
+            <div class="col-md-7">
+                <input class="form-control" name="cost_no" type="number" id="cost_no" value="@if(isset($financial)){{ $invoice->zipcode }}@endif">
+            </div>
         </div>
         <div class="col-md-6 form-group">
-            <label for="project_no" class="control-label">Project Number</label>
-            <input class="form-control" name="project_no" type="text" id="project_no">
+            <label for="project_no" class="col-md-5 form-label">Project Number</label>
+            <div class="col-md-7">
+                <input class="form-control" name="project_no" type="number" id="project_no" value="@if(isset($financial)){{ $invoice->zipcode }}@endif">
+            </div>
         </div>
     </div>
 
@@ -49,7 +63,7 @@
     <div class="col-md-12">
         <div class="form-group">
             <div class="col-md-10 text-right">
-                <input class="btn btn-primary" type="submit" value="Save">
+                <input class="btn btn-primary" type="submit" id="financial_submit" value="Save">
                 <a href="{{ route('company.rfinancial.index') }}" class="btn btn-default">Back</a>
             </div>
         </div>

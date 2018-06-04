@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Company\Rental;
 
+use App\ArticleFinancial;
 use App\Models\CompanyUser;
 use App\Repositories\RoomContractRepository;
 use App\Http\Controllers\AppBaseController;
@@ -73,9 +74,17 @@ class FinancialController extends AppBaseController
      *
      * @return Response
      */
-    public function store(CreateRoomContractRequest $request)
+    public function store(Request $request)
     {
+        $input = $request->all();
 
+        echo "<pre>";
+        print_r($input);
+        echo "</pre>";
+
+        $financial = ArticleFinancial::create($input);
+
+        return response()->json(['success'=> 1, 'msg'=>'Article Financial has been created successfully', 'financial'=>$financial]);
     }
 
 
