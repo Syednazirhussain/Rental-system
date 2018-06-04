@@ -44,8 +44,6 @@
         }
     });
 
-    var company_id = document.getElementById('company_id').value;
-
     $('#invoice_submit').on('click', function(e) {
         e.preventDefault();
 
@@ -54,25 +52,49 @@
            var data = new FormData(myform);
            data.append('company_id', company_id);
            data.append('customer_id', customer_id);
-
-           $.ajax({
-               url: '{{ route("company.rinvoice.store") }}',
-               data: data,
-               cache: false,
-               contentType: false,
-               processData: false,
-               type: 'POST', // For jQuery < 1.9
-               success: function (data) {
-                   console.log(data);
-                   if(data.success) {
-                       //document.getElementById('customer_id').value = data.customer.id;
-                   }
-               },
-               error: function (xhr, status, error) {
-                   console.log(error);
+           if(invoice_id > 0) {
+               <?php
+               $updateRoute = '';
+               if (isset($invoice)) {
+                   $updateRoute = route("company.rinvoice.update", [$invoice->id]);
                }
+               ?>
 
-           });
+               $.ajax({
+                   url: '{{ $updateRoute }}',
+                   data: data,
+                   cache: false,
+                   contentType: false,
+                   processData: false,
+                   type: 'POST', // For jQuery < 1.9
+                   success: function (data) {
+
+                   },
+                   error: function (xhr, status, error) {
+
+                   }
+
+               });
+           }else {
+               $.ajax({
+                   url: '{{ route("company.rinvoice.store") }}',
+                   data: data,
+                   cache: false,
+                   contentType: false,
+                   processData: false,
+                   type: 'POST', // For jQuery < 1.9
+                   success: function (data) {
+                       console.log(data);
+                       if(data.success) {
+                           invoice_id = data.invoice.id;
+                       }
+                   },
+                   error: function (xhr, status, error) {
+                       console.log(error);
+                   }
+
+               });
+           }
        }
     });
 

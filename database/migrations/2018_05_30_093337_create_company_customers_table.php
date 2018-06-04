@@ -15,6 +15,7 @@ class CreateCompanyCustomersTable extends Migration
     {
         Schema::create('company_customers', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('number');
             $table->integer('org_no');
             $table->string('name');
             $table->string('printer_code');

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Company\Rental;
 
 use App\Models\CompanyUser;
 use App\Models\Rental\CompanyCustomer;
+use App\Models\Rental\CustomerContactPerson;
+use App\Models\Rental\CustomerInvoice;
 use App\Repositories\RoomContractRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
@@ -108,7 +110,31 @@ class CustomerController extends AppBaseController
      */
     public function edit($id)
     {
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        $companyBuildings = CompanyBuilding::where('company_id', $company_id)->get();
+        $companyFloors = CompanyFloorRoom::where('company_id', $company_id)->get();
+        $rooms = Room::where('company_id', $company_id)->get();
+        $customer = CompanyCustomer::find($id);
+        $contact = CustomerContactPerson::where('customer_id', $id)->first();
+        $invoice = CustomerInvoice::where('customer_id', $id)->first();
+        $building_name = CompanyBuilding::find($customer->building)->name;
+        $floor_name = CompanyFloorRoom::find($customer->floor)->floor;
+        $room_name = Room::find($customer->room)->name;
 
+        $data = [
+            'company_id' => $company_id,
+            'buildings' => $companyBuildings,
+            'floors' => $companyFloors,
+            'rooms' => $rooms,
+            'customer' => $customer,
+            'contact' => $contact,
+            'invoice' => $invoice,
+            'building_name' => $building_name,
+            'floor_name' => $floor_name,
+            'room_name' => $room_name,
+        ];
+
+        return view('company.rental.customers.edit', $data);
     }
 
     /**
@@ -119,9 +145,24 @@ class CustomerController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateRoomContractRequest $request)
+    public function update($id, Request $request)
     {
+        $input = $request->except('_token', '_method');
 
+        $customer = CompanyCustomer::find($id);
+        if(empty($customer)) {
+            $success = 0;
+            $msg = "Customer not found";
+        }else {
+            echo "<pre>";
+                    print_r($input);
+                    echo "</pre>";
+            $customer = CompanyCustomer::whereId($id)->update($input);
+            $success = 1;
+            $msg = "Company customer has been updated successfully";
+        }
+
+        return response()->json(['success'=>$success, 'msg'=>$msg, 'customer'=>$customer]);
     }
 
     /**

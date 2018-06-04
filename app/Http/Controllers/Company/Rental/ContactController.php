@@ -107,9 +107,24 @@ class ContactController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateRoomContractRequest $request)
+    public function update($id, Request $request)
     {
+        $input = $request->except('_token', '_method');
 
+        $contact = CustomerContactPerson::find($id);
+        if(empty($contact)) {
+            $success = 0;
+            $msg = "Customer not found";
+        }else {
+            echo "<pre>";
+            print_r($input);
+            echo "</pre>";
+            $contact = CustomerContactPerson::whereId($id)->update($input);
+            $success = 1;
+            $msg = "Company customer has been updated successfully";
+        }
+
+        return response()->json(['success'=>$success, 'msg'=>$msg, 'contact'=>$contact]);
     }
 
     /**

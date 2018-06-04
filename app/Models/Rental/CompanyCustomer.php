@@ -17,6 +17,7 @@ class CompanyCustomer extends Model
 
     public $fillable = [
         'company_id',
+        'number',
         'org_no',
         'name',
         'printer_code',
@@ -47,6 +48,7 @@ class CompanyCustomer extends Model
      */
     protected $casts = [
         'org_no',
+        'number',
         'name',
         'printer_code',
         'address_1',

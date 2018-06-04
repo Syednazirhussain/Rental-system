@@ -20,12 +20,11 @@
 
             </div>
         </div>
-
-        @endsection
-
+    </div>
 
         @section('js')
-            <script type="text/javascript">
-
-            </script>
+            @include('company.rental.customers.js')
+            @include('company.rental.contacts.js')
+            @include('company.rental.invoices.js')
+        @endsection
 @endsection

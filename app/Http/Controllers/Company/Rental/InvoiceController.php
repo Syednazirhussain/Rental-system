@@ -107,9 +107,24 @@ class InvoiceController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateRoomContractRequest $request)
+    public function update($id, Request $request)
     {
+        $input = $request->except('_token', '_method');
 
+        $invoice = CustomerInvoice::find($id);
+        if(empty($invoice)) {
+            $success = 0;
+            $msg = "Customer Invoice not found";
+        }else {
+            echo "<pre>";
+            print_r($input);
+            echo "</pre>";
+            $invoice = CustomerInvoice::whereId($id)->update($input);
+            $success = 1;
+            $msg = "Customer Invoice has been updated successfully";
+        }
+
+        return response()->json(['success'=>$success, 'msg'=>$msg, 'invoice'=>$invoice]);
     }
 
     /**

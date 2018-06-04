@@ -1,8 +1,9 @@
 <script type="text/javascript">
     //Global Value
-    var customer_id = '';
-    var contact_id = '';
-    var invoice_id = '';
+    var customer_id = "{{ isset($customer) ? $customer->id: 0 }}";
+    var contact_id = "{{ isset($contact) ? $contact->id: 0 }}";
+    var invoice_id = "{{ isset($invoice) ? $invoice->id: 0 }}";
+    var company_id = "{{ isset($company_id) ? $company_id: 0 }}";
     /**
      * jQuery Validation for all fields
      **/
@@ -131,8 +132,6 @@
         });
     });
 
-    var company_id = document.getElementById('company_id').value;
-
     $('#customer_submit').on('click', function(e) {
         e.preventDefault();
 
@@ -146,25 +145,49 @@
            }
 
            data.append('company_id', company_id);
-
-           $.ajax({
-               url: '{{ route("company.rcustomer.store") }}',
-               data: data,
-               cache: false,
-               contentType: false,
-               processData: false,
-               type: 'POST', // For jQuery < 1.9
-               success: function (data) {
-                   console.log(data);
-                   if(data.success) {
-                       customer_id = data.customer.id;
+           if(customer_id < 1) {
+               $.ajax({
+                   url: '{{ route("company.rcustomer.store") }}',
+                   data: data,
+                   cache: false,
+                   contentType: false,
+                   processData: false,
+                   type: 'POST', // For jQuery < 1.9
+                   success: function (data) {
+                       console.log(data);
+                       if(data.success) {
+                           customer_id = data.customer.id;
+                       }
+                   },
+                   error: function (xhr, status, error) {
+                       console.log(error);
                    }
-               },
-               error: function (xhr, status, error) {
-                   console.log(error);
-               }
 
-           });
+               });
+           }else {
+               <?php
+               $updateRoute = '';
+               if (isset($customer)) {
+                   $updateRoute = route("company.rcustomer.update", [$customer->id]);
+               }
+               ?>
+
+               $.ajax({
+                   url: '{{ $updateRoute }}',
+                   data: data,
+                   cache: false,
+                   contentType: false,
+                   processData: false,
+                   type: 'POST', // For jQuery < 1.9
+                   success: function (data) {
+
+                   },
+                   error: function (xhr, status, error) {
+
+                   }
+
+               });
+           }
        }
     });
 

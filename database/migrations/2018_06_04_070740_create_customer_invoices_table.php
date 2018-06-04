@@ -31,6 +31,7 @@ class CreateCustomerInvoicesTable extends Migration
             $table->boolean('inkasso')->default(false);
             $table->string('cost_number');
             $table->string('sale_discount');
+            $table->string('reference_person');
             $table->string('interest_rate')->nullable();
             $table->string('free_text_1')->nullable();
             $table->string('free_text_2')->nullable();
