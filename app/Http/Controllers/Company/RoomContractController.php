@@ -244,7 +244,7 @@ class RoomContractController extends AppBaseController
             ->where('rooms.company_id', $company_id)
             ->where('room_contracts.deleted_at', NULL)
             ->select('rooms.id','rooms.name', 'room_contracts.start_date', 'room_contracts.end_date', 'company_buildings.name as buildingName', 'company_floor_rooms.floor')
-            ->distinct('rooms.id')->orderBy('company_buildings.id', 'DESC')->get();
+            ->distinct('rooms.id')->orderBy('rooms.id', 'DESC')->get();
         $data = json_encode($contracts);
 
         return view('company.contracts.status', ['data' => $data]);
