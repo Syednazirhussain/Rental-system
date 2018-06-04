@@ -134,7 +134,6 @@
     var company_id = document.getElementById('company_id').value;
 
     $('#customer_submit').on('click', function(e) {
-        $('#customer_form').validate();
         e.preventDefault();
 
        if($('#customer_form').validate().form()) {

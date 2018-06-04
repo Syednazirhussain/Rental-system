@@ -7,9 +7,9 @@
 <div class="row">
     <div class="col-md-12">
         <div class="col-md-6 form-group">
-            <label for="name" class="col-md-5 form-label">Company Name</label>
+            <label for="company_name" class="col-md-5 form-label">Company Name</label>
             <div class="col-md-7">
-                <input class="form-control" name="name" type="text" id="name">
+                <input class="form-control" name="company_name" type="text" id="company_name">
             </div>
         </div>
         <div class="col-md-6 form-group">
@@ -43,9 +43,9 @@
             </div>
         </div>
         <div class="col-md-6 form-group">
-            <label for="payment_conditions" class="col-md-5 form-label">Payment Conditions</label>
+            <label for="payment_condition" class="col-md-5 form-label">Payment Conditions</label>
             <div class="col-md-7">
-                <input class="form-control" name="payment_conditions" type="text" id="payment_conditions">
+                <input class="form-control" name="payment_condition" type="text" id="payment_condition">
             </div>
         </div>
     </div>
@@ -66,12 +66,12 @@
         <div class="col-md-3 form-group">
             <label for=""></label>
             <label class="custom-control custom-checkbox" style="display: inline-block;">
-                <input type="checkbox" name="interest_invoice" class="custom-control-input">
+                <input type="radio" name="interest_invoice" class="custom-control-input" value="1">
                 <span class="custom-control-indicator"></span>
                 Yes
             </label>
             <label class="custom-control custom-checkbox" style="display: inline-block;">
-                <input type="checkbox" name="interest_invoice" class="custom-control-input">
+                <input type="radio" name="interest_invoice" class="custom-control-input" value="0" checked>
                 <span class="custom-control-indicator"></span>
                 No
             </label>
@@ -96,12 +96,12 @@
         <div class="col-md-3 form-group">
             <label for=""></label>
             <label class="custom-control custom-checkbox" style="display: inline-block;">
-                <input type="checkbox" name="reminder" class="custom-control-input">
+                <input type="radio" name="reminder" class="custom-control-input" value="1">
                 <span class="custom-control-indicator"></span>
                 Yes
             </label>
             <label class="custom-control custom-checkbox" style="display: inline-block;">
-                <input type="checkbox" name="reminder" class="custom-control-input">
+                <input type="radio" name="reminder" class="custom-control-input" value="0" checked>
                 <span class="custom-control-indicator"></span>
                 No
             </label>
@@ -126,12 +126,12 @@
         <div class="col-md-3 form-group">
             <label for=""></label>
             <label class="custom-control custom-checkbox" style="display: inline-block;">
-                <input type="checkbox" name="inkasso" class="custom-control-input">
+                <input type="radio" name="inkasso" class="custom-control-input" value="1">
                 <span class="custom-control-indicator"></span>
                 Yes
             </label>
             <label class="custom-control custom-checkbox" style="display: inline-block;">
-                <input type="checkbox" name="inkasso" class="custom-control-input">
+                <input type="radio" name="inkasso" class="custom-control-input" value="0" checked>
                 <span class="custom-control-indicator"></span>
                 No
             </label>
@@ -184,7 +184,7 @@
     <div class="col-md-12">
         <div class="form-group">
             <div class="col-md-10 text-right">
-                <input class="btn btn-primary" type="submit" value="Save">
+                <input class="btn btn-primary" type="submit" id="invoice_submit" value="Save">
                 <a href="{{ route('company.rcontact.index') }}" class="btn btn-default">Back</a>
             </div>
         </div>

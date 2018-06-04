@@ -3,54 +3,60 @@
      * jQuery Validation for all fields
      **/
     // Initialize validator
-    $('#contact_form').pxValidate({
+    $('#invoice_form').pxValidate({
         focusInvalid: false,
         rules: {
-            'name': {
+            'company_name': {
                 required: true,
                 minlength: 3,
                 maxlength: 100,
             },
-            'position_title': {
+            'invoice_delivery': {
                 required: true,
             },
-            'tel_number': {
+            'address_1': {
                 required: true,
             },
-            'mobile': {
+            'address_2': {
                 required: true,
             },
-            'email': {
+            'zipcode': {
                 required: true,
             },
-            'busin_levage': {
+            'city': {
                 required: true,
             },
-            'group': {
+            'country': {
+                required: true,
+            },
+            'cost_number': {
+                required: true,
+            },
+            'sale_discount': {
                 required: true,
             },
         },
 
         messages: {
-            'name': {
-                required: "Please enter the name !",
+            'company_name': {
+                required: "Please enter the Company name !",
             }
         }
     });
 
     var company_id = document.getElementById('company_id').value;
 
-    $('#contact_submit').on('click', function(e) {
+    $('#invoice_submit').on('click', function(e) {
         e.preventDefault();
 
-       if($('#contact_form').validate().form()) {
-           var myform = document.getElementById("contact_form");
+       if($('#invoice_form').validate().form()) {
+           var myform = document.getElementById("invoice_form");
            var data = new FormData(myform);
            data.append('company_id', company_id);
            data.append('customer_id', customer_id);
 
            $.ajax({
-               url: '{{ route("company.rcontact.store") }}',
+               url: '{{ route("company.rinvoice.store") }}',
                data: data,
                cache: false,
                contentType: false,
