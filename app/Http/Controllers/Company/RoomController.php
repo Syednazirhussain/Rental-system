@@ -18,6 +18,7 @@ use App\Models\CompanyFloorRoom;
 use App\Models\Service;
 use App\Models\Room;
 use App\Models\RoomContracts;
+use App\Models\Equipments;
 
 class RoomController extends AppBaseController
 {
@@ -69,6 +70,7 @@ class RoomController extends AppBaseController
         $company = Company::find($company_id);
         $companyFloors = CompanyFloorRoom::where('company_id', $company_id)->get();
         $companyBuildings = CompanyBuilding::pluck('name', 'id');
+        $equipments = Equipments::all();
 
         $buildings = CompanyBuilding::where('company_id',$company_id)->get();
 
@@ -80,10 +82,18 @@ class RoomController extends AppBaseController
             'companyBuildings' => $companyBuildings,
             'services' => $services,
             'companyServices' => $services,
-            'buildings'   => $buildings
+            'buildings'   => $buildings,
+            'equipments'  => $equipments  
           ];
 
         return view('company.rooms.create', $data);
+    }
+
+    public function getCompanyRoomEquipment()
+    {
+        $equipments = Equipments::all();
+
+        return json_encode($equipments);
     }
 
     /**

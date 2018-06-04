@@ -375,16 +375,16 @@
                   <div class="col-sm-12 col-sm-12 sitting">
                       <div class="col-sm-3 col-md-3 form-group">
                         <label for="">Sitting Name</label>
-                        <input type="text" name="" class="form-control" >
+                        <input type="text" name="sitting_name" class="form-control" >
                       </div>
                       <div class="col-sm-3 col-md-3 form-group">
                         <label for="">Number of Person</label>
-                        <input type="number" name="" class="form-control" >
+                        <input type="number" name="number_person" class="form-control" >
                       </div>
                       <div class="col-sm-3 col-md-3 form-group">
 
                         <div class="fileinput fileinput-new img-area" data-provides="fileinput" >
-                          <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                          <div class="fileinput-new thumbnail" style="width: 105px; height: 70px;">
                                 @if( isset($roomImages) && $roomImages->image_file != "default.png")
                                     <img src="{{ asset('storage/company_rooms_images/'.$roomImages->image_file) }}" >
                                 @else
@@ -402,6 +402,47 @@
                       </div>
                       <div class="col-sm-3">
                         <!-- <i class="fa fa-times fa-lg remove-sitting cursor-p m-t-4"></i> -->
+                      </div>
+                  </div>
+              </div>
+            </div>            
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-md-12">
+          <div class="panel">
+            <div class="panel-heading">
+              <div class="panel-title">What included in this room.?</div>
+            </div>
+            <div class="panel-body">
+              <div class="pull-right">
+                <button class="btn btn-primary addIncluded" type="button"><i class="fa fa-plus"></i>&nbsp;Add</button>
+              </div>
+              <div class="row includedItem">
+                  <div class="col-sm-12 col-sm-12 included">
+                      <div class="col-sm-3 col-md-3 form-group">
+                        <label for="">Item</label>
+                        <select class="form-control" id="equipment_id" name="equipment_id">
+                            <!-- <option value="">Select</option> -->
+                            @foreach ($equipments as $equipment)
+                                <option value="{{ $equipment->id }}">{{$equipment->title }}</option>
+                            @endforeach
+                        </select>
+                      </div>
+                      <div class="col-sm-2 col-md-2 form-group">
+                        <label for="">Quantity</label>
+                        <input type="number" name="qty" class="form-control" >
+                      </div>
+                      <div class="col-sm-2 col-md-2 form-group">
+                        <label for="">Price</label>
+                        <input type="number" name="price" class="form-control" >
+                      </div>
+                      <div class="col-sm-4 col-md-4 form-group">
+                        <label for="">Information</label>
+                        <input type="text" name="info" class="form-control" >
+                      </div>
+                      <div class="col-sm-1">
+<!--                         <i class="fa fa-times fa-lg remove-sitting cursor-p m-t-4"></i> -->
                       </div>
                   </div>
               </div>
@@ -462,6 +503,183 @@
 
 <script type="text/javascript">
 
+        // Initialize validator
+      $('#roomForm').validate({
+            ignore:":not(:visible)",
+            rules: {
+                'equipment_id': {
+                    required: true,
+                },
+                'qty': {
+                    required: true,
+                },
+                'price': {
+                    required: true,
+                },
+                'info': {
+                    required: true,
+                },
+                'sitting_name': {
+                    required: true,
+                },
+                'number_person': {
+                    required: true,
+                },
+                'floor_id': {
+                    required: true,
+                },
+                'service_id': {
+                    required: true,
+                },
+                'name': {
+                    required: true,
+                    stringValue: true,
+                },
+                 'address': {
+                    required: true,
+                },
+                'area': {
+                    required: true,
+                    digits: true
+                },
+                'price': {
+                    required: true,
+                    digits: true
+                },
+                'security_code': {
+                    required: true,
+                    securityCode: true
+                },
+                'sort_index': {
+                    required: true,
+                    digits: true
+                },
+                'article_number': {
+                    required: true,
+                    stringValue: true
+                },
+                
+                'public_name': {
+                    required: true,
+                    stringValue: true
+                },
+                
+                'SQNA': {
+                    required: true,
+                    stringValue: true
+                },
+                
+                'building_id': {
+                    required: true,
+                },
+                
+                'start_date': {
+                    required: true,
+                },
+                
+                'end_date': {
+                    required: true,
+                    greaterThan: "start_date" 
+                },
+                
+                'rent_monthly_rent': {
+                    required: true,
+                    digits: true
+                },
+                
+                'rent_number_person': {
+                    required: true,
+                    digits: true
+                },
+                
+                'rent_vat': {
+                    required: true,
+                    digits: true
+                },
+                
+                'rent_new_price': {
+                    required: true,
+                    digits: true
+                },
+                
+                'rent_start_date': {
+                    required: true,
+                },
+                'rent_end_date': {
+                    required: true,
+                    greaterThan: "rent_end_date"
+                },
+                'rent_room_type': {
+                    required: true,
+                    stringValue: true
+                },
+                'conf_day_price': {
+                    required: true,
+                    digits: true
+                },
+                'conf_half_day_price': {
+                    required: true,
+                    digits: true
+                },
+                'conf_room_type': {
+                    required: true
+                },
+                'conf_cost': {
+                    required: true,
+                    digits: true
+                },
+                'conf_sm_price': {
+                    required: true,
+                    digits: true
+                },
+                'conf_high_price': {
+                    required: true,
+                    digits: true
+                },
+                'conf_medium_price': {
+                    required: true,
+                    digits: true
+                },
+                'conf_low_price': {
+                    required: true,
+                },
+                'conf_termination_cond': {
+                    required: true
+                },
+                'conf_vat': {
+                    required: true,
+                    digits: true
+                },
+                'conf_calender_available': {
+                    required: true,
+                },
+                'conf_info_internal': {
+                    required: true,
+                },
+                'conf_info_customer_se': {
+                    required: true,
+                },
+                'conf_info_customer_en': {
+                    required: true,
+                },
+                'conf_info_technical_se': {
+                    required: true,
+                },
+                'conf_info_technical_en': {
+                    required: true,
+                }
+
+            },
+            errorPlacement: function(error, element) {
+                var placement = $(element).parent().find('.errorTxt');
+                if (placement) {
+                  $(placement).append(error)
+                } else {
+                  error.insertAfter(element);
+                }
+            }
+      });
+
 
         //  Sitting Arrangment Start
 
@@ -480,7 +698,7 @@
 
 
           sitting += '<div class="fileinput fileinput-new img-area" data-provides="fileinput" >';
-          sitting += '<div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">';
+          sitting += '<div class="fileinput-new thumbnail" style="width: 105px; height: 70px;">';
           sitting += '<img src="{{ asset("/skin-1/assets/images/default.png") }}" >';
           sitting += '</div>';
           sitting += '<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>';
@@ -508,6 +726,53 @@
 
 
         // Sitting Arrangment End
+
+        $('.addIncluded').click(function(){
+
+          var included = '';
+          $.ajax({
+            url : "{{ route('company.room.equipments') }}",
+            type : "GET",
+            dataType : "json",
+            success : function(response){
+                included += '<div class="col-sm-12 col-sm-12 included">';
+                included += '<div class="col-sm-3 col-md-3 form-group">';
+                included += '<label for="">Item</label>';
+                included += '<select class="form-control" id="equipment_id" name="equipment_id">';
+                // included += '<option value="">Select</option>';
+                for(var i = 0 ; i<response.length ; i++)
+                {
+                  included += '<option value="'+response[i].id+'">'+response[i].title+'</option>';
+                }
+                included += '</select>';
+                included += '</div>';
+                included += '<div class="col-sm-2 col-md-2 form-group">';
+                included += '<label for="">Quantity</label>';
+                included += '<input type="number" name="qty" class="form-control" >';
+                included += '</div>';
+                included += '<div class="col-sm-2 col-md-2 form-group">';
+                included += '<label for="">Price</label>';
+                included += '<input type="number" name="price" class="form-control" >';
+                included += '</div>';
+                included += '<div class="col-sm-4 col-md-4 form-group">';
+                included += '<label for="">Information</label>';
+                included += '<input type="number" name="price" class="form-control" >';
+                included += '</div>';
+                included += '<div class="col-sm-1">';
+                included += '<i class="fa fa-times fa-lg remove-included cursor-p m-t-4"></i>';
+                included += '</div>';
+                included += '</div>';
+            }
+          }).done(function(){
+              $('.includedItem').prepend(included);
+          });
+        });
+
+        $(document).on('click','.remove-included',function(){
+          $(this).parent().parent().remove();
+        });
+
+
 
           // Initialize Select2
         
@@ -753,164 +1018,7 @@
             return isNaN(value) && isNaN($(params).val()) || (Number(value) > Number($(params).val())); 
         },'Must be greater than {0}.');
 
-      // Initialize validator
-      $('#roomForm').validate({
-            ignore:":not(:visible)",
-            rules: {
-                'floor_id': {
-                    required: true,
-                },
-                'service_id': {
-                    required: true,
-                },
-                'name': {
-                    required: true,
-                    stringValue: true,
-                },
-                 'address': {
-                    required: true,
-                },
-                'area': {
-                    required: true,
-                    digits: true
-                },
-                'price': {
-                    required: true,
-                    digits: true
-                },
-                'security_code': {
-                    required: true,
-                    securityCode: true
-                },
-                'sort_index': {
-                    required: true,
-                    digits: true
-                },
-                'article_number': {
-                    required: true,
-                    stringValue: true
-                },
-                
-                'public_name': {
-                    required: true,
-                    stringValue: true
-                },
-                
-                'SQNA': {
-                    required: true,
-                    stringValue: true
-                },
-                
-                'building_id': {
-                    required: true,
-                },
-                
-                'start_date': {
-                    required: true,
-                },
-                
-                'end_date': {
-                    required: true,
-                    greaterThan: "start_date" 
-                },
-                
-                'rent_monthly_rent': {
-                    required: true,
-                    digits: true
-                },
-                
-                'rent_number_person': {
-                    required: true,
-                    digits: true
-                },
-                
-                'rent_vat': {
-                    required: true,
-                    digits: true
-                },
-                
-                'rent_new_price': {
-                    required: true,
-                    digits: true
-                },
-                
-                'rent_start_date': {
-                    required: true,
-                },
-                'rent_end_date': {
-                    required: true,
-                    greaterThan: "rent_end_date"
-                },
-                'rent_room_type': {
-                    required: true,
-                    stringValue: true
-                },
-                'conf_day_price': {
-                    required: true,
-                    digits: true
-                },
-                'conf_half_day_price': {
-                    required: true,
-                    digits: true
-                },
-                'conf_room_type': {
-                    required: true
-                },
-                'conf_cost': {
-                    required: true,
-                    digits: true
-                },
-                'conf_sm_price': {
-                    required: true,
-                    digits: true
-                },
-                'conf_high_price': {
-                    required: true,
-                    digits: true
-                },
-                'conf_medium_price': {
-                    required: true,
-                    digits: true
-                },
-                'conf_low_price': {
-                    required: true,
-                },
-                'conf_termination_cond': {
-                    required: true
-                },
-                'conf_vat': {
-                    required: true,
-                    digits: true
-                },
-                'conf_calender_available': {
-                    required: true,
-                },
-                'conf_info_internal': {
-                    required: true,
-                },
-                'conf_info_customer_se': {
-                    required: true,
-                },
-                'conf_info_customer_en': {
-                    required: true,
-                },
-                'conf_info_technical_se': {
-                    required: true,
-                },
-                'conf_info_technical_en': {
-                    required: true,
-                }
 
-            },
-            errorPlacement: function(error, element) {
-                var placement = $(element).parent().find('.errorTxt');
-                if (placement) {
-                  $(placement).append(error)
-                } else {
-                  error.insertAfter(element);
-                }
-            }
-      });
 
 
       $('#start_date').daterangepicker({
