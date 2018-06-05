@@ -66,16 +66,10 @@
     </div>
 
     <div class="col-md-12">
-        <div class="col-md-3 form-group">
+        <div class="col-md-6 form-group">
             <label for="login_code" class="col-md-5 form-label">Login Code</label>
             <div class="col-md-7">
                 <input class="form-control" name="login_code" type="text" id="login_code" value="@if(isset($contact)){{ $contact->login_code }}@endif">
-            </div>
-        </div>
-        <div class="col-md-3 form-group">
-            <label for="busin_levage" class="col-md-5 form-label">Busin Levage</label>
-            <div class="col-md-7">
-                <input class="form-control" name="busin_levage" type="text" id="busin_levage" value="@if(isset($contact)){{ $contact->busin_levage }}@endif">
             </div>
         </div>
         <div class="col-md-6 form-group">
@@ -87,9 +81,17 @@
     </div>
 
     <div class="col-md-12">
+        <div class="col-md-6 form-group">
+            <label for="busin_levage" class="col-md-5 form-label">Busin Levage</label>
+            <div class="col-md-7">
+                <input class="form-control" name="busin_levage" type="text" id="busin_levage" value="@if(isset($contact)){{ $contact->busin_levage }}@endif">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
         <div class="col-md-12 form-group">
             <label for="note" class="col-md-2 form-label">Notes</label>
-            <div class="col-md-10">
+            <div class="col-md-10 form-group">
                 <textarea rows="5" class="form-control" name="note" type="text" id="note" value="@if(isset($contact)){{ $contact->note }}@endif"></textarea>
             </div>
         </div>
@@ -98,7 +100,7 @@
     <br>
     <div class="col-md-12">
         <div class="form-group">
-            <div class="col-md-10 text-right">
+            <div class="col-md-11 text-right">
                 <input class="btn btn-primary" type="submit" id="contact_submit" value="@if(isset($contact)) Update @else Save @endif">
                 <a href="{{ route('company.rcontact.index') }}" class="btn btn-default">Back</a>
             </div>

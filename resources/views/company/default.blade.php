@@ -35,9 +35,9 @@
         }
 
         .form-label {
-            text-align: center;
             font-size: 14px;
             margin-top: 3px;
+            font-weight: 400;
         }
     </style>
     <!-- / Custom styling -->

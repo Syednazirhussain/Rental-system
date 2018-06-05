@@ -78,16 +78,10 @@
     </div>
 
     <div class="col-md-12">
-        <div class="col-md-3 form-group">
+        <div class="col-md-6 form-group">
             <label for="zipcode" class="col-md-5 form-label">Zip Code </label>
             <div class="col-md-7">
                 <input class="form-control" name="zipcode" type="text" id="zipcode" value="@if(isset($customer)){{ $customer->zipcode }}@endif">
-            </div>
-        </div>
-        <div class="col-md-3 form-group">
-            <label for="city" class="col-md-5 form-label">City </label>
-            <div class="col-md-7">
-                <input class="form-control" name="city" type="text" id="city" value="@if(isset($customer)){{ $customer->city }}@endif">
             </div>
         </div>
         <div class="col-md-6 form-group">
@@ -106,9 +100,9 @@
 
     <div class="col-md-12">
         <div class="col-md-6 form-group">
-            <label for="country" class="col-md-5 form-label">Country </label>
+            <label for="city" class="col-md-5 form-label">City </label>
             <div class="col-md-7">
-                <input class="form-control" name="country" type="text" id="country" value="@if(isset($customer)){{ $customer->country }}@endif">
+                <input class="form-control" name="city" type="text" id="city" value="@if(isset($customer)){{ $customer->city }}@endif">
             </div>
         </div>
         <div class="col-md-6 form-group">
@@ -121,9 +115,9 @@
 
     <div class="col-md-12">
         <div class="col-md-6 form-group">
-            <label for="email" class="col-md-5 form-label">Email </label>
+            <label for="country" class="col-md-5 form-label">Country </label>
             <div class="col-md-7">
-                <input class="form-control" name="email" type="text" id="email" value="@if(isset($customer)){{ $customer->email }}@endif">
+                <input class="form-control" name="country" type="text" id="country" value="@if(isset($customer)){{ $customer->country }}@endif">
             </div>
         </div>
         <div class="col-md-6 form-group">
@@ -151,26 +145,25 @@
 
     <div class="col-md-12">
         <div class="col-md-6 form-group">
-            <label for="mobile" class="col-md-5 form-label">Mobile </label>
+            <label for="email" class="col-md-5 form-label">Email </label>
             <div class="col-md-7">
-                <input class="form-control" name="mobile" type="number" id="mobile" value="@if(isset($customer)){{ $customer->mobile }}@endif">
+                <input class="form-control" name="email" type="text" id="email" value="@if(isset($customer)){{ $customer->email }}@endif">
             </div>
         </div>
         <div class="col-md-6 form-group">
-            <label for=""></label>
-            <label class="custom-control custom-checkbox">
+            <label class="custom-control custom-checkbox" style="font-size: 14px;">
                 <input type="checkbox" id="block_customer" data-toggle="switch" class="custom-control-input" value="@if(isset($customer))checked @endif">
                 <span class="custom-control-indicator"></span>
-                Block Customer
+                &nbsp;&nbsp;Block Customer
             </label>
         </div>
     </div>
 
     <div class="col-md-12">
         <div class="col-md-6 form-group">
-            <label for="language" class="col-md-5 form-label">Communication Language</label>
+            <label for="mobile" class="col-md-5 form-label">Mobile </label>
             <div class="col-md-7">
-                <input class="form-control" name="language" type="text" id="language" value="@if(isset($customer)){{ $customer->language }}@endif">
+                <input class="form-control" name="mobile" type="number" id="mobile" value="@if(isset($customer)){{ $customer->mobile }}@endif">
             </div>
         </div>
         <div class="col-md-6 form-group">
@@ -180,14 +173,20 @@
             </div>
         </div>
     </div>
+    <div class="col-md-12">
+        <div class="col-md-6 form-group">
+            <label for="language" class="col-md-5 form-label">Communication Language</label>
+            <div class="col-md-7">
+                <input class="form-control" name="language" type="text" id="language" value="@if(isset($customer)){{ $customer->language }}@endif">
+            </div>
+        </div>
+    </div>
 
     <br>
-    <div class="col-md-12">
-        <div class="form-group">
-            <div class="col-md-10 text-right">
-                <input class="btn btn-primary" type="submit" value="@if(isset($customer)) Update @else Save @endif" id="customer_submit">
-                <a href="{{ route('company.rcustomer.index') }}" class="btn btn-default">Back</a>
-            </div>
+    <div class="col-md-12 text-right">
+        <div class="col-md-11 form-group">
+            <input class="btn btn-primary" type="submit" value="@if(isset($customer)) Update @else Save @endif" id="customer_submit">
+            <a href="{{ route('company.rcustomer.index') }}" class="btn btn-default">Back</a>
         </div>
     </div>
 </div>

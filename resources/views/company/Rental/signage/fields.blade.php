@@ -9,12 +9,12 @@
         <div class="col-md-6 form-group">
             <label for=""></label>
             <label class="custom-control custom-checkbox" style="display: inline-block;">
-                <input type="checkbox" name="is_signage" class="custom-control-input">
+                <input type="radio" name="is_signage" class="custom-control-input">
                 <span class="custom-control-indicator"></span>
                 Yes
             </label>
             <label class="custom-control custom-checkbox" style="display: inline-block;">
-                <input type="checkbox" name="is_signage" class="custom-control-input">
+                <input type="radio" name="is_signage" class="custom-control-input">
                 <span class="custom-control-indicator"></span>
                 No
             </label>
@@ -112,7 +112,7 @@
     <br>
     <div class="col-md-12">
         <div class="form-group">
-            <div class="col-md-10 text-right">
+            <div class="col-md-11 text-right">
                 <input class="btn btn-primary" type="submit" value="Save">
                 <a href="{{ route('company.rsignage.index') }}" class="btn btn-default">Back</a>
             </div>
