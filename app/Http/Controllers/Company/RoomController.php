@@ -20,8 +20,12 @@ use App\Models\Room;
 use App\Models\RoomContracts;
 use App\Models\Equipments;
 
+use App\Models\Company\RoomImages;
 use App\Models\Company\RoomSettingArrangment;
 use App\Models\Company\RoomEquipments;
+
+use Illuminate\Http\File;
+use Illuminate\Support\Facades\Storage;
 
 class RoomController extends AppBaseController
 {
@@ -112,6 +116,7 @@ class RoomController extends AppBaseController
 
         $input = $request->all();
 
+        // dd($input);
 
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
 
@@ -249,6 +254,38 @@ class RoomController extends AppBaseController
         // echo "</pre>";
         // exit;
 
+        $filesCount =  count($input['sitting_name']);
+
+        $fileList = [];
+
+        for ($i=0; $i < $filesCount; $i++) 
+        { 
+            $fileList[$i] = $input['files'.$i];
+        }
+
+
+
+
+        // echo "<pre>";
+        // print_r($fileList);
+        // echo "</pre>";exit;
+
+        if($fileList[0][0])
+        {       
+            // dd($fileList[0][0]);
+
+            Storage::putFile($fileList[0][0], new File('public/uploadedimages'));
+
+            // $path = $request->file($fileList[0][0])->store('public/uploadedimages');
+            // echo $path;exit;
+
+        }
+        else
+        {
+            echo "dsj";exit;
+        }
+
+
         dd($input);
 
 
@@ -322,7 +359,26 @@ class RoomController extends AppBaseController
                 $roomSittingArrangment->building_id = $building_id;          
                 $roomSittingArrangment->name = $siiting_name_arr[$i];           
                 $roomSittingArrangment->number_persons = $siiting_num_person_arr[$i];
-                $roomSittingArrangment->save();
+                $roomSitting = $roomSittingArrangment->save();
+                if($roomSitting)
+                {
+                    $sitting_id = $roomSitting->id;
+                    $roomImages = new RoomImages;
+                    for ($i=0; $i < count($fileList); $i++) 
+                    { 
+                        for ($j=0; $j < count($fileList[$i]) ; $j++) 
+                        { 
+                            $roomImages->building_id = $building_id;
+                            $roomImages->room_id = $room_id;
+                            $roomImages->sitting_id = $sitting_id;
+                            $roomImages->entity_type = $room_type;
+                            // if()
+                            // $roomImages->image_file =                         
+                        }
+                    }
+
+
+                }
             }
 
 

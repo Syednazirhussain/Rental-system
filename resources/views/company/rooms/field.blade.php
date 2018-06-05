@@ -1,12 +1,3 @@
-@section('css')
-<style type="text/css">
-    .img-area {
-      width: 20px;
-      height: 20px
-    }  
-</style>
-
-@endsection
 
 <div class="panel-heading">
     <div class="panel-title">General Information</div>
@@ -18,6 +9,9 @@
           <input name="_method" type="hidden" value="PATCH">
       @endif
       <div class="row">
+
+
+
 
           <div class="col-sm-12 col-md-12 m-t-4">
             <div class="row">
@@ -51,7 +45,7 @@
                           @if (isset($room))
                               <input type="hidden" name="logo-hidden" id="logo-hidden" value="{{ $room->logo }}">
 
-                              <img src="{{ asset('storage/company_logos/'.$room->logo) }}" data-src="{{ asset('storage/company_logos/'.$room->logo) }}" alt="" />
+                              <img src="{{ asset('storage/company_logos/'.$room->logo) }}" data-src="{{ asset('storage/company_logos/'.$room->logo) }}" />
                           @endif
                     </div>
                     <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
@@ -372,26 +366,30 @@
                 <button class="btn btn-primary addSitting" type="button"><i class="fa fa-plus"></i> Add</button>
               </div>
               <div class="row sittingArrangments">
+
+                <div class="row">
+          
                   <div class="col-sm-12 col-sm-12">
-                      <div class="col-sm-3 col-md-3 form-group">
+                      <div class="col-sm-4 col-md-4 form-group">
                         <label for="sitting_name">Sitting Name</label>
                         <input type="text" name="sitting_name[]" id="sitting_name" class="form-control sittingNameField" >
                       </div>
-                      <div class="col-sm-3 col-md-3 form-group">
+
+                      <div class="col-sm-4 col-md-4 form-group">
                         <label for="sitting_number_person">Number of Person</label>
                         <input type="number" name="sitting_number_person[]" id="sitting_number_person" class="form-control" >
-                      </div>
-                      <div class="col-sm-3 col-md-3 form-group">
-                        <label for="images">Images</label>
-                        <input type="file" class="form-control" id="images" name="images[]" onchange="preview_images();" multiple/>
-                      </div>
-                      <div class="col-sm-3">
-                        <!-- <i class="fa fa-times fa-lg remove-sitting cursor-p m-t-4"></i> -->
-                      </div>
+                      </div> 
+
+                      <div class="col-sm-2 col-md-4 form-group">
+<!--                         <i class="fa fa-times fa-lg remove-sitting cursor-p m-t-4 pull-right"></i> -->
+                      </div>                     
                   </div>
-                  <div class="col-sm-12 col-sm-12">
-                      <div class="row" id="image_preview"></div>                    
+                  <div class="col-sm-12 col-md-12 form-group">
+                    <input type="file" name="files0" class="uploadFiles">
                   </div>
+
+                </div>
+
               </div>
             </div>            
           </div>
@@ -430,7 +428,7 @@
                         <input type="text" name="include_info[]" id="include_info" class="form-control" >
                       </div>
                       <div class="col-sm-1">
-<!--                         <i class="fa fa-times fa-lg remove-sitting cursor-p m-t-4"></i> -->
+
                       </div>
                   </div>
               </div>
@@ -488,23 +486,7 @@
 
 @section('js')
 
-<script>
 
-  function preview_images() 
-  {
-   var total_file = document.getElementById("images").files.length;
-   for(var i=0;i<total_file;i++)
-   {
-    $('#image_preview').append("<div class='col-md-2'><i class='fa fa-times text-danger fa-sm cursor-p remove-img'></i><img class='img-responsive fileinput-new thumbnail' style='width: 105px; height: 70px;' src='"+URL.createObjectURL(event.target.files[i])+"'></div>");
-   }
-  }
-
-  $(document).on('click','.remove-img',function(e){
-     $(this).parent().remove();
-   
-  });
-
-</script>
 
 <script type="text/javascript">
 
@@ -720,41 +702,32 @@
 
         //  Sitting Arrangment Start
         var sittingCount = 0;
-        
         $('.addSitting').click(function(){
           sittingCount++;
-          var sitting = '<div class="col-sm-12 col-sm-12 sitting">';
-          sitting += '<div class="col-sm-3 col-md-3 form-group">';
-          sitting += '<label for="">Sitting Name</label>';
-          sitting += '<input type="text" name="sitting_name[]" class="form-control sittingNameField" >';
-          sitting += '</div>';
-          sitting += '<div class="col-sm-3 col-md-3 form-group">';
-          sitting += '<label for="">Number of Person</label>';
-          sitting += '<input type="number" name="sitting_number_person[]" class="form-control" >';
-          sitting += '</div>';
-          sitting += '<div class="col-sm-3 col-md-3 form-group">';
-
-
-          sitting += '<label for="images">Images</label>';
-          sitting += '<input type="file" class="form-control" id="images" name="images[]" onchange="preview_images();" multiple/>';
-
-
-          sitting += '</div>';
-          sitting += '<div class="col-sm-3">';
-          sitting += '<i class="fa fa-times fa-lg remove-sitting cursor-p m-t-4"></i>';
-          sitting += '</div>';
-          sitting += '</div>';
+          var sitting = '<div class="row">';
           sitting += '<div class="col-sm-12 col-sm-12">';
-          sitting += '<div class="row" id="image_preview"></div>';                    
+          sitting += '<div class="col-sm-4 col-md-4 form-group">';
+          sitting += '<label for="sitting_name">Sitting Name</label>';
+          sitting += '<input type="text" name="sitting_name[]" id="sitting_name" class="form-control sittingNameField" >';
           sitting += '</div>';
-
+          sitting += '<div class="col-sm-4 col-md-4 form-group">';
+          sitting += '<label for="sitting_number_person">Number of Person</label>';
+          sitting += '<input type="number" name="sitting_number_person[]" id="sitting_number_person" class="form-control" >';
+          sitting += '</div>'; 
+          sitting += '<div class="col-sm-2 col-md-4 form-group">';
+          sitting += '<i class="fa fa-times fa-lg remove-sitting cursor-p m-t-4 pull-right"></i>';
+          sitting += '</div>';                     
+          sitting += '</div>';
+          sitting += '<div class="col-sm-12 col-md-12 form-group">';
+          sitting += '<input type="file" name="files'+sittingCount+'" class="uploadFiles">';
+          sitting += '</div>';
+          sitting += '</div>';
           $('.sittingArrangments').prepend(sitting);
-
+          fileUploader(sittingCount);
         });
 
         $(document).on('click', '.remove-sitting', function(){
-          sittingCount--;
-          $(this).parent().parent().remove();
+          $(this).parent().parent().parent().remove();
         });
 
 
@@ -855,6 +828,8 @@
         }
 
         $(document).ready(function() {
+
+          fileUploader();
 
             $('#loader').css("visibility", "hidden");
 

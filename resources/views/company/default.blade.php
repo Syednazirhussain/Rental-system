@@ -18,7 +18,12 @@
     <link href="{{ asset('/skin-1/assets/css/themes/candy-green.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/skin-1/assets/plugins/jasny-bootstrap/css/jasny-bootstrap.min.css') }}" rel="stylesheet">
 
+
+
     @yield('css')
+
+
+
 
     <link href="{{ asset('/skin-1/assets/css/custom.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
@@ -35,6 +40,31 @@
         }
     </style>
     <!-- / Custom styling -->
+
+
+
+
+
+
+
+
+
+
+    <link href="{{ asset('/skin-1/assets/fileuploader/src/jquery.fileuploader.css') }}" media="all" rel="stylesheet">
+    <link href="{{ asset('/skin-1/assets/fileuploader/css/jquery.fileuploader-theme-thumbnails.css') }}" media="all" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </head>
 <body>
@@ -387,11 +417,20 @@
 
 <!-- jQuery -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script> -->
 <script src="{{ asset('/skin-1/assets/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('/skin-1/assets/js/pixeladmin.min.js') }}"></script>
 <script src="{{ asset('/skin-1/assets/js/jquery.validate.min.js') }}"></script>
+
+
+
+
 <script src="{{ asset('/skin-1/assets/js/custom.js') }}"></script>
 <script src="{{ asset('/skin-1/assets/plugins/jasny-bootstrap/js/jasny-bootstrap.min.js') }}"></script>
+
+
+<script src="{{ asset('/skin-1/assets/fileuploader/src/jquery.fileuploader.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/skin-1/assets/fileuploader/js/custom.js') }}" type="text/javascript"></script>
 
 <script type="text/javascript">
     $.ajaxSetup({
@@ -400,6 +439,8 @@
         }
     });
 </script>
+
+
 
 @yield('js')
 
