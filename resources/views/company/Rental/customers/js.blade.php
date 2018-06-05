@@ -4,6 +4,12 @@
     var contact_id = "{{ isset($contact) ? $contact->id: 0 }}";
     var invoice_id = "{{ isset($invoice) ? $invoice->id: 0 }}";
     var company_id = "{{ isset($company_id) ? $company_id: 0 }}";
+
+    var customer_address_1 = "{{ isset($customer) ? $customer->address_1: 0 }}";
+    var customer_address_2 = "{{ isset($customer) ? $customer->address_2: 0 }}";
+    var customer_zipcode = "{{ isset($customer) ? $customer->zipcode: 0 }}";
+    var customer_city = "{{ isset($customer) ? $customer->city: 0 }}";
+    var customer_country = "{{ isset($customer) ? $customer->country: 0 }}";
     /**
      * jQuery Validation for all fields
      **/
@@ -157,6 +163,11 @@
                        console.log(data);
                        if(data.success) {
                            customer_id = data.customer.id;
+                           customer_address_1 = data.customer.address_1;
+                           customer_address_2 = data.customer.address_2;
+                           customer_zipcode = data.customer.zipcode;
+                           customer_city = data.customer.city;
+                           customer_country = data.customer.country;
                        }
                    },
                    error: function (xhr, status, error) {

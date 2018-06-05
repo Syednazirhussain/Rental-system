@@ -44,6 +44,24 @@
         }
     });
 
+    // Copy information from customer tab checkbox
+    $('#copy_information').on('click', function(){
+        debugger
+        if (document.getElementById('copy_information').checked && customer_id > 0) {
+            document.getElementById('invoice_address_1').value = customer_address_1;
+            document.getElementById('invoice_address_2').value = customer_address_2;
+            document.getElementById('invoice_zipcode').value = customer_zipcode;
+            document.getElementById('invoice_city').value = customer_city;
+            document.getElementById('invoice_country').value = customer_country;
+        }else {
+            document.getElementById('invoice_address_1').value = '';
+            document.getElementById('invoice_address_2').value = '';
+            document.getElementById('invoice_zipcode').value = '';
+            document.getElementById('invoice_city').value = '';
+            document.getElementById('invoice_country').value = '';
+        }
+    });
+
     $('#invoice_submit').on('click', function(e) {
         e.preventDefault();
 

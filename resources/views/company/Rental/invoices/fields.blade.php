@@ -5,6 +5,15 @@
 
 <legend>Create New Invoice</legend>
 <div class="row">
+    <div class="col-md-6 col-md-offset-6">
+        <div class="col-md-12 form-group">
+            <label class="custom-control custom-checkbox" style="font-size: 14px;">
+                <input type="checkbox" id="copy_information" data-toggle="switch" class="custom-control-input">
+                <span class="custom-control-indicator"></span>
+                &nbsp;&nbsp;Copy Information from Customer Tab
+            </label>
+        </div>
+    </div>
     <div class="col-md-6">
         <div class="col-md-12 form-group">
             <label for="company_name" class="col-md-5 form-label">Company Name</label>
@@ -15,31 +24,31 @@
         <div class="col-md-12 form-group">
             <label for="address_1" class="col-md-5 form-label">Address 1</label>
             <div class="col-md-7">
-                <input class="form-control" name="address_1" type="text" id="address_1" value="@if(isset($invoice)){{ $invoice->address_1 }}@endif">
+                <input class="form-control" name="address_1" type="text" id="invoice_address_1" value="@if(isset($invoice)){{ $invoice->address_1 }}@endif">
             </div>
         </div>
         <div class="col-md-12 form-group">
             <label for="address_2" class="col-md-5 form-label">Address 2</label>
             <div class="col-md-7">
-                <input class="form-control" name="address_2" type="text" id="address_2" value="@if(isset($invoice)){{ $invoice->address_2 }}@endif">
+                <input class="form-control" name="address_2" type="text" id="invoice_address_2" value="@if(isset($invoice)){{ $invoice->address_2 }}@endif">
             </div>
         </div>
         <div class="col-md-12 form-group">
             <label for="zipcode" class="col-md-5 form-label">Zipcode</label>
             <div class="col-md-7">
-                <input class="form-control" name="zipcode" type="text" id="zipcode" value="@if(isset($invoice)){{ $invoice->zipcode }}@endif">
+                <input class="form-control" name="zipcode" type="text" id="invoice_zipcode" value="@if(isset($invoice)){{ $invoice->zipcode }}@endif">
             </div>
         </div>
         <div class="col-md-12 form-group">
             <label for="city" class="col-md-5 form-label">City</label>
             <div class="col-md-7">
-                <input class="form-control" name="city" type="text" id="city" value="@if(isset($invoice)){{ $invoice->city }}@endif">
+                <input class="form-control" name="city" type="text" id="invoice_city" value="@if(isset($invoice)){{ $invoice->city }}@endif">
             </div>
         </div>
         <div class="col-md-12 form-group">
             <label for="country" class="col-md-5 form-label">Country</label>
             <div class="col-md-7">
-                <input class="form-control" name="country" type="text" id="country" value="@if(isset($invoice)){{ $invoice->country }}@endif">
+                <input class="form-control" name="country" type="text" id="invoice_country" value="@if(isset($invoice)){{ $invoice->country }}@endif">
             </div>
         </div>
         <div class="col-md-12 form-group">
