@@ -216,45 +216,10 @@ class RoomController extends AppBaseController
             return redirect()->back()->withErrors($errors);
         }
 
-        // This is For Room Sitting Arrangment table
-        $siiting_name_arr = $input['sitting_name'];
-        $siiting_num_person_arr = $input['sitting_number_person'];
-        // echo "<pre>";
-        // print_r($siiting_name_arr);
-        // echo "<br>";
-        // print_r($siiting_num_person_arr);
-        // exit;
-
-
-        // This is For Room Equipment Table
         $room_type = $input['room_module_type'];
-        $equipment_ids_arr = $input['include_equipment_id'];
-        $qty_arr = $input['include_qty'];
-        $price_arr = $input['include_price'];
-        $info_arr = $input['include_info'];
-        // echo "<pre>";
-        // print_r($equipment_ids_arr);
-        // echo "<br>";
-        // print_r($qty_arr);
-        // echo "<br>";
-        // print_r($price_arr);
-        // echo "<br>";
-        // print_r($info_arr);
-        // echo "</pre>";
-        // exit;
-
-        // This is For Room Images Table
-        $filesCount =  count($input['sitting_name']);
-        $fileList = [];
-        for ($i=0; $i < $filesCount; $i++) 
-        { 
-            $fileList[$i] = $input['files'.$i];
-        }
-        // echo "<pre>";
-        // print_r($fileList);
-        // echo "</pre>";exit;
 
         // dd($input);
+
 
         $room = new Room;
         $room->floor_id = $input['floor_id'];
@@ -310,55 +275,100 @@ class RoomController extends AppBaseController
 
         if($room)
         {
-
             $room_id = $room->id;
             $company_id = $room->company_id;
             $building_id = $room->building_id;
 
-            for($i= 0; $i < count($siiting_name_arr) ; $i++ )
+            if($room_type == 'conference')
             {
-                $roomSittingArrangment = new  RoomSettingArrangment;
-                $roomSittingArrangment->room_id  = $room_id;           
-                $roomSittingArrangment->company_id = $company_id;            
-                $roomSittingArrangment->building_id = $building_id;          
-                $roomSittingArrangment->name = $siiting_name_arr[$i];           
-                $roomSittingArrangment->number_persons = $siiting_num_person_arr[$i];
-                $roomSittingArrangment->save();
 
-                if($roomSittingArrangment)
+                // This is For Room Sitting Arrangment table
+                $siiting_name_arr = $input['sitting_name'];
+                $siiting_num_person_arr = $input['sitting_number_person'];
+
+                // This is For Room Images Table
+                $filesCount =  count($input['sitting_name']);
+                $fileList = [];
+                for ($i=0; $i < $filesCount; $i++) 
+                { 
+                    $fileList[$i] = $input['files'.$i];
+                }
+                // echo "<pre>";
+                // print_r($fileList);
+                // echo "</pre>";exit;
+                
+                $equipment_ids_arr = $input['include_equipment_id'];
+                $qty_arr = $input['include_qty'];
+                $price_arr = $input['include_price'];
+                $info_arr = $input['include_info'];
+
+                for($i= 0; $i < count($siiting_name_arr) ; $i++ )
                 {
-                    $sitting_id = $roomSittingArrangment->id;
-        
-                    foreach ($fileList[$i] as $v) 
-                    {
-                        $path = $v->store('public/uploadedimages');
-                        $pathArr = explode('/', $path);
-                        $count = count($pathArr);
-                        $path = $pathArr[$count - 1];
+                    $roomSittingArrangment = new  RoomSettingArrangment;
+                    $roomSittingArrangment->room_id  = $room_id;           
+                    $roomSittingArrangment->company_id = $company_id;            
+                    $roomSittingArrangment->building_id = $building_id;          
+                    $roomSittingArrangment->name = $siiting_name_arr[$i];           
+                    $roomSittingArrangment->number_persons = $siiting_num_person_arr[$i];
+                    $roomSittingArrangment->save();
 
-                        $roomImages = new RoomImages;
-                        $roomImages->building_id = $building_id;
-                        $roomImages->room_id = $room_id;
-                        $roomImages->sitting_id = $sitting_id;
-                        $roomImages->entity_type = $room_type;                            
-                        $roomImages->entity_type = $path;
-                        $roomImages->save();
-                    }                      
+                    if($roomSittingArrangment)
+                    {
+                        $sitting_id = $roomSittingArrangment->id;
+            
+                        foreach ($fileList[$i] as $v) 
+                        {
+                            $path = $v->store('public/uploadedimages');
+                            $pathArr = explode('/', $path);
+                            $count = count($pathArr);
+                            $path = $pathArr[$count - 1];
+
+                            $roomImages = new RoomImages;
+                            $roomImages->building_id = $building_id;
+                            $roomImages->room_id = $room_id;
+                            $roomImages->sitting_id = $sitting_id;
+                            $roomImages->entity_type = $room_type;                            
+                            $roomImages->entity_type = $path;
+                            $roomImages->save();
+                        }                      
+                    }
+                }
+
+                for ($i=0; $i < count($qty_arr); $i++) 
+                {
+                    $roomEquipment = new RoomEquipments; 
+                    $roomEquipment->room_id = $room_id;
+                    $roomEquipment->building_id = $building_id;
+                    $roomEquipment->room_type = $room_type;
+                    $roomEquipment->equipment_id = $equipment_ids_arr[$i];
+                    $roomEquipment->qty = $qty_arr[$i];
+                    $roomEquipment->price = $price_arr[$i];
+                    $roomEquipment->info = $info_arr[$i];
+                    $roomEquipment->save();
+                }
+            }
+            elseif($room_type == 'rental')
+            {
+
+                $equipment_ids_arr = $input['include_equipment_id_rent'];
+                $qty_arr = $input['include_qty_rent'];
+                $price_arr = $input['include_price_rent'];
+                $info_arr = $input['include_info_rent'];
+
+                for ($i=0; $i < count($qty_arr); $i++) 
+                {
+                    $roomEquipment = new RoomEquipments; 
+                    $roomEquipment->room_id = $room_id;
+                    $roomEquipment->building_id = $building_id;
+                    $roomEquipment->room_type = $room_type;
+                    $roomEquipment->equipment_id = $equipment_ids_arr[$i];
+                    $roomEquipment->qty = $qty_arr[$i];
+                    $roomEquipment->price = $price_arr[$i];
+                    $roomEquipment->info = $info_arr[$i];
+                    $roomEquipment->save();
                 }
             }
 
-            for ($i=0; $i < count($qty_arr); $i++) 
-            {
-                $roomEquipment = new RoomEquipments; 
-                $roomEquipment->room_id = $room_id;
-                $roomEquipment->building_id = $building_id;
-                $roomEquipment->room_type = $room_type;
-                $roomEquipment->equipment_id = $equipment_ids_arr[$i];
-                $roomEquipment->qty = $qty_arr[$i];
-                $roomEquipment->price = $price_arr[$i];
-                $roomEquipment->info = $info_arr[$i];
-                $roomEquipment->save();
-            }
 
             session()->flash('msg.success','room successfully created');
             return redirect()->route('company.rooms.index');            

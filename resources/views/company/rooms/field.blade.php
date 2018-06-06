@@ -173,97 +173,6 @@
   </div>
 </div>
 
-<div id="rental">
-  <div class="panel-heading">
-      <div class="panel-title">Rent</div>
-  </div>
-  <div class="panel-body">
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="row">
-          
-          <div class="col-sm-12 col-md-12">
-            <div class="col-sm-6 col-md-6 form-group">
-              <label for="monthly_rent">Montly Rent</label>
-              <input type="number" id="rent_monthly_rent" name="rent_monthly_rent" class="form-control">
-              <div class="errorTxt"></div>          
-            </div>
-            <div class="col-sm-6 col-md-6 form-group">
-              <label for="number_person">Number Person</label>
-              <input type="number" id="rent_number_person" name="rent_number_person" class="form-control">
-              <div class="errorTxt"></div>
-            </div>
-          </div>
-
-          <div class="col-sm-12 col-md-12">
-            <div class="col-sm-6 col-md-6 form-group">
-              <label for="vat">VAT</label>
-              <input type="number" id="rent_vat" name="rent_vat" class="form-control">
-              <div class="errorTxt"></div> 
-            </div>
-            <div class="col-sm-6 col-md-6 form-group">
-              <label for="new_price">New Price</label>
-              <input type="number" id="rent_new_price" name="rent_new_price" class="form-control">
-              <div class="errorTxt"></div>
-            </div>
-          </div>
-
-          <div class="col-sm-12 col-md-12">
-            <div class="col-sm-12 col-md-12 form-group">
-              <label for="service_id">Room Type</label>
-              <select class="form-control" id="rent_room_type" name="rent_room_type">
-                  <option value="">Select</option>
-                  <option value="hall">Hall</option>
-                  <option value="study">Study</option>
-                  <option value="meeting">Meeting</option>
-              </select>
-              <div class="errorTxt"></div>
-            </div>
-          </div>
-
-
-          <div class="col-sm-12 col-md-12">
-              <span class="col-sm-4 col-md-4 form-group">
-                  <label for="rent_start_date">Start Date</label>
-                  <input type="text" id="rent_start_date" name="rent_start_date" value="" class="form-control">
-                  <div class="errorTxt"></div>
-                  <!-- <input type="text" id="daterange-3" value="10/24/1984" class="form-control"> -->
-              </span>
-              <span class="col-sm-4 col-md-4 form-group">
-                  <label for="rent_end_date">End Date</label>
-                  <input type="text" id="rent_end_date" name="rent_end_date" class="form-control">
-                  <div class="errorTxt"></div>
-              </span>
-              <span class="col-sm-4 col-md-4 form-group">
-                <label class="custom-control custom-checkbox m-t-4">
-                  <input type="checkbox" name="rent_end_date_continue" id="rent_end_date_continue" class="custom-control-input">
-                  <span class="custom-control-indicator"></span>
-                  Continue
-                </label>  
-              </span>
-          </div>
-
-          <div class="col-sm-12 col-md-12">
-              <div class="col-sm-6 col-md-6">
-                <label class="custom-control custom-checkbox">
-                  <input type="checkbox" name="rent_calender_available" id="rent_calender_available" class="custom-control-input">
-                  <span class="custom-control-indicator"></span>
-                  Calender Available
-                </label>                             
-              </div>
-              <div class="col-sm-6 col-md-6">
-                <label class="custom-control custom-checkbox">
-                  <input type="checkbox" name="rent_available_users" id="rent_available_users" class="custom-control-input">
-                  <span class="custom-control-indicator"></span>
-                  Available User
-                </label>
-              </div>
-          </div>
-
-        </div>
-    </div>
-  </div> 
-</div>
-
 <div id="conference">
   <div class="panel-heading">
       <div class="panel-title">Conference</div>
@@ -423,7 +332,6 @@
                         <input type="text" name="include_info[]" id="include_info" class="form-control" >
                       </div>
                       <div class="col-sm-1">
-
                       </div>
                   </div>
               </div>
@@ -474,14 +382,152 @@
   </div>  
 </div>
 
+<div id="rental">
+  <div class="panel-heading">
+      <div class="panel-title">Rent</div>
+  </div>
+  <div class="panel-body">
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="row">
+          
+          <div class="col-sm-12 col-md-12">
+            <div class="col-sm-6 col-md-6 form-group">
+              <label for="monthly_rent">Montly Rent</label>
+              <input type="number" id="rent_monthly_rent" name="rent_monthly_rent" class="form-control">
+              <div class="errorTxt"></div>          
+            </div>
+            <div class="col-sm-6 col-md-6 form-group">
+              <label for="number_person">Number Person</label>
+              <input type="number" id="rent_number_person" name="rent_number_person" class="form-control">
+              <div class="errorTxt"></div>
+            </div>
+          </div>
+
+          <div class="col-sm-12 col-md-12">
+            <div class="col-sm-6 col-md-6 form-group">
+              <label for="vat">VAT</label>
+              <input type="number" id="rent_vat" name="rent_vat" class="form-control">
+              <div class="errorTxt"></div> 
+            </div>
+            <div class="col-sm-6 col-md-6 form-group">
+              <label for="new_price">New Price</label>
+              <input type="number" id="rent_new_price" name="rent_new_price" class="form-control">
+              <div class="errorTxt"></div>
+            </div>
+          </div>
+
+          <div class="col-sm-12 col-md-12">
+            <div class="panel">
+              <div class="panel-heading">
+                <div class="panel-title">What included in this room.?</div>
+              </div>
+              <div class="panel-body">
+                <div class="pull-right">
+                  <button class="btn btn-primary addIncludedRent" type="button"><i class="fa fa-plus"></i>&nbsp;Add</button>
+                </div>
+                <div class="row includedItemRent">
+                    <div class="col-sm-12 col-sm-12 included">
+                        <div class="col-sm-3 col-md-3 form-group">
+                          <label for="">Item</label>
+                          <select class="form-control" name="include_equipment_id_rent[]">
+                              <!-- <option value="">Select</option> -->
+                              @foreach ($equipments as $equipment)
+                                  <option value="{{ $equipment->id }}">{{$equipment->title }}</option>
+                              @endforeach
+                          </select>
+                        </div>
+                        <div class="col-sm-2 col-md-2 form-group">
+                          <label for="include_qty">Quantity</label>
+                          <input type="number" name="include_qty_rent[]" class="form-control" >
+                        </div>
+                        <div class="col-sm-2 col-md-2 form-group">
+                          <label for="include_price">Price</label>
+                          <input type="number" name="include_price_rent[]" class="form-control" >
+                        </div>
+                        <div class="col-sm-4 col-md-4 form-group">
+                          <label for="include_info">Notes</label>
+                          <input type="text" name="include_info_rent[]" class="form-control" >
+                        </div>
+                        <div class="col-sm-1">
+                        </div>
+                    </div>
+                </div>
+              </div>            
+            </div>
+          </div>
+
+          <div class="col-sm-12 col-md-12">
+            <div class="col-sm-12 col-md-12 form-group">
+              <label for="service_id">Room Type</label>
+              <select class="form-control" id="rent_room_type" name="rent_room_type">
+                  <option value="">Select</option>
+                  <option value="hall">Hall</option>
+                  <option value="study">Study</option>
+                  <option value="meeting">Meeting</option>
+              </select>
+              <div class="errorTxt"></div>
+            </div>
+          </div>
+
+
+          <div class="col-sm-12 col-md-12">
+              <span class="col-sm-4 col-md-4 form-group">
+                  <label for="rent_start_date">Start Date</label>
+                  <input type="text" id="rent_start_date" name="rent_start_date" value="" class="form-control">
+                  <div class="errorTxt"></div>
+                  <!-- <input type="text" id="daterange-3" value="10/24/1984" class="form-control"> -->
+              </span>
+              <span class="col-sm-4 col-md-4 form-group">
+                  <label for="rent_end_date">End Date</label>
+                  <input type="text" id="rent_end_date" name="rent_end_date" class="form-control">
+                  <div class="errorTxt"></div>
+              </span>
+              <span class="col-sm-4 col-md-4 form-group">
+                <label class="custom-control custom-checkbox m-t-4">
+                  <input type="checkbox" name="rent_end_date_continue" id="rent_end_date_continue" class="custom-control-input">
+                  <span class="custom-control-indicator"></span>
+                  Continue
+                </label>  
+              </span>
+          </div>
+
+          <div class="col-sm-12 col-md-12">
+              <div class="col-sm-6 col-md-6">
+                <label class="custom-control custom-checkbox">
+                  <input type="checkbox" name="rent_calender_available" id="rent_calender_available" class="custom-control-input">
+                  <span class="custom-control-indicator"></span>
+                  Calender Available
+                </label>                             
+              </div>
+              <div class="col-sm-6 col-md-6">
+                <label class="custom-control custom-checkbox">
+                  <input type="checkbox" name="rent_available_users" id="rent_available_users" class="custom-control-input">
+                  <span class="custom-control-indicator"></span>
+                  Available User
+                </label>
+              </div>
+          </div>
+
+<!-- This is for edit part -->
+<!--           <div class="col-sm-12 col-md-12">
+            <div class="col-sm-12 col-md-12 form-group">
+              <label for="rent_notes">Notes</label>
+              <textarea type="text" id="rent_notes" name="rent_notes" class="form-control" required="required"></textarea>
+              <div class="errorTxt" id="errorNotes"></div>
+            </div>
+          </div> -->
+
+        </div>
+    </div>
+  </div> 
+</div>
+
 <div class="col-xs-12 col-sm-12 col-md-12 m-t-2">
     <button type="submit" class="btn btn-primary">@if(isset($room)) <i class="fa fa-refresh"></i>  Update Room @else <i class="fa fa-plus"></i>  Add Room @endif</button>
     <a href="{!! route('company.rooms.index') !!}" class="btn btn-default"><i class="fa fa-times"></i>&nbsp;Cancel</a>
 </div>
 
 @section('js')
-
-
 
 <script type="text/javascript">
 
@@ -583,7 +629,7 @@
                 
                 'end_date': {
                     required: true,
-                    greaterThan: "start_date" 
+                    greaterThan: "#start_date" 
                 },
                 
                 'rent_monthly_rent': {
@@ -613,7 +659,7 @@
                 },
                 'rent_end_date': {
                     required: true,
-                    greaterThan: "rent_end_date"
+                    greaterThan: "#rent_start_date"
                 },
                 'rent_room_type': {
                     required: true,
@@ -725,11 +771,54 @@
           $(this).parent().parent().parent().remove();
         });
 
+        // Sitting Arrangment For Rent 
+        $('.addIncludedRent').click(function(){
+          var included = '';
+          $.ajax({
+            url : "{{ route('company.room.equipments') }}",
+            type : "GET",
+            dataType : "json",
+            success : function(response){
+                included += '<div class="col-sm-12 col-sm-12 included">';
+                included += '<div class="col-sm-3 col-md-3 form-group">';
+                included += '<label for="">Item</label>';
+                included += '<select class="form-control" name="include_equipment_id_rent[]">';
+                // included += '<option value="">Select</option>';
+                for(var i = 0 ; i<response.length ; i++)
+                {
+                  included += '<option value="'+response[i].id+'">'+response[i].title+'</option>';
+                }
+                included += '</select>';
+                included += '</div>';
+                included += '<div class="col-sm-2 col-md-2 form-group">';
+                included += '<label for="">Quantity</label>';
+                included += '<input type="number" name="include_qty_rent[]" class="form-control" >';
+                included += '</div>';
+                included += '<div class="col-sm-2 col-md-2 form-group">';
+                included += '<label for="">Price</label>';
+                included += '<input type="number" name="include_price_rent[]" class="form-control" >';
+                included += '</div>';
+                included += '<div class="col-sm-4 col-md-4 form-group">';
+                included += '<label for="">Notes</label>';
+                included += '<input type="text" name="include_info_rent[]" class="form-control" >';
+                included += '</div>';
+                included += '<div class="col-sm-1">';
+                included += '<i class="fa fa-times fa-lg remove-included-rent cursor-p m-t-4"></i>';
+                included += '</div>';
+                included += '</div>';
+            }
+          }).done(function(){
+              $('.includedItemRent').prepend(included);
+          });
+        });
 
-        var includedCount = 0;
-        // Sitting Arrangment End
+        $(document).on('click','.remove-included-rent',function(){
+          $(this).parent().parent().remove();
+        });
+
+
+        // Sitting Arrangment For Conference
         $('.addIncluded').click(function(){
-          includedCount++;
           var included = '';
           $.ajax({
             url : "{{ route('company.room.equipments') }}",
@@ -770,7 +859,6 @@
         });
 
         $(document).on('click','.remove-included',function(){
-          includedCount--;
           $(this).parent().parent().remove();
         });
 
@@ -921,18 +1009,6 @@
             // if we want to submit form via ajax
             $('#roomForm').on('submit', function(e) {
 
-
-
-/*              var input_sitting =  jQuery('<input type="hidden" name="num_sitting" value="'+sittingCount+'">');
-
-              var input_included = jQuery('<input type="hidden" name="num_included" value="'+includedCount+'">');
-
-              jQuery('#roomForm').append(input_sitting);
-
-              jQuery('#roomForm').append(input_included);*/
-
-              // $(this).validate();
-
                 var errorCount = 0;
 
                 if($('#room_module_type').is(':checked'))
@@ -1053,6 +1129,26 @@
       });
 
     // Initialize Summernote
+    $(function() {
+      $('#rent_notes').summernote({
+        height: 200,
+        toolbar: [
+          ['parastyle', ['style']],
+          ['fontstyle', ['fontname', 'fontsize']],
+          ['style', ['bold', 'italic', 'underline', 'clear']],
+          ['font', ['strikethrough', 'superscript', 'subscript']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['height', ['height']],
+          ['insert', ['picture', 'link', 'video', 'table', 'hr']],
+          ['history', ['undo', 'redo']],
+          ['misc', ['codeview', 'fullscreen']],
+          ['help', ['help']]
+        ],
+      });
+    });
+
+
     $(function() {
       $('#conf_info_internal').summernote({
         height: 200,
