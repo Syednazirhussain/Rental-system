@@ -9,10 +9,6 @@
           <input name="_method" type="hidden" value="PATCH">
       @endif
       <div class="row">
-
-
-
-
           <div class="col-sm-12 col-md-12 m-t-4">
             <div class="row">
               <div class="col-sm-12 col-md-12">
@@ -381,7 +377,6 @@
                       </div> 
 
                       <div class="col-sm-2 col-md-4 form-group">
-<!--                         <i class="fa fa-times fa-lg remove-sitting cursor-p m-t-4 pull-right"></i> -->
                       </div>                     
                   </div>
                   <div class="col-sm-12 col-md-12 form-group">
@@ -507,7 +502,7 @@
         },'Must be greater than {0}.');
 
         $.validator.addMethod("dollarsscents", function (value, element) {
-            return this.optional(element) || /^\d{0,4}(\.\d{0,2})?$/i.test(value);
+            return this.optional(element) || /^\d{0,11}(\.\d{0,2})?$/i.test(value);
         }, "You must include two decimal places");
 
         // Initialize validator

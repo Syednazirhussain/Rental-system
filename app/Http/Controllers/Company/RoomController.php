@@ -24,8 +24,6 @@ use App\Models\Company\RoomImages;
 use App\Models\Company\RoomSettingArrangment;
 use App\Models\Company\RoomEquipments;
 
-use Illuminate\Http\File;
-use Illuminate\Support\Facades\Storage;
 
 class RoomController extends AppBaseController
 {
@@ -131,15 +129,6 @@ class RoomController extends AppBaseController
             $input['image1'] = '';
         }
 
-/*        if ($request->has('room_module_type')) 
-        {
-            $input['room_module_type'] = 1;    
-        }
-        else
-        {
-            $input['room_module_type'] = 0;   
-        }*/
-
         if($request->has('end_date_continue'))
         {
             $input['end_date_continue'] = 1;
@@ -227,7 +216,7 @@ class RoomController extends AppBaseController
             return redirect()->back()->withErrors($errors);
         }
 
-        // For Room Sitting Arrangment table
+        // This is For Room Sitting Arrangment table
         $siiting_name_arr = $input['sitting_name'];
         $siiting_num_person_arr = $input['sitting_number_person'];
         // echo "<pre>";
@@ -237,7 +226,7 @@ class RoomController extends AppBaseController
         // exit;
 
 
-        // For Room Equipment Table
+        // This is For Room Equipment Table
         $room_type = $input['room_module_type'];
         $equipment_ids_arr = $input['include_equipment_id'];
         $qty_arr = $input['include_qty'];
@@ -254,41 +243,18 @@ class RoomController extends AppBaseController
         // echo "</pre>";
         // exit;
 
+        // This is For Room Images Table
         $filesCount =  count($input['sitting_name']);
-
         $fileList = [];
-
         for ($i=0; $i < $filesCount; $i++) 
         { 
             $fileList[$i] = $input['files'.$i];
         }
-
-
-
-
         // echo "<pre>";
         // print_r($fileList);
         // echo "</pre>";exit;
 
-        if($fileList[0][0])
-        {       
-            // dd($fileList[0][0]);
-
-            Storage::putFile($fileList[0][0], new File('public/uploadedimages'));
-
-            // $path = $request->file($fileList[0][0])->store('public/uploadedimages');
-            // echo $path;exit;
-
-        }
-        else
-        {
-            echo "dsj";exit;
-        }
-
-
-        dd($input);
-
-
+        // dd($input);
 
         $room = new Room;
         $room->floor_id = $input['floor_id'];
@@ -342,8 +308,6 @@ class RoomController extends AppBaseController
         $room->save();
 
 
-        // $room = $this->roomRepository->create($input);
-
         if($room)
         {
 
@@ -359,30 +323,29 @@ class RoomController extends AppBaseController
                 $roomSittingArrangment->building_id = $building_id;          
                 $roomSittingArrangment->name = $siiting_name_arr[$i];           
                 $roomSittingArrangment->number_persons = $siiting_num_person_arr[$i];
-                $roomSitting = $roomSittingArrangment->save();
-                if($roomSitting)
+                $roomSittingArrangment->save();
+
+                if($roomSittingArrangment)
                 {
-                    $sitting_id = $roomSitting->id;
-                    $roomImages = new RoomImages;
-                    for ($i=0; $i < count($fileList); $i++) 
-                    { 
-                        for ($j=0; $j < count($fileList[$i]) ; $j++) 
-                        { 
-                            $roomImages->building_id = $building_id;
-                            $roomImages->room_id = $room_id;
-                            $roomImages->sitting_id = $sitting_id;
-                            $roomImages->entity_type = $room_type;
-                            // if()
-                            // $roomImages->image_file =                         
-                        }
-                    }
+                    $sitting_id = $roomSittingArrangment->id;
+        
+                    foreach ($fileList[$i] as $v) 
+                    {
+                        $path = $v->store('public/uploadedimages');
+                        $pathArr = explode('/', $path);
+                        $count = count($pathArr);
+                        $path = $pathArr[$count - 1];
 
-
+                        $roomImages = new RoomImages;
+                        $roomImages->building_id = $building_id;
+                        $roomImages->room_id = $room_id;
+                        $roomImages->sitting_id = $sitting_id;
+                        $roomImages->entity_type = $room_type;                            
+                        $roomImages->entity_type = $path;
+                        $roomImages->save();
+                    }                      
                 }
             }
-
-
-            
 
             for ($i=0; $i < count($qty_arr); $i++) 
             {
@@ -397,61 +360,9 @@ class RoomController extends AppBaseController
                 $roomEquipment->save();
             }
 
-            // return response()->json(['success'=> 1, 'msg'=>'Company has been created successfully', 'room'=>$room]);
-
             session()->flash('msg.success','room successfully created');
             return redirect()->route('company.rooms.index');            
         }
-
-
-
-
-        // $input['company_id'] = $company_id;
-        // $input['image1'] = '';
-        // $input['image2'] = '';
-        // $input['image3'] = '';
-        // $input['image4'] = '';
-        // $input['image5'] = '';
-
-        // if($request->image1)
-        // {
-        //     $image_link = $request->image1->hashName();
-        //     $request->image1->move(public_path('/uploadedimages'), $image_link);
-        //     $input['image1'] = $image_link;
-        // }
-        // if($request->image2)
-        // {
-        //     $image_link = $request->image2->hashName();
-        //     $request->image2->move(public_path('/uploadedimages'), $image_link);
-        //     $input['image2'] = $image_link;
-        // }
-        // if($request->image3)
-        // {
-        //     $image_link = $request->image3->hashName();
-        //     $request->image3->move(public_path('/uploadedimages'), $image_link);
-        //     $input['image3'] = $image_link;
-        // }
-        // if($request->image4)
-        // {
-        //     $image_link = $request->image4->hashName();
-        //     $request->image4->move(public_path('/uploadedimages'), $image_link);
-        //     $input['image4'] = $image_link;
-        // }
-        // if($request->image5)
-        // {
-        //     $image_link = $request->image5->hashName();
-        //     $request->image5->move(public_path('/uploadedimages'), $image_link);
-        //     $input['image5'] = $image_link;
-        // }
-
-        // $floor = CompanyFloorRoom::find($input['floor_id']);
-        // $room_count = Room::where('company_id', $company_id)->where('floor_id',$input['floor_id'])->count();
-        // //Check if room count over than specified floor room number
-        // if($floor->num_rooms <= $room_count) {
-        //     $request->session()->flash('msg.error', 'You can not create any more room on '.$floor->floor.'floor.');
-        //     return response()->json(['success'=> 0, 'msg'=>'Can not create room anymore']);
-        // }
-
 
     }
 
