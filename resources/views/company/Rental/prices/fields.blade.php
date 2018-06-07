@@ -87,7 +87,7 @@
         <div class="form-group">
             <div class="col-md-10 text-right">
                 <input class="btn btn-primary" type="submit" id="price_submit"  value="@if(isset($price)) Update @else Save @endif">
-                <a href="{{ route('company.rprice.index') }}" class="btn btn-default">Back</a>
+                <a href="{{ route('company.rarticle.index') }}" class="btn btn-default">Back</a>
             </div>
         </div>
     </div>

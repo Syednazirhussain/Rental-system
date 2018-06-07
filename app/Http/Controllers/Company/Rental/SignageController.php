@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Company\Rental;
 
 use App\Models\CompanyUser;
+use App\Models\Rental\Signage;
 use App\Repositories\RoomContractRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
@@ -44,8 +45,9 @@ class SignageController extends AppBaseController
     public function index(Request $request)
     {
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        $signages = Signage::where('company_id', $company_id)->get();
         $data = [
-          'tab' => 'signage',
+          'signages' => $signages,
         ];
 
         return view('company.rental.signage.index', $data);
@@ -73,8 +75,17 @@ class SignageController extends AppBaseController
      *
      * @return Response
      */
-    public function store(CreateRoomContractRequest $request)
+    public function store(Request $request)
     {
+        $input = $request->all();
+
+        echo "<pre>";
+        print_r($input);
+        echo "</pre>";
+
+        $signage = Signage::create($input);
+
+        return response()->json(['success'=> 1, 'msg'=>'Signage has been created successfully', 'signage'=>$signage]);
 
     }
 
@@ -111,9 +122,24 @@ class SignageController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateRoomContractRequest $request)
+    public function update($id, Request $request)
     {
+        $input = $request->except('_token', '_method');
 
+        $signage = Signage::find($id);
+        if(empty($signage)) {
+            $success = 0;
+            $msg = "Customer not found";
+        }else {
+            echo "<pre>";
+            print_r($input);
+            echo "</pre>";
+            $signage = Signage::whereId($id)->update($input);
+            $success = 1;
+            $msg = "Signage has been updated successfully";
+        }
+
+        return response()->json(['success'=>$success, 'msg'=>$msg, 'signage'=>$signage]);
     }
 
     /**

@@ -64,7 +64,7 @@
         <div class="form-group">
             <div class="col-md-10 text-right">
                 <input class="btn btn-primary" type="submit" id="financial_submit" value="@if(isset($financial)) Update @else Save @endif">
-                <a href="{{ route('company.rfinancial.index') }}" class="btn btn-default">Back</a>
+                <a href="{{ route('company.rarticle.index') }}" class="btn btn-default">Back</a>
             </div>
         </div>
     </div>

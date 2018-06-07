@@ -25,6 +25,7 @@
         @section('js')
             @include('company.rental.customers.js')
             @include('company.rental.contacts.js')
+            @include('company.rental.signage.js')
             @include('company.rental.invoices.js')
         @endsection
 @endsection

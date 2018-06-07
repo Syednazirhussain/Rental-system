@@ -6,6 +6,7 @@ use App\Models\CompanyUser;
 use App\Models\Rental\CompanyCustomer;
 use App\Models\Rental\CustomerContactPerson;
 use App\Models\Rental\CustomerInvoice;
+use App\Models\Rental\Signage;
 use App\Repositories\RoomContractRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
@@ -117,6 +118,7 @@ class CustomerController extends AppBaseController
         $customer = CompanyCustomer::find($id);
         $contact = CustomerContactPerson::where('customer_id', $id)->first();
         $invoice = CustomerInvoice::where('customer_id', $id)->first();
+        $signage = Signage::where('customer_id', $id)->first();
         $building_name = CompanyBuilding::find($customer->building)->name;
         $floor_name = CompanyFloorRoom::find($customer->floor)->floor;
         $room_name = Room::find($customer->room)->name;
@@ -129,6 +131,7 @@ class CustomerController extends AppBaseController
             'customer' => $customer,
             'contact' => $contact,
             'invoice' => $invoice,
+            'signage' => $signage,
             'building_name' => $building_name,
             'floor_name' => $floor_name,
             'room_name' => $room_name,

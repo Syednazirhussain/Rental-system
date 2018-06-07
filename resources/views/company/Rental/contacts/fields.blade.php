@@ -102,7 +102,7 @@
         <div class="form-group">
             <div class="col-md-11 text-right">
                 <input class="btn btn-primary" type="submit" id="contact_submit" value="@if(isset($contact)) Update @else Save @endif">
-                <a href="{{ route('company.rcontact.index') }}" class="btn btn-default">Back</a>
+                <a href="{{ route('company.rcustomer.index') }}" class="btn btn-default">Back</a>
             </div>
         </div>
     </div>

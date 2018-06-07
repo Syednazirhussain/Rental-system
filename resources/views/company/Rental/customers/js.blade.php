@@ -4,6 +4,7 @@
     var contact_id = "{{ isset($contact) ? $contact->id: 0 }}";
     var invoice_id = "{{ isset($invoice) ? $invoice->id: 0 }}";
     var company_id = "{{ isset($company_id) ? $company_id: 0 }}";
+    var signage_id = "{{ isset($signage) ? $signage->id: 0 }}";
 
     var customer_address_1 = "{{ isset($customer) ? $customer->address_1: 0 }}";
     var customer_address_2 = "{{ isset($customer) ? $customer->address_2: 0 }}";

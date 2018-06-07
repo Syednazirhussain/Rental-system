@@ -18,12 +18,6 @@
                 @if (session()->has('msg.error'))
                     @include('layouts.error_msg')
                 @endif
-                
-                @include('company.rental.master')
-
-                <div class="text-right m-b-3">
-                    <a href="{{ route('company.rsignage.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Create Signage</a>
-                </div>
 
                 <div class="table-primary">
                     @include('company.rental.signage.table')
@@ -33,15 +27,4 @@
     </div>
 @endsection
 
-@section('js')
-    <script type="text/javascript">
-        // -------------------------------------------------------------------------
-        // Initialize DataTables
-        $(function () {
-            $('#datatables').dataTable();
-            $('#datatables_wrapper .table-caption').text('Signage');
-            $('#datatables_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
-        });
-    </script>
-@endsection
 

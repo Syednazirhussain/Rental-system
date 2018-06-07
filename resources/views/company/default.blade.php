@@ -296,6 +296,7 @@
                         </ul>
                     </li>
                     <li class="divider"></li>
+                    <li><a href="{{ route('company.rsignage.index') }}">Signage System</a></li>
                     <li><a href="{{ route('company.contracts.status') }}">Contract Calendar</a></li>
                     <li class="dropdown-toggle">
                         <a href="{{ route('company.supports.index') }}">Support</a>
