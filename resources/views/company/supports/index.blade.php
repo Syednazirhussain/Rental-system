@@ -5,7 +5,7 @@
     <div class="px-content">
 
         <div class="page-header">
-            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i><a href="{{ route('admin.supports.index') }}">Support</a></span></h1>
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i><a href="{{ route('company.supports.index') }}">Support</a></span></h1>
         </div>
 
         <div class="panel">
@@ -22,7 +22,7 @@
                 @include('company.support_company.master')
 
                 <div class="text-right m-b-3">
-                    <a href="{{ route('company.supports.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Create Ticket</a> 
+                    <a href="{{ route('company.supports.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;Create Ticket</a> 
                 </div>
 
                 <div class="table-primary">
@@ -36,6 +36,28 @@
 @section('js')
     <script type="text/javascript">
         // -------------------------------------------------------------------------
+
+        var url = window.location.href; 
+
+        urlArray = url.split("/");
+
+        var lastUrlString = urlArray[urlArray.length-1];
+
+        if(lastUrlString == 'supports')
+        {
+            $('ul li:nth-child(2)').removeClass('active');
+            $('ul li:nth-child(1)').addClass('active');
+        }
+        else if(lastUrlString == 'completed')
+        {
+            $('ul li:nth-child(1)').removeClass('active');
+            $('ul li:nth-child(2)').addClass('active');
+        }
+
+        // $('ul > li').hover(function () {
+        //     $(this).toggleClass('active').siblings().removeClass('active');
+        // });
+
         // Initialize DataTables
         $(function () {
             $('#datatables').dataTable();

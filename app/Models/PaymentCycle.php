@@ -5,8 +5,6 @@ namespace App\Models;
 
 use Eloquent as Model;
 
-
-
 /**
  * Class PaymentCycle
  * @package App\Models\Admin
@@ -26,12 +24,10 @@ use Eloquent as Model;
  */
 class PaymentCycle extends Model
 {
-    
 
     public $table = 'payment_cycles';
     
-    const CREATED_AT = 'created_at';
-    const UPDATED_AT = 'updated_at';
+    public $timestamps = false;
 
 
     // protected $dates = ['deleted_at'];

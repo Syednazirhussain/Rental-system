@@ -102,7 +102,8 @@ class SupportStatusController extends AppBaseController
         $supportStatus = $this->supportStatusRepository->findWithoutFail($id);
 
         if (empty($supportStatus)) {
-            Flash::error('Support Status not found');
+
+            session()->flash('msg.error','Support Status not found');
 
             return redirect(route('admin.supportStatuses.index'));
         }
@@ -133,7 +134,7 @@ class SupportStatusController extends AppBaseController
 
         $supportStatus = $this->supportStatusRepository->update($request->all(), $id);
 
-        Flash::success('Support Status updated successfully.');
+        session()->flash('msg.success','Support Status updated successfully.');
 
         return redirect(route('admin.supportStatuses.index'));
     }
@@ -157,7 +158,7 @@ class SupportStatusController extends AppBaseController
 
         $this->supportStatusRepository->delete($id);
 
-        Flash::success('Support Status deleted successfully.');
+        session()->flash('msg.success','Support Status deleted successfully.');
 
         return redirect(route('admin.supportStatuses.index'));
     }

@@ -37,9 +37,33 @@
     <script type="text/javascript">
         // -------------------------------------------------------------------------
         // Initialize DataTables
+
+        var url = window.location.href; 
+
+        urlArray = url.split("/");
+
+        var lastUrlString = urlArray[urlArray.length-1];
+
+        if(lastUrlString == 'supports')
+        {
+            $('ul#main_nav li:nth-child(2)').removeClass('active');
+            $('ul#main_nav li:nth-child(1)').addClass('active');
+        }
+        else if(lastUrlString == 'completed')
+        {
+            $('ul#main_nav li:nth-child(1)').removeClass('active');
+            $('ul#main_nav li:nth-child(2)').addClass('active');
+        }
+
+        $('ul#dropdown > li').hover(function () {
+            $(this).toggleClass('active').siblings().removeClass('active');
+        });
+
+        // {aaSorting : [[8, 'desc']]}
+
         $(function () {
             $('#datatables').dataTable();
-            $('#datatables_wrapper .table-caption').text('My Tickets');
+            $('#datatables_wrapper .table-caption').text('Tickets');
             $('#datatables_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
         });
     </script>

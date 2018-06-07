@@ -50,6 +50,7 @@
       33 => 'Orangehill\\Iseed\\IseedServiceProvider',
       34 => 'Barryvdh\\DomPDF\\ServiceProvider',
       35 => 'Unisharp\\Ckeditor\\ServiceProvider',
+      36 => 'Spatie\\Permission\\PermissionServiceProvider',
     ),
     'aliases' => 
     array (
@@ -116,6 +117,11 @@
         'driver' => 'session',
         'provider' => 'companies',
       ),
+      'company_customer' => 
+      array (
+        'driver' => 'session',
+        'provider' => 'companies_customers',
+      ),
       'api' => 
       array (
         'driver' => 'token',
@@ -135,6 +141,11 @@
         'model' => 'App\\Models\\User',
       ),
       'companies' => 
+      array (
+        'driver' => 'eloquent',
+        'model' => 'App\\Models\\User',
+      ),
+      'companies_customers' => 
       array (
         'driver' => 'eloquent',
         'model' => 'App\\Models\\User',
