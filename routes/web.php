@@ -437,7 +437,51 @@ Route::group(['middleware' => ['admin.auth']], function () {
 	});
 
 
+	Route::group(['middleware' => ['admin.permissions:supports']], function () {
 
+		Route::get('admin/supportStatuses', ['as'=> 'admin.supportStatuses.index', 'uses' => 'Admin\SupportStatusController@index']);
+		Route::post('admin/supportStatuses', ['as'=> 'admin.supportStatuses.store', 'uses' => 'Admin\SupportStatusController@store']);
+		Route::get('admin/supportStatuses/create', ['as'=> 'admin.supportStatuses.create', 'uses' => 'Admin\SupportStatusController@create']);
+		Route::put('admin/supportStatuses/{supportStatuses}', ['as'=> 'admin.supportStatuses.update', 'uses' => 'Admin\SupportStatusController@update']);
+		Route::patch('admin/supportStatuses/{supportStatuses}', ['as'=> 'admin.supportStatuses.update', 'uses' => 'Admin\SupportStatusController@update']);
+		Route::delete('admin/supportStatuses/{supportStatuses}', ['as'=> 'admin.supportStatuses.destroy', 'uses' => 'Admin\SupportStatusController@destroy']);
+		Route::get('admin/supportStatuses/{supportStatuses}', ['as'=> 'admin.supportStatuses.show', 'uses' => 'Admin\SupportStatusController@show']);
+		Route::get('admin/supportStatuses/{supportStatuses}/edit', ['as'=> 'admin.supportStatuses.edit', 'uses' => 'Admin\SupportStatusController@edit']);
+
+
+		Route::get('admin/supportCategories', ['as'=> 'admin.supportCategories.index', 'uses' => 'Admin\SupportCategoryController@index']);
+		Route::post('admin/supportCategories', ['as'=> 'admin.supportCategories.store', 'uses' => 'Admin\SupportCategoryController@store']);
+		Route::get('admin/supportCategories/create', ['as'=> 'admin.supportCategories.create', 'uses' => 'Admin\SupportCategoryController@create']);
+		Route::put('admin/supportCategories/{supportCategories}', ['as'=> 'admin.supportCategories.update', 'uses' => 'Admin\SupportCategoryController@update']);
+		Route::patch('admin/supportCategories/{supportCategories}', ['as'=> 'admin.supportCategories.update', 'uses' => 'Admin\SupportCategoryController@update']);
+		Route::delete('admin/supportCategories/{supportCategories}', ['as'=> 'admin.supportCategories.destroy', 'uses' => 'Admin\SupportCategoryController@destroy']);
+		Route::get('admin/supportCategories/{supportCategories}', ['as'=> 'admin.supportCategories.show', 'uses' => 'Admin\SupportCategoryController@show']);
+		Route::get('admin/supportCategories/{supportCategories}/edit', ['as'=> 'admin.supportCategories.edit', 'uses' => 'Admin\SupportCategoryController@edit']);
+
+
+		Route::get('admin/supportPriorities', ['as'=> 'admin.supportPriorities.index', 'uses' => 'Admin\SupportPrioritiesController@index']);
+		Route::post('admin/supportPriorities', ['as'=> 'admin.supportPriorities.store', 'uses' => 'Admin\SupportPrioritiesController@store']);
+		Route::get('admin/supportPriorities/create', ['as'=> 'admin.supportPriorities.create', 'uses' => 'Admin\SupportPrioritiesController@create']);
+		Route::put('admin/supportPriorities/{supportPriorities}', ['as'=> 'admin.supportPriorities.update', 'uses' => 'Admin\SupportPrioritiesController@update']);
+		Route::patch('admin/supportPriorities/{supportPriorities}', ['as'=> 'admin.supportPriorities.update', 'uses' => 'Admin\SupportPrioritiesController@update']);
+		Route::delete('admin/supportPriorities/{supportPriorities}', ['as'=> 'admin.supportPriorities.destroy', 'uses' => 'Admin\SupportPrioritiesController@destroy']);
+		Route::get('admin/supportPriorities/{supportPriorities}', ['as'=> 'admin.supportPriorities.show', 'uses' => 'Admin\SupportPrioritiesController@show']);
+		Route::get('admin/supportPriorities/{supportPriorities}/edit', ['as'=> 'admin.supportPriorities.edit', 'uses' => 'Admin\SupportPrioritiesController@edit']);
+
+
+		Route::get('admin/supports/solved/{supports}', ['as'=> 'admin.supports.solved', 'uses' => 'Admin\SupportController@solved']);
+		Route::get('admin/supports/completed', ['as'=> 'admin.supports.completed', 'uses' => 'Admin\SupportController@completedTicket']);
+
+		Route::get('admin/supports', ['as'=> 'admin.supports.index', 'uses' => 'Admin\SupportController@index']);
+		Route::post('admin/supports', ['as'=> 'admin.supports.store', 'uses' => 'Admin\SupportController@store']);
+		Route::get('admin/supports/create', ['as'=> 'admin.supports.create', 'uses' => 'Admin\SupportController@create']);
+		Route::put('admin/supports/{supports}', ['as'=> 'admin.supports.update', 'uses' => 'Admin\SupportController@update']);
+		Route::patch('admin/supports/{supports}', ['as'=> 'admin.supports.update', 'uses' => 'Admin\SupportController@update']);
+		Route::delete('admin/supports/{supports}', ['as'=> 'admin.supports.destroy', 'uses' => 'Admin\SupportController@destroy']);
+		Route::get('admin/supports/{supportsID}', ['as'=> 'admin.supports.show', 'uses' => 'Admin\SupportController@show'])->where(['supportsID'=>'[0-9]+']);
+		Route::get('admin/supports/{supports}/edit', ['as'=> 'admin.supports.edit', 'uses' => 'Admin\SupportController@edit']);
+
+	});
 	
 	# Admin Settings Section ----> Discount Types routes
 	Route::get('admin/discountTypes', ['as'=> 'admin.discountTypes.index', 'uses' => 'Admin\DiscountTypeController@index']);
@@ -590,14 +634,60 @@ Route::group(['middleware' => ['company.auth']], function () {
 
 
     # Company Rooms Section routes
+    Route::get('company/floor/{building}', ['as'=> 'company.floors', 'uses' => 'Company\RoomController@getFloorsByBuildingId']);
+	Route::get('company/room/equipments', ['as'=> 'company.room.equipments', 'uses' => 'Company\RoomController@getCompanyRoomEquipment']);
+
     Route::get('company/rooms', ['as'=> 'company.rooms.index', 'uses' => 'Company\RoomController@index']);
     Route::post('company/rooms', ['as'=> 'company.rooms.store', 'uses' => 'Company\RoomController@store']);
     Route::get('company/rooms/create', ['as'=> 'company.rooms.create', 'uses' => 'Company\RoomController@create']);
     Route::put('company/rooms/{rooms}', ['as'=> 'company.rooms.update', 'uses' => 'Company\RoomController@update']);
     Route::patch('company/rooms/{rooms}', ['as'=> 'company.rooms.update', 'uses' => 'Company\RoomController@update']);
-    Route::delete('company/rooms/{rooms}', ['as'=> 'company.rooms.destroy', 'uses' => 'Company\RoomController@destroy']);
     Route::get('company/rooms/{rooms}', ['as'=> 'company.rooms.show', 'uses' => 'Company\RoomController@show']);
+    Route::delete('company/rooms/{rooms}', ['as'=> 'company.rooms.destroy', 'uses' => 'Company\RoomController@destroy']);
     Route::get('company/rooms/{rooms}/edit', ['as'=> 'company.rooms.edit', 'uses' => 'Company\RoomController@edit']);
+
+
+	Route::get('company/room/{building}', ['as'=> 'company.building.room', 'uses' => 'Company\RoomSettingArrangmentController@getRoomByBuildingId']);
+	Route::get('company/roomSettingArrangments', ['as'=> 'company.roomSettingArrangments.index', 'uses' => 'Company\RoomSettingArrangmentController@index']);
+	Route::post('company/roomSettingArrangments', ['as'=> 'company.roomSettingArrangments.store', 'uses' => 'Company\RoomSettingArrangmentController@store']);
+	Route::get('company/roomSettingArrangments/create', ['as'=> 'company.roomSettingArrangments.create', 'uses' => 'Company\RoomSettingArrangmentController@create']);
+	Route::put('company/roomSettingArrangments/{roomSettingArrangments}', ['as'=> 'company.roomSettingArrangments.update', 'uses' => 'Company\RoomSettingArrangmentController@update']);
+	Route::patch('company/roomSettingArrangments/{roomSettingArrangments}', ['as'=> 'company.roomSettingArrangments.update', 'uses' => 'Company\RoomSettingArrangmentController@update']);
+	Route::delete('company/roomSettingArrangments/{roomSettingArrangments}', ['as'=> 'company.roomSettingArrangments.destroy', 'uses' => 'Company\RoomSettingArrangmentController@destroy']);
+	Route::get('company/roomSettingArrangments/{roomSettingArrangments}', ['as'=> 'company.roomSettingArrangments.show', 'uses' => 'Company\RoomSettingArrangmentController@show']);
+	Route::get('company/roomSettingArrangments/{roomSettingArrangments}/edit', ['as'=> 'company.roomSettingArrangments.edit', 'uses' => 'Company\RoomSettingArrangmentController@edit']);
+
+
+	Route::get('company/roomSittingArrangment/{room_id}', ['as'=> 'company.roomSittingArrangment', 'uses' => 'Company\RoomImagesController@getRoomSittingArrangmentByRoomId']);
+	Route::get('company/roomImages', ['as'=> 'company.roomImages.index', 'uses' => 'Company\RoomImagesController@index']);
+	Route::post('company/roomImages', ['as'=> 'company.roomImages.store', 'uses' => 'Company\RoomImagesController@store']);
+	Route::get('company/roomImages/create', ['as'=> 'company.roomImages.create', 'uses' => 'Company\RoomImagesController@create']);
+	Route::put('company/roomImages/{roomImages}', ['as'=> 'company.roomImages.update', 'uses' => 'Company\RoomImagesController@update']);
+	Route::patch('company/roomImages/{roomImages}', ['as'=> 'company.roomImages.update', 'uses' => 'Company\RoomImagesController@update']);
+	Route::delete('company/roomImages/{roomImages}', ['as'=> 'company.roomImages.destroy', 'uses' => 'Company\RoomImagesController@destroy']);
+	Route::get('company/roomImages/{roomImages}', ['as'=> 'company.roomImages.show', 'uses' => 'Company\RoomImagesController@show']);
+	Route::get('company/roomImages/{roomImages}/edit', ['as'=> 'company.roomImages.edit', 'uses' => 'Company\RoomImagesController@edit']);
+
+
+	Route::get('company/roomEquipments', ['as'=> 'company.roomEquipments.index', 'uses' => 'Company\RoomEquipmentsController@index']);
+	Route::post('company/roomEquipments', ['as'=> 'company.roomEquipments.store', 'uses' => 'Company\RoomEquipmentsController@store']);
+	Route::get('company/roomEquipments/create', ['as'=> 'company.roomEquipments.create', 'uses' => 'Company\RoomEquipmentsController@create']);
+	Route::put('company/roomEquipments/{roomEquipments}', ['as'=> 'company.roomEquipments.update', 'uses' => 'Company\RoomEquipmentsController@update']);
+	Route::patch('company/roomEquipments/{roomEquipments}', ['as'=> 'company.roomEquipments.update', 'uses' => 'Company\RoomEquipmentsController@update']);
+	Route::delete('company/roomEquipments/{roomEquipments}', ['as'=> 'company.roomEquipments.destroy', 'uses' => 'Company\RoomEquipmentsController@destroy']);
+	Route::get('company/roomEquipments/{roomEquipments}', ['as'=> 'company.roomEquipments.show', 'uses' => 'Company\RoomEquipmentsController@show']);
+	Route::get('company/roomEquipments/{roomEquipments}/edit', ['as'=> 'company.roomEquipments.edit', 'uses' => 'Company\RoomEquipmentsController@edit']);
+
+
+	Route::get('company/roomNotes', ['as'=> 'company.roomNotes.index', 'uses' => 'Company\RoomNotesController@index']);
+	Route::post('company/roomNotes', ['as'=> 'company.roomNotes.store', 'uses' => 'Company\RoomNotesController@store']);
+	Route::get('company/roomNotes/create', ['as'=> 'company.roomNotes.create', 'uses' => 'Company\RoomNotesController@create']);
+	Route::put('company/roomNotes/{roomNotes}', ['as'=> 'company.roomNotes.update', 'uses' => 'Company\RoomNotesController@update']);
+	Route::patch('company/roomNotes/{roomNotes}', ['as'=> 'company.roomNotes.update', 'uses' => 'Company\RoomNotesController@update']);
+	Route::delete('company/roomNotes/{roomNotes}', ['as'=> 'company.roomNotes.destroy', 'uses' => 'Company\RoomNotesController@destroy']);
+	Route::get('company/roomNotes/{roomNotes}', ['as'=> 'company.roomNotes.show', 'uses' => 'Company\RoomNotesController@show']);
+	Route::get('company/roomNotes/{roomNotes}/edit', ['as'=> 'company.roomNotes.edit', 'uses' => 'Company\RoomNotesController@edit']);
+
 
 
 
@@ -610,6 +700,8 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::delete('company/contracts/{contracts}', ['as'=> 'company.contracts.destroy', 'uses' => 'Company\RoomContractController@destroy']);
     Route::get('company/contracts/{contracts}', ['as'=> 'company.contracts.show', 'uses' => 'Company\RoomContractController@show']);
     Route::get('company/contracts/{contracts}/edit', ['as'=> 'company.contracts.edit', 'uses' => 'Company\RoomContractController@edit']);
+    Route::get('company/calendar', ['as'=> 'company.contracts.status', 'uses' => 'Company\RoomContractController@status']);
+    Route::post('company/periods', ['as'=> 'company.contracts.period', 'uses' => 'Company\RoomContractController@getPeriod']);
 
 
     # Company Contract Persons Section routes
@@ -619,15 +711,28 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::post('company/companyContactPeople', ['as'=> 'company.companyContactPeople.store', 'uses' => 'Company\CompanyContactPersonController@store']);
     Route::put('company/companyContactPeople', ['as'=> 'company.companyContactPeople.update', 'uses' => 'Company\CompanyContactPersonController@update']);
     Route::patch('company/companyContactPeople', ['as'=> 'company.companyContactPeople.update', 'uses' => 'Company\CompanyContactPersonController@update']);
+    //company customer admin
+    Route::post('company/customers/users', ['as'=> 'company.customerUsers.store', 'uses' => 'Company\CustomerUserController@store']);
+    Route::put('company/customers/users/update', ['as'=> 'company.customerUsers.update', 'uses' => 'Company\CustomerUserController@update']);
+    Route::patch('company/customers/users/update', ['as'=> 'company.customerUsers.update', 'uses' => 'Company\CustomerUserController@update']);
+    Route::delete('company/customers/users/delete', ['as'=> 'company.customerUsers.destroy', 'uses' => 'Company\CustomerUserController@destroy']);
 
 
 
     // Invoice Generator
-    // routes created by nazir start
+    // routes created by nazir
     Route::get('company/companyInvoices', ['as'=> 'company.companyInvoices.index', 'uses' => 'Company\CompanyInvoiceController@index']);
-    Route::get('company/companyInvoices/generate/{company_id}',['as' => 'company.generateInvoice','uses' => 'Company\CompanyInvoiceController@createInvoiceByCompanyId']);
-    Route::get('company/companyInvoices/sendInvoice/{company_id}',['as' => 'company.sendInvoice','uses' => 'Company\CompanyInvoiceController@sendLatestInvoiceToCompanyContractPerson']);
+    Route::get('company/companyInvoices/generate/{company_id}',['as' => 'company.generateInvoice','uses' => 'Company\CompanyInvoiceController@createInvoiceByCompanyId'])->where(['company_id'=>'[0-9]+']);
+    Route::get('company/companyInvoices/sendInvoice/{company_id}',['as' => 'company.sendInvoice','uses' => 'Company\CompanyInvoiceController@sendLatestInvoiceToCompanyContractPerson'])->where(['company_id'=>'[0-9]+']);
 
+    Route::get('company/companies/companyservices', ['as'=> 'company.companyServices.index', 'uses' => 'Company\CompanyServiceController@index']);
+    Route::post('company/companies/companyservices', ['as'=> 'company.companyServices.store', 'uses' => 'Company\CompanyServiceController@store']);
+    Route::get('company/companies/companyservices/create', ['as'=> 'company.companyServices.create', 'uses' => 'Company\CompanyServiceController@create']);
+    Route::put('company/companies/companyservices/update', ['as'=> 'company.companyServices.update', 'uses' => 'Company\CompanyServiceController@update']);
+    Route::patch('company/companies/companyservices/update', ['as'=> 'company.companyServices.update', 'uses' => 'Company\CompanyServiceController@update']);
+    Route::delete('company/companies/companyservices/delete', ['as'=> 'company.companyServices.destroy', 'uses' => 'Company\CompanyServiceController@destroy']);
+    Route::get('company/companies/companyservices/{companyservices}', ['as'=> 'company.companyServices.show', 'uses' => 'Company\CompanyServiceController@show']);
+    Route::get('company/companies/companyservices/{companyservices}/edit', ['as'=> 'company.companyServices.edit', 'uses' => 'Company\CompanyServiceController@edit']);
 
     Route::group(['middleware' => ['newsletter.auth']], function () {
         //NewsLetter System Integration
@@ -763,10 +868,114 @@ Route::group(['middleware' => ['company.auth']], function () {
 	Route::get('company/Conference/conferenceBookingItems/{conferenceBookingItems}', ['as'=> 'company/Conference.conferenceBookingItems.show', 'uses' => 'Company/conference\ConferenceBookingItemController@show']);
 	Route::get('company/Conference/conferenceBookingItems/{conferenceBookingItems}/edit', ['as'=> 'company/Conference.conferenceBookingItems.edit', 'uses' => 'Company/conference\ConferenceBookingItemController@edit']);
 
+
+	Route::get('company/conference/bookings', ['as'=> 'company.conference.conferenceBookings.index', 'uses' => 'Company\Conference\ConferenceBookingController@index']);
+	Route::post('company/conference/bookings', ['as'=> 'company.conference.conferenceBookings.store', 'uses' => 'Company\Conference\ConferenceBookingController@store']);
+	Route::get('company/conference/bookings/create', ['as'=> 'company.conference.conferenceBookings.create', 'uses' => 'Company\Conference\ConferenceBookingController@create']);
+	Route::put('company/conference/bookings/{conferenceBookings}', ['as'=> 'company.conference.conferenceBookings.update', 'uses' => 'Company\Conference\ConferenceBookingController@update']);
+	Route::patch('company/conference/bookings/{conferenceBookings}', ['as'=> 'company.conference.conferenceBookings.update', 'uses' => 'Company\Conference\ConferenceBookingController@update']);
+	Route::delete('company/conference/bookings/{conferenceBookings}', ['as'=> 'company.conference.conferenceBookings.destroy', 'uses' => 'Company\Conference\ConferenceBookingController@destroy']);
+	Route::get('company/conference/bookings/{conferenceBookings}', ['as'=> 'company.conference.conferenceBookings.show', 'uses' => 'Company\Conference\ConferenceBookingController@show']);
+	Route::get('company/conference/bookings/{conferenceBookings}/edit', ['as'=> 'company.conference.conferenceBookings.edit', 'uses' => 'Company\Conference\ConferenceBookingController@edit']);
+
+
+	Route::get('company/Conference/conferenceDurations', ['as'=> 'company/Conference.conferenceDurations.index', 'uses' => 'Company/conference\ConferenceDurationController@index']);
+	Route::post('company/Conference/conferenceDurations', ['as'=> 'company/Conference.conferenceDurations.store', 'uses' => 'Company/conference\ConferenceDurationController@store']);
+	Route::get('company/Conference/conferenceDurations/create', ['as'=> 'company/Conference.conferenceDurations.create', 'uses' => 'Company/conference\ConferenceDurationController@create']);
+	Route::put('company/Conference/conferenceDurations/{conferenceDurations}', ['as'=> 'company/Conference.conferenceDurations.update', 'uses' => 'Company/conference\ConferenceDurationController@update']);
+	Route::patch('company/Conference/conferenceDurations/{conferenceDurations}', ['as'=> 'company/Conference.conferenceDurations.update', 'uses' => 'Company/conference\ConferenceDurationController@update']);
+	Route::delete('company/Conference/conferenceDurations/{conferenceDurations}', ['as'=> 'company/Conference.conferenceDurations.destroy', 'uses' => 'Company/conference\ConferenceDurationController@destroy']);
+	Route::get('company/Conference/conferenceDurations/{conferenceDurations}', ['as'=> 'company/Conference.conferenceDurations.show', 'uses' => 'Company/conference\ConferenceDurationController@show']);
+	Route::get('company/Conference/conferenceDurations/{conferenceDurations}/edit', ['as'=> 'company/Conference.conferenceDurations.edit', 'uses' => 'Company/conference\ConferenceDurationController@edit']);
+
+
+	Route::get('company/Conference/conferenceBookingItems', ['as'=> 'company/Conference.conferenceBookingItems.index', 'uses' => 'Company/conference\ConferenceBookingItemController@index']);
+	Route::post('company/Conference/conferenceBookingItems', ['as'=> 'company/Conference.conferenceBookingItems.store', 'uses' => 'Company/conference\ConferenceBookingItemController@store']);
+	Route::get('company/Conference/conferenceBookingItems/create', ['as'=> 'company/Conference.conferenceBookingItems.create', 'uses' => 'Company/conference\ConferenceBookingItemController@create']);
+	Route::put('company/Conference/conferenceBookingItems/{conferenceBookingItems}', ['as'=> 'company/Conference.conferenceBookingItems.update', 'uses' => 'Company/conference\ConferenceBookingItemController@update']);
+	Route::patch('company/Conference/conferenceBookingItems/{conferenceBookingItems}', ['as'=> 'company/Conference.conferenceBookingItems.update', 'uses' => 'Company/conference\ConferenceBookingItemController@update']);
+	Route::delete('company/Conference/conferenceBookingItems/{conferenceBookingItems}', ['as'=> 'company/Conference.conferenceBookingItems.destroy', 'uses' => 'Company/conference\ConferenceBookingItemController@destroy']);
+	Route::get('company/Conference/conferenceBookingItems/{conferenceBookingItems}', ['as'=> 'company/Conference.conferenceBookingItems.show', 'uses' => 'Company/conference\ConferenceBookingItemController@show']);
+	Route::get('company/Conference/conferenceBookingItems/{conferenceBookingItems}/edit', ['as'=> 'company/Conference.conferenceBookingItems.edit', 'uses' => 'Company/conference\ConferenceBookingItemController@edit']);
+
+
+	# Company Support Ticketing Section routes
+	Route::get('company/supports', ['as'=> 'company.supports.index', 'uses' => 'Admin\SupportController@companyIndex']);
+	Route::get('company/supports/create', ['as'=> 'company.supports.create', 'uses' => 'Admin\SupportController@companyCreate']);
+	Route::get('company/supports/{supports}', ['as'=> 'company.supports.show', 'uses' => 'Admin\SupportController@companyShow'])->where(['supports'=>'[0-9]+']);
+	Route::post('company/supports', ['as'=> 'company.supports.store', 'uses' => 'Admin\SupportController@companyStore']);
+	Route::get('company/supports/ticket/completed', ['as'=> 'company.supports.completed', 'uses' => 'Admin\SupportController@companyCompleteTicket']);
+
+
+	# Company Customer Support Ticketing Section routes
+	Route::get('company/company_Supports/completedTicket', ['as'=> 'company.companySupports.completedTicket', 'uses' => 'Company\CompanySupportController@completedTicket']);
+	Route::get('company/company_Supports/{companySupports}/complete', ['as'=> 'company.companySupports.complete', 'uses' => 'Company\CompanySupportController@ticketComplete']);
+	
+	Route::get('company/companySupports', ['as'=> 'company.companySupports.index', 'uses' => 'Company\CompanySupportController@index']);
+	Route::post('company/companySupports', ['as'=> 'company.companySupports.store', 'uses' => 'Company\CompanySupportController@store']);
+	Route::get('company/companySupports/create', ['as'=> 'company.companySupports.create', 'uses' => 'Company\CompanySupportController@create']);
+	Route::put('company/companySupports/{companySupports}', ['as'=> 'company.companySupports.update', 'uses' => 'Company\CompanySupportController@update'])->where(['companySupports'=>'[0-9]+']);
+	Route::patch('company/companySupports/{companySupports}', ['as'=> 'company.companySupports.update', 'uses' => 'Company\CompanySupportController@update'])->where(['companySupports'=>'[0-9]+']);
+	// Route::delete('company/companySupports/{companySupports}', ['as'=> 'company.companySupports.destroy', 'uses' => 'Company\CompanySupportController@destroy'])->where(['companySupports'=>'[0-9]+']);
+	Route::get('company/companySupports/{companySupports}', ['as'=> 'company.companySupports.show', 'uses' => 'Company\CompanySupportController@show']);
+	Route::get('company/companySupports/{companySupports}/edit', ['as'=> 'company.companySupports.edit', 'uses' => 'Company\CompanySupportController@edit']);
+
+	
+
+	# Company Customer Support Status Section routes
+	Route::get('company/supportStatuses', ['as'=> 'company.supportStatuses.index', 'uses' => 'Company\CompanySupportStatusController@index']);
+	Route::post('company/supportStatuses', ['as'=> 'company.supportStatuses.store', 'uses' => 'Company\CompanySupportStatusController@store']);
+	Route::get('company/supportStatuses/create', ['as'=> 'company.supportStatuses.create', 'uses' => 'Company\CompanySupportStatusController@create']);
+	Route::put('company/supportStatuses/{supportStatuses}', ['as'=> 'company.supportStatuses.update', 'uses' => 'Company\CompanySupportStatusController@update'])->where(['supportStatuses'=>'[0-9]+']);
+	Route::patch('company/supportStatuses/{supportStatuses}', ['as'=> 'company.supportStatuses.update', 'uses' => 'Company\CompanySupportStatusController@update'])->where(['supportStatuses'=>'[0-9]+']);
+	Route::delete('company/supportStatuses/{supportStatuses}', ['as'=> 'company.supportStatuses.destroy', 'uses' => 'Company\CompanySupportStatusController@destroy'])->where(['supportStatuses'=>'[0-9]+']);
+	// Route::get('company/supportStatuses/{supportStatuses}', ['as'=> 'company.supportStatuses.show', 'uses' => 'Company\CompanySupportStatusController@show']);
+	Route::get('company/supportStatuses/{supportStatuses}/edit', ['as'=> 'company.supportStatuses.edit', 'uses' => 'Company\CompanySupportStatusController@edit']);
+
+	# Company Customer Support Categories Section routes
+	Route::get('company/supportCategories', ['as'=> 'company.supportCategories.index', 'uses' => 'Company\CompanySupportCategoryController@index']);
+	Route::post('company/supportCategories', ['as'=> 'company.supportCategories.store', 'uses' => 'Company\CompanySupportCategoryController@store']);
+	Route::get('company/supportCategories/create', ['as'=> 'company.supportCategories.create', 'uses' => 'Company\CompanySupportCategoryController@create']);
+	Route::put('company/supportCategories/{supportCategories}', ['as'=> 'company.supportCategories.update', 'uses' => 'Company\CompanySupportCategoryController@update'])->where(['supportCategories'=>'[0-9]+']);
+	Route::patch('company/supportCategories/{supportCategories}', ['as'=> 'company.supportCategories.update', 'uses' => 'Company\CompanySupportCategoryController@update'])->where(['supportCategories'=>'[0-9]+']);
+	Route::delete('company/supportCategories/{supportCategories}', ['as'=> 'company.supportCategories.destroy', 'uses' => 'Company\CompanySupportCategoryController@destroy'])->where(['supportCategories'=>'[0-9]+']);
+	// Route::get('company/supportCategories/{supportCategories}', ['as'=> 'company.supportCategories.show', 'uses' => 'Company\CompanySupportCategoryController@show']);
+	Route::get('company/supportCategories/{supportCategories}/edit', ['as'=> 'company.supportCategories.edit', 'uses' => 'Company\CompanySupportCategoryController@edit']);
+
+	# Company Customer Support Priorities Section routes
+	Route::get('company/supportPriorities', ['as'=> 'company.supportPriorities.index', 'uses' => 'Company\CompanySupportPrioritiesController@index']);
+	Route::post('company/supportPriorities', ['as'=> 'company.supportPriorities.store', 'uses' => 'Company\CompanySupportPrioritiesController@store']);
+	Route::get('company/supportPriorities/create', ['as'=> 'company.supportPriorities.create', 'uses' => 'Company\CompanySupportPrioritiesController@create']);
+	Route::put('company/supportPriorities/{supportPriorities}', ['as'=> 'company.supportPriorities.update', 'uses' => 'Company\CompanySupportPrioritiesController@update'])->where(['supportPriorities'=>'[0-9]+']);
+	Route::patch('company/supportPriorities/{supportPriorities}', ['as'=> 'company.supportPriorities.update', 'uses' => 'Company\CompanySupportPrioritiesController@update'])->where(['supportPriorities'=>'[0-9]+']);
+	Route::delete('company/supportPriorities/{supportPriorities}', ['as'=> 'company.supportPriorities.destroy', 'uses' => 'Company\CompanySupportPrioritiesController@destroy'])->where(['supportPriorities'=>'[0-9]+']);
+	// Route::get('company/supportPriorities/{supportPriorities}', ['as'=> 'company.supportPriorities.show', 'uses' => 'Company\CompanySupportPrioritiesController@show']);
+	Route::get('company/supportPriorities/{supportPriorities}/edit', ['as'=> 'company.supportPriorities.edit', 'uses' => 'Company\CompanySupportPrioritiesController@edit']);
+
+
 });
 
 
+    Route::get('company_customer/login', ['as'=> 'companyCustomer.login', 'uses' => 'CompanyCustomer\UserController@viewLogin']);
+    Route::post('company_customer/authenticate', ['as'=> 'companyCustomer.users.authenticate', 'uses' => 'CompanyCustomer\UserController@authenticate']);
 
+Route::group(['middleware' => ['company.customer.auth']], function () {
+
+    Route::get('company_customer/dashboard/{company?}', ['as' => 'companyCustomer.dashboard', 'uses' => 'CompanyCustomer\DashboardController@index']);
+    Route::get('company_customer/profile', ['as' => 'companyCustomer.dashboard.profile', 'uses' => 'CompanyCustomer\DashboardController@profile']);
+    Route::put('company_customer/profile/{users}', ['as' => 'companyCustomer.users.update', 'uses' => 'CompanyCustomer\UserController@update'])->where(['users'=>'[0-9]+']);
+    Route::get('company_customer/logout', ['as' => 'companyCustomer.logout', 'uses' => 'CompanyCustomer\UserController@logout']);
+
+    # support routes
+    Route::get('company_customer/companySupports/completedTicket', ['as'=> 'companyCustomer.supports.completedTicket', 'uses' => 'Company\CompanySupportController@customerCompletedTicket']);
+
+    Route::get('company_customer/companySupports', ['as'=> 'companyCustomer.supports.index', 'uses' => 'Company\CompanySupportController@customerSupportIndex']);
+	Route::get('company_customer/companySupports/create', ['as'=> 'companyCustomer.supports.create', 'uses' => 'Company\CompanySupportController@customerSupportCreate']);
+	Route::post('company_customer/companySupports', ['as'=> 'companyCustomer.supports.store', 'uses' => 'Company\CompanySupportController@customerSupportStore']);
+	Route::get('company_customer/companySupports/{supports}', ['as'=> 'companyCustomer.supports.show', 'uses' => 'Company\CompanySupportController@customerSupportShow'])->where(['supports'=>'[0-9]+']);
+	
+
+});
 
 
 /********** Conference module routes end  **********/
@@ -815,8 +1024,6 @@ Route::get('mail', ['as'=> 'mail.send', 'uses' => 'General\ValidationController@
 	    });
 	});
 */
-
-
 
 
 
@@ -921,3 +1128,4 @@ Route::patch('company/bookingAgencies/{bookingAgencies}', ['as'=> 'company.booki
 Route::delete('company/bookingAgencies/{bookingAgencies}', ['as'=> 'company.bookingAgencies.destroy', 'uses' => 'Company\BookingAgencyController@destroy']);
 Route::get('company/bookingAgencies/{bookingAgencies}', ['as'=> 'company.bookingAgencies.show', 'uses' => 'Company\BookingAgencyController@show']);
 Route::get('company/bookingAgencies/{bookingAgencies}/edit', ['as'=> 'company.bookingAgencies.edit', 'uses' => 'Company\BookingAgencyController@edit']);
+

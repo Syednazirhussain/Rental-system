@@ -23,6 +23,7 @@ class CreateSupportTable extends Migration {
 			$table->integer('priority_id')->unsigned()->nullable()->index('priority_id');
 			$table->integer('user_id')->unsigned()->nullable()->index('user_id');
 			$table->integer('category_id')->unsigned()->nullable()->index('category_id');
+			$table->integer('company_id')->unsigned()->nullable()->index('company_id');
 			$table->timestamps();
 			$table->softDeletes();
 		});

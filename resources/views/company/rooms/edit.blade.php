@@ -15,16 +15,11 @@
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
                 <div class="panel">
-                    <div class="panel-heading">
-                        <div class="panel-title">@if(isset($room)){{ "Edit" }}@else{{ "Add" }}@endif Room</div>
-                    </div>
-                    <div class="panel-body">
-                        <form action="{{ route('company.rooms.update', [$room->id]) }}" method="POST" id="roomForm" enctype="multipart/form-data">
 
-                            @include('company.rooms.fields')
+                    <form action="{{ route('company.rooms.update',[$room->id]) }}" method="POST" id="roomForm" enctype="multipart/form-data">
+                            @include('company.rooms.field')
+                    </form>
 
-                        </form>
-                    </div>
                 </div>
             </div>
         </div>

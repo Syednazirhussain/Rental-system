@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\SupportPriorities;
+use App\Models\CompanySupportPriorities;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
@@ -28,6 +28,6 @@ class SupportPrioritiesRepository extends BaseRepository
      **/
     public function model()
     {
-        return SupportPriorities::class;
+        return CompanySupportPriorities::class;
     }
 }

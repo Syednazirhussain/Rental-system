@@ -127,7 +127,36 @@
     <a href="{!! route('admin.supports.index') !!}"><i class="fa fa-edit"></i><span>Supports</span></a>
 </li>
 
+
 <li class="{{ Request::is('bookingAgencies*') ? 'active' : '' }}">
     <a href="{!! route('company.bookingAgencies.index') !!}"><i class="fa fa-edit"></i><span>Booking Agencies</span></a>
+
+<li class="{{ Request::is('companySupports*') ? 'active' : '' }}">
+    <a href="{!! route('company.companySupports.index') !!}"><i class="fa fa-edit"></i><span>Company Supports</span></a>
+</li>
+
+<li class="{{ Request::is('companyCustomers*') ? 'active' : '' }}">
+    <a href="{!! route('companyCustomers.index') !!}"><i class="fa fa-edit"></i><span>Company Customers</span></a>
+</li>
+
+<li class="{{ Request::is('roomSettingArrangments*') ? 'active' : '' }}">
+    <a href="{!! route('roomSettingArrangments.index') !!}"><i class="fa fa-edit"></i><span>Room Setting Arrangments</span></a>
+</li>
+
+<li class="{{ Request::is('roomSettingArrangments*') ? 'active' : '' }}">
+    <a href="{!! route('company.roomSettingArrangments.index') !!}"><i class="fa fa-edit"></i><span>Room Setting Arrangments</span></a>
+</li>
+
+<li class="{{ Request::is('roomImages*') ? 'active' : '' }}">
+    <a href="{!! route('company.roomImages.index') !!}"><i class="fa fa-edit"></i><span>Room Images</span></a>
+</li>
+
+<li class="{{ Request::is('roomEquipments*') ? 'active' : '' }}">
+    <a href="{!! route('company.roomEquipments.index') !!}"><i class="fa fa-edit"></i><span>Room Equipments</span></a>
+</li>
+
+<li class="{{ Request::is('roomNotes*') ? 'active' : '' }}">
+    <a href="{!! route('company.roomNotes.index') !!}"><i class="fa fa-edit"></i><span>Room Notes</span></a>
+>>>>>>> c30a99e22451927ebf9362b3c715927935a64c63
 </li>
 

@@ -74,6 +74,15 @@ class Room extends Model
      **/
     public function floor()
     {
-        return $this->belongsTo(\App\Models\CompanyFloorRoom::class);
+        return $this->belongsTo(\App\Models\CompanyFloorRoom::class,'floor_id','id');
+    }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+    **/
+    public function service()
+    {
+        return $this->belongsTo(\App\Models\Service::class,'service_id','id');
     }
 }

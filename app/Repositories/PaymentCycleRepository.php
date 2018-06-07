@@ -30,4 +30,9 @@ class PaymentCycleRepository extends BaseRepository
     {
         return PaymentCycle::class;
     }
+
+
+    public function getPaymentCycleById($payment_cycle_id) {
+        return PaymentCycle::find($payment_cycle_id);
+    }
 }
