@@ -103,11 +103,9 @@
                                     <a href>{{$module->module->name}}</a>
                                     <ul class="dropdown-menu">
 
-
-                                        @if($module->module->code == 'conference_module')
-
-
-
+                                        @if($module->module->code == 'signage_module')
+                                            <li><a href="{{ route('company.rsignage.index') }}">Signage System</a></li>
+                                        @elseif($module->module->code == 'conference_module')
                                             <li class="dropdown-toggle">
                                                 <a href>Bookings</a>
                                                 <ul class="dropdown-menu">
@@ -183,8 +181,6 @@
 
                                         @elseif($module->module->code == 'newsletter_module')
 
-
-
                                             <li><a href="{{ route('company.newsletter.dashboard') }}"><i
                                                             class="fa fa-trello"></i>&nbsp;&nbsp;Dashboard</a>
                                             </li>
@@ -225,8 +221,6 @@
                                                     </li>
                                                 </ul>
                                             </li>
-
-
 
                                             <li class="dropdown-toggle">
                                                 <a href="{{ route('company.companyFloorRooms.index') }}">Floors</a>
@@ -280,15 +274,9 @@
                                                     </li>
                                                 </ul>
                                             </li>
-
-
                                         @endif
-
-
                                     </ul>
                                 </li>
-
-
                             @endforeach
 
                             <li><a href="{{ route('company.companyInvoices.index') }}"><i class="fa fa-building-o"></i>&nbsp;&nbsp;Invoices</a>
@@ -296,7 +284,6 @@
                         </ul>
                     </li>
                     <li class="divider"></li>
-                    <li><a href="{{ route('company.rsignage.index') }}">Signage System</a></li>
                     <li><a href="{{ route('company.contracts.status') }}">Contract Calendar</a></li>
                     <li class="dropdown-toggle">
                         <a href="{{ route('company.supports.index') }}">Support</a>
