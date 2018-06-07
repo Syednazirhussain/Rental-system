@@ -19,7 +19,11 @@
                     <select class="form-control" id="building_id" name="building_id">
                         <option value="">Select</option>
                         @foreach ($buildings as $building)
+                          @if(isset($room) && $room->building_id == $building->id)
+                            <option value="{{ $building->id }}" selected="selected">{{$building->name }}</option>
+                          @else
                             <option value="{{ $building->id }}">{{$building->name }}</option>
+                          @endif
                         @endforeach
                     </select>
                     <div class="errorTxt"></div>
@@ -28,7 +32,11 @@
                   <div class="form-group">
                     <label for="select_floor">Floor Name</label>
                     <select class="form-control" id="select_floor" name="floor_id">
-                      <option value="">Select</option>
+                      @if(isset($room))
+                        <option value="{{ $room->floor_id }}" selected="selected">{{ $room->floor->floor }}</option>
+                      @else
+                        <option value="">Select</option>
+                      @endif
                     </select>
                     <div class="errorTxt"></div>
                   </div>   
@@ -39,9 +47,9 @@
                   <div class="fileinput fileinput-new" data-provides="fileinput">
                     <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
                           @if (isset($room))
-                              <input type="hidden" name="logo-hidden" id="logo-hidden" value="{{ $room->logo }}">
+                              <input type="hidden" name="logo-hidden" id="logo-hidden" value="{{ $room->image1 }}">
 
-                              <img src="{{ asset('storage/company_logos/'.$room->logo) }}" data-src="{{ asset('storage/company_logos/'.$room->logo) }}" />
+                              <img src="{{ asset('storage/uploadedimages/'.$room->image1) }}" data-src="{{ asset('storage/uploadedimages/'.$room->image1) }}" />
                           @endif
                     </div>
                     <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
@@ -70,12 +78,17 @@
               <label for="service_id">Select Service</label>
               <select class="form-control" id="service_id" name="service_id">
                   <option value="">Select</option>
-                  @if(isset($room))
-                  <option value="{{ $room->service_id }}">{{ $service_name }}</option>
+                  @if(isset($services))
+                    @foreach ($services as $service)
+                      @if(isset($room) && $room->service_id == $service->id)
+                        <option value="{{ $service->id }}" selected="selected">{{$service->name }}</option>
+                      @else
+                        <option value="{{ $service->id }}">{{$service->name }}</option>
+                      @endif
+                    @endforeach
+                  @else
+                      <option>No service available</option>
                   @endif
-                  @foreach ($services as $service)
-                      <option value="{{ $service->id }}">{{$service->name }}</option>
-                  @endforeach
               </select>
               <div class="errorTxt"></div>            
             </div>
@@ -84,7 +97,7 @@
           <div class="col-sm-12 col-md-12">
             <div class="col-sm-12 col-md-12 form-group">
               <label for="address">Address</label>
-              <input type="text" id="address" placeholder="enter address here" name="address" class="form-control" value="@if(isset($room)){{ $room->name }}@endif">
+              <input type="text" id="address" placeholder="enter address here" name="address" class="form-control" value="@if(isset($room)){{ $room->address }}@endif">
               <div class="errorTxt"></div>
             </div>
           </div>
@@ -105,12 +118,12 @@
           <div class="col-sm-12 col-md-12">
             <div class="col-sm-6 col-md-6 form-group">
               <label for="public_name">Public Name</label>
-              <input type="text" id="public_name" placeholder="enter public name here" name="public_name" class="form-control">
+              <input type="text" id="public_name" placeholder="enter public name here" name="public_name" class="form-control" value="@if(isset($room)){{ $room->public_name }}@endif">
               <div class="errorTxt"></div>         
             </div>
             <div class="col-sm-6 col-md-6 form-group">
               <label for="sort_index">Sort Index</label>
-              <input type="number" id="sort_index" placeholder="enter sort index here" name="sort_index" class="form-control">
+              <input type="number" id="sort_index" placeholder="enter sort index here" name="sort_index" class="form-control" value="@if(isset($room)){{ $room->sort_index }}@endif">
               <div class="errorTxt"></div>          
             </div>
           </div>
@@ -123,7 +136,7 @@
             </div>
             <div class="col-sm-6 col-md-6 form-group">
               <label for="article_number">Article Number</label>
-              <input type="text" id="article_number" placeholder="enter article number here" name="article_number" class="form-control">
+              <input type="text" id="article_number" placeholder="enter article number here" name="article_number" class="form-control" value="@if(isset($room)){{ $room->article_number }}@endif">
               <div class="errorTxt"></div>
             </div>
           </div>
@@ -132,7 +145,7 @@
           <div class="col-sm-12 col-md-12">
             <div class="col-sm-12 col-md-12 form-group">
               <label for="SQNA">SQNA</label>
-              <input type="text" id="SQNA" placeholder="enter sqna here" name="SQNA" class="form-control" value="@if(isset($room)){{ $room->security_code }}@endif">
+              <input type="text" id="SQNA" placeholder="enter sqna here" name="SQNA" class="form-control" value="@if(isset($room)){{ $room->SQNA }}@endif">
               <div class="errorTxt"></div>
             </div>
           </div>
@@ -141,12 +154,12 @@
           <div class="col-sm-12 col-md-12">
               <span class="col-sm-4 col-md-4 form-group">
                   <label for="start_date">Start Date</label>
-                  <input type="text" id="start_date" name="start_date" value="" class="form-control">
+                  <input type="text" id="start_date" name="start_date" value="" class="form-control" value="@if(isset($room)){{ $room->start_date }}@endif">
                   <div class="errorTxt"></div>
               </span>
               <span class="col-sm-4 col-md-4 form-group">
                   <label for="end_date">End Date</label>
-                  <input type="text" id="end_date" name="end_date" class="form-control">
+                  <input type="text" id="end_date" name="end_date" class="form-control" value="@if(isset($room)){{ $room->end_date }}@endif">
                   <div class="errorTxt"></div>
               </span>
               <span class="col-sm-4 col-md-4 form-group">
@@ -184,12 +197,12 @@
         <div class="col-sm-12 col-md-12">
             <div class="col-sm-6 col-md-6 form-group">
                 <label for="conf_day_price">Day Price</label>
-                <input type="number" id="conf_day_price" name="conf_day_price" class="form-control">
+                <input type="number" id="conf_day_price" name="conf_day_price" class="form-control" value="@if(isset($room)){{ $room->conf_day_price }}@endif">
                 <div class="errorTxt"></div>                              
             </div>
             <div class="col-sm-6 col-md-6 form-group">
                 <label for="public_name">Half Day Price</label>
-                <input type="number" id="conf_half_day_price" name="conf_half_day_price" class="form-control">
+                <input type="number" id="conf_half_day_price" name="conf_half_day_price" class="form-control" value="@if(isset($room)){{ $room->conf_half_day_price }}@endif">
                 <div class="errorTxt"></div>
             </div>
         </div>
@@ -197,12 +210,12 @@
         <div class="col-sm-12 col-md-12">
             <div class="col-sm-6 col-md-6 form-group">
               <label for="conf_cost">Cost</label>
-              <input type="number" id="conf_cost" name="conf_cost" class="form-control">
+              <input type="number" id="conf_cost" name="conf_cost" class="form-control" value="@if(isset($room)){{ $room->conf_cost }}@endif">
               <div class="errorTxt"></div>                             
             </div>
             <div class="col-sm-6 col-md-6 form-group">
               <label for="conf_vat">VAT</label>
-              <input type="number" id="conf_vat" name="conf_vat" class="form-control">
+              <input type="number" id="conf_vat" name="conf_vat" class="form-control" value="@if(isset($room)){{ $room->conf_vat }}@endif">
               <div class="errorTxt"></div>
             </div>
         </div>
@@ -210,22 +223,22 @@
         <div class="col-sm-12 col-md-12">
             <div class="col-sm-3 col-md-3 form-group">
                 <label for="conf_sm_price">Small Group Price</label>
-                <input type="number" id="conf_sm_price" name="conf_sm_price" class="form-control"> 
+                <input type="number" id="conf_sm_price" name="conf_sm_price" class="form-control" value="@if(isset($room)){{ $room->conf_small_group_price }}@endif"> 
                 <div class="errorTxt"></div> 
             </div>
             <div class="col-sm-3 col-md-3 form-group">
                 <label for="conf_high_price">High</label>
-                <input type="number" id="conf_high_price" name="conf_high_price" class="form-control">
+                <input type="number" id="conf_high_price" name="conf_high_price" class="form-control" value="@if(isset($room)){{ $room->conf_high_price }}@endif">
                 <div class="errorTxt"></div>
             </div>
             <div class="col-sm-3 col-md-3 form-group">
                 <label for="conf_medium_price">Medium</label>
-                <input type="number" id="conf_medium_price" name="conf_medium_price" class="form-control">
+                <input type="number" id="conf_medium_price" name="conf_medium_price" class="form-control" value="@if(isset($room)){{ $room->conf_medium_price }}@endif">
                 <div class="errorTxt"></div>
             </div>
             <div class="col-sm-3 col-md-3 form-group">
                 <label for="conf_low_price">Low</label>
-                <input type="number" id="conf_low_price" name="conf_low_price" class="form-control">
+                <input type="number" id="conf_low_price" name="conf_low_price" class="form-control" value="@if(isset($room)){{ $room->conf_low_price }}@endif">
                 <div class="errorTxt"></div>
             </div>
         </div>
@@ -233,7 +246,7 @@
         <div class="col-sm-12 col-md-12">
             <div class="col-md-12 col-sm-12 form-group">
               <label for="service_id">Conference Room Type</label>
-              <select class="form-control" id="conf_room_type" name="conf_room_type">
+              <select class="form-control" id="conf_room_type" name="conf_room_type" value="@if(isset($room)){{ $room->conf_room_type }}@endif">
                   <option value="">Select</option>
                   <option value="hall">Hall</option>
                   <option value="study">Study</option>
@@ -246,17 +259,30 @@
         <div class="col-sm-12">
             <div class="col-sm-6 col-md-6 form-group">
               <label class="custom-control custom-checkbox">
-                <input type="checkbox" name="conf_calender_available" id="conf_calender_available" class="custom-control-input">
-                <span class="custom-control-indicator"></span>
-                Calender Available
+                @if(isset($room) && $room->conf_calendar_available == 1)
+                  <input type="checkbox" name="conf_calender_available"  id="conf_calender_available" class="custom-control-input" checked="checked">
+                  <span class="custom-control-indicator"></span>
+                  Calender Available
+                @else
+                  <input type="checkbox" name="conf_calender_available"  id="conf_calender_available" class="custom-control-input" >
+                  <span class="custom-control-indicator"></span>
+                  Calender Available
+                @endif
+
               </label>                             
             </div>
 
             <div class="col-sm-6 col-md-6 form-group">
               <label class="custom-control custom-checkbox">
-                <input type="checkbox" name="conf_available_users" id="conf_available_users" class="custom-control-input">
-                <span class="custom-control-indicator"></span>
-                Available User
+                @if(isset($room) && $room->conf_available_users == 1)
+                  <input type="checkbox" name="conf_available_users" id="conf_available_users" class="custom-control-input" checked="checked">
+                  <span class="custom-control-indicator"></span>
+                  Available User
+                @else
+                  <input type="checkbox" name="conf_available_users" id="conf_available_users" class="custom-control-input">
+                  <span class="custom-control-indicator"></span>
+                  Available User
+                @endif
               </label>
             </div>
         </div>
@@ -267,13 +293,65 @@
               <div class="panel-title">Sitting Arrangment</div>
             </div>
             <div class="panel-body">
+
+              @if(isset($room))
+
               <div class="pull-right">
                 <button class="btn btn-primary addSitting" type="button"><i class="fa fa-plus"></i> Add</button>
               </div>
               <div class="row sittingArrangments">
 
+                @if(isset($roomImages))
+
+                  @foreach($roomImages as $roomImage)
+
+                    @foreach($roomImage as $image)
+
+                      <input type="hidden" class="image-files" data-images="{{ $image->image_file }}">
+
+                    @endforeach
+
+                  @endforeach
+
+                @endif
+
+                @foreach($roomSittingArrangments as $roomSittingArrangment)
+
+
                 <div class="row">
-          
+
+                  <div class="col-sm-12 col-sm-12">
+                      <div class="col-sm-4 col-md-4 form-group">
+                        <label for="sitting_name">Sitting Name</label>
+                        <input type="text" name="sitting_name[]" id="sitting_name" class="form-control sittingNameField" value="@if(isset($room)){{ $roomSittingArrangment->name }}@endif">
+                      </div>
+
+                      <div class="col-sm-4 col-md-4 form-group">
+                        <label for="sitting_number_person">Number of Person</label>
+                        <input type="number" name="sitting_number_person[]" id="sitting_number_person" class="form-control" value="@if(isset($room)){{ $roomSittingArrangment->number_persons }}@endif">
+                      </div> 
+
+                      <div class="col-sm-2 col-md-4 form-group">
+                      </div>                     
+                  </div>
+
+                  <div class="col-sm-12 col-md-12 form-group">
+                    <input type="file" name="files0" class="uploadFiles">
+                  </div>
+
+                </div>
+
+                @endforeach
+
+
+              @else
+              
+              <div class="pull-right">
+                <button class="btn btn-primary addSitting" type="button"><i class="fa fa-plus"></i> Add</button>
+              </div>
+              <div class="row sittingArrangments">
+
+                <div class="row">                  
                   <div class="col-sm-12 col-sm-12">
                       <div class="col-sm-4 col-md-4 form-group">
                         <label for="sitting_name">Sitting Name</label>
@@ -291,8 +369,11 @@
                   <div class="col-sm-12 col-md-12 form-group">
                     <input type="file" name="files0" class="uploadFiles">
                   </div>
-
                 </div>
+
+                @endif
+
+
 
               </div>
             </div>            
@@ -308,6 +389,47 @@
               <div class="pull-right">
                 <button class="btn btn-primary addIncluded" type="button"><i class="fa fa-plus"></i>&nbsp;Add</button>
               </div>
+
+              @if(isset($roomEquipments))
+
+              @foreach($roomEquipments as $roomEquipment)
+              <div class="row includedItem">
+                  <div class="col-sm-12 col-sm-12 included">
+                      <div class="col-sm-3 col-md-3 form-group">
+                        <label for="include_equipment_id">Item</label>
+                        <select class="form-control" id="include_equipment_id" name="include_equipment_id[]">
+                            <!-- <option value="">Select</option> -->
+                            @foreach ($equipments as $equipment)
+
+                              @if($roomEquipment->equipment_id == $equipment->id)
+                                <option value="{{ $equipment->id }}" selected="selected">{{$equipment->title }}</option>
+                              @else
+                                <option value="{{ $equipment->id }}">{{$equipment->title }}</option>
+                              @endif
+
+                            @endforeach
+                        </select>
+                      </div>
+                      <div class="col-sm-2 col-md-2 form-group">
+                        <label for="include_qty">Quantity</label>
+                        <input type="number" name="include_qty[]" value="@if(isset($room)){{ $roomEquipment->qty }}@endif" id="include_qty" class="form-control" >
+                      </div>
+                      <div class="col-sm-2 col-md-2 form-group">
+                        <label for="include_price">Price</label>
+                        <input type="number" name="include_price[]" value="@if(isset($room)){{ $roomEquipment->price }}@endif" id="include_price" class="form-control" >
+                      </div>
+                      <div class="col-sm-4 col-md-4 form-group">
+                        <label for="include_info">Information</label>
+                        <input type="text" name="include_info[]" value="@if(isset($room)){{ $roomEquipment->info }}@endif" id="include_info" class="form-control" >
+                      </div>
+                      <div class="col-sm-1">
+                      </div>
+                  </div>
+              </div>
+              @endforeach
+
+              @else
+
               <div class="row includedItem">
                   <div class="col-sm-12 col-sm-12 included">
                       <div class="col-sm-3 col-md-3 form-group">
@@ -335,9 +457,19 @@
                       </div>
                   </div>
               </div>
+
+              @endif
+
             </div>            
           </div>
         </div>
+
+        <input type="hidden" id="ctc" value="@if(isset($room)){{ $room->conf_termination_cond }}@endif">
+        <input type="hidden" id="cii" value="@if(isset($room)){{ $room->conf_info_internal }}@endif">
+        <input type="hidden" id="cics" value="@if(isset($room)){{ $room->conf_info_customer_se }}@endif">
+        <input type="hidden" id="cice" value="@if(isset($room)){{ $room->conf_info_customer_en }}@endif">
+        <input type="hidden" id="cits" value="@if(isset($room)){{ $room->conf_info_technical_se }}@endif">
+        <input type="hidden" id="cite" value="@if(isset($room)){{ $room->conf_info_technical_en }}@endif">
 
         <div class="col-sm-12 col-md-12">
           <div class="col-sm-12 col-md-12 form-group">
@@ -355,25 +487,25 @@
 
         <div class="col-sm-12">
             <label for="conf_info_customer_se">Information Customer SE</label>
-            <textarea id="conf_info_customer_se" name="conf_info_customer_se" required="required"></textarea>
+            <textarea id="conf_info_customer_se"  name="conf_info_customer_se" required="required"></textarea>
             <div class="errorTxt" id="errorSN2"></div>
         </div>
 
         <div class="col-sm-12">
             <label for="conf_info_customer_en">Information Customer EN</label>
-            <textarea id="conf_info_customer_en" name="conf_info_customer_en" required="required"></textarea>
+            <textarea id="conf_info_customer_en"  name="conf_info_customer_en" required="required"></textarea>
             <div class="errorTxt" id="errorSN3"></div>
         </div>
 
         <div class="col-sm-12">
             <label for="conf_info_technical_se">Information Technical SE</label>
-            <textarea id="conf_info_technical_se" name="conf_info_technical_se" required="required"></textarea>
+            <textarea id="conf_info_technical_se"  name="conf_info_technical_se" required="required"></textarea>
             <div class="errorTxt" id="errorSN4"></div>
         </div>
 
         <div class="col-sm-12">
             <label for="conf_info_technical_en">Information Technical EN</label>
-            <textarea id="conf_info_technical_en" name="conf_info_technical_en" required="required"></textarea>
+            <textarea id="conf_info_technical_en"  name="conf_info_technical_en" required="required"></textarea>
             <div class="errorTxt" id="errorSN5"></div>
         </div>
 
@@ -393,12 +525,12 @@
           <div class="col-sm-12 col-md-12">
             <div class="col-sm-6 col-md-6 form-group">
               <label for="monthly_rent">Montly Rent</label>
-              <input type="number" id="rent_monthly_rent" name="rent_monthly_rent" class="form-control">
+              <input type="number" id="rent_monthly_rent" name="rent_monthly_rent" class="form-control" value="@if(isset($room)){{ $room->rent_monthly_rent }}@endif">
               <div class="errorTxt"></div>          
             </div>
             <div class="col-sm-6 col-md-6 form-group">
               <label for="number_person">Number Person</label>
-              <input type="number" id="rent_number_person" name="rent_number_person" class="form-control">
+              <input type="number" id="rent_number_person" name="rent_number_person" class="form-control" value="@if(isset($room)){{ $room->rent_num_persons }}@endif">
               <div class="errorTxt"></div>
             </div>
           </div>
@@ -406,12 +538,12 @@
           <div class="col-sm-12 col-md-12">
             <div class="col-sm-6 col-md-6 form-group">
               <label for="vat">VAT</label>
-              <input type="number" id="rent_vat" name="rent_vat" class="form-control">
+              <input type="number" id="rent_vat" name="rent_vat" class="form-control" value="@if(isset($room)){{ $room->rent_vat }}@endif">
               <div class="errorTxt"></div> 
             </div>
             <div class="col-sm-6 col-md-6 form-group">
               <label for="new_price">New Price</label>
-              <input type="number" id="rent_new_price" name="rent_new_price" class="form-control">
+              <input type="number" id="rent_new_price" name="rent_new_price" class="form-control" value="@if(isset($room)){{ $room->rent_new_price }}@endif">
               <div class="errorTxt"></div>
             </div>
           </div>
@@ -459,7 +591,7 @@
           <div class="col-sm-12 col-md-12">
             <div class="col-sm-12 col-md-12 form-group">
               <label for="service_id">Room Type</label>
-              <select class="form-control" id="rent_room_type" name="rent_room_type">
+              <select class="form-control" id="rent_room_type" name="rent_room_type" value="@if(isset($room)){{ $room->rent_room_type }}@endif">
                   <option value="">Select</option>
                   <option value="hall">Hall</option>
                   <option value="study">Study</option>
@@ -473,7 +605,7 @@
           <div class="col-sm-12 col-md-12">
               <span class="col-sm-4 col-md-4 form-group">
                   <label for="rent_start_date">Start Date</label>
-                  <input type="text" id="rent_start_date" name="rent_start_date" value="" class="form-control">
+                  <input type="text" id="rent_start_date" name="rent_start_date" value="" class="form-control" value="@if(isset($room)){{ $room->rent_start_date }}@endif">
                   <div class="errorTxt"></div>
                   <!-- <input type="text" id="daterange-3" value="10/24/1984" class="form-control"> -->
               </span>
@@ -484,7 +616,7 @@
               </span>
               <span class="col-sm-4 col-md-4 form-group">
                 <label class="custom-control custom-checkbox m-t-4">
-                  <input type="checkbox" name="rent_end_date_continue" id="rent_end_date_continue" class="custom-control-input">
+                  <input type="checkbox" name="rent_end_date_continue" id="rent_end_date_continue" class="custom-control-input" value="@if(isset($room)){{ $room->rent_end_date }}@endif">
                   <span class="custom-control-indicator"></span>
                   Continue
                 </label>  
@@ -508,14 +640,13 @@
               </div>
           </div>
 
-<!-- This is for edit part -->
-<!--           <div class="col-sm-12 col-md-12">
+          <div class="col-sm-12 col-md-12" id="notes">
             <div class="col-sm-12 col-md-12 form-group">
               <label for="rent_notes">Notes</label>
               <textarea type="text" id="rent_notes" name="rent_notes" class="form-control" required="required"></textarea>
               <div class="errorTxt" id="errorNotes"></div>
             </div>
-          </div> -->
+          </div>
 
         </div>
     </div>
@@ -530,6 +661,55 @@
 @section('js')
 
 <script type="text/javascript">
+
+  var editRoom = "{{ isset($room) ? $room->id: 0 }}";
+
+  $('#notes').hide();
+
+  if(editRoom != 0)
+  {
+    $('#notes').show();
+
+    $('#conf_termination_cond').val($('#ctc').val());
+    $('#conf_info_internal').val( $('#cii').val());
+    $('#conf_info_customer_se').val( $('#cics').val());
+    $('#conf_info_customer_en').val( $('#cice').val());
+    $('#conf_info_technical_se').val( $('#cits').val());
+    $('#conf_info_technical_en').val( $('#cite').val());
+
+  }
+
+
+    $('.image-files[data-images]').each(function(index,fields){
+        $(this).attr('data-images');
+    });
+
+
+  // function featuredImage1() {
+      
+  //       var images =[];
+  //       var inp = $("#image_attachments").val();  
+
+
+
+  //       $.each( $.parseJSON(newJson), function( key, value ) {
+
+  //         inp ='{"name": "'+value.filename+'","size":"'+value.size+'","type": "'+value.type+'","file": "'+value.file+'"}';
+          
+  //         imag = $.parseJSON(inp);
+  //         images.push(imag);
+
+
+  //       });
+
+  //       // console.log(images);
+      
+  //       return images;
+
+  // }
+
+
+
 
         $.validator.addMethod("stringValue", function(value, element) {
             return this.optional(element) || /^[a-zA-Z0-9\s]+$/i.test(value);

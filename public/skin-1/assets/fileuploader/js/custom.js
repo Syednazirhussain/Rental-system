@@ -110,6 +110,7 @@ function fileUploader(index = 0){
 			theme: 'thumbnails',
 	        enableApi: true,
 			addMore: true,
+
 			thumbnails: {
 				box: '<div class="fileuploader-items">' +
 	                      '<ul class="fileuploader-items-list">' +

@@ -328,7 +328,7 @@ class RoomController extends AppBaseController
                             $roomImages->room_id = $room_id;
                             $roomImages->sitting_id = $sitting_id;
                             $roomImages->entity_type = $room_type;                            
-                            $roomImages->entity_type = $path;
+                            $roomImages->image_file = $path;
                             $roomImages->save();
                         }                      
                     }
@@ -412,44 +412,54 @@ class RoomController extends AppBaseController
      */
     public function edit($id)
     {
-        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
-        $company = Company::find($company_id);
-        $companyFloors = CompanyFloorRoom::where('company_id', $company_id)->get();
-        $companyBuildings = CompanyBuilding::pluck('name', 'id');
-        $services = Service::where('company_id', $company_id)->get();
 
+        $room = $this->roomRepository->findWithoutFail($id);
 
-        $room = $this->roomRepository->findWithoutFail($id);        
-        $companyServices = Service::where('company_id', $company_id)->get();
+        // dd($room);
         
-        // $roomServices = CompanyService::where('room_id', $room->id)->get();
-
-
-
-
-        if (empty($room)) {
-            Flash::error('Company Room not found');
-
+        if (empty($room)) 
+        {
+            session()->flash('msg.error','Company Room not found');
             return redirect(route('company.rooms.index'));
         }
 
+        $room_id = $room->id;
+        $company_id = $room->company_id;
+        $building_id = $room->building_id;
 
-        $floor_name = CompanyBuilding::find(CompanyFloorRoom::find($room->floor_id)->building_id)->name.' - Floor'.CompanyFloorRoom::find($room->floor_id)->floor;
-        $service_name = Service::find($room->service_id)->name;
+
+        $buildings = CompanyBuilding::where('company_id',$company_id)->get();
+        $floors = CompanyFloorRoom::where('building_id',$building_id)->get();
+        $services = Service::where('company_id',$company_id)->get();
+
+
+        $roomSettings = RoomSettingArrangment::where('room_id',$room_id)->where('building_id',$building_id)->get();
+        $roomImages =  RoomImages::where('room_id',$room_id)->where('building_id',$building_id)->get();
+        $roomEquipments =  RoomEquipments::where('room_id',$room_id)->where('building_id',$building_id)->get();
+        $equipments = Equipments::all();
+        $roomSittingArrangments =  RoomSettingArrangment::where('room_id',$room_id)->get();
+
+
+        $roomImages = [];
+        for($i = 0 ; $i < count($roomSittingArrangments) ; $i++)
+        {
+            $roomImages[$i] = RoomImages::where('sitting_id',$roomSittingArrangments[$i]->id)->get();
+        }
+
+
 
         $data = [
-            'room' => $room,
-            'company' => $company,
-            'companyFloors' => $companyFloors,
-            'companyBuildings' => $companyBuildings,
+            'room'  => $room,
+            'buildings' => $buildings,
+            'floors' => $floors,
             'services' => $services,
-            'service_name' => $service_name,
-            'floor_name' => $floor_name,
-            'companyServices' => $companyServices,
-            // 'roomServices' => $roomServices
+            'roomImages' => $roomImages,
+            'roomSettings' => $roomSettings,
+            'roomEquipments' => $roomEquipments,
+            'equipments' => $equipments,
+            'roomSittingArrangments' => $roomSittingArrangments,
+            'roomImages' => $roomImages
         ];
-
-        dd( $data );
 
         return view('company.rooms.edit', $data);
     }
