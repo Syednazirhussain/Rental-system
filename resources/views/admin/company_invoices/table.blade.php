@@ -29,7 +29,6 @@
               <th></th>
             </thead>
             <tbody>
-   
                   @foreach($Invoices as $Invoice)
                   <tr>
                     <td>
@@ -74,7 +73,6 @@
                   </tr>
 
                   @endforeach
-
             </tbody>
           </table>
 

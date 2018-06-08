@@ -59,9 +59,9 @@ class LoginController extends AppBaseController
     // logging out user from admin panel
     public function logout(Request $request) {
 
-        if (Auth::check()) {
+        if (Auth::guard('company')->check()) {
             
-            Auth::logout();
+            Auth::guard('company')->logout();
             $request->session()->flush();
             return redirect()->route('temp.company.login');
         } 

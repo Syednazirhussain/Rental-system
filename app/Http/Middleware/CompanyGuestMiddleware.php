@@ -16,10 +16,9 @@ class CompanyGuestMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::check())
+        if(Auth::guard('company')->check())
         {
-
-            if (Auth::user()->user_role_code == 'company_admin') {
+            if (Auth::guard('company')->user()->user_role_code == 'company_admin') {
                 return redirect()->route('company.dashboard');
             } else {
                 return $next($request);

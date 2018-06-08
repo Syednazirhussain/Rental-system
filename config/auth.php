@@ -40,12 +40,19 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-
+        // to make session information seprate
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admin',
+        ],
         'company' => [
             'driver' => 'session',
             'provider' => 'companies',
         ],
-
+        'company_customer' => [
+            'driver' => 'session',
+            'provider' => 'companies_customers',
+        ],
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
@@ -74,16 +81,18 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-
+        'admin' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\User::class,
+        ],
         'companies' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'companies_customers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\User::class,
+        ],
     ],
 
     /*

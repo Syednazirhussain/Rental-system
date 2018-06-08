@@ -115,7 +115,8 @@
 
 	        <div class="tab-content tab-content-bordered p-a-0 bg-white">
 	          <div class="tab-pane p-a-3 fade in active" id="contact_person">
-                    <h3 class="m-t-0">Contact Persons <a href="{!! route('admin.companies.edit', [$company->id]) !!}"><i class="fa fa-pencil-square-o m-l-1"></i></a></h3>
+                    <h3 class="m-t-0">Contact Persons <a href="{{ route('admin.companies.edit',[$company->id,'wizard-2']) }}" title="Edit contact person"><i class="fa fa-pencil-square-o m-l-1"></i></a></h3>
+
                     <div class="px-content">
                     	@if (count($company->companyContactPeople) > 0)
 					    
@@ -156,7 +157,7 @@
 
 	          </div>
 	          <div class="tab-pane p-a-3 fade" id="contract">
-                    <h3 class="m-t-0">Contract Information <a href="{!! route('admin.companies.edit', [$company->id]) !!}"><i class="fa fa-pencil-square-o m-l-1"></i></a></h3>
+                    <h3 class="m-t-0">Contract Information <a href="{{ route('admin.companies.edit',[$company->id,'wizard-4']) }}" title="Edit contact person"><i class="fa fa-pencil-square-o m-l-1"></i></a></h3>
                                 <div class="row">
                                     <div class="col-sm-12 form-group">
                                     	<fieldset class="form-group">
@@ -213,7 +214,8 @@
                                 </div>
 	          </div>
 	          <div class="tab-pane p-a-3 fade" id="building">
-					<h3 class="m-t-0">Buildings Information <a href="{!! route('admin.companies.edit', [$company->id]) !!}"><i class="fa fa-pencil-square-o m-l-1"></i></a></h3>
+
+					<h3 class="m-t-0">Buildings Information <a href="{{ route('admin.companies.edit',[$company->id,'wizard-3']) }}" title="Edit contact person"><i class="fa fa-pencil-square-o m-l-1"></i></a></h3>
 					@if ( count($company->companyBuildings) > 0 )
                     <table class="table">
                     	@foreach ($company->companyBuildings as $building)
@@ -246,81 +248,9 @@
 			    		<span class="text-center">No record found</span>
 			    	</div>
                     @endif
-
-<!-- 
-
-                                <div id="sectionBuilding">
-                                    <div class="building">
-                                        @if ( count($company->companyBuildings) > 0 )
-                                          @foreach ($company->companyBuildings as $building)
-                                              <div class="buildingFields">
-                                              <div class="row">
-                                              <div class="col-sm-6 form-group">
-                                              <fieldset class="form-group">
-                                              <label for="building-name">Building Name</label><br>
-                                              <span class="label label-success">{{ $building->name }}</span>
-                                              </fieldset>
-                                              </div>
-                                              <div class="col-sm-6 form-group">
-                                              <fieldset class="form-group">
-                                              <label for="building-address">Address</label>
-                                              <span class="form-control">{{ $building->address }}</span>
-                                              </fieldset>
-                                              </div>
-                                              <div class="col-sm-6 form-group">
-                                              <fieldset class="form-group">
-                                              <label for="building-zip">Zip Code</label>
-                                              <span class="form-control">{{ $building->zipcode }}</span>
-                                              </fieldset>
-                                              </div>
-                                              <div class="col-sm-6 form-group">
-                                              <fieldset class="form-group">
-                                              <label for="building-no-of-floors">No. of Floors</label>
-                                              <span class="form-control">{{ $building->num_floors }}</span>
-                                              </fieldset>
-                                              </div>
-                                              </div>
-
-                                              <div data-building-num="{{ $building->id }}" class="sectionFloor">
-                                                      @foreach ($company->companyFloorRoom as $floor)
-                                                            @if ($floor->building_id == $building->id)
-                                                          <div class="floor">
-                                                          <div class="row">
-
-                                                          <div class="col-sm-6 form-group">
-                                                          <fieldset class="form-group">
-                                                          <label for="building-floor-no">Floor Name</label>
-                                                          <span class="form-control">{{ $floor->floor }}</span>
-                                                          </fieldset>
-                                                          </div>
-
-                                                          <div class="col-sm-6 form-group">
-                                                          <fieldset class="form-group">
-                                                          <label for="building-floor-no-of-rooms">No. of Rooms</label>
-                                                          <span class="form-control">{{ $floor->num_rooms }}</span>
-                                                          </fieldset>
-                                                          </div>
-
-                                                          </div>
-                                                          </div>
-
-                                                            @endif
-                                                      @endforeach
-                                              </div>
-                                              </div>
-                                              <hr>
-                                          @endforeach
-                                      @else
-								    	<div class="well">
-								    		<span class="text-center">No record found</span>
-								    	</div>
-                                      @endif
-                                    </div>
-                                </div> -->
-
 	          </div>
 	          <div class="tab-pane p-a-3 fade" id="modules">
-					<h3 class="m-t-0">Modules Information <a href="{!! route('admin.companies.edit', [$company->id]) !!}"><i class="fa fa-pencil-square-o m-l-1"></i></a></h3>
+					<h3 class="m-t-0">Modules Information <a href="{{ route('admin.companies.edit',[$company->id,'wizard-5']) }}" title="Edit contact person"><i class="fa fa-pencil-square-o m-l-1"></i></a></h3>
                     <div id="sectionModule">
                     	@if (isset($company))
                         <div class="module">
@@ -354,7 +284,7 @@
 	          </div>
 
 	          <div class="tab-pane p-a-3 fade" id="admin">
-                    <h3 class="m-t-0">Admins Information <a href="{!! route('admin.companies.edit', [$company->id]) !!}"><i class="fa fa-pencil-square-o m-l-1"></i></a></h3>
+                    <h3 class="m-t-0">Admins Information <a href="{{ route('admin.companies.edit',[$company->id,'wizard-6']) }}" title="Edit contact person"><i class="fa fa-pencil-square-o m-l-1"></i></a></h3>
                     <div id="sectionAdmin">
                     	@if (isset($company))
                         <div class="admin">
@@ -364,6 +294,7 @@
 				                  <th>Name</th>
 				                  <th>Email</th>
 				                  <th>Role</th>
+				              	  <th>Actions</th>
 				                </tr>
 				              </thead>
 				              <tbody>
@@ -373,8 +304,12 @@
 				                  <td>{{ $admin->user->name }}</td>
 				                  <td>{{ $admin->user->email }}</td>
 				                  <td><?php echo ucfirst(str_replace('_', ' ', $admin->user->user_role_code)); ?></td>
+				              	  <td class="center">
+          							<a href="{{ route('admin.companies.login', [$company->id,$admin->user->id] ) }}" class="btn btn-primary btn-xs">Login&nbsp;<i class="fa fa-arrow-right fa-md"></i></a>
+				              	  </td>
 				                </tr>
 				                @endforeach
+
 				              </tbody>
 				            </table>                                        
                         </div>

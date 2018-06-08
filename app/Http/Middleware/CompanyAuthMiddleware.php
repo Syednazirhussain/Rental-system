@@ -16,17 +16,19 @@ class CompanyAuthMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::check())
+        if(Auth::guard('company')->check())
         {
-
-            if (Auth::user()->user_role_code == 'company_admin') {
-                return $next($request);    
-            } else {
-                $request->session()->flush();
-                return redirect()->route('company.dashboard');
+            if (Auth::guard('company')->user()->user_role_code == 'company_admin') 
+            {
+                return $next($request);  
+            } 
+            else 
+            {
+                return redirect()->back();
             }
-            
-        } else {
+        }
+        else 
+        {
             return redirect()->route('company.login');
         }
     }

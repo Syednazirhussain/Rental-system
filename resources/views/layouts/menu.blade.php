@@ -99,3 +99,39 @@
     <a href="{!! route('company/Conference.conferenceBookingItems.index') !!}"><i class="fa fa-edit"></i><span>Conference Booking Items</span></a>
 </li>
 
+<li class="{{ Request::is('paymentMethods*') ? 'active' : '' }}">
+    <a href="{!! route('admin.paymentMethods.index') !!}"><i class="fa fa-edit"></i><span>Payment Methods</span></a>
+</li>
+
+<li class="{{ Request::is('paymentCycles*') ? 'active' : '' }}">
+    <a href="{!! route('admin.paymentCycles.index') !!}"><i class="fa fa-edit"></i><span>Payment Cycles</span></a>
+</li>
+
+<li class="{{ Request::is('permissions*') ? 'active' : '' }}">
+    <a href="{!! route('admin.permissions.index') !!}"><i class="fa fa-edit"></i><span>Permissions</span></a>
+</li>
+
+<li class="{{ Request::is('supportStatuses*') ? 'active' : '' }}">
+    <a href="{!! route('admin.supportStatuses.index') !!}"><i class="fa fa-edit"></i><span>Support Statuses</span></a>
+</li>
+
+<li class="{{ Request::is('supportCategories*') ? 'active' : '' }}">
+    <a href="{!! route('admin.supportCategories.index') !!}"><i class="fa fa-edit"></i><span>Support Categories</span></a>
+</li>
+
+<li class="{{ Request::is('supportPriorities*') ? 'active' : '' }}">
+    <a href="{!! route('admin.supportPriorities.index') !!}"><i class="fa fa-edit"></i><span>Support Priorities</span></a>
+</li>
+
+<li class="{{ Request::is('supports*') ? 'active' : '' }}">
+    <a href="{!! route('admin.supports.index') !!}"><i class="fa fa-edit"></i><span>Supports</span></a>
+</li>
+
+<li class="{{ Request::is('companySupports*') ? 'active' : '' }}">
+    <a href="{!! route('company.companySupports.index') !!}"><i class="fa fa-edit"></i><span>Company Supports</span></a>
+</li>
+
+<li class="{{ Request::is('companyCustomers*') ? 'active' : '' }}">
+    <a href="{!! route('companyCustomers.index') !!}"><i class="fa fa-edit"></i><span>Company Customers</span></a>
+</li>
+

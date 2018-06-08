@@ -18,7 +18,7 @@ class AdminGroupController extends AppBaseController
      */
     public function index()
     {
-        return view('group.index', ['groups' => Auth::user()->groups()->get()]);
+        return view('group.index', ['groups' => Auth::guard('admin')->user()->groups()->get()]);
     }
 
     /**
@@ -42,7 +42,7 @@ class AdminGroupController extends AppBaseController
         request()->validate([
             'name' => 'required',
         ]);
-        Group::create(array_merge($request->all(), ['user_id' => Auth::user()->id]));
+        Group::create(array_merge($request->all(), ['user_id' => Auth::guard('admin')->user()->id]));
         return redirect()->route('admin.newsletter.groups.index')->with('success', 'New Group has been created!');
     }
 
@@ -83,7 +83,7 @@ class AdminGroupController extends AppBaseController
         ]);
 
         $data = request()->except(['_token', '_method']);
-        Group::where('id', $id)->update(array_merge($data, ['user_id' => Auth::user()->id]));
+        Group::where('id', $id)->update(array_merge($data, ['user_id' => Auth::guard('admin')->user()->id]));
         return redirect()->route('admin.newsletter.groups.index')->with('success', 'New Group has been created!');
     }
 
@@ -131,7 +131,7 @@ class AdminGroupController extends AppBaseController
         $group_id = $request->group_id;
         $data = $request->message_content;
         $customers = Customer::where('group_id', $group_id)->get();
-        $from_email = Auth::user()->email;
+        $from_email = Auth::guard('admin')->user()->email;
 
         // Send message if users exist to deliver.
         if($customers)

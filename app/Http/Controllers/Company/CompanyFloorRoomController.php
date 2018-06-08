@@ -33,7 +33,7 @@ class CompanyFloorRoomController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $company = Company::find($company_id);
         $companyBuildings = CompanyBuilding::pluck('name', 'id');
         $companyFloorRooms = CompanyFloorRoom::where('company_id', $company_id)->get();
@@ -79,7 +79,7 @@ class CompanyFloorRoomController extends AppBaseController
      */
     public function show($id)
     {
-        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $company = Company::find($company_id);
         $companyBuildings = CompanyBuilding::pluck('name', 'id');
         $companyFloorRoom = $this->companyFloorRoomRepository->findWithoutFail($id);
@@ -103,7 +103,7 @@ class CompanyFloorRoomController extends AppBaseController
      */
     public function edit($id)
     {
-        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $company = Company::find($company_id);
         $companyBuildings = CompanyBuilding::pluck('name', 'id');
         $companyFloorRoom = $this->companyFloorRoomRepository->findWithoutFail($id);

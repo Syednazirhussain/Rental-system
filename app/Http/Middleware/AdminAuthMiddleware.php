@@ -16,17 +16,22 @@ class AdminAuthMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::check())
+        if(Auth::guard('admin')->check())
         {
-
-            if (Auth::user()->user_role_code == 'admin') {
+            if (Auth::guard('admin')->user()->user_role_code == 'admin' || 
+                Auth::guard('admin')->user()->user_role_code == 'admin_technical_support') 
+            {
                 return $next($request);    
-            } else {
+            } 
+            else 
+            {
                 $request->session()->flush();
                 return redirect()->route('admin.login');
             }
             
-        } else {
+        } 
+        else 
+        {
             return redirect()->route('admin.login');
         }
     }

@@ -31,6 +31,7 @@ class Module extends Model
 
     public $fillable = [
         'name',
+        'code',
         'price'
     ];
 
@@ -41,7 +42,8 @@ class Module extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'name' => 'string'
+        'name' => 'string',
+        'code' => 'string'
     ];
 
     /**

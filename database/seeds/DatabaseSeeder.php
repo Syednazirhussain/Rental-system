@@ -24,5 +24,11 @@ class DatabaseSeeder extends Seeder
         $this->call(GeneralSettingsTableSeeder::class);
         $this->call(ConferenceDurationsTableSeeder::class);
         $this->call(ConferenceEquipmentsCriteriaTableSeeder::class);
+        $this->call(PermissionsTableSeeder::class);
+        $this->call(RoleHasPermissionsTableSeeder::class);
+        $this->call(ModelHasRolesTableSeeder::class);
+        $this->call(SupportCategoriesTableSeeder::class);
+        $this->call(SupportPrioritiesTableSeeder::class);
+        $this->call(SupportStatusTableSeeder::class);
     }
 }

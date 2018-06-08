@@ -85,4 +85,23 @@ class UserRepository extends BaseRepository
 
         return $userProfilePic;
     }
+
+
+    public function verifyEmailExist($email)
+    {
+        $user = User::where('email',$email)->first();
+        return $user;
+    }
+
+    public function updateUserPermission($userId,$permission)
+    {
+
+        $user = User::find($userId);
+
+        $user->permissions = $permission;
+
+        $update =  $user->save();
+
+        return $update ? 'updated' : 'error';
+    }
 }

@@ -1,182 +1,69 @@
-<!DOCTYPE html>
+@extends('layouts.app')
 
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+@section('content')
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Login</div>
 
-    <title>Highnox Log In </title>
+                <div class="panel-body">
+                    <form class="form-horizontal" method="POST" action="{{ route('login') }}">
+                        {{ csrf_field() }}
 
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin"
-          rel="stylesheet" type="text/css">
-    <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css">
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
-    <link href="{{ asset('/skin-1/assets/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('/skin-1/assets/css/pixeladmin.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('/skin-1/assets/css/widgets.min.css') }}" rel="stylesheet">
+                            <div class="col-md-6">
+                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
 
-    <link href="{{ asset('/skin-1/assets/css/themes/candy-green.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('/skin-1/assets/css/custom.css') }}" rel="stylesheet">
+                                @if ($errors->has('email'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
 
-    <!-- Pace.js -->
-    <script src="{{ asset('/skin-1/assets/pace/pace.min.js') }}"></script>
+                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                            <label for="password" class="col-md-4 control-label">Password</label>
 
-    <script src="{{ asset('/skin-1/assets/demo/demo.js') }}"></script>
+                            <div class="col-md-6">
+                                <input id="password" type="password" class="form-control" name="password" required>
 
-    <!-- Custom styling -->
-    <style>
-        .page-signin-header {
-            box-shadow: 0 2px 2px rgba(0, 0, 0, .05), 0 1px 0 rgba(0, 0, 0, .05);
-        }
+                                @if ($errors->has('password'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
 
-        .page-signin-header .btn {
-            position: absolute;
-            top: 12px;
-            right: 15px;
-        }
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
 
-        html[dir="rtl"] .page-signin-header .btn {
-            right: auto;
-            left: 15px;
-        }
+                        <div class="form-group">
+                            <div class="col-md-8 col-md-offset-4">
+                                <button type="submit" class="btn btn-primary">
+                                    Login
+                                </button>
 
-        .page-signin-container {
-            width: auto;
-            margin: 30px 10px;
-        }
-
-        .page-signin-container form {
-            border: 0;
-            box-shadow: 0 2px 2px rgba(0, 0, 0, .05), 0 1px 0 rgba(0, 0, 0, .05);
-        }
-
-        @media (min-width: 544px) {
-            .page-signin-container {
-                width: 350px;
-                margin: 60px auto;
-            }
-        }
-
-        .page-signin-social-btn {
-            width: 40px;
-            padding: 0;
-            line-height: 40px;
-            text-align: center;
-            border: none !important;
-        }
-
-        #page-signin-forgot-form {
-            display: none;
-        }
-    </style>
-    <!-- / Custom styling -->
-</head>
-<body style="background-image: url({{ asset('/skin-1/assets/demo/bgs/5.jpg') }}); background-position: center; background-size: cover;">
-
-<section>
-    <!-- Log In form -->
-    <div class="page-signin-container" id="page-signin-form">
-
-        <h1 class="m-t-5 m-b-4 text-xs-center font-weight-semibold font-size-30 color-white">HIGHNOX</h1>
-        <h3 class="m-t-0 m-b-4 text-xs-center font-size-20 color-white">Customer Login Here!</h3>
-
-        <form method="post" action="{{ url('/login') }}" class="panel p-a-4"
-              id="customer-login-form">
-            {!! csrf_field() !!}
-            <span class="left">Username</span>
-            <fieldset class=" form-group form-group-lg">
-                <input type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Email">
-            </fieldset>
-
-            @if ($errors->has('email'))
-                <span class="help-block">
-                <strong>{{ $errors->first('email') }}</strong>
-            </span>
-            @endif
-
-            <span class="left">Password</span>
-            <fieldset class=" form-group form-group-lg">
-                <input type="password" class="form-control" placeholder="Password" name="password">
-            </fieldset>
-
-            @if ($errors->has('password'))
-                <span class="help-block">
-                <strong>{{ $errors->first('password') }}</strong>
-            </span>
-            @endif
-
-            <div class="row">
-                <div class="col-xs-8">
-                    <div class="checkbox icheck">
-                        <label>
-                            <input type="checkbox" name="remember"> Remember Me
-                        </label>
-                    </div>
-                </div>
-                <div class="col-xs-4">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                                <a class="btn btn-link" href="{{ route('password.request') }}">
+                                    Forgot Your Password?
+                                </a>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <a href="{{ url('/password/reset') }}">I forgot my password</a><br>
-            <a href="{{ url('/register') }}" class="text-center">Register a new membership</a>
-        </form>
+        </div>
     </div>
-
-    <!-- / Log In form -->
-
-</section>
-
-
-<!-- ==============================================================================
-|
-|  SCRIPTS
-|
-=============================================================================== -->
-
-<!-- jQuery -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-<script src="{{ asset('/skin-1/assets/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('/skin-1/assets/js/pixeladmin.min.js') }}"></script>
-
-<script type="text/javascript">
-
-    $('input').iCheck({
-        checkboxClass: 'icheckbox_square-blue',
-        radioClass: 'iradio_square-blue',
-        increaseArea: '20%' // optional
-    });
-
-    // Initialize validator
-    $('#admin-login-form').pxValidate({
-        ignore: '.ignore, .select2-input',
-        focusInvalid: false,
-        rules: {
-            'email': {
-                required: true,
-                email: true
-            },
-            'password': {
-                required: true,
-                minlength: 6,
-                maxlength: 20
-            }
-        },
-
-        messages: {
-            'email': {
-                required: "please enter email",
-            },
-            'password': {
-                required: "please enter password",
-            }
-        }
-    });
-</script>
-
-</body>
-</html>
+</div>
+@endsection

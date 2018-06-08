@@ -6,46 +6,56 @@
 
 <div class="row">
     <div class="col-sm-12 form-group">
-        <label for="user_full_name">Full Name:</label>
+        <label for="user_full_name">Full Name</label>
         <input type="text" name="name" id="user_full_name" class="form-control" value="@if(isset($user)){{ $user->name }}@endif">
     </div>
     <div class="col-sm-12 form-group">
-        <label for="user_email">Email:</label>
+        <label for="user_email">Email</label>
         <input type="email" name="email" id="user_email" class="form-control" value="@if(isset($user)){{ $user->email }}@endif">
     </div>
+    <input type="hidden" id="compareEmail" value="@if(isset($user)){{ $user->email }}@endif">
+
     <div class="col-sm-12 form-group">
-        <label for="user_password">Password:</label>
-        <input type="password" name="password" id="user_password" class="form-control" value="@if(isset($user)){{ $user->password }}@endif">
+        <label for="user_password">Password</label>
+        @if(isset($user))
+            <input type="password" name="updatePassword" id="user_password" class="form-control">
+            <label class="text-danger">if you don't want to update password than leave it blank.</label>
+        @else
+            <input type="password" name="password" id="user_password" class="form-control">
+        @endif
     </div>
+
     <div class="col-sm-12 form-group">
-        <label for="user_role_codes">User Role:</label>
-        <select type="text" name="user_role_code" id="user_role_code" class="form-control" value="@if(isset($user)){{ $user->user_role_code }}@endif">
-            @if(isset($user)) <option value="{{ $user->user_role_code }}" selected>{{ $all_roles[$user->user_role_code] }}</option> @endif
+        <label for="user_role_codes">User Role</label>
+        <select type="text" name="role" class="form-control">
             @foreach($user_role as $role)
-            <option value="{{ $role->code }}">{{ $role->name }}</option>
+                @if( isset($user_has_role) && $user_has_role->role_id == $role->id )
+                    <option value="{{ $role->name }}" selected="selected">{{ $role->name }}</option>
+                @else
+                    <option value="{{ $role->name }}">{{ $role->name }}</option>
+                @endif
             @endforeach
         </select>
     </div>
+
     <div class="col-sm-12 form-group">
-        <label for="user_country_id">Country ID:</label>
-        <input type="number" name="country_id" id="user_country_id" class="form-control" value="@if(isset($user)){{ $user->country_id }}@endif">
-    </div>
-    <div class="col-sm-12 form-group">
-        <label for="user_state_id">State ID:</label>
-        <input type="number" name="state_id" id="user_state_id" class="form-control" value="@if(isset($user)){{ $user->state_id }}@endif">
-    </div>
-    <div class="col-sm-12 form-group">
-        <label for="user_city_id">City ID:</label>
-        <input type="number" name="city_id" id="user_city_id" class="form-control" value="@if(isset($user)){{ $user->city_id }}@endif">
-    </div>
-    <div class="col-sm-12 form-group">
-        <label for="user_uuid">UUID:</label>
-        <input type="number" name="uuid" id="user_uuid" class="form-control" value="@if(isset($user)){{ $user->uuid }}@endif">
+        <label for="user_role_codes">User Status</label>
+        <select type="text" name="user_status_id" id="user_status_id" class="form-control" value="@if(isset($user)){{ $user->user_status_id }}@endif">
+            @foreach($userStatus as $status)
+                @if(isset($user) && $user->userStatus->id == $status->id)
+                    <option  value="{{ $status->id }}" <?php echo "selected"; ?> >{{ $status->name }}</option>
+                @else
+                    <option  value="{{ $status->id }}">{{ $status->name }}</option>
+                @endif
+            @endforeach
+        </select>
     </div>
 
+
+
     <div class="col-sm-12">
-        <button type="submit" class="btn btn-primary">@if(isset($user)) <i class="fa fa-refresh"></i>  Update User @else <i class="fa fa-plus"></i>  Add User @endif</button>
-        <a href="{!! route('admin.users.index') !!}" class="btn btn-default">Cancel</a>
+        <button type="submit" class="btn btn-primary">@if(isset($user)) <i class="fa fa-refresh"></i>  Update @else <i class="fa fa-plus"></i>  Add User @endif</button>
+        <a href="{!! route('admin.users.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> Cancel</a>
     </div>
 </div>
 
@@ -53,6 +63,8 @@
 @section('js')
 
     <script type="text/javascript">
+
+
 
         // Initialize validator
         $('#userForm').pxValidate({
@@ -65,35 +77,67 @@
                 'email': {
                     required: true,
                     email: true,
-                },
-                'password': {
-                    required: true,
+                    remote : {
+                    param : {
+                        url  : "{{ route('admin.users.verifyEmail') }}",
+                        type : "POST",
+                        dataType : "json",
+                        data : {
+                            email : function(){
+                                return $('#user_email').val();
+                            }
+                        },
+                        dataFilter : function(response){
+                            return checkField(response);
+                        }
+                    },
+                    depends : function(element){
+                        return ( $(element).val() != $('#compareEmail').val() );
+                    }
+                    }
                 },
                 'user_role_code': {
                     required: true,
                 },
-                'country_id': {
-                    required: true,
+                'user_permission' : {
+                    required : true
                 },
-                'state_id': {
-                    required: true,
-                },
-                'city_id': {
-                    required: true,
-                },
-                'uuid': {
-                    required: true,
-                },
+                'password' : {
+                    required : true,
+                    minlength: 6
+                }
             },
-
-            messages: {
-                'name': {
-                    required: "Please enter the name",
+            messages : {
+                'email' : {
+                    remote : "email already exists"
                 }
             }
-
         });
 
+
+        // Initialize Select2
+        $(function() {
+          $('.select2-example').select2({
+            placeholder: 'Select value',
+          });
+        });
+
+        checkField = function(response) {
+          switch ($.parseJSON(response).code) {
+              case 200:
+                  return "true"; // <-- the quotes are important!
+              case 401:
+                  //alert("Sorry, our system has detected that an account with this email address already exists.");
+                  break;
+              case 404:
+                  console.log('missing code');
+                  break;
+              default:
+                  alert("An undefined error occurred");
+                  break;
+          }
+          return false;
+        };
 
     </script>
 

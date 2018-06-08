@@ -7,12 +7,12 @@ use InfyOm\Generator\Common\BaseRepository;
 
 /**
  * Class PaymentCycleRepository
- * @package App\Repositories
- * @version April 11, 2018, 2:26 pm UTC
+ * @package App\Repositories\Admin
+ * @version May 3, 2018, 9:18 am UTC
  *
- * @method State findWithoutFail($id, $columns = ['*'])
- * @method State find($id, $columns = ['*'])
- * @method State first($columns = ['*'])
+ * @method PaymentCycle findWithoutFail($id, $columns = ['*'])
+ * @method PaymentCycle find($id, $columns = ['*'])
+ * @method PaymentCycle first($columns = ['*'])
 */
 class PaymentCycleRepository extends BaseRepository
 {
@@ -31,9 +31,8 @@ class PaymentCycleRepository extends BaseRepository
         return PaymentCycle::class;
     }
 
-    public function getPaymentCycleById($id)
-    {
-        return PaymentCycle::find($id)->name;
-    }
 
+    public function getPaymentCycleById($payment_cycle_id) {
+        return PaymentCycle::find($payment_cycle_id);
+    }
 }

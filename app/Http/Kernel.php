@@ -61,7 +61,11 @@ class Kernel extends HttpKernel
         'admin.auth' => \App\Http\Middleware\AdminAuthMiddleware::class,
         'admin.guest' => \App\Http\Middleware\AdminGuestMiddleware::class,
         'company.auth' => \App\Http\Middleware\CompanyAuthMiddleware::class,
+        'company.customer.auth' => \App\Http\Middleware\CompanyCustomerAuthMiddleware::class,
         'company.guest' => \App\Http\Middleware\CompanyGuestMiddleware::class,
         'newsletter.auth' => \App\Http\Middleware\NewsLetterAuthMiddleware::class,
+        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+        'admin.permissions' => \App\Http\Middleware\AdminPermissionsMiddleware::class,
     ];
 }

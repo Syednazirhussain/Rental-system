@@ -12,6 +12,11 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+
+use Auth;
+
 class DashboardController extends AppBaseController
 {
 
@@ -48,7 +53,7 @@ class DashboardController extends AppBaseController
                     'companyBuildingCount' => $companyBuildingCount,
                     'companyRecent' => $companyRecent
                 ];
-
+                
         return view('admin.dashboard.index', $data);
     }
 

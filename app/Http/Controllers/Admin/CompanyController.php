@@ -13,22 +13,27 @@ use App\Repositories\PaymentCycleRepository;
 use App\Repositories\PaymentMethodRepository;
 use App\Repositories\UserStatusRepository;
 use App\Repositories\DiscountTypeRepository;
+use App\Repositories\CompanyUserRepository;
+use App\Repositories\UserRepository;
+
+// use App\Repositories\Admin\ModuleRepository;
+
 use App\Repositories\ModuleRepository;
 
-
+use Auth;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use PDF;
-
-
-
 use URL;
 
-use App\Models\Company;
 
+use App\Models\Company;
+use App\Models\CompanySupportCategory;
+use App\Models\CompanySupportPriorities;
+use App\Models\CompanySupportStatus;
 
 class CompanyController extends AppBaseController
 {
@@ -43,6 +48,8 @@ class CompanyController extends AppBaseController
     private $moduleRepository;
     private $paymentCycleRepository;
     private $paymentMethodRepository;
+    private $companyUserRepository;
+    private $userRepository;
 
 
     public function __construct(CompanyRepository $companyRepo, 
@@ -54,7 +61,9 @@ class CompanyController extends AppBaseController
                                 ModuleRepository $moduleRepo,
                                 PaymentCycleRepository $paymentCycleRepo,
                                 PaymentMethodRepository $paymentMethodRepo,
-                                CompanyFloorRoomRepository $companyFloorRoomRepo
+                                CompanyFloorRoomRepository $companyFloorRoomRepo,
+                                CompanyUserRepository $CompanyUserRepository,
+                                UserRepository $UserRepository
                                 )
     {
         $this->companyRepository = $companyRepo;
@@ -67,6 +76,8 @@ class CompanyController extends AppBaseController
         $this->paymentCycleRepository = $paymentCycleRepo;
         $this->paymentMethodRepository = $paymentMethodRepo;
         $this->companyFloorRoomRepository = $companyFloorRoomRepo;
+        $this->companyUserRepository = $CompanyUserRepository;
+        $this->userRepository = $UserRepository;
     }
 
     /**
@@ -81,15 +92,63 @@ class CompanyController extends AppBaseController
 
         $companies = $this->companyRepository->all();
 
-        
         $companies = Company::where('room_contract_id', NULL)->get();
 
-
-
-
         $data = ['companies' => $companies];
+
         return view('admin.companies.index', $data);
     }
+
+
+    public function adminLoginAsCompanyAdmin($company_id,$user_id = 0)
+     {
+        // return "Company ID : ".$id;
+
+        if($user_id == 0)
+        {
+            $companyUser = $this->companyUserRepository->getCompanyUserByCompanyId($company_id);
+
+            if ( count($companyUser) > 0) 
+            {
+                $user = $this->userRepository->findWithoutFail($companyUser->user_id);
+
+                $logged_in = Auth::guard('company')->loginUsingId($user->id);
+
+                if (!$logged_in)
+                {
+                    session()->flash('msg.error','Error Occured while logged in as company admin');
+                    return redirect()->back();
+                }
+                else
+                {
+                  return redirect(route('company.dashboard'));   
+                }
+            }
+            else
+            {
+                session()->flash('msg.error','No user found related to this company');
+                return redirect()->back();
+            }
+        }
+        else
+        {
+            $user = $this->userRepository->findWithoutFail($user_id);
+
+            $logged_in = Auth::guard('company')->loginUsingId($user->id);
+
+            if (!$logged_in)
+            {
+                session()->flash('msg.error','Error Occured while logged in as company admin');
+                return redirect()->back();
+            }
+            else
+            {
+              return redirect(route('company.dashboard'));   
+            }
+        }
+    }
+
+
 
     public function profile($id)
     {
@@ -138,31 +197,60 @@ class CompanyController extends AppBaseController
     public function store(CreateCompanyRequest $request)
     {
         $input = $request->all();
-
-        if ($request->hasFile('logo')) {
-
+        if ($request->hasFile('logo')) 
+        {
             $path = $request->file('logo')->store('public/company_logos');
             $path = explode("/", $path);
 
             $input['logo'] = $path[2];
 
         }
-        
-
         $input['user_role_code'] = 'company';
         $input['max_users'] = 1;
 
-        /*echo "<pre>";
-        print_r($input);
-        echo "</pre>";
-
-        exit;*/
-
+        // echo "<pre>";
+        // print_r($input);
+        // echo "</pre>";
+        // exit;
 
         $company = $this->companyRepository->create($input);
-
+        
+        if($company)
+        {
+            $company_id = $company->id;
+            $this->defaultCompanySupportStatus($company_id);
+            $this->defaultCompanySupportPriorities($company_id);
+            $this->defaultCompanySupportCategory($company_id);
+        }
         return response()->json(['success'=> 1, 'msg'=>'Company has been created successfully', 'company'=>$company]);
+    }
 
+    public function defaultCompanySupportStatus($company_id)
+    {
+        $defaultValues = ['Bug','Pending','Solved','Progress'];
+        foreach ($defaultValues as  $value) 
+        {
+            CompanySupportStatus::updateOrCreate(['name' => $value,'company_id' => $company_id]);       
+        }
+    }
+
+    public function defaultCompanySupportPriorities($company_id)
+    {
+        $defaultValues = ['Low','Critical','Normal'];
+        foreach ($defaultValues as  $value) 
+        {
+            CompanySupportPriorities::updateOrCreate(['name' => $value,'company_id' => $company_id]);       
+        }
+    }
+
+
+    public function defaultCompanySupportCategory($company_id)
+    {
+        $defaultValues = ['Technical','Customer Service','Billing'];
+        foreach ($defaultValues as  $value) 
+        {
+            CompanySupportCategory::updateOrCreate(['name' => $value,'company_id' => $company_id]);       
+        }
     }
 
     /**
@@ -194,7 +282,7 @@ class CompanyController extends AppBaseController
      *
      * @return Response
      */
-    public function edit($id)
+    public function edit($id,$wizard = '')
     {
         $company = $this->companyRepository->findWithoutFail($id);
 
@@ -215,8 +303,24 @@ class CompanyController extends AppBaseController
         $paymentCycles = $this->paymentCycleRepository->all();
         $paymentMethods = $this->paymentMethodRepository->all();
 
-
-        $data = [
+        if($wizard == '')
+        {
+            $data = [
+                'countries' => $countries,
+                'states' => $states,
+                'cities' => $cities,
+                'userStatus' => $userstatus,
+                'discountTypes' => $discountTypes,
+                'modules' => $modules,
+                'paymentCycles' => $paymentCycles,
+                'paymentMethods' => $paymentMethods,                
+                'company' => $company,
+                'companyBuildingFloors' => $companyBuildingFloors
+            ];
+        }
+        else
+        {
+            $data = [
                 'countries' => $countries,
                 'states' => $states,
                 'cities' => $cities,
@@ -227,7 +331,11 @@ class CompanyController extends AppBaseController
                 'paymentMethods' => $paymentMethods,                
                 'company' => $company,
                 'companyBuildingFloors' => $companyBuildingFloors,
+                'wizard'  => $wizard
             ];
+        }
+
+
 
         if (empty($company)) {
 

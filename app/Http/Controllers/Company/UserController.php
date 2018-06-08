@@ -41,7 +41,7 @@ class UserController extends AppBaseController
     public function index(Request $request)
     {
         $this->userRepository->pushCriteria(new RequestCriteria($request));
-        $company_id = Auth::user()->companyUser()->first()->company_id;
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $users = Company::find($company_id)->companyUsers()->join('users', 'user_id', '=', 'users.id')->get();
 
         $user_roles = UserRole::pluck('name', 'code');
@@ -92,7 +92,7 @@ class UserController extends AppBaseController
             return redirect(route('company.users.index'));
         }
 
-        $company_admin = Auth::user();
+        $company_admin = Auth::guard('company')->user();
         $created_user = User::create($input);
 
         if($created_user) {
@@ -104,7 +104,7 @@ class UserController extends AppBaseController
                 });
         }
         $company_user['user_id'] = $created_user->id;
-        $company_user['company_id'] = Auth::user()->companyUser()->first()->company_id;
+        $company_user['company_id'] = Auth::guard('company')->user()->companyUser()->first()->company_id;
         // Create companyUser after creating the user.
         CompanyUser::create($company_user);
 
@@ -219,10 +219,13 @@ class UserController extends AppBaseController
     // authenticate user
     public function authenticate(Request $request)
     {
-        if (Auth::attempt(array('email'=>$request->input('email'), 'password'=>$request->input('password'),'user_role_code'=>'company_admin'))) {
-            if (Auth::user()->first_login){
-                Auth::user()->update(array('first_login' => false));
-                return redirect()->route('company.users.edit', Auth::user()->id);
+        if (Auth::guard('company')->attempt(array('email'=>$request->input('email'), 'password'=>$request->input('password'),'user_role_code'=>'company_admin'))) 
+        {
+
+            if (Auth::guard('company')->user()->first_login)
+            {
+                Auth::guard('company')->user()->update(array('first_login' => false));
+                return redirect()->route('company.users.edit', Auth::guard('company')->user()->id);
             }
             return redirect()->route('company.dashboard');
                     
@@ -239,11 +242,19 @@ class UserController extends AppBaseController
     // logging out user from company admin panel
     public function logout(Request $request) {
 
-        if (Auth::check()) {
+        if (Auth::guard('company')->check()) {
             
-            Auth::logout();
-            $request->session()->flush();
-            return redirect()->route('company.login');
+            Auth::guard('company')->logout();
+
+            if(Auth::guard('admin')->check())
+            {
+                return redirect()->route('admin.dashboard');
+            }
+            else
+            {
+                $request->session()->flush();
+                return redirect()->route('company.login');
+            }
         } 
     }
 }

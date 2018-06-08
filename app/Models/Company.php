@@ -219,4 +219,5 @@ class Company extends Model
     {
         return $this->hasMany(\App\Models\CompanyUser::class, 'company_id', 'id');
     }
+
 }
