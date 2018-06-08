@@ -245,8 +245,6 @@
 	        type: 'pie',
 	        data: data_two,
 	      });
-
-
     	});
 
 
