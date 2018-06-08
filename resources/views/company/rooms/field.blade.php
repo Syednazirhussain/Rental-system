@@ -317,9 +317,9 @@
                 @endif
 
 
-
                 @foreach($roomSittingArrangments as $roomSittingArrangment)
 
+                <input type="hidden" name="sittingArrangId[]" value="@if(isset($room)){{ $roomSittingArrangment->id }}@endif">
 
                 <div class="row">
 
@@ -856,7 +856,7 @@
                   data : jsObj,
                   dataType : "json",
                   success : function(response){
-                    alert(response.msg);
+                    // alert(response.msg);
                   }
                 });
             },
