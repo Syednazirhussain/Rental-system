@@ -301,19 +301,22 @@
               </div>
               <div class="row sittingArrangments">
 
-                @if(isset($roomImages))
 
-                  @foreach($roomImages as $roomImage)
+                @if(isset($imageFiles))
 
-                    @foreach($roomImage as $image)
+                  @for($i = 0 ; $i < count($imageFiles) ; $i++)
+                    <?php $x = 0 ?>
+                    @for($j = 0 ; $j < count($imageFiles[$i]) ; $j++)
 
-                      <input type="hidden" class="image-files" data-images="{{ $image->image_file }}">
+                      <input type="hidden" class="image-files" data-images="{{ json_encode($imageFiles[$i][$j]) }}" data-index="{{$i}}">
 
-                    @endforeach
-
-                  @endforeach
+                    @endfor
+                    <?php $x++ ?>
+                  @endfor
 
                 @endif
+
+
 
                 @foreach($roomSittingArrangments as $roomSittingArrangment)
 
@@ -390,9 +393,12 @@
                 <button class="btn btn-primary addIncluded" type="button"><i class="fa fa-plus"></i>&nbsp;Add</button>
               </div>
 
-              @if(isset($roomEquipments))
+              @if(isset($roomEquipments) && isset($room))
 
               @foreach($roomEquipments as $roomEquipment)
+
+              <input type="hidden" name="roomEquipmentId[]" value="@if(isset($room)){{ $roomEquipment->id }}@endif">
+
               <div class="row includedItem">
                   <div class="col-sm-12 col-sm-12 included">
                       <div class="col-sm-3 col-md-3 form-group">
@@ -680,33 +686,184 @@
   }
 
 
-    $('.image-files[data-images]').each(function(index,fields){
-        $(this).attr('data-images');
+    var i = 0;
+    var imgList = [];
+    var count = 0;
+    $('.image-files').each(function(index,fields){
+
+      if($(this).attr('data-index') == i)
+      {
+        // console.log(i);
+        imgList[count] = $(this).attr('data-images');
+        count = count + 1;
+      }
+      else
+      {
+        imgList[count] = "-";
+        count = count + 1;
+        imgList[count] = $(this).attr('data-images');
+        count = count + 1;
+        i = i + 1;        
+      }
+
+    });
+
+    var seprators = [];
+    var x = 0;
+    var countItem = 0;
+    for(var y = 0 ; y < imgList.length ; y++)
+    {
+        
+        if(imgList[y] == "-")
+        {
+          seprators[x] = countItem;
+          x++;
+          countItem = 0; 
+        }
+        else
+        {
+          countItem++;
+        }
+    }
+    seprators[x] = countItem;
+
+    // for(var i = 0 ; i < imgList.length ; i++)
+    // {        
+    //     console.log( imgList[i]);
+    // }
+
+    // console.log( seprators);
+
+    // var images = [];
+    // var cursor = 0;
+    
+    // for(var j = 0 ; j < seprators.length ; j++)
+    // {
+    //   for(var k = 0 ; k < seprators[j] ; k++)
+    //   {
+    //     images[j][k] = imgList[cursor];
+    //     cursor++;          
+    //   }
+    //   cursor = cursor + 2; 
+    // }
+
+    // console.log(images);
+
+
+
+
+    <?php
+      $data = [];
+      if(isset($imageFiles))
+      {
+        for($i = 0 ; $i < count($imageFiles) ; $i++ )
+        {
+          for($j = 0 ; $j < count($imageFiles[$i]) ; $j++ )
+          {
+            $data[$i][$j] = $imageFiles[$i][$j];
+          }
+        }
+      }
+     ?>
+     var images = <?php echo json_encode($data); ?>
+
+     console.log(images);
+
+
+/*    var data = [ 
+
+    [ $.parseJSON(imgList[0]) , $.parseJSON(imgList[1]) , $.parseJSON(imgList[2]) ],
+    [ $.parseJSON(imgList[4]) , $.parseJSON(imgList[5]) , $.parseJSON(imgList[6]) ], 
+    [ $.parseJSON(imgList[8]) , $.parseJSON(imgList[9]) , $.parseJSON(imgList[10]) , $.parseJSON(imgList[11]) ]
+
+    ];
+    console.log(data);*/
+
+
+
+    $('.uploadFiles').each(function(index,value){
+
+      $(this).fileuploader({
+            theme: 'thumbnails',
+            enableApi: true,
+            addMore: true,
+            thumbnails: {
+                box: '<div class="fileuploader-items">' +
+                          '<ul class="fileuploader-items-list">' +
+                              '<li class="fileuploader-thumbnails-input"><div class="fileuploader-thumbnails-input-inner">+</div></li>' +
+                          '</ul>' +
+                      '</div>',
+                item: '<li class="fileuploader-item">' +
+                           '<div class="fileuploader-item-inner">' +
+                               '<div class="thumbnail-holder">${image}</div>' +
+                               '<div class="actions-holder">' +
+                                   '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
+                               '</div>' +
+                               '<div class="progress-holder">${progressBar}</div>' +
+                           '</div>' +
+                       '</li>',
+                item2: '<li class="fileuploader-item">' +
+                           '<div class="fileuploader-item-inner">' +
+                               '<div class="thumbnail-holder">${image}</div>' +
+                               '<div class="actions-holder">' +
+                                   '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
+                               '</div>' +
+                           '</div>' +
+                       '</li>',
+                startImageRenderer: true,
+                canvasImage: false,
+                _selectors: {
+                    list: '.fileuploader-items-list',
+                    item: '.fileuploader-item',
+                    start: '.fileuploader-action-start',
+                    retry: '.fileuploader-action-retry',
+                    remove: '.fileuploader-action-remove'
+                },
+                onItemShow: function(item, listEl) {
+                    var plusInput = listEl.find('.fileuploader-thumbnails-input');
+                    
+                    plusInput.insertAfter(item.html);
+                    
+                    if(item.format == 'image') {
+                        item.html.find('.fileuploader-item-icon').hide();
+                    }
+                }
+            },
+            afterRender: function(listEl, parentEl, newInputEl, inputEl) {
+                var plusInput = listEl.find('.fileuploader-thumbnails-input'),
+                    api = $.fileuploader.getInstance(inputEl.get(0));
+            
+                plusInput.on('click', function() {
+                    api.open();
+                });
+            },
+             allowDuplicates: false,
+             files: images[index],
+             limit: null,
+             fileMaxSize:2,
+             extensions: ['jpg','gif','png','jpeg','bmp'],
+            onRemove: function(itemEl, file, id, listEl, boxEl, newInputEl, inputEl){
+
+                var jsObj = {
+                  'image' : itemEl.name
+                };
+
+                console.log(jsObj);
+
+                $.ajax({
+                  url : "{{ route('company.rooms.image_remove') }}",
+                  type : "POST",
+                  data : jsObj,
+                  dataType : "json",
+                  success : function(response){
+                    alert(response.msg);
+                  }
+                });
+            },
+        });
     });
 
 
-  // function featuredImage1() {
-      
-  //       var images =[];
-  //       var inp = $("#image_attachments").val();  
-
-
-
-  //       $.each( $.parseJSON(newJson), function( key, value ) {
-
-  //         inp ='{"name": "'+value.filename+'","size":"'+value.size+'","type": "'+value.type+'","file": "'+value.file+'"}';
-          
-  //         imag = $.parseJSON(inp);
-  //         images.push(imag);
-
-
-  //       });
-
-  //       // console.log(images);
-      
-  //       return images;
-
-  // }
 
 
 

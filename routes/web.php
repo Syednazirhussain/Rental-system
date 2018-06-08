@@ -637,6 +637,8 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::get('company/floor/{building}', ['as'=> 'company.floors', 'uses' => 'Company\RoomController@getFloorsByBuildingId']);
 	Route::get('company/room/equipments', ['as'=> 'company.room.equipments', 'uses' => 'Company\RoomController@getCompanyRoomEquipment']);
 
+    Route::post('company/rooms/imageRemove', ['as'=> 'company.rooms.image_remove', 'uses' => 'Company\RoomController@imageRemove']);
+
     Route::get('company/rooms', ['as'=> 'company.rooms.index', 'uses' => 'Company\RoomController@index']);
     Route::post('company/rooms', ['as'=> 'company.rooms.store', 'uses' => 'Company\RoomController@store']);
     Route::get('company/rooms/create', ['as'=> 'company.rooms.create', 'uses' => 'Company\RoomController@create']);

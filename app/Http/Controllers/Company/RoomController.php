@@ -54,6 +54,22 @@ class RoomController extends AppBaseController
             'floors' => $floors]);
     }
 
+    public function imageRemove(Request $request)
+    {
+        $input = $request->all();
+
+        $roomImages = RoomImages::where('image_file',$input['image'])->delete();
+
+        if($roomImages)
+        {   
+            return ['msg' => 'Image remove successfully'];
+        }
+        else
+        {
+            return ['msg' => 'Image cannot removed'];   
+        }
+    }
+
 
     public function getFloorsByBuildingId($building_id)
     {
@@ -99,6 +115,110 @@ class RoomController extends AppBaseController
         $equipments = Equipments::all();
         return json_encode($equipments);
     }
+
+    /**
+     * Display the specified Room.
+     *
+     * @param  int $id
+     *
+     * @return Response
+     */
+    public function show($id)
+    {
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        $company = Company::find($company_id);
+        $room = $this->roomRepository->findWithoutFail($id);
+        $building = CompanyBuilding::find(CompanyFloorRoom::find($room->floor_id)->building_id);
+        $floor = CompanyFloorRoom::find($room->floor_id)->floor;
+        $service = Service::find($room->service_id)->name;
+        $roomContracts = RoomContracts::where('room_id', $id)->get();
+
+        if (empty($room)) {
+            Flash::error('Company Room not found');
+
+            return redirect(route('company.rooms.index'));
+        }
+
+        return view('company.rooms.show', ['room' => $room, 'company' => $company, 'building' => $building, 'floor' => $floor,
+            'service' => $service, 'roomContracts' => $roomContracts]);
+    }
+
+    /**
+     * Show the form for editing the specified Room.
+     *
+     * @param  int $id
+     *
+     * @return Response
+     */
+    public function edit($id)
+    {
+
+        $room = $this->roomRepository->findWithoutFail($id);
+
+        // dd($room);
+        
+        if (empty($room)) 
+        {
+            session()->flash('msg.error','Company Room not found');
+            return redirect(route('company.rooms.index'));
+        }
+
+        $room_id = $room->id;
+        $company_id = $room->company_id;
+        $building_id = $room->building_id;
+
+
+        $buildings = CompanyBuilding::where('company_id',$company_id)->get();
+        $floors = CompanyFloorRoom::where('building_id',$building_id)->get();
+        $services = Service::where('company_id',$company_id)->get();
+
+
+        $roomSettings = RoomSettingArrangment::where('room_id',$room_id)->where('building_id',$building_id)->get();
+        $roomImages =  RoomImages::where('room_id',$room_id)->where('building_id',$building_id)->get();
+        $roomEquipments =  RoomEquipments::where('room_id',$room_id)->where('building_id',$building_id)->get();
+        $equipments = Equipments::all();
+        $roomSittingArrangments =  RoomSettingArrangment::where('room_id',$room_id)->get();
+
+
+        $roomImages = [];
+        for($i = 0 ; $i < count($roomSittingArrangments) ; $i++)
+        {
+            $roomImages[$i] = RoomImages::where('sitting_id',$roomSittingArrangments[$i]->id)->get();
+        }
+
+        $url = asset('storage/uploadedimages');
+
+        $url2 = public_path()."/storage/uploadedimages";
+
+        for($i = 0 ; $i < count($roomImages) ; $i++)
+        {
+            for($j = 0 ; $j < count($roomImages[$i]) ; $j++)
+            {
+                $imageFiles[$i][$j]['name'] = $roomImages[$i][$j]->image_file;
+                $imageFiles[$i][$j]['file'] = $url.'/'.$roomImages[$i][$j]->image_file;
+                $imageFiles[$i][$j]['size'] = filesize($url2.'/'.$roomImages[$i][$j]->image_file);
+                $imageFiles[$i][$j]['type'] = mime_content_type($url2.'/'.$roomImages[$i][$j]->image_file);
+            }
+        }
+
+        $data = [
+            'room'  => $room,
+            'buildings' => $buildings,
+            'floors' => $floors,
+            'services' => $services,
+            'roomImages' => $roomImages,
+            'roomSettings' => $roomSettings,
+            'roomEquipments' => $roomEquipments,
+            'equipments' => $equipments,
+            'roomSittingArrangments' => $roomSittingArrangments,
+            'roomImages' => $roomImages,
+            'imageFiles' => $imageFiles    
+        ];
+
+
+        return view('company.rooms.edit', $data);
+    }
+
 
     /**
      * Store a newly created Room in storage.
@@ -373,96 +493,8 @@ class RoomController extends AppBaseController
             session()->flash('msg.success','room successfully created');
             return redirect()->route('company.rooms.index');            
         }
-
     }
 
-    /**
-     * Display the specified Room.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
-    public function show($id)
-    {
-        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
-        $company = Company::find($company_id);
-        $room = $this->roomRepository->findWithoutFail($id);
-        $building = CompanyBuilding::find(CompanyFloorRoom::find($room->floor_id)->building_id);
-        $floor = CompanyFloorRoom::find($room->floor_id)->floor;
-        $service = Service::find($room->service_id)->name;
-        $roomContracts = RoomContracts::where('room_id', $id)->get();
-
-        if (empty($room)) {
-            Flash::error('Company Room not found');
-
-            return redirect(route('company.rooms.index'));
-        }
-
-        return view('company.rooms.show', ['room' => $room, 'company' => $company, 'building' => $building, 'floor' => $floor,
-            'service' => $service, 'roomContracts' => $roomContracts]);
-    }
-
-    /**
-     * Show the form for editing the specified Room.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
-    public function edit($id)
-    {
-
-        $room = $this->roomRepository->findWithoutFail($id);
-
-        // dd($room);
-        
-        if (empty($room)) 
-        {
-            session()->flash('msg.error','Company Room not found');
-            return redirect(route('company.rooms.index'));
-        }
-
-        $room_id = $room->id;
-        $company_id = $room->company_id;
-        $building_id = $room->building_id;
-
-
-        $buildings = CompanyBuilding::where('company_id',$company_id)->get();
-        $floors = CompanyFloorRoom::where('building_id',$building_id)->get();
-        $services = Service::where('company_id',$company_id)->get();
-
-
-        $roomSettings = RoomSettingArrangment::where('room_id',$room_id)->where('building_id',$building_id)->get();
-        $roomImages =  RoomImages::where('room_id',$room_id)->where('building_id',$building_id)->get();
-        $roomEquipments =  RoomEquipments::where('room_id',$room_id)->where('building_id',$building_id)->get();
-        $equipments = Equipments::all();
-        $roomSittingArrangments =  RoomSettingArrangment::where('room_id',$room_id)->get();
-
-
-        $roomImages = [];
-        for($i = 0 ; $i < count($roomSittingArrangments) ; $i++)
-        {
-            $roomImages[$i] = RoomImages::where('sitting_id',$roomSittingArrangments[$i]->id)->get();
-        }
-
-
-
-        $data = [
-            'room'  => $room,
-            'buildings' => $buildings,
-            'floors' => $floors,
-            'services' => $services,
-            'roomImages' => $roomImages,
-            'roomSettings' => $roomSettings,
-            'roomEquipments' => $roomEquipments,
-            'equipments' => $equipments,
-            'roomSittingArrangments' => $roomSittingArrangments,
-            'roomImages' => $roomImages
-        ];
-
-        return view('company.rooms.edit', $data);
-    }
 
     /**
      * Update the specified Room in storage.
@@ -476,6 +508,41 @@ class RoomController extends AppBaseController
     {
         $room = $this->roomRepository->findWithoutFail($id);
         $input = $request->all();
+
+
+        // dd($input['files0']);
+        if (isset($input['files0'])) 
+        {
+            $sepratorArr = [];
+            $sepratorIndex = 0;
+            $cursor = 0;
+            for($i= 0 ; $i < count($input['files0']) ; $i++)
+            {
+                if( isset($input['files0'][$cursor]) )
+                {
+                    $sepratorArr[$sepratorIndex] = $input['files0'][$cursor];
+                    $sepratorIndex++;
+                    $cursor++;
+                }
+                else
+                {
+                    while ( !isset($input['files0'][$cursor]) ) 
+                    {
+                        $sepratorArr[$sepratorIndex] = "-";
+                        $sepratorIndex++;
+                        $cursor++;
+                    }
+                    $sepratorArr[$sepratorIndex] = $input['files0'][$cursor];
+                    $sepratorIndex++;
+                    $cursor++;
+                }
+            }
+            // dd($sepratorArr);
+        }
+
+
+        dd( $request->all() );
+
         $data = request()->except(['_token', '_method']);
 
         if (empty($room)) {
