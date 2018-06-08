@@ -5,7 +5,6 @@ namespace App\Models;
 
 use Eloquent as Model;
 
-
 /**
  * Class PaymentCycle
  * @package App\Models\Admin
@@ -25,7 +24,6 @@ use Eloquent as Model;
  */
 class PaymentCycle extends Model
 {
-
 
     public $table = 'payment_cycles';
     

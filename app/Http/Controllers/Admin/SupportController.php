@@ -54,6 +54,87 @@ class SupportController extends AppBaseController
         return view('admin.supports.index')->with('supports',$supports);
     }
 
+    public function dashboard()
+    {
+        // support ticket count
+
+        $totalTickets = Support::all()->count();
+        $support = Support::all();
+
+        $status_id = SupportStatus::where('name','Pending')->first()->id;
+        $openTickets = Support::where('status_id',$status_id)
+                            ->get()
+                            ->count();
+
+        $status_id = SupportStatus::where('name','Solved')->first()->id;
+        $closedTickets = Support::where('status_id',$status_id)
+                            ->get()
+                            ->count();
+
+        // support category count
+        $categoryAll = SupportCategory::all('name');
+
+        /*$categoryName   = $categoryAll->name;*/
+
+        // dd($categoryAll);
+
+        $categoryNames = [];
+        $index = 0;
+
+        foreach ($categoryAll as $category) {
+            $categoryNames[$index] = $category->name;
+            $index++;
+
+        }
+
+
+        $counts = [];
+        $index = 0;
+        foreach ($categoryNames as  $categoryName) 
+        {
+            $category_id = SupportCategory::where('name',$categoryName)->first()->id;
+            $Count = Support::where('category_id',$category_id)
+                                ->get()
+                                ->count();
+            $counts[$index] = [ 'category' =>  $categoryName, 'totalCount' => $Count];
+            $index++;
+        }
+
+          // dd($counts);
+
+
+
+       /* $category_id = SupportCategory::where('name','Billing')->first()->id;
+        $billingCount = Support::where('category_id',$category_id)
+                            ->get()
+                            ->count();
+
+        $category_id = SupportCategory::where('name','Technical')->first()->id;
+        $technicalCount = Support::where('category_id',$category_id)
+                            ->get()
+                            ->count();
+
+        $category_id = SupportCategory::where('name','Customer Service')->first()->id;
+        $customerCount = Support::where('category_id',$category_id)
+                            ->get()
+                            ->count();*/
+
+        $categories = SupportCategory::all();
+/*
+        echo $customerCount;
+        exit();*/
+
+        $data = [
+                    'totalTickets'      =>  $totalTickets,
+                    'openTickets'       =>  $openTickets,
+                    'closedTickets'     =>  $closedTickets,
+                    'categories'        =>  $categories,
+                    'counts'            =>  $counts,
+                    'support'           =>  $support
+                ];
+        return view('admin.supports.dashboard',$data);
+    }
+
     public function completedTicket()
     {
 
@@ -151,8 +232,10 @@ class SupportController extends AppBaseController
             $input['company_name'] = $company_name;
             $input['last_comment'] = $user_name;
 
-            $support = $this->supportRepository->create($input);
 
+
+            $support = $this->supportRepository->create($input);
+            dd($input);
             if($support)
             {
                 $input['header'] = 'Dear '.$user_name;
