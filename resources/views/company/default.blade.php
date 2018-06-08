@@ -33,6 +33,12 @@
         .page-header-form .form-control {
             background: rgba(0, 0, 0, .05);
         }
+
+        .form-label {
+            font-size: 14px;
+            margin-top: 3px;
+            font-weight: 400;
+        }
     </style>
     <!-- / Custom styling -->
 
@@ -60,6 +66,24 @@
                         </ul>
                     </li>
                     <li class="dropdown-toggle">
+                        <a href="{{ route('company.rcustomer.index') }}">Customers</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ route('company.rcustomer.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
+                                    Customer</a></li>
+                            <li><a href="{{ route('company.rcustomer.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Customers</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-toggle">
+                        <a href="{{ route('company.rarticle.index') }}">Articles</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ route('company.rarticle.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
+                                    Article</a></li>
+                            <li><a href="{{ route('company.rarticle.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Articles</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-toggle">
                         <a href="{{ route('company.companyBuildings.index') }}">Buildings</a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ route('company.companyBuildings.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Buildings</a>
@@ -80,9 +104,9 @@
                                     <ul class="dropdown-menu">
 
 
-                                        @if($module->module->name == 'Conference_module')
-
-
+                                        @if($module->module->code == 'signage_module')
+                                            <li><a href="{{ route('company.rsignage.index') }}">Signage System</a></li>
+                                        @elseif($module->module->code == 'conference_module')
 
                                             <li class="dropdown-toggle">
                                                 <a href>Bookings</a>
@@ -160,8 +184,6 @@
 
                                         @elseif($module->module->name == 'Newsletter_module')
 
-
-
                                             <li><a href="{{ route('company.newsletter.dashboard') }}"><i
                                                             class="fa fa-trello"></i>&nbsp;&nbsp;Dashboard</a>
                                             </li>
@@ -194,8 +216,6 @@
 
                                         @elseif($module->module->name == 'Rental_module')
 
-
-
                                             <li class="dropdown-toggle">
                                                 <a href="{{ route('company.companyBuildings.index') }}">Buildings</a>
                                                 <ul class="dropdown-menu">
@@ -204,8 +224,6 @@
                                                     </li>
                                                 </ul>
                                             </li>
-
-
 
                                             <li class="dropdown-toggle">
                                                 <a href="{{ route('company.companyFloorRooms.index') }}">Floors</a>
@@ -261,6 +279,7 @@
                                             </li>
 
 
+
                             @elseif($module->module->name == 'Support_module')
 
                                 <li class="dropdown-toggle">
@@ -291,18 +310,6 @@
 
 
                     @endforeach
-
-
-                            <li class="dropdown-toggle">
-                                <a href="{{ route('company.users.index') }}">Company Admin</a>
-                                <ul class="dropdown-menu">
-                                    {{--<li><a href="{{ route('company.users.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
-                                            User</a></li>--}}
-                                    <li><a href="{{ route('company.users.index') }}"><i class="fa fa-user-secret"></i>&nbsp;&nbsp;Company
-                                            Admin Users</a>
-                                    </li>
-                                </ul>
-                            </li>
 
                             <li><a href="{{ route('company.companyInvoices.index') }}"><i class="fa fa-building-o"></i>&nbsp;&nbsp;Invoices</a>
                             </li>
