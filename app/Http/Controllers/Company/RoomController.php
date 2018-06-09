@@ -23,7 +23,7 @@ use App\Models\Equipments;
 use App\Models\Company\RoomImages;
 use App\Models\Company\RoomSettingArrangment;
 use App\Models\Company\RoomEquipments;
-
+use App\Models\Company\RoomNotes;
 
 class RoomController extends AppBaseController
 {
@@ -45,7 +45,7 @@ class RoomController extends AppBaseController
     {
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $company = Company::find($company_id);
-        $rooms = Room::where('company_id', $company_id)->get();
+        $rooms = Room::where('company_id', $company_id)->orderBy('id', 'DESC')->get();
         $services = Service::where('company_id', $company_id)->pluck('name', 'id');
         $floors = CompanyFloorRoom::where('company_id', $company_id)->pluck('floor', 'id');
 
@@ -155,7 +155,6 @@ class RoomController extends AppBaseController
 
         $room = $this->roomRepository->findWithoutFail($id);
 
-        // dd($room);
         
         if (empty($room)) 
         {
@@ -178,43 +177,64 @@ class RoomController extends AppBaseController
         $roomEquipments =  RoomEquipments::where('room_id',$room_id)->where('building_id',$building_id)->get();
         $equipments = Equipments::all();
         $roomSittingArrangments =  RoomSettingArrangment::where('room_id',$room_id)->get();
+        $roomNote = RoomNotes::where('room_id',$room_id)->first();
 
 
-        $roomImages = [];
-        for($i = 0 ; $i < count($roomSittingArrangments) ; $i++)
+        if($room->room_module_type == 'conference')
         {
-            $roomImages[$i] = RoomImages::where('sitting_id',$roomSittingArrangments[$i]->id)->get();
-        }
-
-        $url = asset('storage/uploadedimages');
-
-        $url2 = public_path()."/storage/uploadedimages";
-
-        for($i = 0 ; $i < count($roomImages) ; $i++)
-        {
-            for($j = 0 ; $j < count($roomImages[$i]) ; $j++)
+            $roomImages = [];
+            for($i = 0 ; $i < count($roomSittingArrangments) ; $i++)
             {
-                $imageFiles[$i][$j]['name'] = $roomImages[$i][$j]->image_file;
-                $imageFiles[$i][$j]['file'] = $url.'/'.$roomImages[$i][$j]->image_file;
-                $imageFiles[$i][$j]['size'] = filesize($url2.'/'.$roomImages[$i][$j]->image_file);
-                $imageFiles[$i][$j]['type'] = mime_content_type($url2.'/'.$roomImages[$i][$j]->image_file);
+                $roomImages[$i] = RoomImages::where('sitting_id',$roomSittingArrangments[$i]->id)->get();
             }
+
+            $url = asset('storage/uploadedimages');
+
+            $url2 = public_path()."/storage/uploadedimages";
+
+            for($i = 0 ; $i < count($roomImages) ; $i++)
+            {
+                for($j = 0 ; $j < count($roomImages[$i]) ; $j++)
+                {
+                    $imageFiles[$i][$j]['name'] = $roomImages[$i][$j]->image_file;
+                    $imageFiles[$i][$j]['file'] = $url.'/'.$roomImages[$i][$j]->image_file;
+                    $imageFiles[$i][$j]['size'] = filesize($url2.'/'.$roomImages[$i][$j]->image_file);
+                    $imageFiles[$i][$j]['type'] = mime_content_type($url2.'/'.$roomImages[$i][$j]->image_file);
+                }
+            }
+
+
+            $data = [
+                'room'  => $room,
+                'buildings' => $buildings,
+                'floors' => $floors,
+                'services' => $services,
+                'roomImages' => $roomImages,
+                'roomSettings' => $roomSettings,
+                'roomEquipments' => $roomEquipments,
+                'equipments' => $equipments,
+                'roomSittingArrangments' => $roomSittingArrangments,
+                'roomImages' => $roomImages,
+                'imageFiles' => $imageFiles    
+            ];
         }
+        elseif($room->room_module_type == 'rental')
+        {
 
-        $data = [
-            'room'  => $room,
-            'buildings' => $buildings,
-            'floors' => $floors,
-            'services' => $services,
-            'roomImages' => $roomImages,
-            'roomSettings' => $roomSettings,
-            'roomEquipments' => $roomEquipments,
-            'equipments' => $equipments,
-            'roomSittingArrangments' => $roomSittingArrangments,
-            'roomImages' => $roomImages,
-            'imageFiles' => $imageFiles    
-        ];
+            $data = [
+                'room'  => $room,
+                'buildings' => $buildings,
+                'floors' => $floors,
+                'services' => $services,
+                'roomImages' => $roomImages,
+                'roomSettings' => $roomSettings,
+                'roomEquipments' => $roomEquipments,
+                'equipments' => $equipments,
+                'roomSittingArrangments' => $roomSittingArrangments,
+                'roomNote'      => $roomNote   
+            ];
 
+        }
 
         return view('company.rooms.edit', $data);
     }
@@ -338,8 +358,6 @@ class RoomController extends AppBaseController
 
         $room_type = $input['room_module_type'];
 
-        // dd($input);
-
 
         $room = new Room;
         $room->floor_id = $input['floor_id'];
@@ -360,6 +378,7 @@ class RoomController extends AppBaseController
         $room->SQNA = $input['SQNA'];
         $room->building_id = $input['building_id'];
         $room->address = $input['address'];
+        $room->room_module_type = $input['room_module_type'];
         $room->start_date =  date('Y-m-d', strtotime(str_replace('-', '/', $input['start_date'])));
         $room->end_date = date('Y-m-d', strtotime(str_replace('-', '/', $input['end_date'])));
         $room->end_date_continue = $input['end_date_continue'];
@@ -610,6 +629,7 @@ class RoomController extends AppBaseController
             return redirect()->back()->withErrors($errors);
         }
 
+
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
 
         // dd($input['files0']);
@@ -644,6 +664,7 @@ class RoomController extends AppBaseController
 
         $room_id = $room->id;
         $building_id = $room->building_id;
+        $user_id = Auth::guard('company')->user()->id;
         
         $room->floor_id = $input['floor_id'];
         $room->company_id = $company_id;
@@ -702,6 +723,19 @@ class RoomController extends AppBaseController
             $room->rent_room_type = $input['rent_room_type'];
             $room->rent_calendar_available = $input['rent_calender_available'];
             $room->rent_available_users = $input['rent_available_users'];
+
+            if(isset($input['rent_notes']))
+            {
+                $roomNote = new RoomNotes;
+                $roomNote->building_id = $building_id;
+                $roomNote->room_id  = $room_id;
+                $roomNote->user_id = $user_id;
+                $roomNote->note = $input['rent_notes'];
+                $roomNote->save();                
+            }
+
+
+
         }        
         // $room->save();
 

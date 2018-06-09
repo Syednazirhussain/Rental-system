@@ -175,8 +175,18 @@
             <div class="col-sm-12 col-md-12 form-group">
               <label for="room_module_type">Select Room Type</label>
               <select class="form-control" id="room_module_type" name="room_module_type">
+                @if(isset($room))
+                  @if($room->room_module_type == 'rental')
+                    <option value="rental" selected="selected">Rental</option>
+                    <option value="conference">Conference</option>
+                  @elseif($room->room_module_type == 'conference')
+                    <option value="rental">Rental</option>
+                    <option value="conference" selected="selected">Conference</option>
+                  @endif
+                @else
                   <option value="rental">Rental</option>
                   <option value="conference">Conference</option>
+                @endif
               </select>
               <div class="errorTxt"></div>
             </div>
@@ -432,6 +442,7 @@
                       </div>
                   </div>
               </div>
+
               @endforeach
 
               @else
@@ -563,6 +574,51 @@
                 <div class="pull-right">
                   <button class="btn btn-primary addIncludedRent" type="button"><i class="fa fa-plus"></i>&nbsp;Add</button>
                 </div>
+
+                @if(isset($roomEquipments) && isset($room))
+
+                @foreach($roomEquipments as $roomEquipment)
+
+                <input type="hidden" name="roomEquipmentId[]" value="@if(isset($room)){{ $roomEquipment->id }}@endif">
+
+                <div class="row includedItemRent">
+                    <div class="col-sm-12 col-sm-12 included">
+                        <div class="col-sm-3 col-md-3 form-group">
+                          <label for="">Item</label>
+                          <select class="form-control" name="include_equipment_id_rent[]">
+                              <!-- <option value="">Select</option> -->
+                              @foreach ($equipments as $equipment)
+                              
+                                @if($roomEquipment->equipment_id == $equipment->id)
+                                  <option value="{{ $equipment->id }}" selected="selected">{{$equipment->title }}</option>
+                                @else
+                                  <option value="{{ $equipment->id }}">{{$equipment->title }}</option>
+                                @endif
+
+                              @endforeach
+                          </select>
+                        </div>
+                        <div class="col-sm-2 col-md-2 form-group">
+                          <label for="include_qty">Quantity</label>
+                          <input type="number" name="include_qty_rent[]" class="form-control" value="@if(isset($room)){{ $roomEquipment->qty }}@endif">
+                        </div>
+                        <div class="col-sm-2 col-md-2 form-group">
+                          <label for="include_price">Price</label>
+                          <input type="number" name="include_price_rent[]" class="form-control" value="@if(isset($room)){{ $roomEquipment->price }}@endif">
+                        </div>
+                        <div class="col-sm-4 col-md-4 form-group">
+                          <label for="include_info">Notes</label>
+                          <input type="text" name="include_info_rent[]" class="form-control" value="@if(isset($room)){{ $roomEquipment->info }}@endif">
+                        </div>
+                        <div class="col-sm-1">
+                        </div>
+                    </div>
+                </div>
+
+                @endforeach
+
+                @else
+
                 <div class="row includedItemRent">
                     <div class="col-sm-12 col-sm-12 included">
                         <div class="col-sm-3 col-md-3 form-group">
@@ -590,6 +646,8 @@
                         </div>
                     </div>
                 </div>
+
+                @endif
               </div>            
             </div>
           </div>
@@ -632,19 +690,36 @@
           <div class="col-sm-12 col-md-12">
               <div class="col-sm-6 col-md-6">
                 <label class="custom-control custom-checkbox">
-                  <input type="checkbox" name="rent_calender_available" id="rent_calender_available" class="custom-control-input">
-                  <span class="custom-control-indicator"></span>
-                  Calender Available
+                  @if(isset($room) && $room->rent_calendar_available == 1)
+                    <input type="checkbox" name="rent_calender_available" id="rent_calender_available" class="custom-control-input" checked="checked">
+                    <span class="custom-control-indicator"></span>
+                    Calender Available
+                  @else
+                    <input type="checkbox" name="rent_calender_available" id="rent_calender_available" class="custom-control-input">
+                    <span class="custom-control-indicator"></span>
+                    Calender Available
+                  @endif
                 </label>                             
               </div>
+
+
+
               <div class="col-sm-6 col-md-6">
                 <label class="custom-control custom-checkbox">
-                  <input type="checkbox" name="rent_available_users" id="rent_available_users" class="custom-control-input">
-                  <span class="custom-control-indicator"></span>
-                  Available User
+                  @if(isset($room) && $room->rent_available_users == 1)
+                    <input type="checkbox" name="rent_available_users" id="rent_available_users" class="custom-control-input" checked="checked">
+                    <span class="custom-control-indicator"></span>
+                    Available User
+                  @else
+                    <input type="checkbox" name="rent_available_users" id="rent_available_users" class="custom-control-input">
+                    <span class="custom-control-indicator"></span>
+                    Available User
+                  @endif
                 </label>
               </div>
           </div>
+
+          <input type="hidden" id="notes" value="@if(isset($roomNote)){{ $roomNote->note }}@endif">
 
           <div class="col-sm-12 col-md-12" id="notes">
             <div class="col-sm-12 col-md-12 form-group">
@@ -682,7 +757,29 @@
     $('#conf_info_customer_en').val( $('#cice').val());
     $('#conf_info_technical_se').val( $('#cits').val());
     $('#conf_info_technical_en').val( $('#cite').val());
+    $('#rent_notes').val( $('#notes').val() );
 
+
+    var room_type = $('#room_module_type').val();
+
+    console.log(room_type);
+
+    if(room_type == 'rental')
+    {
+        $('#conference').hide();
+        $('#rental').show();
+    }
+    else if(room_type == 'conference')
+    {
+        $('#conference').show();
+        $('#rental').hide();
+    }
+
+  }
+  else
+  {
+      $('#conference').hide();
+      $('#rental').show();
   }
 
 
@@ -1286,8 +1383,7 @@
                   }
             });
           
-            $('#conference').hide();
-            $('#rental').show();
+
 
             var flag = 0;
 
