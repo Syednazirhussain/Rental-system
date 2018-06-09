@@ -105,9 +105,12 @@
 
 
                                         @if($module->module->code == 'signage_module')
+                                     
                                             <li><a href="{{ route('company.rsignage.index') }}">Signage System</a></li>
-                                        @elseif($module->module->code == 'conference_module')
+                                        
+                                        @elseif($module->module->name == 'Conference_module')
 
+                                            
                                             <li class="dropdown-toggle">
                                                 <a href>Bookings</a>
                                                 <ul class="dropdown-menu">
@@ -183,7 +186,7 @@
 
 
                                         @elseif($module->module->name == 'Newsletter_module')
-
+       
                                             <li><a href="{{ route('company.newsletter.dashboard') }}"><i
                                                             class="fa fa-trello"></i>&nbsp;&nbsp;Dashboard</a>
                                             </li>

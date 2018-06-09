@@ -12,14 +12,42 @@
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel">
                     <div class="panel-heading">
-                        <div class="panel-title">Add Conference Booking</div>
+                        <div class="panel-title">Booking Conference</div>
                     </div>
                     <div class="panel-body">
-                        <form action="{{ route('company.conference.conferenceBookings.store') }}" method="POST" id="bookingForm">
 
-                            @include('company.Conference.conference_bookings.fields')
 
-                        </form>
+
+
+                        <ul class="nav nav-tabs">
+                          <li class="active">
+                            <a href="#BookingFormTab" data-toggle="tab">Booking</a>
+                          </li>
+                          <li>
+                            <a href="#CustomerFormTab" data-toggle="tab">Customer</a>
+                          </li>
+                          <li>
+                            <a href="#BillingFormTab" data-toggle="tab">Billing</a>
+                          </li>
+                        </ul>
+
+                            <form action="{{ route('company.conference.conferenceBookings.store') }}" method="POST" id="bookingForm">
+
+                                <div class="tab-content tab-content-bordered">
+                                  <div class="tab-pane fade in active" id="BookingFormTab">
+                                    @include('company.Conference.conference_bookings.fields')
+                                  </div>
+                                  <div class="tab-pane fade" id="CustomerFormTab">
+                                    @include('company.Conference.conference_bookings.customer_form')
+                                  </div>
+                                  <div class="tab-pane fade" id="BillingFormTab">
+                                    @include('company.Conference.conference_bookings.billing_form')
+                                  </div>
+                                  
+                                </div>
+
+                            </form>
+
                     </div>
                 </div>
             </div>
@@ -611,6 +639,22 @@
 
 
           // ==============================================
+          // ==============================================
+          // ==============================================
+          // ======= ====== CUSTOMER FORM ======= ====== == 
+          // ==============================================
+          // ==============================================
+          // ==============================================
+
+
+
+
+
+            $(function() {
+              $('.select2-customer').select2({
+                placeholder: 'Select Customer',
+              })
+            });
 
 
 
