@@ -255,7 +255,7 @@
       'sqlite' => 
       array (
         'driver' => 'sqlite',
-        'database' => 'rental',
+        'database' => 'rendal',
         'prefix' => '',
       ),
       'mysql' => 
@@ -263,7 +263,7 @@
         'driver' => 'mysql',
         'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'rental',
+        'database' => 'rendal',
         'username' => 'root',
         'password' => 'testing123',
         'unix_socket' => '',
@@ -278,7 +278,7 @@
         'driver' => 'pgsql',
         'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'rental',
+        'database' => 'rendal',
         'username' => 'root',
         'password' => 'testing123',
         'charset' => 'utf8',
@@ -291,7 +291,7 @@
         'driver' => 'sqlsrv',
         'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'rental',
+        'database' => 'rendal',
         'username' => 'root',
         'password' => 'testing123',
         'charset' => 'utf8',

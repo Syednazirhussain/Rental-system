@@ -10,6 +10,11 @@
             <!-- <span class="badge">90</span> -->
         </a>
     </li>
+    <li role="presentation">
+        <a href="{{ route('company.companySupports.dashboard') }}">&nbsp;Dashboard
+            <!-- <span class="badge">90</span> -->
+        </a>
+    </li>
     <li role="presentation" class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" role="button" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-cog"></i>&nbsp;Settings 

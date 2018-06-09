@@ -1,4 +1,4 @@
-@extends('admin.default')
+@extends('company.default')
 
 @section('content')
 
@@ -19,17 +19,17 @@
                     @include('layouts.error_msg')
                 @endif
                 
-                @include('admin.support_admin.master')
+                @include('company.company_support_panel.master')
 
                 <div class="text-right m-b-3">
 <!--<a href="" class="btn btn-primary"><i class="fa fa-plus"></i> Add Priority</a> -->
                 </div>
 	                <div class="row">
-			            <div class="col-md-3 col-md-offset-1">
-			                <a href="#" class="box bg-warning">
+			            <div class="col-md-3">
+			                <a href="#" class="box bg-primary">
 					          <div class="box-cell p-a-3 valign-middle">
 					            <i class="box-bg-icon middle right ion-ios-keypad"></i>
-					            <span class="font-size-24"><strong>{{ $totalTickets }}</strong></span><br>
+					            <span class="font-size-24"><strong>{{ $companyTotalTickets }}</strong></span><br>
 					            <span class="font-size-15">Total Tickets</span>
 					          </div>
 					        </a>
@@ -38,16 +38,16 @@
 			                <a href="#" class="box bg-danger">
 					          <div class="box-cell p-a-3 valign-middle">
 					            <i class="box-bg-icon middle right ion-wrench"></i>
-					            <span class="font-size-24"><strong>{{ $openTickets }}</strong></span><br>
+					            <span class="font-size-24"><strong>{{ $companyOpenTickets }}</strong></span><br>
 					            <span class="font-size-15">Open Tickets</span>
 					          </div>
 					        </a>
 			            </div>
 			            <div class="col-md-3">
-			                <a href="#" class="box bg-primary">
+			                <a href="#" class="box bg-warning">
 					          <div class="box-cell p-a-3 valign-middle">
 					            <i class="box-bg-icon middle right ion-thumbsup"></i>
-					            <span class="font-size-24"><strong>{{ $closedTickets }}</strong></span><br>
+					            <span class="font-size-24"><strong>{{ $companyClosedTickets }}</strong></span><br>
 					            <span class="font-size-15">Closed Tickets</span>
 					          </div>
 					        </a>
@@ -91,23 +91,22 @@
 					         <div id="information-panel-categories" class="list-group tab-pane fade in active">
 					            <a href="#" class="list-group-item disabled">
 						            <span>Category
-						            	<span class="badge">Total </span>
+						            	<span class="badge">Total</span>
 						            </span>
 						            <span class="pull-right text-muted small">
 							            <em>
-							            	Open / Closed
+								            Open / Closed
 							            </em>
 						            </span>
 					            </a>
-
-					            @foreach($counts as $count)					            
+					            @foreach($counts as $count)
 					            <a href="#" class="list-group-item">
 						            <span style="color: #0014f4">
-						            	 {{ $count['category'] }} <span class="badge">{{ $count['totalCount'] }}</span>
+						            	{{ $count['category'] }} <span class="badge">{{ $count['totalCount'] }}</span>
 						            </span>
 						            <span class="pull-right text-muted small">
 							            <em>
-							            	0 / 29
+								            0 / 29
 							            </em>
 						            </span>
 					            </a>
@@ -148,18 +147,18 @@
 								            Open / Closed
 							            </em>
 						            </span>
-					            </a>
+						            </a>
 					            	@foreach($totalUser as $users)
-					            <a href="#" class="list-group-item">
+						            <a href="#" class="list-group-item">
 						            <span>
-							           {{ $users['user_name'] }}					            
-								            <span class="badge">
-								            {{ $users['total'] }}
-								            </span>
-					            	</span>
+						            	{{ $users['user_name'] }}
+						            <span class="badge">
+						            	{{ $users['total'] }}
+						            </span>
+						            </span>
 						            <span class="pull-right text-muted small">
 							            <em>
-							            	0 / 0
+								            0 / 0
 							            </em>
 						            </span>
 					            </a>
@@ -209,8 +208,9 @@
         });
 
 
+
 // -------------------------------------------------------------------------
-    // Initialize pie chart @foreach($counts as $count) {{ $count['category'] }} , @endforeach 	
+    // Initialize pie chart	
 
 
     	$(document).ready(function(){
@@ -231,7 +231,7 @@
 	      var data_two = {
 	        labels: [ 'Total Tickets', 'Open Tickets', 'Closed Tickets' ],
 	        datasets: [{
-				          data:                 [{{ $totalTickets}}, {{$openTickets}}, {{$closedTickets}}],
+				          data:                 [{{ $companyTotalTickets}}, {{$companyOpenTickets}}, {{$companyClosedTickets}}],
 				          backgroundColor:      [ '#f4ab43', '#db5949', '#49c000', '#49c000' , '#49c000'  ],
 				          hoverBackgroundColor: [ '#eda33b', '#db5949', '#50a854' ],
 				        }],
@@ -247,11 +247,8 @@
 	        data: data_two,
 	      });
     	});
-
-
-
-
     
+
 
 
     </script>
