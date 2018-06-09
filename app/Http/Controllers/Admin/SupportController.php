@@ -512,7 +512,12 @@ class SupportController extends AppBaseController
         $support->priority_id   = $input['priority_id'];
         $support->category_id   = $input['category_id'];
         $support->status_id     = $input['status_id'];
-        $support->agent     = $input['agent'];
+
+        if(isset($input['agent']))
+        {
+            $support->agent = $input['agent'];            
+        }
+
         $support->save();
 
         session()->flash('msg.success','Ticket updated successfully');

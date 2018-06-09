@@ -78,7 +78,7 @@
                                         <div class="col-md-6">
                                             <p> 
                                                 <strong>Responsible</strong>:
-                                                 {{ auth()->guard('admin')->user()->name }}
+                                                 @if(isset($support->agent)){{ $support->userAgent->name }}@endif
                                              </p>
                                             <p>
                                                 <strong>Category</strong>:
