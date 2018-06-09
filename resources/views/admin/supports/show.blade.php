@@ -25,12 +25,27 @@
                                 {{ $support->subject }}
                                 <span class="pull-right">
 
-                                    @if($support->status_id == 5)
-                                        
-                                    @else
-                                        <a href="{{ route('admin.supports.solved',[$support->id]) }}" class="btn btn-success">Mark Complete</a>
+                                    @if($role_code == 'admin')
+
+                                        @if($support->status_id == 5)
+                                            
+                                        @else
+                                            <a href="{{ route('admin.supports.solved',[$support->id]) }}" class="btn btn-success">Mark Complete</a>
+                                        @endif
+                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-default">Edit</button>
+
+                                    @elseif($role_code == 'admin_technical_support' && $support->agent == \Auth::guard('admin')->user()->id )
+
+                                        @if($support->status_id == 5)
+                                            
+                                        @else
+                                            <a href="{{ route('admin.supports.solved',[$support->id]) }}" class="btn btn-success">Mark Complete</a>
+                                        @endif
+                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-default">Edit</button>
+
                                     @endif
-                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-default">Edit</button>
+
+
 <!--                                     <a href="#" class="btn btn-danger deleteit" form="delete-ticket-27" node="Asperiores praesentium vero et quo quaerat sunt.">Delete</a> -->
                                 </span>
                             </h2>
@@ -212,6 +227,8 @@
 
                                 <div class="row">
 
+                                    @if($role_code == 'admin')
+
                                     <div class="col-sm-3">
                                         <label for="priority_id" class="control-label">Priority </label>
                                         <select class="form-control" name="priority_id">
@@ -272,6 +289,56 @@
                                             @endif
                                         </select>
                                     </div> 
+
+                                    @else
+
+                                    <div class="col-sm-4">
+                                        <label for="priority_id" class="control-label">Priority </label>
+                                        <select class="form-control" name="priority_id">
+                                            @if(isset($priorities))
+                                                @foreach($priorities as $priority)
+                                                    @if($support->priority_id == $priority->id)
+                                                        <option value="{{ $priority->id }}" selected="selected">{{ $priority->name }}</option>
+                                                    @else
+                                                        <option value="{{ $priority->id }}">{{ $priority->name }}</option>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                       
+                                    <div class="col-sm-4">
+                                        <label for="category_id" class="control-label">Category </label>
+                                        <select class="form-control" name="category_id">
+                                            @if(isset($categories))
+                                                @foreach($categories as $category)
+                                                    @if($support->category_id == $category->id)
+                                                        <option value="{{ $category->id }}" selected="selected">{{ $category->name }}</option>
+                                                    @else
+                                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                             
+                                    <div class="col-sm-4">
+                                        <label for="status_id" class="control-label">Status </label>
+                                        <select class="form-control" name="status_id">
+                                            @if(isset($statues))
+                                                @foreach($statues as $status)
+                                                    @if($support->status_id == $status->id)
+                                                    <option value="{{ $status->id }}" selected="selected">{{ $status->name }}</option>
+                                                    @else
+                                                    <option value="{{ $status->id }}">{{ $status->name }}</option>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+
+
+                                    @endif
 
                                 </div>
                             
