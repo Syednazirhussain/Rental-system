@@ -217,20 +217,21 @@
 
     		
 
+    		
 
-	      var data = {
-	        labels: [ 'Billing', 'Technical', 'Customer Service' ],
+	      	var data = {
+	        labels: 		[@foreach($counts as $count) "{{$count["category"] }}", @endforeach],
 	        datasets: [{
-				          data:                 [1,1,2],
+				          data:                 [@foreach($counts as $count) {{$count['totalCount'] }}, @endforeach],
 				          backgroundColor:      [ '#f4ab43', '#db5949', '#49c000' ],
 				          hoverBackgroundColor: [ '#eda33b', '#db5949', '#50a854' ],
 				        }],
 	      };
 
 	      var data_two = {
-	        labels: [ 'Billing', 'Technical', 'Customer Service' ],
+	        labels: [ 'Total Tickets', 'Open Tickets', 'Closed Tickets' ],
 	        datasets: [{
-				          data:                 [1,2,2],
+				          data:                 [{{ $totalTickets}}, {{$openTickets}}, {{$closedTickets}}],
 				          backgroundColor:      [ '#f4ab43', '#db5949', '#49c000' ],
 				          hoverBackgroundColor: [ '#eda33b', '#db5949', '#50a854' ],
 				        }],
