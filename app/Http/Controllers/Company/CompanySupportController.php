@@ -91,7 +91,7 @@ class CompanySupportController extends AppBaseController
         $companyTotalTickets = CompanySupport::where('company_id',$companyId)->count();
 
         $status_id = CompanySupportStatus::where('name','Pending')->where('company_id',$companyId)->first()->id;
-        $companyOpenTickets = CompanySupport::where('status_id',$status_id)
+        $companyOpenTickets = CompanySupport::where('status_id',$status_id)->where('company_id',$companyId)
                             ->get()
                             ->count();
 
@@ -119,20 +119,19 @@ class CompanySupportController extends AppBaseController
 
         }
 
-
         $counts = [];
         $index = 0;
         foreach ($categoryNames as  $categoryName) 
         {
             $category_id = CompanySupportCategory::where('name',$categoryName)->first()->id;
-            $Count = CompanySupport::where('category_id',$category_id)
+            $Count = CompanySupport::where('category_id',$category_id)->where('company_id',$companyId)
                                 ->get()
                                 ->count();
             $counts[$index] = [ 'category' =>  $categoryName, 'totalCount' => $Count];
             $index++;
         }
 
-
+         // dd($counts[2]);
         // support user display and count 
 
         $support = CompanySupport::where('parent_id','==',0)->where('company_id',$companyId)->get();

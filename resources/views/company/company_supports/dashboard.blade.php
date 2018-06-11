@@ -194,6 +194,12 @@
             $('ul#main_nav li:nth-child(1)').removeClass('active');
             $('ul#main_nav li:nth-child(2)').addClass('active');
         }
+        else if(lastUrlString == 'dashboard')
+        {
+            $('ul#main_nav li:nth-child(1)').removeClass('active');
+            $('ul#main_nav li:nth-child(2)').removeClass('active');
+            $('ul#main_nav li:nth-child(3)').addClass('active');
+        }
 
         $('ul#dropdown > li').hover(function () {
             $(this).toggleClass('active').siblings().removeClass('active');
