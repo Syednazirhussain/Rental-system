@@ -53,6 +53,7 @@ class CompanySupport extends Model
         'status_id',
         'priority_id',
         'user_id',
+        'agent',
         'category_id',
         'company_id'
     ];
@@ -71,6 +72,7 @@ class CompanySupport extends Model
         'status_id' => 'integer',
         'priority_id' => 'integer',
         'user_id' => 'integer',
+        'agent' => 'integer',
         'category_id' => 'integer',
         'company_id' => 'integer'
     ];
@@ -114,5 +116,13 @@ class CompanySupport extends Model
     public function user()
     {
         return $this->belongsTo(\App\Models\User::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function companyAgent()
+    {
+        return $this->belongsTo(\App\Models\User::class,'agent','id');
     }
 }

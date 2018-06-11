@@ -40,32 +40,8 @@
         }
     </style>
     <!-- / Custom styling -->
-
-
-
-
-
-
-
-
-
-
     <link href="{{ asset('/skin-1/assets/fileuploader/src/jquery.fileuploader.css') }}" media="all" rel="stylesheet">
     <link href="{{ asset('/skin-1/assets/fileuploader/css/jquery.fileuploader-theme-thumbnails.css') }}" media="all" rel="stylesheet">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </head>
 <body>
 <nav class="navbar px-navbar">
@@ -315,7 +291,7 @@
 
                             @elseif($module->module->name == 'Support_module')
 
-                                <li class="dropdown-toggle">
+                                <li>
                                     <a href="{{ route('company.companySupports.index') }}">Customer Support</a>
                                 </li>
 
