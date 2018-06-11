@@ -5,7 +5,6 @@ namespace App\Models;
 
 use Eloquent as Model;
 
-
 /**
  * Class PaymentCycle
  * @package App\Models\Admin

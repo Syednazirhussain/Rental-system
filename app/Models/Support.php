@@ -126,5 +126,6 @@ class Support extends Model
     public function userAgent()
     {
         return $this->belongsTo(\App\Models\User::class,'agent','id');
+
     }
 }

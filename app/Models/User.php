@@ -142,7 +142,7 @@ class User extends Authenticatable
      **/
     public function companyUser()
     {
-        return $this->hasOne('App\Models\CompanyUser', 'user_id', 'id');
+        return $this->hasOne(\App\Models\CompanyUser::class, 'user_id', 'id');
     }
 
     /**

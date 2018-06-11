@@ -40,6 +40,7 @@
         }
     </style>
     <!-- / Custom styling -->
+
     <link href="{{ asset('/skin-1/assets/fileuploader/src/jquery.fileuploader.css') }}" media="all" rel="stylesheet">
     <link href="{{ asset('/skin-1/assets/fileuploader/css/jquery.fileuploader-theme-thumbnails.css') }}" media="all" rel="stylesheet">
 </head>
@@ -338,6 +339,17 @@
                     </li>
                     <li class="divider"></li>
                     <li><a href="{{ route('company.contracts.status') }}">Contract Calendar</a></li>
+                    <li class="dropdown-toggle">
+                        <a href="{{ route('company.bookingAgencies.index') }}">Booking Agencies</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ route('company.bookingAgencies.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
+                                    Agency</a></li>
+                            <li><a href="{{ route('company.bookingAgencies.index') }}"><i class="fa fa-user-secret"></i>&nbsp;&nbsp;Company Agencies</a>
+                            </li>
+                        </ul>
+                    </li>
+
+
                     <li class="dropdown-toggle">
                         <a href="{{ route('company.supports.index') }}">Support</a>
                         <ul class="dropdown-menu">

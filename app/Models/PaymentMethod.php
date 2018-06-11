@@ -24,8 +24,6 @@ use Eloquent as Model;
  */
 class PaymentMethod extends Model
 {
-
-
     public $table = 'payment_methods';
     
     public $timestamps = false;
