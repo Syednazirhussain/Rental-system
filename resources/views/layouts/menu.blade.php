@@ -160,3 +160,31 @@
 >>>>>>> c30a99e22451927ebf9362b3c715927935a64c63
 </li>
 
+<li class="{{ Request::is('hrCivilStatuses*') ? 'active' : '' }}">
+    <a href="{!! route('company.hrCivilStatuses.index') !!}"><i class="fa fa-edit"></i><span>Hr Civil Statuses</span></a>
+</li>
+
+<li class="{{ Request::is('companyHrs*') ? 'active' : '' }}">
+    <a href="{!! route('company.companyHrs.index') !!}"><i class="fa fa-edit"></i><span>Company Hrs</span></a>
+</li>
+
+<li class="{{ Request::is('hrPersonalCats*') ? 'active' : '' }}">
+    <a href="{!! route('company.hrPersonalCats.index') !!}"><i class="fa fa-edit"></i><span>Hr Personal Cats</span></a>
+</li>
+
+<li class="{{ Request::is('hrCompanyCollectives*') ? 'active' : '' }}">
+    <a href="{!! route('company.hrCompanyCollectives.index') !!}"><i class="fa fa-edit"></i><span>Hr Company Collectives</span></a>
+</li>
+
+<li class="{{ Request::is('hrCompanyemployments*') ? 'active' : '' }}">
+    <a href="{!! route('company.hrCompanyemployments.index') !!}"><i class="fa fa-edit"></i><span>Hr Companyemployments</span></a>
+</li>
+
+<li class="{{ Request::is('hrCompanyDesignations*') ? 'active' : '' }}">
+    <a href="{!! route('company.hrCompanyDesignations.index') !!}"><i class="fa fa-edit"></i><span>Hr Company Designations</span></a>
+</li>
+
+<li class="{{ Request::is('hrCompanyEmployments*') ? 'active' : '' }}">
+    <a href="{!! route('company.hrCompanyEmployments.index') !!}"><i class="fa fa-edit"></i><span>Hr Company Employments</span></a>
+</li>
+
