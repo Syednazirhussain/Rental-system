@@ -688,6 +688,7 @@
           </div>
 
           <div class="col-sm-12 col-md-12">
+            
               <div class="col-sm-6 col-md-6">
                 <label class="custom-control custom-checkbox">
                   @if(isset($room) && $room->rent_calendar_available == 1)

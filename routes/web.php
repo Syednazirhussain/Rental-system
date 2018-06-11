@@ -1134,3 +1134,53 @@ Route::delete('company/bookingAgencies/{bookingAgencies}', ['as'=> 'company.book
 Route::get('company/bookingAgencies/{bookingAgencies}', ['as'=> 'company.bookingAgencies.show', 'uses' => 'Company\BookingAgencyController@show']);
 Route::get('company/bookingAgencies/{bookingAgencies}/edit', ['as'=> 'company.bookingAgencies.edit', 'uses' => 'Company\BookingAgencyController@edit']);
 
+
+
+Route::get('company/currencies', ['as'=> 'company.currencies.index', 'uses' => 'Company\CurrencyController@index']);
+Route::post('company/currencies', ['as'=> 'company.currencies.store', 'uses' => 'Company\CurrencyController@store']);
+Route::get('company/currencies/create', ['as'=> 'company.currencies.create', 'uses' => 'Company\CurrencyController@create']);
+Route::put('company/currencies/{currencies}', ['as'=> 'company.currencies.update', 'uses' => 'Company\CurrencyController@update']);
+Route::patch('company/currencies/{currencies}', ['as'=> 'company.currencies.update', 'uses' => 'Company\CurrencyController@update']);
+Route::delete('company/currencies/{currencies}', ['as'=> 'company.currencies.destroy', 'uses' => 'Company\CurrencyController@destroy']);
+Route::get('company/currencies/{currencies}', ['as'=> 'company.currencies.show', 'uses' => 'Company\CurrencyController@show']);
+Route::get('company/currencies/{currencies}/edit', ['as'=> 'company.currencies.edit', 'uses' => 'Company\CurrencyController@edit']);
+
+
+Route::get('company/leaseAttachments', ['as'=> 'company.leaseAttachments.index', 'uses' => 'Company\LeaseAttachmentController@index']);
+Route::post('company/leaseAttachments', ['as'=> 'company.leaseAttachments.store', 'uses' => 'Company\LeaseAttachmentController@store']);
+Route::get('company/leaseAttachments/create', ['as'=> 'company.leaseAttachments.create', 'uses' => 'Company\LeaseAttachmentController@create']);
+Route::put('company/leaseAttachments/{leaseAttachments}', ['as'=> 'company.leaseAttachments.update', 'uses' => 'Company\LeaseAttachmentController@update']);
+Route::patch('company/leaseAttachments/{leaseAttachments}', ['as'=> 'company.leaseAttachments.update', 'uses' => 'Company\LeaseAttachmentController@update']);
+Route::delete('company/leaseAttachments/{leaseAttachments}', ['as'=> 'company.leaseAttachments.destroy', 'uses' => 'Company\LeaseAttachmentController@destroy']);
+Route::get('company/leaseAttachments/{leaseAttachments}', ['as'=> 'company.leaseAttachments.show', 'uses' => 'Company\LeaseAttachmentController@show']);
+Route::get('company/leaseAttachments/{leaseAttachments}/edit', ['as'=> 'company.leaseAttachments.edit', 'uses' => 'Company\LeaseAttachmentController@edit']);
+
+
+Route::get('company/leasePartners', ['as'=> 'company.leasePartners.index', 'uses' => 'Company\LeasePartnerController@index']);
+Route::post('company/leasePartners', ['as'=> 'company.leasePartners.store', 'uses' => 'Company\LeasePartnerController@store']);
+Route::get('company/leasePartners/create', ['as'=> 'company.leasePartners.create', 'uses' => 'Company\LeasePartnerController@create']);
+Route::put('company/leasePartners/{leasePartners}', ['as'=> 'company.leasePartners.update', 'uses' => 'Company\LeasePartnerController@update']);
+Route::patch('company/leasePartners/{leasePartners}', ['as'=> 'company.leasePartners.update', 'uses' => 'Company\LeasePartnerController@update']);
+Route::delete('company/leasePartners/{leasePartners}', ['as'=> 'company.leasePartners.destroy', 'uses' => 'Company\LeasePartnerController@destroy']);
+Route::get('company/leasePartners/{leasePartners}', ['as'=> 'company.leasePartners.show', 'uses' => 'Company\LeasePartnerController@show']);
+Route::get('company/leasePartners/{leasePartners}/edit', ['as'=> 'company.leasePartners.edit', 'uses' => 'Company\LeasePartnerController@edit']);
+
+
+Route::get('company/leaseCounterparts', ['as'=> 'company.leaseCounterparts.index', 'uses' => 'Company\LeaseCounterpartController@index']);
+Route::post('company/leaseCounterparts', ['as'=> 'company.leaseCounterparts.store', 'uses' => 'Company\LeaseCounterpartController@store']);
+Route::get('company/leaseCounterparts/create', ['as'=> 'company.leaseCounterparts.create', 'uses' => 'Company\LeaseCounterpartController@create']);
+Route::put('company/leaseCounterparts/{leaseCounterparts}', ['as'=> 'company.leaseCounterparts.update', 'uses' => 'Company\LeaseCounterpartController@update']);
+Route::patch('company/leaseCounterparts/{leaseCounterparts}', ['as'=> 'company.leaseCounterparts.update', 'uses' => 'Company\LeaseCounterpartController@update']);
+Route::delete('company/leaseCounterparts/{leaseCounterparts}', ['as'=> 'company.leaseCounterparts.destroy', 'uses' => 'Company\LeaseCounterpartController@destroy']);
+Route::get('company/leaseCounterparts/{leaseCounterparts}', ['as'=> 'company.leaseCounterparts.show', 'uses' => 'Company\LeaseCounterpartController@show']);
+Route::get('company/leaseCounterparts/{leaseCounterparts}/edit', ['as'=> 'company.leaseCounterparts.edit', 'uses' => 'Company\LeaseCounterpartController@edit']);
+
+
+Route::get('company/leaseContractInformations', ['as'=> 'company.leaseContractInformations.index', 'uses' => 'Company\LeaseContractInformationController@index']);
+Route::post('company/leaseContractInformations', ['as'=> 'company.leaseContractInformations.store', 'uses' => 'Company\LeaseContractInformationController@store']);
+Route::get('company/leaseContractInformations/create', ['as'=> 'company.leaseContractInformations.create', 'uses' => 'Company\LeaseContractInformationController@create']);
+Route::put('company/leaseContractInformations/{leaseContractInformations}', ['as'=> 'company.leaseContractInformations.update', 'uses' => 'Company\LeaseContractInformationController@update']);
+Route::patch('company/leaseContractInformations/{leaseContractInformations}', ['as'=> 'company.leaseContractInformations.update', 'uses' => 'Company\LeaseContractInformationController@update']);
+Route::delete('company/leaseContractInformations/{leaseContractInformations}', ['as'=> 'company.leaseContractInformations.destroy', 'uses' => 'Company\LeaseContractInformationController@destroy']);
+Route::get('company/leaseContractInformations/{leaseContractInformations}', ['as'=> 'company.leaseContractInformations.show', 'uses' => 'Company\LeaseContractInformationController@show']);
+Route::get('company/leaseContractInformations/{leaseContractInformations}/edit', ['as'=> 'company.leaseContractInformations.edit', 'uses' => 'Company\LeaseContractInformationController@edit']);
