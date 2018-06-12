@@ -11,6 +11,9 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
+use App\Models\Company\LeaseAttachment;
+use App\Models\Company\LeaseContractInformation;
+
 class LeaseContractInformationController extends AppBaseController
 {
     /** @var  LeaseContractInformationRepository */
@@ -57,11 +60,74 @@ class LeaseContractInformationController extends AppBaseController
     {
         $input = $request->all();
 
-        $leaseContractInformation = $this->leaseContractInformationRepository->create($input);
+        $files = $input['files'];
 
-        Flash::success('Lease Contract Information saved successfully.');
+        if(count($files) > 0)
+        {
+            $file_names = [];
+            $index = 0;
+            foreach ($files as  $file) 
+            {
+                $path = $file->store('public/leasingImages');
+                $pathArr = explode('/', $path);
+                $count = count($pathArr);
+                $path = $pathArr[$count - 1];
+                $file_names[$index] = $path;
+                $index++;
+            }
 
-        return redirect(route('company.leaseContractInformations.index'));
+            $attachmentIDs = [];
+            $index = 0;
+            foreach ($file_names as  $file_name) 
+            {
+                $lease_attachment = new LeaseAttachment;
+                $lease_attachment->file_name = $file_name;
+                $lease_attachment->save();
+                if($lease_attachment)
+                {
+                    $attachmentIDs[$index] = $lease_attachment->id;
+                    $index++; 
+                }
+            }
+
+            $input['lease_attachment_id'] = json_encode($attachmentIDs);            
+        }
+
+        unset($input['files']);
+        unset($input['fileuploader-list-files']);
+
+        $leaseContractForm = new  LeaseContractInformation;
+        $leaseContractForm->contract_start_date = $input['contract_start_date'];
+        $leaseContractForm->contract_length = $input['contract_length'];
+        $leaseContractForm->termination_time = $input['termination_time'];
+        $leaseContractForm->contract_auto_renewal = $input['contract_auto_renewal'];
+        $leaseContractForm->contract_renewal = $input['contract_renewal'];
+        $leaseContractForm->renewal_number_month = $input['renewal_number_month']; 
+        $leaseContractForm->contract_type = $input['contract_type'];
+        $leaseContractForm->contract_number = $input['contract_number'];
+        $leaseContractForm->contract_name = $input['contract_name'];
+        $leaseContractForm->contract_desc = $input['contract_desc'];
+        $leaseContractForm->amount_per_month = $input['amount_per_month'];
+        $leaseContractForm->income_per_month = $input['income_per_month'];
+        $leaseContractForm->currency_id = $input['currency_id'];
+        $leaseContractForm->cost_reference = $input['cost_reference'];
+        $leaseContractForm->income_reference = $input['income_reference'];
+        $leaseContractForm->other_reference = $input['other_reference'];
+        $leaseContractForm->lease_attachment_id = $input['lease_attachment_id'];
+        $leaseContractForm->building_id = $input['building_id'];
+        $leaseContractForm->cost_number = $input['cost_number'];
+        $leaseContractForm->lease_partner_id = $input['lease_partner_id'];
+        $leaseContractForm->save();
+
+        print_r($leaseContractForm);
+        exit;
+
+        // $leaseContractInformation = $this->leaseContractInformationRepository->create($input);
+
+
+
+        // Flash::success('Lease Contract Information saved successfully.');
+        // return redirect(route('company.leaseContractInformations.index'));
     }
 
     /**

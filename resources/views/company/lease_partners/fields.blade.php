@@ -5,7 +5,7 @@
 
         <div class="wizard-wrapper">
           <ul class="wizard-steps">
-            <li data-target="#wizard-1" class="active">
+            <li data-target="#wizard-1">
               <span class="wizard-step-number">1</span>
               <span class="wizard-step-complete"><i class="fa fa-check"></i></span>
               <span class="wizard-step-caption">
@@ -21,7 +21,7 @@
               </span>
             </li>
 
-            <li data-target="#wizard-3">
+            <li data-target="#wizard-3" class="active">
               <span class="wizard-step-number">3</span>
               <span class="wizard-step-complete"><i class="fa fa-check"></i></span>
               <span class="wizard-step-caption">
@@ -88,11 +88,44 @@
             <!-- ============================wizard-2==================================== -->
 
 
-            <form class="wizard-pane" id="wizard-2">
+            <form class="wizard-pane" id="wizard-2" method="POST" >
                 @if (isset($company))
                     <input name="_method" type="hidden" value="PATCH">
                 @endif
                 <h3 class="m-t-0">Company Contact Persons</h3>
+
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <div class="col-sm-6 col-md-6 form-group">
+                            <label>Organization Number</label>
+                            <input type="number" name="organization_number" class="form-control">
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                            <label>Conmpany Name</label>
+                            <input type="text" name="company_name" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12">
+                        <div class="col-sm-6 col-md-6 form-group">
+                            <label>Contact Person</label>
+                            <input type="text" name="contract_person" class="form-control">
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                            <label>Telephone</label>
+                            <input type="text" name="tel" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12">
+                        <div class="col-sm-6 col-md-6 form-group">
+                            <label>Email</label>
+                            <input type="text" name="email" class="form-control">
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                            <input type="hidden" name="lease_partner_id" id="lease_partner_id" value="4" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
                   <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> PREVIOUS</button>&nbsp;&nbsp;
                   <a href="{!! route('admin.companies.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
@@ -107,6 +140,133 @@
                       <input name="_method" type="hidden" value="PATCH">
                   @endif
                   <h3 class="m-t-0">Leasing Contract Information</h3>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12">
+                            <div class="col-sm-6 col-md-6 form-group">
+                                <label>Contract Start Date</label>
+                                <input type="text" name="contract_start_date" id="contract_start_date" class="form-control">
+                            </div>
+                            <div class="col-sm-6 col-md-6 form-group">
+                                <label>Contract Number Of Months</label>
+                                <input type="number" name="contract_length" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12">
+                            <div class="col-sm-6 col-md-6 form-group">
+                                <label>Contract Termination Time In Months</label>
+                                <input type="number" name="termination_time" class="form-control">
+                            </div>
+                            <div class="col-sm-6 col-md-6 form-group">
+                                <label>Is Contract Automatic Renewal</label>
+                                <select class="form-control select2-contract_auto_renewal" id="contract_auto_renewal" name="contract_auto_renewal">
+                                  <option></option>
+                                  <option value="1">Yes</option>
+                                  <option value="0">No</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12" id="renewal">
+                            <div class="col-sm-6 col-md-6 form-group">
+                                <label>Contract Renewal</label>
+                                <select class="form-control select2-contract_renewal" id="contract_renewal" name="contract_renewal">
+                                  <option></option>
+                                  <option value="unlimited">Unlimited</option>
+                                  <option value="qty_month">Quantity In Month</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6 col-md-6 form-group" id="renewal_qty_month">
+                                <label>Contract Renewal Number Of Month</label>
+                                <input type="number" name="renewal_number_month" id=" renewal_number_month" class="form-control">
+                            </div>
+                        </div>                        
+                        <div class="col-sm-12 col-md-12">
+                            <div class="col-sm-6 col-md-6 form-group">
+                                <label>Contract Type</label>
+                                <select class="form-control select2-contract_type" name="contract_type">
+                                  <option></option>
+                                  <option value="permenent">Permenent</option>
+                                  <option value="temporary">Temporary</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6 col-md-6 form-group">
+                                <label>Contract Name</label>
+                                <input type="text" name="contract_name" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12">
+                            <div class="col-sm-12 col-md-12">
+                                <label>Contract Description</label>
+                                <textarea name="contract_desc" id="contract_desc"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12">
+                            <div class="col-sm-6 col-md-6 form-group">
+                                <label>Contract Number</label>
+                                <input type="number" name="contract_number" class="form-control">
+                            </div>
+                            <div class="col-sm-6 col-md-6 form-group">
+                                <label>Amount Per Month</label>
+                                <input type="number" name="amount_per_month" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12">
+                            <div class="col-sm-6 col-md-6 form-group">
+                                <label>Income Per Month</label>
+                                <input type="number" name="income_per_month" class="form-control">
+                            </div>
+                            <div class="col-sm-6 col-md-6 form-group">
+                                <label>Currency</label>
+                                <select class="form-control select2-currency" name="currency_id">
+                                  <option></option>
+                                  @if(isset($currencies))
+                                    @foreach($currencies as $currency)
+                                      <option value="{{ $currency->id }}">{{ $currency->code }}</option>
+                                    @endforeach
+                                  @endif
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12">
+                            <div class="col-sm-4 col-md-4 form-group">
+                                <label>Cost Reference</label>
+                                <input type="text" name="cost_reference" class="form-control">
+                            </div>
+                            <div class="col-sm-4 col-md-4 form-group">
+                                <label>Income Reference</label>
+                                <input type="text" name="income_reference" class="form-control">
+                            </div>
+                            <div class="col-sm-4 col-md-4 form-group">
+                                <label>Other Reference</label>
+                                <input type="text" name="other_reference" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12">
+                            <div class="col-sm-12 col-md-12 form-group">
+                                <label>Attach Files</label>
+                                <input type="file" name="files" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12">
+                            <div class="col-sm-6 col-md-6 form-group">
+                                <label>Building</label>
+                                <select class="form-control select2-building" name="building_id">
+                                  <option></option>
+                                  @if(isset($buildings))
+                                    @foreach($buildings as $building)
+                                      <option value="{{ $building->id }}">{{ $building->name }}</option>
+                                    @endforeach
+                                  @endif
+                                </select>
+                            </div>
+                            <div class="col-sm-6 col-md-6 form-group">
+                                <label>Cost Number</label>
+                                <input type="number" name="cost_number" class="form-control">
+                            </div>
+
+                        </div>
+                    </div>
+
+
                     <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
                       <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> PREVIOUS</button>&nbsp;&nbsp;
                       <a href="{!! route('admin.companies.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
@@ -138,8 +298,89 @@
 
     // -------------------------------------------------------------------------
 
+    $('#renewal').hide();
 
-    $('#contract-content').summernote({
+    $('#contract_auto_renewal').on('change', function() {
+      if(this.value == 1)
+      {
+        $('#renewal').show();
+      }
+      else
+      {
+        $('#renewal').hide();
+      }  
+    });
+
+    $('#renewal_qty_month').hide();
+    $('#contract_renewal').on('change', function() {
+      if(this.value == 'qty_month')
+      {
+        $('#renewal_qty_month').show();
+      }
+      else
+      {
+        $('#renewal_qty_month').hide();
+      }  
+    });
+
+    $("input[name='files']").fileuploader({
+        theme: 'thumbnails',
+        enableApi: true,
+        addMore: true,
+        thumbnails: {
+            box: '<div class="fileuploader-items">' +
+                      '<ul class="fileuploader-items-list">' +
+                          '<li class="fileuploader-thumbnails-input"><div class="fileuploader-thumbnails-input-inner">+</div></li>' +
+                      '</ul>' +
+                  '</div>',
+            item: '<li class="fileuploader-item">' +
+                       '<div class="fileuploader-item-inner">' +
+                           '<div class="thumbnail-holder">${image}</div>' +
+                           '<div class="actions-holder">' +
+                               '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
+                           '</div>' +
+                           '<div class="progress-holder">${progressBar}</div>' +
+                       '</div>' +
+                   '</li>',
+            item2: '<li class="fileuploader-item">' +
+                       '<div class="fileuploader-item-inner">' +
+                           '<div class="thumbnail-holder">${image}</div>' +
+                           '<div class="actions-holder">' +
+                               '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
+                           '</div>' +
+                       '</div>' +
+                   '</li>',
+            startImageRenderer: true,
+            canvasImage: false,
+            _selectors: {
+                list: '.fileuploader-items-list',
+                item: '.fileuploader-item',
+                start: '.fileuploader-action-start',
+                retry: '.fileuploader-action-retry',
+                remove: '.fileuploader-action-remove'
+            },
+            onItemShow: function(item, listEl) {
+                var plusInput = listEl.find('.fileuploader-thumbnails-input');
+                
+                plusInput.insertAfter(item.html);
+                
+                if(item.format == 'image') {
+                    item.html.find('.fileuploader-item-icon').hide();
+                }
+            }
+        },
+        afterRender: function(listEl, parentEl, newInputEl, inputEl) {
+            var plusInput = listEl.find('.fileuploader-thumbnails-input'),
+                api = $.fileuploader.getInstance(inputEl.get(0));
+        
+            plusInput.on('click', function() {
+                api.open();
+            });
+        }
+    });
+
+
+    $('#contract_desc').summernote({
       height: 200,
       toolbar: [
         ['parastyle', ['style']],
@@ -157,10 +398,10 @@
     });
  
     
-      $('#daterange-3').daterangepicker({
+      $('#contract_start_date').daterangepicker({
         singleDatePicker: true,
         showDropdowns: true,
-        startDate: "01/01/2018",
+        startDate: new Date(),
       });
     
 
@@ -168,17 +409,36 @@
       // Initialize Select2
       
       $(function() {
-        $('.select2-country').select2({
-          placeholder: 'Select Country',
+        $('.select2-contract_auto_renewal').select2({
+          placeholder: 'Select',
         });
       });
-              
+
+      $(function() {
+        $('.select2-contract_renewal').select2({
+          placeholder: 'Select',
+        });
+      });
+         
+      $(function() {
+        $('.select2-contract_type').select2({
+          placeholder: 'Select',
+        });
+      });
+
+      $(function() {
+        $('.select2-currency').select2({
+          placeholder: 'Select',
+        });
+      });
+
+      $(function() {
+        $('.select2-building').select2({
+          placeholder: 'Select',
+        });
+      });     
 
               
-              
-
-
-    
     // -------------------------------------------------------------------------
     // Initialize wizard validation example
 
@@ -197,6 +457,8 @@
       $('[data-toggle="tooltip"]').tooltip();
 
       // Rules
+
+      var lease_partner_id;
 
       var editCompany = 0;
       var companyCreated = 0;
@@ -227,24 +489,15 @@
                   error.insertAfter(element);
                 }
               }
-
       });
 
-
       $('#wizard-1').on('submit', function(e) {
-
-       
             e.preventDefault();
-
             // test if form is valid 
             if( $('#wizard-1').validate().form() ) {
-
-
               if (editCompany == 0 && companyCreated == 0) {
-
                   var myform = document.getElementById("wizard-1");
                   var data = new FormData(myform);
-
                   $.ajax({
                       url: '{{ route("company.leasePartners.store") }}',
                       data: data,
@@ -254,23 +507,18 @@
                       type: 'POST', // For jQuery < 1.9
                       success: function(data){
                           // myform.pxWizard('goTo', 2);
-                          company_id = data.company.id;
-                          companyCreated = data.success;
 
-                          // console.log(data);
+                          lease_partner_id = data.id;
+                          $('#lease_partner_id').val(lease_partner_id);
+                          // console.log(lease_partner_id);
                       },
                       error: function(xhr,status,error)  {
-
                       }
-
                   });
-
               } else {
-
                   var myform = document.getElementById("wizard-1");
                   var data = new FormData(myform);
                   data.append('company_id', editCompany);
-
                   <?php
                     if (isset($company)) {
                        $updateRoute = route("admin.companies.update", [$company->id]);
@@ -278,7 +526,6 @@
                       $updateRoute = '';
                     }
                   ?>
-
                   $.ajax({
                       url: '{{ $updateRoute }}',
                       data: data,
@@ -292,90 +539,75 @@
                           // console.log(data);
                       },
                       error: function(xhr,status,error)  {
-
                       }
-
                   });
-
               }
-
             } else {
                 // console.log("does not validate");
             }
         });
-
-
-      $('#state_id').on('change', function() {
-
-          var getStateId = $('#state_id').val();
-          // alert(state_id);
-
-          $.ajax({
-              url: '{{ route("cities.list") }}',
-              data: { state_id: getStateId },
-              dataType: 'json',
-              cache: false,
-              type: 'POST', // For jQuery < 1.9
-              success: function(data){
-                  
-                  if (data.success == 1) {
-                    var option = "";
-                    
-                    $.each(data.cities, function(i, item) {
-                        option += '<option data-state="'+item.state_id+'" value="'+item.id+'">'+item.name+'</option>';
-                    });
-
-                    $('#city_id').html(option);
-
-
-                  }
-
-                  // console.log(data);
-              },
-              error: function(xhr,status,error)  {
-
-              }
-
-          });
-      });
-
-
      
       var contactPersonCreated = 0;
 
-      $('#wizard-2').validate();
+      $('#wizard-2').validate({
+
+          rules: {
+              'organization_number': {
+                required:  true,
+                digits : true
+              },
+              'company_name': {
+                required:  true,
+                minlength: 3,
+                maxlength: 100,
+              },
+              'contract_person': {
+                required:  true,
+                maxlength: 100,
+              },
+              'tel': {
+                required:  true,
+                digits : true
+              },
+              'email': {
+                required:  true,
+                email: true
+              }
+            },
+              errorPlacement: function(error, element) {
+                var placement = $(element).parent().find('.errorTxt');
+                if (placement) {
+                  $(placement).append(error)
+                } else {
+                  error.insertAfter(element);
+                }
+              }
+      });
       
       $('#wizard-2').on('submit', function(e) {
-       
-            e.preventDefault();
 
+            e.preventDefault();
             // test if form is valid 
             if($('#wizard-2').validate().form()) {
-
               if (editCompany == 0 && contactPersonCreated == 0) {
-
                     var myform = document.getElementById("wizard-2");
                     var data = new FormData(myform );
-                    data.append('company_id', company_id);
-
-                    // console.log(data);
-
+                    data.append('lease_partner_id', lease_partner_id);
                     $.ajax({
-                        url: '{{ route("admin.companyContactPeople.store") }}',
+                        url: '{{ route("company.leaseCounterparts.store") }}',
                         data: data,
                         cache: false,
                         contentType: false,
                         processData: false,
                         type: 'POST', // For jQuery < 1.9
                         success: function(data){
-                            contactPersonCreated = data.success;
-
+                            // contactPersonCreated = data.success;
                             // console.log(data);
+
+                            console.log(data);
                         },
                         error: function(xhr,status,error)  {
-
                         }
-
                     });
                 } else {
 
@@ -443,7 +675,76 @@
 
       var companyBuildingCreated = 0;
 
-      $('#wizard-3').validate();
+      $('#wizard-3').validate({
+          ignore: ":hidden:not(#contract_desc),.note-editable.panel-body",
+          rules: {
+              'contract_start_date': {
+                required:  true
+              },
+              'contract_length': {
+                required:  true,
+                minlength: 1
+              },
+              'termination_time': {
+                required:  true,
+              },
+              'contract_auto_renewal': {
+                required:  true
+              },
+              'contract_renewal': {
+                required:  true,
+              },
+              'renewal_number_month': {
+                required:  true,
+              },
+              'contract_type': {
+                required:  true,
+              },
+              'contract_name': {
+                required:  true,
+              },
+              'contract_desc': {
+                required:  true,
+              },
+              'contract_number': {
+                required:  true,
+                digits : true
+              },
+              'amount_per_month': {
+                required:  true,
+                digits : true
+              },
+              'income_per_month': {
+                required:  true,
+              },
+              'currency_id': {
+                required:  true,
+              },
+              'cost_reference': {
+                required:  true,
+              },
+              'income_reference': {
+                required:  true,
+              },
+              'other_reference': {
+                required:  true,
+              },
+              'building_id': {
+                required:  true,
+              },
+              'cost_number':{
+                required: true
+              }
+            },
+              errorPlacement: function(error, element) {
+                var placement = $(element).parent().find('.errorTxt');
+                if (placement) {
+                  $(placement).append(error)
+                } else {
+                  error.insertAfter(element);
+                }
+              }
+      });
       
       $('#wizard-3').on('submit', function(e) {
        
@@ -453,13 +754,13 @@
             if( $('#wizard-3').validate().form() ) {
 
               if (editCompany == 0 && companyBuildingCreated == 0) {
-
+                    var lease_partner_id = 4;
                     var myform = document.getElementById("wizard-3");
                     var data = new FormData(myform);
-                    data.append('company_id', company_id);
+                    data.append('lease_partner_id', lease_partner_id);
 
                     $.ajax({
-                        url: '{{ route("admin.companyBuildings.store") }}',
+                        url: '{{ route("company.leaseContractInformations.store") }}',
                         data: data,
                         cache: false,
                         contentType: false,

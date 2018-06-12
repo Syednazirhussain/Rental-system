@@ -58,10 +58,10 @@ class LeaseCounterpartController extends AppBaseController
         $input = $request->all();
 
         $leaseCounterpart = $this->leaseCounterpartRepository->create($input);
+        return response()->json($leaseCounterpart);
 
-        Flash::success('Lease Counterpart saved successfully.');
-
-        return redirect(route('company.leaseCounterparts.index'));
+        // Flash::success('Lease Counterpart saved successfully.');
+        // return redirect(route('company.leaseCounterparts.index'));
     }
 
     /**

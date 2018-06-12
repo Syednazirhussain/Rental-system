@@ -11,6 +11,11 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
+use Auth;
+use App\Models\Company\Currency;
+use App\Models\CompanyBuilding;
+
+
 class LeasePartnerController extends AppBaseController
 {
     /** @var  LeasePartnerRepository */
@@ -43,7 +48,19 @@ class LeasePartnerController extends AppBaseController
      */
     public function create()
     {
-        return view('company.lease_partners.create');
+
+
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+
+        $buildings = CompanyBuilding::where('company_id',$company_id)->get();
+        $currencies = Currency::all();
+
+        $data = [
+            'currencies' => $currencies,
+            'buildings'  => $buildings   
+        ];
+
+        return view('company.lease_partners.create',$data);
     }
 
     /**
@@ -60,11 +77,17 @@ class LeasePartnerController extends AppBaseController
         print_r($input);
         exit;
 
+        if(isset($input['delegated']) &&  $input['delegated'] == 'on')
+        {
+            $input['delegated'] = 1;
+        }
+        else
+        {
+            $input['delegated'] = 0;
+        }
+
         $leasePartner = $this->leasePartnerRepository->create($input);
-
-        Flash::success('Lease Partner saved successfully.');
-
-        return redirect(route('company.leasePartners.index'));
+        return response()->json($leasePartner);
     }
 
     /**
