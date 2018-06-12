@@ -1,23 +1,17 @@
-@extends('layouts.app')
+@extends('company.default')
 
 @section('content')
-    <section class="content-header">
-        <h1>
-            Lease Partner
-        </h1>
-   </section>
-   <div class="content">
-       @include('adminlte-templates::common.errors')
-       <div class="box box-primary">
-           <div class="box-body">
-               <div class="row">
-                   {!! Form::model($leasePartner, ['route' => ['company.leasePartners.update', $leasePartner->id], 'method' => 'patch']) !!}
 
-                        @include('company.lease_partners.fields')
+     <div class="px-content">
+        <div class="page-header">
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Leasings / </span>{{ $leasePartner->parent_company }}</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
 
-                   {!! Form::close() !!}
-               </div>
-           </div>
-       </div>
-   </div>
+                @include('company.lease_partners.fields')
+
+            </div>
+        </div>
+    </div>
 @endsection

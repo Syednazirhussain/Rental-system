@@ -33,12 +33,12 @@
 
 
         <div class="wizard-content">
-
+`
           <!-- ===========================wizard-1===================================== -->
      
             <form action="{{ route('company.leasePartners.store') }}" name="createCompanyForm" class="wizard-pane active" id="wizard-1" method="post">
 
-                @if (isset($company))
+                @if (isset($leasePartner))
                     <input name="_method" type="hidden" value="PATCH">
                 @endif
                 <h3 class="m-t-0">Leasing Partner</h3>
@@ -47,24 +47,24 @@
                     <div class="col-sm-12 col-md-12">
                         <div class="col-sm-6 col-md-6 form-group">
                             <label>Parent Company</label>
-                            <input type="text" name="parent_company" class="form-control">
+                            <input type="text" name="parent_company" value="@if(isset($leasePartner)){{ $leasePartner->parent_company }}@endif" class="form-control">
                         </div>
                         <div class="col-sm-6 col-md-6">
                             <label>Sister Company</label>
-                            <input type="text" name="sister_company" class="form-control">
+                            <input type="text" name="sister_company" value="@if(isset($leasePartner)){{ $leasePartner->sister_company }}@endif" class="form-control">
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-12">
                         <div class="col-sm-6 col-md-6 form-group">
                             <label>Sales Person</label>
-                            <input type="text" name="sales_person" class="form-control">
+                            <input type="text" name="sales_person" value="@if(isset($leasePartner)){{ $leasePartner->sales_person }}@endif" class="form-control">
                         </div>
                         <div class="col-sm-6 col-md-6 m-t-4">
                             <label class="custom-control custom-checkbox">
-                              @if(isset($room) && $room->rent_calendar_available == 1)
+                              @if(isset($leasePartner) && $leasePartner->delegated == 1)
                                 <input type="checkbox" name="delegated" id="delegated" class="custom-control-input" checked="checked">
                                 <span class="custom-control-indicator"></span>
-                                Calender Available
+                                Delegated
                               @else
                                 <input type="checkbox" name="delegated" id="delegated" class="custom-control-input">
                                 <span class="custom-control-indicator"></span>
@@ -77,7 +77,7 @@
 
                 <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
                         <a href="{!! route('company.leasePartners.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
-                    @if (isset($company))
+                    @if (isset($leasePartner))
                         <button type="submit" class="btn btn-primary" id="updateCompanyBtn" data-wizard-action="next">NEXT <i class="fa fa-arrow-right m-l-1"></i></button>
                     @else
                         <button type="submit" class="btn btn-primary" id="createCompanyBtn" data-wizard-action="next">CREATE LEASING <i class="fa fa-arrow-right m-l-1"></i></button>
@@ -89,7 +89,7 @@
 
 
             <form class="wizard-pane" id="wizard-2" method="POST" >
-                @if (isset($company))
+                @if (isset($leasePartner))
                     <input name="_method" type="hidden" value="PATCH">
                 @endif
                 <h3 class="m-t-0">Company Contact Persons</h3>
@@ -98,30 +98,30 @@
                     <div class="col-sm-12 col-md-12">
                         <div class="col-sm-6 col-md-6 form-group">
                             <label>Organization Number</label>
-                            <input type="number" name="organization_number" class="form-control">
+                            <input type="number" name="organization_number" value="@if(isset($leaseCounterPart)){{ $leaseCounterPart[0]->organization_number }}@endif" class="form-control">
                         </div>
                         <div class="col-sm-6 col-md-6">
                             <label>Conmpany Name</label>
-                            <input type="text" name="company_name" class="form-control">
+                            <input type="text" name="company_name" value="@if(isset($leaseCounterPart)){{ $leaseCounterPart[0]->company_name }}@endif" class="form-control">
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-12">
                         <div class="col-sm-6 col-md-6 form-group">
                             <label>Contact Person</label>
-                            <input type="text" name="contract_person" class="form-control">
+                            <input type="text" name="contract_person" value="@if(isset($leaseCounterPart)){{ $leaseCounterPart[0]->contract_person }}@endif" class="form-control">
                         </div>
                         <div class="col-sm-6 col-md-6">
                             <label>Telephone</label>
-                            <input type="text" name="tel" class="form-control">
+                            <input type="text" name="tel" value="@if(isset($leaseCounterPart)){{ $leaseCounterPart[0]->tel }}@endif" class="form-control">
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-12">
                         <div class="col-sm-6 col-md-6 form-group">
                             <label>Email</label>
-                            <input type="text" name="email" class="form-control">
+                            <input type="text" name="email" value="@if(isset($leaseCounterPart)){{ $leaseCounterPart[0]->email }}@endif" class="form-control">
                         </div>
                         <div class="col-sm-6 col-md-6">
-                            <input type="hidden" name="lease_partner_id" id="lease_partner_id" value="4" class="form-control">
+                            <!-- <input type="hidden" name="lease_partner_id" id="lease_partner_id" value="4" class="form-control"> -->
                         </div>
                     </div>
                 </div>
@@ -136,7 +136,7 @@
             <!-- ============================wizard-2==================================== -->
 
             <form class="wizard-pane" id="wizard-3">
-                  @if (isset($company))
+                  @if (isset($leasePartner))
                       <input name="_method" type="hidden" value="PATCH">
                   @endif
                   <h3 class="m-t-0">Leasing Contract Information</h3>
@@ -144,24 +144,34 @@
                         <div class="col-sm-12 col-md-12">
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Contract Start Date</label>
-                                <input type="text" name="contract_start_date" id="contract_start_date" class="form-control">
+                                <input type="text" name="contract_start_date" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->contract_start_date }}@endif" id="contract_start_date" class="form-control">
                             </div>
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Contract Number Of Months</label>
-                                <input type="number" name="contract_length" class="form-control">
+                                <input value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->contract_length }}@endif" type="number" name="contract_length" class="form-control">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-12">
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Contract Termination Time In Months</label>
-                                <input type="number" name="termination_time" class="form-control">
+                                <input value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->termination_time }}@endif" type="number" name="termination_time" class="form-control">
                             </div>
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Is Contract Automatic Renewal</label>
                                 <select class="form-control select2-contract_auto_renewal" id="contract_auto_renewal" name="contract_auto_renewal">
                                   <option></option>
-                                  <option value="1">Yes</option>
-                                  <option value="0">No</option>
+                                  @if(isset($leaseContractInformation))
+                                    @if($leaseContractInformation[0]->contract_auto_renewal == 1)
+                                      <option value="1" selected="selected">Yes</option>
+                                      <option value="0">No</option>
+                                    @elseif($leaseContractInformation[0]->contract_auto_renewal == 0)
+                                      <option value="1">Yes</option>
+                                      <option value="0" selected="selected">No</option>
+                                    @endif
+                                  @else
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                  @endif
                                 </select>
                             </div>
                         </div>
@@ -170,13 +180,23 @@
                                 <label>Contract Renewal</label>
                                 <select class="form-control select2-contract_renewal" id="contract_renewal" name="contract_renewal">
                                   <option></option>
-                                  <option value="unlimited">Unlimited</option>
-                                  <option value="qty_month">Quantity In Month</option>
+                                  @if(isset($leaseContractInformation))
+                                    @if($leaseContractInformation[0]->contract_renewal == 'qty_month')
+                                      <option value="unlimited">Unlimited</option>
+                                      <option value="qty_month" selected="selected">Quantity In Month</option>
+                                    @elseif($leaseContractInformation[0]->contract_renewal == 'unlimited')
+                                      <option value="unlimited" selected="selected">Unlimited</option>
+                                      <option value="qty_month">Quantity In Month</option>
+                                    @endif
+                                  @else
+                                    <option value="unlimited">Unlimited</option>
+                                    <option value="qty_month">Quantity In Month</option>
+                                  @endif
                                 </select>
                             </div>
                             <div class="col-sm-6 col-md-6 form-group" id="renewal_qty_month">
                                 <label>Contract Renewal Number Of Month</label>
-                                <input type="number" name="renewal_number_month" id=" renewal_number_month" class="form-control">
+                                <input type="number" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->renewal_number_month }}@endif" name="renewal_number_month" id=" renewal_number_month" class="form-control">
                             </div>
                         </div>                        
                         <div class="col-sm-12 col-md-12">
@@ -184,35 +204,46 @@
                                 <label>Contract Type</label>
                                 <select class="form-control select2-contract_type" name="contract_type">
                                   <option></option>
-                                  <option value="permenent">Permenent</option>
-                                  <option value="temporary">Temporary</option>
+                                  @if(isset($leaseContractInformation))
+                                    @if($leaseContractInformation[0]->contract_type  == 'permenent')
+                                      <option value="permenent" selected="selected">Permenent</option>
+                                      <option value="temporary">Temporary</option> 
+                                    @elseif($leaseContractInformation[0]->contract_type  == 'temporary')
+                                      <option value="permenent">Permenent</option>
+                                      <option value="temporary" selected="selected">Temporary</option>
+                                    @endif
+                                  @else
+                                    <option value="permenent">Permenent</option>
+                                    <option value="temporary">Temporary</option>
+                                  @endif
+
                                 </select>
                             </div>
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Contract Name</label>
-                                <input type="text" name="contract_name" class="form-control">
+                                <input type="text" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->contract_name }}@endif" name="contract_name" class="form-control">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-12">
                             <div class="col-sm-12 col-md-12">
                                 <label>Contract Description</label>
-                                <textarea name="contract_desc" id="contract_desc"></textarea>
+                                <textarea name="contract_desc" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->contract_desc }}@endif" id="contract_desc"></textarea>
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-12">
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Contract Number</label>
-                                <input type="number" name="contract_number" class="form-control">
+                                <input type="number" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->contract_number }}@endif" name="contract_number" class="form-control">
                             </div>
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Amount Per Month</label>
-                                <input type="number" name="amount_per_month" class="form-control">
+                                <input type="number"  value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->amount_per_month }}@endif" name="amount_per_month" class="form-control">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-12">
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Income Per Month</label>
-                                <input type="number" name="income_per_month" class="form-control">
+                                <input type="number" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->income_per_month }}@endif" name="income_per_month" class="form-control">
                             </div>
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Currency</label>
@@ -220,7 +251,13 @@
                                   <option></option>
                                   @if(isset($currencies))
                                     @foreach($currencies as $currency)
-                                      <option value="{{ $currency->id }}">{{ $currency->code }}</option>
+                                      @if(isset($leaseContractInformation))
+                                        @if($currency->id == $leaseContractInformation[0]->currency_id)
+                                          <option value="{{ $currency->id }}" selected="selected">{{ $currency->code }}</option>
+                                        @endif
+                                      @else
+                                        <option value="{{ $currency->id }}">{{ $currency->code }}</option>
+                                      @endif
                                     @endforeach
                                   @endif
                                 </select>
@@ -229,15 +266,15 @@
                         <div class="col-sm-12 col-md-12">
                             <div class="col-sm-4 col-md-4 form-group">
                                 <label>Cost Reference</label>
-                                <input type="text" name="cost_reference" class="form-control">
+                                <input type="text" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->cost_reference }}@endif" name="cost_reference" class="form-control">
                             </div>
                             <div class="col-sm-4 col-md-4 form-group">
                                 <label>Income Reference</label>
-                                <input type="text" name="income_reference" class="form-control">
+                                <input type="text" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->income_reference }}@endif" name="income_reference" class="form-control">
                             </div>
                             <div class="col-sm-4 col-md-4 form-group">
                                 <label>Other Reference</label>
-                                <input type="text" name="other_reference" class="form-control">
+                                <input type="text" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->other_reference }}@endif" name="other_reference" class="form-control">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-12">
@@ -253,14 +290,20 @@
                                   <option></option>
                                   @if(isset($buildings))
                                     @foreach($buildings as $building)
-                                      <option value="{{ $building->id }}">{{ $building->name }}</option>
+                                      @if(isset($leaseContractInformation))
+                                        @if($building->id == $leaseContractInformation[0]->building_id)
+                                          <option value="{{ $building->id }}" selected="selected">{{ $building->name }}</option>
+                                        @endif
+                                      @else
+                                        <option value="{{ $building->id }}">{{ $building->name }}</option>
+                                      @endif
                                     @endforeach
                                   @endif
                                 </select>
                             </div>
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Cost Number</label>
-                                <input type="number" name="cost_number" class="form-control">
+                                <input type="number" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->cost_number }}@endif" name="cost_number" class="form-control">
                             </div>
 
                         </div>
@@ -297,6 +340,9 @@
 
 
     // -------------------------------------------------------------------------
+    
+    var lease_partner_id;
+    var editLease = "{{ isset($leasePartner) ? $leasePartner->id: 0 }}";
 
     $('#renewal').hide();
 
@@ -458,9 +504,9 @@
 
       // Rules
 
-      var lease_partner_id;
 
-      var editCompany = 0;
+
+
       var companyCreated = 0;
 
       $('#wizard-1').validate({
@@ -495,7 +541,7 @@
             e.preventDefault();
             // test if form is valid 
             if( $('#wizard-1').validate().form() ) {
-              if (editCompany == 0 && companyCreated == 0) {
+              if (editLease == 0 && companyCreated == 0) {
                   var myform = document.getElementById("wizard-1");
                   var data = new FormData(myform);
                   $.ajax({
@@ -518,10 +564,10 @@
               } else {
                   var myform = document.getElementById("wizard-1");
                   var data = new FormData(myform);
-                  data.append('company_id', editCompany);
+                  data.append('company_id', editLease);
                   <?php
-                    if (isset($company)) {
-                       $updateRoute = route("admin.companies.update", [$company->id]);
+                    if (isset($leasePartner)) {
+                       $updateRoute = route("company.leasePartners.update", [$leasePartner->id]);
                     } else {
                       $updateRoute = '';
                     }
@@ -589,7 +635,7 @@
             e.preventDefault();
             // test if form is valid 
             if($('#wizard-2').validate().form()) {
-              if (editCompany == 0 && contactPersonCreated == 0) {
+              if (editLease == 0 && contactPersonCreated == 0) {
                     var myform = document.getElementById("wizard-2");
                     var data = new FormData(myform );
                     data.append('lease_partner_id', lease_partner_id);
@@ -613,12 +659,18 @@
 
                     var myform = document.getElementById("wizard-2");
                     var data = new FormData(myform );
-                    data.append('company_id', editCompany);
+                    data.append('lease_partner_id', editLease);
 
-                    // console.log(data);
+                    <?php
+                      if (isset($leaseCounterPart)) {
+                         $updateRoute = route("company.leaseCounterparts.update", [$leaseCounterPart[0]->id]);
+                      } else {
+                        $updateRoute = '';
+                      }
+                    ?>
 
                     $.ajax({
-                        url: '{{ route("admin.companyContactPeople.update") }}',
+                        url: '{{ $updateRoute }}',
                         data: data,
                         cache: false,
                         contentType: false,
@@ -626,39 +678,8 @@
                         type: 'POST', // For jQuery < 1.9
                         success: function(data) {
 
-                            
-                            $.each(data.createdFields, function (index, value) {
-
-                               $('input[data-person-id="new-'+index+'"]').val(value);
-                               $('input[data-person-id="new-'+index+'"]').attr('name', "person["+value+"][id]");
-                               $('input[data-person-id="new-'+index+'"]').attr("data-person-id", value);
-
-                               $('input[data-person-name="new-'+index+'"]').attr('name', "person["+value+"][name]");
-                               $('input[data-person-name="new-'+index+'"]').attr("data-person-name", value);
-
-                               $('input[data-person-email="new-'+index+'"]').attr('name', "person["+value+"][email]");                               
-                               $('input[data-person-email="new-'+index+'"]').attr("data-person-email", value);
-
-                               $('input[data-person-phone="new-'+index+'"]').attr('name', "person["+value+"][phone]");
-                               $('input[data-person-phone="new-'+index+'"]').attr("data-person-phone", value);
-
-                               $('input[data-person-fax="new-'+index+'"]').attr('name', "person["+value+"][fax]");      
-                               $('input[data-person-fax="new-'+index+'"]').attr("data-person-fax", value);
-
-                               $('input[data-person-department="new-'+index+'"]').attr('name', "person["+value+"][department]"); 
-                               $('input[data-person-department="new-'+index+'"]').attr("data-person-department", value);
-
-                               $('input[data-person-address="new-'+index+'"]').attr('name', "person["+value+"][address]");
-                               $('input[data-person-designation="new-'+index+'"]').attr("data-person-address", value);
-
-                               $('input[data-person-designation="new-'+index+'"]').attr('name', "person["+value+"][designation]");
-                               $('input[data-person-designation="new-'+index+'"]').attr("data-person-designation", value);
-
-                            });
-
-                            // contactPersonCreated = data.success;
-
                             // console.log(data);
+
                         },
                         error: function(xhr,status,error)  {
 
@@ -753,7 +774,7 @@
             // test if form is valid 
             if( $('#wizard-3').validate().form() ) {
 
-              if (editCompany == 0 && companyBuildingCreated == 0) {
+              if (editLease == 0 && companyBuildingCreated == 0) {
                     var myform = document.getElementById("wizard-3");
                     var data = new FormData(myform);
                     data.append('lease_partner_id', lease_partner_id);
@@ -784,7 +805,7 @@
 
                     var myform = document.getElementById("wizard-3");
                     var data = new FormData(myform );
-                    data.append('company_id', editCompany);
+                    data.append('company_id', editLease);
 
                     // console.log(data);
 

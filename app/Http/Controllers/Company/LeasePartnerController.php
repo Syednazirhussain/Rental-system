@@ -14,7 +14,9 @@ use Response;
 use Auth;
 use App\Models\Company\Currency;
 use App\Models\CompanyBuilding;
-
+use App\Models\Company\LeaseCounterpart;
+use App\Models\Company\LeaseContractInformation;
+use App\Models\Company\LeaseAttachment;
 
 class LeasePartnerController extends AppBaseController
 {
@@ -117,13 +119,25 @@ class LeasePartnerController extends AppBaseController
     {
         $leasePartner = $this->leasePartnerRepository->findWithoutFail($id);
 
-        if (empty($leasePartner)) {
-            Flash::error('Lease Partner not found');
-
+        if (empty($leasePartner)) 
+        {
+            session()->flash('msg.error','Lease Partner not found');
             return redirect(route('company.leasePartners.index'));
         }
 
-        return view('company.lease_partners.edit')->with('leasePartner', $leasePartner);
+        $leaseCounterPart =  LeaseCounterpart::where('lease_partner_id',$id)->get();
+        $leaseContractInformation =  LeaseContractInformation::where('lease_partner_id',$id)->get();
+        $leaseAttachment =  LeaseAttachment::where('lease_partner_id',$id)->get();
+
+        $data = [
+            'leasePartner' => $leasePartner,
+            'leaseCounterPart'  => $leaseCounterPart,
+            'leaseContractInformation'  => $leaseContractInformation,
+            'leaseAttachment'   => $leaseAttachment
+        ];
+
+
+        return view('company.lease_partners.edit',$data);
     }
 
     /**
@@ -138,17 +152,37 @@ class LeasePartnerController extends AppBaseController
     {
         $leasePartner = $this->leasePartnerRepository->findWithoutFail($id);
 
-        if (empty($leasePartner)) {
-            Flash::error('Lease Partner not found');
+        $input = $request->all();
 
+        if(isset($input['delegated']) &&  $input['delegated'] == 'on')
+        {
+            $input['delegated'] = 1;
+        }
+        else
+        {
+            $input['delegated'] = 0;
+        }
+
+        if (empty($leasePartner)) 
+        {
+            session()->flash('msg.error','Lease Partner not found');
             return redirect(route('company.leasePartners.index'));
         }
 
-        $leasePartner = $this->leasePartnerRepository->update($request->all(), $id);
+        $leasePartner = $this->leasePartnerRepository->update($input, $id);
 
-        Flash::success('Lease Partner updated successfully.');
+        if($leasePartner)
+        {   
+            return response()->json(['status' => 'success','msg' => 'Lease Partner updated successfully']);
+        }
+        else
+        {
+            return response()->json(['status' => 'fail','msg' => 'Lease Partner cannot be updated']);
+        }
 
-        return redirect(route('company.leasePartners.index'));
+        // Flash::success('Lease Partner updated successfully.');
+
+        // return redirect(route('company.leasePartners.index'));
     }
 
     /**

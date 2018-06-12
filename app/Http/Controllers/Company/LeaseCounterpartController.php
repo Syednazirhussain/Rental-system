@@ -116,17 +116,26 @@ class LeaseCounterpartController extends AppBaseController
     {
         $leaseCounterpart = $this->leaseCounterpartRepository->findWithoutFail($id);
 
-        if (empty($leaseCounterpart)) {
-            Flash::error('Lease Counterpart not found');
-
+        if (empty($leaseCounterpart)) 
+        {
+            session()->flash('msg.error','Lease Counterpart not found');
             return redirect(route('company.leaseCounterparts.index'));
         }
 
         $leaseCounterpart = $this->leaseCounterpartRepository->update($request->all(), $id);
 
-        Flash::success('Lease Counterpart updated successfully.');
+        if($leaseCounterpart)
+        {
+            return response()->json(['status' => 'success','msg' => 'Lease Counterpart updated successfully']);
+        }
+        else
+        {
+            return response()->json(['status' => 'fail','msg' => 'Lease Counterpart cannot be updated']);
+        }
 
-        return redirect(route('company.leaseCounterparts.index'));
+        // Flash::success('Lease Counterpart updated successfully.');
+
+        // return redirect(route('company.leaseCounterparts.index'));
     }
 
     /**
