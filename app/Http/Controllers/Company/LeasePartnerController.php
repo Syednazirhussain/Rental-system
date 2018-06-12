@@ -49,7 +49,6 @@ class LeasePartnerController extends AppBaseController
     public function create()
     {
 
-
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
 
         $buildings = CompanyBuilding::where('company_id',$company_id)->get();
@@ -73,9 +72,6 @@ class LeasePartnerController extends AppBaseController
     public function store(CreateLeasePartnerRequest $request)
     {
         $input = $request->all();
-
-        print_r($input);
-        exit;
 
         if(isset($input['delegated']) &&  $input['delegated'] == 'on')
         {

@@ -77,7 +77,6 @@ class LeaseContractInformation extends Model
         'cost_reference',
         'income_reference',
         'other_reference',
-        'lease_attachment_id',
         'building_id',
         'cost_number',
         'lease_partner_id'

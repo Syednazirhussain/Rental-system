@@ -15,13 +15,10 @@
             <td>{!! $leasePartner->sister_company !!}</td>
             <td>{!! $leasePartner->sales_person !!}</td>
             <td>{!! $leasePartner->delegated !!}</td>
-            <td>
+            <td  width="200px" class="center">
                 {!! Form::open(['route' => ['company.leasePartners.destroy', $leasePartner->id], 'method' => 'delete']) !!}
-                <div class='btn-group'>
-                    <a href="{!! route('company.leasePartners.show', [$leasePartner->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
-                    <a href="{!! route('company.leasePartners.edit', [$leasePartner->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-edit"></i></a>
-                    {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
-                </div>
+                  <a href="{!! route('company.leasePartners.edit', [$leasePartner->id]) !!}"><i class="fa fa-edit fa-lg text-info"></i></a>
+                  {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
                 {!! Form::close() !!}
             </td>
         </tr>

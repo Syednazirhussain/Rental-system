@@ -31,7 +31,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class LeasePartner extends Model
 {
-    use SoftDeletes;
+    // use SoftDeletes;
 
     public $table = 'lease_partner';
     
@@ -39,7 +39,7 @@ class LeasePartner extends Model
     const UPDATED_AT = 'updated_at';
 
 
-    protected $dates = ['deleted_at'];
+    // protected $dates = ['deleted_at'];
 
 
     public $fillable = [

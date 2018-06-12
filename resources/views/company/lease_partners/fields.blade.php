@@ -5,7 +5,7 @@
 
         <div class="wizard-wrapper">
           <ul class="wizard-steps">
-            <li data-target="#wizard-1">
+            <li data-target="#wizard-1" class="active">
               <span class="wizard-step-number">1</span>
               <span class="wizard-step-complete"><i class="fa fa-check"></i></span>
               <span class="wizard-step-caption">
@@ -21,7 +21,7 @@
               </span>
             </li>
 
-            <li data-target="#wizard-3" class="active">
+            <li data-target="#wizard-3">
               <span class="wizard-step-number">3</span>
               <span class="wizard-step-complete"><i class="fa fa-check"></i></span>
               <span class="wizard-step-caption">
@@ -754,7 +754,6 @@
             if( $('#wizard-3').validate().form() ) {
 
               if (editCompany == 0 && companyBuildingCreated == 0) {
-                    var lease_partner_id = 4;
                     var myform = document.getElementById("wizard-3");
                     var data = new FormData(myform);
                     data.append('lease_partner_id', lease_partner_id);
@@ -768,10 +767,12 @@
                         type: 'POST', // For jQuery < 1.9
                         success: function(data){
                             // myform.pxWizard('goTo', 2);
-
-                            companyBuildingCreated = data.success;
-
                             // console.log(data);
+                            alert(data.msg);
+                            if(data.status == 'success')
+                            {
+                                location.href = "{{ route('company.leasePartners.index') }}";
+                            }
                         },
                         error: function(xhr,status,error)  {
 

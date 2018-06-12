@@ -82,22 +82,27 @@ class LeaseContractInformationController extends AppBaseController
             {
                 $lease_attachment = new LeaseAttachment;
                 $lease_attachment->file_name = $file_name;
+                $lease_attachment->lease_partner_id = $input['lease_partner_id'];
                 $lease_attachment->save();
                 if($lease_attachment)
                 {
                     $attachmentIDs[$index] = $lease_attachment->id;
                     $index++; 
                 }
-            }
-
-            $input['lease_attachment_id'] = json_encode($attachmentIDs);            
+            }           
         }
+
+
 
         unset($input['files']);
         unset($input['fileuploader-list-files']);
 
+        // print_r($input);
+        // exit;
+        $contract_start_date =  \Carbon\Carbon::parse($input['contract_start_date'])->format('Y-m-d');
+
         $leaseContractForm = new  LeaseContractInformation;
-        $leaseContractForm->contract_start_date = $input['contract_start_date'];
+        $leaseContractForm->contract_start_date = $contract_start_date;
         $leaseContractForm->contract_length = $input['contract_length'];
         $leaseContractForm->termination_time = $input['termination_time'];
         $leaseContractForm->contract_auto_renewal = $input['contract_auto_renewal'];
@@ -113,18 +118,20 @@ class LeaseContractInformationController extends AppBaseController
         $leaseContractForm->cost_reference = $input['cost_reference'];
         $leaseContractForm->income_reference = $input['income_reference'];
         $leaseContractForm->other_reference = $input['other_reference'];
-        $leaseContractForm->lease_attachment_id = $input['lease_attachment_id'];
+        $leaseContractForm->lease_attachment_id = null;
         $leaseContractForm->building_id = $input['building_id'];
         $leaseContractForm->cost_number = $input['cost_number'];
         $leaseContractForm->lease_partner_id = $input['lease_partner_id'];
         $leaseContractForm->save();
 
-        print_r($leaseContractForm);
-        exit;
-
-        // $leaseContractInformation = $this->leaseContractInformationRepository->create($input);
-
-
+        if($leaseContractForm)
+        { 
+            return response()->json(['status' => 'success','msg' => 'Lease has been created successfully']);
+        }
+        else
+        {
+            return response()->json(['status' => 'fail','msg' => 'There is some problem while saving these record']);
+        }
 
         // Flash::success('Lease Contract Information saved successfully.');
         // return redirect(route('company.leaseContractInformations.index'));
