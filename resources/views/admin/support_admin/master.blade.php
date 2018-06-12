@@ -10,9 +10,9 @@
             <!-- <span class="badge">90</span> -->
         </a>
     </li>
-<!--     <li role="presentation">
-            <a href="#">Dashboard</a>
-    </li> -->
+    <li role="presentation">
+            <a href="{{ route('admin.supports.dashboard') }}">Dashboard</a>
+    </li>
     <li role="presentation" class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-cog"></i>&nbsp;Settings 

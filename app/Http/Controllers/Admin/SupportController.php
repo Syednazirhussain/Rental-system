@@ -54,6 +54,100 @@ class SupportController extends AppBaseController
         return view('admin.supports.index')->with('supports',$supports);
     }
 
+    public function dashboard()
+    {
+        // support ticket count
+        
+        $totalTickets = Support::all()->count();
+        // $support = Support::all();
+
+        $support = Support::where('parent_id','==',0)->get();
+
+        
+        $status_id = SupportStatus::where('name','Pending')->first()->id;
+        $openTickets = Support::where('status_id',$status_id)
+                            ->get()
+                            ->count();
+
+        $status_id = SupportStatus::where('name','Solved')->first()->id;
+        $closedTickets = Support::where('status_id',$status_id)
+                            ->get()
+                            ->count();
+
+
+        // dd($support);
+
+        // support user display and count 
+
+        $uniqUsers = [];
+        $index = 0;
+        for ($i=0; $i < count($support); $i++) { 
+            if (!empty($uniqUsers)) {
+                if (!in_array($support[$i]->user_id, $uniqUsers)) {
+                    $uniqUsers[$index] = $support[$i]->user_id;
+                    $index++;
+                }
+            }
+            else{
+                $uniqUsers[$index] = $support[$i]->user_id;
+                $index++;
+            }
+        }
+
+        $countUser  =   [];
+ 
+        $totalUser  =   [];
+        $index      =   0;
+        for ($i=0; $i < count($uniqUsers); $i++) {
+            $countUser[$index]= Support::where('user_id',$uniqUsers[$i])->get();
+            $supportUserName  =    Support::where('user_id',$uniqUsers[$i])->first();
+            $name   =   $supportUserName->user->name;
+            $totalUser[$index]      =   ['user_name' => $name, 'total' => count($countUser[$index])];
+            $index++;
+        }
+        
+
+        // support category count
+        $categoryAll = SupportCategory::all('name');
+
+        $categoryNames = [];
+        $index = 0;
+
+        foreach ($categoryAll as $category) {
+            $categoryNames[$index] = $category->name;
+            $index++;
+
+        }
+
+
+        $counts = [];
+        $index = 0;
+        foreach ($categoryNames as  $categoryName) 
+        {
+            $category_id = SupportCategory::where('name',$categoryName)->first()->id;
+            $Count = Support::where('category_id',$category_id)
+                                ->get()
+                                ->count();
+            $counts[$index] = [ 'category' =>  $categoryName, 'totalCount' => $Count];
+            $index++;
+        }
+
+
+
+        $categories = SupportCategory::all();
+
+        $data = [
+                    'totalTickets'      =>  $totalTickets,
+                    'openTickets'       =>  $openTickets,
+                    'closedTickets'     =>  $closedTickets,
+                    'categories'        =>  $categories,
+                    'counts'            =>  $counts,
+                    'support'           =>  $support,
+                    'totalUser'         =>  $totalUser
+                ];
+        return view('admin.supports.dashboard',$data);
+    }
+
     public function completedTicket()
     {
 
@@ -151,8 +245,10 @@ class SupportController extends AppBaseController
             $input['company_name'] = $company_name;
             $input['last_comment'] = $user_name;
 
-            $support = $this->supportRepository->create($input);
 
+
+            $support = $this->supportRepository->create($input);
+            dd($input);
             if($support)
             {
                 $input['header'] = 'Dear '.$user_name;
@@ -240,8 +336,6 @@ class SupportController extends AppBaseController
             }
         }
     }
-
-
 
 
     public function companyCompleteTicket(Request $request)

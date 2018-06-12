@@ -18,7 +18,12 @@
     <link href="{{ asset('/skin-1/assets/css/themes/candy-green.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/skin-1/assets/plugins/jasny-bootstrap/css/jasny-bootstrap.min.css') }}" rel="stylesheet">
 
+
+
     @yield('css')
+
+
+
 
     <link href="{{ asset('/skin-1/assets/css/custom.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
@@ -41,6 +46,32 @@
         }
     </style>
     <!-- / Custom styling -->
+
+                        $companyID      = Auth::guard('company')->user()->companyUser()->first()->company_id;
+                        $companyModules = \App\Models\CompanyModule::where('company_id',$companyID)->get(); 
+
+
+
+
+
+
+
+
+    <link href="{{ asset('/skin-1/assets/fileuploader/src/jquery.fileuploader.css') }}" media="all" rel="stylesheet">
+    <link href="{{ asset('/skin-1/assets/fileuploader/css/jquery.fileuploader-theme-thumbnails.css') }}" media="all" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </head>
 <body>
@@ -238,6 +269,7 @@
                                                     </li>
                                                 </ul>
                                             </li>
+
                                             <li class="dropdown-toggle">
                                                 <a href="{{ route('company.services.index') }}">Services</a>
                                                 <ul class="dropdown-menu">
@@ -249,17 +281,38 @@
                                                     </li>
                                                 </ul>
                                             </li>
+
                                             <li class="dropdown-toggle">
                                                 <a href="{{ route('company.rooms.index') }}">Rooms</a>
                                                 <ul class="dropdown-menu">
-                                                    <li><a href="{{ route('company.rooms.create') }}"><i
+                                                    <li>
+                                                        <a href="{{ route('company.rooms.create') }}"><i
                                                                     class="fa fa-plus"></i>&nbsp;&nbsp;Add
-                                                            Room</a></li>
-                                                    <li><a href="{{ route('company.rooms.index') }}"><i
+                                                            Room</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{ route('company.rooms.index') }}"><i
                                                                     class="fa fa-th-large"></i>&nbsp;&nbsp;Rooms</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{ route('company.roomSettingArrangments.index') }}"><i
+                                                                    class="fa fa-th-large"></i>&nbsp;&nbsp;Room Sitting Arrangment</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{ route('company.roomImages.index') }}"><i
+                                                                    class="fa fa-th-large"></i>&nbsp;&nbsp;Room Images</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{ route('company.roomEquipments.index') }}"><i
+                                                                    class="fa fa-th-large"></i>&nbsp;&nbsp;Room Equipment</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{ route('company.roomNotes.index') }}"><i
+                                                                    class="fa fa-th-large"></i>&nbsp;&nbsp;Room Notes</a>
                                                     </li>
                                                 </ul>
                                             </li>
+
                                             <li class="dropdown-toggle">
                                                 <a href="{{ route('company.contracts.index') }}">Contracts</a>
                                                 <ul class="dropdown-menu">
@@ -321,6 +374,17 @@
                     <li class="divider"></li>
                     <li><a href="{{ route('company.contracts.status') }}">Contract Calendar</a></li>
                     <li class="dropdown-toggle">
+                        <a href="{{ route('company.bookingAgencies.index') }}">Booking Agencies</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ route('company.bookingAgencies.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
+                                    Agency</a></li>
+                            <li><a href="{{ route('company.bookingAgencies.index') }}"><i class="fa fa-user-secret"></i>&nbsp;&nbsp;Company Agencies</a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                    <li class="dropdown-toggle">
                         <a href="{{ route('company.supports.index') }}">Support</a>
                         <ul class="dropdown-menu">
                             <li>
@@ -375,11 +439,20 @@
 
 <!-- jQuery -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script> -->
 <script src="{{ asset('/skin-1/assets/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('/skin-1/assets/js/pixeladmin.min.js') }}"></script>
 <script src="{{ asset('/skin-1/assets/js/jquery.validate.min.js') }}"></script>
+
+
+
+
 <script src="{{ asset('/skin-1/assets/js/custom.js') }}"></script>
 <script src="{{ asset('/skin-1/assets/plugins/jasny-bootstrap/js/jasny-bootstrap.min.js') }}"></script>
+
+
+<script src="{{ asset('/skin-1/assets/fileuploader/src/jquery.fileuploader.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/skin-1/assets/fileuploader/js/custom.js') }}" type="text/javascript"></script>
 
 <script type="text/javascript">
     $.ajaxSetup({
@@ -388,6 +461,8 @@
         }
     });
 </script>
+
+
 
 @yield('js')
 

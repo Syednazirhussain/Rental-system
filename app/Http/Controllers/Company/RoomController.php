@@ -18,6 +18,12 @@ use App\Models\CompanyFloorRoom;
 use App\Models\Service;
 use App\Models\Room;
 use App\Models\RoomContracts;
+use App\Models\Equipments;
+
+use App\Models\Company\RoomImages;
+use App\Models\Company\RoomSettingArrangment;
+use App\Models\Company\RoomEquipments;
+
 
 class RoomController extends AppBaseController
 {
@@ -69,6 +75,7 @@ class RoomController extends AppBaseController
         $company = Company::find($company_id);
         $companyFloors = CompanyFloorRoom::where('company_id', $company_id)->get();
         $companyBuildings = CompanyBuilding::pluck('name', 'id');
+        $equipments = Equipments::all();
 
         $buildings = CompanyBuilding::where('company_id',$company_id)->get();
 
@@ -80,10 +87,17 @@ class RoomController extends AppBaseController
             'companyBuildings' => $companyBuildings,
             'services' => $services,
             'companyServices' => $services,
-            'buildings'   => $buildings
+            'buildings'   => $buildings,
+            'equipments'  => $equipments  
           ];
 
         return view('company.rooms.create', $data);
+    }
+
+    public function getCompanyRoomEquipment()
+    {
+        $equipments = Equipments::all();
+        return json_encode($equipments);
     }
 
     /**
@@ -100,7 +114,7 @@ class RoomController extends AppBaseController
 
         $input = $request->all();
 
-
+        // dd($input);
 
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
 
@@ -113,15 +127,6 @@ class RoomController extends AppBaseController
         else
         {
             $input['image1'] = '';
-        }
-
-        if ($request->has('room_module_type')) 
-        {
-            $input['room_module_type'] = 1;    
-        }
-        else
-        {
-            $input['room_module_type'] = 0;   
         }
 
         if($request->has('end_date_continue'))
@@ -211,6 +216,10 @@ class RoomController extends AppBaseController
             return redirect()->back()->withErrors($errors);
         }
 
+        $room_type = $input['room_module_type'];
+
+        // dd($input);
+
 
         $room = new Room;
         $room->floor_id = $input['floor_id'];
@@ -264,65 +273,106 @@ class RoomController extends AppBaseController
         $room->save();
 
 
-        // $room = $this->roomRepository->create($input);
-
         if($room)
         {
-            // return response()->json(['success'=> 1, 'msg'=>'Company has been created successfully', 'room'=>$room]);
+            $room_id = $room->id;
+            $company_id = $room->company_id;
+            $building_id = $room->building_id;
+
+            if($room_type == 'conference')
+            {
+
+                // This is For Room Sitting Arrangment table
+                $siiting_name_arr = $input['sitting_name'];
+                $siiting_num_person_arr = $input['sitting_number_person'];
+
+                // This is For Room Images Table
+                $filesCount =  count($input['sitting_name']);
+                $fileList = [];
+                for ($i=0; $i < $filesCount; $i++) 
+                { 
+                    $fileList[$i] = $input['files'.$i];
+                }
+                // echo "<pre>";
+                // print_r($fileList);
+                // echo "</pre>";exit;
+                
+                $equipment_ids_arr = $input['include_equipment_id'];
+                $qty_arr = $input['include_qty'];
+                $price_arr = $input['include_price'];
+                $info_arr = $input['include_info'];
+
+                for($i= 0; $i < count($siiting_name_arr) ; $i++ )
+                {
+                    $roomSittingArrangment = new  RoomSettingArrangment;
+                    $roomSittingArrangment->room_id  = $room_id;           
+                    $roomSittingArrangment->company_id = $company_id;            
+                    $roomSittingArrangment->building_id = $building_id;          
+                    $roomSittingArrangment->name = $siiting_name_arr[$i];           
+                    $roomSittingArrangment->number_persons = $siiting_num_person_arr[$i];
+                    $roomSittingArrangment->save();
+
+                    if($roomSittingArrangment)
+                    {
+                        $sitting_id = $roomSittingArrangment->id;
+            
+                        foreach ($fileList[$i] as $v) 
+                        {
+                            $path = $v->store('public/uploadedimages');
+                            $pathArr = explode('/', $path);
+                            $count = count($pathArr);
+                            $path = $pathArr[$count - 1];
+
+                            $roomImages = new RoomImages;
+                            $roomImages->building_id = $building_id;
+                            $roomImages->room_id = $room_id;
+                            $roomImages->sitting_id = $sitting_id;
+                            $roomImages->entity_type = $room_type;                            
+                            $roomImages->image_file = $path;
+                            $roomImages->save();
+                        }                      
+                    }
+                }
+
+                for ($i=0; $i < count($qty_arr); $i++) 
+                {
+                    $roomEquipment = new RoomEquipments; 
+                    $roomEquipment->room_id = $room_id;
+                    $roomEquipment->building_id = $building_id;
+                    $roomEquipment->room_type = $room_type;
+                    $roomEquipment->equipment_id = $equipment_ids_arr[$i];
+                    $roomEquipment->qty = $qty_arr[$i];
+                    $roomEquipment->price = $price_arr[$i];
+                    $roomEquipment->info = $info_arr[$i];
+                    $roomEquipment->save();
+                }
+            }
+            elseif($room_type == 'rental')
+            {
+
+                $equipment_ids_arr = $input['include_equipment_id_rent'];
+                $qty_arr = $input['include_qty_rent'];
+                $price_arr = $input['include_price_rent'];
+                $info_arr = $input['include_info_rent'];
+
+                for ($i=0; $i < count($qty_arr); $i++) 
+                {
+                    $roomEquipment = new RoomEquipments; 
+                    $roomEquipment->room_id = $room_id;
+                    $roomEquipment->building_id = $building_id;
+                    $roomEquipment->room_type = $room_type;
+                    $roomEquipment->equipment_id = $equipment_ids_arr[$i];
+                    $roomEquipment->qty = $qty_arr[$i];
+                    $roomEquipment->price = $price_arr[$i];
+                    $roomEquipment->info = $info_arr[$i];
+                    $roomEquipment->save();
+                }
+            }
+
 
             session()->flash('msg.success','room successfully created');
             return redirect()->route('company.rooms.index');            
         }
-
-
-
-
-        // $input['company_id'] = $company_id;
-        // $input['image1'] = '';
-        // $input['image2'] = '';
-        // $input['image3'] = '';
-        // $input['image4'] = '';
-        // $input['image5'] = '';
-
-        // if($request->image1)
-        // {
-        //     $image_link = $request->image1->hashName();
-        //     $request->image1->move(public_path('/uploadedimages'), $image_link);
-        //     $input['image1'] = $image_link;
-        // }
-        // if($request->image2)
-        // {
-        //     $image_link = $request->image2->hashName();
-        //     $request->image2->move(public_path('/uploadedimages'), $image_link);
-        //     $input['image2'] = $image_link;
-        // }
-        // if($request->image3)
-        // {
-        //     $image_link = $request->image3->hashName();
-        //     $request->image3->move(public_path('/uploadedimages'), $image_link);
-        //     $input['image3'] = $image_link;
-        // }
-        // if($request->image4)
-        // {
-        //     $image_link = $request->image4->hashName();
-        //     $request->image4->move(public_path('/uploadedimages'), $image_link);
-        //     $input['image4'] = $image_link;
-        // }
-        // if($request->image5)
-        // {
-        //     $image_link = $request->image5->hashName();
-        //     $request->image5->move(public_path('/uploadedimages'), $image_link);
-        //     $input['image5'] = $image_link;
-        // }
-
-        // $floor = CompanyFloorRoom::find($input['floor_id']);
-        // $room_count = Room::where('company_id', $company_id)->where('floor_id',$input['floor_id'])->count();
-        // //Check if room count over than specified floor room number
-        // if($floor->num_rooms <= $room_count) {
-        //     $request->session()->flash('msg.error', 'You can not create any more room on '.$floor->floor.'floor.');
-        //     return response()->json(['success'=> 0, 'msg'=>'Can not create room anymore']);
-        // }
-
 
     }
 
@@ -362,44 +412,54 @@ class RoomController extends AppBaseController
      */
     public function edit($id)
     {
-        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
-        $company = Company::find($company_id);
-        $companyFloors = CompanyFloorRoom::where('company_id', $company_id)->get();
-        $companyBuildings = CompanyBuilding::pluck('name', 'id');
-        $services = Service::where('company_id', $company_id)->get();
 
+        $room = $this->roomRepository->findWithoutFail($id);
 
-        $room = $this->roomRepository->findWithoutFail($id);        
-        $companyServices = Service::where('company_id', $company_id)->get();
+        // dd($room);
         
-        // $roomServices = CompanyService::where('room_id', $room->id)->get();
-
-
-
-
-        if (empty($room)) {
-            Flash::error('Company Room not found');
-
+        if (empty($room)) 
+        {
+            session()->flash('msg.error','Company Room not found');
             return redirect(route('company.rooms.index'));
         }
 
+        $room_id = $room->id;
+        $company_id = $room->company_id;
+        $building_id = $room->building_id;
 
-        $floor_name = CompanyBuilding::find(CompanyFloorRoom::find($room->floor_id)->building_id)->name.' - Floor'.CompanyFloorRoom::find($room->floor_id)->floor;
-        $service_name = Service::find($room->service_id)->name;
+
+        $buildings = CompanyBuilding::where('company_id',$company_id)->get();
+        $floors = CompanyFloorRoom::where('building_id',$building_id)->get();
+        $services = Service::where('company_id',$company_id)->get();
+
+
+        $roomSettings = RoomSettingArrangment::where('room_id',$room_id)->where('building_id',$building_id)->get();
+        $roomImages =  RoomImages::where('room_id',$room_id)->where('building_id',$building_id)->get();
+        $roomEquipments =  RoomEquipments::where('room_id',$room_id)->where('building_id',$building_id)->get();
+        $equipments = Equipments::all();
+        $roomSittingArrangments =  RoomSettingArrangment::where('room_id',$room_id)->get();
+
+
+        $roomImages = [];
+        for($i = 0 ; $i < count($roomSittingArrangments) ; $i++)
+        {
+            $roomImages[$i] = RoomImages::where('sitting_id',$roomSittingArrangments[$i]->id)->get();
+        }
+
+
 
         $data = [
-            'room' => $room,
-            'company' => $company,
-            'companyFloors' => $companyFloors,
-            'companyBuildings' => $companyBuildings,
+            'room'  => $room,
+            'buildings' => $buildings,
+            'floors' => $floors,
             'services' => $services,
-            'service_name' => $service_name,
-            'floor_name' => $floor_name,
-            'companyServices' => $companyServices,
-            // 'roomServices' => $roomServices
+            'roomImages' => $roomImages,
+            'roomSettings' => $roomSettings,
+            'roomEquipments' => $roomEquipments,
+            'equipments' => $equipments,
+            'roomSittingArrangments' => $roomSittingArrangments,
+            'roomImages' => $roomImages
         ];
-
-        dd( $data );
 
         return view('company.rooms.edit', $data);
     }

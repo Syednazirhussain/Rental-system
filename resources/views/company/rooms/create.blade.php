@@ -1,11 +1,5 @@
 @extends('company.default')
 
-
-@section('css')
-
-
-@endsection
-
 @section('content')
     <div class="px-content">
         <div class="page-header">
