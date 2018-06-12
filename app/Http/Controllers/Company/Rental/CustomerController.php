@@ -179,7 +179,19 @@ class CustomerController extends AppBaseController
      */
     public function destroy($id, Request $request)
     {
-        return redirect(route('company.contracts.index'));
+        $customer = CompanyCustomer::find($id);
+
+        if (empty($customer)) {
+            Flash::error('Company Customer not found');
+
+            return redirect(route('company.article.index'));
+        }
+
+        $customer->delete();
+
+        $request->session()->flash('msg.success', 'Company Customer deleted successfully.');
+
+        return redirect(route('company.rcustomer.index'));
     }
 
     /**

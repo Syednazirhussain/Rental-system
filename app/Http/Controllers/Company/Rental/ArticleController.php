@@ -173,7 +173,19 @@ class ArticleController extends AppBaseController
      */
     public function destroy($id, Request $request)
     {
-        return redirect(route('company.contracts.index'));
+        $article = CompanyArticle::find($id);
+
+        if (empty($article)) {
+            Flash::error('Company Article not found');
+
+            return redirect(route('company.rarticle.index'));
+        }
+
+        $article->delete();
+
+        $request->session()->flash('msg.success', 'Company Article deleted successfully.');
+
+        return redirect(route('company.rarticle.index'));
     }
 
     /**
