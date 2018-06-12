@@ -40,8 +40,10 @@ class ArticleController extends AppBaseController
     {
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $articles = CompanyArticle::where('company_id', $company_id)->get();
+        $companyBuildings = CompanyBuilding::where('company_id', $company_id)->get();
         $data = [
-          'articles' => $articles,
+            'articles' => $articles,
+            'buildings' => $companyBuildings,
 
         ];
 
@@ -174,4 +176,54 @@ class ArticleController extends AppBaseController
         return redirect(route('company.contracts.index'));
     }
 
+    /**
+     * Articles Normal Search by ID, Name
+     */
+    public function normal_search(Request $request)
+    {
+        $input = $request->all();
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        if($input['data'] !== '') {
+            $articles = CompanyArticle::where('company_id', $company_id)
+                ->where(function($q) use($input){
+                    $q->where('id', $input['data'])
+                        ->orWhere('article_name_swedish', 'like', '%'.$input['data'].'%')
+                        ->orWhere('article_name_english', 'like', '%'.$input['data'].'%');
+                })->get();
+        } else {
+            $articles = CompanyArticle::where('company_id', $company_id)->get();
+        }
+
+        $data = [
+            'company_id' => $company_id,
+            'articles' => $articles,
+        ];
+
+        return response()->json(['success'=>1, 'msg'=>'', 'data'=>$data]);
+    }
+
+
+    /**
+     * Articles Normal Search by building, floor
+     */
+    public function advance_search(Request $request)
+    {
+        $input = $request->all();
+
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        if($input['building'] !== '') {
+            $articles = CompanyArticle::where('company_id', $company_id)
+                ->where('building', $input['building'])
+                ->get();
+        } else {
+            $articles = CompanyArticle::where('company_id', $company_id)->get();
+        }
+
+        $data = [
+            'company_id' => $company_id,
+            'articles' => $articles,
+        ];
+
+        return response()->json(['success'=>1, 'msg'=>'', 'data'=>$data]);
+    }
 }

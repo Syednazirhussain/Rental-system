@@ -657,6 +657,8 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::delete('company/rcustomer/{rcustomer}', ['as'=> 'company.rcustomer.destroy', 'uses' => 'Company\Rental\CustomerController@destroy']);
     Route::get('company/rcustomer/{rcustomer}', ['as'=> 'company.rcustomer.show', 'uses' => 'Company\Rental\CustomerController@show']);
     Route::get('company/rcustomer/{rcustomer}/edit', ['as'=> 'company.rcustomer.edit', 'uses' => 'Company\Rental\CustomerController@edit']);
+    Route::post('company/rcustomer/search', ['as'=> 'company.rcustomer.search', 'uses' => 'Company\Rental\CustomerController@normal_search']);
+    Route::post('company/rcustomer/advance_search', ['as'=> 'company.rcustomer.advance_search', 'uses' => 'Company\Rental\CustomerController@advance_search']);
     // Second Tab -  Contacts
     Route::get('company/rcontact', ['as'=> 'company.rcontact.index', 'uses' => 'Company\Rental\ContactController@index']);
     Route::post('company/rcontact', ['as'=> 'company.rcontact.store', 'uses' => 'Company\Rental\ContactController@store']);
@@ -684,6 +686,9 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::delete('company/rarticle/{rarticle}', ['as'=> 'company.rarticle.destroy', 'uses' => 'Company\Rental\ArticleController@destroy']);
     Route::get('company/rarticle/{rarticle}', ['as'=> 'company.rarticle.show', 'uses' => 'Company\Rental\ArticleController@show']);
     Route::get('company/rarticle/{rarticle}/edit', ['as'=> 'company.rarticle.edit', 'uses' => 'Company\Rental\ArticleController@edit']);
+    Route::post('company/rarticle/search', ['as'=> 'company.rarticle.search', 'uses' => 'Company\Rental\ArticleController@normal_search']);
+    Route::post('company/rarticle/advance_search', ['as'=> 'company.rarticle.advance_search', 'uses' => 'Company\Rental\ArticleController@advance_search']);
+
     // Fifth Tab - Price
     Route::get('company/rprice', ['as'=> 'company.rprice.index', 'uses' => 'Company\Rental\PriceController@index']);
     Route::post('company/rprice', ['as'=> 'company.rprice.store', 'uses' => 'Company\Rental\PriceController@store']);

@@ -39,9 +39,13 @@ class CustomerController extends AppBaseController
     {
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $customers = CompanyCustomer::where('company_id', $company_id)->get();
+        $companyBuildings = CompanyBuilding::where('company_id', $company_id)->get();
+        $companyFloors = CompanyFloorRoom::where('company_id', $company_id)->get();
         $data = [
-          'company_id' => $company_id,
-          'customers' => $customers,
+            'company_id' => $company_id,
+            'customers' => $customers,
+            'buildings' => $companyBuildings,
+            'floors' => $companyFloors,
         ];
 
         return view('company.rental.customers.index', $data);
@@ -178,4 +182,59 @@ class CustomerController extends AppBaseController
         return redirect(route('company.contracts.index'));
     }
 
+    /**
+     * Customers Normal Search by name, org.nr, email
+     */
+    public function normal_search(Request $request)
+    {
+        $input = $request->all();
+/*        echo "<pre>";
+        print_r($input['data']);
+        echo "</pre>";
+        exit;*/
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        if($input['data'] !== '') {
+            $customers = CompanyCustomer::where('company_id', $company_id)
+                ->where(function($q) use($input){
+                    $q->where('org_no', $input['data'])
+                        ->orwhere('email', $input['data'])
+                        ->orWhere('name', 'like', '%'.$input['data'].'%');
+                })->get();
+        } else {
+            $customers = CompanyCustomer::where('company_id', $company_id)->get();
+        }
+
+        $data = [
+            'company_id' => $company_id,
+            'customers' => $customers,
+        ];
+
+        return response()->json(['success'=>1, 'msg'=>'', 'data'=>$data]);
+    }
+
+
+    /**
+     * Customers Normal Search by building, floor
+     */
+    public function advance_search(Request $request)
+    {
+        $input = $request->all();
+
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        if($input['building'] !== '') {
+            $customers = CompanyCustomer::where('company_id', $company_id)
+                ->where('building', $input['building'])
+                ->where('floor', $input['floor'])
+                ->get();
+        } else {
+            $customers = CompanyCustomer::where('company_id', $company_id)->get();
+        }
+
+        $data = [
+            'company_id' => $company_id,
+            'customers' => $customers,
+        ];
+
+        return response()->json(['success'=>1, 'msg'=>'', 'data'=>$data]);
+    }
 }
