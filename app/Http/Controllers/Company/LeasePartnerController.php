@@ -124,35 +124,45 @@ class LeasePartnerController extends AppBaseController
             session()->flash('msg.error','Lease Partner not found');
             return redirect(route('company.leasePartners.index'));
         }
+
+        $data['leasePartner'] = $leasePartner;
+
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
 
         $buildings = CompanyBuilding::where('company_id',$company_id)->get();
+        $data['buildings'] = $buildings; 
         $currencies = Currency::all();
+        $data['currencies'] = $currencies; 
+
         $leaseCounterPart =  LeaseCounterpart::where('lease_partner_id',$id)->get();
-        $leaseContractInformation =  LeaseContractInformation::where('lease_partner_id',$id)->get();
-        $leaseAttachment =  LeaseAttachment::where('lease_partner_id',$id)->get();
-
-        $url = asset('storage/leasingImages');
-
-        $url2 = public_path()."/storage/leasingImages";
-
-        for($i = 0 ; $i < count($leaseAttachment) ; $i++)
+        if(count($leaseCounterPart) > 0)
         {
-            $imageFiles[$i]['name'] = $leaseAttachment[$i]->file_name;
-            $imageFiles[$i]['file'] = $url.'/'.$leaseAttachment[$i]->file_name;
-            $imageFiles[$i]['size'] = filesize($url2.'/'.$leaseAttachment[$i]->file_name);
-            $imageFiles[$i]['type'] = mime_content_type($url2.'/'.$leaseAttachment[$i]->file_name);
+            $data['leaseCounterPart'] = $leaseCounterPart;            
         }
 
+        $leaseContractInformation =  LeaseContractInformation::where('lease_partner_id',$id)->get();
+        if(count($leaseContractInformation) > 0)
+        {
+            $data['leaseContractInformation'] = $leaseContractInformation;            
+        }
 
-        $data = [
-            'leasePartner' => $leasePartner,
-            'leaseCounterPart'  => $leaseCounterPart,
-            'leaseContractInformation'  => $leaseContractInformation,
-            'imageFiles'   => $imageFiles,
-            'buildings'  => $buildings,
-            'currencies' => $currencies   
-        ];
+        $leaseAttachment =  LeaseAttachment::where('lease_partner_id',$id)->get();
+        if(count($leaseAttachment) > 0)
+        {
+            $data['leaseAttachment'] = $leaseAttachment;
+            $imageFiles = [];
+            $url = asset('storage/leasingImages');
+            $url2 = public_path()."/storage/leasingImages";
+            for($i = 0 ; $i < count($leaseAttachment) ; $i++)
+            {
+                $imageFiles[$i]['name'] = $leaseAttachment[$i]->file_name;
+                $imageFiles[$i]['file'] = $url.'/'.$leaseAttachment[$i]->file_name;
+                $imageFiles[$i]['size'] = filesize($url2.'/'.$leaseAttachment[$i]->file_name);
+                $imageFiles[$i]['type'] = mime_content_type($url2.'/'.$leaseAttachment[$i]->file_name);
+            }
+            $data['imageFiles'] = $imageFiles;
+        }
+
 
         return view('company.lease_partners.edit',$data);
     }

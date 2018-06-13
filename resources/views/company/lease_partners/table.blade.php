@@ -14,7 +14,13 @@
             <td>{!! $leasePartner->parent_company !!}</td>
             <td>{!! $leasePartner->sister_company !!}</td>
             <td>{!! $leasePartner->sales_person !!}</td>
-            <td>{!! $leasePartner->delegated !!}</td>
+            <td>
+                @if($leasePartner->delegated == 1)
+                    <span class="label label-success">Yes</span>
+                @else
+                    <span class="label label-danger">No</span>
+                @endif
+            </td>
             <td  width="200px" class="center">
                 {!! Form::open(['route' => ['company.leasePartners.destroy', $leasePartner->id], 'method' => 'delete']) !!}
                   <a href="{!! route('company.leasePartners.edit', [$leasePartner->id]) !!}"><i class="fa fa-edit fa-lg text-info"></i></a>

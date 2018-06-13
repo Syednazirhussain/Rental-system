@@ -43,17 +43,17 @@
                     <div class="col-sm-12 col-md-12">
                         <div class="col-sm-6 col-md-6 form-group">
                             <label>Parent Company</label>
-                            <input type="text" name="parent_company" value="@if(isset($leasePartner)){{ $leasePartner->parent_company }}@endif" class="form-control">
+                            <input type="text" placeholder="ex: Nestle" name="parent_company" value="@if(isset($leasePartner)){{ $leasePartner->parent_company }}@endif" class="form-control">
                         </div>
                         <div class="col-sm-6 col-md-6">
                             <label>Sister Company</label>
-                            <input type="text" name="sister_company" value="@if(isset($leasePartner)){{ $leasePartner->sister_company }}@endif" class="form-control">
+                            <input type="text" placeholder="ex: Fruita vitals" name="sister_company" value="@if(isset($leasePartner)){{ $leasePartner->sister_company }}@endif" class="form-control">
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-12">
                         <div class="col-sm-6 col-md-6 form-group">
                             <label>Sales Person</label>
-                            <input type="text" name="sales_person" value="@if(isset($leasePartner)){{ $leasePartner->sales_person }}@endif" class="form-control">
+                            <input type="text" placeholder="ex: John Doe" name="sales_person" value="@if(isset($leasePartner)){{ $leasePartner->sales_person }}@endif" class="form-control">
                         </div>
                         <div class="col-sm-6 col-md-6 m-t-4">
                             <label class="custom-control custom-checkbox">
@@ -85,7 +85,7 @@
 
 
             <form class="wizard-pane" id="wizard-2" method="POST" >
-                @if (isset($leasePartner))
+                @if (isset($leaseCounterPart))
                     <input name="_method" type="hidden" value="PATCH">
                 @endif
                 <h3 class="m-t-0">Company Contact Persons</h3>
@@ -94,27 +94,27 @@
                     <div class="col-sm-12 col-md-12">
                         <div class="col-sm-6 col-md-6 form-group">
                             <label>Organization Number</label>
-                            <input type="number" name="organization_number" value="@if(isset($leaseCounterPart)){{ $leaseCounterPart[0]->organization_number }}@endif" class="form-control">
+                            <input type="number" placeholder="ex: 7810" name="organization_number" value="@if(isset($leaseCounterPart)){{ $leaseCounterPart[0]->organization_number }}@endif" class="form-control">
                         </div>
                         <div class="col-sm-6 col-md-6">
                             <label>Conmpany Name</label>
-                            <input type="text" name="company_name" value="@if(isset($leaseCounterPart)){{ $leaseCounterPart[0]->company_name }}@endif" class="form-control">
+                            <input type="text" placeholder="ex: Nestle" name="company_name" value="@if(isset($leaseCounterPart)){{ $leaseCounterPart[0]->company_name }}@endif" class="form-control">
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-12">
                         <div class="col-sm-6 col-md-6 form-group">
                             <label>Contact Person</label>
-                            <input type="text" name="contract_person" value="@if(isset($leaseCounterPart)){{ $leaseCounterPart[0]->contract_person }}@endif" class="form-control">
+                            <input type="text" name="contract_person" placeholder="ex: John Doe" value="@if(isset($leaseCounterPart)){{ $leaseCounterPart[0]->contract_person }}@endif" class="form-control">
                         </div>
                         <div class="col-sm-6 col-md-6">
                             <label>Telephone</label>
-                            <input type="text" name="tel" value="@if(isset($leaseCounterPart)){{ $leaseCounterPart[0]->tel }}@endif" class="form-control">
+                            <input type="text" name="tel" placeholder="ex: 021-4564165" value="@if(isset($leaseCounterPart)){{ $leaseCounterPart[0]->tel }}@endif" class="form-control">
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-12">
                         <div class="col-sm-6 col-md-6 form-group">
                             <label>Email</label>
-                            <input type="text" name="email" value="@if(isset($leaseCounterPart)){{ $leaseCounterPart[0]->email }}@endif" class="form-control">
+                            <input type="text" placeholder="ex: admin@example.com" name="email" value="@if(isset($leaseCounterPart)){{ $leaseCounterPart[0]->email }}@endif" class="form-control">
                         </div>
                         <div class="col-sm-6 col-md-6">
                             <!-- <input type="hidden" name="lease_partner_id" id="lease_partner_id" value="4" class="form-control"> -->
@@ -124,7 +124,7 @@
 
                 <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
                   <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> PREVIOUS</button>&nbsp;&nbsp;
-                  <a href="{!! route('admin.companies.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
+                  <a href="{!! route('company.leasePartners.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
                   <button type="submit" class="btn btn-primary" id="addContactPersonBtn" data-wizard-action="next">NEXT <i class="fa fa-arrow-right m-l-1"></i></button>
                 </div>
             </form>
@@ -132,7 +132,7 @@
             <!-- ============================wizard-2==================================== -->
 
             <form class="wizard-pane" id="wizard-3" enctype="multipart/form-data">
-                  @if (isset($leasePartner))
+                  @if (isset($leaseContractInformation))
                       <input name="_method" type="hidden" value="PATCH">
                   @endif
                   <h3 class="m-t-0">Leasing Contract Information</h3>
@@ -144,13 +144,13 @@
                             </div>
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Contract Number Of Months</label>
-                                <input value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->contract_length }}@endif" type="number" name="contract_length" class="form-control">
+                                <input value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->contract_length }}@endif" type="number" name="contract_length" placeholder="ex: 2" class="form-control">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-12">
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Contract Termination Time In Months</label>
-                                <input value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->termination_time }}@endif" type="number" name="termination_time" class="form-control">
+                                <input value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->termination_time }}@endif" type="number" name="termination_time" placeholder="ex: 2" class="form-control">
                             </div>
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Is Contract Automatic Renewal</label>
@@ -192,7 +192,7 @@
                             </div>
                             <div class="col-sm-6 col-md-6 form-group" id="renewal_qty_month">
                                 <label>Contract Renewal Number Of Month</label>
-                                <input type="number" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->renewal_number_month }}@endif" name="renewal_number_month" id=" renewal_number_month" class="form-control">
+                                <input type="number" placeholder="ex: 2" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->renewal_number_month }}@endif" name="renewal_number_month" id=" renewal_number_month" class="form-control">
                             </div>
                         </div>                        
                         <div class="col-sm-12 col-md-12">
@@ -217,7 +217,7 @@
                             </div>
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Contract Name</label>
-                                <input type="text" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->contract_name }}@endif" name="contract_name" class="form-control">
+                                <input type="text" placeholder="ex: Lease" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->contract_name }}@endif" name="contract_name" class="form-control">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-12">
@@ -232,17 +232,17 @@
                         <div class="col-sm-12 col-md-12">
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Contract Number</label>
-                                <input type="number" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->contract_number }}@endif" name="contract_number" class="form-control">
+                                <input type="number" placeholder="ex: 2456" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->contract_number }}@endif" name="contract_number" class="form-control">
                             </div>
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Amount Per Month</label>
-                                <input type="number"  value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->amount_per_month }}@endif" name="amount_per_month" class="form-control">
+                                <input type="number" placeholder="ex: 2"  value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->amount_per_month }}@endif" name="amount_per_month" class="form-control">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-12">
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Income Per Month</label>
-                                <input type="number" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->income_per_month }}@endif" name="income_per_month" class="form-control">
+                                <input type="number" placeholder="ex: 25000" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->income_per_month }}@endif" name="income_per_month" class="form-control">
                             </div>
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Currency</label>
@@ -265,15 +265,15 @@
                         <div class="col-sm-12 col-md-12">
                             <div class="col-sm-4 col-md-4 form-group">
                                 <label>Cost Reference</label>
-                                <input type="text" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->cost_reference }}@endif" name="cost_reference" class="form-control">
+                                <input type="text" placeholder="ex: Furniture" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->cost_reference }}@endif" name="cost_reference" class="form-control">
                             </div>
                             <div class="col-sm-4 col-md-4 form-group">
                                 <label>Income Reference</label>
-                                <input type="text" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->income_reference }}@endif" name="income_reference" class="form-control">
+                                <input type="text" placeholder="ex: Salary" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->income_reference }}@endif" name="income_reference" class="form-control">
                             </div>
                             <div class="col-sm-4 col-md-4 form-group">
                                 <label>Other Reference</label>
-                                <input type="text" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->other_reference }}@endif" name="other_reference" class="form-control">
+                                <input type="text" placeholder="ex: Equipments" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->other_reference }}@endif" name="other_reference" class="form-control">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-12">
@@ -302,7 +302,7 @@
                             </div>
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Cost Number</label>
-                                <input type="number" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->cost_number }}@endif" name="cost_number" class="form-control">
+                                <input type="number" placeholder="ex: 254" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->cost_number }}@endif" name="cost_number" class="form-control">
                             </div>
 
                         </div>
@@ -311,7 +311,7 @@
 
                     <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
                       <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> PREVIOUS</button>&nbsp;&nbsp;
-                      <a href="{!! route('admin.companies.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
+                      <a href="{!! route('company.leasePartners.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
                       <button type="submit" class="btn btn-primary" data-wizard-action="next">NEXT <i class="fa fa-arrow-right m-l-1"></i></button>
                     </div>
             </form>
@@ -635,9 +635,9 @@
       $('[data-toggle="tooltip"]').tooltip();
 
       // Rules
-
-
-
+      jQuery.validator.addMethod("alphanumeric", function(value, element) {
+          return this.optional(element) || /^[-\w.]+$/i.test(value);
+      }, "Letters, numbers, and underscores only please");
 
       var companyCreated = 0;
 
@@ -646,17 +646,15 @@
           rules: {
               'parent_company': {
                 required:  true,
-                minlength: 3,
-                maxlength: 100,
+                alphanumeric: true
               },
               'sister_company': {
-                required:  false,
-                minlength: 3,
-                maxlength: 100,
+                required:  true,
+                alphanumeric: true
               },
               'sales_person': {
-                required:  false,
-                maxlength: 100,
+                required:  true,
+                alphanumeric: true
               }
             },
               errorPlacement: function(error, element) {
@@ -697,6 +695,7 @@
                   var myform = document.getElementById("wizard-1");
                   var data = new FormData(myform);
                   data.append('company_id', editLease);
+                  
                   <?php
                     if (isset($leasePartner)) {
                        $updateRoute = route("company.leasePartners.update", [$leasePartner->id]);
@@ -704,6 +703,7 @@
                       $updateRoute = '';
                     }
                   ?>
+                  
                   $.ajax({
                       url: '{{ $updateRoute }}',
                       data: data,
@@ -745,7 +745,7 @@
               },
               'tel': {
                 required:  true,
-                digits : true
+                alphanumeric: true
               },
               'email': {
                 required:  true,
@@ -793,38 +793,65 @@
                     var data = new FormData(myform );
                     data.append('lease_partner_id', editLease);
 
-                    <?php
-                      if (isset($leaseCounterPart)) {
-                         $updateRoute = route("company.leaseCounterparts.update", [$leaseCounterPart[0]->id]);
-                      } else {
-                        $updateRoute = '';
-                      }
-                    ?>
+                    var editLeaseCounterPart = "{{ isset($leaseCounterPart) ? $leaseCounterPart[0]->id: 0 }}";
 
-                    $.ajax({
-                        url: '{{ $updateRoute }}',
-                        data: data,
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        type: 'POST', // For jQuery < 1.9
-                        success: function(data) {
-
-                            // console.log(data);
-
-                        },
-                        error: function(xhr,status,error)  {
-
+                    if(editLeaseCounterPart != 0)
+                    {
+                      <?php
+                        if (isset($leaseCounterPart)) {
+                           $updateRoute = route("company.leaseCounterparts.update", [$leaseCounterPart[0]->id]);
+                        } else {
+                          $updateRoute = '';
                         }
+                      ?>
 
-                    });
+                      $.ajax({
+                          url: '{{ $updateRoute }}',
+                          data: data,
+                          cache: false,
+                          contentType: false,
+                          processData: false,
+                          type: 'POST', // For jQuery < 1.9
+                          success: function(data) {
+
+                              // console.log(data);
+
+                          },
+                          error: function(xhr,status,error)  {
+
+                          }
+                      });
+                    }
+                    else
+                    {
+                      $.ajax({
+                          url: '{{ route("company.leaseCounterparts.store") }}',
+                          data: data,
+                          cache: false,
+                          contentType: false,
+                          processData: false,
+                          type: 'POST', // For jQuery < 1.9
+                          success: function(data){
+                              // contactPersonCreated = data.success;
+                              // console.log(data);
+
+                              console.log(data);
+                          },
+                          error: function(xhr,status,error)  {
+                          }
+                      });
+                    }
+
+
                 }
             } else {
                 // console.log("does not validate");
             }
         });
 
-
+      jQuery.validator.addMethod("dollarsscents", function(value, element) {
+          return this.optional(element) || /^\d{0,4}(\.\d{0,2})?$/i.test(value);
+      }, "You must include two decimal places");
 
       var companyBuildingCreated = 0;
 
@@ -859,6 +886,7 @@
               },
               'amount_per_month': {
                 required:  true,
+                dollarsscents: true
               },
               'income_per_month': {
                 required:  true,
@@ -923,7 +951,6 @@
                         error: function(xhr,status,error)  {
 
                         }
-
                     });
 
                 } else {
@@ -931,35 +958,64 @@
                     var myform = document.getElementById("wizard-3");
                     var data = new FormData(myform );
                     data.append('lease_partner_id', editLease);
-                    
-                    <?php
-                      if (isset($leaseContractInformation)) {
-                         $updateRoute = route("company.leaseContractInformations.update", [$leaseContractInformation[0]->id]);
-                      } else {
-                        $updateRoute = '';
-                      }
-                    ?>
 
-                    $.ajax({
-                        url: '{{ $updateRoute }}',
-                        data: data,
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        type: 'POST', // For jQuery < 1.9
-                        success: function(data) {
-                            // console.log(data);
-                            alert(data.msg);
-                            if(data.status == 'success')
-                            {
-                                location.href = "{{ route('company.leasePartners.index') }}";
-                            }
-                        },
-                        error: function(xhr,status,error)  {
+                    var editLeaseContractInformation = "{{ isset($leaseContractInformation) ? $leaseContractInformation[0]->id: 0 }}";
 
+                    if(editLeaseContractInformation != 0)
+                    {
+                      <?php
+                        if (isset($leaseContractInformation)) {
+                           $updateRoute = route("company.leaseContractInformations.update", [$leaseContractInformation[0]->id]);
+                        } else {
+                          $updateRoute = '';
                         }
+                      ?>
 
-                    });
+                      $.ajax({
+                          url: '{{ $updateRoute }}',
+                          data: data,
+                          cache: false,
+                          contentType: false,
+                          processData: false,
+                          type: 'POST', // For jQuery < 1.9
+                          success: function(data) {
+                              // console.log(data);
+                              alert(data.msg);
+                              if(data.status == 'success')
+                              {
+                                  location.href = "{{ route('company.leasePartners.index') }}";
+                              }
+                          },
+                          error: function(xhr,status,error)  {
+
+                          }
+                      });
+                    }
+                    else
+                    {
+                      $.ajax({
+                          url: '{{ route("company.leaseContractInformations.store") }}',
+                          data: data,
+                          cache: false,
+                          contentType: false,
+                          processData: false,
+                          type: 'POST', // For jQuery < 1.9
+                          success: function(data){
+                              // myform.pxWizard('goTo', 2);
+                              // console.log(data);
+                              alert(data.msg);
+                              if(data.status == 'success')
+                              {
+                                  location.href = "{{ route('company.leasePartners.index') }}";
+                              }
+                          },
+                          error: function(xhr,status,error)  {
+
+                          }
+                      });
+                    }
+                    
+
                 }
 
             } else {
@@ -967,6 +1023,53 @@
             }
       });
 
+            // Validate
+      $wizard.on('stepchange.px.wizard', function(e, data) {
+        // Validate only if jump to the forward step
+        if (data.nextStepIndex < data.activeStepIndex) { return; }
+
+        var $form = $wizard.pxWizard('getActivePane');
+
+        if (!$form.valid()) {
+          e.preventDefault();
+        }
+      });
+
+      // Finish
+      $wizard.on('finished.px.wizard', function() {
+        //
+        // Collect and send data...
+        //
+        $('#wizard-finish').find('.ion-checkmark-round').removeClass('ion-checkmark-round').addClass('ion-checkmark-circled');
+        $('#wizard-finish').find('h4').text('Thank You!');
+        $('#wizard-finish').find('button').remove();
+      });
+
+    });
+
+
+    jQuery.validator.addMethod("notEqualToGroup", function(value, element, options) {
+        // get all the elements passed here with the same class
+        var elems = $(element).parents('form').find(options[0]);
+        // the value of the current element
+        var valueToCompare = value;
+        // count
+        var matchesFound = 0;
+        // loop each element and compare its value with the current value
+        // and increase the count every time we find one
+        jQuery.each(elems, function(){
+        thisVal = $(this).val();
+        if(thisVal == valueToCompare){
+          matchesFound++;
+        }
+        });
+        // count should be either 0 or 1 max
+        if(this.optional(element) || matchesFound <= 1) {
+                //elems.removeClass('error');
+            return true;
+        } else {
+            //elems.addClass('error');
+        }
     });
 
 
