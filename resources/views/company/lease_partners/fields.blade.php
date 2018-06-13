@@ -47,13 +47,13 @@
                         </div>
                         <div class="col-sm-6 col-md-6">
                             <label>Sister Company</label>
-                            <input type="text" placeholder="ex: Fruita vitals" name="sister_company" value="@if(isset($leasePartner)){{ $leasePartner->sister_company }}@endif" class="form-control">
+                            <input type="text" placeholder="ex: Fruita_vitals" name="sister_company" value="@if(isset($leasePartner)){{ $leasePartner->sister_company }}@endif" class="form-control">
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-12">
                         <div class="col-sm-6 col-md-6 form-group">
                             <label>Sales Person</label>
-                            <input type="text" placeholder="ex: John Doe" name="sales_person" value="@if(isset($leasePartner)){{ $leasePartner->sales_person }}@endif" class="form-control">
+                            <input type="text" placeholder="ex: John_Doe" name="sales_person" value="@if(isset($leasePartner)){{ $leasePartner->sales_person }}@endif" class="form-control">
                         </div>
                         <div class="col-sm-6 col-md-6 m-t-4">
                             <label class="custom-control custom-checkbox">
@@ -97,7 +97,7 @@
                             <input type="number" placeholder="ex: 7810" name="organization_number" value="@if(isset($leaseCounterPart)){{ $leaseCounterPart[0]->organization_number }}@endif" class="form-control">
                         </div>
                         <div class="col-sm-6 col-md-6">
-                            <label>Conmpany Name</label>
+                            <label>Company Name</label>
                             <input type="text" placeholder="ex: Nestle" name="company_name" value="@if(isset($leaseCounterPart)){{ $leaseCounterPart[0]->company_name }}@endif" class="form-control">
                         </div>
                     </div>
@@ -108,7 +108,7 @@
                         </div>
                         <div class="col-sm-6 col-md-6">
                             <label>Telephone</label>
-                            <input type="text" name="tel" placeholder="ex: 021-4564165" value="@if(isset($leaseCounterPart)){{ $leaseCounterPart[0]->tel }}@endif" class="form-control">
+                            <input type="text" name="tel" placeholder="ex: 0214564165" value="@if(isset($leaseCounterPart)){{ $leaseCounterPart[0]->tel }}@endif" class="form-control">
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-12">
@@ -312,7 +312,8 @@
                     <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
                       <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> PREVIOUS</button>&nbsp;&nbsp;
                       <a href="{!! route('company.leasePartners.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
-                      <button type="submit" class="btn btn-primary" data-wizard-action="next">NEXT <i class="fa fa-arrow-right m-l-1"></i></button>
+                      <button type="submit" class="btn btn-primary" id="finish-btn" data-wizard-action="next">FINISH  <i class="fa fa-arrow-right m-l-1"></i></button>
+                    
                     </div>
             </form>
 
@@ -346,127 +347,125 @@
 
     if(editLease != 0)
     {
-      $('#contract_desc').val( $('#edit_contract_desc').val() );
+        $('#contract_desc').val( $('#edit_contract_desc').val() );
 
-      <?php
-        $data = [];
-        if(isset($imageFiles))
-        {
-          for($i = 0 ; $i < count($imageFiles) ; $i++ )
+        <?php
+          $data = [];
+          if(isset($imageFiles))
           {
-            $data[$i] = $imageFiles[$i];
+            for($i = 0 ; $i < count($imageFiles) ; $i++ )
+            {
+              $data[$i] = $imageFiles[$i];
+            }
           }
-        }
-      ?>
-      var images = <?php echo json_encode($data); ?>
+        ?>
+        var images = <?php echo json_encode($data); ?>
 
-      console.log(images);
+        console.log(images);
 
-      $('.uploadFiles').fileuploader({
-          theme: 'thumbnails',
-          enableApi: true,
-          addMore: true,
-          thumbnails: {
-              box: '<div class="fileuploader-items">' +
-                        '<ul class="fileuploader-items-list">' +
-                            '<li class="fileuploader-thumbnails-input"><div class="fileuploader-thumbnails-input-inner">+</div></li>' +
-                        '</ul>' +
-                    '</div>',
-              item: '<li class="fileuploader-item">' +
-                         '<div class="fileuploader-item-inner">' +
-                             '<div class="thumbnail-holder">${image}</div>' +
-                             '<div class="actions-holder">' +
-                                 '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
-                             '</div>' +
-                             '<div class="progress-holder">${progressBar}</div>' +
-                         '</div>' +
-                     '</li>',
-              item2: '<li class="fileuploader-item">' +
-                         '<div class="fileuploader-item-inner">' +
-                             '<div class="thumbnail-holder">${image}</div>' +
-                             '<div class="actions-holder">' +
-                                 '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
-                             '</div>' +
-                         '</div>' +
-                     '</li>',
-              startImageRenderer: true,
-              canvasImage: false,
-              _selectors: {
-                  list: '.fileuploader-items-list',
-                  item: '.fileuploader-item',
-                  start: '.fileuploader-action-start',
-                  retry: '.fileuploader-action-retry',
-                  remove: '.fileuploader-action-remove'
-              },
-              onItemShow: function(item, listEl) {
-                  var plusInput = listEl.find('.fileuploader-thumbnails-input');
-                  
-                  plusInput.insertAfter(item.html);
-                  
-                  if(item.format == 'image') {
-                      item.html.find('.fileuploader-item-icon').hide();
-                  }
-              }
-          },
-          afterRender: function(listEl, parentEl, newInputEl, inputEl) {
-              var plusInput = listEl.find('.fileuploader-thumbnails-input'),
-                  api = $.fileuploader.getInstance(inputEl.get(0));
-          
-              plusInput.on('click', function() {
-                  api.open();
-              });
-          },
-           allowDuplicates: false,
-           files: images,
-           limit: null,
-           fileMaxSize:2,
-           extensions: ['jpg','gif','png','jpeg','bmp'],
-          onRemove: function(itemEl, file, id, listEl, boxEl, newInputEl, inputEl){
-
-              var jsObj = {
-                'image' : itemEl.name
-              };
-
-              console.log(jsObj);
-              
-              $.ajax({
-                url : "{{ route('company.leaseContractInformations.image_remove') }}",
-                type : "POST",
-                data : jsObj,
-                dataType : "json",
-                success : function(response){
-                  alert(response.msg);
+        $('.uploadFiles').fileuploader({
+            theme: 'thumbnails',
+            enableApi: true,
+            addMore: true,
+            thumbnails: {
+                box: '<div class="fileuploader-items">' +
+                          '<ul class="fileuploader-items-list">' +
+                              '<li class="fileuploader-thumbnails-input"><div class="fileuploader-thumbnails-input-inner">+</div></li>' +
+                          '</ul>' +
+                      '</div>',
+                item: '<li class="fileuploader-item">' +
+                           '<div class="fileuploader-item-inner">' +
+                               '<div class="thumbnail-holder">${image}</div>' +
+                               '<div class="actions-holder">' +
+                                   '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
+                               '</div>' +
+                               '<div class="progress-holder">${progressBar}</div>' +
+                           '</div>' +
+                       '</li>',
+                item2: '<li class="fileuploader-item">' +
+                           '<div class="fileuploader-item-inner">' +
+                               '<div class="thumbnail-holder">${image}</div>' +
+                               '<div class="actions-holder">' +
+                                   '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
+                               '</div>' +
+                           '</div>' +
+                       '</li>',
+                startImageRenderer: true,
+                canvasImage: false,
+                _selectors: {
+                    list: '.fileuploader-items-list',
+                    item: '.fileuploader-item',
+                    start: '.fileuploader-action-start',
+                    retry: '.fileuploader-action-retry',
+                    remove: '.fileuploader-action-remove'
+                },
+                onItemShow: function(item, listEl) {
+                    var plusInput = listEl.find('.fileuploader-thumbnails-input');
+                    
+                    plusInput.insertAfter(item.html);
+                    
+                    if(item.format == 'image') {
+                        item.html.find('.fileuploader-item-icon').hide();
+                    }
                 }
-              });
+            },
+            afterRender: function(listEl, parentEl, newInputEl, inputEl) {
+                var plusInput = listEl.find('.fileuploader-thumbnails-input'),
+                    api = $.fileuploader.getInstance(inputEl.get(0));
+            
+                plusInput.on('click', function() {
+                    api.open();
+                });
+            },
+             allowDuplicates: false,
+             files: images,
+             limit: null,
+             fileMaxSize:2,
+             extensions: ['jpg','gif','png','jpeg','bmp','pdf','txt','docx','doc','odt','rtf'],
+            onRemove: function(itemEl, file, id, listEl, boxEl, newInputEl, inputEl){
+
+                var jsObj = {
+                  'image' : itemEl.name
+                };
+
+                console.log(jsObj);
+                
+                $.ajax({
+                  url : "{{ route('company.leaseContractInformations.image_remove') }}",
+                  type : "POST",
+                  data : jsObj,
+                  dataType : "json",
+                  success : function(response){
+                    alert(response.msg);
+                  }
+                });
 
 
-          },
-      });
+            },
+        });
 
 
-      var contract_auto_renewal =  $('#contract_auto_renewal').val();
-      var contract_renewal = $('#contract_renewal').val();
+        var contract_auto_renewal =  $('#contract_auto_renewal').val();
+        var contract_renewal = $('#contract_renewal').val();
 
-      console.log(contract_auto_renewal+"  "+contract_renewal);
+        console.log(contract_auto_renewal+"  "+contract_renewal);
 
-      if(contract_auto_renewal == 1)
-      {
-        $('#contract_auto_renewal').show();
-        if(contract_renewal == 'qty_month')
+        if(contract_auto_renewal == 1)
         {
-          $('#renewal_qty_month').show();
+          $('#contract_auto_renewal').show();
+          if(contract_renewal == 'qty_month')
+          {
+            $('#renewal_qty_month').show();
+          }
+          else
+          {
+            $('#renewal_qty_month').hide();
+          }
         }
         else
         {
-          $('#renewal_qty_month').hide();
+          $('#renewal').hide();
         }
-      }
-      else
-      {
-        $('#renewal').hide();
-      }
-
-
 
     }
     else
@@ -554,7 +553,8 @@
             plusInput.on('click', function() {
                 api.open();
             });
-        }
+        },
+        extensions: ['jpg','gif','png','jpeg','bmp','pdf','txt','docx','doc','odt','rtf'],
     });
 
 
@@ -639,7 +639,7 @@
           return this.optional(element) || /^[-\w.]+$/i.test(value);
       }, "Letters, numbers, and underscores only please");
 
-      var companyCreated = 0;
+
 
       $('#wizard-1').validate({
 
@@ -657,21 +657,15 @@
                 alphanumeric: true
               }
             },
-              errorPlacement: function(error, element) {
-                var placement = $(element).parent().find('.errorTxt');
-                if (placement) {
-                  $(placement).append(error)
-                } else {
-                  error.insertAfter(element);
-                }
-              }
       });
+
+      var leasePartnersCreated = 0;
 
       $('#wizard-1').on('submit', function(e) {
             e.preventDefault();
             // test if form is valid 
             if( $('#wizard-1').validate().form() ) {
-              if (editLease == 0 && companyCreated == 0) {
+              if (editLease == 0 && leasePartnersCreated == 0) {
                   var myform = document.getElementById("wizard-1");
                   var data = new FormData(myform);
                   $.ajax({
@@ -685,6 +679,7 @@
                           // myform.pxWizard('goTo', 2);
 
                           lease_partner_id = data.id;
+                          leasePartnersCreated = data.id;
                           $('#lease_partner_id').val(lease_partner_id);
                           // console.log(lease_partner_id);
                       },
@@ -725,7 +720,7 @@
             }
         });
      
-      var contactPersonCreated = 0;
+
 
       $('#wizard-2').validate({
 
@@ -751,23 +746,17 @@
                 required:  true,
                 email: true
               }
-            },
-              errorPlacement: function(error, element) {
-                var placement = $(element).parent().find('.errorTxt');
-                if (placement) {
-                  $(placement).append(error)
-                } else {
-                  error.insertAfter(element);
-                }
-              }
+            }
       });
-      
+
+      var leaseCounterpartsCreated = 0;
+
       $('#wizard-2').on('submit', function(e) {
 
             e.preventDefault();
             // test if form is valid 
             if($('#wizard-2').validate().form()) {
-              if (editLease == 0 && contactPersonCreated == 0) {
+              if (editLease == 0 && leaseCounterpartsCreated == 0) {
                     var myform = document.getElementById("wizard-2");
                     var data = new FormData(myform );
                     data.append('lease_partner_id', lease_partner_id);
@@ -783,6 +772,7 @@
                             // console.log(data);
 
                             console.log(data);
+                            leaseCounterpartsCreated = data.id;
                         },
                         error: function(xhr,status,error)  {
                         }
@@ -836,6 +826,7 @@
                               // console.log(data);
 
                               console.log(data);
+                              leaseCounterpartsCreated = data.id;
                           },
                           error: function(xhr,status,error)  {
                           }
@@ -852,8 +843,6 @@
       jQuery.validator.addMethod("dollarsscents", function(value, element) {
           return this.optional(element) || /^\d{0,4}(\.\d{0,2})?$/i.test(value);
       }, "You must include two decimal places");
-
-      var companyBuildingCreated = 0;
 
       $('#wizard-3').validate({
           ignore: ":hidden:not(#contract_desc),.note-editable.panel-body",
@@ -909,17 +898,11 @@
               'cost_number':{
                 required: true
               }
-            },
-              errorPlacement: function(error, element) {
-                var placement = $(element).parent().find('.errorTxt');
-                if (placement) {
-                  $(placement).append(error)
-                } else {
-                  error.insertAfter(element);
-                }
-              }
+            }
       });
       
+      var leaseContractInformationsCreated = 0;
+
       $('#wizard-3').on('submit', function(e) {
        
             e.preventDefault();
@@ -927,7 +910,10 @@
             // test if form is valid 
             if( $('#wizard-3').validate().form() ) {
 
-              if (editLease == 0 && companyBuildingCreated == 0) {
+                $('#finish-btn').attr('disabled', 'disabled');
+                $('#finish-btn').text('Processing..');
+
+              if (editLease == 0 && leaseContractInformationsCreated == 0) {
                     var myform = document.getElementById("wizard-3");
                     var data = new FormData(myform);
                     data.append('lease_partner_id', lease_partner_id);

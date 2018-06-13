@@ -126,6 +126,7 @@ class LeaseCounterpartController extends AppBaseController
 
         if($leaseCounterpart)
         {
+            session()->flash('msg.success','Lease Counterpart updated successfully');
             return response()->json(['status' => 'success','msg' => 'Lease Counterpart updated successfully']);
         }
         else

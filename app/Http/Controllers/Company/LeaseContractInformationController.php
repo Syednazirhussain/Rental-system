@@ -126,6 +126,7 @@ class LeaseContractInformationController extends AppBaseController
 
         if($leaseContractForm)
         { 
+            session()->flash('msg.success','Lease has been created successfully');
             return response()->json(['status' => 'success','msg' => 'Lease has been created successfully']);
         }
         else
