@@ -1175,7 +1175,7 @@ Route::delete('company/leaseCounterparts/{leaseCounterparts}', ['as'=> 'company.
 Route::get('company/leaseCounterparts/{leaseCounterparts}', ['as'=> 'company.leaseCounterparts.show', 'uses' => 'Company\LeaseCounterpartController@show']);
 Route::get('company/leaseCounterparts/{leaseCounterparts}/edit', ['as'=> 'company.leaseCounterparts.edit', 'uses' => 'Company\LeaseCounterpartController@edit']);
 
-
+Route::post('company/leaseContractInformations/imageRemove', ['as'=> 'company.leaseContractInformations.image_remove', 'uses' => 'Company\LeaseContractInformationController@imageRemove']);
 Route::get('company/leaseContractInformations', ['as'=> 'company.leaseContractInformations.index', 'uses' => 'Company\LeaseContractInformationController@index']);
 Route::post('company/leaseContractInformations', ['as'=> 'company.leaseContractInformations.store', 'uses' => 'Company\LeaseContractInformationController@store']);
 Route::get('company/leaseContractInformations/create', ['as'=> 'company.leaseContractInformations.create', 'uses' => 'Company\LeaseContractInformationController@create']);

@@ -1,8 +1,5 @@
 <div class="panel">
-
-
     <div class="wizard panel-wizard" id="wizard-validation">
-
         <div class="wizard-wrapper">
           <ul class="wizard-steps">
             <li data-target="#wizard-1" class="active">
@@ -33,7 +30,6 @@
 
 
         <div class="wizard-content">
-`
           <!-- ===========================wizard-1===================================== -->
      
             <form action="{{ route('company.leasePartners.store') }}" name="createCompanyForm" class="wizard-pane active" id="wizard-1" method="post">
@@ -135,7 +131,7 @@
 
             <!-- ============================wizard-2==================================== -->
 
-            <form class="wizard-pane" id="wizard-3">
+            <form class="wizard-pane" id="wizard-3" enctype="multipart/form-data">
                   @if (isset($leasePartner))
                       <input name="_method" type="hidden" value="PATCH">
                   @endif
@@ -229,6 +225,9 @@
                                 <label>Contract Description</label>
                                 <textarea name="contract_desc" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->contract_desc }}@endif" id="contract_desc"></textarea>
                             </div>
+                            @if(isset($leaseContractInformation))
+                              <input type="hidden" id="edit_contract_desc" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->contract_desc }}@endif">
+                            @endif
                         </div>
                         <div class="col-sm-12 col-md-12">
                             <div class="col-sm-6 col-md-6 form-group">
@@ -280,7 +279,7 @@
                         <div class="col-sm-12 col-md-12">
                             <div class="col-sm-12 col-md-12 form-group">
                                 <label>Attach Files</label>
-                                <input type="file" name="files" class="form-control">
+                                <input type="file" name="files" class="form-control uploadFiles">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-12">
@@ -342,9 +341,141 @@
     // -------------------------------------------------------------------------
     
     var lease_partner_id;
+
     var editLease = "{{ isset($leasePartner) ? $leasePartner->id: 0 }}";
 
-    $('#renewal').hide();
+    if(editLease != 0)
+    {
+      $('#contract_desc').val( $('#edit_contract_desc').val() );
+
+      <?php
+        $data = [];
+        if(isset($imageFiles))
+        {
+          for($i = 0 ; $i < count($imageFiles) ; $i++ )
+          {
+            $data[$i] = $imageFiles[$i];
+          }
+        }
+      ?>
+      var images = <?php echo json_encode($data); ?>
+
+      console.log(images);
+
+      $('.uploadFiles').fileuploader({
+          theme: 'thumbnails',
+          enableApi: true,
+          addMore: true,
+          thumbnails: {
+              box: '<div class="fileuploader-items">' +
+                        '<ul class="fileuploader-items-list">' +
+                            '<li class="fileuploader-thumbnails-input"><div class="fileuploader-thumbnails-input-inner">+</div></li>' +
+                        '</ul>' +
+                    '</div>',
+              item: '<li class="fileuploader-item">' +
+                         '<div class="fileuploader-item-inner">' +
+                             '<div class="thumbnail-holder">${image}</div>' +
+                             '<div class="actions-holder">' +
+                                 '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
+                             '</div>' +
+                             '<div class="progress-holder">${progressBar}</div>' +
+                         '</div>' +
+                     '</li>',
+              item2: '<li class="fileuploader-item">' +
+                         '<div class="fileuploader-item-inner">' +
+                             '<div class="thumbnail-holder">${image}</div>' +
+                             '<div class="actions-holder">' +
+                                 '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
+                             '</div>' +
+                         '</div>' +
+                     '</li>',
+              startImageRenderer: true,
+              canvasImage: false,
+              _selectors: {
+                  list: '.fileuploader-items-list',
+                  item: '.fileuploader-item',
+                  start: '.fileuploader-action-start',
+                  retry: '.fileuploader-action-retry',
+                  remove: '.fileuploader-action-remove'
+              },
+              onItemShow: function(item, listEl) {
+                  var plusInput = listEl.find('.fileuploader-thumbnails-input');
+                  
+                  plusInput.insertAfter(item.html);
+                  
+                  if(item.format == 'image') {
+                      item.html.find('.fileuploader-item-icon').hide();
+                  }
+              }
+          },
+          afterRender: function(listEl, parentEl, newInputEl, inputEl) {
+              var plusInput = listEl.find('.fileuploader-thumbnails-input'),
+                  api = $.fileuploader.getInstance(inputEl.get(0));
+          
+              plusInput.on('click', function() {
+                  api.open();
+              });
+          },
+           allowDuplicates: false,
+           files: images,
+           limit: null,
+           fileMaxSize:2,
+           extensions: ['jpg','gif','png','jpeg','bmp'],
+          onRemove: function(itemEl, file, id, listEl, boxEl, newInputEl, inputEl){
+
+              var jsObj = {
+                'image' : itemEl.name
+              };
+
+              console.log(jsObj);
+              
+              $.ajax({
+                url : "{{ route('company.leaseContractInformations.image_remove') }}",
+                type : "POST",
+                data : jsObj,
+                dataType : "json",
+                success : function(response){
+                  alert(response.msg);
+                }
+              });
+
+
+          },
+      });
+
+
+      var contract_auto_renewal =  $('#contract_auto_renewal').val();
+      var contract_renewal = $('#contract_renewal').val();
+
+      console.log(contract_auto_renewal+"  "+contract_renewal);
+
+      if(contract_auto_renewal == 1)
+      {
+        $('#contract_auto_renewal').show();
+        if(contract_renewal == 'qty_month')
+        {
+          $('#renewal_qty_month').show();
+        }
+        else
+        {
+          $('#renewal_qty_month').hide();
+        }
+      }
+      else
+      {
+        $('#renewal').hide();
+      }
+
+
+
+    }
+    else
+    {
+      $('#renewal').hide();
+      $('#renewal_qty_month').hide();      
+    }
+
+
 
     $('#contract_auto_renewal').on('change', function() {
       if(this.value == 1)
@@ -357,7 +488,8 @@
       }  
     });
 
-    $('#renewal_qty_month').hide();
+
+
     $('#contract_renewal').on('change', function() {
       if(this.value == 'qty_month')
       {
@@ -712,12 +844,6 @@
               'contract_auto_renewal': {
                 required:  true
               },
-              'contract_renewal': {
-                required:  true,
-              },
-              'renewal_number_month': {
-                required:  true,
-              },
               'contract_type': {
                 required:  true,
               },
@@ -733,7 +859,6 @@
               },
               'amount_per_month': {
                 required:  true,
-                digits : true
               },
               'income_per_month': {
                 required:  true,
@@ -805,62 +930,30 @@
 
                     var myform = document.getElementById("wizard-3");
                     var data = new FormData(myform );
-                    data.append('company_id', editLease);
-
-                    // console.log(data);
+                    data.append('lease_partner_id', editLease);
+                    
+                    <?php
+                      if (isset($leaseContractInformation)) {
+                         $updateRoute = route("company.leaseContractInformations.update", [$leaseContractInformation[0]->id]);
+                      } else {
+                        $updateRoute = '';
+                      }
+                    ?>
 
                     $.ajax({
-                        url: '{{ route("admin.companyBuildings.update") }}',
+                        url: '{{ $updateRoute }}',
                         data: data,
                         cache: false,
                         contentType: false,
                         processData: false,
                         type: 'POST', // For jQuery < 1.9
                         success: function(data) {
-
-                            
-                            $.each(data.createdFields, function (index, value) {
-
-
-
-                               $('input[data-building-id="new-'+index+'"]').val(value['id']);
-                               $('input[data-building-id="new-'+index+'"]').attr('name', "building_data["+value['id']+"][id]");
-                               $('input[data-building-id="new-'+index+'"]').attr("data-building-id", value['id']);
-
-                               $('input[data-building-name="new-'+index+'"]').attr('name', "building_data["+value['id']+"][name]");
-                               $('input[data-building-name="new-'+index+'"]').attr("data-building-name", value['id']);
-
-                               $('input[data-building-address="new-'+index+'"]').attr('name', "building_data["+value['id']+"][address]");                               
-                               $('input[data-building-address="new-'+index+'"]').attr("data-building-address", value['id']);
-
-                               $('input[data-building-zipcode="new-'+index+'"]').attr('name', "building_data["+value['id']+"][zipcode]");
-                               $('input[data-building-zipcode="new-'+index+'"]').attr("data-building-zipcode", value['id']);
-
-                               $('input[data-building-numfloors="new-'+index+'"]').attr('name', "building_data["+value['id']+"][num_floors]");      
-                               $('input[data-building-numfloors="new-'+index+'"]').attr("data-building-numfloors", value['id']);
-
-                                $.each(value.floors, function (flIndex, flValue) {
-
-                                   $('input[data-floor-id="new-'+flValue['index']+'"]').val(flValue['floorId']);
-                                   $('input[data-floor-id="new-'+flValue['index']+'"]').attr('name', "building_data["+value['id']+"][floor]["+flValue['floorId']+"][id]");
-                                   $('input[data-floor-id="new-'+flValue['index']+'"]').attr("data-floor-id", flValue['floorId']);
-
-                                   $('input[data-floor-number="new-'+flValue['index']+'"]').attr('name', "building_data["+value['id']+"][floor]["+flValue['floorId']+"][floor_number]"); 
-                                   $('input[data-floor-number="new-'+flValue['index']+'"]').attr("data-floor-number", flValue['floorId']);
-
-                                   $('input[data-floor-rooms="new-'+flValue['index']+'"]').attr('name', "building_data["+value['id']+"][floor]["+flValue['floorId']+"][floor_rooms]");
-                                   $('input[data-floor-rooms="new-'+flValue['index']+'"]').attr("data-floor-rooms", flValue['floorId']);
-
-                                });
-
-                               // $('input[data-person-designation="new-'+index+'"]').attr('name', "building_data["+value['id']+"][designation]");
-                               // $('input[data-person-designation="new-'+index+'"]').attr("data-person-designation", value);
-
-                            });
-
-                            // contactPersonCreated = data.success;
-
                             // console.log(data);
+                            alert(data.msg);
+                            if(data.status == 'success')
+                            {
+                                location.href = "{{ route('company.leasePartners.index') }}";
+                            }
                         },
                         error: function(xhr,status,error)  {
 
@@ -872,158 +965,9 @@
             } else {
                 // console.log("does not validate");
             }
-        });
-
-
-      var companyContractCreated = 0;
-
-      checkField = function(response) {
-          switch ($.parseJSON(response).code) {
-              case 200:
-                  return "true"; // <-- the quotes are important!
-              case 401:
-                  // alert("Sorry, our system has detected that an account with this email address already exists.");
-                  break;
-              case undefined:
-                  alert("An undefined error occurred.");
-                  break;
-              default:
-                  alert("An undefined error occurred");
-                  break;
-          }
-          return false;
-      };
-
-      $('#wizard-4').validate({
-
-          rules: {
-              "number": {
-                  required: true,
-                  maxlength: 150,
-                  remote: {
-                      // url: "{{ route('validate.contract') }}",
-                      // type: "POST",
-                      // cache: false,
-                      // dataType: "json",
-                      // data: {
-                      //     number: function() { return $("#contract-no").val(); }
-                      // },
-                      // dataFilter: function(response) {
-
-                      //     // console.log(response);
-                      //     return checkField(response);
-                      // }
-
-                      param: {
-                          url: "{{ route('validate.contract') }}",
-                          type: "POST",
-                          cache: false,
-                          dataType: "json",
-                          data: {
-                              number: function() { return $("#contract-no").val(); }
-                          },
-                          dataFilter: function(response) {
-
-                              // console.log(response);
-                              return checkField(response);
-                          }
-                      },
-                      depends: function(element) {
-                          // compare email address in form to hidden field
-                          return ($(element).val() !== $('#contract-no-hidden').val());
-                      }
-                  }
-              },
-              "start_date": {
-                  required: true
-              },
-              "end_date": {
-                  required: true
-              },
-              "payment_method": {
-                  required: true
-              },
-              "payment_cycle": {
-                  required: true
-              },
-              "discount": {
-                  required: true
-              }
-          },
-
-          messages: {
-             "number": {
-
-                remote: "A contract with same number already exists",
-             }
-          },
-          // errorElement : 'div',
-          // errorLabelContainer: '.errorTxt'
-          errorPlacement: function(error, element) {
-            var placement = $(element).parent().find('.errorTxt');
-            if (placement) {
-              $(placement).append(error)
-            } else {
-              error.insertAfter(element);
-            }
-          }
-
-      });
-      
-
-
-
-
-      // Validate
-
-      $wizard.on('stepchange.px.wizard', function(e, data) {
-        // Validate only if jump to the forward step
-        if (data.nextStepIndex < data.activeStepIndex) { return; }
-
-        var $form = $wizard.pxWizard('getActivePane');
-
-        if (!$form.valid()) {
-          e.preventDefault();
-        }
-      });
-
-      // Finish
-
-      $wizard.on('finished.px.wizard', function() {
-        //
-        // Collect and send data...
-        //
-
-        $('#wizard-finish').find('.ion-checkmark-round').removeClass('ion-checkmark-round').addClass('ion-checkmark-circled');
-        $('#wizard-finish').find('h4').text('Thank You!');
-        $('#wizard-finish').find('button').remove();
       });
 
     });
-
-    jQuery.validator.addMethod("notEqualToGroup", function(value, element, options) {
-                // get all the elements passed here with the same class
-                var elems = $(element).parents('form').find(options[0]);
-                // the value of the current element
-                var valueToCompare = value;
-                // count
-                var matchesFound = 0;
-                // loop each element and compare its value with the current value
-                // and increase the count every time we find one
-                jQuery.each(elems, function(){
-                thisVal = $(this).val();
-                if(thisVal == valueToCompare){
-                  matchesFound++;
-                }
-                });
-                // count should be either 0 or 1 max
-                if(this.optional(element) || matchesFound <= 1) {
-                        //elems.removeClass('error');
-                        return true;
-                    } else {
-                        //elems.addClass('error');
-                    }
-                });
 
 
 </script>
