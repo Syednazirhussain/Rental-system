@@ -168,6 +168,7 @@
                                     
                                     <li><a href="{{ route('company.conference.conferenceBookings.index') }}"><i class="fa fa-wpforms"></i>&nbsp;&nbsp;Bookings</a></li>
                                     <li><a href="{{ route('company.bookingAgencies.index') }}">Booking Agencies</a></li>
+                                    <li><a href="{{ route('company.conference.calender.view') }}">Calender</a></li>
 
                                     
                                 </ul>

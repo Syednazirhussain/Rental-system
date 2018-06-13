@@ -542,4 +542,22 @@ class ConferenceBookingController extends AppBaseController
 
         return redirect(route('company.conference.conferenceBookings.index'));
     }
+
+
+
+
+
+
+
+    public function viewCalender()
+    {
+        return view('company.Conference.conference_calender.view');
+    }
+
+
+
+
+
+
+
 }
