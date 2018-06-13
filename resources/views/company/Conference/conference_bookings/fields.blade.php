@@ -244,6 +244,24 @@
                     @if(isset($conferenceBooking))
 
                         <label class="custom-control custom-checkbox">
+
+
+
+                                    <?php  
+
+                                        foreach ($getBookingEquipmentsItems as $key => $value) {
+                                            if ($value->entity_id == $eqp->id) {
+                                    ?>
+                                            <input type="hidden" name="equipmentsBookingItemId[]" value="{{$value->id}}">
+                                    <?php
+                                             } 
+                                        }
+
+                                    ?>
+
+                                
+
+                            
                                 <input type="checkbox" name="equipments[]" value="{{$eqp->id}}" class="custom-control-input equipment-check-box" data-eqpid="{{$eqp->id}}" data-eqpprice="{{$eqp->price}}" data-isMultiUnits="{{$eqp->is_multi_units}}" 
 
                                     <?php  
@@ -324,6 +342,25 @@
                     @if(isset($conferenceBooking))
                     
                         <label class="custom-control custom-checkbox">
+
+
+
+                                    <?php  
+
+                                        foreach ($getBookingFoodsItems as $key => $value) {
+                                            if ($value->entity_id == $food->id) {
+                                    ?>
+                                            <input type="hidden" name="foodBookingItemId[]" value="{{$value->id}}">
+                                    <?php
+                                             } 
+                                        }
+
+                                    ?>
+
+                                
+
+
+
                                 <input type="checkbox" name="foods[]" value="{{$food->id}}" class="custom-control-input food-check-box" data-foodid="{{$food->id}}" data-foodprice="{{$food->price_per_attendee}}" 
 
                                     <?php  
@@ -410,6 +447,22 @@
                     @if(isset($conferenceBooking))
                     
                         <label class="custom-control custom-checkbox">
+
+
+                                    <?php  
+
+                                        foreach ($getBookingPackagesItems as $key => $value) {
+                                            if ($value->entity_id == $package->id) {
+                                    ?>
+                                            <input type="hidden" name="packageBookingItemId[]" value="{{$value->id}}">
+                                    <?php
+                                             } 
+                                        }
+
+                                    ?>
+
+                                
+
                                 <input type="checkbox" name="packages[]" value="{{$package->id}}" class="custom-control-input package-check-box" data-packageid="{{$package->id}}" data-packageprice="{{$package->price}}"
 
 
@@ -475,25 +528,6 @@
 
 
 </div>
-
-
-
-<div class="row">
-
-    <div class="col-sm-12 m-t-3">
-        
-
-
-            <button type="submit" class="btn btn-primary">@if(isset($conferenceBooking))  <i class="fa fa-refresh"></i>  Update Booking  @else <i class="fa fa-plus"></i>  Add Booking @endif</button>
-            <a href="{!! route('company.conference.conferenceBookings.index') !!}" class="btn btn-default"> <i class="fa fa-times"></i> Cancel</a>
-        
-
-
-    </div>
-
-</div>
-
-
 
 
 

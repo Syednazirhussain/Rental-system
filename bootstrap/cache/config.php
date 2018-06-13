@@ -216,6 +216,7 @@
       array (
         'driver' => 'file',
         'path' => 'C:\\xampp\\htdocs\\nazir\\storage\\framework/cache/data',
+
       ),
       'memcached' => 
       array (
@@ -256,6 +257,7 @@
       array (
         'driver' => 'sqlite',
         'database' => 'homestead',
+
         'prefix' => '',
       ),
       'mysql' => 
@@ -278,7 +280,9 @@
         'driver' => 'pgsql',
         'host' => 'localhost',
         'port' => '3306',
+
         'database' => 'homestead',
+
         'username' => 'root',
         'password' => '',
         'charset' => 'utf8',
@@ -291,7 +295,9 @@
         'driver' => 'sqlsrv',
         'host' => 'localhost',
         'port' => '3306',
+
         'database' => 'homestead',
+
         'username' => 'root',
         'password' => '',
         'charset' => 'utf8',
@@ -320,12 +326,16 @@
       'local' => 
       array (
         'driver' => 'local',
+
         'root' => 'C:\\xampp\\htdocs\\nazir\\storage\\app',
+
       ),
       'public' => 
       array (
         'driver' => 'local',
+
         'root' => 'C:\\xampp\\htdocs\\nazir\\storage\\app/public',
+
         'url' => 'http://localhost/storage',
         'visibility' => 'public',
       ),
@@ -343,6 +353,7 @@
   array (
     'config' => 
     array (
+
       'model_template_path' => 'C:\\xampp\\htdocs\\nazir\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/model.txt',
       'scaffold_model_template_path' => 'C:\\xampp\\htdocs\\nazir\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/scaffolding/model.txt',
       'controller_template_path' => 'C:\\xampp\\htdocs\\nazir\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/controller.txt',
@@ -355,6 +366,7 @@
       'migration_target_path' => 'C:\\xampp\\htdocs\\nazir\\database/migrations',
       'seed_target_path' => 'C:\\xampp\\htdocs\\nazir\\database/seeds',
       'view_target_path' => 'C:\\xampp\\htdocs\\nazir\\resources/views',
+
     ),
   ),
   'infyom' => 
@@ -363,6 +375,7 @@
     array (
       'path' => 
       array (
+
         'migration' => 'C:\\xampp\\htdocs\\nazir\\database/migrations/',
         'model' => 'C:\\xampp\\htdocs\\nazir\\app\\Models/',
         'datatables' => 'C:\\xampp\\htdocs\\nazir\\app\\DataTables/',
@@ -380,6 +393,7 @@
         'schema_files' => 'C:\\xampp\\htdocs\\nazir\\resources/model_schemas/',
         'templates_dir' => 'C:\\xampp\\htdocs\\nazir\\resources/infyom/infyom-generator-templates/',
         'modelJs' => 'C:\\xampp\\htdocs\\nazir\\resources/assets/js/models/',
+
       ),
       'namespace' => 
       array (
@@ -447,7 +461,9 @@
       'theme' => 'default',
       'paths' => 
       array (
+
         0 => 'C:\\xampp\\htdocs\\nazir\\resources\\views/vendor/mail',
+
       ),
     ),
   ),
@@ -577,6 +593,7 @@
       'basePath' => 'C:\\xampp\\htdocs\\nazir\\app',
       'rootNamespace' => 'App\\',
       'stubsOverridePath' => 'C:\\xampp\\htdocs\\nazir\\app',
+
       'paths' => 
       array (
         'models' => 'Entities',
@@ -621,7 +638,9 @@
     'lifetime' => '120',
     'expire_on_close' => false,
     'encrypt' => false,
+
     'files' => 'C:\\xampp\\htdocs\\nazir\\storage\\framework/sessions',
+
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -676,9 +695,11 @@
   array (
     'paths' => 
     array (
+
       0 => 'C:\\xampp\\htdocs\\nazir\\resources\\views',
     ),
     'compiled' => 'C:\\xampp\\htdocs\\nazir\\storage\\framework\\views',
+
   ),
   'dompdf' => 
   array (
@@ -686,10 +707,12 @@
     'orientation' => 'portrait',
     'defines' => 
     array (
+
       'font_dir' => 'C:\\xampp\\htdocs\\nazir\\storage\\fonts/',
       'font_cache' => 'C:\\xampp\\htdocs\\nazir\\storage\\fonts/',
       'temp_dir' => 'C:\\Users\\PAKCOM~1\\AppData\\Local\\Temp',
       'chroot' => 'C:\\xampp\\htdocs\\nazir',
+
       'enable_font_subsetting' => false,
       'pdf_backend' => 'CPDF',
       'default_media_type' => 'screen',

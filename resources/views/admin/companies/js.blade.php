@@ -1359,7 +1359,6 @@ if(!isEmpty(wizard))
  
             $(document).on('change', '.module-id', function() {
 
-
                     // enable all options
                     var thisModule = $(this);
                     // thisModule.find('option').prop('disabled', false);

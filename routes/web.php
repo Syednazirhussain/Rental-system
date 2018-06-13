@@ -619,7 +619,7 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::delete('company/companyFloorRooms/{companyFloorRooms}', ['as'=> 'company.companyFloorRooms.destroy', 'uses' => 'Company\CompanyFloorRoomController@destroy']);
     Route::get('company/companyFloorRooms/{companyFloorRooms}', ['as'=> 'company.companyFloorRooms.show', 'uses' => 'Company\CompanyFloorRoomController@show']);
     Route::get('company/companyFloorRooms/{companyFloorRooms}/edit', ['as'=> 'company.companyFloorRooms.edit', 'uses' => 'Company\CompanyFloorRoomController@edit']);
-
+    Route::post('company/companyFloorRooms/lists', ['as'=> 'company.companyFloorRooms.lists', 'uses' => 'Company\CompanyFloorRoomController@getLists']);
 
 
 
@@ -649,7 +649,7 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::get('company/rooms/{rooms}', ['as'=> 'company.rooms.show', 'uses' => 'Company\RoomController@show']);
     Route::delete('company/rooms/{rooms}', ['as'=> 'company.rooms.destroy', 'uses' => 'Company\RoomController@destroy']);
     Route::get('company/rooms/{rooms}/edit', ['as'=> 'company.rooms.edit', 'uses' => 'Company\RoomController@edit']);
-
+    Route::post('company/rooms/lists', ['as'=> 'company.rooms.lists', 'uses' => 'Company\RoomController@getLists']);
 
 	Route::get('company/room/{building}', ['as'=> 'company.building.room', 'uses' => 'Company\RoomSettingArrangmentController@getRoomByBuildingId']);
 	Route::get('company/roomSettingArrangments', ['as'=> 'company.roomSettingArrangments.index', 'uses' => 'Company\RoomSettingArrangmentController@index']);
@@ -737,6 +737,93 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::delete('company/companies/companyservices/delete', ['as'=> 'company.companyServices.destroy', 'uses' => 'Company\CompanyServiceController@destroy']);
     Route::get('company/companies/companyservices/{companyservices}', ['as'=> 'company.companyServices.show', 'uses' => 'Company\CompanyServiceController@show']);
     Route::get('company/companies/companyservices/{companyservices}/edit', ['as'=> 'company.companyServices.edit', 'uses' => 'Company\CompanyServiceController@edit']);
+
+
+    /**
+    ** Rental Tabs created by Heng.
+    */
+    // First Tab -  Customers
+    Route::get('company/rcustomer', ['as'=> 'company.rcustomer.index', 'uses' => 'Company\Rental\CustomerController@index']);
+    Route::post('company/rcustomer', ['as'=> 'company.rcustomer.store', 'uses' => 'Company\Rental\CustomerController@store']);
+    Route::get('company/rcustomer/create', ['as'=> 'company.rcustomer.create', 'uses' => 'Company\Rental\CustomerController@create']);
+    Route::put('company/rcustomer/{rcustomer}', ['as'=> 'company.rcustomer.update', 'uses' => 'Company\Rental\CustomerController@update']);
+    Route::patch('company/rcustomer/{rcustomer}', ['as'=> 'company.rcustomer.update', 'uses' => 'Company\Rental\CustomerController@update']);
+    Route::delete('company/rcustomer/{rcustomer}', ['as'=> 'company.rcustomer.destroy', 'uses' => 'Company\Rental\CustomerController@destroy']);
+    Route::get('company/rcustomer/{rcustomer}', ['as'=> 'company.rcustomer.show', 'uses' => 'Company\Rental\CustomerController@show']);
+    Route::get('company/rcustomer/{rcustomer}/edit', ['as'=> 'company.rcustomer.edit', 'uses' => 'Company\Rental\CustomerController@edit']);
+    // Second Tab -  Contacts
+    Route::get('company/rcontact', ['as'=> 'company.rcontact.index', 'uses' => 'Company\Rental\ContactController@index']);
+    Route::post('company/rcontact', ['as'=> 'company.rcontact.store', 'uses' => 'Company\Rental\ContactController@store']);
+    Route::get('company/rcontact/create', ['as'=> 'company.rcontact.create', 'uses' => 'Company\Rental\ContactController@create']);
+    Route::put('company/rcontact/{rcontact}', ['as'=> 'company.rcontact.update', 'uses' => 'Company\Rental\ContactController@update']);
+    Route::patch('company/rcontact/{rcontact}', ['as'=> 'company.rcontact.update', 'uses' => 'Company\Rental\ContactController@update']);
+    Route::delete('company/rcontact/{rcontact}', ['as'=> 'company.rcontact.destroy', 'uses' => 'Company\Rental\ContactController@destroy']);
+    Route::get('company/rcontact/{rcontact}', ['as'=> 'company.rcontact.show', 'uses' => 'Company\Rental\ContactController@show']);
+    Route::get('company/rcontact/{rcontact}/edit', ['as'=> 'company.rcontact.edit', 'uses' => 'Company\Rental\ContactController@edit']);
+    // Third Tab -  Signage
+    Route::get('company/rsignage', ['as'=> 'company.rsignage.index', 'uses' => 'Company\Rental\SignageController@index']);
+    Route::post('company/rsignage', ['as'=> 'company.rsignage.store', 'uses' => 'Company\Rental\SignageController@store']);
+    Route::get('company/rsignage/create', ['as'=> 'company.rsignage.create', 'uses' => 'Company\Rental\SignageController@create']);
+    Route::put('company/rsignage/{rsignage}', ['as'=> 'company.rsignage.update', 'uses' => 'Company\Rental\SignageController@update']);
+    Route::patch('company/rsignage/{rsignage}', ['as'=> 'company.rsignage.update', 'uses' => 'Company\Rental\SignageController@update']);
+    Route::delete('company/rsignage/{rsignage}', ['as'=> 'company.rsignage.destroy', 'uses' => 'Company\Rental\SignageController@destroy']);
+    Route::get('company/rsignage/{rsignage}', ['as'=> 'company.rsignage.show', 'uses' => 'Company\Rental\SignageController@show']);
+    Route::get('company/rsignage/{rsignage}/edit', ['as'=> 'company.rsignage.edit', 'uses' => 'Company\Rental\SignageController@edit']);
+    // Fourth Tab -  Articles
+    Route::get('company/rarticle', ['as'=> 'company.rarticle.index', 'uses' => 'Company\Rental\ArticleController@index']);
+    Route::post('company/rarticle', ['as'=> 'company.rarticle.store', 'uses' => 'Company\Rental\ArticleController@store']);
+    Route::get('company/rarticle/create', ['as'=> 'company.rarticle.create', 'uses' => 'Company\Rental\ArticleController@create']);
+    Route::put('company/rarticle/{rarticle}', ['as'=> 'company.rarticle.update', 'uses' => 'Company\Rental\ArticleController@update']);
+    Route::patch('company/rarticle/{rarticle}', ['as'=> 'company.rarticle.update', 'uses' => 'Company\Rental\ArticleController@update']);
+    Route::delete('company/rarticle/{rarticle}', ['as'=> 'company.rarticle.destroy', 'uses' => 'Company\Rental\ArticleController@destroy']);
+    Route::get('company/rarticle/{rarticle}', ['as'=> 'company.rarticle.show', 'uses' => 'Company\Rental\ArticleController@show']);
+    Route::get('company/rarticle/{rarticle}/edit', ['as'=> 'company.rarticle.edit', 'uses' => 'Company\Rental\ArticleController@edit']);
+    // Fifth Tab - Price
+    Route::get('company/rprice', ['as'=> 'company.rprice.index', 'uses' => 'Company\Rental\PriceController@index']);
+    Route::post('company/rprice', ['as'=> 'company.rprice.store', 'uses' => 'Company\Rental\PriceController@store']);
+    Route::get('company/rprice/create', ['as'=> 'company.rprice.create', 'uses' => 'Company\Rental\PriceController@create']);
+    Route::put('company/rprice/{rprice}', ['as'=> 'company.rprice.update', 'uses' => 'Company\Rental\PriceController@update']);
+    Route::patch('company/rprice/{rprice}', ['as'=> 'company.rprice.update', 'uses' => 'Company\Rental\PriceController@update']);
+    Route::delete('company/rprice/{rprice}', ['as'=> 'company.rprice.destroy', 'uses' => 'Company\Rental\PriceController@destroy']);
+    Route::get('company/rprice/{rprice}', ['as'=> 'company.rprice.show', 'uses' => 'Company\Rental\PriceController@show']);
+    Route::get('company/rprice/{rprice}/edit', ['as'=> 'company.rprice.edit', 'uses' => 'Company\Rental\PriceController@edit']);
+    // Sixth Tab - Stock
+    Route::get('company/rstock', ['as'=> 'company.rstock.index', 'uses' => 'Company\Rental\StockController@index']);
+    Route::post('company/rstock', ['as'=> 'company.rstock.store', 'uses' => 'Company\Rental\StockController@store']);
+    Route::get('company/rstock/create', ['as'=> 'company.rstock.create', 'uses' => 'Company\Rental\StockController@create']);
+    Route::put('company/rstock/{rstock}', ['as'=> 'company.rstock.update', 'uses' => 'Company\Rental\StockController@update']);
+    Route::patch('company/rstock/{rstock}', ['as'=> 'company.rstock.update', 'uses' => 'Company\Rental\StockController@update']);
+    Route::delete('company/rstock/{rstock}', ['as'=> 'company.rstock.destroy', 'uses' => 'Company\Rental\StockController@destroy']);
+    Route::get('company/rstock/{rstock}', ['as'=> 'company.rstock.show', 'uses' => 'Company\Rental\StockController@show']);
+    Route::get('company/rstock/{rstock}/edit', ['as'=> 'company.rstock.edit', 'uses' => 'Company\Rental\StockController@edit']);
+    // Seventh Tab - Financial
+    Route::get('company/rfinancial', ['as'=> 'company.rfinancial.index', 'uses' => 'Company\Rental\FinancialController@index']);
+    Route::post('company/rfinancial', ['as'=> 'company.rfinancial.store', 'uses' => 'Company\Rental\FinancialController@store']);
+    Route::get('company/rfinancial/create', ['as'=> 'company.rfinancial.create', 'uses' => 'Company\Rental\FinancialController@create']);
+    Route::put('company/rfinancial/{rfinancial}', ['as'=> 'company.rfinancial.update', 'uses' => 'Company\Rental\FinancialController@update']);
+    Route::patch('company/rfinancial/{rfinancial}', ['as'=> 'company.rfinancial.update', 'uses' => 'Company\Rental\FinancialController@update']);
+    Route::delete('company/rfinancial/{rfinancial}', ['as'=> 'company.rfinancial.destroy', 'uses' => 'Company\Rental\FinancialController@destroy']);
+    Route::get('company/rfinancial/{rfinancial}', ['as'=> 'company.rfinancial.show', 'uses' => 'Company\Rental\FinancialController@show']);
+    Route::get('company/rfinancial/{rfinancial}/edit', ['as'=> 'company.rfinancial.edit', 'uses' => 'Company\Rental\FinancialController@edit']);
+    // Building Tab - Building
+    Route::get('company/rbuilding', ['as'=> 'company.rbuilding.index', 'uses' => 'Company\Rental\BuildingController@index']);
+    Route::post('company/rbuilding', ['as'=> 'company.rbuilding.store', 'uses' => 'Company\Rental\BuildingController@store']);
+    Route::get('company/rbuilding/create', ['as'=> 'company.rbuilding.create', 'uses' => 'Company\Rental\BuildingController@create']);
+    Route::put('company/rbuilding/{rbuilding}', ['as'=> 'company.rbuilding.update', 'uses' => 'Company\Rental\BuildingController@update']);
+    Route::patch('company/rbuilding/{rbuilding}', ['as'=> 'company.rbuilding.update', 'uses' => 'Company\Rental\BuildingController@update']);
+    Route::delete('company/rbuilding/{rbuilding}', ['as'=> 'company.rbuilding.destroy', 'uses' => 'Company\Rental\BuildingController@destroy']);
+    Route::get('company/rbuilding/{rbuilding}', ['as'=> 'company.rbuilding.show', 'uses' => 'Company\Rental\BuildingController@show']);
+    Route::get('company/rbuilding/{rbuilding}/edit', ['as'=> 'company.rbuilding.edit', 'uses' => 'Company\Rental\BuildingController@edit']);
+    // Invoice Tab - Invoice
+    Route::get('company/rinvoice', ['as'=> 'company.rinvoice.index', 'uses' => 'Company\Rental\InvoiceController@index']);
+    Route::post('company/rinvoice', ['as'=> 'company.rinvoice.store', 'uses' => 'Company\Rental\InvoiceController@store']);
+    Route::get('company/rinvoice/create', ['as'=> 'company.rinvoice.create', 'uses' => 'Company\Rental\InvoiceController@create']);
+    Route::put('company/rinvoice/{rinvoice}', ['as'=> 'company.rinvoice.update', 'uses' => 'Company\Rental\InvoiceController@update']);
+    Route::patch('company/rinvoice/{rinvoice}', ['as'=> 'company.rinvoice.update', 'uses' => 'Company\Rental\InvoiceController@update']);
+    Route::delete('company/rinvoice/{rinvoice}', ['as'=> 'company.rinvoice.destroy', 'uses' => 'Company\Rental\InvoiceController@destroy']);
+    Route::get('company/rinvoice/{rinvoice}', ['as'=> 'company.rinvoice.show', 'uses' => 'Company\Rental\InvoiceController@show']);
+    Route::get('company/rinvoice/{rinvoice}/edit', ['as'=> 'company.rinvoice.edit', 'uses' => 'Company\Rental\InvoiceController@edit']);
+
 
     Route::group(['middleware' => ['newsletter.auth']], function () {
         //NewsLetter System Integration
@@ -901,6 +988,10 @@ Route::group(['middleware' => ['company.auth']], function () {
 	Route::delete('company/Conference/conferenceBookingItems/{conferenceBookingItems}', ['as'=> 'company/Conference.conferenceBookingItems.destroy', 'uses' => 'Company/conference\ConferenceBookingItemController@destroy']);
 	Route::get('company/Conference/conferenceBookingItems/{conferenceBookingItems}', ['as'=> 'company/Conference.conferenceBookingItems.show', 'uses' => 'Company/conference\ConferenceBookingItemController@show']);
 	Route::get('company/Conference/conferenceBookingItems/{conferenceBookingItems}/edit', ['as'=> 'company/Conference.conferenceBookingItems.edit', 'uses' => 'Company/conference\ConferenceBookingItemController@edit']);
+	
+
+
+	Route::get('company/Conference/calender', ['as'=> 'company.conference.calender.view', 'uses' => 'Company\Conference\ConferenceBookingController@viewCalender']);
 
 
 	# Company Support Ticketing Section routes
