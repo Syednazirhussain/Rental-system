@@ -66,7 +66,28 @@ class companyHr extends Model
         'telephone_private',
         'email_job',
         'email_private',
-        'civil_status_id'
+        'civil_status_id',
+        'employment_date',
+        'termination_time',
+        'employeed_untill',
+        'personal_category',
+        'collective_type',
+        'employment_form',
+        'insurance_date',
+        'insurance_fees',
+        'department',
+        'designation',
+        'vacancies',
+        'salary_type',
+        'salary',
+        'employment_percent',
+        'cost_division',
+        'project',
+        'vat_table',
+        'vacation_days',
+        'vacation_category',
+        'father',
+        'mother'
     ];
 
     /**
@@ -88,7 +109,27 @@ class companyHr extends Model
         'telephone_private' => 'string',
         'email_job' => 'string',
         'email_private' => 'string',
-        'civil_status_id' => 'integer'
+        'civil_status_id' => 'integer',
+        'employment_date' => 'integer',
+        'termination_time' => 'integer',
+        'employeed_untill' => 'integer',
+        'personal_category' => 'integer',
+        'collective_type' => 'integer',
+        'employment_form' => 'integer',
+        'insurance_date' => 'integer',
+        'insurance_fees' => 'integer',
+        'department' => 'integer',
+        'designation' => 'integer',
+        'vacancies' => 'integer',
+        'salary_type' => 'integer',
+        'salary' => 'integer',
+        'employment_percent' => 'integer',
+        'cost_division' => 'integer',
+        'project' => 'integer',
+        'vat_table' => 'integer',
+        'vacation_days' => 'integer',
+        'vacation_category' => 'integer',
+        'father_and_mother' => 'string',
     ];
 
     /**

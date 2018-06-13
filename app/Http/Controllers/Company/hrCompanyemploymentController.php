@@ -43,6 +43,11 @@ class hrCompanyEmploymentController extends AppBaseController
      */
     public function create()
     {
+        
+        $countries = $this->countryRepository->all();
+        $states = $this->stateRepository->all();
+        $cities = $this->cityRepository->all();
+        $hrCivil = $this->hrCivilStatusRepository->all();
         return view('company.hr_company_employments.create');
     }
 
@@ -58,10 +63,10 @@ class hrCompanyEmploymentController extends AppBaseController
         $input = $request->all();
 
         $hrCompanyEmployment = $this->hrCompanyEmploymentRepository->create($input);
+        return response()->json($hrCompanyEmployment);
+        /*Flash::success('Hr Company Employment saved successfully.');
 
-        Flash::success('Hr Company Employment saved successfully.');
-
-        return redirect(route('company.hrCompanyEmployments.index'));
+        return redirect(route('company.hrCompanyEmployments.index'));*/
     }
 
     /**

@@ -188,3 +188,19 @@
     <a href="{!! route('company.hrCompanyEmployments.index') !!}"><i class="fa fa-edit"></i><span>Hr Company Employments</span></a>
 </li>
 
+<li class="{{ Request::is('hrEmploymentForms*') ? 'active' : '' }}">
+    <a href="{!! route('company.hrEmploymentForms.index') !!}"><i class="fa fa-edit"></i><span>Hr Employment Forms</span></a>
+</li>
+
+<li class="{{ Request::is('hrSalaryTypes*') ? 'active' : '' }}">
+    <a href="{!! route('company.hrSalaryTypes.index') !!}"><i class="fa fa-edit"></i><span>Hr Salary Types</span></a>
+</li>
+
+<li class="{{ Request::is('hrCompanyProjects*') ? 'active' : '' }}">
+    <a href="{!! route('company.hrCompanyProjects.index') !!}"><i class="fa fa-edit"></i><span>Hr Company Projects</span></a>
+</li>
+
+<li class="{{ Request::is('hrVacationCategories*') ? 'active' : '' }}">
+    <a href="{!! route('company.hrVacationCategories.index') !!}"><i class="fa fa-edit"></i><span>Hr Vacation Categories</span></a>
+</li>
+
