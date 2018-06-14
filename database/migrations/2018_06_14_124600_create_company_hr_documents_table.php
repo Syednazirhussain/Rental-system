@@ -18,7 +18,7 @@ class CreateCompanyHrDocumentsTable extends Migration {
 			$table->integer('company_hr_id')->unsigned()->nullable()->index('company_hr_id');
 			$table->string('file_name', 191)->nullable();
 			$table->timestamps();
-			$table->dateTime('deleted_at')->default('0000-00-00 00:00:00');
+			$table->dateTime('deleted_at')->nullable();
 		});
 	}
 

@@ -21,8 +21,8 @@ class CreateHrCompanyEmploymentTable extends Migration {
 			$table->integer('personal_category')->nullable();
 			$table->integer('collective_type')->nullable();
 			$table->integer('employment_form')->nullable();
-			$table->dateTime('insurance_date')->default('0000-00-00 00:00:00');
-			$table->integer('insurance_fees');
+			$table->dateTime('insurance_date')->nullable();
+			$table->integer('insurance_fees')->nullable();
 			$table->integer('department')->nullable();
 			$table->integer('designation')->nullable();
 			$table->integer('vacancies')->nullable();
