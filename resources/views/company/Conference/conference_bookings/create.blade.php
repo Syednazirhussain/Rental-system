@@ -410,6 +410,8 @@
 
           $("#room_id").on('change', function() {
               $('#duration-section').show();
+              roomTax = $(this).find(':selected').attr('data-room-tax');
+              $('#tax').val(roomTax);
           });
 
 

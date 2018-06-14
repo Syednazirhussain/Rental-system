@@ -41,7 +41,7 @@
             <select class="form-control select2-rooms" id="room_id" name="room_id">
                 <option value=""></option>
                 @foreach ($rooms as $room)
-                    <option <?php if(isset($conferenceBooking) && $conferenceBooking->room_id == $room->id ) { echo "selected='selected'"; } if($roomCalenderId != '' && $roomCalenderId == $room->id ) { echo "selected='selected'"; } ?> value="{{ $room->id }}" data-hour-price="{{ $room->price }}" data-day-price="{{ $room->price }}">
+                    <option <?php if(isset($conferenceBooking) && $conferenceBooking->room_id == $room->id ) { echo "selected='selected'"; } if($roomCalenderId != '' && $roomCalenderId == $room->id ) { echo "selected='selected'"; } ?> value="{{ $room->id }}" data-hour-price="{{ $room->price }}" data-day-price="{{ $room->price }}" data-room-tax="{{ $room->conf_vat }}">
                         {{ $room->name }}
                     </option>
                 @endforeach
@@ -173,7 +173,7 @@
                 <label for="tax">Tax</label>
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-percent text-muted"></i></span>
-                    <input type="number" id="tax" placeholder="" value="{{$generalSetting->meta_value}}" name="tax" class="form-control" readonly>
+                    <input type="number" id="tax" placeholder="" value="@if(isset($conferenceBooking)){{$conferenceBooking->tax}}@endif" name="tax" class="form-control" readonly>
                 </div>
             </div>
 

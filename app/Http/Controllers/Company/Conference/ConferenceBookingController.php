@@ -124,7 +124,7 @@ class ConferenceBookingController extends AppBaseController
         $packages               = $this->packagesRepository->all();
         $generalSetting         = $this->generalSettingRepository->getBookingTaxValue();
 
-        $rooms                  = DB::table('rooms')->orderBy('name', 'asc')->get();
+        $rooms                  = DB::table('rooms')->where('company_id', $company_id)->orderBy('name', 'asc')->get();
 
         // dd($generalSetting->meta_value);
 
@@ -340,7 +340,7 @@ class ConferenceBookingController extends AppBaseController
         $equipments             = $this->equipmentRepository->all();
         $foodItems              = $this->foodRepository->all();
         $packages               = $this->packagesRepository->all();
-        $rooms                  = DB::table('rooms')->orderBy('name', 'asc')->get();
+        $rooms                  = DB::table('rooms')->where('company_id', $company_id)->orderBy('name', 'asc')->get();
 
         $generalSetting         = $this->generalSettingRepository->getBookingTaxValue();
 
@@ -561,7 +561,7 @@ class ConferenceBookingController extends AppBaseController
         $equipments             = $this->equipmentRepository->all();
         $foodItems              = $this->foodRepository->all();
 
-        $rooms                  = DB::table('rooms')->orderBy('name', 'asc')->get();
+        $rooms                  = DB::table('rooms')->where('company_id', $company_id)->orderBy('name', 'asc')->get();
 
         $dataBooking = json_encode($conferenceBookings);
         $dataRooms = json_encode($rooms);

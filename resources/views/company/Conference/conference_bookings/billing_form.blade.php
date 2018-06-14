@@ -20,26 +20,17 @@
             </div>
 	</div>
 
+</div>
+<div class="row">
+
 	<div class="col-md-6">
             <div class="form-group m-t-2">
                 <label for="customer">Contact Person</label>
-                <select class="form-control select2-contact_person" id="contact_person" name="contact_person">
-                    <option value=""></option>
-                    @foreach($getCompanyCustomer as $companyCustomer)
-                    <option <?php if(isset($companyCustomerInfo) && $companyCustomerInfo->contact_person == $companyCustomer->user_id ) { echo "selected"; } ?> value="{{$companyCustomer->user_id}}">{{$companyCustomer->user->name}}</option>
-                    @endforeach
-                </select>
+                <input class="form-control" id="contact_person" name="contact_person" value="" placeholder="Contact Person">
                 <div class="errorTxt"></div>
             </div>
 	</div>
 
-	<div class="col-md-6">
-            <div class="form-group m-t-2">
-                <label for="customer">Cost</label>
-                <input class="form-control" id="cost" name="cost" value="@if(isset($companyCustomerInfo)){{$companyCustomerInfo->cost}}@endif">
-                <div class="errorTxt"></div>
-            </div>
-	</div>
 
 	<div class="col-md-6">
             <div class="form-group m-t-2">
@@ -53,7 +44,8 @@
                 <div class="errorTxt"></div>
             </div>
 	</div>
-
+</div>
+<div class="row">
 	<div class="col-md-6">
             <div class="form-group m-t-2">
                 <label for="customer">Interest Fees</label>
@@ -77,5 +69,4 @@
                 <div class="errorTxt"></div>
             </div>
 	</div>
-
 </div>
