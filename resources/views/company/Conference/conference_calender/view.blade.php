@@ -36,6 +36,7 @@
 
                         <div id="calendar"></div>
                         <input id="calendar_data" type="hidden" value="{{ isset($dataBooking) ? $dataBooking : '' }}">
+                        <input id="calendar_data_room" type="hidden" value="{{ isset($dataRooms) ? $dataRooms : '' }}">
                         
                     </div>
                 </div>
@@ -81,16 +82,22 @@
 
 
         var data = document.getElementById('calendar_data').value;
+        var dataRoom = document.getElementById('calendar_data_room').value;
         var colors = ['#00ffff', '#f14d39', '#ffc371', '#56f9bb', '#952097', '#1f2a7e', '#c5b3f9' ]
-        if(data) {
-            data = JSON.parse(data);
-        }
-        console.log(data);
+        
+        if(data) { data = JSON.parse(data); }
+        
+        if(dataRoom) { dataRoom = JSON.parse(dataRoom); }
+
         var event_data = [];
         var resource_data = [];
+
         for(var i=0; i< data.length; i++) {
             event_data.push({'title' : 'Booking', 'start' : data[i].start_datetime ? data[i].start_datetime : '', 'end' : data[i].end_datetime ? data[i].end_datetime : '', 'color' : colors[i % 7], 'resourceId' : data[i].id});
-            resource_data.push({'id': data[i].id});
+        }
+
+        for(var i=0; i< dataRoom.length; i++) {
+            resource_data.push({'id': dataRoom[i].id,'title': dataRoom[i].name});
         }
 
         $('#calendar').fullCalendar({
@@ -111,8 +118,8 @@
 
         jQuery(".fc-body .fc-resource-area .fc-scroller .fc-rows td").click(function() {
 
-            getBookingID = $(this).parent().attr('data-resource-id');
-            url = "{{ route('company.conference.conferenceBookings.edit', array("")) }}/"+getBookingID;
+            getRoomID = $(this).parent().attr('data-resource-id');
+            url = "{{ route('company.conference.conferenceBookings.create', array(''))}}/"+getRoomID;
             // alert($(this).parent().attr('data-resource-id'));
             location.href = url;
             // console.log(url);

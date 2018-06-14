@@ -101,6 +101,9 @@
                           'payment_method_code': {
                             required: true,
                           },
+                          'deposit': {
+                            required: true,
+                          },
 
                           'customer_id': {
                             required: true,
@@ -154,6 +157,9 @@
                           'payment_reminder': {
                             required: true,
                           },
+                          'remarks': {
+                            required: true,
+                          },
 
                     },
 
@@ -175,6 +181,12 @@
                           },
                           'payment_method_code': {
                             required: "Please select pay method",
+                          },
+                          'deposit': {
+                            required: "Please enter deposit amount",
+                          },
+                          'remarks': {
+                            required: "Please enter remarks",
                           },
                     },
 
@@ -603,10 +615,15 @@
               equipmentCheckBoxUpdate();
               totalPriceCalculations();
 
-
-
           });
 
+
+          $(".eqpUnits").keyup(function() {
+
+              equipmentCheckBoxUpdate();
+              totalPriceCalculations();
+
+          });
 
 
 
@@ -655,6 +672,15 @@
 
 
 
+          $(".foodUnits").keyup(function() {
+
+              foodCheckBoxUpdate();
+              totalPriceCalculations();
+
+          });
+
+
+
           // ==============================================
 
 
@@ -693,7 +719,13 @@
               packageCheckBoxUpdate();
               totalPriceCalculations();
 
+          });
 
+
+          $(".packageUnits").keyup(function() {
+
+              packageCheckBoxUpdate();
+              totalPriceCalculations();
 
           });
 

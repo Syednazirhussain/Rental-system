@@ -103,8 +103,9 @@ class ConferenceBookingController extends AppBaseController
      *
      * @return Response
      */
-    public function create()
+    public function create($id = null)
     {
+
 
         $countries              = $this->countryRepository->all();
         $states                 = $this->stateRepository->all();
@@ -141,6 +142,7 @@ class ConferenceBookingController extends AppBaseController
                     'rooms'                 => $rooms,
                     'packages'              => $packages,
                     'generalSetting'        => $generalSetting,
+                    'roomCalenderId'        => $id,
                     'bookingItems'          => "",
                 ];
 
@@ -376,6 +378,7 @@ class ConferenceBookingController extends AppBaseController
                     'getBookingEquipmentsItems' => $getBookingEquipmentsItems,
                     'getBookingFoodsItems'      => $getBookingFoodsItems,
                     'generalSetting'        => $generalSetting,
+                    'roomCalenderId'        => "",
                 ];
 
         return view('company.Conference.conference_bookings.edit', $data);
@@ -558,7 +561,10 @@ class ConferenceBookingController extends AppBaseController
         $equipments             = $this->equipmentRepository->all();
         $foodItems              = $this->foodRepository->all();
 
+        $rooms                  = DB::table('rooms')->orderBy('name', 'asc')->get();
+
         $dataBooking = json_encode($conferenceBookings);
+        $dataRooms = json_encode($rooms);
 
         $data = [
                     'conferenceBookings'    => $conferenceBookings,
@@ -568,6 +574,7 @@ class ConferenceBookingController extends AppBaseController
                     'equipments'            => $equipments,
                     'foodItems'             => $foodItems,
                     'dataBooking'           => $dataBooking,
+                    'dataRooms'             => $dataRooms,
                 ];
 
         return view('company.Conference.conference_calender.view', $data);

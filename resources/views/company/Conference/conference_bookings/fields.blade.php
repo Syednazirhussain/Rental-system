@@ -41,7 +41,7 @@
             <select class="form-control select2-rooms" id="room_id" name="room_id">
                 <option value=""></option>
                 @foreach ($rooms as $room)
-                    <option <?php if(isset($conferenceBooking) && $conferenceBooking->room_id == $room->id ) { echo "selected='selected'"; } ?> value="{{ $room->id }}" data-hour-price="{{ $room->price }}" data-day-price="{{ $room->price }}">
+                    <option <?php if(isset($conferenceBooking) && $conferenceBooking->room_id == $room->id ) { echo "selected='selected'"; } if($roomCalenderId != '' && $roomCalenderId == $room->id ) { echo "selected='selected'"; } ?> value="{{ $room->id }}" data-hour-price="{{ $room->price }}" data-day-price="{{ $room->price }}">
                         {{ $room->name }}
                     </option>
                 @endforeach
@@ -193,6 +193,7 @@
                 <div class="input-group">
                     <span class="input-group-addon">SEK</span>
                     <input type="number" id="deposit" placeholder="0.00" value="@if(isset($conferenceBooking)){{$conferenceBooking->deposit}}@endif"  name="deposit" class="form-control" >
+                    <div class="errorTxt"></div>
                 </div>
             </div>
 
