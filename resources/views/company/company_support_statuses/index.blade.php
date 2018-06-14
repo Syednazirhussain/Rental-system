@@ -1,6 +1,7 @@
 @extends('company.default')
 
 @section('content')
+
     <div class="px-content">
         <div class="page-header">
             <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i>Support / Status</span></h1>
