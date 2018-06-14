@@ -273,20 +273,6 @@ class companyHrController extends AppBaseController
 
 
 
-        if ($input['father'] == 'on') {
-                $input['father'] = 1;
-            } else {
-                $input['father'] = 0;
-            }
-
-        if ($input['mother'] == 'on') {
-                $input['mother'] = 1;
-            }
-            else {
-                $input['mother'] = 0;
-            }
-
-
         // dd($input);
         // dd($input['employment_date']);
         $companyHr = $this->companyHrRepository->findWithoutFail($id);
