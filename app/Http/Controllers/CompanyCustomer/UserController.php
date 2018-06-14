@@ -223,15 +223,19 @@ class UserController extends AppBaseController
 
         if (Auth::guard('company_customer')->attempt(array('email'=>$request->input('email'), 'password'=>$request->input('password'),'user_role_code'=>'company_customer'))) 
         {
+
             if (Auth::guard('company_customer')->user()->first_login)
             {
                 Auth::guard('company_customer')->user()->update(array('first_login' => false));
+
                 return redirect()->route('company.users.edit', Auth::guard('company')->user()->id);
             }
             return redirect()->route('companyCustomer.dashboard');
                     
 
-        } else {
+        }
+         else 
+         {
             return redirect()->route('companyCustomer.login')
             ->with('errorLogin', 'Ooops! Invalid Email or Password')
             ->withInput();

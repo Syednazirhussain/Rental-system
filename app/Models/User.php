@@ -42,6 +42,7 @@ class User extends Authenticatable
     use SoftDeletes;
     use HasRoles;
 
+    protected $guard_name = 'admin';
 
     protected $table = 'users';
     

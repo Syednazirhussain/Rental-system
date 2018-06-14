@@ -47,11 +47,14 @@ class SupportController extends AppBaseController
     {
         $this->supportRepository->pushCriteria(new RequestCriteria($request));
 
+        $user_role = Auth::guard('admin')->user()->user_role_code;
+
         $status_id = SupportStatus::where('name','Solved')->first()->id;
 
         $supports = Support::where('status_id', '!=' ,$status_id)->where('parent_id',0)->get();
 
         return view('admin.supports.index')->with('supports',$supports);
+
     }
 
     public function dashboard()
@@ -288,16 +291,19 @@ class SupportController extends AppBaseController
                     {
                         $ticket = Support::where('parent_id',0)->where('id',$ticketId)->first();
                         $reply = Support::where('parent_id',$ticketId)->get();
+                        $role_code = Auth::guard('company')->user()->user_role_code;
                         if(isset($reply) && count($reply) == 0)
                         {
                             $data = [
-                                'ticket' => $ticket       
+                                'ticket' => $ticket,
+                                'role_code' => $role_code       
                             ];
                         }
                         else
                         {
                             $data = [
                                 'ticket' => $ticket,
+                                'role_code' => $role_code,
                                 'reply'   => $reply
                             ];
                         }
@@ -308,16 +314,19 @@ class SupportController extends AppBaseController
                         $ticketId = $ticket->parent_id;
                         $ticket = Support::where('parent_id',0)->where('id',$ticketId)->first();
                         $reply = Support::where('parent_id',$ticketId)->get();
+                        $role_code = Auth::guard('company')->user()->user_role_code;
                         if(isset($reply) && count($reply) == 0)
                         {
                             $data = [
-                                'ticket' => $ticket       
+                                'ticket' => $ticket,
+                                'role_code' => $role_code       
                             ];
                         }
                         else
                         {
                             $data = [
                                 'ticket' => $ticket,
+                                'role_code' => $role_code,
                                 'reply'   => $reply
                             ];
                         }
@@ -452,6 +461,9 @@ class SupportController extends AppBaseController
             $categories =  SupportCategory::all();
             $statues =  SupportStatus::all();
             $user_role = UserRole::all();
+            $agents = User::where('user_role_code','admin_technical_support')->get();
+
+            $role_code = Auth::guard('admin')->user()->user_role_code;
 
             $userRoleArr = [];
 
@@ -461,7 +473,6 @@ class SupportController extends AppBaseController
                 {
                     $userRoleArr[$key] = $value;
                 }
-
             }
 
             $reply = Support::where('parent_id',$ticketId)->get();
@@ -473,7 +484,9 @@ class SupportController extends AppBaseController
                     'priorities' => $priorities,
                     'categories' => $categories,
                     'statues'    => $statues,
-                    'userRoles'  => $userRoleArr     
+                    'userRoles'  => $userRoleArr,
+                    'agents'     => $agents,
+                    'role_code'  => $role_code        
                 ];
             }
             else
@@ -484,7 +497,9 @@ class SupportController extends AppBaseController
                     'priorities' => $priorities,
                     'categories' => $categories,
                     'statues'    => $statues,
-                    'userRoles'  => $userRoleArr    
+                    'userRoles'  => $userRoleArr,
+                    'agents'     => $agents,
+                    'role_code'  => $role_code    
                 ];
             }
 
@@ -528,11 +543,15 @@ class SupportController extends AppBaseController
         $support = Support::find($id);
 
 
-        if (empty($support)) {
+
+        if (empty($support)) 
+        {
             session()->flash('msg.error','Support not found');
             return redirect(route('admin.supports.index'));
         }
 
+
+        // When admin changed the priority or status an email has been generated to ticket owner
         if($support->priority_id != $input['priority_id'] || $support->status_id != $input['status_id'])
         {
             $username = $support->user->name;
@@ -588,7 +607,13 @@ class SupportController extends AppBaseController
         $support->category_id   = $input['category_id'];
         $support->status_id     = $input['status_id'];
 
+        if(isset($input['agent']))
+        {
+            $support->agent = $input['agent'];            
+        }
+
         $support->save();
+
         session()->flash('msg.success','Ticket updated successfully');
         return redirect()->back();
     }

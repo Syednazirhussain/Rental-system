@@ -49,9 +49,9 @@
                     <?php
 
                         $user_id = Auth::guard('company_customer')->user()->id;
-                        $company_id = \App\Models\CompanyCustomer::where('user_id',$user_id)->first()->id;
+                        $company_id = \App\Models\CompanyUser::where('user_id',$user_id)->first()->company_id;
                         $companyModules = \App\Models\CompanyModule::where('company_id',$company_id)->get();
-                        
+
                     ?>
 
                     @foreach($companyModules as $module)

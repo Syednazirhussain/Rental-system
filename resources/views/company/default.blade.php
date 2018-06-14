@@ -30,6 +30,7 @@
             .page-header-form .input-group-addon,
             .page-header-form .form-control {
             background: rgba(0, 0, 0, .05);
+
             }
             .form-label {
             font-size: 14px;
@@ -59,6 +60,7 @@
                     <li class="dropdown" id="admin-menu-button">
                         <a href class="dropdown-toggle color-white" data-toggle="dropdown" role="button" aria-haspopup="true"
                             aria-expanded="false"><i class="fa fa-bars fa-2x m-r-1 vertical-a-mid"></i><span class="">Menu</span></a>
+
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="{{ route('company.users.index') }}">Users</a>
@@ -126,6 +128,7 @@
                             </li>
 
                             @foreach($companyModules as $module)
+
 
                             @if($module->module->code == 'rental_module')
                             <li class="divider"></li>
@@ -203,6 +206,16 @@
                             </li>
 
 
+                            <li><a href="{{ route('company.companyInvoices.index') }}"><i class="fa fa-building-o"></i>&nbsp;&nbsp;Invoices</a>
+                            </li>
+                        </ul>
+                    </li>
+                    
+
+
+                    
+
+
                             @elseif($module->module->code == 'support_module')
                             <li class="divider"></li>
                             
@@ -214,6 +227,16 @@
                             @endif
 
                             @endforeach
+
+
+                    <li class="divider"></li>
+
+
+                    <li><a href="{{ route('company.currencies.index') }}">Currency</a></li>
+                    <li class="divider"></li>
+                    <li><a href="{{ route('company.leasePartners.index') }}">Leasings</a></li>
+                    <li class="divider"></li>
+                    <li><a href="{{ route('company.companyHrs.index') }}">Company HR</a></li>
 
                         </ul>
                     </li>

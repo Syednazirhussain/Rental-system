@@ -214,7 +214,6 @@ if(!isEmpty(wizard))
               error.insertAfter(element);
             }
           }
-
       });
 
 
