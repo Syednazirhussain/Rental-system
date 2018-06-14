@@ -238,6 +238,17 @@ class RoomContractController extends AppBaseController
     public function status()
     {
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        $rooms = Room::where('company_id', $company_id)->get();
+        $countries = Country::all();
+        $states = State::all();
+        $cities = City::all();
+        $userStatus = UserStatus::all();
+        $discountTypes = DiscountType::all();
+        $modules = Module::all();
+        $paymentCycles = PaymentCycle::all();
+        $paymentMethods = PaymentMethod::all();
+
+
         $contracts = Room::leftJoin('room_contracts', 'rooms.id', '=', 'room_contracts.room_id')
             ->join('company_floor_rooms', 'rooms.floor_id', '=', 'company_floor_rooms.id')
             ->join('company_buildings', 'company_floor_rooms.building_id', '=', 'company_buildings.id')
@@ -245,9 +256,22 @@ class RoomContractController extends AppBaseController
             ->where('room_contracts.deleted_at', NULL)
             ->select('rooms.id','rooms.name', 'room_contracts.start_date', 'room_contracts.end_date', 'company_buildings.name as buildingName', 'company_floor_rooms.floor')
             ->distinct('rooms.id')->orderBy('rooms.id', 'DESC')->get();
-        $data = json_encode($contracts);
 
-        return view('company.contracts.status', ['data' => $data]);
+        $data = [
+            'rooms' => $rooms,
+            'countries' => $countries,
+            'states' => $states,
+            'cities' => $cities,
+            'userStatus' => $userStatus,
+            'discountTypes' => $discountTypes,
+            'modules' => $modules,
+            'paymentCycles' => $paymentCycles,
+            'paymentMethods' => $paymentMethods,
+            'companyUsers' => '',
+            'data' => $data = json_encode($contracts)
+        ];
+
+        return view('company.contracts.status', $data);
     }
 
     /**
