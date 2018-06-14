@@ -270,7 +270,8 @@ class LeaseContractInformationController extends AppBaseController
         $leaseContractInformation->save();
 
         if($leaseContractInformation)
-        { 
+        {
+            session()->flash('msg.success','Lease has been updated successfully'); 
             return response()->json(['status' => 'success','msg' => 'Lease has been updated successfully']);
         }
         else

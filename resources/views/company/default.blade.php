@@ -237,9 +237,6 @@
 
                     <li><a href="{{ route('company.leasePartners.index') }}">Leasings</a></li>
 
-
-
-
                         </ul>
                     </li>
                 </ul>
