@@ -22,6 +22,8 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
+use App\Models\Company\HRCourses;
+
 class companyHrController extends AppBaseController
 {
     /** @var  companyHrRepository */
@@ -99,6 +101,7 @@ class companyHrController extends AppBaseController
         $hrSalaryType               =   $this->hrSalaryTypeRepository->all();
         $hrCompanyPro               =   $this->hrCompanyProjectRepository->all();
         $hrVacCategory              =   $this->hrVacationCategoryRepository->all();
+        $HRCourses = HRCourses::all();
 
         $data   =   [
             'countries'                 => $countries,
@@ -112,8 +115,17 @@ class companyHrController extends AppBaseController
             'hrSalaryType'              => $hrSalaryType,
             'hrCompanyPro'              => $hrCompanyPro,
             'hrVacCategory'             => $hrVacCategory,
+            'HRCourses'                 => $HRCourses
         ];
+
         return view('company.company_hrs.create', $data);
+    }
+
+
+    public function hrOtherInformation(Request $request){
+
+        print_r($request->all());
+        exit;
     }
 
     /**
@@ -125,6 +137,10 @@ class companyHrController extends AppBaseController
      */
     public function store(CreatecompanyHrRequest $request)
     {
+
+        print_r($request->all());
+        exit;
+
         $input = $request->all();
 
             $date = str_replace('-', '/', $input['employment_date']);

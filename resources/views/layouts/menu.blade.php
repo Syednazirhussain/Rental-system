@@ -223,3 +223,7 @@
 
 </li>
 
+<li class="{{ Request::is('hRCourses*') ? 'active' : '' }}">
+    <a href="{!! route('company.hRCourses.index') !!}"><i class="fa fa-edit"></i><span>H R Courses</span></a>
+</li>
+

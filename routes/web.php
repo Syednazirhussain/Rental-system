@@ -1286,6 +1286,7 @@ Route::delete('company/hrCivilStatuses/{hrCivilStatuses}', ['as'=> 'company.hrCi
 Route::get('company/hrCivilStatuses/{hrCivilStatuses}', ['as'=> 'company.hrCivilStatuses.show', 'uses' => 'Company\hrCivilStatusController@show']);
 Route::get('company/hrCivilStatuses/{hrCivilStatuses}/edit', ['as'=> 'company.hrCivilStatuses.edit', 'uses' => 'Company\hrCivilStatusController@edit']);
 
+Route::post('company/companyHrs/hrOtherInformation', ['as'=> 'company.hrOtherInformation.store', 'uses' => 'Company\companyHrController@hrOtherInformation']);
 
 Route::get('company/companyHrs', ['as'=> 'company.companyHrs.index', 'uses' => 'Company\companyHrController@index']);
 Route::post('company/companyHrs', ['as'=> 'company.companyHrs.store', 'uses' => 'Company\companyHrController@store']);
@@ -1386,3 +1387,13 @@ Route::delete('company/hrVacationCategories/{hrVacationCategories}', ['as'=> 'co
 Route::get('company/hrVacationCategories/{hrVacationCategories}', ['as'=> 'company.hrVacationCategories.show', 'uses' => 'Company\hrVacationCategoryController@show']);
 Route::get('company/hrVacationCategories/{hrVacationCategories}/edit', ['as'=> 'company.hrVacationCategories.edit', 'uses' => 'Company\hrVacationCategoryController@edit']);
 
+
+
+Route::get('company/hRCourses', ['as'=> 'company.hRCourses.index', 'uses' => 'Company\HRCoursesController@index']);
+Route::post('company/hRCourses', ['as'=> 'company.hRCourses.store', 'uses' => 'Company\HRCoursesController@store']);
+Route::get('company/hRCourses/create', ['as'=> 'company.hRCourses.create', 'uses' => 'Company\HRCoursesController@create']);
+Route::put('company/hRCourses/{hRCourses}', ['as'=> 'company.hRCourses.update', 'uses' => 'Company\HRCoursesController@update']);
+Route::patch('company/hRCourses/{hRCourses}', ['as'=> 'company.hRCourses.update', 'uses' => 'Company\HRCoursesController@update']);
+Route::delete('company/hRCourses/{hRCourses}', ['as'=> 'company.hRCourses.destroy', 'uses' => 'Company\HRCoursesController@destroy']);
+Route::get('company/hRCourses/{hRCourses}', ['as'=> 'company.hRCourses.show', 'uses' => 'Company\HRCoursesController@show']);
+Route::get('company/hRCourses/{hRCourses}/edit', ['as'=> 'company.hRCourses.edit', 'uses' => 'Company\HRCoursesController@edit']);

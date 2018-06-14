@@ -234,8 +234,9 @@
 
                     <li><a href="{{ route('company.currencies.index') }}">Currency</a></li>
                     <li class="divider"></li>
-
                     <li><a href="{{ route('company.leasePartners.index') }}">Leasings</a></li>
+                    <li class="divider"></li>
+                    <li><a href="{{ route('company.companyHrs.index') }}">Company HR</a></li>
 
                         </ul>
                     </li>
