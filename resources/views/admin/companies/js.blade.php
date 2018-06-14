@@ -214,7 +214,6 @@ if(!isEmpty(wizard))
               error.insertAfter(element);
             }
           }
-
       });
 
 
@@ -1359,7 +1358,6 @@ if(!isEmpty(wizard))
 
  
             $(document).on('change', '.module-id', function() {
-
 
                     // enable all options
                     var thisModule = $(this);

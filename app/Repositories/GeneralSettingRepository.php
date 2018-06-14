@@ -49,7 +49,7 @@ class GeneralSettingRepository extends BaseRepository
 
     public function getBookingTaxValue()
     {
-        return GeneralSetting::where('meta_key','booking_tax')->first();
+        return GeneralSetting::where('meta_key','company_invoice_vat')->first();
     }
 
 

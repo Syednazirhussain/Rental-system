@@ -157,9 +157,27 @@
 
 <li class="{{ Request::is('roomNotes*') ? 'active' : '' }}">
     <a href="{!! route('company.roomNotes.index') !!}"><i class="fa fa-edit"></i><span>Room Notes</span></a>
->>>>>>> c30a99e22451927ebf9362b3c715927935a64c63
+
 </li>
 
+<li class="{{ Request::is('currencies*') ? 'active' : '' }}">
+    <a href="{!! route('company.currencies.index') !!}"><i class="fa fa-edit"></i><span>Currencies</span></a>
+</li>
+
+<li class="{{ Request::is('leaseAttachments*') ? 'active' : '' }}">
+    <a href="{!! route('company.leaseAttachments.index') !!}"><i class="fa fa-edit"></i><span>Lease Attachments</span></a>
+</li>
+
+<li class="{{ Request::is('leasePartners*') ? 'active' : '' }}">
+    <a href="{!! route('company.leasePartners.index') !!}"><i class="fa fa-edit"></i><span>Lease Partners</span></a>
+</li>
+
+<li class="{{ Request::is('leaseCounterparts*') ? 'active' : '' }}">
+    <a href="{!! route('company.leaseCounterparts.index') !!}"><i class="fa fa-edit"></i><span>Lease Counterparts</span></a>
+</li>
+
+<li class="{{ Request::is('leaseContractInformations*') ? 'active' : '' }}">
+    <a href="{!! route('company.leaseContractInformations.index') !!}"><i class="fa fa-edit"></i><span>Lease Contract Informations</span></a>
 <li class="{{ Request::is('hrCivilStatuses*') ? 'active' : '' }}">
     <a href="{!! route('company.hrCivilStatuses.index') !!}"><i class="fa fa-edit"></i><span>Hr Civil Statuses</span></a>
 </li>
@@ -202,5 +220,6 @@
 
 <li class="{{ Request::is('hrVacationCategories*') ? 'active' : '' }}">
     <a href="{!! route('company.hrVacationCategories.index') !!}"><i class="fa fa-edit"></i><span>Hr Vacation Categories</span></a>
+
 </li>
 

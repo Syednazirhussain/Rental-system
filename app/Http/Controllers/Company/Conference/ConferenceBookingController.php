@@ -14,13 +14,17 @@ use App\Repositories\FoodRepository;
 use App\Repositories\PackagesRepository;
 use App\Repositories\GeneralSettingRepository;
 use App\Http\Controllers\AppBaseController;
+use App\Repositories\CountryRepository;
+use App\Repositories\StateRepository;
+use App\Repositories\CityRepository;
 use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use DB;
+use Auth;
 use Session;
-
+use App\Models\CompanyCustomer;
 
 class ConferenceBookingController extends AppBaseController
 {
@@ -34,6 +38,9 @@ class ConferenceBookingController extends AppBaseController
     private $foodRepository;
     private $packagesRepository;
     private $generalSettingRepository;
+    private $countryRepository;
+    private $stateRepository;
+    private $cityRepository;
 
     public function __construct(ConferenceBookingRepository $conferenceBookingRepo,
                                 ConferenceBookingItemRepository $conferenceBookingItemRepo,
@@ -43,6 +50,9 @@ class ConferenceBookingController extends AppBaseController
                                 FoodRepository $foodRepo,
                                 ConferenceDurationRepository $conferenceDurationRepo,
                                 PackagesRepository $packagesRepo,
+                                CountryRepository $countryRepo, 
+                                StateRepository $stateRepo,
+                                CityRepository $cityRepo,                                
                                 GeneralSettingRepository $generalSettingRepo
                                 )
     {
@@ -55,6 +65,9 @@ class ConferenceBookingController extends AppBaseController
         $this->foodRepository                   = $foodRepo;
         $this->packagesRepository               = $packagesRepo;
         $this->generalSettingRepository         = $generalSettingRepo;
+        $this->stateRepository                  = $stateRepo;
+        $this->countryRepository                = $countryRepo;
+        $this->cityRepository                   = $cityRepo;        
     }
 
     /**
@@ -92,6 +105,15 @@ class ConferenceBookingController extends AppBaseController
      */
     public function create()
     {
+
+        $countries              = $this->countryRepository->all();
+        $states                 = $this->stateRepository->all();
+        $cities                 = $this->cityRepository->all();
+
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        $getCompanyCustomer = CompanyCustomer::where('company_id', $company_id)->get();
+
+
         $conferenceBookings     = $this->conferenceBookingRepository->all();
         $paymentMethods         = $this->paymentMethodRepository->all();
         $conferenceDurations    = $this->conferenceDurationRepository->all();
@@ -106,6 +128,10 @@ class ConferenceBookingController extends AppBaseController
         // dd($generalSetting->meta_value);
 
         $data = [
+                    'getCompanyCustomer'    => $getCompanyCustomer,
+                    'countries'             => $countries,
+                    'states'                => $states,
+                    'cities'                => $cities,
                     'conferenceBookings'    => $conferenceBookings,
                     'conferenceDurations'   => $conferenceDurations,
                     'paymentMethods'        => $paymentMethods,
@@ -133,9 +159,33 @@ class ConferenceBookingController extends AppBaseController
     {
         $input = $request->all();
 
+        dd($input);
+
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+
+        $updateCustomer = [
+                                'address' => $request->customer_address,
+                                'postal_code' => $request->customer_post_code,
+                                'telephone' => $request->customer_telephone,
+                                'mobile' => $request->customer_mobile,
+                                'fax' => $request->customer_fax,
+                                'organization_num' => $request->customer_org_num,
+                                'invoice_send_as' => $request->invoice_send,
+                                'reference' => $request->reference,
+                                'contact_person' => $request->contact_person,
+                                'cost' => $request->cost,
+                                'payment_condition' => $request->payment_conditions,
+                                'interest_fees' => $request->interest_fees,
+                                'peyment_reminder' => $request->payment_reminder,
+                          ];
+
+        CompanyCustomer::where('company_id', $company_id)->where('user_id', $request->customer_id)->update($updateCustomer);
+
+        $updatedCustomerInfo = CompanyCustomer::where('company_id', $company_id)->where('user_id', $request->customer_id)->first();
+
         // ==========================================================================
 
-        $input['customer_id'] = '1';
+        $input['company_customer_id'] = $updatedCustomerInfo->id;
 
         $booking_date   = date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $input['booking_date'])));
         $start_datetime = date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $input['start_datetime'])));
@@ -277,6 +327,11 @@ class ConferenceBookingController extends AppBaseController
     public function edit($id)
     {
 
+        $countries              = $this->countryRepository->all();
+        $states                 = $this->stateRepository->all();
+        $cities                 = $this->cityRepository->all();
+
+
         $conferenceBooking      = $this->conferenceBookingRepository->findWithoutFail($id);
         $paymentMethods         = $this->paymentMethodRepository->all();
         $conferenceDurations    = $this->conferenceDurationRepository->all();
@@ -292,6 +347,12 @@ class ConferenceBookingController extends AppBaseController
         $getBookingEquipmentsItems      = $this->conferenceBookingItemRepository->getBookingEquipmentsItems($conferenceBooking->id);
         $getBookingFoodsItems           = $this->conferenceBookingItemRepository->getBookingFoodsItems($conferenceBooking->id);
 
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        $getCompanyCustomer = CompanyCustomer::where('company_id', $company_id)->get();
+        $companyCustomerInfo = CompanyCustomer::where('id', $conferenceBooking->company_customer_id)->first();
+
+
+
         if (empty($conferenceBooking)) {
             Flash::error('Conference Booking not found');
 
@@ -299,6 +360,11 @@ class ConferenceBookingController extends AppBaseController
         }
 
         $data = [
+                    'companyCustomerInfo'   => $companyCustomerInfo,
+                    'countries'             => $countries,
+                    'states'                => $states,
+                    'cities'                => $cities,
+                    'getCompanyCustomer'    => $getCompanyCustomer,
                     'conferenceDurations'   => $conferenceDurations,
                     'paymentMethods'        => $paymentMethods,
                     'roomLayouts'           => $roomLayouts,
@@ -327,7 +393,116 @@ class ConferenceBookingController extends AppBaseController
     public function update($id, UpdateConferenceBookingRequest $request)
     {
 
-        dd($request->all());
+
+        $input = $request->all();
+
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+
+        $updateCustomer = [
+                                'address' => $request->customer_address,
+                                'postal_code' => $request->customer_post_code,
+                                'telephone' => $request->customer_telephone,
+                                'mobile' => $request->customer_mobile,
+                                'fax' => $request->customer_fax,
+                                'organization_num' => $request->customer_org_num,
+                                'invoice_send_as' => $request->invoice_send,
+                                'reference' => $request->reference,
+                                'contact_person' => $request->contact_person,
+                                'cost' => $request->cost,
+                                'payment_condition' => $request->payment_conditions,
+                                'interest_fees' => $request->interest_fees,
+                                'country_id' => $request->customer_country,
+                                'state_id' => $request->customer_state,
+                                'city_id' => $request->customer_city,
+                                'peyment_reminder' => $request->payment_reminder,
+                          ];
+
+        // dd($updateCustomer);
+
+        CompanyCustomer::where('company_id', $company_id)->where('user_id', $request->customer_id)->update($updateCustomer);
+
+        $updatedCustomerInfo = CompanyCustomer::where('company_id', $company_id)->where('user_id', $request->customer_id)->first();
+
+
+
+
+
+        // ==========================================================================
+
+
+
+
+        $input['company_customer_id'] = $updatedCustomerInfo->id;
+
+        $booking_date   = date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $input['booking_date'])));
+        $start_datetime = date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $input['start_datetime'])));
+        $end_datetime   = date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $input['end_datetime'])));
+
+        $input['booking_date']      = $booking_date;
+        $input['start_datetime']    = $start_datetime;
+        $input['end_datetime']      = $end_datetime;
+
+        if (empty($input['packages'])) {
+            $input['package_price'] = 0.00;
+        } 
+
+        if (empty($input['foods'])) {
+            $input['food_price'] = 0.00;
+        } 
+
+        if (empty($input['equipments'])) {
+            $input['equipment_price'] = 0.00;
+        } 
+
+        $conferenceBooking = $this->conferenceBookingRepository->update($input, $id);
+
+
+
+
+
+
+
+
+
+
+        // ==========================================================================
+
+
+        if (!empty($input['packages'])) {
+
+            $this->conferenceBookingItemRepository->delete($input['packageBookingItemId']);
+
+            $packagesUnit       = $input['packageUnits'];
+            $packagesItemsID    = $input['packages'];
+
+            $packagesData = array_intersect_key($packagesUnit, array_flip($packagesItemsID));
+
+            foreach ($packagesData as $key=>$val) {
+
+                $package = $this->packagesRepository->findWithoutFail($key);
+
+                $packageInput['booking_id']    = $conferenceBooking->id;
+                $packageInput['entity_id']     = $key;
+                $packageInput['entity_type']   = "package";
+                $packageInput['entity_name']   = $package->title;
+                $packageInput['entity_price']  = $package->price;
+                $packageInput['entity_qty']    = $val['qty'];
+
+                $this->conferenceBookingItemRepository->update($packageInput, $id);
+            }
+
+        }
+
+        
+        dd($input);
+
+
+        // ==========================================================================
+
+
+
+
+
 
         $conferenceBooking = $this->conferenceBookingRepository->findWithoutFail($id);
 
@@ -337,7 +512,7 @@ class ConferenceBookingController extends AppBaseController
             return redirect(route('company.conference.conferenceBookings.index'));
         }
 
-        $conferenceBooking = $this->conferenceBookingRepository->update($request->all(), $id);
+        // $conferenceBooking = $this->conferenceBookingRepository->update($request->all(), $id);
 
         Session::flash("successMessage", "The Conference Bookingk has been updated successfully.");
 
@@ -367,4 +542,22 @@ class ConferenceBookingController extends AppBaseController
 
         return redirect(route('company.conference.conferenceBookings.index'));
     }
+
+
+
+
+
+
+
+    public function viewCalender()
+    {
+        return view('company.Conference.conference_calender.view');
+    }
+
+
+
+
+
+
+
 }

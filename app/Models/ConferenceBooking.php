@@ -49,7 +49,7 @@ class ConferenceBooking extends Model
 
 
     public $fillable = [
-        'customer_id',
+        'company_customer_id',
         'booking_date',
         'start_datetime',
         'end_datetime',
@@ -76,7 +76,7 @@ class ConferenceBooking extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'customer_id' => 'integer',
+        'company_customer_id' => 'integer',
         'booking_date' => 'date',
         'attendees' => 'integer',
         'room_id' => 'integer',

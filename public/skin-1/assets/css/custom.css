@@ -81,7 +81,8 @@
 
 
 
-.errorTxt { color: #dc3545 !important }
+.errorTxt, .error { color: #dc3545 !important }
+
 
 
 

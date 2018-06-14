@@ -111,7 +111,7 @@ class UserController extends AppBaseController
             'user_status_id' => 'required'   
         ]);
 
-        $input = $request->except(['user_permission']);
+        $input = $request->except(['user_permission','_token']);
 
         $password =  bcrypt($request->password);
         $input['password'] = $password;
@@ -129,7 +129,7 @@ class UserController extends AppBaseController
         $input['user_role_code'] = $code;
         
         unset( $input['role'] );
-        
+
         $user = User::create($input);
 
         $user->assignRole($user_role);

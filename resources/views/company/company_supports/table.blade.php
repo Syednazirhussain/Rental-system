@@ -8,6 +8,7 @@
             <th>Last Comment</th>
             <th>Priority</th>
             <th>Owner</th>
+            <th>Agent</th>
             <th>Category</th>
         </tr>
     </thead>
@@ -65,7 +66,7 @@
                 <td>
                   {{ $companySupport->user->name }}
                 </td>
-
+                <td> @if(isset( $companySupport->agent )){{ $companySupport->companyAgent->name }}@endif </td>
                 <td>
                   <span class="label label-default">{{ $companySupport->companySupportCategory->name }}</span>                  
                 </td>

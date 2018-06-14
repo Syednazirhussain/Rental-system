@@ -40,7 +40,23 @@ class CompanyCustomer extends Model
 
     public $fillable = [
         'company_id',
-        'user_id'
+        'user_id',
+        'address',
+        'postal_code',
+        'telephone',
+        'mobile',
+        'fax',
+        'organization_num',
+        'invoice_send_as',
+        'reference',
+        'contact_person',
+        'cost',
+        'payment_condition',
+        'interest_fees',
+        'country_id',
+        'state_id',
+        'city_id',
+        'peyment_reminder'
     ];
 
     /**
@@ -49,9 +65,25 @@ class CompanyCustomer extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
-        'company_id' => 'integer',
-        'user_id' => 'integer'
+        'id'                => 'integer',
+        'company_id'        => 'integer',
+        'user_id'           => 'integer',
+        'country_id'        => 'integer',
+        'state_id'          => 'integer',
+        'city_id'           => 'integer',
+        'address'           => 'string',
+        'postal_code'       => 'string',
+        'telephone'         => 'string',
+        'mobile'            => 'string',
+        'fax'               => 'string',
+        'organization_num'  => 'string',
+        'invoice_send_as'   => 'string',
+        'reference'         => 'string',
+        'contact_person'    => 'string',
+        'cost'              => 'string',
+        'payment_condition' => 'string',
+        'interest_fees'     => 'string',
+        'peyment_reminder'  => 'string'
     ];
 
     /**

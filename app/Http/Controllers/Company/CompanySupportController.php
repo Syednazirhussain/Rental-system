@@ -264,8 +264,6 @@ class CompanySupportController extends AppBaseController
                                     ->where('user_id',$user_id)
                                     ->get();
 
-
-
                 if(count($supports) > 0)
                 {
                     return view('company_customer.supports.index')->with('supports', $supports);                    
@@ -472,6 +470,8 @@ class CompanySupportController extends AppBaseController
 
                         $company_id = $companyUser->company_id;
 
+                        $role_code = User::find($user_id)->user_role_code;
+                        $agents = User::where('user_role_code','company_technical_support')->get();
                         $priorities =  CompanySupportPriorities::where('company_id',$company_id)->get();
                         $categories =  CompanySupportCategory::where('company_id',$company_id)->get();
                         $statues =  CompanySupportStatus::where('company_id',$company_id)->get();
@@ -486,7 +486,9 @@ class CompanySupportController extends AppBaseController
                                 'support' => $support,
                                 'priorities' => $priorities,
                                 'categories' => $categories,
-                                'statues'    => $statues     
+                                'statues'    => $statues,
+                                'agents'    => $agents,
+                                'role_code' => $role_code     
                             ];
                         }
                         else
@@ -496,9 +498,13 @@ class CompanySupportController extends AppBaseController
                                 'reply'   => $reply,
                                 'priorities' => $priorities,
                                 'categories' => $categories,
-                                'statues'    => $statues   
+                                'statues'    => $statues,
+                                'agents'    => $agents,
+                                'role_code' => $role_code   
                             ];
                         }
+
+
                         return view('company.company_supports.show',$data);
                     }
                     else
@@ -507,6 +513,8 @@ class CompanySupportController extends AppBaseController
 
                         $company_id = $companyUser->company_id;
 
+                        $role_code = User::find($user_id)->user_role_code;
+                        $agents = User::where('user_role_code','company_technical_support')->get();
                         $priorities =  CompanySupportPriorities::where('company_id',$company_id)->get();
                         $categories =  CompanySupportCategory::where('company_id',$company_id)->get();
                         $statues =  CompanySupportStatus::where('company_id',$company_id)->get();
@@ -521,7 +529,9 @@ class CompanySupportController extends AppBaseController
                                 'support' => $support,
                                 'priorities' => $priorities,
                                 'categories' => $categories,
-                                'statues'    => $statues     
+                                'statues'    => $statues,
+                                'agents'    => $agents,
+                                'role_code' => $role_code     
                             ];
                         }
                         else
@@ -531,7 +541,9 @@ class CompanySupportController extends AppBaseController
                                 'reply'   => $reply,
                                 'priorities' => $priorities,
                                 'categories' => $categories,
-                                'statues'    => $statues   
+                                'statues'    => $statues,
+                                'agents'    => $agents,
+                                'role_code' => $role_code   
                             ];
                         }
                         return view('company.company_supports.show',$data);
@@ -737,11 +749,13 @@ class CompanySupportController extends AppBaseController
         }
 
 
+
         $support->subject       = $input['subject'];
         $support->content       = $input['content'];
         $support->priority_id   = $input['priority_id'];
         $support->category_id   = $input['category_id'];
         $support->status_id     = $input['status_id'];
+        $support->agent     = $input['agent'];
 
         $support->save();
         session()->flash('msg.success','Ticket updated successfully');

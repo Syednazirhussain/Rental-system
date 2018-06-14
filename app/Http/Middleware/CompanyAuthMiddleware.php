@@ -18,7 +18,8 @@ class CompanyAuthMiddleware
     {
         if(Auth::guard('company')->check())
         {
-            if (Auth::guard('company')->user()->user_role_code == 'company_admin') 
+            if (Auth::guard('company')->user()->user_role_code == 'company_admin' ||
+                Auth::guard('company')->user()->user_role_code == 'company_technical_support' ) 
             {
                 return $next($request);  
             } 
