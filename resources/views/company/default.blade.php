@@ -206,11 +206,7 @@
                             </li>
 
 
-                            <li><a href="{{ route('company.companyInvoices.index') }}"><i class="fa fa-building-o"></i>&nbsp;&nbsp;Invoices</a>
-                            </li>
-                        </ul>
-                    </li>
-                    
+                        
 
 
                     
@@ -230,8 +226,8 @@
 
 
                     <li class="divider"></li>
-
-
+                    <li><a href="{{ route('company.companyInvoices.index') }}">Invoices</a> </li>
+                    <li class="divider"></li>
                     <li><a href="{{ route('company.currencies.index') }}">Currency</a></li>
                     <li class="divider"></li>
                     <li><a href="{{ route('company.leasePartners.index') }}">Leasings</a></li>
