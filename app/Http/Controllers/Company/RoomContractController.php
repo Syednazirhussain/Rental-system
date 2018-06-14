@@ -247,6 +247,8 @@ class RoomContractController extends AppBaseController
             ->distinct('rooms.id')->orderBy('rooms.id', 'DESC')->get();
         $data = json_encode($contracts);
 
+        
+
         return view('company.contracts.status', ['data' => $data]);
     }
 

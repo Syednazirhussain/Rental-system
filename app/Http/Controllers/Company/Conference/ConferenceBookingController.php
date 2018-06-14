@@ -159,7 +159,7 @@ class ConferenceBookingController extends AppBaseController
     {
         $input = $request->all();
 
-        dd($input);
+        // dd($input);
 
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
 
@@ -173,7 +173,6 @@ class ConferenceBookingController extends AppBaseController
                                 'invoice_send_as' => $request->invoice_send,
                                 'reference' => $request->reference,
                                 'contact_person' => $request->contact_person,
-                                'cost' => $request->cost,
                                 'payment_condition' => $request->payment_conditions,
                                 'interest_fees' => $request->interest_fees,
                                 'peyment_reminder' => $request->payment_reminder,
@@ -408,7 +407,6 @@ class ConferenceBookingController extends AppBaseController
                                 'invoice_send_as' => $request->invoice_send,
                                 'reference' => $request->reference,
                                 'contact_person' => $request->contact_person,
-                                'cost' => $request->cost,
                                 'payment_condition' => $request->payment_conditions,
                                 'interest_fees' => $request->interest_fees,
                                 'country_id' => $request->customer_country,
@@ -549,9 +547,31 @@ class ConferenceBookingController extends AppBaseController
 
 
 
-    public function viewCalender()
-    {
-        return view('company.Conference.conference_calender.view');
+    public function viewCalender(Request $request) {
+
+        $this->conferenceBookingRepository->pushCriteria(new RequestCriteria($request));
+
+        $conferenceBookings     = $this->conferenceBookingRepository->all();
+        $paymentMethods         = $this->paymentMethodRepository->all();
+        $conferenceDurations    = $this->conferenceDurationRepository->all();
+        $roomLayouts            = $this->roomLayoutRepository->all();
+        $equipments             = $this->equipmentRepository->all();
+        $foodItems              = $this->foodRepository->all();
+
+        $dataBooking = json_encode($conferenceBookings);
+
+        $data = [
+                    'conferenceBookings'    => $conferenceBookings,
+                    'conferenceDurations'   => $conferenceDurations,
+                    'paymentMethods'        => $paymentMethods,
+                    'roomLayouts'           => $roomLayouts,
+                    'equipments'            => $equipments,
+                    'foodItems'             => $foodItems,
+                    'dataBooking'           => $dataBooking,
+                ];
+
+        return view('company.Conference.conference_calender.view', $data);
+    
     }
 
 

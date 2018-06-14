@@ -34,7 +34,8 @@
                     </div>
                     <div class="panel-body">
 
-                        <div id='calendar'></div>
+                        <div id="calendar"></div>
+                        <input id="calendar_data" type="hidden" value="{{ isset($dataBooking) ? $dataBooking : '' }}">
                         
                     </div>
                 </div>
@@ -58,7 +59,7 @@
         
           $(document).ready(function() {
 
-            $('#calendar').fullCalendar({
+            /*$('#calendar').fullCalendar({
               header: {
                 left: 'prev,next today',
                 center: 'title',
@@ -72,61 +73,52 @@
                 {
                   title: 'All Day Event',
                   start: '2018-03-01'
-                },
-                {
-                  title: 'Long Event',
-                  start: '2018-03-07',
-                  end: '2018-03-10'
-                },
-                {
-                  id: 999,
-                  title: 'Repeating Event',
-                  start: '2018-03-09T16:00:00'
-                },
-                {
-                  id: 999,
-                  title: 'Repeating Event',
-                  start: '2018-03-16T16:00:00'
-                },
-                {
-                  title: 'Conference',
-                  start: '2018-03-11',
-                  end: '2018-03-13'
-                },
-                {
-                  title: 'Meeting',
-                  start: '2018-03-12T10:30:00',
-                  end: '2018-03-12T12:30:00'
-                },
-                {
-                  title: 'Lunch',
-                  start: '2018-03-12T12:00:00'
-                },
-                {
-                  title: 'Meeting',
-                  start: '2018-03-12T14:30:00'
-                },
-                {
-                  title: 'Happy Hour',
-                  start: '2018-03-12T17:30:00'
-                },
-                {
-                  title: 'Dinner',
-                  start: '2018-03-12T20:00:00'
-                },
-                {
-                  title: 'Birthday Party',
-                  start: '2018-03-13T07:00:00'
-                },
-                {
-                  title: 'Click for Google',
-                  url: 'http://google.com/',
-                  start: '2018-03-28'
                 }
               ]
-            });
+            });*/
 
           });
+
+
+        var data = document.getElementById('calendar_data').value;
+        var colors = ['#00ffff', '#f14d39', '#ffc371', '#56f9bb', '#952097', '#1f2a7e', '#c5b3f9' ]
+        if(data) {
+            data = JSON.parse(data);
+        }
+        console.log(data);
+        var event_data = [];
+        var resource_data = [];
+        for(var i=0; i< data.length; i++) {
+            event_data.push({'title' : 'Booking', 'start' : data[i].start_datetime ? data[i].start_datetime : '', 'end' : data[i].end_datetime ? data[i].end_datetime : '', 'color' : colors[i % 7], 'resourceId' : data[i].id});
+            resource_data.push({'id': data[i].id});
+        }
+
+        $('#calendar').fullCalendar({
+            schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+            height: 650,
+            navLinks: true,
+            header: {
+                left: 'prev,next today month',
+                center: 'title',
+                right: 'timelineYear,timelineMonth,timelineWeek'
+            },
+            //Events
+            events: event_data,
+            defaultView: 'timelineDay',
+            resourceLabelText: 'Booking No.',
+            resources: resource_data,
+        });
+
+        jQuery(".fc-body .fc-resource-area .fc-scroller .fc-rows td").click(function() {
+
+            getBookingID = $(this).parent().attr('data-resource-id');
+            url = "{{ route('company.conference.conferenceBookings.edit', array("")) }}/"+getBookingID;
+            // alert($(this).parent().attr('data-resource-id'));
+            location.href = url;
+            // console.log(url);
+        });
+
+
 
     </script>
 
