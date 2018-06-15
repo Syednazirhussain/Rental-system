@@ -6,20 +6,24 @@
 
 <div class="row">
     <div class="col-sm-12 form-group">
-        <label for="company_id">Company Name</label>
-        <input type="text" id="company_id" class="form-control" value="{{ $company_name }}" disabled>
+        <label for="topic">Topic</label>
+        <input type="text" id="topic" name="topic" class="form-control">
     </div>
     <div class="col-sm-12 form-group">
-        <label for="category_code">Category</label>
-        <select id="category_code" name="category_code" class="form-control">
-            @foreach($categories as $category)
-                <option value="{{ $category->code }}">{{ $category->name }}</option>
+        <label for="survey_id">Survey</label>
+        <select id="survey_id" name="survey_id" class="form-control">
+            @foreach($surveys as $survey)
+                <option value="{{ $survey->id }}">{{ $survey->survey }}</option>
             @endforeach
         </select>
     </div>
     <div class="col-sm-12 form-group">
-        <label for="survey">Survey</label>
-        <input type="text" name="survey" id="survey" class="form-control" value="@if(isset($survey)){{ $survey->survey }}@endif">
+        <label for="answer_type">Answer Type</label>
+        <select id="answer_type" name="answer_type" class="form-control">
+            @foreach($answer_types as $answer_type)
+                <option value="{{ $answer_type->code }}">{{ $answer_type->name }}</option>
+            @endforeach
+        </select>
     </div>
     <div class="col-sm-12 form-group">
         <label for="status">Status</label>
@@ -41,7 +45,7 @@
         $('#surveyForm').pxValidate({
             focusInvalid: false,
             rules: {
-                'survey': {
+                'topic': {
                     required: true,
                 }
             }

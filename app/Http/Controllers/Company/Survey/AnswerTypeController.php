@@ -39,7 +39,7 @@ class AnswerTypeController extends AppBaseController
             'answer_types' => $answer_types
         ];
 
-        return view('company.Survey.answerTypes.index', $data);
+        return view('company.Survey.answer_types.index', $data);
     }
 
     /**

@@ -752,6 +752,15 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::delete('company/survey/{survey}', ['as'=> 'company.survey.destroy', 'uses' => 'Company\Survey\CompanySurveyController@destroy']);
     Route::get('company/survey/{survey}', ['as'=> 'company.survey.show', 'uses' => 'Company\Survey\CompanySurveyController@show']);
     Route::get('company/survey/{survey}/edit', ['as'=> 'company.survey.edit', 'uses' => 'Company\Survey\CompanySurveyController@edit']);
+    //Company Survey Questions
+    Route::get('company/survey_question', ['as'=> 'company.survey_question.index', 'uses' => 'Company\Survey\SurveyQuestionController@index']);
+    Route::post('company/survey_question', ['as'=> 'company.survey_question.store', 'uses' => 'Company\Survey\SurveyQuestionController@store']);
+    Route::get('company/survey_question/create', ['as'=> 'company.survey_question.create', 'uses' => 'Company\Survey\SurveyQuestionController@create']);
+    Route::put('company/survey_question/{survey_question}', ['as'=> 'company.survey_question.update', 'uses' => 'Company\Survey\SurveyQuestionController@update']);
+    Route::patch('company/survey_question/{survey_question}', ['as'=> 'company.survey_question.update', 'uses' => 'Company\Survey\SurveyQuestionController@update']);
+    Route::delete('company/survey_question/{survey_question}', ['as'=> 'company.survey_question.destroy', 'uses' => 'Company\Survey\SurveyQuestionController@destroy']);
+    Route::get('company/survey_question/{survey_question}', ['as'=> 'company.survey_question.show', 'uses' => 'Company\Survey\SurveyQuestionController@show']);
+    Route::get('company/survey_question/{survey_question}/edit', ['as'=> 'company.survey_question.edit', 'uses' => 'Company\Survey\SurveyQuestionController@edit']);
 
 
     Route::group(['middleware' => ['newsletter.auth']], function () {

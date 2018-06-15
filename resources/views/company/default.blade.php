@@ -101,6 +101,15 @@
                                     </li>
                                 </ul>
                             </li>
+                            <li class="dropdown-toggle">
+                                <a href="{{ route('company.survey_question.index') }}">Survey Questions</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ route('company.survey_question.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
+                                            Survey Question</a></li>
+                                    <li><a href="{{ route('company.survey_question.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Survey Questions</a>
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
                     <li class="dropdown-toggle">

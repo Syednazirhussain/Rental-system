@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Company\Survey;
 use App\Http\Requests\Company\CreateRoomRequest;
 use App\Http\Requests\Company\UpdateRoomRequest;
 use App\Model\Survey\CompanySurvey;
+use App\Model\Survey\SurveyQuestion;
 use App\Models\CompanyService;
 use App\Models\Survey\AnswerType;
 use App\Repositories\Company\RoomRepository;
@@ -18,7 +19,7 @@ use Auth;
 use App\Models\Company;
 
 
-class CompanySurveyController extends AppBaseController
+class SurveyQuestionController extends AppBaseController
 {
     /** @var  RoomRepository */
     private $roomRepository;
@@ -37,15 +38,16 @@ class CompanySurveyController extends AppBaseController
     public function index(Request $request)
     {
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
-        $surveys = CompanySurvey::where('company_id', $company_id)->get();
-        $survey_categories = SurveyCategory::pluck('name', 'code');
-
+        $survey_questions = SurveyQuestion::where('company_id', $company_id)->get();
+        $surveys = CompanySurvey::where('company_id', $company_id)->pluck('survey', 'id');
+        $answer_types = AnswerType::pluck('name', 'code');
         $data = [
+            'survey_questions' => $survey_questions,
             'surveys' => $surveys,
-            'survey_categories' => $survey_categories,
+            'answer_types' => $answer_types,
         ];
 
-        return view('company.Survey.survey.index', $data);
+        return view('company.Survey.survey_questions.index', $data);
     }
 
     /**
@@ -56,16 +58,18 @@ class CompanySurveyController extends AppBaseController
     public function create()
     {
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
-        $survey_categories = SurveyCategory::all();
+        $answer_types = AnswerType::all();
+        $surveys = CompanySurvey::where('company_id', $company_id)->get();
         $company_name = Company::find($company_id)->name;
 
         $data = [
             'company_id' => $company_id,
             'company_name' => $company_name,
-            'categories' => $survey_categories,
+            'answer_types' => $answer_types,
+            'surveys' => $surveys
         ];
 
-        return view('company.Survey.survey.create', $data);
+        return view('company.Survey.survey_questions.create', $data);
     }
 
     /**
@@ -81,13 +85,13 @@ class CompanySurveyController extends AppBaseController
         $input = $request->all();
         $input['company_id'] = $company_id;
 
-        $survey = CompanySurvey::create($input);
+        $survey_question = SurveyQuestion::create($input);
 
-        if($survey) {
-            $request->session()->flash('msg.success', 'Company Survey created successfully !');
+        if($survey_question) {
+            $request->session()->flash('msg.success', 'Survey Question created successfully !');
         }
 
-        return redirect(route('company.survey.index'));
+        return redirect(route('company.survey_question.index'));
     }
 
     /**
