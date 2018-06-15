@@ -4,7 +4,7 @@
          <div class="wizard panel-wizard" id="wizard-validation">
             <div class="wizard-wrapper">
                <ul class="wizard-steps">
-                  <li data-target="#wizard-1" class="active">
+                  <li data-target="#wizard-1" class="">
                      <span class="wizard-step-number">1</span>
                      <span class="wizard-step-complete"><i class="fa fa-check"></i></span>
                      <span class="wizard-step-caption">
@@ -25,7 +25,7 @@
                      Salary and vacation
                      </span>
                   </li>
-                  <li data-target="#wizard-4" >
+                  <li data-target="#wizard-4"  class="active">
                      <span class="wizard-step-number">4</span>
                      <span class="wizard-step-complete"><i class="fa fa-check"></i></span>
                      <span class="wizard-step-caption">
@@ -36,7 +36,7 @@
             </div>
             <div class="wizard-content">
                <!-- ===========================wizard-1===================================== -->
-               <form class="wizard-pane active" id="wizard-1" method="post">
+               <form class="wizard-pane " id="wizard-1" method="post">
                   @if (isset($companyHr))
                   <input name="_method" type="hidden" value="PATCH">
                   @endif
@@ -453,7 +453,7 @@
                </form>
 
                <!-- ============================wizard-4==================================== -->
-               <form class="wizard-pane" id="wizard-4">
+               <form class="wizard-pane active" id="wizard-4">
                   @if (isset($companyHr))
                   <input name="_method" type="hidden" value="PATCH">
                   @endif
@@ -461,7 +461,7 @@
 
                   <div class="row">
 
-                     <div class="col-sm-12 col-md-12">
+                     
                         <div class="col-sm-6 col-md-6 form-group">
                            <label for="">Languages</label>
                            <input type="text" name="languages" class="form-control languages" data-role="tagsinput" />
@@ -470,10 +470,10 @@
                            <label for="">Skills</label>
                            <input type="text" name="skills" class="form-control skills" data-role="tagsinput" />
                         </div>
-                     </div>
+                     
 
-                     <div class="col-sm-12 col-md-12">
-                        <div class="col-sm-6 col-md-8 form-group">
+                     
+                        <div class="col-sm-6 col-md-6 form-group">
                            <label for="city_id">HR Courses</label>
                            <select name="name[]" id="city_id" class="form-control select2-hrCourses" multiple>
                               <option></option>
@@ -482,14 +482,14 @@
                               @endforeach
                            </select>
                         </div>
-                        <div class="col-sm-6 col-md-4 form-group m-t-4">
+                        <div class="col-sm-6 col-md-6 form-group m-t-4">
                            <label class="custom-control custom-checkbox">
                               <input type="checkbox" class="custom-control-input">
                               <span class="custom-control-indicator"></span>
                               <strong>Driving License</strong>
                            </label>
                         </div>
-                     </div>
+                     
 
                      <div class="col-sm-12 col-md-12">
                       <div class="panel">
@@ -542,27 +542,25 @@
 
 
 
-                     <div class="col-sm-12 col-md-12">
-                        <div class="col-sm-6 col-md-6 form-group">
+                     
+                        <div class="col-sm-12 col-md-12 form-group">
                            <label for="">Attach Files</label>
                            <input type="file" name="files" class="form-control uploadFiles">
                         </div>
-                        <div class="col-sm-6 col-md-6 form-group">
+                        <div class="col-sm-12 col-md-12 form-group">
                           <label>HR Notes</label>
                           <textarea name="hr_note" id="hr_note"></textarea>
                         </div>
-                     </div>
+                    
 
-                     <div class="col-sm-12 col-md-12">
-                        <div class="col-sm-6 col-md-6 form-group">
+                        <div class="col-sm-12 col-md-12 form-group">
                            <label for="">Manager Notes</label>
                            <textarea name="manager_note" id="manager_note"></textarea>
                         </div>
-                        <div class="col-sm-6 col-md-6 form-group">
+                        <div class="col-sm-12 col-md-12 form-group">
                           <label>Salary Development Notes</label>
                           <textarea name="sal_dev_note" id="sal_dev_note"></textarea>
                         </div>
-                     </div>
                      
                   </div>
 
