@@ -736,6 +736,12 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::get('company/rinvoice/{rinvoice}/edit', ['as'=> 'company.rinvoice.edit', 'uses' => 'Company\Rental\InvoiceController@edit']);
 
 
+    /**
+     ** Routes for Survey System
+     **/
+    //Answer Type
+    Route::get('company/answer_types', ['as'=> 'company.answer_types.index', 'uses' => 'Company\Survey\AnswerTypeController@index']);
+
     Route::group(['middleware' => ['newsletter.auth']], function () {
         //NewsLetter System Integration
         // Group

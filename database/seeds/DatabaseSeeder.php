@@ -30,5 +30,6 @@ class DatabaseSeeder extends Seeder
         $this->call(SupportCategoriesTableSeeder::class);
         $this->call(SupportPrioritiesTableSeeder::class);
         $this->call(SupportStatusTableSeeder::class);
+        $this->call(AnswerTypesTableSeeder::class);
     }
 }

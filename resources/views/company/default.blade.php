@@ -7,10 +7,10 @@
           content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
     <title>HighNox</title>
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin"
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin"
           rel="stylesheet" type="text/css">
-    <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css">
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+    <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link href="{{ asset('/skin-1/assets/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/skin-1/assets/css/pixeladmin.min.css') }}" rel="stylesheet">
@@ -21,9 +21,9 @@
     @yield('css')
 
     <link href="{{ asset('/skin-1/assets/css/custom.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
     <!-- holder.js -->
-    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/holder/2.9.0/holder.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.0/holder.js"></script>
     <!-- Pace.js -->
     <script src="{{ asset('/skin-1/assets/pace/pace.min.js') }}"></script>
     <script src="{{ asset('/skin-1/assets/demo/demo.js') }}"></script>
@@ -80,6 +80,13 @@
                             <li><a href="{{ route('company.rarticle.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
                                     Article</a></li>
                             <li><a href="{{ route('company.rarticle.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Articles</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-toggle">
+                        <a href="{{ route('company.rarticle.index') }}">Survey System</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ route('company.answer_types.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Answer Types</a>
                             </li>
                         </ul>
                     </li>
@@ -334,7 +341,7 @@
 
 
 <!-- jQuery -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="{{ asset('/skin-1/assets/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('/skin-1/assets/js/pixeladmin.min.js') }}"></script>
 <script src="{{ asset('/skin-1/assets/js/jquery.validate.min.js') }}"></script>
