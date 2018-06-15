@@ -86,7 +86,20 @@
                     <li class="dropdown-toggle">
                         <a href="{{ route('company.rarticle.index') }}">Survey System</a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ route('company.answer_types.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Answer Types</a>
+                            <li>
+                                <a href="{{ route('company.answer_types.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Answer Types</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('company.survey_categories.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Survey Categories</a>
+                            </li>
+                            <li class="dropdown-toggle">
+                                <a href="{{ route('company.survey.index') }}">Survey</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ route('company.survey.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
+                                            Survey</a></li>
+                                    <li><a href="{{ route('company.survey.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Survey</a>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
                     </li>

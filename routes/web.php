@@ -743,6 +743,16 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::get('company/answer_types', ['as'=> 'company.answer_types.index', 'uses' => 'Company\Survey\AnswerTypeController@index']);
     //Survey Category
     Route::get('company/survey/categories', ['as'=> 'company.survey_categories.index', 'uses' => 'Company\Survey\SurveyCategoryController@index']);
+    //Company Survey
+    Route::get('company/survey', ['as'=> 'company.survey.index', 'uses' => 'Company\Survey\CompanySurveyController@index']);
+    Route::post('company/survey', ['as'=> 'company.survey.store', 'uses' => 'Company\Survey\CompanySurveyController@store']);
+    Route::get('company/survey/create', ['as'=> 'company.survey.create', 'uses' => 'Company\Survey\CompanySurveyController@create']);
+    Route::put('company/survey/{survey}', ['as'=> 'company.survey.update', 'uses' => 'Company\Survey\CompanySurveyController@update']);
+    Route::patch('company/survey/{survey}', ['as'=> 'company.survey.update', 'uses' => 'Company\Survey\CompanySurveyController@update']);
+    Route::delete('company/survey/{survey}', ['as'=> 'company.survey.destroy', 'uses' => 'Company\Survey\CompanySurveyController@destroy']);
+    Route::get('company/survey/{survey}', ['as'=> 'company.survey.show', 'uses' => 'Company\Survey\CompanySurveyController@show']);
+    Route::get('company/survey/{survey}/edit', ['as'=> 'company.survey.edit', 'uses' => 'Company\Survey\CompanySurveyController@edit']);
+
 
     Route::group(['middleware' => ['newsletter.auth']], function () {
         //NewsLetter System Integration
