@@ -741,6 +741,8 @@ Route::group(['middleware' => ['company.auth']], function () {
      **/
     //Answer Type
     Route::get('company/answer_types', ['as'=> 'company.answer_types.index', 'uses' => 'Company\Survey\AnswerTypeController@index']);
+    //Survey Category
+    Route::get('company/survey/categories', ['as'=> 'company.survey_categories.index', 'uses' => 'Company\Survey\SurveyCategoryController@index']);
 
     Route::group(['middleware' => ['newsletter.auth']], function () {
         //NewsLetter System Integration

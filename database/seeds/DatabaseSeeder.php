@@ -31,5 +31,6 @@ class DatabaseSeeder extends Seeder
         $this->call(SupportPrioritiesTableSeeder::class);
         $this->call(SupportStatusTableSeeder::class);
         $this->call(AnswerTypesTableSeeder::class);
+        $this->call(SurveyCategoryTableSeeder::class);
     }
 }
