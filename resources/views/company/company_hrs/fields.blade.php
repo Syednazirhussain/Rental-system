@@ -567,18 +567,20 @@
                   <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
                      <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> PREVIOUS</button>&nbsp;&nbsp;
                      <a href="{!! route('company.companyHrs.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
-                     <button type="submit" class="btn btn-primary"  data-wizard-action="next">Create Company Hr <i class="fa fa-arrow-right m-l-1"></i></button>
+                     <button type="submit" id="createCompanyHrBtn" class="btn btn-primary"  data-wizard-action="next">Create Company Hr <i class="fa fa-arrow-right m-l-1"></i></button>
                   </div>
                </form>
 
                <!-- ================================================================ -->
-               <div class="wizard-pane" id="wizard-finish">
+
+               <!-- <div class="wizard-pane" id="wizard-finish">
                   <div class="text-xs-center m-y-4">
                      <i class="ion-checkmark-round text-success font-size-52 line-height-1"></i>
                      <h4 class="font-weight-semibold font-size-20 m-x-0 m-t-1 m-b-0">We're almost done</h4>
                      <button type="button" class="btn btn-primary m-t-4" data-wizard-action="finish">Finish</button>
                   </div>
-               </div>
+               </div> -->
+
             </div>
          </div>
       </div>
@@ -587,49 +589,51 @@
 
 
 
-@if(isset($companyHr))
-<form action="{{ route('company.companyHrs.update', $companyHr->id) }}" method="POST" id="hiddenForm">
-   <input type="hidden" name="_method" value="PATCH">
+   @if(isset($companyHr))
+   <form action="{{ route('company.companyHrs.update', $companyHr->id) }}" method="POST" id="hiddenForm">
+      <input type="hidden" name="_method" value="PATCH">
    @else
-<form method="POST" action="{{ route('company.companyHrs.store') }}" id="hiddenForm">
+   <form method="POST" action="{{ route('company.companyHrs.store') }}" id="hiddenForm">
    @endif
-   <input type="hidden" name="_token" value="{{ csrf_token() }}">
-   <input type="hidden" name="first_name" id="fname"  value="" >
-   <input type="hidden" name="last_name" id="lname"  value="" >
-   <input type="hidden" name="address_1" id="AddressOne"  value="" >
-   <input type="hidden" name="address_2" id="AddressTwo" value="" >
-   <input type="hidden" name="post_code" id="pCode" value="" >
-   <input type="hidden" name="city_id" id="cId"  value="" >
-   <input type="hidden" name="state_id" id="sId"  value="" >
-   <input type="hidden" name="country_id" id="countyHiddenId"  value="" >
-   <input type="hidden" name="telephone_job" id="tId"  value="" >
-   <input type="hidden" name="telephone_private" id="tPrivate"  value="" >
-   <input type="hidden" name="email_private" id="eId"  value="" >
-   <input type="hidden" name="email_job" id="ePrivate"  value="" >
-   <input type="hidden" name="civil_status_id" id="cStatusId"  value="" >
-   <input type="hidden" name="employment_date" id="daterangeEmpl_hidden"  value="" >
-   <input type="hidden" name="termination_time" id="termId_hidden"  value="" >
-   <input type="hidden" name="employeed_untill" id="daterangeEmplUntil_hidden"  value="" >
-   <input type="hidden" name="personal_category" id="personalId_hidden"  value="" >
-   <input type="hidden" name="collective_type" id="collectiveId_hidden"  value="" >
-   <input type="hidden" name="employment_form" id="employFormId_hidden"  value="" >
-   <input type="hidden" name="insurance_date" id="daterangeInsurance_hidden"  value="" >
-   <input type="hidden" name="insurance_fees" id="insuranceFees_hidden"  value="" >
-   <input type="hidden" name="department" id="departmentWiz2_hidden"  value="" >
-   <input type="hidden" name="designation" id="desigWiz2_hidden"  value="" >
-   <input type="hidden" name="vacancies" id="vacancyWiz2_hidden"  value="" >
-   <!-- ================= wiz-3 =================== -->
-   <input type="hidden" name="salary_type" id="salaryTypeWiz3_hidden"  value="" >
-   <input type="hidden" name="salary" id="salaryId_hidden"  value="" >
-   <input type="hidden" name="employment_percent" id="empInPercent_hidden"  value="" >
-   <input type="hidden" name="cost_division" id="costDivision_hidden"  value="" >
-   <input type="hidden" name="project" id="projectWiz3_hidden"  value="" >
-   <input type="hidden" name="vat_table" id="valueAdded_hidden"  value="" >
-   <input type="hidden" name="vacation_days" id="vacationDays_hidden"  value="" >
-   <input type="hidden" name="vacation_category" id="vacationWiz3_hidden"  value="" >
-   <input type="hidden" class="father_and_mother" name="father" id="father_hidden" value="">
-   <input type="hidden" class="father_and_mother" name="mother" id="mother_hidden" value="">
-</form>
+      <!-- ================= wiz-1 =================== -->
+      <input type="hidden" name="_token" value="{{ csrf_token() }}">
+      <input type="hidden" name="first_name" id="fname"  value="" >
+      <input type="hidden" name="last_name" id="lname"  value="" >
+      <input type="hidden" name="address_1" id="AddressOne"  value="" >
+      <input type="hidden" name="address_2" id="AddressTwo" value="" >
+      <input type="hidden" name="post_code" id="pCode" value="" >
+      <input type="hidden" name="city_id" id="cId"  value="" >
+      <input type="hidden" name="state_id" id="sId"  value="" >
+      <input type="hidden" name="country_id" id="countyHiddenId"  value="" >
+      <input type="hidden" name="telephone_job" id="tId"  value="" >
+      <input type="hidden" name="telephone_private" id="tPrivate"  value="" >
+      <input type="hidden" name="email_private" id="eId"  value="" >
+      <input type="hidden" name="email_job" id="ePrivate"  value="" >
+      <input type="hidden" name="civil_status_id" id="cStatusId"  value="" >
+      <!-- ================= wiz-2 =================== -->
+      <input type="hidden" name="employment_date" id="daterangeEmpl_hidden"  value="" >
+      <input type="hidden" name="termination_time" id="termId_hidden"  value="" >
+      <input type="hidden" name="employeed_untill" id="daterangeEmplUntil_hidden"  value="" >
+      <input type="hidden" name="personal_category" id="personalId_hidden"  value="" >
+      <input type="hidden" name="collective_type" id="collectiveId_hidden"  value="" >
+      <input type="hidden" name="employment_form" id="employFormId_hidden"  value="" >
+      <input type="hidden" name="insurance_date" id="daterangeInsurance_hidden"  value="" >
+      <input type="hidden" name="insurance_fees" id="insuranceFees_hidden"  value="" >
+      <input type="hidden" name="department" id="departmentWiz2_hidden"  value="" >
+      <input type="hidden" name="designation" id="desigWiz2_hidden"  value="" >
+      <input type="hidden" name="vacancies" id="vacancyWiz2_hidden"  value="" >
+      <!-- ================= wiz-3 =================== -->
+      <input type="hidden" name="salary_type" id="salaryTypeWiz3_hidden"  value="" >
+      <input type="hidden" name="salary" id="salaryId_hidden"  value="" >
+      <input type="hidden" name="employment_percent" id="empInPercent_hidden"  value="" >
+      <input type="hidden" name="cost_division" id="costDivision_hidden"  value="" >
+      <input type="hidden" name="project" id="projectWiz3_hidden"  value="" >
+      <input type="hidden" name="vat_table" id="valueAdded_hidden"  value="" >
+      <input type="hidden" name="vacation_days" id="vacationDays_hidden"  value="" >
+      <input type="hidden" name="vacation_category" id="vacationWiz3_hidden"  value="" >
+      <input type="hidden" class="father_and_mother" name="father" id="father_hidden" value="">
+      <input type="hidden" class="father_and_mother" name="mother" id="mother_hidden" value="">
+   </form>
 
 
 
@@ -657,6 +661,8 @@
          var emailId       =       $('#emailId').val();
          var emailJob      =       $('#emailJob').val();
          var civilId       =       $('#civilId').val();
+
+
          var daterangeEmpl =       $('#daterangeEmpl').val();
          var termId        =       $('#termId').val();
          var daterangeEmplUntil =  $('#daterangeEmplUntil').val();
@@ -668,6 +674,7 @@
          var departmentWiz2 =      $('#departmentWiz2').val();
          var desigWiz2   =         $('#desigWiz2').val();
          var vacancyWiz2 =         $('#vacancyWiz2').val();
+
    
          var salaryTypeWiz3 =         $('#salaryTypeWiz3').val();
          var salaryId =         $('#salaryId').val();
@@ -682,16 +689,11 @@
          var father  =   0;
          var mother  =   0;
 
-         if($('#father').is(':checked'))
-         {
-            father = 1;
-         }
+
+         if($('#father').is(':checked')) { father = 1; }
          
 
-         if($('#mother').is(':checked'))
-         {
-            mother = 1;
-         }
+         if($('#mother').is(':checked')) { mother = 1; }
 
 
          
@@ -710,6 +712,8 @@
          $('#eId').val(emailId);
          $('#ePrivate').val(emailJob);
          $('#cStatusId').val(civilId);
+
+
          $('#daterangeEmpl_hidden').val(daterangeEmpl);
          $('#termId_hidden').val(termId);
          $('#daterangeEmplUntil_hidden').val(daterangeEmplUntil);
@@ -721,6 +725,7 @@
          $('#departmentWiz2_hidden').val(departmentWiz2);
          $('#desigWiz2_hidden').val(desigWiz2);
          $('#vacancyWiz2_hidden').val(vacancyWiz2);
+
    
          $('#salaryTypeWiz3_hidden').val(salaryTypeWiz3);
          $('#salaryId_hidden').val(salaryId);
@@ -733,12 +738,13 @@
          $('#father_hidden').val(father);
          $('#mother_hidden').val(mother);
 
-         var data = $('#wizard-4').serializeArray();
 
-         console.log(data);
+         // var data = $('#wizard-4').serializeArray();
+
+         // console.log(data);
 
 
-         // $('#hiddenForm').submit();
+         $('#hiddenForm').submit();
      });
 
    $(document).on('click', ".addEmployment", function() {
@@ -1126,7 +1132,7 @@
           }
       });*/
       
-      $('#wizard-4').on('submit', function(e) {
+      /*$('#wizard-4').on('submit', function(e) {
        alert('step-4 submit');
             e.preventDefault();
 
@@ -1161,7 +1167,7 @@
             } else {
                 // console.log("does not validate");
             }
-        });
+        });*/
 
 
       $('#state_id').on('change', function() {
