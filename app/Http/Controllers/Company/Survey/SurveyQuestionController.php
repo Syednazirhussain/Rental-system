@@ -89,16 +89,18 @@ class SurveyQuestionController extends AppBaseController
 
         $options_data = [];
         $i = 0;
-        foreach($input['option'] as $option) {
-            $options_data[$i]['company_id'] = $company_id;
-            $options_data[$i]['survey_id'] = $input['survey_id'];
-            $options_data[$i]['question_id'] = $survey_question->id;
-            $options_data[$i]['name'] = $option['name'];
-            $options_data[$i]['code'] = $option['code'];
-            $i++;
-        }
+        if(isset($input['option'])) {
+            foreach($input['option'] as $option) {
+                $options_data[$i]['company_id'] = $company_id;
+                $options_data[$i]['survey_id'] = $input['survey_id'];
+                $options_data[$i]['question_id'] = $survey_question->id;
+                $options_data[$i]['name'] = $option['name'];
+                $options_data[$i]['code'] = $option['code'];
+                $i++;
+            }
 
-        QuestionOption::insert($options_data);
+            QuestionOption::insert($options_data);
+        }
 
         if($survey_question) {
             $request->session()->flash('msg.success', 'Survey Question created successfully !');
@@ -159,7 +161,9 @@ class SurveyQuestionController extends AppBaseController
     {
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $input = $request->all();
-        $options = $input['option'];
+        if(isset($input['option'])) {
+            $options = $input['option'];
+        }
         $question = SurveyQuestion::find($id);
         $input = $request->except('_method', '_token', 'option');
         $input['company_id'] = $company_id;
@@ -167,23 +171,25 @@ class SurveyQuestionController extends AppBaseController
         if($question) {
             SurveyQuestion::where('id', $id)->update($input);
         }
+        if(isset($input['option'])) {
+            $option_data = [];
 
-        $option_data = [];
-        foreach($options as $option) {
-            $option_data['company_id'] = $company_id;
-            $option_data['survey_id'] = $input['survey_id'];
-            $option_data['question_id'] = $question->id;
-            $option_data['name'] = $option['name'];
-            $option_data['code'] = $option['code'];
+            foreach($options as $option) {
+                $option_data['company_id'] = $company_id;
+                $option_data['survey_id'] = $input['survey_id'];
+                $option_data['question_id'] = $question->id;
+                $option_data['name'] = $option['name'];
+                $option_data['code'] = $option['code'];
 
-            if (strpos($option['pk'], 'new-') === false) {
-                $id = $option['pk'];
-            } else {
-                $id = "";
+                if (strpos($option['pk'], 'new-') === false) {
+                    $id = $option['pk'];
+                } else {
+                    $id = "";
+                }
+
+                $where = ['id' => $id];
+                QuestionOption::updateOrCreate($where, $option_data);
             }
-
-            $where = ['id' => $id];
-            QuestionOption::updateOrCreate($where, $option_data);
         }
 
         if($question) {

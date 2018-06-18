@@ -13,7 +13,11 @@
         <label for="category_code">Category</label>
         <select id="category_code" name="category_code" class="form-control">
             @foreach($categories as $category)
-                <option value="{{ $category->code }}">{{ $category->name }}</option>
+                @if(isset($survey) && $survey->category_code == $category->code)
+                    <option value="{{ $category->code }}" selected>{{ $category->name }}</option>
+                @else
+                    <option value="{{ $category->code }}">{{ $category->name }}</option>
+                @endif
             @endforeach
         </select>
     </div>
@@ -24,8 +28,16 @@
     <div class="col-sm-12 form-group">
         <label for="status">Status</label>
         <select id="status" name="status" class="form-control">
-                <option value="publish">Publish</option>
-                <option value="unpublish">Unpublish</option>
+                @if(isset($survey) && $survey->status == 'publish')
+                    <option value="publish" selected>Publish</option>
+                @else
+                    <option value="publish">Publish</option>
+                @endif
+                @if(isset($survey) && $survey->status == 'unpublish')
+                    <option value="unpublish" selected>Unpublish</option>
+                @else
+                    <option value="unpublish">Unpublish</option>
+                @endif
         </select>
     </div>
     <div class="col-sm-12">

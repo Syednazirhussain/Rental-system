@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Company\Survey;
 use App\Http\Requests\Company\CreateRoomRequest;
 use App\Http\Requests\Company\UpdateRoomRequest;
 use App\Model\Survey\CompanySurvey;
+use App\Model\Survey\SurveyQuestion;
 use App\Models\CompanyService;
 use App\Models\Survey\AnswerType;
 use App\Repositories\Company\RoomRepository;
@@ -99,7 +100,17 @@ class CompanySurveyController extends AppBaseController
      */
     public function show($id)
     {
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        $surveys = CompanySurvey::find($id);
+        $survey_questions = SurveyQuestion::where('company_id', $company_id)->where('survey_id', $id)->get();
+        $answer_types = AnswerType::pluck('name', 'code');
+        $data = [
+            'survey_questions' => $survey_questions,
+            'surveys' => $surveys,
+            'answer_types' => $answer_types,
+        ];
 
+        return view('company.Survey.survey_questions.index', $data);
     }
 
     /**
@@ -111,7 +122,19 @@ class CompanySurveyController extends AppBaseController
      */
     public function edit($id)
     {
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        $survey_categories = SurveyCategory::all();
+        $company_name = Company::find($company_id)->name;
+        $survey = CompanySurvey::find($id);
 
+        $data = [
+            'company_id' => $company_id,
+            'company_name' => $company_name,
+            'categories' => $survey_categories,
+            'survey' => $survey,
+        ];
+
+        return view('company.Survey.survey.edit', $data);
     }
 
     /**
@@ -122,9 +145,20 @@ class CompanySurveyController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateRoomRequest $request)
+    public function update($id, Request $request)
     {
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        $input = $request->all();
+        $input['company_id'] = $company_id;
 
+        $survey = CompanySurvey::find($id);
+
+        if($survey) {
+            $survey->update($input);
+            $request->session()->flash('msg.success', 'Company Survey updated successfully !');
+        }
+
+        return redirect(route('company.survey.index'));
     }
 
     /**
@@ -136,6 +170,18 @@ class CompanySurveyController extends AppBaseController
      */
     public function destroy($id, Request $request)
     {
+        $survey = CompanySurvey::find($id);
 
+        if (empty($survey)) {
+            $request->session()->flash('msg.success', 'Company Survey not found.');
+
+            return redirect(route('company.survey.index'));
+        }
+
+        $survey->delete();
+
+        $request->session()->flash('msg.success', 'Company Service deleted successfully.');
+
+        return redirect(route('company.survey.index'));
     }
 }

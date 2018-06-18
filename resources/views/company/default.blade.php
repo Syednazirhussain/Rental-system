@@ -84,38 +84,6 @@
                         </ul>
                     </li>
                     <li class="dropdown-toggle">
-                        <a href="{{ route('company.rarticle.index') }}">Survey System</a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="{{ route('company.answer_types.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Answer Types</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('company.survey_categories.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Survey Categories</a>
-                            </li>
-                            <li class="dropdown-toggle">
-                                <a href="{{ route('company.survey.index') }}">Survey</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="{{ route('company.survey.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
-                                            Survey</a></li>
-                                    <li><a href="{{ route('company.survey.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Survey</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="dropdown-toggle">
-                                <a href="{{ route('company.survey_question.index') }}">Survey Questions</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="{{ route('company.survey_question.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
-                                            Survey Question</a></li>
-                                    <li><a href="{{ route('company.survey_question.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Survey Questions</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="{{ route('company.feedback.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Feedback</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown-toggle">
                         <a href="{{ route('company.companyBuildings.index') }}">Buildings</a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ route('company.companyBuildings.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Buildings</a>
@@ -305,6 +273,34 @@
                                                                     class="fa fa-file-text"></i>&nbsp;&nbsp;Invoices</a>
                                                     </li>
                                                 </ul>
+                                            </li>
+                                        @elseif ($module->module->code == 'survey_system')
+                                            <li>
+                                                <a href="{{ route('company.answer_types.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Answer Types</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('company.survey_categories.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Survey Categories</a>
+                                            </li>
+                                            <li class="dropdown-toggle">
+                                                <a href="{{ route('company.survey.index') }}">Survey</a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="{{ route('company.survey.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
+                                                            Survey</a></li>
+                                                    <li><a href="{{ route('company.survey.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Survey</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li class="dropdown-toggle">
+                                                <a href="{{ route('company.survey_question.index') }}">Survey Questions</a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="{{ route('company.survey_question.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
+                                                            Survey Question</a></li>
+                                                    <li><a href="{{ route('company.survey_question.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Survey Questions</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('company.feedback.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Feedback</a>
                                             </li>
                                         @endif
                                     </ul>
