@@ -6,6 +6,7 @@ use App\Http\Requests\Company\CreateRoomRequest;
 use App\Http\Requests\Company\UpdateRoomRequest;
 use App\Model\Survey\CompanySurvey;
 use App\Model\Survey\SurveyQuestion;
+use App\Model\Survey\QuestionOption;
 use App\Models\CompanyService;
 use App\Models\Survey\AnswerType;
 use App\Repositories\Company\RoomRepository;
@@ -84,8 +85,20 @@ class SurveyQuestionController extends AppBaseController
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $input = $request->all();
         $input['company_id'] = $company_id;
-
         $survey_question = SurveyQuestion::create($input);
+
+        $options_data = [];
+        $i = 0;
+        foreach($input['option'] as $option) {
+            $options_data[$i]['company_id'] = $company_id;
+            $options_data[$i]['survey_id'] = $input['survey_id'];
+            $options_data[$i]['question_id'] = $survey_question->id;
+            $options_data[$i]['name'] = $option['name'];
+            $options_data[$i]['code'] = $option['code'];
+            $i++;
+        }
+
+        QuestionOption::insert($options_data);
 
         if($survey_question) {
             $request->session()->flash('msg.success', 'Survey Question created successfully !');
@@ -115,7 +128,23 @@ class SurveyQuestionController extends AppBaseController
      */
     public function edit($id)
     {
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        $answer_types = AnswerType::all();
+        $surveys = CompanySurvey::where('company_id', $company_id)->get();
+        $company_name = Company::find($company_id)->name;
+        $question = SurveyQuestion::find($id);
+        $options = QuestionOption::where('company_id', $company_id)->where('question_id', $id)->get();
 
+        $data = [
+            'company_id' => $company_id,
+            'company_name' => $company_name,
+            'answer_types' => $answer_types,
+            'surveys' => $surveys,
+            'question' => $question,
+            'options' => $options
+        ];
+
+        return view('company.Survey.survey_questions.edit', $data);
     }
 
     /**
@@ -126,9 +155,42 @@ class SurveyQuestionController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateRoomRequest $request)
+    public function update($id, Request $request)
     {
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        $input = $request->all();
+        $options = $input['option'];
+        $question = SurveyQuestion::find($id);
+        $input = $request->except('_method', '_token', 'option');
+        $input['company_id'] = $company_id;
 
+        if($question) {
+            SurveyQuestion::where('id', $id)->update($input);
+        }
+
+        $option_data = [];
+        foreach($options as $option) {
+            $option_data['company_id'] = $company_id;
+            $option_data['survey_id'] = $input['survey_id'];
+            $option_data['question_id'] = $question->id;
+            $option_data['name'] = $option['name'];
+            $option_data['code'] = $option['code'];
+
+            if (strpos($option['pk'], 'new-') === false) {
+                $id = $option['pk'];
+            } else {
+                $id = "";
+            }
+
+            $where = ['id' => $id];
+            QuestionOption::updateOrCreate($where, $option_data);
+        }
+
+        if($question) {
+            $request->session()->flash('msg.success', 'Survey Question updated successfully !');
+        }
+
+        return redirect(route('company.survey_question.index'));
     }
 
     /**
