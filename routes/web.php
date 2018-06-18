@@ -763,6 +763,7 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::get('company/survey_question/{survey_question}/edit', ['as'=> 'company.survey_question.edit', 'uses' => 'Company\Survey\SurveyQuestionController@edit']);
     //Survey Answer Page
     Route::get('company/feedback', ['as'=> 'company.feedback.index', 'uses' => 'Company\Survey\SurveyAnswerController@index']);
+    Route::post('company/feedback', ['as'=> 'company.feedback.store', 'uses' => 'Company\Survey\SurveyAnswerController@store']);
     //Survey Question Option
     Route::delete('company/question_option/delete', ['as'=> 'company.question_option.destroy', 'uses' => 'Company\Survey\QuestionOptionController@destroy']);
 

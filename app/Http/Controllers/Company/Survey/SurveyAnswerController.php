@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Company\Survey;
 use App\Http\Requests\Company\CreateRoomRequest;
 use App\Http\Requests\Company\UpdateRoomRequest;
 use App\Model\Survey\CompanySurvey;
+use App\Model\Survey\QuestionOption;
+use App\Model\Survey\SurveyAnswer;
 use App\Model\Survey\SurveyQuestion;
 use App\Models\CompanyService;
 use App\Models\Survey\AnswerType;
@@ -41,10 +43,12 @@ class SurveyAnswerController extends AppBaseController
         $survey = CompanySurvey::where('category_code', 'rental_module')->first();
         $survey_questions = SurveyQuestion::where('company_id', $company_id)->where('survey_id', $survey->id)->get();
         $answer_types = AnswerType::pluck('name', 'code');
+        $options = QuestionOption::where('company_id', $company_id)->where('survey_id', $survey->id)->get();
         $data = [
             'survey_questions' => $survey_questions,
             'survey' => $survey,
             'answer_types' => $answer_types,
+            'options' => $options
         ];
 
         return view('company.Survey.survey_answers.index', $data);
@@ -57,19 +61,7 @@ class SurveyAnswerController extends AppBaseController
      */
     public function create()
     {
-        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
-        $answer_types = AnswerType::all();
-        $surveys = CompanySurvey::where('company_id', $company_id)->get();
-        $company_name = Company::find($company_id)->name;
 
-        $data = [
-            'company_id' => $company_id,
-            'company_name' => $company_name,
-            'answer_types' => $answer_types,
-            'surveys' => $surveys
-        ];
-
-        return view('company.Survey.survey_questions.create', $data);
     }
 
     /**
@@ -82,13 +74,24 @@ class SurveyAnswerController extends AppBaseController
     public function store(Request $request)
     {
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        $user_id = Auth::guard('company')->user()->id;
         $input = $request->all();
-        $input['company_id'] = $company_id;
 
-        $survey_question = SurveyQuestion::create($input);
+        $data = [];
 
-        if($survey_question) {
-            $request->session()->flash('msg.success', 'Survey Question created successfully !');
+        foreach($input['answer'] as $answer) {
+            $data['user_id'] = $user_id;
+            $data['company_id'] = $company_id;
+            $data['survey_id'] = $input['survey_id'];
+            $data['question_id'] = $answer['id'];
+            $data['answer_type'] = $answer['answer_type'];
+            $data['answer'] = $answer['answer'];
+
+            $survey_answer = SurveyAnswer::insert($data);
+        }
+
+        if($survey_answer) {
+            $request->session()->flash('msg.success', 'Survey Answer created successfully !');
         }
 
         return redirect(route('company.survey_question.index'));

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class SurveyAnswer extends Model
 {
     use SoftDeletes;
-    public $table = 'survey_questions';
+    public $table = 'survey_answers';
 
 
     public $timestamps = true;

@@ -41,7 +41,7 @@
                 @endif
 
                 <div class="container">
-                    <form action="{{ route('company.feedback.index') }}" method="POST" id="surveyQuestionForm">
+                    <form action="{{ route('company.feedback.store') }}" method="POST" id="surveyQuestionForm">
                         @include('company.Survey.survey_answers.fields')
                     </form>
                 </div>
