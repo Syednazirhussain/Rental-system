@@ -761,7 +761,8 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::delete('company/survey_question/{survey_question}', ['as'=> 'company.survey_question.destroy', 'uses' => 'Company\Survey\SurveyQuestionController@destroy']);
     Route::get('company/survey_question/{survey_question}', ['as'=> 'company.survey_question.show', 'uses' => 'Company\Survey\SurveyQuestionController@show']);
     Route::get('company/survey_question/{survey_question}/edit', ['as'=> 'company.survey_question.edit', 'uses' => 'Company\Survey\SurveyQuestionController@edit']);
-
+    //Survey Answer Page
+    Route::get('company/feedback', ['as'=> 'company.feedback.index', 'uses' => 'Company\Survey\SurveyAnswerController@index']);
 
     Route::group(['middleware' => ['newsletter.auth']], function () {
         //NewsLetter System Integration

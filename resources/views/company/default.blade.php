@@ -110,6 +110,9 @@
                                     </li>
                                 </ul>
                             </li>
+                            <li>
+                                <a href="{{ route('company.feedback.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Feedback</a>
+                            </li>
                         </ul>
                     </li>
                     <li class="dropdown-toggle">
