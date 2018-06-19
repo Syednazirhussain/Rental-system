@@ -44,15 +44,15 @@
 	          	<table class="table">
 	          		<tr>
 	          			<td>Country</td>
-	          			<td><em>{{ $company->country->name }}</em></td>
+	          			<td><em>@if(isset($company->country_id)){{ $company->country->name }}@endif</em></td>
 	          		</tr>
 	          		<tr>
 	          			<td>State</td>
-	          			<td><em>{{ $company->state->name }}</em></td>
+	          			<td><em>@if(isset($company->state_id)){{ $company->state->name }}@endif</em></td>
 	          		</tr>
 	          		<tr>
 	          			<td>City</td>
-	          			<td>{{ $company->city->name }}</td>
+	          			<td>@if(isset($company->city_id)){{ $company->city->name }}@endif</td>
 	          		</tr>
 	          		<tr>
 	          			<td>Zip Code</td>
@@ -341,7 +341,7 @@
 				              <tbody>
 				                @foreach ($company->companyInvoices as $invoice)
 				                <tr>
-				                  <td>{{ $invoice->paymentCycle->name }}</td>
+				                  <td>{{ json_decode($invoice->payment_cycle)->name }}</td>
 				                  <td>{{ $invoice->discount }}&nbsp;SEK</td>
 				                  <td>{{ $invoice->tax }}&nbsp;SEK</td>
 				                  <td>{{ $invoice->total }}&nbsp;SEK</td>

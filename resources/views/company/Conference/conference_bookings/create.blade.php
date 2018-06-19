@@ -816,7 +816,11 @@
             });
 
 
-
+            $(function() {
+              $('.select2-reference').select2({
+                placeholder: 'Select reference',
+              })
+            });
 
 
 

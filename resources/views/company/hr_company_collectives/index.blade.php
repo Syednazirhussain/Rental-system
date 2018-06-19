@@ -27,7 +27,7 @@
                 
 
                 <div class="text-right m-b-3">
-                    <a href="{{ route('company.hrCompanyCollectives.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;Create Personal Cats</a> 
+                    <a href="{{ route('company.hrCompanyCollectives.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;Create Collective</a> 
                 </div>
 
                 <div class="table-primary">
