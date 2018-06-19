@@ -127,11 +127,103 @@
     <a href="{!! route('admin.supports.index') !!}"><i class="fa fa-edit"></i><span>Supports</span></a>
 </li>
 
+
+<li class="{{ Request::is('bookingAgencies*') ? 'active' : '' }}">
+    <a href="{!! route('company.bookingAgencies.index') !!}"><i class="fa fa-edit"></i><span>Booking Agencies</span></a>
+
 <li class="{{ Request::is('companySupports*') ? 'active' : '' }}">
     <a href="{!! route('company.companySupports.index') !!}"><i class="fa fa-edit"></i><span>Company Supports</span></a>
 </li>
 
 <li class="{{ Request::is('companyCustomers*') ? 'active' : '' }}">
     <a href="{!! route('companyCustomers.index') !!}"><i class="fa fa-edit"></i><span>Company Customers</span></a>
+</li>
+
+<li class="{{ Request::is('roomSettingArrangments*') ? 'active' : '' }}">
+    <a href="{!! route('roomSettingArrangments.index') !!}"><i class="fa fa-edit"></i><span>Room Setting Arrangments</span></a>
+</li>
+
+<li class="{{ Request::is('roomSettingArrangments*') ? 'active' : '' }}">
+    <a href="{!! route('company.roomSettingArrangments.index') !!}"><i class="fa fa-edit"></i><span>Room Setting Arrangments</span></a>
+</li>
+
+<li class="{{ Request::is('roomImages*') ? 'active' : '' }}">
+    <a href="{!! route('company.roomImages.index') !!}"><i class="fa fa-edit"></i><span>Room Images</span></a>
+</li>
+
+<li class="{{ Request::is('roomEquipments*') ? 'active' : '' }}">
+    <a href="{!! route('company.roomEquipments.index') !!}"><i class="fa fa-edit"></i><span>Room Equipments</span></a>
+</li>
+
+<li class="{{ Request::is('roomNotes*') ? 'active' : '' }}">
+    <a href="{!! route('company.roomNotes.index') !!}"><i class="fa fa-edit"></i><span>Room Notes</span></a>
+
+</li>
+
+<li class="{{ Request::is('currencies*') ? 'active' : '' }}">
+    <a href="{!! route('company.currencies.index') !!}"><i class="fa fa-edit"></i><span>Currencies</span></a>
+</li>
+
+<li class="{{ Request::is('leaseAttachments*') ? 'active' : '' }}">
+    <a href="{!! route('company.leaseAttachments.index') !!}"><i class="fa fa-edit"></i><span>Lease Attachments</span></a>
+</li>
+
+<li class="{{ Request::is('leasePartners*') ? 'active' : '' }}">
+    <a href="{!! route('company.leasePartners.index') !!}"><i class="fa fa-edit"></i><span>Lease Partners</span></a>
+</li>
+
+<li class="{{ Request::is('leaseCounterparts*') ? 'active' : '' }}">
+    <a href="{!! route('company.leaseCounterparts.index') !!}"><i class="fa fa-edit"></i><span>Lease Counterparts</span></a>
+</li>
+
+<li class="{{ Request::is('leaseContractInformations*') ? 'active' : '' }}">
+    <a href="{!! route('company.leaseContractInformations.index') !!}"><i class="fa fa-edit"></i><span>Lease Contract Informations</span></a>
+<li class="{{ Request::is('hrCivilStatuses*') ? 'active' : '' }}">
+    <a href="{!! route('company.hrCivilStatuses.index') !!}"><i class="fa fa-edit"></i><span>Hr Civil Statuses</span></a>
+</li>
+
+<li class="{{ Request::is('companyHrs*') ? 'active' : '' }}">
+    <a href="{!! route('company.companyHrs.index') !!}"><i class="fa fa-edit"></i><span>Company Hrs</span></a>
+</li>
+
+<li class="{{ Request::is('hrPersonalCats*') ? 'active' : '' }}">
+    <a href="{!! route('company.hrPersonalCats.index') !!}"><i class="fa fa-edit"></i><span>Hr Personal Cats</span></a>
+</li>
+
+<li class="{{ Request::is('hrCompanyCollectives*') ? 'active' : '' }}">
+    <a href="{!! route('company.hrCompanyCollectives.index') !!}"><i class="fa fa-edit"></i><span>Hr Company Collectives</span></a>
+</li>
+
+<li class="{{ Request::is('hrCompanyemployments*') ? 'active' : '' }}">
+    <a href="{!! route('company.hrCompanyemployments.index') !!}"><i class="fa fa-edit"></i><span>Hr Companyemployments</span></a>
+</li>
+
+<li class="{{ Request::is('hrCompanyDesignations*') ? 'active' : '' }}">
+    <a href="{!! route('company.hrCompanyDesignations.index') !!}"><i class="fa fa-edit"></i><span>Hr Company Designations</span></a>
+</li>
+
+<li class="{{ Request::is('hrCompanyEmployments*') ? 'active' : '' }}">
+    <a href="{!! route('company.hrCompanyEmployments.index') !!}"><i class="fa fa-edit"></i><span>Hr Company Employments</span></a>
+</li>
+
+<li class="{{ Request::is('hrEmploymentForms*') ? 'active' : '' }}">
+    <a href="{!! route('company.hrEmploymentForms.index') !!}"><i class="fa fa-edit"></i><span>Hr Employment Forms</span></a>
+</li>
+
+<li class="{{ Request::is('hrSalaryTypes*') ? 'active' : '' }}">
+    <a href="{!! route('company.hrSalaryTypes.index') !!}"><i class="fa fa-edit"></i><span>Hr Salary Types</span></a>
+</li>
+
+<li class="{{ Request::is('hrCompanyProjects*') ? 'active' : '' }}">
+    <a href="{!! route('company.hrCompanyProjects.index') !!}"><i class="fa fa-edit"></i><span>Hr Company Projects</span></a>
+</li>
+
+<li class="{{ Request::is('hrVacationCategories*') ? 'active' : '' }}">
+    <a href="{!! route('company.hrVacationCategories.index') !!}"><i class="fa fa-edit"></i><span>Hr Vacation Categories</span></a>
+
+</li>
+
+<li class="{{ Request::is('hRCourses*') ? 'active' : '' }}">
+    <a href="{!! route('company.hRCourses.index') !!}"><i class="fa fa-edit"></i><span>H R Courses</span></a>
 </li>
 

@@ -30,5 +30,12 @@ class DatabaseSeeder extends Seeder
         $this->call(SupportCategoriesTableSeeder::class);
         $this->call(SupportPrioritiesTableSeeder::class);
         $this->call(SupportStatusTableSeeder::class);
+        $this->call(ModulesTableSeeder::class);
+        $this->call(CurrencyTableSeeder::class);
+        $this->call(HrCivilStatusTableSeeder::class);
+        $this->call(HrPersonalCatTableSeeder::class);
+        $this->call(HrCompanyDesignationTableSeeder::class);
+        $this->call(HrSalaryTypeTableSeeder::class);
+        $this->call(HrCourseTableSeeder::class);
     }
 }

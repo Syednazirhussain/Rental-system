@@ -83,6 +83,102 @@ class CompanySupportController extends AppBaseController
 
     }
 
+
+    public function companyDashboard(){
+
+        $companyId = Auth::guard('company')->user()->companyUser->company_id;
+
+        $companyTotalTickets = CompanySupport::where('company_id',$companyId)->count();
+
+        $status_id = CompanySupportStatus::where('name','Pending')->where('company_id',$companyId)->first()->id;
+        $companyOpenTickets = CompanySupport::where('status_id',$status_id)->where('company_id',$companyId)
+                            ->get()
+                            ->count();
+
+        $status_id = CompanySupportStatus::where('name','Solved')->where('company_id',$companyId)->first()->id;
+        $companyClosedTickets = CompanySupport::where('status_id',$status_id)
+                            ->get()
+                            ->count();
+
+
+        //$categories = CompanySupportCategory::where('company_id',$company_id)->get();
+        // dd($companyClosedTickets);
+
+
+
+
+        // support category count
+        $companyAllCategories = CompanySupportCategory::where('company_id',$companyId)->get();
+
+        $categoryNames = [];
+        $index = 0;
+
+        foreach ($companyAllCategories as $category) {
+            $categoryNames[$index] = $category->name;
+            $index++;
+
+        }
+
+        $counts = [];
+        $index = 0;
+        foreach ($categoryNames as  $categoryName) 
+        {
+            $category_id = CompanySupportCategory::where('name',$categoryName)->first()->id;
+            $Count = CompanySupport::where('category_id',$category_id)->where('company_id',$companyId)
+                                ->get()
+                                ->count();
+            $counts[$index] = [ 'category' =>  $categoryName, 'totalCount' => $Count];
+            $index++;
+        }
+
+         // dd($counts[2]);
+        // support user display and count 
+
+        $support = CompanySupport::where('parent_id','==',0)->where('company_id',$companyId)->get();
+
+        $uniqUsers = [];
+        $index = 0;
+        for ($i=0; $i < count($support); $i++) { 
+            if (!empty($uniqUsers)) {
+                if (!in_array($support[$i]->user_id, $uniqUsers)) {
+                    $uniqUsers[$index] = $support[$i]->user_id;
+                    $index++;
+                }
+            }
+            else{
+                $uniqUsers[$index] = $support[$i]->user_id;
+                $index++;
+            }
+        }
+
+        $countUser  =   [];
+ 
+        $totalUser  =   [];
+        $index      =   0;
+        for ($i=0; $i < count($uniqUsers); $i++) {
+            $countUser[$index]= CompanySupport::where('user_id',$uniqUsers[$i])->get();
+            $supportUserName  =    CompanySupport::where('user_id',$uniqUsers[$i])->first();
+            $name   =   $supportUserName->user->name;
+            $totalUser[$index]      =   ['user_name' => $name, 'total' => count($countUser[$index])];
+            $index++;
+        }
+        
+
+
+
+
+        $data   =    [
+                        'companyTotalTickets'          =>      $companyTotalTickets,
+                        'companyClosedTickets'         =>      $companyClosedTickets,
+                        'companyOpenTickets'           =>      $companyOpenTickets,
+                        'counts'                       =>      $counts,
+                        'totalUser'                    =>      $totalUser
+                    ];
+
+        return view('company.company_supports.dashboard', $data);
+    }
+
+
     public function completedTicket()
     {
 
@@ -167,8 +263,6 @@ class CompanySupportController extends AppBaseController
                                     ->where('parent_id',0)
                                     ->where('user_id',$user_id)
                                     ->get();
-
-
 
                 if(count($supports) > 0)
                 {
@@ -376,6 +470,8 @@ class CompanySupportController extends AppBaseController
 
                         $company_id = $companyUser->company_id;
 
+                        $role_code = User::find($user_id)->user_role_code;
+                        $agents = User::where('user_role_code','company_technical_support')->get();
                         $priorities =  CompanySupportPriorities::where('company_id',$company_id)->get();
                         $categories =  CompanySupportCategory::where('company_id',$company_id)->get();
                         $statues =  CompanySupportStatus::where('company_id',$company_id)->get();
@@ -390,7 +486,9 @@ class CompanySupportController extends AppBaseController
                                 'support' => $support,
                                 'priorities' => $priorities,
                                 'categories' => $categories,
-                                'statues'    => $statues     
+                                'statues'    => $statues,
+                                'agents'    => $agents,
+                                'role_code' => $role_code     
                             ];
                         }
                         else
@@ -400,9 +498,13 @@ class CompanySupportController extends AppBaseController
                                 'reply'   => $reply,
                                 'priorities' => $priorities,
                                 'categories' => $categories,
-                                'statues'    => $statues   
+                                'statues'    => $statues,
+                                'agents'    => $agents,
+                                'role_code' => $role_code   
                             ];
                         }
+
+
                         return view('company.company_supports.show',$data);
                     }
                     else
@@ -411,6 +513,8 @@ class CompanySupportController extends AppBaseController
 
                         $company_id = $companyUser->company_id;
 
+                        $role_code = User::find($user_id)->user_role_code;
+                        $agents = User::where('user_role_code','company_technical_support')->get();
                         $priorities =  CompanySupportPriorities::where('company_id',$company_id)->get();
                         $categories =  CompanySupportCategory::where('company_id',$company_id)->get();
                         $statues =  CompanySupportStatus::where('company_id',$company_id)->get();
@@ -425,7 +529,9 @@ class CompanySupportController extends AppBaseController
                                 'support' => $support,
                                 'priorities' => $priorities,
                                 'categories' => $categories,
-                                'statues'    => $statues     
+                                'statues'    => $statues,
+                                'agents'    => $agents,
+                                'role_code' => $role_code     
                             ];
                         }
                         else
@@ -435,7 +541,9 @@ class CompanySupportController extends AppBaseController
                                 'reply'   => $reply,
                                 'priorities' => $priorities,
                                 'categories' => $categories,
-                                'statues'    => $statues   
+                                'statues'    => $statues,
+                                'agents'    => $agents,
+                                'role_code' => $role_code   
                             ];
                         }
                         return view('company.company_supports.show',$data);
@@ -641,11 +749,13 @@ class CompanySupportController extends AppBaseController
         }
 
 
+
         $support->subject       = $input['subject'];
         $support->content       = $input['content'];
         $support->priority_id   = $input['priority_id'];
         $support->category_id   = $input['category_id'];
         $support->status_id     = $input['status_id'];
+        $support->agent     = $input['agent'];
 
         $support->save();
         session()->flash('msg.success','Ticket updated successfully');

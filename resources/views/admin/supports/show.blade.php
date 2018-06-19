@@ -25,12 +25,27 @@
                                 {{ $support->subject }}
                                 <span class="pull-right">
 
-                                    @if($support->status_id == 5)
-                                        
-                                    @else
-                                        <a href="{{ route('admin.supports.solved',[$support->id]) }}" class="btn btn-success">Mark Complete</a>
+                                    @if($role_code == 'admin')
+
+                                        @if($support->status_id == 5)
+                                            
+                                        @else
+                                            <a href="{{ route('admin.supports.solved',[$support->id]) }}" class="btn btn-success">Mark Complete</a>
+                                        @endif
+                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-default">Edit</button>
+
+                                    @elseif($role_code == 'admin_technical_support' && $support->agent == \Auth::guard('admin')->user()->id )
+
+                                        @if($support->status_id == 5)
+                                            
+                                        @else
+                                            <a href="{{ route('admin.supports.solved',[$support->id]) }}" class="btn btn-success">Mark Complete</a>
+                                        @endif
+                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-default">Edit</button>
+
                                     @endif
-                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-default">Edit</button>
+
+
 <!--                                     <a href="#" class="btn btn-danger deleteit" form="delete-ticket-27" node="Asperiores praesentium vero et quo quaerat sunt.">Delete</a> -->
                                 </span>
                             </h2>
@@ -63,7 +78,7 @@
                                         <div class="col-md-6">
                                             <p> 
                                                 <strong>Responsible</strong>:
-                                                 {{ auth()->guard('admin')->user()->name }}
+                                                 @if(isset($support->agent)){{ $support->userAgent->name }}@endif
                                              </p>
                                             <p>
                                                 <strong>Category</strong>:
@@ -115,6 +130,9 @@
 
                 @endif
 
+
+                @if($role_code == 'admin')
+
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <form  action="{{ route('admin.supports.store') }}" method="POST" id="commentForm" class="form-horizontal">
@@ -147,6 +165,43 @@
                     </div>
                 </div>
 
+                @elseif($role_code == 'admin_technical_support' && $support->agent == \Auth::guard('admin')->user()->id )
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form  action="{{ route('admin.supports.store') }}" method="POST" id="commentForm" class="form-horizontal">
+
+                            <input name="_token" type="hidden" value="{{ csrf_token() }}">
+                            <input name="parent_id" type="hidden" value="{{ $support->id }}">
+                            <input name="subject" type="hidden" value="{{ $support->subject }}">
+                            <input name="status_id" type="hidden" value="{{ $support->status_id }}">
+                            <input name="priority_id" type="hidden" value="{{ $support->priority_id }}">
+                            <input name="category_id" type="hidden" value="{{ $support->category_id }}">
+                            <input name="user_id" type="hidden" value="{{ auth()->guard('admin')->user()->id }}">
+                            <input name="last_comment" type="hidden" value="{{ auth()->guard('admin')->user()->name }}">
+                            <input name="company_id" type="hidden" value="{{ $support->company_id }}">
+                            <input name="company_name" type="hidden" value="{{ $support->company_name }}">
+                            <fieldset>
+                                <legend>Reply</legend>
+                                <div class="form-group">
+                                    <div class="col-lg-12">
+                                        <textarea id="summernote-base1" type="text" name="content"></textarea>
+                                        <span class="help-block">Describe your issue here in details</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i>&nbsp;Send</button>
+                                    <!-- <input class="btn btn-primary" type="submit" value="Submit"> -->
+                                    <a href="{{ route('admin.supports.index') }}" class="btn btn-default"><i class="fa fa-times"></i>&nbsp;CANCEL</a>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+
+
+                @endif
+
                 <div class="modal fade in" id="modal-default" tabindex="-1">
                   <div class="modal-dialog modal-lg">
                     <div class="modal-content">
@@ -171,8 +226,74 @@
                                 </div>
 
                                 <div class="row">
+
+                                    @if($role_code == 'admin')
+
+                                    <div class="col-sm-3">
+                                        <label for="priority_id" class="control-label">Priority </label>
+                                        <select class="form-control" name="priority_id">
+                                            @if(isset($priorities))
+                                                @foreach($priorities as $priority)
+                                                    @if($support->priority_id == $priority->id)
+                                                        <option value="{{ $priority->id }}" selected="selected">{{ $priority->name }}</option>
+                                                    @else
+                                                        <option value="{{ $priority->id }}">{{ $priority->name }}</option>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                       
+                                    <div class="col-sm-3">
+                                        <label for="category_id" class="control-label">Category </label>
+                                        <select class="form-control" name="category_id">
+                                            @if(isset($categories))
+                                                @foreach($categories as $category)
+                                                    @if($support->category_id == $category->id)
+                                                        <option value="{{ $category->id }}" selected="selected">{{ $category->name }}</option>
+                                                    @else
+                                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                             
+                                    <div class="col-sm-3">
+                                        <label for="status_id" class="control-label">Status </label>
+                                        <select class="form-control" name="status_id">
+                                            @if(isset($statues))
+                                                @foreach($statues as $status)
+                                                    @if($support->status_id == $status->id)
+                                                    <option value="{{ $status->id }}" selected="selected">{{ $status->name }}</option>
+                                                    @else
+                                                    <option value="{{ $status->id }}">{{ $status->name }}</option>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+
+                                    <div class="col-sm-3">
+                                        <label for="status_id" class="control-label">Agent </label>
+                                        <select class="form-control" name="agent">
+                                            <option value="">Select</option>
+                                            @if(isset($agents))
+                                                @foreach($agents as $agent)
+                                                    @if($support->agent == $agent->id)
+                                                    <option value="{{ $agent->id }}" selected="selected">{{ $agent->name }}</option>
+                                                    @else
+                                                    <option value="{{ $agent->id }}">{{ $agent->name }}</option>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div> 
+
+                                    @else
+
                                     <div class="col-sm-4">
-                                        <label for="priority_id" class="control-label">Priority: </label>
+                                        <label for="priority_id" class="control-label">Priority </label>
                                         <select class="form-control" name="priority_id">
                                             @if(isset($priorities))
                                                 @foreach($priorities as $priority)
@@ -187,7 +308,7 @@
                                     </div>
                        
                                     <div class="col-sm-4">
-                                        <label for="category_id" class="control-label">Category: </label>
+                                        <label for="category_id" class="control-label">Category </label>
                                         <select class="form-control" name="category_id">
                                             @if(isset($categories))
                                                 @foreach($categories as $category)
@@ -202,7 +323,7 @@
                                     </div>
                              
                                     <div class="col-sm-4">
-                                        <label for="status_id" class="control-label">Status: </label>
+                                        <label for="status_id" class="control-label">Status </label>
                                         <select class="form-control" name="status_id">
                                             @if(isset($statues))
                                                 @foreach($statues as $status)
@@ -214,7 +335,11 @@
                                                 @endforeach
                                             @endif
                                         </select>
-                                    </div>                                    
+                                    </div>
+
+
+                                    @endif
+
                                 </div>
                             
                                 <div class="col-sm-12 m-b-3 m-t-3">

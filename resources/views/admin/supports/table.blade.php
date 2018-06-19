@@ -8,6 +8,7 @@
             <th>Last Comment</th>
             <th>Priority</th>
             <th>Owner</th>
+            <th>Agent</th>
             <th>Company</th>
             <th>Category</th>
         </tr>
@@ -65,6 +66,9 @@
                 </td>
                 <td>
                   {{ $support->user->name }}
+                </td>
+                <td>
+                  @if(isset($support->agent)){{ $support->userAgent->name }}@endif
                 </td>
                 <td> <a href="{{ route('admin.company.profile',[$support->company_id]) }}">{{ $support->company_name }}</a> </td>
                 <td>
