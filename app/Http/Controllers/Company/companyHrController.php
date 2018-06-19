@@ -138,8 +138,8 @@ class companyHrController extends AppBaseController
     public function store(CreatecompanyHrRequest $request)
     {
 
-        print_r($request->all());
-        exit;
+        /*print_r($request->all());
+        exit;*/
 
         $input = $request->all();
 
@@ -162,7 +162,7 @@ class companyHrController extends AppBaseController
             $input['insurance_date'] = $insDate;
 
 
-
+             dd($input);
             if ($input['father'] == 'on') {
                     $input['father'] = 1;
                 } else {
@@ -176,10 +176,44 @@ class companyHrController extends AppBaseController
                     $input['mother'] = 0;
                 }
                      
-         // dd($input);
-        // print_r($input);
-        // exit();
+         
         $companyHr = $this->companyHrRepository->create($input);
+
+
+               /* // Function for Array Merging
+               function array_merge_on_key($key, $array1, $array2, $array3, $array4) {
+                  $arrays = array_slice(func_get_args(), 1);
+                  $r = array();
+                  foreach($arrays as &$a) {
+                     if(array_key_exists($key, $a)) {
+                        $r[] = $a[$key];
+                        continue;
+                     }
+                  }
+                  return $r;
+               }
+
+                foreach ($input['medicineName'] as $key => $value) {
+
+                    $result = array_merge_on_key($key, $input['medicineName'], $input['medicinePrescription'], $input['medicineUsage'], $input['med_recieved']);
+
+                    $index = implode(",", $result);
+                    $medicineInfo = explode(",", $index);
+
+                    
+                    if ($medicineInfo[0] || $medicineInfo[1] || $medicineInfo[2]) {
+                     $medicineCreate = [
+                                'order_id'          =>  $order->id,
+                                'medicine_name'     =>  $medicineInfo[0],
+                                'medicine_px'       =>  $medicineInfo[1],
+                                'medicine_usage'    =>  $medicineInfo[2],
+                                'med_recieved'      =>  $medicineInfo[3]
+                              
+                            ];
+
+                    $medicine = $this->medicineRepository->create($medicineCreate);
+                    }                    
+                }*/
 
         // return response()->json($companyHr);
         
@@ -230,6 +264,7 @@ class companyHrController extends AppBaseController
         $hrSalaryType               =   $this->hrSalaryTypeRepository->all();
         $hrCompanyPro               =   $this->hrCompanyProjectRepository->all();
         $hrVacCategory              =   $this->hrVacationCategoryRepository->all();
+        $HRCourses = HRCourses::all();
 
          $data = [
             'countries'                 => $countries,
@@ -244,9 +279,10 @@ class companyHrController extends AppBaseController
             'hrSalaryType'              => $hrSalaryType,
             'hrCompanyPro'              => $hrCompanyPro,
             'hrVacCategory'             => $hrVacCategory,
+            'HRCourses'                 => $HRCourses
         ];
 
-        // dd($companyHr);
+         // dd($companyHr);
 
         if (empty($companyHr)) {
             Flash::error('Company Hr not found');
@@ -268,6 +304,7 @@ class companyHrController extends AppBaseController
     public function update($id, UpdatecompanyHrRequest $request)
     {
         $input = $request->all();
+        // dd($input);
 
         $date = str_replace('-', '/', $input['employment_date']);
 
@@ -289,7 +326,7 @@ class companyHrController extends AppBaseController
 
 
 
-        // dd($input);
+        // dd($input['employment_date']);
         // dd($input['employment_date']);
         $companyHr = $this->companyHrRepository->findWithoutFail($id);
 

@@ -87,7 +87,17 @@ class companyHr extends Model
         'vacation_days',
         'vacation_category',
         'father',
-        'mother'
+        'mother',
+        'languages',
+        'skills',
+        'driving_license',
+        'organization_name',
+        'job_title',
+        'hr_courses',
+        'hr_notes',
+        'manager_notes',
+        'salary_development_notes',
+        'courses'
     ];
 
     /**
@@ -130,6 +140,16 @@ class companyHr extends Model
         'vacation_days' => 'integer',
         'vacation_category' => 'integer',
         'father_and_mother' => 'string',
+        'languages' => 'string',
+        'skills' => 'string',
+        'driving_license' => 'string',
+        'organization_name' => 'string',
+        'job_title' => 'string',
+        'hr_courses' => 'string',
+        'hr_notes' => 'string',
+        'manager_notes' => 'string',
+        'salary_development_notes' => 'string',
+        'courses' => 'string',
     ];
 
     /**

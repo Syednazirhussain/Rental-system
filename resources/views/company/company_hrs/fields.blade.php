@@ -72,7 +72,7 @@
                            <select name="country_id_show" id="countyId" class="form-control select2-country" style="width: 100%" data-allow-clear="true">
                               <option></option>
                               @foreach ($countries as $country)
-                              @if (isset($companyHr))
+                              @if (isset($companyHr) && $companyHr->country_id == $country->id)
                               <option value="{{ $country->id }}" selected="selected">{{ $country->name }}</option>
                               @else
                               <option value="{{ $country->id }}">{{ $country->name }}</option>
@@ -88,7 +88,7 @@
                            <select name="state_id_show" id="stateId" class="form-control select2-state" style="width: 100%" data-allow-clear="true">
                               <option></option>
                               @foreach ($states as $state)
-                              @if (isset($companyHr))
+                              @if (isset($companyHr) && $companyHr->state_id == $state->id)
                               <option value="{{ $state->id }}" selected="selected">{{ $state->name }}</option>
                               @else
                               <option value="{{ $state->id  }}">{{ $state->name }}</option>
@@ -107,7 +107,7 @@
                            <select name="city_id_show" id="cityId" class="form-control select2-city"  style="width: 100%" data-allow-clear="true">
                               <option></option>
                               @foreach ($cities as $city)
-                              @if (isset($companyHr))
+                              @if (isset($companyHr) && $companyHr->city_id == $city->id)
                               <option value="{{ $city->id }}" selected="selected">{{ $city->name }}</option>
                               @else
                               <option value="{{ $city->id  }}">{{ $city->name }}</option>
@@ -156,7 +156,7 @@
                         <select class="form-control select2-status" name="civil_status_id_show" id="civilId" style="width: 100%" data-allow-clear="true">
                            <option></option>
                            @foreach ($hrCivil as $hrCivil)
-                           @if (isset($companyHr))
+                           @if (isset($companyHr) && $companyHr->civil_status_id == $hrCivil->id)
                            <option value="{{ $hrCivil->id }}" selected="selected">{{ $hrCivil->name }}</option>
                            @else
                            <option value="{{ $hrCivil->id  }}">{{ $hrCivil->name }}</option>
@@ -170,14 +170,13 @@
                      @if (isset($companyHr))
                      <button type="button" class="btn btn-primary" id="asdBtn" data-wizard-action="next">NEXT <i class="fa fa-arrow-right m-l-1"></i></button>
                      @else
-                     <button type="submit" class="btn btn-primary" id="createCompanyBtn" data-wizard-action="next">CREATE COMPANY HR <i class="fa fa-arrow-right m-l-1"></i></button>
+                     <button type="button" class="btn btn-primary" id="createCompanyBtn" data-wizard-action="next">CREATE COMPANY HR <i class="fa fa-arrow-right m-l-1"></i></button>
                      @endif
                   </div>
                </form>
 
 
                <!-- ============================wizard-2==================================== -->
-
                <form class="wizard-pane" id="wizard-2">
                   @if (isset($companyHr))
                   <input name="_method" type="hidden" value="PATCH">
@@ -204,7 +203,7 @@
                         <select name="personal_category" id="personalId" class="form-control select2-personal" style="width: 100%" data-allow-clear="true">
                            <option></option>
                            @foreach ($hrPersonal as $personal)
-                           @if (isset($companyHr))
+                           @if (isset($companyHr) && $companyHr->personal_category == $personal->id)
                            <option value="{{ $personal->id }}" selected="selected">{{ $personal->name }}</option>
                            @else
                            <option value="{{ $personal->id  }}">{{ $personal->name }}</option>
@@ -221,7 +220,7 @@
                         <select name="collective_type" id="collectiveId" class="form-control select2-collective" style="width: 100%" data-allow-clear="true">
                            <option></option>
                            @foreach ($hrCollectivetype as $collective)
-                           @if (isset($companyHr))
+                           @if (isset($companyHr) && $companyHr->collective_type == $collective->id)
                            <option value="{{ $collective->id }}" selected="selected">{{ $collective->name }}</option>
                            @else
                            <option value="{{ $collective->id  }}">{{ $collective->name }}</option>
@@ -238,7 +237,7 @@
                         <select name="employment_form" id="employFormId" class="form-control select2-emplyForm" style="width: 100%" data-allow-clear="true">
                            <option></option>
                            @foreach ($hrEmployForm as $employ)
-                           @if (isset($companyHr))
+                           @if (isset($companyHr) && $companyHr->employment_form == $employ->id)
                            <option value="{{ $employ->id }}" selected="selected">{{ $employ->name }}</option>
                            @else
                            <option value="{{ $employ->id  }}">{{ $employ->name }}</option>
@@ -265,7 +264,7 @@
                         <select name="department" id="departmentWiz2" class="form-control select2-department" style="width: 100%" data-allow-clear="true">
                            <option></option>
                            @foreach ($hrPersonal as $personal)
-                           @if (isset($companyHr))
+                           @if (isset($companyHr) && $companyHr->department == $personal->id)
                            <option value="{{ $personal->id }}" selected="selected">{{ $personal->name }}</option>
                            @else
                            <option value="{{ $personal->id  }}">{{ $personal->name }}</option>
@@ -282,7 +281,7 @@
                         <select name="designation" id="desigWiz2" class="form-control select2-designation" style="width: 100%" data-allow-clear="true">
                            <option></option>
                            @foreach ($hrDesig as $desig)
-                           @if (isset($companyHr))
+                           @if (isset($companyHr) && $companyHr->designation == $desig->id)
                            <option value="{{ $desig->id }}" selected="selected">{{ $desig->name }}</option>
                            @else
                            <option value="{{ $desig->id  }}">{{ $desig->name }}</option>
@@ -299,7 +298,7 @@
                         <select name="vacancies" id="vacancyWiz2" class="form-control select2-vacancy" style="width: 100%" data-allow-clear="true">
                            <option></option>
                            @foreach ($hrDesig as $desig)
-                           @if (isset($companyHr))
+                           @if (isset($companyHr) && $companyHr->vacancies == $desig->id)
                            <option value="{{ $desig->id }}" selected="selected">{{ $desig->name }}</option>
                            @else
                            <option value="{{ $desig->id  }}">{{ $desig->name }}</option>
@@ -331,7 +330,7 @@
                            <select name="salary_type" id="salaryTypeWiz3" class="form-control select2-salaryType" style="width: 100%" data-allow-clear="true">
                               <option></option>
                               @foreach ($hrSalaryType as $salary)
-                              @if (isset($companyHr))
+                              @if (isset($companyHr) && $companyHr->salary_type == $salary->id)
                               <option value="{{ $salary->id }}" selected="selected">{{ $salary->name }}</option>
                               @else
                               <option value="{{ $salary->id  }}">{{ ucfirst($salary->name) }}</option>
@@ -367,7 +366,7 @@
                            <select name="project" id="projectWiz3" class="form-control select2-project" style="width: 100%" data-allow-clear="true">
                               <option></option>
                               @foreach ($hrCompanyPro as $project)
-                              @if (isset($companyHr))
+                              @if (isset($companyHr) && $companyHr->project == $project->id)
                               <option value="{{ $project->id }}" selected="selected">{{ $project->name }}</option>
                               @else
                               <option value="{{ $project->id  }}">{{ ucfirst($project->name) }}</option>
@@ -396,7 +395,7 @@
                            <select name="vacation_category" id="vacationWiz3" class="form-control select2-project" style="width: 100%" data-allow-clear="true">
                               <option></option>
                               @foreach ($hrVacCategory as $cat)
-                              @if (isset($companyHr))
+                              @if (isset($companyHr) && $companyHr->vacation_category == $cat->id)
                               <option value="{{ $cat->id }}" selected="selected">{{ $cat->name }}</option>
                               @else
                               <option value="{{ $cat->id  }}">{{ ucfirst($cat->name) }}</option>
@@ -464,18 +463,18 @@
                      
                         <div class="col-sm-6 col-md-6 form-group">
                            <label for="">Languages</label>
-                           <input type="text" name="languages" class="form-control languages" data-role="tagsinput" />
+                           <input type="text" id="languages" name="languages" class="form-control languages" data-role="tagsinput" />
                         </div>
                         <div class="col-sm-6 col-md-6 form-group">
                            <label for="">Skills</label>
-                           <input type="text" name="skills" class="form-control skills" data-role="tagsinput" />
+                           <input type="text" name="skills" id="skills" class="form-control skills" data-role="tagsinput" />
                         </div>
                      
 
                      
                         <div class="col-sm-6 col-md-6 form-group">
                            <label for="city_id">HR Courses</label>
-                           <select name="name[]" id="city_id" class="form-control select2-hrCourses" multiple>
+                           <select name="name[]" id="hrCourseId" class="form-control select2-hrCourses" multiple>
                               <option></option>
                               @foreach($HRCourses as $HRCourse)
                                  <option value="{{$HRCourse->id}}">{{$HRCourse->name}}</option>
@@ -484,7 +483,7 @@
                         </div>
                         <div class="col-sm-6 col-md-6 form-group m-t-4">
                            <label class="custom-control custom-checkbox">
-                              <input type="checkbox" class="custom-control-input">
+                              <input type="checkbox" class="custom-control-input" id="driving_license">
                               <span class="custom-control-indicator"></span>
                               <strong>Driving License</strong>
                            </label>
@@ -508,27 +507,27 @@
 
                                   <div class="col-sm-2 col-md-2 form-group">
                                     <label for="sitting_name">Organization Name</label>
-                                    <input type="text" name="organization_name[]" id="organization_name" class="form-control" >
+                                    <input type="text" name="organization_name[]" id="organization_name" class="form-control organiztion-fields" >
                                   </div>
 
                                   <div class="col-sm-2 col-md-2 form-group">
                                     <label for="sitting_number_person">Job Title</label>
-                                    <input type="text" name="job_title[]" id="job_title" class="form-control" >
+                                    <input type="text" name="job_title[]" id="job_title" class="form-control organiztion-fields" >
                                   </div> 
 
                                  <div class="col-sm-4 col-md-4 form-group">
                                     <label for="sitting_number_person">Learning Courses</label>
-                                    <input type="text" name="courses[]" data-role="tagsinput" class="form-control courses" >
+                                    <input type="text" name="courses[]" id="coursesId" data-role="tagsinput" class="form-control courses organiztion-fields" >
                                   </div>
 
                                  <div class="col-sm-2 col-md-2 form-group">
-                                    <label for="sitting_number_person">Employment Form</label>
-                                    <input type="text"  name="employed_from[]" class="form-control employed_from">
+                                    <label for="sitting_number_person">Employment From</label>
+                                    <input type="text"  name="employed_from[]" id="employedForm" class="form-control employed_from organiztion-fields">
                                   </div>
 
                                  <div class="col-sm-2 col-md-2 form-group">
                                     <label for="sitting_number_person">Employment Until</label>
-                                    <input type="text"  name="employed_until[]" class="form-control employed_until">
+                                    <input type="text"  name="employed_until[]" class="form-control employed_until organiztion-fields">
                                   </div>
                      
                               </div>
@@ -567,7 +566,7 @@
                   <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
                      <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> PREVIOUS</button>&nbsp;&nbsp;
                      <a href="{!! route('company.companyHrs.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
-                     <button type="submit" id="createCompanyHrBtn" class="btn btn-primary"  data-wizard-action="next">Create Company Hr <i class="fa fa-arrow-right m-l-1"></i></button>
+                     <button type="button" id="createCompanyHrBtn" class="btn btn-primary"  data-wizard-action="next">Create Company Hr <i class="fa fa-arrow-right m-l-1"></i></button>
                   </div>
                </form>
 
@@ -631,8 +630,19 @@
       <input type="hidden" name="vat_table" id="valueAdded_hidden"  value="" >
       <input type="hidden" name="vacation_days" id="vacationDays_hidden"  value="" >
       <input type="hidden" name="vacation_category" id="vacationWiz3_hidden"  value="" >
-      <input type="hidden" class="father_and_mother" name="father" id="father_hidden" value="">
-      <input type="hidden" class="father_and_mother" name="mother" id="mother_hidden" value="">
+      <input type="hidden" name="father" id="father_hidden" value="">
+      <input type="hidden" name="mother" id="mother_hidden" value="">
+      <!-- ================= wiz-4 =================== -->
+      <input type="hidden" name="languages" id="languages_hidden" value="">
+      <input type="hidden" name="skills" id="skills_hidden" value="">
+      <input type="hidden" name="driving_license" id="driving_license_hidden" value="">
+      <input type="hidden" name="organization_name[]" id="organization_name_hidden" value="">
+      <input type="hidden" name="job_title[]" id="job_title_hidden" value="">
+      <input type="hidden" name="courses[]" id="coursesId_hidden" value="">
+      <input type="hidden" name="hr_courses" id="hrCourseId_hidden" value="">
+      <input type="hidden" name="hr_notes" id="hr_note_hidden" value="">
+      <input type="hidden" name="manager_notes" id="manager_note_hidden" value="">
+      <input type="hidden" name="salary_development_notes" id="sal_dev_note_hidden" value="">
    </form>
 
 
@@ -647,7 +657,7 @@
 
 
    $('#createCompanyHrBtn').on('click', function() {
-
+         alert('ok');
          var fname         =       $('#firstName').val();
          var lname         =       $('#lastName').val();
          var add1          =       $('#Address1').val();
@@ -695,6 +705,19 @@
 
          if($('#mother').is(':checked')) { mother = 1; }
 
+         var languages           =         $('#languages').val();
+         var hrCourseId          =         $('#hrCourseId').val();
+         var skills              =         $('#skills').val();
+         var driving_license     =         $('#driving_license').val();
+         var organization_name   =         $('#organization_name').val();
+         var job_title           =         $('#job_title').val();
+         var coursesId           =         $('#coursesId').val();
+         var hr_note             =         $('#hr_note').val();
+         var manager_note        =         $('#manager_note').val();
+         var sal_dev_note        =         $('#sal_dev_note').val();
+
+
+         alert(driving_license);
 
          
 
@@ -736,15 +759,40 @@
          $('#vacationDays_hidden').val(vacationDays);
          $('#vacationWiz3_hidden').val(vacationWiz3);
          $('#father_hidden').val(father);
-         $('#mother_hidden').val(mother);
 
 
-         // var data = $('#wizard-4').serializeArray();
 
-         // console.log(data);
+         $('#languages_hidden').val(languages);
+         $('#hrCourseId_hidden').val(hrCourseId);
+         $('#skills_hidden').val(skills);
+         $('#driving_license_hidden').val(driving_license);
+         $('#organization_name_hidden').val(organization_name);
+         $('#job_title_hidden').val(job_title);
+         $('#coursesId_hidden').val(coursesId);
+         $('#hr_note_hidden').val(hr_note);
+         $('#manager_note_hidden').val(manager_note);
+         $('#sal_dev_note_hidden').val(sal_dev_note);
 
 
-         $('#hiddenForm').submit();
+         var data = $('.organiztion-fields').serializeArray();
+
+         /*var jsObj = {};
+
+         $.each(data,function(index,field){
+            jsObj[field.name] = field.value;
+         });
+
+*/
+   var org_names = [];
+      $.each(data['organization_name'],function(index,field){
+                  org_names[index] = field.value;
+               });
+
+
+         console.log(org_names);
+
+/*
+         $('#hiddenForm').submit();*/
      });
 
    $(document).on('click', ".addEmployment", function() {
@@ -801,23 +849,23 @@
       employment += '<div class="col-sm-12 col-sm-12 m-t-2">';
       employment += '<div class="col-sm-2 col-md-2 form-group">';
       employment += '<label for="sitting_name">Organization Name</label>';
-      employment += '<input type="text" name="organization_name[]" id="organization_name" class="form-control" >';
+      employment += '<input type="text" name="organization_name[]" id="organization_name" class="form-control organiztion-fields" >';
       employment += '</div>';
       employment += '<div class="col-sm-2 col-md-2 form-group">';
       employment += '<label for="sitting_number_person">Job Title</label>';
-      employment += '<input type="text" name="job_title[]" id="job_title" class="form-control" >';
+      employment += '<input type="text" name="job_title[]" id="job_title" class="form-control organiztion-fields" >';
       employment += '</div> ';
       employment += '<div class="col-sm-4 col-md-4 form-group">';
       employment += '<label for="sitting_number_person">Learning Courses</label>';
-      employment += '<input type="text" name="courses[]" class="form-control courses" >';
+      employment += '<input type="text" name="courses[]" id"coursesId" class="form-control courses organiztion-fields" >';
       employment += '</div>';
       employment += '<div class="col-sm-2 col-md-2 form-group">';
       employment += '<label for="sitting_number_person">Employment Form</label>';
-      employment += '<input type="text"  name="employed_from[]" class="form-control employed_from">';
+      employment += '<input type="text"  name="employed_from[]" class="form-control employed_from organiztion-fields">';
       employment += '</div>';
       employment += '<div class="col-sm-2 col-md-2 form-group">';
       employment += '<label for="sitting_number_person">Employment Until</label>';
-      employment += '<input type="text"  name="employed_until[]" class="form-control employed_until">';
+      employment += '<input type="text"  name="employed_until[]" class="form-control employed_until organiztion-fields">';
       employment += '</div>';
       employment += '</div>';
       employment += '</div>';
@@ -1057,7 +1105,7 @@
             }
         });
 
-/*      $('#wizard-4').validate({
+/*      $('').validate({
 
           rules: {
               "number": {
@@ -1132,14 +1180,14 @@
           }
       });*/
       
-      /*$('#wizard-4').on('submit', function(e) {
+     /* $('#).on('submit', function(e) {
        alert('step-4 submit');
             e.preventDefault();
 
             // test if form is valid 
-            if( $('#wizard-4').validate().form() ) {
+            if( $('#').validate().form() ) {
 
-                  var myform = document.getElementById("wizard-4");
+                  var myform = document.getElementById("");
                   var data = new FormData(myform);
                   
                   $.ajax({
