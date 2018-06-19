@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Auth;
 
 class hrPersonalCatController extends AppBaseController
 {
@@ -57,8 +58,9 @@ class hrPersonalCatController extends AppBaseController
     {
         $input = $request->all();
 
+        $input['company_id'] =   Auth::guard('company')->user()->companyUser()->first()->company_id;  
+        // dd($input['company_id']);
         $hrPersonalCat = $this->hrPersonalCatRepository->create($input);
-
         Flash::success('Hr Personal Cat saved successfully.');
 
         return redirect(route('company.hrPersonalCats.index'));

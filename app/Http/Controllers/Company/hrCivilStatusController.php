@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Auth;
 
 class hrCivilStatusController extends AppBaseController
 {
@@ -57,6 +58,7 @@ class hrCivilStatusController extends AppBaseController
     {
         $input = $request->all();
 
+        $input['company_id'] =   Auth::guard('company')->user()->companyUser()->first()->company_id;  
         $hrCivilStatus = $this->hrCivilStatusRepository->create($input);
 
         Flash::success('Hr Civil Status saved successfully.');

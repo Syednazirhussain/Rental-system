@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Auth;
 
 class hrVacationCategoryController extends AppBaseController
 {
@@ -56,6 +57,7 @@ class hrVacationCategoryController extends AppBaseController
     public function store(CreatehrVacationCategoryRequest $request)
     {
         $input = $request->all();
+        $input['company_id'] =   Auth::guard('company')->user()->companyUser()->first()->company_id;
 
         $hrVacationCategory = $this->hrVacationCategoryRepository->create($input);
 

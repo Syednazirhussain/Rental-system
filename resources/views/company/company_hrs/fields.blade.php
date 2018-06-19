@@ -233,7 +233,7 @@
                   <!-- City Id Field -->
                   <div class="col-sm-6 form-group">
                      <fieldset class="form-group">
-                        <label for="city_id">Employment Form</label>
+                        <label for="city_id">Employment From</label>
                         <select name="employment_form" id="employFormId" class="form-control select2-emplyForm" style="width: 100%" data-allow-clear="true">
                            <option></option>
                            @foreach ($hrEmployForm as $employ)

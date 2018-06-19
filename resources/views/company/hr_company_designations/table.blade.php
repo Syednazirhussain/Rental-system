@@ -9,7 +9,7 @@
     @foreach($hrCompanyDesignations as $hrCompanyDesignation)
         <tr>
             <td>{!! $hrCompanyDesignation->name !!}</td>
-            <td>
+            <td class="pull-right">
                 {!! Form::open(['route' => ['company.hrCompanyDesignations.destroy', $hrCompanyDesignation->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>
                     <a href="{!! route('company.hrCompanyDesignations.show', [$hrCompanyDesignation->id]) !!}" class='btn btn-default btn-xs'><i class="fa fa-eye fa-lg text-info"></i></a>

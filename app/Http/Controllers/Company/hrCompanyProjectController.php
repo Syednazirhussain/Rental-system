@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Auth;
 
 class hrCompanyProjectController extends AppBaseController
 {
@@ -56,6 +57,7 @@ class hrCompanyProjectController extends AppBaseController
     public function store(CreatehrCompanyProjectRequest $request)
     {
         $input = $request->all();
+        $input['company_id'] =   Auth::guard('company')->user()->companyUser()->first()->company_id;
 
         $hrCompanyProject = $this->hrCompanyProjectRepository->create($input);
 
