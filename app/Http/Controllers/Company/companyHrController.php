@@ -22,7 +22,13 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
+use Auth;
 use App\Models\Company\HRCourses;
+use App\Models\Company\companyHr;
+use App\Models\Company\CompanyHrOtherInfo;
+use App\Models\Company\CompanyHrPreEmployment;
+use App\Models\Company\CompanyHrNotes;
+
 
 class companyHrController extends AppBaseController
 {
@@ -161,65 +167,152 @@ class companyHrController extends AppBaseController
 
             $input['insurance_date'] = $insDate;
 
+            $pre_org_courses = explode(',', $input['courses'][0]);
 
-             dd($input);
-            if ($input['father'] == 'on') {
-                    $input['father'] = 1;
-                } else {
-                    $input['father'] = 0;
+            $pre_courses = [];
+            $index = 0;
+            $value = '';
+            foreach ($pre_org_courses as  $course) 
+            {
+                if ($course != '|') 
+                {
+                    $value .= $course.",";
+                }
+                else
+                {
+                    $pre_courses[$index] = substr($value, 0, -1);
+                    $index++;
+                    $value = '';
+                    continue;
+                }
+            }
+
+            $input['pre_employment_courses'] = $pre_courses;
+
+            $input['pre_employment_org_names'] = explode(',', $input['organization_name'][0]);
+            $input['pre_employment_job_titles'] = explode(',', $input['job_title'][0]);
+            $input['pre_employment_from_dates'] = explode(',', $input['employed_from'][0]);
+            $input['pre_employment_until_dates'] = explode(',', $input['employed_until'][0]);
+
+
+
+            $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+            $user_id = Auth::guard('company')->user()->id;
+
+            if (isset($input['father']) && $input['father'] == '1') { $input['father'] = 1; }else{ $input['father'] = 0; }
+            if (isset($input['mother']) && $input['mother'] == '1') { $input['mother'] = 1; }else{ $input['mother'] = 0; }
+           
+
+
+            // dd($input);
+
+            $companyHr = new companyHr;
+            $companyHr->company_id    = $company_id;
+            $companyHr->first_name    = $input['first_name'];
+            $companyHr->last_name    = $input['last_name'];
+            $companyHr->address_1    = $input['address_1'];
+            $companyHr->address_2    = $input['address_2'];
+            $companyHr->post_code    = $input['post_code'];
+            $companyHr->city_id    = $input['city_id'];
+            $companyHr->state_id    = $input['state_id'];
+            $companyHr->country_id    = $input['country_id'];
+            $companyHr->telephone_job    = $input['telephone_job'];
+            $companyHr->telephone_private    = $input['telephone_private'];
+            $companyHr->email_job    = $input['email_job'];
+            $companyHr->email_private    = $input['email_private'];
+            $companyHr->civil_status_id    = $input['civil_status_id'];
+            $companyHr->employment_date    = $input['employment_date'];
+            $companyHr->termination_time    = $input['termination_time'];
+            $companyHr->employeed_untill    = $input['employeed_untill'];
+            $companyHr->personal_category    = $input['personal_category'];
+            $companyHr->collective_type    = $input['collective_type'];
+            $companyHr->employment_form    = $input['employment_form'];
+            $companyHr->insurance_date    = $input['insurance_date'];
+            $companyHr->insurance_fees    = $input['insurance_fees'];
+            $companyHr->department    = $input['department'];
+            $companyHr->designation    = $input['designation'];
+            $companyHr->vacancies    = $input['vacancies'];
+            $companyHr->salary_type    = $input['salary_type'];
+            $companyHr->salary    = $input['salary'];
+            $companyHr->employment_percent    = $input['employment_percent'];
+            $companyHr->cost_division    = $input['cost_division'];
+            $companyHr->courses    = $input['hrCourseId'];
+            $companyHr->project    = $input['project'];
+            $companyHr->vat_table    = $input['vat_table'];
+            $companyHr->vacation_days    = $input['vacation_days'];
+            $companyHr->father    = $input['father'];
+            $companyHr->mother    = $input['mother'];
+            $companyHr->vacation_category    = $input['vacation_category'];
+            $companyHr->save();
+
+
+
+
+            if($companyHr)
+            {
+                $companyHr_id  =  $companyHr->id;
+
+
+                $companyHrOtherInfo = new CompanyHrOtherInfo;
+                $companyHrOtherInfo->company_hr_id = $companyHr_id;
+                $companyHrOtherInfo->languages = $input['languages'];
+                $companyHrOtherInfo->driving_license = $input['driving_license'];
+                $companyHrOtherInfo->skills = $input['skills'];
+                $companyHrOtherInfo->save();
+
+
+                for ($i=0; $i < count($input['pre_employment_courses']); $i++) 
+                { 
+                    $companyHrPreEmployment = new CompanyHrPreEmployment;
+                    $companyHrPreEmployment->company_hr_id = $companyHr_id;
+                    $companyHrPreEmployment->organization_name = $input['pre_employment_org_names'][$i];
+                    $companyHrPreEmployment->job_title = $input['pre_employment_job_titles'][$i];
+                    $companyHrPreEmployment->courses = $input['pre_employment_courses'][$i];
+                    $companyHrPreEmployment->employed_from = $input['pre_employment_from_dates'][$i];
+                    $companyHrPreEmployment->employed_until = $input['pre_employment_until_dates'][$i];
+                    $companyHrPreEmployment->save();
                 }
 
-            if ($input['mother'] == 'on') {
-                    $input['mother'] = 1;
+                if (isset($input['hr_notes'])) 
+                {
+                    $companyHrNotes = new CompanyHrNotes;
+                    $companyHrNotes->company_hr_id = $companyHr_id;
+                    $companyHrNotes->user_id = $user_id;
+                    $companyHrNotes->code = 'hr_notes'; 
+                    $companyHrNotes->note = $input['hr_notes'];
+                    $companyHrNotes->save();                
                 }
-                else {
-                    $input['mother'] = 0;
+
+                if (isset($input['manager_notes'])) 
+                {
+                    $companyHrNotes = new CompanyHrNotes;
+                    $companyHrNotes->company_hr_id = $companyHr_id;
+                    $companyHrNotes->user_id = $user_id;
+                    $companyHrNotes->code = 'manager_notes'; 
+                    $companyHrNotes->note = $input['manager_notes'];
+                    $companyHrNotes->save();                
                 }
-                     
-         
-        $companyHr = $this->companyHrRepository->create($input);
 
+                if (isset($input['salary_development_notes'])) 
+                {
+                    $companyHrNotes = new CompanyHrNotes;
+                    $companyHrNotes->company_hr_id = $companyHr_id;
+                    $companyHrNotes->user_id = $user_id;
+                    $companyHrNotes->code =  'salary_development_notes';
+                    $companyHrNotes->note = $input['salary_development_notes'];
+                    $companyHrNotes->save();                    
+                }
 
-               /* // Function for Array Merging
-               function array_merge_on_key($key, $array1, $array2, $array3, $array4) {
-                  $arrays = array_slice(func_get_args(), 1);
-                  $r = array();
-                  foreach($arrays as &$a) {
-                     if(array_key_exists($key, $a)) {
-                        $r[] = $a[$key];
-                        continue;
-                     }
-                  }
-                  return $r;
-               }
+                session()->flash('msg.success','Hr Company Designation saved successfully.');
 
-                foreach ($input['medicineName'] as $key => $value) {
+            }
+            else
+            {
+                session()->flash('msg.success','Hr Company Designation are not saved');
+            }
 
-                    $result = array_merge_on_key($key, $input['medicineName'], $input['medicinePrescription'], $input['medicineUsage'], $input['med_recieved']);
+        return redirect(route('company.companyHrs.index'));        
 
-                    $index = implode(",", $result);
-                    $medicineInfo = explode(",", $index);
-
-                    
-                    if ($medicineInfo[0] || $medicineInfo[1] || $medicineInfo[2]) {
-                     $medicineCreate = [
-                                'order_id'          =>  $order->id,
-                                'medicine_name'     =>  $medicineInfo[0],
-                                'medicine_px'       =>  $medicineInfo[1],
-                                'medicine_usage'    =>  $medicineInfo[2],
-                                'med_recieved'      =>  $medicineInfo[3]
-                              
-                            ];
-
-                    $medicine = $this->medicineRepository->create($medicineCreate);
-                    }                    
-                }*/
-
-        // return response()->json($companyHr);
-        
-        Flash::success('Hr Company Designation saved successfully.');
-
-        return redirect(route('company.companyHrs.index'));
     }
 
     /**

@@ -4,7 +4,7 @@
          <div class="wizard panel-wizard" id="wizard-validation">
             <div class="wizard-wrapper">
                <ul class="wizard-steps">
-                  <li data-target="#wizard-1" class="">
+                  <li data-target="#wizard-1" class="active">
                      <span class="wizard-step-number">1</span>
                      <span class="wizard-step-complete"><i class="fa fa-check"></i></span>
                      <span class="wizard-step-caption">
@@ -25,7 +25,7 @@
                      Salary and vacation
                      </span>
                   </li>
-                  <li data-target="#wizard-4"  class="active">
+                  <li data-target="#wizard-4">
                      <span class="wizard-step-number">4</span>
                      <span class="wizard-step-complete"><i class="fa fa-check"></i></span>
                      <span class="wizard-step-caption">
@@ -452,7 +452,7 @@
                </form>
 
                <!-- ============================wizard-4==================================== -->
-               <form class="wizard-pane active" id="wizard-4">
+               <form class="wizard-pane" id="wizard-4">
                   @if (isset($companyHr))
                   <input name="_method" type="hidden" value="PATCH">
                   @endif
@@ -507,27 +507,27 @@
 
                                   <div class="col-sm-2 col-md-2 form-group">
                                     <label for="sitting_name">Organization Name</label>
-                                    <input type="text" name="organization_name[]" id="organization_name" class="form-control organiztion-fields" >
+                                    <input type="text" name="organization_name[]" class="form-control organization_name" >
                                   </div>
 
                                   <div class="col-sm-2 col-md-2 form-group">
                                     <label for="sitting_number_person">Job Title</label>
-                                    <input type="text" name="job_title[]" id="job_title" class="form-control organiztion-fields" >
+                                    <input type="text" name="job_title[]" class="form-control job_title" >
                                   </div> 
 
                                  <div class="col-sm-4 col-md-4 form-group">
                                     <label for="sitting_number_person">Learning Courses</label>
-                                    <input type="text" name="courses[]" id="coursesId" data-role="tagsinput" class="form-control courses organiztion-fields" >
+                                    <input type="text" name="courses[]" data-role="tagsinput" class="form-control courses" >
                                   </div>
 
                                  <div class="col-sm-2 col-md-2 form-group">
                                     <label for="sitting_number_person">Employment From</label>
-                                    <input type="text"  name="employed_from[]" id="employedForm" class="form-control employed_from organiztion-fields">
+                                    <input type="text"  name="employed_from[]" class="form-control employed_from">
                                   </div>
 
                                  <div class="col-sm-2 col-md-2 form-group">
                                     <label for="sitting_number_person">Employment Until</label>
-                                    <input type="text"  name="employed_until[]" class="form-control employed_until organiztion-fields">
+                                    <input type="text"  name="employed_until[]" class="form-control employed_until">
                                   </div>
                      
                               </div>
@@ -540,26 +540,24 @@
                     </div>
 
 
+                     <div class="col-sm-12 col-md-12 form-group">
+                        <label for="">Attach Files</label>
+                        <input type="file" name="files" class="form-control uploadFiles">
+                     </div>
+                     <div class="col-sm-12 col-md-12 form-group">
+                       <label>HR Notes</label>
+                       <textarea name="hr_note" id="hr_note"></textarea>
+                     </div>
+                 
 
-                     
-                        <div class="col-sm-12 col-md-12 form-group">
-                           <label for="">Attach Files</label>
-                           <input type="file" name="files" class="form-control uploadFiles">
-                        </div>
-                        <div class="col-sm-12 col-md-12 form-group">
-                          <label>HR Notes</label>
-                          <textarea name="hr_note" id="hr_note"></textarea>
-                        </div>
-                    
-
-                        <div class="col-sm-12 col-md-12 form-group">
-                           <label for="">Manager Notes</label>
-                           <textarea name="manager_note" id="manager_note"></textarea>
-                        </div>
-                        <div class="col-sm-12 col-md-12 form-group">
-                          <label>Salary Development Notes</label>
-                          <textarea name="sal_dev_note" id="sal_dev_note"></textarea>
-                        </div>
+                     <div class="col-sm-12 col-md-12 form-group">
+                        <label for="">Manager Notes</label>
+                        <textarea name="manager_note" id="manager_note"></textarea>
+                     </div>
+                     <div class="col-sm-12 col-md-12 form-group">
+                       <label>Salary Development Notes</label>
+                       <textarea name="sal_dev_note" id="sal_dev_note"></textarea>
+                     </div>
                      
                   </div>
 
@@ -635,14 +633,20 @@
       <!-- ================= wiz-4 =================== -->
       <input type="hidden" name="languages" id="languages_hidden" value="">
       <input type="hidden" name="skills" id="skills_hidden" value="">
+      <input type="hidden" name="hrCourseId" id="hrCourseId_hidden" value="">
       <input type="hidden" name="driving_license" id="driving_license_hidden" value="">
+
       <input type="hidden" name="organization_name[]" id="organization_name_hidden" value="">
       <input type="hidden" name="job_title[]" id="job_title_hidden" value="">
-      <input type="hidden" name="courses[]" id="coursesId_hidden" value="">
-      <input type="hidden" name="hr_courses" id="hrCourseId_hidden" value="">
+      <input type="hidden" name="courses[]" id="courses_hidden" value="">
+      <input type="hidden" name="employed_from[]" id="employed_from_hidden" value="">
+      <input type="hidden" name="employed_until[]" id="employed_until_hidden" value="">
+
       <input type="hidden" name="hr_notes" id="hr_note_hidden" value="">
       <input type="hidden" name="manager_notes" id="manager_note_hidden" value="">
       <input type="hidden" name="salary_development_notes" id="sal_dev_note_hidden" value="">
+
+
    </form>
 
 
@@ -657,7 +661,7 @@
 
 
    $('#createCompanyHrBtn').on('click', function() {
-         alert('ok');
+       
          var fname         =       $('#firstName').val();
          var lname         =       $('#lastName').val();
          var add1          =       $('#Address1').val();
@@ -705,20 +709,6 @@
 
          if($('#mother').is(':checked')) { mother = 1; }
 
-         var languages           =         $('#languages').val();
-         var hrCourseId          =         $('#hrCourseId').val();
-         var skills              =         $('#skills').val();
-         var driving_license     =         $('#driving_license').val();
-         var organization_name   =         $('#organization_name').val();
-         var job_title           =         $('#job_title').val();
-         var coursesId           =         $('#coursesId').val();
-         var hr_note             =         $('#hr_note').val();
-         var manager_note        =         $('#manager_note').val();
-         var sal_dev_note        =         $('#sal_dev_note').val();
-
-
-         alert(driving_license);
-
          
 
          //Set
@@ -761,54 +751,111 @@
          $('#father_hidden').val(father);
 
 
+         var driving_license = 0;
+         if($('#driving_license').is(':checked')) { driving_license = 1; }
+
+         var languages           =         $('#languages').val();
+         var hrCourseId          =         $('#hrCourseId').val();
+         var skills              =         $('#skills').val();
+
+         var org_names = $('.organization_name').serializeArray();
+         var job_title = $('.job_title').serializeArray();
+         var course = $('.courses').serializeArray();
+         var employed_from = $('.employed_from').serializeArray();
+         var employed_until = $('.employed_until').serializeArray();
+
+
+
+         console.log(org_names);
+
+         var organization_name = [];
+         var job_titles = [];
+         var courses = [];
+         var employed_froms = [];
+         var employed_untils = [];
+
+         $.each(org_names,function(index,field){
+            organization_name[index]   = field.value;
+         });
+
+         $.each(job_title,function(index,field){
+            job_titles[index]   = field.value;
+         });
+
+         $.each(course,function(index,field){
+            courses[index]   = field.value+",|";
+         });
+
+         $.each(employed_from,function(index,field){
+            employed_froms[index]   = field.value;
+         });
+
+         $.each(employed_until,function(index,field){
+            employed_untils[index]   = field.value;
+         });
+
+
+         var hr_note             =         $('#hr_note').val();
+         var manager_note        =         $('#manager_note').val();
+         var sal_dev_note        =         $('#sal_dev_note').val();
 
          $('#languages_hidden').val(languages);
          $('#hrCourseId_hidden').val(hrCourseId);
          $('#skills_hidden').val(skills);
          $('#driving_license_hidden').val(driving_license);
+
+
          $('#organization_name_hidden').val(organization_name);
-         $('#job_title_hidden').val(job_title);
-         $('#coursesId_hidden').val(coursesId);
+         $('#job_title_hidden').val(job_titles);
+         $('#courses_hidden').val(courses);
+         $('#employed_from_hidden').val(employed_froms);
+         $('#employed_until_hidden').val(employed_untils);
+
          $('#hr_note_hidden').val(hr_note);
          $('#manager_note_hidden').val(manager_note);
          $('#sal_dev_note_hidden').val(sal_dev_note);
 
+         // console.log(languages);
+         // console.log(hrCourseId);
+         // console.log(skills);
 
-         var data = $('.organiztion-fields').serializeArray();
+         // console.log(organization_name);
+         // console.log(job_titles);
+         // console.log(courses);
+         // console.log(employed_froms);
+         // console.log(employed_untils);
+
+         // console.log(hr_note);
+         // console.log(manager_note);
+         // console.log(sal_dev_note);
 
          /*var jsObj = {};
-
          $.each(data,function(index,field){
             jsObj[field.name] = field.value;
          });
+         */
 
-*/
-   var org_names = [];
-      $.each(data['organization_name'],function(index,field){
-                  org_names[index] = field.value;
-               });
-
-
-         console.log(org_names);
-
-/*
-         $('#hiddenForm').submit();*/
+         $('#hiddenForm').submit();
      });
 
    $(document).on('click', ".addEmployment", function() {
       
       $('.employed_from').daterangepicker({
-       singleDatePicker: true,
-       showDropdowns: true,
-       startDate: "01/01/2018",
-     });
+        singleDatePicker: true,
+        showDropdowns: true,
+        locale: {
+            format: 'Y-MM-DD'
+        }
+      });
 
       $('.employed_until').daterangepicker({
-       singleDatePicker: true,
-       showDropdowns: true,
-       startDate: "12/31/2018",
-     });
-
+         singleDatePicker: true,
+         showDropdowns: true,
+         startDate : moment().add('years',1),
+         locale: {
+               format: 'Y-MM-DD'
+         }
+      });
 
       $('.courses').tagsinput({
             maxTags: 6
@@ -833,15 +880,20 @@
 
 
    $('.employed_from').daterangepicker({
-      singleDatePicker: true,
-      showDropdowns: true,
-      startDate: "01/01/2018",
+     singleDatePicker: true,
+     showDropdowns: true,
+     locale: {
+         format: 'Y-MM-DD'
+     }
    });
 
    $('.employed_until').daterangepicker({
       singleDatePicker: true,
       showDropdowns: true,
-      startDate: "12/31/2018",
+      startDate : moment().add('years',1),
+      locale: {
+            format: 'Y-MM-DD'
+      }
    });
 
    $('.addEmployment').click(function(){
@@ -849,23 +901,23 @@
       employment += '<div class="col-sm-12 col-sm-12 m-t-2">';
       employment += '<div class="col-sm-2 col-md-2 form-group">';
       employment += '<label for="sitting_name">Organization Name</label>';
-      employment += '<input type="text" name="organization_name[]" id="organization_name" class="form-control organiztion-fields" >';
+      employment += '<input type="text" name="organization_name[]" class="form-control organization_name">';
       employment += '</div>';
       employment += '<div class="col-sm-2 col-md-2 form-group">';
       employment += '<label for="sitting_number_person">Job Title</label>';
-      employment += '<input type="text" name="job_title[]" id="job_title" class="form-control organiztion-fields" >';
+      employment += '<input type="text" name="job_title[]" class="form-control job_title">';
       employment += '</div> ';
       employment += '<div class="col-sm-4 col-md-4 form-group">';
       employment += '<label for="sitting_number_person">Learning Courses</label>';
-      employment += '<input type="text" name="courses[]" id"coursesId" class="form-control courses organiztion-fields" >';
+      employment += '<input type="text" name="courses[]" class="form-control courses">';
       employment += '</div>';
       employment += '<div class="col-sm-2 col-md-2 form-group">';
       employment += '<label for="sitting_number_person">Employment Form</label>';
-      employment += '<input type="text"  name="employed_from[]" class="form-control employed_from organiztion-fields">';
+      employment += '<input type="text"  name="employed_from[]" class="form-control employed_from">';
       employment += '</div>';
       employment += '<div class="col-sm-2 col-md-2 form-group">';
       employment += '<label for="sitting_number_person">Employment Until</label>';
-      employment += '<input type="text"  name="employed_until[]" class="form-control employed_until organiztion-fields">';
+      employment += '<input type="text"  name="employed_until[]" class="form-control employed_until">';
       employment += '</div>';
       employment += '</div>';
       employment += '</div>';
