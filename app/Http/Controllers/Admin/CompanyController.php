@@ -153,6 +153,8 @@ class CompanyController extends AppBaseController
     public function profile($id)
     {
         $company = $this->companyRepository->findWithoutFail($id);
+
+        // dd($company->companyInvoices);
         return view('admin.companies.profile',compact('company'));
     }
 
@@ -183,6 +185,7 @@ class CompanyController extends AppBaseController
                 'paymentCycles' => $paymentCycles,
                 'paymentMethods' => $paymentMethods,
             ];
+
 
         return view('admin.companies.create', $data);
     }
@@ -343,6 +346,8 @@ class CompanyController extends AppBaseController
 
             return redirect(route('admin.companies.index'));
         }
+
+        // dd($company);
 
         return view('admin.companies.edit', $data);
     }

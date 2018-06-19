@@ -94,22 +94,6 @@
                      </li>
                      <li class="divider"></li>
                      <li class="dropdown-toggle">
-                        <a href="">Company HR</a>
-                        <ul class="dropdown-menu">
-                           <li><a href="{{ route('company.companyHrs.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR</a></li>
-                           <li><a href="{{ route('company.hrCivilStatuses.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Civil Status</a></li>
-                           <li><a href="{{ route('company.hrPersonalCats.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Personal Category</a></li>
-                           <li><a href="{{ route('company.hrCompanyCollectives.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Collectives</a></li>
-                           <li><a href="{{ route('company.hrCompanyDesignations.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Designations</a></li>
-                           <li><a href="{{ route('company.hrEmploymentForms.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Employment From</a></li>
-                           <li><a href="{{ route('company.hrSalaryTypes.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Salary Types</a></li>
-                           <li><a href="{{ route('company.hrCompanyProjects.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Projects</a></li>
-                           <li><a href="{{ route('company.hrVacationCategories.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Vacations</a></li>
-                           <li><a href="{{ route('company.hRCourses.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Courses</a></li>
-                        </ul>
-                     </li>
-                     <li class="divider"></li>
-                     <li class="dropdown-toggle">
                         <a href="{{ route('company.companyBuildings.index') }}">Buildings</a>
                         <ul class="dropdown-menu">
                            <li><a href="{{ route('company.companyBuildings.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Buildings</a></li>
@@ -153,6 +137,31 @@
                            <li><a href="{{ route('company.companyInvoices.index') }}"><i class="fa fa-file-text"></i>&nbsp;&nbsp;Invoices</a></li>
                         </ul>
                      </li>
+
+                     @elseif($module->module->code == 'hr_module')
+                     <li class="divider"></li>
+                     <li class="dropdown-toggle">
+                        <a href="">Company HR</a>
+                        <ul class="dropdown-menu">
+                           <li><a href="{{ route('company.companyHrs.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR</a></li>
+                           <li><a href="{{ route('company.hrCivilStatuses.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Civil Status</a></li>
+                           <li><a href="{{ route('company.hrPersonalCats.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Personal Category</a></li>
+                           <li><a href="{{ route('company.hrCompanyCollectives.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Collectives</a></li>
+                           <li><a href="{{ route('company.hrCompanyDesignations.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Designations</a></li>
+                           <li><a href="{{ route('company.hrEmploymentForms.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Employment From</a></li>
+                           <li><a href="{{ route('company.hrSalaryTypes.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Salary Types</a></li>
+                           <li><a href="{{ route('company.hrCompanyProjects.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Projects</a></li>
+                           <li><a href="{{ route('company.hrVacationCategories.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Vacations</a></li>
+                           <li><a href="{{ route('company.hRCourses.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Courses</a></li>
+                        </ul>
+                     </li>
+
+                     @elseif($module->module->code == 'lease_module')
+
+                     <li class="divider"></li>
+                     <li><a href="{{ route('company.leasePartners.index') }}">Leasings</a></li>
+
+
                      @elseif($module->module->code == 'conference_module')
                      <li class="divider"></li>
                      <li class="dropdown-toggle">
@@ -205,8 +214,7 @@
                      <li><a href="{{ route('company.companyInvoices.index') }}">Invoices</a> </li>
                      <li class="divider"></li>
                      <li><a href="{{ route('company.currencies.index') }}">Currency</a></li>
-                     <li class="divider"></li>
-                     <li><a href="{{ route('company.leasePartners.index') }}">Leasings</a></li>
+
                      
                   </ul>
                </li>
