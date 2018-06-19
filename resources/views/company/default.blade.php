@@ -98,7 +98,7 @@
                         <ul class="dropdown-menu">
                            <li><a href="{{ route('company.companyHrs.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR</a></li>
                            <li><a href="{{ route('company.hrCivilStatuses.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Civil Status</a></li>
-                           <li><a href="{{ route('company.hrPersonalCats.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Personal Cats</a></li>
+                           <li><a href="{{ route('company.hrPersonalCats.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Personal Category</a></li>
                            <li><a href="{{ route('company.hrCompanyCollectives.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Collectives</a></li>
                            <li><a href="{{ route('company.hrCompanyDesignations.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Designations</a></li>
                            <li><a href="{{ route('company.hrEmploymentForms.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Employment From</a></li>

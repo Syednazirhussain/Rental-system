@@ -3,7 +3,7 @@
 @section('content')
     <div class="px-content">
         <h1>
-            Hr Personal Cat
+            Hr Personal Category
         </h1>
    </section>
    <div class="content">

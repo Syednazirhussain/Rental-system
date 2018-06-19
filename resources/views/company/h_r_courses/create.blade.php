@@ -4,7 +4,7 @@
 
      <div class="px-content">
         <div class="page-header">
-            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>HR Courses / </span>Add HR Course</h1>
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i><a href="{{ route('company.hRCourses.index')}}">HR Courses</a> / </span>Add HR Course</h1>
         </div>
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
