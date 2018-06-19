@@ -162,7 +162,7 @@
                 } else {
                     var getOptionId = $(e.target).closest('.option_field').find('.remove-option-id').val();
                     var data = { _method: "delete", option_id: getOptionId };
-                    alert(getOptionId);
+
                     $.ajax({
                         url: '{{ route("company.question_option.destroy") }}',
                         data: data,

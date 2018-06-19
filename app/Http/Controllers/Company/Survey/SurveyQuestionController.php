@@ -164,6 +164,7 @@ class SurveyQuestionController extends AppBaseController
         if(isset($input['option'])) {
             $options = $input['option'];
         }
+
         $question = SurveyQuestion::find($id);
         $input = $request->except('_method', '_token', 'option');
         $input['company_id'] = $company_id;
@@ -171,7 +172,8 @@ class SurveyQuestionController extends AppBaseController
         if($question) {
             SurveyQuestion::where('id', $id)->update($input);
         }
-        if(isset($input['option'])) {
+
+        if(isset($options)) {
             $option_data = [];
 
             foreach($options as $option) {
