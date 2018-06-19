@@ -16,7 +16,7 @@
 	<div class="col-md-6">
             <div class="form-group m-t-2">
                 <label for="customer">Address</label>
-                <input class="form-control" id="customer_address" name="customer_address" value="@if(isset($companyCustomerInfo)){{$companyCustomerInfo->address}}@endif">
+                <input class="form-control" id="customer_address" name="customer_address" value="@if(isset($companyCustomerInfo)){{$companyCustomerInfo->address}}@endif" placeholder="Hagagatan 1, vi SE-113 49 Stockholm">
                 <div class="errorTxt"></div>
             </div>
 	</div>
@@ -77,7 +77,7 @@
 	<div class="col-md-6">
             <div class="form-group m-t-2">
                 <label for="customer">Postal Code</label>
-                <input class="form-control" id="customer_post_code" name="customer_post_code" value="@if(isset($companyCustomerInfo)){{$companyCustomerInfo->postal_code}}@endif">
+                <input class="form-control" id="customer_post_code" name="customer_post_code" value="@if(isset($companyCustomerInfo)){{$companyCustomerInfo->postal_code}}@endif" placeholder="ABC123">
                 <div class="errorTxt"></div>
             </div>
 	</div>
@@ -85,7 +85,7 @@
 	<div class="col-md-6">
             <div class="form-group m-t-2">
                 <label for="customer">Telephone</label>
-                <input class="form-control" id="customer_telephone" name="customer_telephone" value="@if(isset($companyCustomerInfo)){{$companyCustomerInfo->telephone}}@endif">
+                <input class="form-control" id="customer_telephone" name="customer_telephone" value="@if(isset($companyCustomerInfo)){{$companyCustomerInfo->telephone}}@endif" placeholder="111222333">
                 <div class="errorTxt"></div>
             </div>
 	</div>
@@ -93,7 +93,7 @@
 	<div class="col-md-6">
             <div class="form-group m-t-2">
                 <label for="customer">Mobile</label>
-                <input class="form-control" id="customer_mobile" name="customer_mobile" value="@if(isset($companyCustomerInfo)){{$companyCustomerInfo->mobile}}@endif">
+                <input class="form-control" id="customer_mobile" name="customer_mobile" value="@if(isset($companyCustomerInfo)){{$companyCustomerInfo->mobile}}@endif" placeholder="111222333">
                 <div class="errorTxt"></div>
             </div>
 	</div>
@@ -101,7 +101,7 @@
 	<div class="col-md-6">
             <div class="form-group m-t-2">
                 <label for="customer">Fax</label>
-                <input class="form-control" id="customer_fax" name="customer_fax" value="@if(isset($companyCustomerInfo)){{$companyCustomerInfo->fax}}@endif">
+                <input class="form-control" id="customer_fax" name="customer_fax" value="@if(isset($companyCustomerInfo)){{$companyCustomerInfo->fax}}@endif" placeholder="111222333">
                 <div class="errorTxt"></div>
             </div>
 	</div>
@@ -109,7 +109,7 @@
 	<div class="col-md-6">
             <div class="form-group m-t-2">
                 <label for="customer">Organization No.</label>
-                <input class="form-control" id="customer_org_num" name="customer_org_num" value="@if(isset($companyCustomerInfo)){{$companyCustomerInfo->organization_num}}@endif">
+                <input class="form-control" id="customer_org_num" name="customer_org_num" value="@if(isset($companyCustomerInfo)){{$companyCustomerInfo->organization_num}}@endif" placeholder="111222333">
                 <div class="errorTxt"></div>
             </div>
 	</div>

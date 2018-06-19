@@ -39,4 +39,10 @@ class BookingAgencyRepository extends BaseRepository
     {
         return BookingAgency::class;
     }
+
+    public function getCompanyBookingAgencies($company_id)
+    {
+        return BookingAgency::where('company_id', $company_id)->get();
+    }
+
 }

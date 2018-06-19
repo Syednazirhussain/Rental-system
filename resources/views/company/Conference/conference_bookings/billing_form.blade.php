@@ -14,8 +14,13 @@
 
 	<div class="col-md-6">
             <div class="form-group m-t-2">
-                <label for="customer">Reference</label>
-                <input class="form-control" id="reference" name="reference" value="@if(isset($companyCustomerInfo)){{$companyCustomerInfo->reference}}@endif">
+                <label for="reference">Reference</label>
+                <select class="form-control select2-reference" id="reference" name="reference">
+                    <option></option>
+                    @foreach($bookingAgencies as $agency)
+                        <option <?php if(isset($companyCustomerInfo) && $companyCustomerInfo->reference == $agency->id ) { echo "selected"; } ?> value="{{$agency->id}}">{{ucfirst($agency->name)}}</option>
+                    @endforeach
+                </select>
                 <div class="errorTxt"></div>
             </div>
 	</div>
