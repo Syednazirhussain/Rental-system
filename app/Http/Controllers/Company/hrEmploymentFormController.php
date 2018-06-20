@@ -11,6 +11,7 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use Auth;
+use App\Models\Company\hrEmploymentForm;
 
 class hrEmploymentFormController extends AppBaseController
 {
@@ -31,7 +32,10 @@ class hrEmploymentFormController extends AppBaseController
     public function index(Request $request)
     {
         $this->hrEmploymentFormRepository->pushCriteria(new RequestCriteria($request));
-        $hrEmploymentForms = $this->hrEmploymentFormRepository->all();
+        $companyId         =   Auth::guard('company')->user()->companyUser()->first()->company_id;
+        
+        $hrEmploymentForms    = hrEmploymentForm::where('company_id',$companyId)->get();
+
 
         return view('company.hr_employment_forms.index')
             ->with('hrEmploymentForms', $hrEmploymentForms);

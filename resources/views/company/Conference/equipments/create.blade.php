@@ -4,7 +4,7 @@
 
      <div class="px-content">
         <div class="page-header">
-            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Equipments / </span>Add Equipment</h1>
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Buildings / Rooms / Room Equipments / Equipments / </span>Add Equipment</h1>
         </div>
         <div class="row">
             <div class="col-md-6 col-md-offset-3">

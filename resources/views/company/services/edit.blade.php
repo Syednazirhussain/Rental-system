@@ -6,7 +6,7 @@
             <h1>
                 <span class="text-muted font-weight-light">
                     <i class="page-header-icon ion-android-checkbox-outline"></i>
-                    Settings /
+                    Service /
                 </span>
                 Edit Service
             </h1>

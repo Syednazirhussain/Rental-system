@@ -286,8 +286,28 @@
 
             messages: {
                 "number": {
-
+                    required: "Please enter the number",
                     remote: "A contract with same number already exists",
+                },
+                "start_date": {
+
+                    required: "Please enter the start date",
+                },
+                "end_date": {
+
+                    required: "Please enter the end date",
+                },
+                "payment_method": {
+
+                    required: "Please enter the payment method",
+                },
+                "payment_cycle": {
+
+                    required: "Please enter the payment cycle",
+                },
+                "discount": {
+
+                    required: "Please enter the discount",
                 }
             },
             // errorElement : 'div',
@@ -423,6 +443,53 @@
                     max: 3,
                 },
 
+            },
+
+            messages: {
+                "name": {
+
+                    required: "Please enter the name",
+                },
+                "second_name": {
+
+                    required: "Please enter the second name",
+                },
+                "description": {
+
+                    required: "Please enter the description",
+                },
+                "country_id": {
+
+                    required: "Please select the country",
+                },
+                "state_id": {
+
+                    required: "Please select the state",
+                },
+                "city_id": {
+
+                    required: "Please  select the city",
+                },
+                "address": {
+
+                    required: "Please enter the discount",
+                },
+                "zipcode": {
+
+                    required: "Please enter the address",
+                },
+                "phone": {
+
+                    required: "Please enter the phone",
+                },
+                "user_status_id": {
+
+                    required: "Please select the user status",
+                },
+                "max_users": {
+
+                    required: "Please enter the maximum users limit",
+                }
             },
             errorPlacement: function (error, element) {
                 var placement = $(element).parent().find('.errorTxt');

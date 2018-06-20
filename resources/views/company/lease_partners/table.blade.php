@@ -1,4 +1,4 @@
-<table class="table table-responsive" id="leasePartners-table">
+<table class="table table-primary" id="leasePartner">
     <thead>
         <tr>
             <th>Parent Company</th>
@@ -11,9 +11,9 @@
     <tbody>
     @foreach($leasePartners as $leasePartner)
         <tr>
-            <td>{!! $leasePartner->parent_company !!}</td>
-            <td>{!! $leasePartner->sister_company !!}</td>
-            <td>{!! $leasePartner->sales_person !!}</td>
+            <td>{!! ucfirst($leasePartner->parent_company) !!}</td>
+            <td>{!! ucfirst($leasePartner->sister_company) !!}</td>
+            <td>{!! ucfirst($leasePartner->sales_person) !!}</td>
             <td>
                 @if($leasePartner->delegated == 1)
                     <span class="label label-success">Yes</span>

@@ -4,7 +4,7 @@
 
      <div class="px-content">
         <div class="page-header">
-            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Currencies / </span>Add Currency</h1>
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon fa fa-plus"></i>Currencies / </span>Add Currency</h1>
         </div>
         <div class="row">
             <div class="col-md-6 col-md-offset-3">

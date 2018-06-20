@@ -49,12 +49,21 @@
             rules: {
                 'name': {
                     required: true,
+                    maxlength: 50
                 },
+                'price': {
+                    required: true,
+                    maxlength: 50,
+                    number: true
+                }
             },
 
             messages: {
                 'name': {
                     required: "Please enter the service name !",
+                },
+                'price': {
+                    required: "Please enter the price !",
                 }
             }
         });

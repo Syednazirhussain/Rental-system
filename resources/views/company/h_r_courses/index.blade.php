@@ -3,7 +3,7 @@
 @section('content')
     <div class="px-content">
         <div class="page-header">
-            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i><a href="{{ route('company.hRCourses.index')}}">HR Courses</a>  / </span></h1>
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i><a href="{{ route('company.hRCourses.index')}}">Company HR / </a></span>HR Courses</h1>
         </div>
 
         <div class="panel">
@@ -20,7 +20,7 @@
 
                 <div class="text-right m-b-3">
 
-                    <a href="{{ route('company.hRCourses.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add HR Course</a>
+                    <a href="{{ route('company.hRCourses.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Create</a>
 
                 </div>
 

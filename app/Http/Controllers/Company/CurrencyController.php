@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Auth;
+use App\Models\Company\Currency;
 
 class CurrencyController extends AppBaseController
 {
@@ -30,7 +32,11 @@ class CurrencyController extends AppBaseController
     public function index(Request $request)
     {
         $this->currencyRepository->pushCriteria(new RequestCriteria($request));
-        $currencies = $this->currencyRepository->all();
+
+        $companyId         =   Auth::guard('company')->user()->companyUser()->first()->company_id;
+
+
+        $currencies    = Currency::where('company_id',$companyId)->get();
 
         return view('company.currencies.index')
             ->with('currencies', $currencies);

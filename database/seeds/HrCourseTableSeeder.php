@@ -14,7 +14,7 @@ class HrCourseTableSeeder extends Seeder
     {
         
 
-        \DB::table('hr_course')->delete();
+       /* \DB::table('hr_course')->delete();
         
         \DB::table('hr_course')->insert(array (
             0 => 
@@ -35,6 +35,6 @@ class HrCourseTableSeeder extends Seeder
             ),
         ));
         
-        
+        */
     }
 }

@@ -6,7 +6,7 @@
 
   <div class="px-content">
     <div class="page-header">
-      <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i></span>Room Layout</h1>
+      <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i>Conference / </span>Room Layout</h1>
     </div>
 
     <div class="panel">

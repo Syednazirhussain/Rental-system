@@ -9,7 +9,7 @@
 
   <div class="px-content">
     <div class="page-header">
-      <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i></span>Packages</h1>
+      <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i>Conference / Food &amp; Drinks / </span>Packages</h1>
     </div>
 
     <div class="panel">
@@ -32,7 +32,7 @@
 
 
         <div class="text-right m-b-3">
-            <a href="{!! route('company.conference.packages.create') !!}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Package</a>
+            <a href="{!! route('company.conference.packages.create') !!}" class="btn btn-primary"><i class="fa fa-plus"></i> Add</a>
         </div>
 
         <div class="table-primary">

@@ -11,6 +11,7 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use Auth;
+use App\Models\Company\HRCourses;
 
 class HRCoursesController extends AppBaseController
 {
@@ -31,7 +32,10 @@ class HRCoursesController extends AppBaseController
     public function index(Request $request)
     {
         $this->hRCoursesRepository->pushCriteria(new RequestCriteria($request));
-        $hRCourses = $this->hRCoursesRepository->all();
+        $companyId         =   Auth::guard('company')->user()->companyUser()->first()->company_id;
+        
+        $hRCourses    = HRCourses::where('company_id',$companyId)->get();
+
 
         return view('company.h_r_courses.index')
             ->with('hRCourses', $hRCourses);

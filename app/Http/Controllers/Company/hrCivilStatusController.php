@@ -11,6 +11,7 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use Auth;
+use App\Models\Company\hrCivilStatus;
 
 class hrCivilStatusController extends AppBaseController
 {
@@ -31,8 +32,10 @@ class hrCivilStatusController extends AppBaseController
     public function index(Request $request)
     {
         $this->hrCivilStatusRepository->pushCriteria(new RequestCriteria($request));
-        $hrCivilStatuses = $this->hrCivilStatusRepository->all();
+        $companyId         =   Auth::guard('company')->user()->companyUser()->first()->company_id;
 
+
+        $hrCivilStatuses    = hrCivilStatus::where('company_id',$companyId)->get();
         return view('company.hr_civil_statuses.index')
             ->with('hrCivilStatuses', $hrCivilStatuses);
     }

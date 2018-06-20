@@ -11,6 +11,7 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use Auth;
+use App\Models\Company\hrPersonalCat;
 
 class hrPersonalCatController extends AppBaseController
 {
@@ -31,7 +32,9 @@ class hrPersonalCatController extends AppBaseController
     public function index(Request $request)
     {
         $this->hrPersonalCatRepository->pushCriteria(new RequestCriteria($request));
-        $hrPersonalCats = $this->hrPersonalCatRepository->all();
+        $companyId         =   Auth::guard('company')->user()->companyUser()->first()->company_id;
+        
+        $hrPersonalCats    = hrPersonalCat::where('company_id',$companyId)->get();
 
         return view('company.hr_personal_cats.index')
             ->with('hrPersonalCats', $hrPersonalCats);

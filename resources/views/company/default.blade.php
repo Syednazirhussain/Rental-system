@@ -96,7 +96,7 @@
                      <li class="dropdown-toggle">
                         <a href="{{ route('company.companyBuildings.index') }}">Buildings</a>
                         <ul class="dropdown-menu">
-                           <li><a href="{{ route('company.companyBuildings.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Buildings</a></li>
+                           <li><a href="{{ route('company.companyBuildings.index') }}"><i class="fa fa-building-o"></i>&nbsp;&nbsp;Buildings</a></li>
                            <li><a href="{{ route('company.companyFloorRooms.index') }}"><i class="fa fa-ellipsis-v"></i>&nbsp;&nbsp;Floor</a></li>
                            <li class="dropdown-toggle">
                               <a href="{{ route('company.rooms.index') }}">Rooms</a>
@@ -129,7 +129,7 @@
                            <li class="dropdown-toggle">
                               <a href="{{ route('company.contracts.index') }}">Contracts</a>
                               <ul class="dropdown-menu">
-                                 <li><a href="{{ route('company.contracts.status') }}">Contract Calendar</a></li>
+                                 <li><a href="{{ route('company.contracts.status') }}"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Contract Calendar</a></li>
                                  <li class="divider"></li>
                                  <li><a href="{{ route('company.contracts.index') }}"><i class="fa fa-file-text"></i>&nbsp;&nbsp;New Contracts</a></li>
                               </ul>
@@ -143,16 +143,16 @@
                      <li class="dropdown-toggle">
                         <a href="">Company HR</a>
                         <ul class="dropdown-menu">
-                           <li><a href="{{ route('company.companyHrs.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR</a></li>
-                           <li><a href="{{ route('company.hrCivilStatuses.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Civil Status</a></li>
-                           <li><a href="{{ route('company.hrPersonalCats.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Personal Category</a></li>
-                           <li><a href="{{ route('company.hrCompanyCollectives.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Collectives</a></li>
-                           <li><a href="{{ route('company.hrCompanyDesignations.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Designations</a></li>
-                           <li><a href="{{ route('company.hrEmploymentForms.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Employment From</a></li>
-                           <li><a href="{{ route('company.hrSalaryTypes.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Salary Types</a></li>
-                           <li><a href="{{ route('company.hrCompanyProjects.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Projects</a></li>
-                           <li><a href="{{ route('company.hrVacationCategories.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Vacations</a></li>
-                           <li><a href="{{ route('company.hRCourses.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Courses</a></li>
+                           <li><a href="{{ route('company.companyHrs.index') }}"><i class="fa fa-address-book-o"></i>&nbsp;&nbsp;HR</a></li>
+                           <li><a href="{{ route('company.hrCivilStatuses.index') }}">&nbsp;&nbsp;Civil Status</a></li>
+                           <li><a href="{{ route('company.hrPersonalCats.index') }}">&nbsp;&nbsp;Personal Category</a></li>
+                           <li><a href="{{ route('company.hrCompanyCollectives.index') }}">&nbsp;&nbsp;Collectives</a></li>
+                           <li><a href="{{ route('company.hrCompanyDesignations.index') }}">&nbsp;&nbsp;Designations</a></li>
+                           <li><a href="{{ route('company.hrEmploymentForms.index') }}">&nbsp;&nbsp;Employment From</a></li>
+                           <li><a href="{{ route('company.hrSalaryTypes.index') }}">&nbsp;&nbsp;Salary Types</a></li>
+                           <li><a href="{{ route('company.hrCompanyProjects.index') }}">&nbsp;&nbsp;Projects</a></li>
+                           <li><a href="{{ route('company.hrVacationCategories.index') }}">&nbsp;&nbsp;Vacations</a></li>
+                           <li><a href="{{ route('company.hRCourses.index') }}">&nbsp;&nbsp;Courses</a></li>
                         </ul>
                      </li>
 
@@ -177,7 +177,7 @@
                            </li>
                            <li><a href="{{ route('company.conference.conferenceBookings.index') }}"><i class="fa fa-wpforms"></i>&nbsp;&nbsp;Bookings</a></li>
                            <li><a href="{{ route('company.bookingAgencies.index') }}">Booking Agencies</a></li>
-                           <li><a href="{{ route('company.conference.calender.view') }}">Calender</a></li>
+                           <li><a href="{{ route('company.conference.calender.view') }}"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Calender</a></li>
                         </ul>
                      </li>
                      @elseif($module->module->code == 'newsletter_module')

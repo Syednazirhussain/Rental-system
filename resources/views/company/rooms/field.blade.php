@@ -1165,6 +1165,135 @@
                 }
 
             },
+
+        messages: {
+          'include_equipment_id': {
+            required: "Please enter the include equipment id",
+          },
+          'include_qty': {
+            required: "Please enter the include qty",
+          },
+          'include_price': {
+            required: "Please enter the include_price",
+          },
+          'include_info': {
+            required: "Please enter the include_info",
+          },
+          'sitting_name': {
+            required: "Please enter the sitting_name",
+          },
+          'sitting_number_person': {
+            required: "Please enter the sitting_number_person",
+          },
+          'floor_id': {
+            required: "Please select the floor",
+          },
+          'service_id': {
+            required: "Please select the service",
+          },
+          'address': {
+            required: "Please enter the address",
+          },
+          'area': {
+            required: "Please enter the area",
+          },
+          'price': {
+            required: "Please enter the price",
+          },
+          'security_code': {
+            required: "Please enter the security_code",
+          },
+          'sort_index': {
+            required: "Please enter the sort_index",
+          },
+          'article_number': {
+            required: "Please enter the article_number",
+          },
+          'public_name': {
+            required: "Please enter the public_name",
+          },
+          'SQNA': {
+            required: "Please enter the SQNA",
+          },
+          'building_id': {
+            required: "Please enter the building_id",
+          },
+          'start_date': {
+            required: "Please enter the start_date",
+          },
+          'end_date': {
+            required: "Please enter the end_date",
+          },
+          'rent_monthly_rent': {
+            required: "Please enter the rent_monthly_rent",
+          },
+          'rent_number_person': {
+            required: "Please enter the rent_number_person",
+          },
+          'rent_vat': {
+            required: "Please enter the rent_vat",
+          },
+          'rent_new_price': {
+            required: "Please enter the rent_new_price",
+          },
+          'rent_start_date': {
+            required: "Please enter the rent_start_date",
+          },
+          'rent_end_date': {
+            required: "Please enter the rent_end_date",
+          },
+          'rent_room_type': {
+            required: "Please enter the rent_room_type",
+          },
+          'conf_day_price': {
+            required: "Please enter the conf_day_price",
+          },
+          'conf_half_day_price': {
+            required: "Please enter the conf_half_day_price",
+          },
+          'conf_room_type': {
+            required: "Please enter the conf_room_type",
+          },
+          'conf_cost': {
+            required: "Please enter the conf_cost",
+          },
+          'conf_sm_price': {
+            required: "Please enter the conf_sm_price",
+          },
+          'conf_high_price': {
+            required: "Please enter the conf_high_price",
+          },
+          'conf_medium_price': {
+            required: "Please enter the conf_medium_price",
+          },
+          'conf_low_price': {
+            required: "Please enter the conf_low_price",
+          },
+          'conf_termination_cond': {
+            required: "Please enter the conf_termination_cond",
+          },
+          'conf_vat': {
+            required: "Please enter the conf_vat",
+          },
+          'conf_calender_available': {
+            required: "Please enter the ",
+          },
+          'conf_info_internal': {
+            required: "Please enter the conf_calender_available",
+          },
+          'conf_info_customer_se': {
+            required: "Please enter the conf_info_customer_se",
+          },
+          'conf_info_customer_en': {
+            required: "Please enter the conf_info_customer_en",
+          },
+          'conf_info_technical_se': {
+            required: "Please enter the conf_info_technical_se",
+          },
+          'conf_info_technical_en': {
+            required: "Please enter the conf_info_technical_en",
+          },
+        },
             errorPlacement: function(error, element) {
                 var placement = $(element).parent().find('.errorTxt');
                 if (placement) {
