@@ -3,7 +3,7 @@
         <tr>
             <th>First Name</th>
         <th>Last Name</th>
-        <th>Country Id</th>
+        <th>Country</th>
         <th>Telephone Job</th>
         <th>Email Job</th>
             <th colspan="3">Action</th>
@@ -14,7 +14,7 @@
         <tr>
             <td>{!! $companyHr->first_name !!}</td>
             <td>{!! $companyHr->last_name !!}</td>
-            <td>{!! $companyHr->country_id !!}</td>
+            <td>{!! $companyHr->country->name !!}</td>
             <td>{!! $companyHr->telephone_job !!}</td>
             <td>{!! $companyHr->email_job !!}</td>
             <td>

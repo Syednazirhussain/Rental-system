@@ -904,6 +904,13 @@
       var leaseContractInformationsCreated = 0;
 
       $('#wizard-3').on('submit', function(e) {
+
+        
+      asd = $("input[name='files']").val();
+
+      console.log(asd);
+
+      return false;
        
             e.preventDefault();
 
@@ -943,7 +950,10 @@
 
                     var myform = document.getElementById("wizard-3");
                     var data = new FormData(myform );
+
                     data.append('lease_partner_id', editLease);
+
+
 
                     var editLeaseContractInformation = "{{ isset($leaseContractInformation) ? $leaseContractInformation[0]->id: 0 }}";
 

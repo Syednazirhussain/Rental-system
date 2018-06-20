@@ -36,7 +36,7 @@
             </div>
             <div class="wizard-content">
                <!-- ===========================wizard-1===================================== -->
-               <form class="wizard-pane " id="wizard-1" method="post">
+               <form class="wizard-pane " id="wizard-1">
                   @if (isset($companyHr))
                   <input name="_method" type="hidden" value="PATCH">
                   @endif
@@ -409,87 +409,91 @@
                   <!-- Telephone Job Field -->
                   <div class="row">
                      <div class="col-sm-1 form-group">
-                      @if(isset($companyHr))
-                       
-                        <label class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input"  <?php if($companyHr->father == 1){ echo "checked='checked'"; } ?> id="father">
-                        <span class="custom-control-indicator"></span>
-                        <strong>Father</strong>
-                        </label>
-                        
-                      @else
-                        <label class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="father">
-                        <span class="custom-control-indicator"></span>
-                        <strong>Father</strong>
-                        </label>
-                      @endif
+                        @if(isset($companyHr) && $companyHr->father == 1)
+                           <label class="custom-control custom-checkbox">
+                           <input type="checkbox" class="custom-control-input" id="father" checked="checked">
+                           <span class="custom-control-indicator"></span>
+                           <strong>Father</strong>
+                           </label>
+                        @else
+                           <label class="custom-control custom-checkbox">
+                           <input type="checkbox" class="custom-control-input" id="father">
+                           <span class="custom-control-indicator"></span>
+                           <strong>Father</strong>
+                           </label>
+                        @endif     
                      </div>
                      <!-- Telephone Private Field -->
                      <div class="col-sm-1 form-group">
-                      @if(isset($companyHr))
-                   
-                        <label class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input"  <?php if($companyHr->mother == 1){ echo "checked='checked'"; } ?> id="mother">
-                        <span class="custom-control-indicator"></span>
-                        <strong>Mother</strong>
-                        </label>
-      
-                      @else
-                        <label class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="mother">
-                        <span class="custom-control-indicator"></span>
-                        <strong>Mother</strong>
-                        </label>
-                      @endif
+                        @if(isset($companyHr) && $companyHr->mother == 1)
+                           <label class="custom-control custom-checkbox">
+                           <input type="checkbox" class="custom-control-input" id="mother" checked="checked">
+                           <span class="custom-control-indicator"></span>
+                           <strong>Mother</strong>
+                           </label>
+                        @else
+                           <label class="custom-control custom-checkbox">
+                           <input type="checkbox" class="custom-control-input" id="mother">
+                           <span class="custom-control-indicator"></span>
+                           <strong>Mother</strong>
+                           </label>
+                        @endif
                      </div>
                   </div>
                   <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
                      <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> PREVIOUS</button>&nbsp;&nbsp;
                      <a href="{!! route('company.companyHrs.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
-                     <button type="submit" class="btn btn-primary" id="" data-wizard-action="next">NEXT <i class="fa fa-arrow-right m-l-1"></i></button>
+                     <button type="button" class="btn btn-primary" id="" data-wizard-action="next">NEXT <i class="fa fa-arrow-right m-l-1"></i></button>
                   </div>
                </form>
 
                <!-- ============================wizard-4==================================== -->
-               <form class="wizard-pane" id="wizard-4">
+               <form class="wizard-pane" id="wizard-4" enctype="multipart/form-data">
                   @if (isset($companyHr))
-                  <input name="_method" type="hidden" value="PATCH">
+                     <input name="_method" type="hidden" value="PATCH">
                   @endif
+                  <input type="hidden" name="_token" value="{{ csrf_token() }}">
                   <h3 class="m-t-0">Information about employment</h3>
 
                   <div class="row">
-
-                     
-                        <div class="col-sm-6 col-md-6 form-group">
-                           <label for="">Languages</label>
-                           <input type="text" id="languages" name="languages" class="form-control languages" data-role="tagsinput" />
-                        </div>
-                        <div class="col-sm-6 col-md-6 form-group">
-                           <label for="">Skills</label>
-                           <input type="text" name="skills" id="skills" class="form-control skills" data-role="tagsinput" />
-                        </div>
-                     
-
-                     
-                        <div class="col-sm-6 col-md-6 form-group">
-                           <label for="city_id">HR Courses</label>
-                           <select name="name[]" id="hrCourseId" class="form-control select2-hrCourses" multiple>
-                              <option></option>
+                     <div class="col-sm-6 col-md-6 form-group">
+                        <label for="">Languages</label>
+                        <input type="text" id="languages" name="languages" value="@if(isset($companyHrOtherInfo)){{ $companyHrOtherInfo->languages }}@endif" class="form-control languages" data-role="tagsinput" />
+                     </div>
+                     <div class="col-sm-6 col-md-6 form-group">
+                        <label for="">Skills</label>
+                        <input type="text" name="skills" value="@if(isset($companyHrOtherInfo)){{ $companyHrOtherInfo->skills }}@endif" id="skills" class="form-control skills" data-role="tagsinput" />
+                     </div>
+                     <div class="col-sm-6 col-md-6 form-group">
+                        <label for="city_id">HR Courses</label>
+                        <select name="name[]" id="hrCourseId" class="form-control select2-hrCourses" multiple>
+                           <option></option>
+                           @if(isset($companyHrOtherInfo))
+                              @foreach($HRCourses as $HRCourse)
+                                 <option value="{{$HRCourse->id}}" selected="selected">{{$HRCourse->name}}</option>
+                              @endforeach
+                           @else
                               @foreach($HRCourses as $HRCourse)
                                  <option value="{{$HRCourse->id}}">{{$HRCourse->name}}</option>
                               @endforeach
-                           </select>
-                        </div>
-                        <div class="col-sm-6 col-md-6 form-group m-t-4">
+                           @endif
+                        </select>
+                     </div>
+                     <div class="col-sm-6 col-md-6 form-group m-t-4">
+                        @if(isset($companyHrOtherInfo) && $companyHrOtherInfo->driving_license == 1)
+                           <label class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" id="driving_license" checked="checked">
+                              <span class="custom-control-indicator"></span>
+                              <strong>Driving License</strong>
+                           </label>
+                        @else
                            <label class="custom-control custom-checkbox">
                               <input type="checkbox" class="custom-control-input" id="driving_license">
                               <span class="custom-control-indicator"></span>
                               <strong>Driving License</strong>
                            </label>
-                        </div>
-                     
-
+                        @endif
+                     </div>
                      <div class="col-sm-12 col-md-12">
                       <div class="panel">
                         <div class="panel-heading">
@@ -498,44 +502,68 @@
                         <div class="panel-body">
                           <div class="pull-right">
                             <button class="btn btn-primary addEmployment" type="button"><i class="fa fa-plus"></i> Add</button>
-                          </div>
-                          <div class="row preEmployments">
+                           </div>
+                          @if(isset($companyHrPreEmployment))
+                           @foreach($companyHrPreEmployment as $companyHrPreEmploy)
+                             <div class="row preEmployments">
+                               <div class="row">
+                                 <div class="col-sm-12 col-sm-12 m-t-2">
+                                     <div class="col-sm-2 col-md-2 form-group">
+                                       <label for="sitting_name">Organization Name</label>
+                                       <input type="text" name="organization_name[]" value="@if(isset($companyHrPreEmploy)){{ $companyHrPreEmploy->organization_name }}@endif" class="form-control organization_name" >
+                                     </div>
+                                     <div class="col-sm-2 col-md-2 form-group">
+                                       <label for="sitting_number_person">Job Title</label>
+                                       <input type="text" name="job_title[]" value="@if(isset($companyHrPreEmploy)){{ $companyHrPreEmploy->job_title }}@endif" class="form-control job_title" >
+                                     </div> 
+                                    <div class="col-sm-4 col-md-4 form-group">
+                                       <label for="sitting_number_person">Learning Courses</label>
+                                       <input type="text" name="courses[]" value="@if(isset($companyHrPreEmploy)){{ $companyHrPreEmploy->courses }}@endif" data-role="tagsinput" class="form-control courses" >
+                                     </div>
+                                    <div class="col-sm-2 col-md-2 form-group">
+                                       <label for="sitting_number_person">Employment From</label>
+                                       <input type="text"  name="employed_from[]" value="@if(isset($companyHrPreEmploy)){{ $companyHrPreEmploy->employed_from }}@endif" class="form-control employed_from">
+                                     </div>
+                                    <div class="col-sm-2 col-md-2 form-group">
+                                       <label for="sitting_number_person">Employment Until</label>
+                                       <input type="text"  name="employed_until[]" value="@if(isset($companyHrPreEmploy)){{ $companyHrPreEmploy->employed_until }}@endif" class="form-control employed_until">
+                                     </div>
+                                 </div>
+                               </div>
+                             </div>
+                             @endforeach
+                          @else
+                             <div class="row preEmployments">
+                               <div class="row">
+                                 <div class="col-sm-12 col-sm-12 m-t-2">
+                                     <div class="col-sm-2 col-md-2 form-group">
+                                       <label for="sitting_name">Organization Name</label>
+                                       <input type="text" name="organization_name[]" class="form-control organization_name" >
+                                     </div>
+                                     <div class="col-sm-2 col-md-2 form-group">
+                                       <label for="sitting_number_person">Job Title</label>
+                                       <input type="text" name="job_title[]" class="form-control job_title" >
+                                     </div> 
+                                    <div class="col-sm-4 col-md-4 form-group">
+                                       <label for="sitting_number_person">Learning Courses</label>
+                                       <input type="text" name="courses[]" data-role="tagsinput" class="form-control courses" >
+                                     </div>
+                                    <div class="col-sm-2 col-md-2 form-group">
+                                       <label for="sitting_number_person">Employment From</label>
+                                       <input type="text"  name="employed_from[]" class="form-control employed_from">
+                                     </div>
+                                    <div class="col-sm-2 col-md-2 form-group">
+                                       <label for="sitting_number_person">Employment Until</label>
+                                       <input type="text"  name="employed_until[]" class="form-control employed_until">
+                                     </div>
+                                 </div>
+                               </div>
+                             </div>
+                          @endif
 
-                            <div class="row">
 
-                              <div class="col-sm-12 col-sm-12 m-t-2">
+                        </div> 
 
-                                  <div class="col-sm-2 col-md-2 form-group">
-                                    <label for="sitting_name">Organization Name</label>
-                                    <input type="text" name="organization_name[]" class="form-control organization_name" >
-                                  </div>
-
-                                  <div class="col-sm-2 col-md-2 form-group">
-                                    <label for="sitting_number_person">Job Title</label>
-                                    <input type="text" name="job_title[]" class="form-control job_title" >
-                                  </div> 
-
-                                 <div class="col-sm-4 col-md-4 form-group">
-                                    <label for="sitting_number_person">Learning Courses</label>
-                                    <input type="text" name="courses[]" data-role="tagsinput" class="form-control courses" >
-                                  </div>
-
-                                 <div class="col-sm-2 col-md-2 form-group">
-                                    <label for="sitting_number_person">Employment From</label>
-                                    <input type="text"  name="employed_from[]" class="form-control employed_from">
-                                  </div>
-
-                                 <div class="col-sm-2 col-md-2 form-group">
-                                    <label for="sitting_number_person">Employment Until</label>
-                                    <input type="text"  name="employed_until[]" class="form-control employed_until">
-                                  </div>
-                     
-                              </div>
-
-                            </div>
-
-                          </div>
-                        </div>            
                       </div>
                     </div>
 
@@ -544,28 +572,50 @@
                         <label for="">Attach Files</label>
                         <input type="file" name="files" class="form-control uploadFiles">
                      </div>
-                     <div class="col-sm-12 col-md-12 form-group">
-                       <label>HR Notes</label>
-                       <textarea name="hr_note" id="hr_note"></textarea>
-                     </div>
-                 
 
-                     <div class="col-sm-12 col-md-12 form-group">
-                        <label for="">Manager Notes</label>
-                        <textarea name="manager_note" id="manager_note"></textarea>
-                     </div>
-                     <div class="col-sm-12 col-md-12 form-group">
-                       <label>Salary Development Notes</label>
-                       <textarea name="sal_dev_note" id="sal_dev_note"></textarea>
-                     </div>
+                     @if(isset($companyHrNotes))
+
+                        @foreach($companyHrNotes as $companyHrNote)
+
+                           @if($companyHrNote->code == 'hr_notes'))
+                              <input type="hidden" id="edit_hr_note" value="{{ $companyHrNote->note }}">
+                           @endif
+
+                           @if($companyHrNote->code == 'manager_notes'))
+                              <input type="hidden" id="edit_manager_note" value="{{ $companyHrNote->note }}">
+                           @endif
+
+                           @if($companyHrNote->code == 'salary_development_notes'))
+                              <input type="hidden" id="edit_sal_dev_note" value="{{ $companyHrNote->note }}">
+                           @endif
+
+                        @endforeach
+
+                     @endif
+                     
+                        <div class="col-sm-12 col-md-12 form-group">
+                          <label>HR Notes</label>
+                          <textarea name="hr_note" id="hr_note"></textarea>
+                        </div>
+                        <div class="col-sm-12 col-md-12 form-group">
+                           <label for="">Manager Notes</label>
+                           <textarea name="manager_note" id="manager_note"></textarea>
+                        </div>
+                        <div class="col-sm-12 col-md-12 form-group">
+                          <label>Salary Development Notes</label>
+                          <textarea name="sal_dev_note" id="sal_dev_note"></textarea>
+                        </div>
+
+
                      
                   </div>
 
                   <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
                      <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> PREVIOUS</button>&nbsp;&nbsp;
                      <a href="{!! route('company.companyHrs.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
-                     <button type="button" id="createCompanyHrBtn" class="btn btn-primary"  data-wizard-action="next">Create Company Hr <i class="fa fa-arrow-right m-l-1"></i></button>
+                     <button type="submit"  class="btn btn-primary"  data-wizard-action="next">@if(isset($companyHr)) <i class="fa fa-refresh"></i>  Update @else <i class="fa fa-plus"></i> Create  @endif<i class="fa fa-arrow-right m-l-1"></i></button>
                   </div>
+
                </form>
 
                <!-- ================================================================ -->
@@ -587,10 +637,14 @@
 
 
    @if(isset($companyHr))
+
    <form action="{{ route('company.companyHrs.update', $companyHr->id) }}" method="POST" id="hiddenForm">
       <input type="hidden" name="_method" value="PATCH">
+
    @else
+
    <form method="POST" action="{{ route('company.companyHrs.store') }}" id="hiddenForm">
+      
    @endif
       <!-- ================= wiz-1 =================== -->
       <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -656,11 +710,37 @@
 @section('js')
 
 <script type="text/javascript">
+
+
    
    var editCompanyHr = "{{ (isset($companyHr)) ? $companyHr->id : 0 }}";
 
+   if (editCompanyHr != 0) 
+   {
+      var edit_hr_note = $('#edit_hr_note').val();
+      var edit_manager_note = $('#edit_manager_note').val();
+      var edit_sal_dev_note = $('#edit_sal_dev_note').val();
 
-   $('#createCompanyHrBtn').on('click', function() {
+      // console.log(edit_hr_note+" "+edit_manager_note+" "+edit_sal_dev_note);
+
+      $('#hr_note').val(edit_hr_note);
+      $('#manager_note').val(edit_manager_note);
+      $('#sal_dev_note').val(edit_sal_dev_note);
+
+   }
+
+
+
+   // $('#createCompanyHrBtn').on('click', function() {
+
+   $('#wizard-4').on('submit', function(e) {
+
+
+
+      e.preventDefault();
+
+         $('#createCompanyHrBtn').attr('disabled', 'disabled');
+         $('#createCompanyHrBtn').text('Processing..');
        
          var fname         =       $('#firstName').val();
          var lname         =       $('#lastName').val();
@@ -705,9 +785,8 @@
 
 
          if($('#father').is(':checked')) { father = 1; }
-         
-
          if($('#mother').is(':checked')) { mother = 1; }
+
 
          
 
@@ -749,6 +828,7 @@
          $('#vacationDays_hidden').val(vacationDays);
          $('#vacationWiz3_hidden').val(vacationWiz3);
          $('#father_hidden').val(father);
+         $('#mother_hidden').val(mother);
 
 
          var driving_license = 0;
@@ -764,9 +844,7 @@
          var employed_from = $('.employed_from').serializeArray();
          var employed_until = $('.employed_until').serializeArray();
 
-
-
-         console.log(org_names);
+         // console.log(org_names);
 
          var organization_name = [];
          var job_titles = [];
@@ -815,19 +893,125 @@
          $('#manager_note_hidden').val(manager_note);
          $('#sal_dev_note_hidden').val(sal_dev_note);
 
-         // console.log(languages);
-         // console.log(hrCourseId);
-         // console.log(skills);
 
-         // console.log(organization_name);
-         // console.log(job_titles);
-         // console.log(courses);
-         // console.log(employed_froms);
-         // console.log(employed_untils);
 
-         // console.log(hr_note);
-         // console.log(manager_note);
-         // console.log(sal_dev_note);
+         var jsObj = {
+            'first_name' : fname,
+            'last_name' : lname,
+            'address_1' : add1,
+            'address_2' : add2,
+            'post_code' : pcode,
+            'city_id' : city,
+            'state_id' : state,
+            'country_id' : country,
+            'telephone_job' : telephone,
+            'telephone_private' : telephoneJ,
+            'email_private' : emailId,
+            'ePrivate' : emailJob,
+            'civil_status_id' : civilId,
+            'employment_date' : daterangeEmpl,
+            'termination_time' : termId,
+            'employeed_untill' : daterangeEmplUntil,
+            'personal_category' : personalId,
+            'collectiveId_hidden' : collectiveId,
+            'employment_form' : employFormId,
+            'insurance_date' : daterangeInsurance,
+            'insurance_fees' : insuranceFees,
+            'departmentWiz2_hidden' : departmentWiz2,
+            'designation' : desigWiz2,
+            'vacancies' : vacancyWiz2,
+            'salary' : salaryId,
+            'employment_percent' : empInPercent,
+            'costDivision_hidden' : costDivision,
+            'projectWiz3_hidden' : projectWiz3,
+            'vat_table' : valueAdded,
+            'vacation_days' : vacationDays,
+            'vacation_category' : vacationWiz3,
+            'father' : father,
+            'mother' : mother,
+            'languages' : languages,
+            'hrCourseId' : hrCourseId,
+            'skills' : skills,
+            'driving_license' : driving_license,
+            'organization_name[]' : organization_name,
+            'job_title[]' : job_titles,
+            'courses[]' : courses,
+            'employed_from[]' : employed_froms,
+            'employed_until[]' : employed_untils,
+            'hr_notes' : hr_note,
+            'manager_notes' : manager_note,
+            'salary_development_notes' : sal_dev_note
+         };
+
+
+
+         console.log(jsObj);
+
+
+
+      if (editCompanyHr != 0) 
+      {
+
+         var myform = document.getElementById("wizard-4");
+         var data = new FormData(myform);
+
+
+         <?php
+           if (isset($companyHr)) {
+              $updateRoute = route("company.companyHrs.update", [$companyHr->id]);
+           } else {
+             $updateRoute = '';
+           }
+         ?>
+
+         $.ajax({
+            url: '{{ $updateRoute }}',
+            type: 'POST',
+            data: data,
+            dataType: 'json',
+            enctype: 'multipart/form-data',
+            contentType: false,
+            processData: false,
+            success: function(data){
+                 // myform.pxWizard('goTo', 2);
+
+                 console.log(data);
+             },
+             error: function(xhr,status,error)  {
+
+             }
+
+         });
+      }
+      else
+      {
+         $.ajax({
+             url: '{{ route("company.companyHrs.store") }}',
+             type: 'POST',
+             data : jsObj,
+             success: function(data){
+                 console.log(data);
+             },
+             error: function(xhr,status,error)  {
+
+             }
+
+         });
+      }
+
+/*         console.log(languages);
+         console.log(hrCourseId);
+         console.log(skills);
+
+         console.log(organization_name);
+         console.log(job_titles);
+         console.log(courses);
+         console.log(employed_froms);
+         console.log(employed_untils);
+
+         console.log(hr_note);
+         console.log(manager_note);
+         console.log(sal_dev_note);*/
 
          /*var jsObj = {};
          $.each(data,function(index,field){
@@ -835,8 +1019,65 @@
          });
          */
 
-         $('#hiddenForm').submit();
+         // $('#hiddenForm').submit();
      });
+
+    $("input[name='files']").fileuploader({
+        theme: 'thumbnails',
+        enableApi: true,
+        addMore: true,
+        thumbnails: {
+            box: '<div class="fileuploader-items">' +
+                      '<ul class="fileuploader-items-list">' +
+                          '<li class="fileuploader-thumbnails-input"><div class="fileuploader-thumbnails-input-inner">+</div></li>' +
+                      '</ul>' +
+                  '</div>',
+            item: '<li class="fileuploader-item">' +
+                       '<div class="fileuploader-item-inner">' +
+                           '<div class="thumbnail-holder">${image}</div>' +
+                           '<div class="actions-holder">' +
+                               '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
+                           '</div>' +
+                           '<div class="progress-holder">${progressBar}</div>' +
+                       '</div>' +
+                   '</li>',
+            item2: '<li class="fileuploader-item">' +
+                       '<div class="fileuploader-item-inner">' +
+                           '<div class="thumbnail-holder">${image}</div>' +
+                           '<div class="actions-holder">' +
+                               '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
+                           '</div>' +
+                       '</div>' +
+                   '</li>',
+            startImageRenderer: true,
+            canvasImage: false,
+            _selectors: {
+                list: '.fileuploader-items-list',
+                item: '.fileuploader-item',
+                start: '.fileuploader-action-start',
+                retry: '.fileuploader-action-retry',
+                remove: '.fileuploader-action-remove'
+            },
+            onItemShow: function(item, listEl) {
+                var plusInput = listEl.find('.fileuploader-thumbnails-input');
+                
+                plusInput.insertAfter(item.html);
+                
+                if(item.format == 'image') {
+                    item.html.find('.fileuploader-item-icon').hide();
+                }
+            }
+        },
+        afterRender: function(listEl, parentEl, newInputEl, inputEl) {
+            var plusInput = listEl.find('.fileuploader-thumbnails-input'),
+                api = $.fileuploader.getInstance(inputEl.get(0));
+        
+            plusInput.on('click', function() {
+                api.open();
+            });
+        },
+        extensions: ['jpg','gif','png','jpeg','bmp','pdf','txt','docx','doc','odt','rtf'],
+    });
 
    $(document).on('click', ".addEmployment", function() {
       
@@ -976,62 +1217,7 @@
       ],
     });
 
-       $("input[name='files']").fileuploader({
-        theme: 'thumbnails',
-        enableApi: true,
-        addMore: true,
-        thumbnails: {
-            box: '<div class="fileuploader-items">' +
-                      '<ul class="fileuploader-items-list">' +
-                          '<li class="fileuploader-thumbnails-input"><div class="fileuploader-thumbnails-input-inner">+</div></li>' +
-                      '</ul>' +
-                  '</div>',
-            item: '<li class="fileuploader-item">' +
-                       '<div class="fileuploader-item-inner">' +
-                           '<div class="thumbnail-holder">${image}</div>' +
-                           '<div class="actions-holder">' +
-                               '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
-                           '</div>' +
-                           '<div class="progress-holder">${progressBar}</div>' +
-                       '</div>' +
-                   '</li>',
-            item2: '<li class="fileuploader-item">' +
-                       '<div class="fileuploader-item-inner">' +
-                           '<div class="thumbnail-holder">${image}</div>' +
-                           '<div class="actions-holder">' +
-                               '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
-                           '</div>' +
-                       '</div>' +
-                   '</li>',
-            startImageRenderer: true,
-            canvasImage: false,
-            _selectors: {
-                list: '.fileuploader-items-list',
-                item: '.fileuploader-item',
-                start: '.fileuploader-action-start',
-                retry: '.fileuploader-action-retry',
-                remove: '.fileuploader-action-remove'
-            },
-            onItemShow: function(item, listEl) {
-                var plusInput = listEl.find('.fileuploader-thumbnails-input');
-                
-                plusInput.insertAfter(item.html);
-                
-                if(item.format == 'image') {
-                    item.html.find('.fileuploader-item-icon').hide();
-                }
-            }
-        },
-        afterRender: function(listEl, parentEl, newInputEl, inputEl) {
-            var plusInput = listEl.find('.fileuploader-thumbnails-input'),
-                api = $.fileuploader.getInstance(inputEl.get(0));
-        
-            plusInput.on('click', function() {
-                api.open();
-            });
-        },
-        extensions: ['jpg','gif','png','jpeg','bmp','pdf','txt','docx','doc','odt','rtf'],
-    });
+
          
    
    // -------------------------------------------------------------------------

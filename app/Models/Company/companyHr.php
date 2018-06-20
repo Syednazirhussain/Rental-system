@@ -174,7 +174,7 @@ class companyHr extends Model
      **/
     public function country()
     {
-        return $this->belongsTo(\App\Models\Company\Country::class);
+        return $this->belongsTo(\App\Models\Country::class);
     }
 
     /**

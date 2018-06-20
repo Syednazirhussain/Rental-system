@@ -358,6 +358,11 @@ class companyHrController extends AppBaseController
         $hrCompanyPro               =   $this->hrCompanyProjectRepository->all();
         $hrVacCategory              =   $this->hrVacationCategoryRepository->all();
         $HRCourses = HRCourses::all();
+        $companyHrOtherInfo = CompanyHrOtherInfo::where('company_hr_id',$companyHr->id)->first();
+        $companyHrPreEmployment = CompanyHrPreEmployment::where('company_hr_id',$companyHr->id)->get();
+        $companyHrNotes = CompanyHrNotes::where('company_hr_id',$companyHr->id)->get();
+
+
 
          $data = [
             'countries'                 => $countries,
@@ -372,14 +377,16 @@ class companyHrController extends AppBaseController
             'hrSalaryType'              => $hrSalaryType,
             'hrCompanyPro'              => $hrCompanyPro,
             'hrVacCategory'             => $hrVacCategory,
-            'HRCourses'                 => $HRCourses
+            'HRCourses'                 => $HRCourses,
+            'companyHrOtherInfo'        => $companyHrOtherInfo,
+            'companyHrPreEmployment'    => $companyHrPreEmployment,
+            'companyHrNotes'            => $companyHrNotes
         ];
 
-         // dd($companyHr);
 
-        if (empty($companyHr)) {
-            Flash::error('Company Hr not found');
-
+        if (empty($companyHr)) 
+        {
+            session()->flash('msg.error','Company Hr not found');
             return redirect(route('company.companyHrs.index'));
         }
 
@@ -390,69 +397,209 @@ class companyHrController extends AppBaseController
      * Update the specified companyHr in storage.
      *
      * @param  int              $id
-     * @param UpdatecompanyHrRequest $request
+     * @param UpdatecompanyHrRequest $request 
      *
      * @return Response
      */
-    public function update($id, UpdatecompanyHrRequest $request)
+    public function update($id,UpdatecompanyHrRequest  $request)
     {
         $input = $request->all();
-        // dd($input);
 
-        $date = str_replace('-', '/', $input['employment_date']);
+        print_r($input);
 
-            $emplDate = date('Y-m-d', strtotime($date));
+        exit();
 
-            $input['employment_date'] = $emplDate;
-
-            $date = str_replace('-', '/', $input['employeed_untill']);
-
-            $emplUntill = date('Y-m-d', strtotime($date));
-
-            $input['employeed_untill'] = $emplUntill;
-
-            $date = str_replace('-', '/', $input['insurance_date']);
-
-            $insDate = date('Y-m-d', strtotime($date));
-
-            $input['insurance_date'] = $insDate;
-
-
-
-        // dd($input['employment_date']);
-        // dd($input['employment_date']);
         $companyHr = $this->companyHrRepository->findWithoutFail($id);
 
 
-        if (empty($companyHr)) {
-            Flash::error('Company Hr not found');
-
-            return redirect(route('company.companyHrs.index'));
-        }
-
-/*        $companyHr->first_name = $input[''];
-        $companyHr->last_name = $input[''];
-        $companyHr->address_1 = $input[''];
-        $companyHr->address_2 = $input[''];
-        $companyHr->post_code = $input[''];
-        $companyHr->city_id = $input[''];
-        $companyHr->state_id = $input[''];
-        $companyHr->country_id = $input[''];
-        $companyHr->telephone_job = $input[''];
-        $companyHr->telephone_private = $input[''];
-        $companyHr->email_job = $input[''];
-        $companyHr->email_private = $input[''];
-        $companyHr->civil_status_id = $input[''];
-        $companyHr-> = $input[''];*/
-
-        $companyHrUpdate = $this->companyHrRepository->update($input, $id);
-
-        if($companyHrUpdate)
+        if (empty($companyHr)) 
         {
-            Flash::success('Company Hr updated successfully.');
-            return redirect(route('company.companyHrs.index'));            
+            session()->flash('msg.error','Company Hr not found');
+            return redirect()->route('company.companyHrs.index');
+        }       
+
+        $date = str_replace('-', '/', $input['employment_date']);
+
+        $emplDate = date('Y-m-d', strtotime($date));
+
+        $input['employment_date'] = $emplDate;
+
+        $date = str_replace('-', '/', $input['employeed_untill']);
+
+        $emplUntill = date('Y-m-d', strtotime($date));
+
+        $input['employeed_untill'] = $emplUntill;
+
+        $date = str_replace('-', '/', $input['insurance_date']);
+
+        $insDate = date('Y-m-d', strtotime($date));
+
+        $input['insurance_date'] = $insDate;
+
+        $pre_org_courses = explode(',', $input['courses'][0]);
+
+        $pre_courses = [];
+        $index = 0;
+        $value = '';
+        foreach ($pre_org_courses as  $course) 
+        {
+            if ($course != '|') 
+            {
+                $value .= $course.",";
+            }
+            else
+            {
+                $pre_courses[$index] = substr($value, 0, -1);
+                $index++;
+                $value = '';
+                continue;
+            }
         }
 
+        $input['pre_employment_courses'] = $pre_courses;
+
+        $input['pre_employment_org_names'] = explode(',', $input['organization_name'][0]);
+        $input['pre_employment_job_titles'] = explode(',', $input['job_title'][0]);
+        $input['pre_employment_from_dates'] = explode(',', $input['employed_from'][0]);
+        $input['pre_employment_until_dates'] = explode(',', $input['employed_until'][0]);
+
+
+
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        $user_id = Auth::guard('company')->user()->id;
+
+        if (isset($input['father']) && $input['father'] == 1) { $input['father'] = 1; }else{ $input['father'] = 0; }
+        if (isset($input['mother']) && $input['mother'] == 1) { $input['mother'] = 1; }else{ $input['mother'] = 0; }
+
+        try 
+        {
+            $companyHr->company_id    = $company_id;
+            $companyHr->first_name    = $input['first_name'];
+            $companyHr->last_name    = $input['last_name'];
+            $companyHr->address_1    = $input['address_1'];
+            $companyHr->address_2    = $input['address_2'];
+            $companyHr->post_code    = $input['post_code'];
+            $companyHr->city_id    = $input['city_id'];
+            $companyHr->state_id    = $input['state_id'];
+            $companyHr->country_id    = $input['country_id'];
+            $companyHr->telephone_job    = $input['telephone_job'];
+            $companyHr->telephone_private    = $input['telephone_private'];
+            $companyHr->email_job    = $input['email_job'];
+            $companyHr->email_private    = $input['email_private'];
+            $companyHr->civil_status_id    = $input['civil_status_id'];
+            $companyHr->employment_date    = $input['employment_date'];
+            $companyHr->termination_time    = $input['termination_time'];
+            $companyHr->employeed_untill    = $input['employeed_untill'];
+            $companyHr->personal_category    = $input['personal_category'];
+            $companyHr->collective_type    = $input['collective_type'];
+            $companyHr->employment_form    = $input['employment_form'];
+            $companyHr->insurance_date    = $input['insurance_date'];
+            $companyHr->insurance_fees    = $input['insurance_fees'];
+            $companyHr->department    = $input['department'];
+            $companyHr->designation    = $input['designation'];
+            $companyHr->vacancies    = $input['vacancies'];
+            $companyHr->salary_type    = $input['salary_type'];
+            $companyHr->salary    = $input['salary'];
+            $companyHr->employment_percent    = $input['employment_percent'];
+            $companyHr->cost_division    = $input['cost_division'];
+            $companyHr->courses    = $input['hrCourseId'];
+            $companyHr->project    = $input['project'];
+            $companyHr->vat_table    = $input['vat_table'];
+            $companyHr->vacation_days    = $input['vacation_days'];
+            $companyHr->father    = $input['father'];
+            $companyHr->mother    = $input['mother'];
+            $companyHr->vacation_category    = $input['vacation_category'];
+            $companyHr->save();
+
+            $companyHr_id  =  $companyHr->id;
+
+            $companyHrOtherInfo = CompanyHrOtherInfo::where('company_hr_id',$companyHr_id)->first();
+            $companyHrOtherInfo->company_hr_id = $companyHr_id;
+            $companyHrOtherInfo->languages = $input['languages'];
+            $companyHrOtherInfo->driving_license = $input['driving_license'];
+            $companyHrOtherInfo->skills = $input['skills'];
+            $companyHrOtherInfo->save();
+
+
+            $companyHrPreEmployment = CompanyHrPreEmployment::where('company_hr_id',$companyHr_id)->get();
+            for ($i=0; $i < count($companyHrPreEmployment); $i++) 
+            {
+                $hr_pre_emp = CompanyHrPreEmployment::find($companyHrPreEmployment[$i]->id); 
+                $hr_pre_emp->company_hr_id = $companyHr_id;
+                $hr_pre_emp->organization_name = $input['pre_employment_org_names'][$i];
+                $hr_pre_emp->job_title = $input['pre_employment_job_titles'][$i];
+                $hr_pre_emp->courses = $input['pre_employment_courses'][$i];
+                $hr_pre_emp->employed_from = $input['pre_employment_from_dates'][$i];
+                $hr_pre_emp->employed_until = $input['pre_employment_until_dates'][$i];
+                $hr_pre_emp->save();            
+            }
+
+            $companyHrNotes = CompanyHrNotes::where('company_hr_id',$companyHr_id)->get();
+            foreach ($companyHrNotes as $companyHrNote) 
+            {
+                if($companyHrNote->code == 'hr_notes')
+                {
+                    if (isset($input['hr_notes']) && !is_null($input['hr_notes']) ) 
+                    {
+                        $hr_notes = CompanyHrNotes::find($companyHrNote->id);
+                        $hr_notes->company_hr_id = $companyHr_id;
+                        $hr_notes->user_id = $user_id;
+                        $hr_notes->code = 'hr_notes'; 
+                        $hr_notes->note = $input['hr_notes'];
+                        $hr_notes->save();
+                    }
+                    else
+                    {
+                        $hr_notes = CompanyHrNotes::find($companyHrNote->id);
+                        $hr_notes->delete();
+                    }
+                }
+                elseif ($companyHrNote->code == 'manager_notes') 
+                {
+                    if (isset($input['manager_notes']) && !is_null($input['manager_notes']) ) 
+                    {
+                        $manager_notes = CompanyHrNotes::find($companyHrNote->id);
+                        $manager_notes->company_hr_id = $companyHr_id;
+                        $manager_notes->user_id = $user_id;
+                        $manager_notes->code = 'manager_notes'; 
+                        $manager_notes->note = $input['manager_notes'];
+                        $manager_notes->save();
+                    }
+                    else
+                    {
+                        $manager_notes = CompanyHrNotes::find($companyHrNote->id);
+                        $manager_notes->delete();
+                    }
+
+                }
+                elseif ($companyHrNote->code == 'salary_development_notes') 
+                {
+                    if(isset($input['salary_development_notes']) && !is_null($input['salary_development_notes']))
+                    {
+                        $salary_development_notes = CompanyHrNotes::find($companyHrNote->id);
+                        $salary_development_notes->company_hr_id = $companyHr_id;
+                        $salary_development_notes->user_id = $user_id;
+                        $salary_development_notes->code = 'salary_development_notes'; 
+                        $salary_development_notes->note = $input['salary_development_notes'];
+                        $salary_development_notes->save();
+                    }
+                    else
+                    {
+                        $salary_development_notes = CompanyHrNotes::find($companyHrNote->id);
+                        $salary_development_notes->delete();
+                    }
+
+                }
+            }
+
+            session()->flash('msg.success','Company Hr updated successfully.');
+            return redirect()->route('company.companyHrs.index'); 
+        }
+        catch (\Exception $e) 
+        {
+            session()->flash('msg.success','Company Hr cannot updated Error : '.$e->getMessage());
+            return redirect()->route('company.companyHrs.index');
+        }
 
 
     }
