@@ -18,7 +18,7 @@
                 @endif
 
                 <div class="text-right m-b-3">
-                    <a href="{{ route('company.rooms.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i>Add
+                    <a href="{{ route('company.rooms.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;Add
                         Room</a>
                 </div>
 

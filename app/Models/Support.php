@@ -53,7 +53,11 @@ class Support extends Model
         'status_id',
         'priority_id',
         'user_id',
-        'category_id'
+        'category_id',
+        'company_id',
+        'company_name',
+        'last_comment',
+        'agent'
     ];
 
     /**
@@ -70,7 +74,8 @@ class Support extends Model
         'status_id' => 'integer',
         'priority_id' => 'integer',
         'user_id' => 'integer',
-        'category_id' => 'integer'
+        'category_id' => 'integer',
+        'agent' => 'integer'
     ];
 
     /**
@@ -112,6 +117,15 @@ class Support extends Model
      **/
     public function user()
     {
-        return $this->belongsTo(\App\Models\User::class);
+        return $this->belongsTo(\App\Models\User::class,'user_id','id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function userAgent()
+    {
+        return $this->belongsTo(\App\Models\User::class,'agent','id');
+
     }
 }

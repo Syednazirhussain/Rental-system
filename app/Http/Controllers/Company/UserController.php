@@ -221,6 +221,7 @@ class UserController extends AppBaseController
     {
         if (Auth::guard('company')->attempt(array('email'=>$request->input('email'), 'password'=>$request->input('password'),'user_role_code'=>'company_admin'))) 
         {
+
             if (Auth::guard('company')->user()->first_login)
             {
                 Auth::guard('company')->user()->update(array('first_login' => false));
@@ -229,7 +230,12 @@ class UserController extends AppBaseController
             return redirect()->route('company.dashboard');
                     
 
-        } else {
+        }
+        elseif (Auth::guard('company')->attempt(array('email'=>$request->input('email'), 'password'=>$request->input('password'),'user_role_code'=>'company_technical_support'))) 
+        {
+            return redirect()->route('company.dashboard');
+        }
+         else {
 
             return redirect()->route('company.login')
             ->with('errorLogin', 'Ooops! Invalid Email or Password')

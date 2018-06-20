@@ -49,6 +49,7 @@
     45 => 'Orangehill\\Iseed\\IseedServiceProvider',
     46 => 'Barryvdh\\DomPDF\\ServiceProvider',
     47 => 'Unisharp\\Ckeditor\\ServiceProvider',
+    48 => 'Spatie\\Permission\\PermissionServiceProvider',
   ),
   'eager' => 
   array (
@@ -85,6 +86,7 @@
     30 => 'Orangehill\\Iseed\\IseedServiceProvider',
     31 => 'Barryvdh\\DomPDF\\ServiceProvider',
     32 => 'Unisharp\\Ckeditor\\ServiceProvider',
+    33 => 'Spatie\\Permission\\PermissionServiceProvider',
   ),
   'deferred' => 
   array (

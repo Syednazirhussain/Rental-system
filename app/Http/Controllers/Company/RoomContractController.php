@@ -257,6 +257,7 @@ class RoomContractController extends AppBaseController
             ->select('rooms.id','rooms.name', 'room_contracts.start_date', 'room_contracts.end_date', 'company_buildings.name as buildingName', 'company_floor_rooms.floor')
             ->distinct('rooms.id')->orderBy('rooms.id', 'DESC')->get();
 
+
         $data = [
             'rooms' => $rooms,
             'countries' => $countries,
@@ -272,6 +273,7 @@ class RoomContractController extends AppBaseController
         ];
 
         return view('company.contracts.status', $data);
+
     }
 
     /**

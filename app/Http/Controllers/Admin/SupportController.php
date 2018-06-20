@@ -10,12 +10,22 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
-
-// use App\Models\Support;
+use App\Models\Support;
 use App\Models\SupportPriorities;
 use App\Models\SupportCategory;
 use App\Models\SupportStatus;
+use App\Models\User;
+use App\Models\CompanyUser;
+use App\Models\CompanyCustomer;
+use App\Models\UserRole;
+
+use App\Mail\TicketEmail;
+use App\Mail\ChangedStatusAndPriorityEmail;
+// use Illuminate\Support\Facades\URL;
+use Mail;
 use Auth;
+
+
 
 class SupportController extends AppBaseController
 {
@@ -36,7 +46,119 @@ class SupportController extends AppBaseController
     public function index(Request $request)
     {
         $this->supportRepository->pushCriteria(new RequestCriteria($request));
-        $supports = $this->supportRepository->all();
+
+        $user_role = Auth::guard('admin')->user()->user_role_code;
+
+        $status_id = SupportStatus::where('name','Solved')->first()->id;
+
+        $supports = Support::where('status_id', '!=' ,$status_id)->where('parent_id',0)->get();
+
+        return view('admin.supports.index')->with('supports',$supports);
+
+    }
+
+    public function dashboard()
+    {
+        // support ticket count
+        
+        $totalTickets = Support::all()->count();
+        // $support = Support::all();
+
+        $support = Support::where('parent_id','==',0)->get();
+
+        
+        $status_id = SupportStatus::where('name','Pending')->first()->id;
+        $openTickets = Support::where('status_id',$status_id)
+                            ->get()
+                            ->count();
+
+        $status_id = SupportStatus::where('name','Solved')->first()->id;
+        $closedTickets = Support::where('status_id',$status_id)
+                            ->get()
+                            ->count();
+
+
+        // dd($support);
+
+        // support user display and count 
+
+        $uniqUsers = [];
+        $index = 0;
+        for ($i=0; $i < count($support); $i++) { 
+            if (!empty($uniqUsers)) {
+                if (!in_array($support[$i]->user_id, $uniqUsers)) {
+                    $uniqUsers[$index] = $support[$i]->user_id;
+                    $index++;
+                }
+            }
+            else{
+                $uniqUsers[$index] = $support[$i]->user_id;
+                $index++;
+            }
+        }
+
+        $countUser  =   [];
+ 
+        $totalUser  =   [];
+        $index      =   0;
+        for ($i=0; $i < count($uniqUsers); $i++) {
+            $countUser[$index]= Support::where('user_id',$uniqUsers[$i])->get();
+            $supportUserName  =    Support::where('user_id',$uniqUsers[$i])->first();
+            $name   =   $supportUserName->user->name;
+            $totalUser[$index]      =   ['user_name' => $name, 'total' => count($countUser[$index])];
+            $index++;
+        }
+        
+
+        // support category count
+        $categoryAll = SupportCategory::all('name');
+
+        $categoryNames = [];
+        $index = 0;
+
+        foreach ($categoryAll as $category) {
+            $categoryNames[$index] = $category->name;
+            $index++;
+
+        }
+
+
+        $counts = [];
+        $index = 0;
+        foreach ($categoryNames as  $categoryName) 
+        {
+            $category_id = SupportCategory::where('name',$categoryName)->first()->id;
+            $Count = Support::where('category_id',$category_id)
+                                ->get()
+                                ->count();
+            $counts[$index] = [ 'category' =>  $categoryName, 'totalCount' => $Count];
+            $index++;
+        }
+
+
+
+        $categories = SupportCategory::all();
+
+        $data = [
+                    'totalTickets'      =>  $totalTickets,
+                    'openTickets'       =>  $openTickets,
+                    'closedTickets'     =>  $closedTickets,
+                    'categories'        =>  $categories,
+                    'counts'            =>  $counts,
+                    'support'           =>  $support,
+                    'totalUser'         =>  $totalUser
+                ];
+        return view('admin.supports.dashboard',$data);
+    }
+
+    public function completedTicket()
+    {
+
+        $status_id = SupportStatus::where('name','Solved')->first()->id;
+        $supports = Support::where('status_id',$status_id)
+                            ->where('parent_id',0)
+                            ->get();
+
         return view('admin.supports.index')->with('supports', $supports);
     }
 
@@ -44,10 +166,19 @@ class SupportController extends AppBaseController
     public function companyIndex(Request $request)
     {
         $user_id = Auth::guard('company')->user()->id;
+
         //dd( Auth::guard('company'));
         $tickets = $this->supportRepository->getAllTicketsByUserId($user_id);
 
-        return view('company.supports.index',compact('tickets'));
+
+        $status_id = SupportStatus::where('name','Solved')->first()->id;
+
+        $supports = Support::where('status_id', '!=' ,$status_id)
+                            ->where('parent_id',0)
+                            ->where('user_id',$user_id)
+                            ->get();
+
+        return view('company.supports.index',compact('supports'));
     }
 
 
@@ -76,40 +207,158 @@ class SupportController extends AppBaseController
 
         $input = $request->except(['files']);
 
-        $support_status_id = SupportStatus::where('name','Pending')->first()->id;
+        if(isset($input['parent_id']))
+        {
+            $parent_id =  $input['parent_id'];
 
-        $user_id = Auth::guard('company')->user()->id;
+            $support = $this->supportRepository->create($input);
 
-        $input['parent_id'] = 0;
-        $input['user_id'] = $user_id;
-        $input['status_id'] = $support_status_id;
+            if($support)
+            {
+                $updateSupport = Support::where('id',$parent_id)->first();
+
+                $updateSupport->last_comment = $input['last_comment'];
+
+                $updateSupport->save();
+            }
+
+            session()->flash('msg.success','Message sent successfully.');
+
+            return redirect()->route('company.supports.show',[$parent_id]);
+        }   
+        else
+        {
 
 
-        $support = $this->supportRepository->create($input);
+            $support_status_id = SupportStatus::where('name','Pending')->first()->id;
+
+            $user_id = Auth::guard('company')->user()->id;
+            $email = Auth::guard('company')->user()->email;
+            $user_name = Auth::guard('company')->user()->name;
+
+            $user = User::find($user_id);
+
+            $company_name = $user->companyUser->company->name;
+            $company_id   = $user->companyUser->company->id;
+
+            $input['parent_id'] = 0;
+            $input['user_id'] = $user_id;
+            $input['status_id'] = $support_status_id;
+            $input['company_id'] = $company_id;
+            $input['company_name'] = $company_name;
+            $input['last_comment'] = $user_name;
 
 
-        // Flash::success('Support saved successfully.');
 
-        session()->flash('msg.success','Support saved successfully.');
+            $support = $this->supportRepository->create($input);
+            dd($input);
+            if($support)
+            {
+                $input['header'] = 'Dear '.$user_name;
 
-        return redirect(route('company.supports.index'));
+                $input['sub_header'] = 'You have created a new ticket subject';
+                
+                Mail::to($email)->send(new TicketEmail($input));                
+            }
+
+            session()->flash('msg.success','Ticket generated successfully.');
+
+            return redirect(route('company.supports.index'));
+        }        
     }
 
     public function companyShow($ticket_id)
     {
         $ticketId = (int)$ticket_id;
 
-        $ticket = $this->supportRepository->getMasterTicket(0,$ticketId);
+        $ticket = $this->supportRepository->findWithoutFail($ticketId);
 
-        return view('company.supports.show',compact('ticket'));   
+        if (empty($ticket)) 
+        {
+            // session()->flash('msg.error','Ticket not found');
+            return redirect(route('company.supports.index'));
+        }
+        else
+        {
+            if(Auth::guard('company')->check())
+            {
+                $user_id = Auth::guard('company')->user()->id;
+                $companyUser = CompanyUser::where('user_id',$user_id)->first();
+
+                if($companyUser->company_id == $ticket->company_id)
+                {
+                    if($ticket->parent_id == 0)
+                    {
+                        $ticket = Support::where('parent_id',0)->where('id',$ticketId)->first();
+                        $reply = Support::where('parent_id',$ticketId)->get();
+                        $role_code = Auth::guard('company')->user()->user_role_code;
+                        if(isset($reply) && count($reply) == 0)
+                        {
+                            $data = [
+                                'ticket' => $ticket,
+                                'role_code' => $role_code       
+                            ];
+                        }
+                        else
+                        {
+                            $data = [
+                                'ticket' => $ticket,
+                                'role_code' => $role_code,
+                                'reply'   => $reply
+                            ];
+                        }
+                        return view('company.supports.show',$data);
+                    }
+                    else
+                    {
+                        $ticketId = $ticket->parent_id;
+                        $ticket = Support::where('parent_id',0)->where('id',$ticketId)->first();
+                        $reply = Support::where('parent_id',$ticketId)->get();
+                        $role_code = Auth::guard('company')->user()->user_role_code;
+                        if(isset($reply) && count($reply) == 0)
+                        {
+                            $data = [
+                                'ticket' => $ticket,
+                                'role_code' => $role_code       
+                            ];
+                        }
+                        else
+                        {
+                            $data = [
+                                'ticket' => $ticket,
+                                'role_code' => $role_code,
+                                'reply'   => $reply
+                            ];
+                        }
+                        return view('company.supports.show',$data);
+                    }
+                }
+                else
+                {
+                    return redirect()->back();
+                }
+            }
+            else
+            {
+                session()->flash('msg.error','Please login to your account');
+                return redirect()->route('company.login');
+            }
+        }
     }
 
 
-
-
-    public function companyCompleteTicket()
+    public function companyCompleteTicket(Request $request)
     {
-        return view('company.supports.completeTicket');   
+        $status_id = SupportStatus::where('name','Solved')->first()->id;
+
+        $user_id = Auth::guard('company')->user()->id;
+
+        $supports = Support::where('status_id',$status_id)
+                    ->where('user_id',$user_id)
+                    ->where('parent_id',0)
+                    ->get();
+
+        return view('company.supports.index',compact('supports'));  
     }
 
 
@@ -132,13 +381,58 @@ class SupportController extends AppBaseController
      */
     public function store(CreateSupportRequest $request)
     {
-        $input = $request->all();
+
+        $this->validate($request,[
+            'subject' => 'required',
+            'content' => 'required',
+            'category_id' => 'required',
+            'priority_id' => 'required',
+            'status_id' => 'required',
+            'user_id' => 'required',
+            'parent_id' => 'required',
+        ]);
+
+        $input = $request->except(['files']);
 
         $support = $this->supportRepository->create($input);
 
-        Flash::success('Support saved successfully.');
+        if($support)
+        {
+            $parent_id =  $input['parent_id'];
+            $company_id = (int)$input['company_id'];
+            $company_user = CompanyUser::select('user_id')->where('company_id',$company_id)->first();
+            $user_id = $company_user->user_id;
+            $user = User::find($user_id);
+            $email = $user->email;
+            $name = $user->name;
+            $input['header'] = 'Hi '.$name;
+            $input['sub_header'] = 'responed your ticket ';
+            Mail::to($email)->send(new TicketEmail($input));
 
-        return redirect(route('admin.supports.index'));
+            $supportStatus = SupportStatus::where('name','Progress')->first();
+            if($supportStatus)
+            {
+                $status_id = $supportStatus->id;
+                $updateSupport = Support::where('id',$parent_id)->first();
+                $updateSupport->last_comment = $input['last_comment'];
+                $updateSupport->status_id = $status_id;
+                $updateSupport->save();
+            }
+            else
+            {
+                $updateSupport = Support::where('id',$parent_id)->first();
+                $updateSupport->last_comment = $input['last_comment'];
+                $updateSupport->save();
+            }
+        }
+        else
+        {
+            session()->flash('msg.success','Message sent successfully.');
+            return redirect()->route('admin.supports.index');
+        }
+
+        session()->flash('msg.success','Support saved successfully.');
+        return redirect()->route('admin.supports.show',[$parent_id]);
     }
 
     /**
@@ -150,17 +444,67 @@ class SupportController extends AppBaseController
      */
     public function show($id)
     {
-        // $support = $this->supportRepository->findWithoutFail($id);
+        $ticketId = (int)$id;
 
-        // if (empty($support)) {
-        //     Flash::error('Support not found');
+        $support = $this->supportRepository->findWithoutFail($ticketId);
 
-        //     return redirect(route('admin.supports.index'));
-        // }
+        if (empty($support)) 
+        {
+            // session()->flash('msg.error','Ticket not found');
+            return redirect(route('admin.supports.index'));
+        }
+        else
+        {
+            $parent_id =  $support->parent_id;
 
-        // return view('admin.supports.show')->with('support', $support);
+            $priorities =  SupportPriorities::all();
+            $categories =  SupportCategory::all();
+            $statues =  SupportStatus::all();
+            $user_role = UserRole::all();
+            $agents = User::where('user_role_code','admin_technical_support')->get();
 
-        return view('admin.supports.show');
+            $role_code = Auth::guard('admin')->user()->user_role_code;
+
+            $userRoleArr = [];
+
+            foreach ($user_role as $key => $value) 
+            {
+                if (substr( $value->code, 0, 5 ) === "admin") 
+                {
+                    $userRoleArr[$key] = $value;
+                }
+            }
+
+            $reply = Support::where('parent_id',$ticketId)->get();
+
+            if(isset($reply) && count($reply) == 0)
+            {
+                $data = [
+                    'support' => $support,
+                    'priorities' => $priorities,
+                    'categories' => $categories,
+                    'statues'    => $statues,
+                    'userRoles'  => $userRoleArr,
+                    'agents'     => $agents,
+                    'role_code'  => $role_code        
+                ];
+            }
+            else
+            {
+                $data = [
+                    'support' => $support,
+                    'reply'   => $reply,
+                    'priorities' => $priorities,
+                    'categories' => $categories,
+                    'statues'    => $statues,
+                    'userRoles'  => $userRoleArr,
+                    'agents'     => $agents,
+                    'role_code'  => $role_code    
+                ];
+            }
+
+            return view('admin.supports.show',$data);
+        }
     }
 
     /**
@@ -193,19 +537,107 @@ class SupportController extends AppBaseController
      */
     public function update($id, UpdateSupportRequest $request)
     {
-        $support = $this->supportRepository->findWithoutFail($id);
 
-        if (empty($support)) {
-            Flash::error('Support not found');
+        $input = $request->except(['files']);
 
+        $support = Support::find($id);
+
+
+
+        if (empty($support)) 
+        {
+            session()->flash('msg.error','Support not found');
             return redirect(route('admin.supports.index'));
         }
 
-        $support = $this->supportRepository->update($request->all(), $id);
 
-        Flash::success('Support updated successfully.');
+        // When admin changed the priority or status an email has been generated to ticket owner
+        if($support->priority_id != $input['priority_id'] || $support->status_id != $input['status_id'])
+        {
+            $username = $support->user->name;
+            $email = $support->user->email;
+            $messageUser = Auth::guard('admin')->user()->name;
 
-        return redirect(route('admin.supports.index'));
+            $data['subject'] = 'Highnox Customer Support [Ticket# '.$id.']'; 
+            $url =  url('/').'/company/supports/'.$id;
+            $data['footer1'] = 'Thanks';
+            $data['footer2'] = 'Regards,';
+            $data['footer3'] = 'Highnox';
+
+            if($support->priority_id != $input['priority_id'] && $support->status_id == $input['status_id'])
+            {
+                $newPriority = SupportPriorities::find($input['priority_id'])->name;
+                $priority = $support->supportPriority->name;
+                $data['header'] = 'Dear '.$username.',';
+                $data['body'] = 'Your ticket number# '.$id.' at '.$url.'  priority has been changed from `'.$priority.'` to `'.$newPriority.'`';
+
+                // $data['footer'] = nl2br("Thanks \n\nRegards,\nHighnox",false);
+                // $data['footer'] = htmlentities('Thanks <br/><br/>Regards,<br/>Highnox', ENT_QUOTES);
+
+                Mail::to($email)->send(new ChangedStatusAndPriorityEmail($data));
+
+            }
+            elseif ($support->priority_id == $input['priority_id'] && $support->status_id != $input['status_id']) 
+            {
+                $newStatus = SupportStatus::find($input['status_id'])->name;
+                $status = $support->supportStatus->name;
+                $data['header'] = 'Dear '.$username.',';
+                
+                $data['body'] = 'Your ticket number# '.$id.' at '.$url.'  status has been changed from `'.$status.'` to `'.$newStatus.'`';
+
+                Mail::to($email)->send(new ChangedStatusAndPriorityEmail($data));
+
+            }
+            else
+            {
+                $priority = $support->supportPriority->name;
+                $status = $support->supportStatus->name;
+                $newPriority = SupportPriorities::find($input['priority_id'])->name;
+                $newStatus = SupportStatus::find($input['status_id'])->name;
+                $data['header'] = 'Dear '.$username.',';
+                $data['body'] = 'Your ticket number# '.$id.' at '.$url.'  status has been changed from `'.$status.'` to `'.$newStatus.'` and priority has been changed from `'.$priority.'` to `'.$newPriority.'`';
+
+                Mail::to($email)->send(new ChangedStatusAndPriorityEmail($data));
+            }
+        }
+    
+        $support->subject       = $input['subject'];
+        $support->content       = $input['content'];
+        $support->priority_id   = $input['priority_id'];
+        $support->category_id   = $input['category_id'];
+        $support->status_id     = $input['status_id'];
+
+        if(isset($input['agent']))
+        {
+            $support->agent = $input['agent'];            
+        }
+
+        $support->save();
+
+        session()->flash('msg.success','Ticket updated successfully');
+        return redirect()->back();
+    }
+
+
+    public function solved($id)
+    {
+        $support = $this->supportRepository->findWithoutFail($id);
+
+        $status_id = SupportStatus::where('name','Solved')->first()->id;
+
+        $support->status_id = $status_id;
+
+        if( $support->save() )
+        {
+            Support::where('parent_id',$id)->update(['status_id' => $status_id]);
+            return redirect()->route('admin.supports.show',[$id]);
+        }
+        else
+        {
+            session()->flash('msg.error','Ticket Status cannot be updated');
+            return redirect(route('admin.supports.index'));
+        } 
+
     }
 
     /**

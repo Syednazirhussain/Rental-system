@@ -21,19 +21,13 @@
 
 
       $.validator.addMethod(
-              "regex",
-              function(value, element, regexp) {
-                  var re = new RegExp(regexp);
-                  return this.optional(element) || re.test(value);
-              },
-              "Please check your input."
+        "regex",
+        function(value, element, regexp) {
+            var re = new RegExp(regexp);
+            return this.optional(element) || re.test(value);
+        },
+        "Please check your input."
       );
-
-
-
-      /*$.validator.addMethod("stringOnly",function(value,){
-
-      });*/
       
       // Initialize validator
       $('#supportCategoryForm').pxValidate({
@@ -45,15 +39,11 @@
             regex: "^[a-zA-Z'.\\s]{1,100}$"
           }
         },
-
-
-
         messages: {
           'name': {
             required: "Please enter the name",
           }
         }
-
       });
 
 

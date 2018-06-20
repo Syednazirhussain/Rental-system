@@ -43,5 +43,9 @@ class City extends Model
         'state_id' => 'required|integer'
     ];
 
+    public function city()
+    {
+        return $this->belongsTo(\App\Models\Company\companyHr::class,'city_id','id');
+    }
     
 }

@@ -11,121 +11,342 @@
         <div class="panel">
             <div class="panel-body">
 
+                @if(session()->has('msg.success'))
+                    @include('layouts.success_msg')
+                @endif
+
+
                 @include('admin.support_admin.master')
-
-
 
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="content">
                             <h2 class="header">
-                                Asperiores praesentium vero et quo quaerat sunt.
+                                {{ $support->subject }}
                                 <span class="pull-right">
-                                    <a href="#" class="btn btn-success">Mark Complete</a>
 
-                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-default">Edit</button>
+                                    @if($role_code == 'admin')
 
-                                    <a href="#" class="btn btn-danger deleteit" form="delete-ticket-27" node="Asperiores praesentium vero et quo quaerat sunt.">Delete</a>
+                                        @if($support->status_id == 5)
+                                            
+                                        @else
+                                            <a href="{{ route('admin.supports.solved',[$support->id]) }}" class="btn btn-success">Mark Complete</a>
+                                        @endif
+                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-default">Edit</button>
 
+                                    @elseif($role_code == 'admin_technical_support' && $support->agent == \Auth::guard('admin')->user()->id )
+
+                                        @if($support->status_id == 5)
+                                            
+                                        @else
+                                            <a href="{{ route('admin.supports.solved',[$support->id]) }}" class="btn btn-success">Mark Complete</a>
+                                        @endif
+                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-default">Edit</button>
+
+                                    @endif
+
+
+<!--                                     <a href="#" class="btn btn-danger deleteit" form="delete-ticket-27" node="Asperiores praesentium vero et quo quaerat sunt.">Delete</a> -->
                                 </span>
                             </h2>
                             <div class="panel well well-sm">
                                 <div class="panel-body">
                                     <div class="col-md-12">
                                         <div class="col-md-6">
-                                            <p> <strong>Owner</strong>: Kyra Kshlerin</p>
-                                                <p><strong>Status</strong>:<span style="color: #e69900">Pending</span>
+                                            <p> <strong>Owner</strong>: {{$support->user->name }}</p>
+                                                <p><strong>Status</strong>:
+                                                    @if($support->supportStatus->name == 'Pending')
+                                                    <span class="label label-warning">{{ $support->supportStatus->name }}</span>
+                                                    @elseif($support->supportStatus->name == 'Solved')
+                                                    <span class="label label-primary">{{ $support->supportStatus->name }}</span>
+                                                    @elseif($support->supportStatus->name == 'Bug')
+                                                    <span class="label label-danger">{{ $support->supportStatus->name }}</span>
+                                                    @else
+                                                    <span class="label label-default">{{ $support->supportStatus->name }}</span>
+                                                    @endif
                                             </p>
-                                                <p><strong>Priority</strong>:<span style="color: #e1d200">Normal</span>
+                                                <p><strong>Priority</strong>:
+                                                    @if($support->supportPriority->name == 'Low')
+                                                    <span class="label label-info">{{ $support->supportPriority->name }}</span>
+                                                    @elseif($support->supportPriority->name == 'Normal')
+                                                    <span class="label label-warning">{{ $support->supportPriority->name }}</span>
+                                                    @elseif($support->supportPriority->name == 'Critical')
+                                                    <span class="label label-danger">{{ $support->supportPriority->name }}</span>
+                                                    @endif
                                             </p>
                                         </div>
                                         <div class="col-md-6">
-                                            <p> <strong>Responsible</strong>: Lera Torphy</p>
-                                                <p><strong>Category</strong>:<span style="color: #2b9900">Billing</span>
+                                            <p> 
+                                                <strong>Responsible</strong>:
+                                                 @if(isset($support->agent)){{ $support->userAgent->name }}@endif
+                                             </p>
+                                            <p>
+                                                <strong>Category</strong>:
+                                                    <span class="label label-success">{{ $support->supportCategory->name }}</span>
                                             </p>
-                                            <p> <strong>Created</strong>: 4 days ago</p>
-                                            <p> <strong>Last Update</strong>: 15 minutes ago</p>
+                                            <p> <strong>Created</strong>: {{ \Carbon\Carbon::parse($support->created_at)->diffForHumans() }}</p>
+                                            <p> 
+                                                <strong>Last Update</strong>:
+                                                <?php
+                                                if(isset($reply))
+                                                {
+                                                    $last = count($reply);
+                                                    echo \Carbon\Carbon::parse($reply[$last-1]->updated_at)->diffForHumans();
+                                                }
+                                                else
+                                                {
+                                                    echo \Carbon\Carbon::parse($support->updated_at)->diffForHumans();
+                                                }
+                                                ?>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <p> 
-                                    Quis eligendi aliquid ea enim et recusandae vero. Deserunt ipsam autem nemo laborum aliquid sint reprehenderit.
-                                    <br>
-                                    <br>
-                                    Aut quam laudantium culpa modi nulla. Fugiat aut in incidunt illum. Quia maxime quod nisi. Labore blanditiis est quidem error. Non aut quidem nemo sint iusto sint corporis maxime.<br>
-                                    <br>
-                                    Culpa tenetur sint quam autem tenetur. Dicta corrupti itaque iste ut omnis. Laboriosam sit totam repellendus ut. Error consequatur cumque iure hic sequi. 
-                                </p>
+                                <?php echo html_entity_decode($support->content) ?>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                @if(isset($reply))
+
+                @foreach($reply as $rply)
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                {{ $rply->user->name }}
+                                <span class="pull-right"> {{ \Carbon\Carbon::parse($rply->created_at)->diffForHumans() }} </span>
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="content">
+                                <?php echo html_entity_decode($rply->content) ?>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+
+                @endif
+
+
+                @if($role_code == 'admin')
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form  action="{{ route('admin.supports.store') }}" method="POST" id="commentForm" class="form-horizontal">
+
+                            <input name="_token" type="hidden" value="{{ csrf_token() }}">
+                            <input name="parent_id" type="hidden" value="{{ $support->id }}">
+                            <input name="subject" type="hidden" value="{{ $support->subject }}">
+                            <input name="status_id" type="hidden" value="{{ $support->status_id }}">
+                            <input name="priority_id" type="hidden" value="{{ $support->priority_id }}">
+                            <input name="category_id" type="hidden" value="{{ $support->category_id }}">
+                            <input name="user_id" type="hidden" value="{{ auth()->guard('admin')->user()->id }}">
+                            <input name="last_comment" type="hidden" value="{{ auth()->guard('admin')->user()->name }}">
+                            <input name="company_id" type="hidden" value="{{ $support->company_id }}">
+                            <input name="company_name" type="hidden" value="{{ $support->company_name }}">
+                            <fieldset>
+                                <legend>Reply</legend>
+                                <div class="form-group">
+                                    <div class="col-lg-12">
+                                        <textarea id="summernote-base1" type="text" name="content"></textarea>
+                                        <span class="help-block">Describe your issue here in details</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i>&nbsp;Send</button>
+                                    <!-- <input class="btn btn-primary" type="submit" value="Submit"> -->
+                                    <a href="{{ route('admin.supports.index') }}" class="btn btn-default"><i class="fa fa-times"></i>&nbsp;CANCEL</a>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+
+                @elseif($role_code == 'admin_technical_support' && $support->agent == \Auth::guard('admin')->user()->id )
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form  action="{{ route('admin.supports.store') }}" method="POST" id="commentForm" class="form-horizontal">
+
+                            <input name="_token" type="hidden" value="{{ csrf_token() }}">
+                            <input name="parent_id" type="hidden" value="{{ $support->id }}">
+                            <input name="subject" type="hidden" value="{{ $support->subject }}">
+                            <input name="status_id" type="hidden" value="{{ $support->status_id }}">
+                            <input name="priority_id" type="hidden" value="{{ $support->priority_id }}">
+                            <input name="category_id" type="hidden" value="{{ $support->category_id }}">
+                            <input name="user_id" type="hidden" value="{{ auth()->guard('admin')->user()->id }}">
+                            <input name="last_comment" type="hidden" value="{{ auth()->guard('admin')->user()->name }}">
+                            <input name="company_id" type="hidden" value="{{ $support->company_id }}">
+                            <input name="company_name" type="hidden" value="{{ $support->company_name }}">
+                            <fieldset>
+                                <legend>Reply</legend>
+                                <div class="form-group">
+                                    <div class="col-lg-12">
+                                        <textarea id="summernote-base1" type="text" name="content"></textarea>
+                                        <span class="help-block">Describe your issue here in details</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i>&nbsp;Send</button>
+                                    <!-- <input class="btn btn-primary" type="submit" value="Submit"> -->
+                                    <a href="{{ route('admin.supports.index') }}" class="btn btn-default"><i class="fa fa-times"></i>&nbsp;CANCEL</a>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+
+
+                @endif
+
                 <div class="modal fade in" id="modal-default" tabindex="-1">
                   <div class="modal-dialog modal-lg">
                     <div class="modal-content">
-                        <form method="POST" action="" accept-charset="UTF-8" class="form-horizontal">
-                            <input name="_method" type="hidden" value="PATCH"><input name="_token" type="hidden" value="">
+                        <form method="POST" action="{{ route('admin.supports.update',[$support->id]) }}" id="modalForm" class="form-horizontal">
+
+                            <input name="_method" type="hidden" value="PATCH">
+                            <input name="_token" type="hidden" value="{{ csrf_token() }}">
+                            
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                                <h4 class="modal-title" id="ticket-edit-modal-Label">Asperiores praesentium vero et quo quaerat sunt.</h4>
+                                <h4 class="modal-title" id="ticket-edit-modal-Label">{{ $support->subject }}</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label class="control-label">Subject</label>
-                                        <input class="form-control" required="required" name="subject" type="text" value="Asperiores praesentium vero et quo quaerat sunt.">
+                                        <input class="form-control" required="required" name="subject" type="text" value="{{ $support->subject }}">
                                     </div>
                                     <div class="form-group">
-                                        <textarea id="summernote-base">Summernote Editor</textarea>
+                                        <textarea id="summernote-base2" name="content" required="required"></textarea>
                                     </div>
                                 </div>
 
-                                <div class="col-sm-6">
-                                    <label for="priority_id" class="control-label">Priority: </label>
-                                    <select class="form-control" id="priority_id" name="priority_id">
-                                        <option value="1">Low</option>
-                                        <option value="2" selected="selected">Normal</option>
-                                        <option value="3">Critical</option>
-                                    </select>
-                                </div>
-                    
-                                <div class="col-sm-6">
-                                    <label for="agent_id" class="control-label">Agent: </label>
-                                    <select class="form-control" id="agent_id" name="agent_id">
-                                        <option value="auto">Auto Select</option>
-                                        <option value="2" selected="selected">Lera Torphy</option>
-                                        <option value="4">Shana Champlin</option>
-                                    </select>
-                                </div>
-                   
-                                <div class="col-sm-6">
-                                    <label for="category_id" class="control-label">Category: </label>
-                                    <select class="form-control" id="category_id" name="category_id">
-                                        <option value="1">Technical</option>
-                                        <option value="2" selected="selected">Billing</option>
-                                        <option value="3">Customer Services</option>
-                                    </select>
-                                </div>
-                         
-                                <div class="col-sm-6">
-                                    <label for="status_id" class="control-label">Status: </label>
-                                    <select class="form-control" id="status_id" name="status_id">
-                                        <option value="1" selected="selected">Pending</option>
-                                        <option value="2">Solved</option>
-                                        <option value="3">Bug</option>
-                                    </select>
-                                </div>
+                                <div class="row">
 
+                                    @if($role_code == 'admin')
+
+                                    <div class="col-sm-3">
+                                        <label for="priority_id" class="control-label">Priority </label>
+                                        <select class="form-control" name="priority_id">
+                                            @if(isset($priorities))
+                                                @foreach($priorities as $priority)
+                                                    @if($support->priority_id == $priority->id)
+                                                        <option value="{{ $priority->id }}" selected="selected">{{ $priority->name }}</option>
+                                                    @else
+                                                        <option value="{{ $priority->id }}">{{ $priority->name }}</option>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                       
+                                    <div class="col-sm-3">
+                                        <label for="category_id" class="control-label">Category </label>
+                                        <select class="form-control" name="category_id">
+                                            @if(isset($categories))
+                                                @foreach($categories as $category)
+                                                    @if($support->category_id == $category->id)
+                                                        <option value="{{ $category->id }}" selected="selected">{{ $category->name }}</option>
+                                                    @else
+                                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                             
+                                    <div class="col-sm-3">
+                                        <label for="status_id" class="control-label">Status </label>
+                                        <select class="form-control" name="status_id">
+                                            @if(isset($statues))
+                                                @foreach($statues as $status)
+                                                    @if($support->status_id == $status->id)
+                                                    <option value="{{ $status->id }}" selected="selected">{{ $status->name }}</option>
+                                                    @else
+                                                    <option value="{{ $status->id }}">{{ $status->name }}</option>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+
+                                    <div class="col-sm-3">
+                                        <label for="status_id" class="control-label">Agent </label>
+                                        <select class="form-control" name="agent">
+                                            <option value="">Select</option>
+                                            @if(isset($agents))
+                                                @foreach($agents as $agent)
+                                                    @if($support->agent == $agent->id)
+                                                    <option value="{{ $agent->id }}" selected="selected">{{ $agent->name }}</option>
+                                                    @else
+                                                    <option value="{{ $agent->id }}">{{ $agent->name }}</option>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div> 
+
+                                    @else
+
+                                    <div class="col-sm-4">
+                                        <label for="priority_id" class="control-label">Priority </label>
+                                        <select class="form-control" name="priority_id">
+                                            @if(isset($priorities))
+                                                @foreach($priorities as $priority)
+                                                    @if($support->priority_id == $priority->id)
+                                                        <option value="{{ $priority->id }}" selected="selected">{{ $priority->name }}</option>
+                                                    @else
+                                                        <option value="{{ $priority->id }}">{{ $priority->name }}</option>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                       
+                                    <div class="col-sm-4">
+                                        <label for="category_id" class="control-label">Category </label>
+                                        <select class="form-control" name="category_id">
+                                            @if(isset($categories))
+                                                @foreach($categories as $category)
+                                                    @if($support->category_id == $category->id)
+                                                        <option value="{{ $category->id }}" selected="selected">{{ $category->name }}</option>
+                                                    @else
+                                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                             
+                                    <div class="col-sm-4">
+                                        <label for="status_id" class="control-label">Status </label>
+                                        <select class="form-control" name="status_id">
+                                            @if(isset($statues))
+                                                @foreach($statues as $status)
+                                                    @if($support->status_id == $status->id)
+                                                    <option value="{{ $status->id }}" selected="selected">{{ $status->name }}</option>
+                                                    @else
+                                                    <option value="{{ $status->id }}">{{ $status->name }}</option>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+
+
+                                    @endif
+
+                                </div>
+                            
                                 <div class="col-sm-12 m-b-3 m-t-3">
-                                    <input class="btn btn-primary" type="submit" value="Submit">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                </div>
-                                    
+                                    <input class="btn btn-primary" type="submit" value="Update">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                                </div>  
                             </div>
-
                         </form>
                     </div>
                   </div>
@@ -135,15 +356,50 @@
         </div>
     </div>
 
+    <input type="hidden" id="editTextBox" value="{{ $support->content }}">
+
 @endsection
 
 
 @section('js')
     <script type="text/javascript">
 
+
+    // Initialize validator
+    $('#commentForm').pxValidate({
+        ignore: ":hidden:not(#summernote-base1),.note-editable.panel-body",
+        focusInvalid: false,
+        rules: {
+          'content': {
+            required: true
+          }
+        },
+        messages: {
+          'content': {
+            required: "Please enter the content above",
+          }
+        }
+    });
+
+
+    $('#modalForm').pxValidate({
+        ignore: ":hidden:not(#summernote-base2),.note-editable.panel-body",
+        focusInvalid: false,
+        rules: {
+          'content': {
+            required: true
+          }
+        },
+        messages: {
+          'content': {
+            required: "Please enter the content above",
+          }
+        }
+    });
+
     // Initialize Summernote
     $(function() {
-      $('#summernote-base').summernote({
+      $('#summernote-base1').summernote({
         height: 200,
         toolbar: [
           ['parastyle', ['style']],
@@ -160,6 +416,38 @@
         ],
       });
     });
+
+
+
+
+    // Initialize Summernote
+    $(function() {
+      $('#summernote-base2').summernote({
+        height: 200,
+        toolbar: [
+          ['parastyle', ['style']],
+          ['fontstyle', ['fontname', 'fontsize']],
+          ['style', ['bold', 'italic', 'underline', 'clear']],
+          ['font', ['strikethrough', 'superscript', 'subscript']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['height', ['height']],
+          ['insert', ['picture', 'link', 'video', 'table', 'hr']],
+          ['history', ['undo', 'redo']],
+          ['misc', ['codeview', 'fullscreen']],
+          ['help', ['help']]
+        ],
+      });
+    });
+
+
+
+
+    $(document).ready(function() { 
+        var value = $('#editTextBox').val();
+        $('#summernote-base2').summernote('editor.pasteHTML', value);
+    });
+
 
     </script>
 @endsection

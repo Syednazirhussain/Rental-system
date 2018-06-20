@@ -11,6 +11,7 @@
         <div class="panel">
             <div class="panel-body">
 
+
                 @include('company.support_company.master')
 
                 <div class="panel panel-default">
@@ -19,7 +20,7 @@
                             <h2 class="header">
                                 {{ $ticket->subject }}
                                 <span class="pull-right">
-                                    <a href="#" class="btn btn-success">Mark Complete</a>
+<!--                                     <a href="#" class="btn btn-success">Mark Complete</a> -->
                                 </span>
                             </h2>
                             <div class="panel well well-sm">
@@ -28,63 +29,105 @@
                                         <div class="col-md-6">
                                             <p> <strong>Owner</strong>: {{ $ticket->user->name  }}</p>
                                             <p> <strong>Status</strong>: 
-                                                <span style="color: #e69900">{{ $ticket->supportStatus->name }}</span>
+                                                @if($ticket->supportStatus->name == 'Pending')
+                                                <span class="label label-warning">{{ $ticket->supportStatus->name }}</span>
+                                                @elseif($ticket->supportStatus->name == 'Solved')
+                                                <span class="label label-primary">{{ $ticket->supportStatus->name }}</span>
+                                                @elseif($ticket->supportStatus->name == 'Bug')
+                                                <span class="label label-danger">{{ $ticket->supportStatus->name }}</span>
+                                                @endif
                                             </p>
                                             <p>
                                                 <strong>Priority</strong>: 
-                                                <span style="color: #069900">{{ $ticket->supportPriority->name }}</span>
+                                                @if($ticket->supportPriority->name == 'Low')
+                                                <span class="label label-info">{{ $ticket->supportPriority->name }}</span>
+                                                @elseif($ticket->supportPriority->name == 'Normal')
+                                                <span class="label label-warning">{{ $ticket->supportPriority->name }}</span>
+                                                @elseif($ticket->supportPriority->name == 'Critical')
+                                                <span class="label label-danger">{{ $ticket->supportPriority->name }}</span>
+                                                @endif
                                             </p>
                                         </div>
                                         <div class="col-md-6">
 <!--                                             <p> <strong>Responsible</strong>: Prof. Susie Gaylord II</p> -->
                                             <p>
                                                 <strong>Category</strong>: 
-                                                <span style="color: #0014f4">{{ $ticket->supportCategory->name }}</span>
+                                                <span class="label label-success">{{ $ticket->supportCategory->name }}</span>
                                             </p>
-                                            <p> <strong>Created</strong>: {{ \Carbon\Carbon::parse($ticket->created_at)->format('F d, Y')  }}</p>
-                                            <p> <strong>Last Update</strong>: {{ \Carbon\Carbon::parse($ticket->created_at)->format('F d, Y')  }}</p>
+                                            <p> <strong>Created</strong>: {{ \Carbon\Carbon::parse($ticket->created_at)->diffForHumans() }}</p>
+                                            <p> 
+                                                <strong>Last Update</strong>:
+                                                <?php
+                                                    if(isset($reply))
+                                                    {
+                                                        $last = count($reply);
+                                                        echo \Carbon\Carbon::parse($reply[$last-1]->updated_at)->diffForHumans();                                                        
+                                                    }
+                                                    else
+                                                    {
+                                                       echo \Carbon\Carbon::parse($ticket->updated_at)->diffForHumans(); 
+                                                    }
+
+                                                ?>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <p> </p><p><span style="color:rgb(115,115,115);background-color:rgb(245,245,245);">Describe your issue here in details</span><br></p> <p></p>
+                                <?php echo html_entity_decode($ticket->content) ?>
                             </div>
                         </div>
                     </div>
                 </div>
 
-<!--                 <div class="panel panel-default">
-                    <h2>Comments</h2>
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
-                            Orin Waters
-                            <span class="pull-right"> 1 minute ago </span>
-                        </h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="content">
-                            <p> </p><p>636363633</p><p><br></p> <p></p>
+                @if(isset($reply))
+
+                @foreach($reply as $rply)
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                {{ $rply->user->name }}
+                                <span class="pull-right"> {{ \Carbon\Carbon::parse($rply->created_at)->diffForHumans() }} </span>
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="content">
+                                <?php echo html_entity_decode($rply->content) ?>
+                            </div>
                         </div>
                     </div>
-                </div> -->
+                @endforeach
+
+                @endif
 
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <form method="POST" action="" accept-charset="UTF-8" class="form-horizontal">
-                            <input name="_token" type="hidden">
-                            <input name="ticket_id" type="hidden" value="1">
+                        <form method="POST" action="{{ route('company.supports.store') }}" id="commentForm" accept-charset="UTF-8" class="form-horizontal">
+                            <input name="_token" type="hidden" value="{{ csrf_token() }}">
+                            <input name="parent_id" type="hidden" value="{{ $ticket->id }}">
+                            <input name="subject" type="hidden" value="{{ $ticket->subject }}">
+                            <input name="status_id" type="hidden" value="{{ $ticket->status_id }}">
+                            <input name="priority_id" type="hidden" value="{{ $ticket->priority_id }}">
+                            <input name="category_id" type="hidden" value="{{ $ticket->category_id }}">
+                            <input name="user_id" type="hidden" value="{{ auth()->guard('company')->user()->id }}">
+                            <input name="last_comment" type="hidden" value="{{ auth()->guard('company')->user()->name }}">
+                            <input name="company_id" type="hidden" value="{{ $ticket->company_id }}">
+                            <input name="company_name" type="hidden" value="{{ $ticket->company_name }}">
 
                             <fieldset>
                                 <legend>Reply</legend>
                                 <div class="form-group">
                                     <div class="col-lg-12">
-                                        <textarea id="summernote-base"></textarea>
+                                        <textarea id="summernote-base" name="content"></textarea>
                                         <span class="help-block">Describe your issue here in details</span>
                                     </div>
                                 </div>
-                                <div class="text-right col-md-12">
-                                    <input class="btn btn-primary" type="submit" value="Submit">
+                                <div class="col-md-12">
+
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i>&nbsp;Send</button>
+                                    <!-- <input class="btn btn-primary" type="submit" value="Submit"> -->
+                                    <a href="{{ route('company.supports.index') }}" class="btn btn-default"><i class="fa fa-times"></i>&nbsp;CANCEL</a>
+                                
                                 </div>
                             </fieldset>
                         </form>
@@ -100,6 +143,24 @@
 
 @section('js')
     <script type="text/javascript">
+
+
+    // Initialize validator
+    $('#commentForm').pxValidate({
+        ignore: ":hidden:not(#summernote-base),.note-editable.panel-body",
+        focusInvalid: false,
+        rules: {
+          'content': {
+            required: true
+          }
+        },
+        messages: {
+          'content': {
+            required: "Please enter the content above",
+          }
+        }
+    });
+
 
     // Initialize Summernote
     $(function() {

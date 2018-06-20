@@ -14,7 +14,7 @@ class AddModuleCodeToModules extends Migration
     public function up()
     {
         Schema::table('modules', function($table){
-            $table->string('code', 50)->unique('module_code');
+            $table->string('code', 50)->unique('module_code')->nullable();
         });
     }
 

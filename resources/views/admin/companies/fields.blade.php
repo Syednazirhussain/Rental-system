@@ -126,15 +126,17 @@
                                             <label for="country_id">Country</label>
                                             <select name="country_id" id="country_id" class="form-control select2-country" style="width: 100%" data-allow-clear="true">
                                                 <option></option>
-                                                @foreach ($countries as $country)
-                                                     @if (isset($company) && $country->short == $company->country->short)
-                                                      <option value="{{ $country->id }}" selected="selected">{{ $country->name }}</option> 
-                                                     @elseif ($country->short == 'SE')
-                                                      <option value="{{ $country->id }}" selected="selected">{{ $country->name }}</option> 
-                                                     @else
-                                                      <option value="{{ $country->id }}">{{ $country->name }}</option> 
-                                                     @endif
-                                                @endforeach
+                                                
+                                                  @foreach ($countries as $country)
+                                                       @if (isset($company) && $country->short == $company->country->short)
+                                                        <option value="{{ $country->id }}" selected="selected">{{ $country->name }}</option> 
+                                                       @elseif ($country->short == 'SE')
+                                                        <option value="{{ $country->id }}" selected="selected">{{ $country->name }}</option> 
+                                                       @else
+                                                        <option value="{{ $country->id }}">{{ $country->name }}</option> 
+                                                       @endif
+                                                  @endforeach
+                                           
                                             </select>
                                             <div class="errorTxt"></div>
 
@@ -682,9 +684,5 @@
                         </div>
                       </div>
                     </div>
-
-
-
                 </div>
-
             </div>
