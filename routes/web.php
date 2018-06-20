@@ -752,6 +752,7 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::delete('company/survey/{survey}', ['as'=> 'company.survey.destroy', 'uses' => 'Company\Survey\CompanySurveyController@destroy']);
     Route::get('company/survey/{survey}', ['as'=> 'company.survey.show', 'uses' => 'Company\Survey\CompanySurveyController@show']);
     Route::get('company/survey/{survey}/edit', ['as'=> 'company.survey.edit', 'uses' => 'Company\Survey\CompanySurveyController@edit']);
+    Route::get('company/survey/{survey}/dashboard', ['as'=> 'company.survey.dashboard', 'uses' => 'Company\Survey\CompanySurveyController@dashboard']);
     //Company Survey Questions
     Route::get('company/survey_question', ['as'=> 'company.survey_question.index', 'uses' => 'Company\Survey\SurveyQuestionController@index']);
     Route::post('company/survey_question', ['as'=> 'company.survey_question.store', 'uses' => 'Company\Survey\SurveyQuestionController@store']);

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Company\Survey;
 use App\Http\Requests\Company\CreateRoomRequest;
 use App\Http\Requests\Company\UpdateRoomRequest;
 use App\Model\Survey\CompanySurvey;
+use App\Model\Survey\QuestionOption;
+use App\Model\Survey\SurveyAnswer;
 use App\Model\Survey\SurveyQuestion;
 use App\Models\CompanyService;
 use App\Models\Survey\AnswerType;
@@ -183,5 +185,30 @@ class CompanySurveyController extends AppBaseController
         $request->session()->flash('msg.success', 'Company Service deleted successfully.');
 
         return redirect(route('company.survey.index'));
+    }
+
+    /* *
+     * Dashboard Data and Graph
+     * */
+
+    public function dashboard($id)
+    {
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        $surveys = CompanySurvey::find($id);
+        $answer_types = AnswerType::pluck('name', 'code');
+        $answers = SurveyAnswer::join('survey_questions', 'question_id', '=', 'survey_questions.id')
+            ->join('users', 'survey_answers.user_id', '=', 'users.id')
+            ->select('survey_answers.*', 'survey_questions.*', 'users.name')
+            ->where('survey_questions.company_id', $company_id)
+            ->where('survey_questions.survey_id', $id)->get();;
+        $options = QuestionOption::where('company_id', $company_id)->where('survey_id', $id)->pluck('name', 'code');
+        $data = [
+            'surveys' => $surveys,
+            'answer_types' => $answer_types,
+            'answers' => $answers,
+            'options' => $options,
+        ];
+
+        return view('company.Survey.survey.dashboard', $data);
     }
 }

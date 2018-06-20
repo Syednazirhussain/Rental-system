@@ -6,6 +6,7 @@
         <th>Category</th>
         <th>Status</th>
         <th>Questions</th>
+        <th>Dashboard</th>
         <th width="200px">Action</th>
     </tr>
     </thead>
@@ -18,6 +19,7 @@
                 <td>{{ $survey_categories[$survey->category_code] }}</td>
                 <td>{{ $survey->status }}</td>
                 <td><a href="{!! route('company.survey.show', [$survey->id]) !!}">Questions</a></td>
+                <td><a href="{!! route('company.survey.dashboard', [$survey->id]) !!}">Dashboard</a></td>
                 <td width="200px" class="text-center">
                     {!! Form::open(['route' => ['company.survey.destroy', $survey->id], 'method' => 'delete']) !!}
                     <a href="{!! route('company.survey.edit', [$survey->id]) !!}"><i
