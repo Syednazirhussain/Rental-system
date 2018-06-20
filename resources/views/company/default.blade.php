@@ -299,6 +299,13 @@
                                                     </li>
                                                 </ul>
                                             </li>
+                                            <li class="dropdown-toggle">
+                                                <a href="{{ route('company.survey_answers.list') }}">Survey Answers</a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="{{ route('company.survey_answers.list') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Survey Answers</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
                                             <li>
                                                 <a href="{{ route('company.feedback.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Feedback</a>
                                             </li>

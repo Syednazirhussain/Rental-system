@@ -19,6 +19,7 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use Auth;
 use App\Models\Company;
+use App\Models\User;
 
 
 class SurveyAnswerController extends AppBaseController
@@ -52,6 +53,32 @@ class SurveyAnswerController extends AppBaseController
         ];
 
         return view('company.Survey.survey_answers.index', $data);
+    }
+
+    /**
+     * Display a listing of the Survey Category.
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function lists(Request $request)
+    {
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        $answer_types = AnswerType::pluck('name', 'code');
+        $categories = SurveyCategory::pluck('name', 'code');
+        $survey_answers = SurveyAnswer::join('company_surveys', 'survey_id', '=', 'company_surveys.id')
+            ->join('users', 'user_id', '=', 'users.id')
+            ->where('survey_answers.company_id', $company_id)
+            ->select('survey_answers.*', 'company_surveys.*', 'users.name')
+            ->groupby('survey_answers.user_id')->get();
+
+        $data = [
+            'survey_answers' => $survey_answers,
+            'answer_types' => $answer_types,
+            'categories' => $categories,
+        ];
+
+        return view('company.Survey.survey_answers.list', $data);
     }
 
     /**
@@ -104,9 +131,30 @@ class SurveyAnswerController extends AppBaseController
      *
      * @return Response
      */
-    public function show($id)
+    public function show($survey_id, $user_id)
     {
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        $survey = CompanySurvey::find($survey_id);
+        $survey_questions = SurveyQuestion::where('company_id', $company_id)->where('survey_id', $survey->id)->get();
+        $answer_types = AnswerType::pluck('name', 'code');
+        $options = QuestionOption::where('company_id', $company_id)->where('survey_id', $survey->id)->get();
+        $answers = SurveyAnswer::join('survey_questions', 'question_id', '=', 'survey_questions.id')
+            ->where('survey_questions.company_id', $company_id)
+            ->where('survey_answers.user_id', $user_id)
+            ->get();
+        $feedback_by = User::find($user_id)->name;
 
+        $data = [
+            'survey_questions' => $survey_questions,
+            'survey' => $survey,
+            'answer_types' => $answer_types,
+            'options' => $options,
+            'answers' => $answers,
+            'feedback_by' => $feedback_by,
+
+        ];
+
+        return view('company.Survey.survey_answers.show', $data);
     }
 
     /**

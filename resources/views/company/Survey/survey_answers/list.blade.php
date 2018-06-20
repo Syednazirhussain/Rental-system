@@ -1,26 +1,5 @@
 @extends('company.default')
 
-@section('css')
-    <style type="text/css">
-        .feedback_question {
-            font-size: 14px;
-            font-weight: 500;
-        }
-        .star-rating {
-            line-height:32px;
-            font-size:2em;
-        }
-
-        .star-rating .fa-star{
-            color: #FF851B;
-        }
-
-        .fa-star-o {
-            color: grey;
-        }
-    </style>
-@endsection
-
 @section('content')
 
     <div class="px-content">
@@ -41,9 +20,23 @@
                 @endif
 
                 <div class="container">
-                    @include('company.Survey.survey_answers.show_fields')
+                    @include('company.Survey.survey_answers.list_fields')
                 </div>
             </div>
         </div>
     </div>
 @endsection
+
+@section('js')
+    <script type="text/javascript">
+        // -------------------------------------------------------------------------
+        // Initialize DataTables
+        $(function () {
+            $('#datatables').dataTable();
+            $('#datatables_wrapper .table-caption').text('Survey Answers');
+            $('#datatables_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
+        });
+    </script>
+@endsection
+
+
