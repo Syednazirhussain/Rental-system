@@ -28,6 +28,7 @@ use App\Models\Company\companyHr;
 use App\Models\Company\CompanyHrOtherInfo;
 use App\Models\Company\CompanyHrPreEmployment;
 use App\Models\Company\CompanyHrNotes;
+use App\Models\Company\CompanyHrDocuments;
 
 
 class companyHrController extends AppBaseController
@@ -143,13 +144,9 @@ class companyHrController extends AppBaseController
      */
     public function store(CreatecompanyHrRequest $request)
     {
-
-        /*print_r($request->all());
-        exit;*/
-
         $input = $request->all();
 
-            $date = str_replace('-', '/', $input['employment_date']);
+/*            $date = str_replace('-', '/', $input['employment_date']);
 
             $emplDate = date('Y-m-d', strtotime($date));
 
@@ -192,7 +189,7 @@ class companyHrController extends AppBaseController
             $input['pre_employment_org_names'] = explode(',', $input['organization_name'][0]);
             $input['pre_employment_job_titles'] = explode(',', $input['job_title'][0]);
             $input['pre_employment_from_dates'] = explode(',', $input['employed_from'][0]);
-            $input['pre_employment_until_dates'] = explode(',', $input['employed_until'][0]);
+            $input['pre_employment_until_dates'] = explode(',', $input['employed_until'][0]);*/
 
 
 
@@ -202,9 +199,6 @@ class companyHrController extends AppBaseController
             if (isset($input['father']) && $input['father'] == '1') { $input['father'] = 1; }else{ $input['father'] = 0; }
             if (isset($input['mother']) && $input['mother'] == '1') { $input['mother'] = 1; }else{ $input['mother'] = 0; }
            
-
-
-            // dd($input);
 
             $companyHr = new companyHr;
             $companyHr->company_id    = $company_id;
@@ -236,7 +230,7 @@ class companyHrController extends AppBaseController
             $companyHr->salary    = $input['salary'];
             $companyHr->employment_percent    = $input['employment_percent'];
             $companyHr->cost_division    = $input['cost_division'];
-            $companyHr->courses    = $input['hrCourseId'];
+            $companyHr->courses    = json_encode($input['name']);
             $companyHr->project    = $input['project'];
             $companyHr->vat_table    = $input['vat_table'];
             $companyHr->vacation_days    = $input['vacation_days'];
@@ -245,7 +239,12 @@ class companyHrController extends AppBaseController
             $companyHr->vacation_category    = $input['vacation_category'];
             $companyHr->save();
 
+            $driving_license = 0;
 
+            if (isset($input['driving_license'])) 
+            {
+                $driving_license = 1;
+            }
 
 
             if($companyHr)
@@ -256,62 +255,92 @@ class companyHrController extends AppBaseController
                 $companyHrOtherInfo = new CompanyHrOtherInfo;
                 $companyHrOtherInfo->company_hr_id = $companyHr_id;
                 $companyHrOtherInfo->languages = $input['languages'];
-                $companyHrOtherInfo->driving_license = $input['driving_license'];
+                $companyHrOtherInfo->driving_license = $driving_license;
                 $companyHrOtherInfo->skills = $input['skills'];
                 $companyHrOtherInfo->save();
 
 
-                for ($i=0; $i < count($input['pre_employment_courses']); $i++) 
+                for ($i=0; $i < count($input['organization_name']); $i++) 
                 { 
                     $companyHrPreEmployment = new CompanyHrPreEmployment;
                     $companyHrPreEmployment->company_hr_id = $companyHr_id;
-                    $companyHrPreEmployment->organization_name = $input['pre_employment_org_names'][$i];
-                    $companyHrPreEmployment->job_title = $input['pre_employment_job_titles'][$i];
-                    $companyHrPreEmployment->courses = $input['pre_employment_courses'][$i];
-                    $companyHrPreEmployment->employed_from = $input['pre_employment_from_dates'][$i];
-                    $companyHrPreEmployment->employed_until = $input['pre_employment_until_dates'][$i];
+                    $companyHrPreEmployment->organization_name = $input['organization_name'][$i];
+                    $companyHrPreEmployment->job_title = $input['job_title'][$i];
+                    $companyHrPreEmployment->courses = $input['courses'][$i];
+                    $companyHrPreEmployment->employed_from = $input['employed_from'][$i];
+                    $companyHrPreEmployment->employed_until = $input['employed_until'][$i];
                     $companyHrPreEmployment->save();
                 }
 
-                if (isset($input['hr_notes'])) 
+                if (isset($input['hr_note'])) 
                 {
                     $companyHrNotes = new CompanyHrNotes;
                     $companyHrNotes->company_hr_id = $companyHr_id;
                     $companyHrNotes->user_id = $user_id;
-                    $companyHrNotes->code = 'hr_notes'; 
-                    $companyHrNotes->note = $input['hr_notes'];
+                    $companyHrNotes->code = 'hr_note'; 
+                    $companyHrNotes->note = $input['hr_note'];
                     $companyHrNotes->save();                
                 }
 
-                if (isset($input['manager_notes'])) 
+                if (isset($input['manager_note'])) 
                 {
                     $companyHrNotes = new CompanyHrNotes;
                     $companyHrNotes->company_hr_id = $companyHr_id;
                     $companyHrNotes->user_id = $user_id;
-                    $companyHrNotes->code = 'manager_notes'; 
-                    $companyHrNotes->note = $input['manager_notes'];
+                    $companyHrNotes->code = 'manager_note'; 
+                    $companyHrNotes->note = $input['manager_note'];
                     $companyHrNotes->save();                
                 }
 
-                if (isset($input['salary_development_notes'])) 
+                if (isset($input['sal_dev_note'])) 
                 {
                     $companyHrNotes = new CompanyHrNotes;
                     $companyHrNotes->company_hr_id = $companyHr_id;
                     $companyHrNotes->user_id = $user_id;
-                    $companyHrNotes->code =  'salary_development_notes';
-                    $companyHrNotes->note = $input['salary_development_notes'];
+                    $companyHrNotes->code =  'sal_dev_note';
+                    $companyHrNotes->note = $input['sal_dev_note'];
                     $companyHrNotes->save();                    
                 }
 
+                if(isset($input['docFiles']))
+                {
+                    $files = $input['docFiles'];
+
+                    if(count($files) > 0)
+                    {
+                        $file_names = [];
+                        $index = 0;
+                        foreach ($files as  $file) 
+                        {
+                            $path = $file->store('public/hrImages');
+                            $pathArr = explode('/', $path);
+                            $count = count($pathArr);
+                            $path = $pathArr[$count - 1];
+                            $file_names[$index] = $path;
+                            $index++;
+                        }
+
+                        foreach ($file_names as  $file_name) 
+                        {
+                            $companyHrDocuments = new CompanyHrDocuments;
+                            $companyHrDocuments->company_hr_id = $companyHr_id;
+                            $companyHrDocuments->file_name = $file_name;
+                            $companyHrDocuments->save();
+                        }           
+                    }
+
+                    unset($input['files']);
+                    unset($input['fileuploader-list-docFiles']);
+                }
                 session()->flash('msg.success','Hr Company Designation saved successfully.');
+                return response()->json(['status' => 1,'msg' => 'Hr Company Designation saved successfully.']);
 
             }
             else
             {
-                session()->flash('msg.success','Hr Company Designation are not saved');
-            }
-
-        return redirect(route('company.companyHrs.index'));        
+                session()->flash('msg.error','Hr Company Designation are not saved');
+                return response()->json(['status' => 0,'msg' => 'Hr Company Designation are not saved']);
+            }    
 
     }
 
@@ -333,6 +362,22 @@ class companyHrController extends AppBaseController
         }
 
         return view('company.company_hrs.show')->with('companyHr', $companyHr);
+    }
+
+    public function imageRemove(Request $request)
+    {
+        $input = $request->all();
+
+        $companyHrDocuments = CompanyHrDocuments::where('file_name',$input['image'])->delete();
+
+        if($companyHrDocuments)
+        {   
+            return ['msg' => 'Image remove successfully'];
+        }
+        else
+        {
+            return ['msg' => 'Image cannot removed'];   
+        }
     }
 
     /**
@@ -383,6 +428,22 @@ class companyHrController extends AppBaseController
             'companyHrNotes'            => $companyHrNotes
         ];
 
+        $companyHrDocuments =  CompanyHrDocuments::where('company_hr_id',$companyHr->id)->get();
+        if(count($companyHrDocuments) > 0)
+        {
+            $data['Attachment'] = $companyHrDocuments;
+            $imageFiles = [];
+            $url = asset('storage/hrImages');
+            $url2 = public_path()."/storage/hrImages";
+            for($i = 0 ; $i < count($companyHrDocuments) ; $i++)
+            {
+                $imageFiles[$i]['name'] = $companyHrDocuments[$i]->file_name;
+                $imageFiles[$i]['file'] = $url.'/'.$companyHrDocuments[$i]->file_name;
+                $imageFiles[$i]['size'] = filesize($url2.'/'.$companyHrDocuments[$i]->file_name);
+                $imageFiles[$i]['type'] = mime_content_type($url2.'/'.$companyHrDocuments[$i]->file_name);
+            }
+            $data['imageFiles'] = $imageFiles;
+        }
 
         if (empty($companyHr)) 
         {
@@ -404,10 +465,8 @@ class companyHrController extends AppBaseController
     public function update($id,UpdatecompanyHrRequest  $request)
     {
         $input = $request->all();
-
         print_r($input);
-
-        exit();
+        exit;
 
         $companyHr = $this->companyHrRepository->findWithoutFail($id);
 
@@ -418,25 +477,9 @@ class companyHrController extends AppBaseController
             return redirect()->route('company.companyHrs.index');
         }       
 
-        $date = str_replace('-', '/', $input['employment_date']);
 
-        $emplDate = date('Y-m-d', strtotime($date));
-
-        $input['employment_date'] = $emplDate;
-
-        $date = str_replace('-', '/', $input['employeed_untill']);
-
-        $emplUntill = date('Y-m-d', strtotime($date));
-
-        $input['employeed_untill'] = $emplUntill;
-
-        $date = str_replace('-', '/', $input['insurance_date']);
-
-        $insDate = date('Y-m-d', strtotime($date));
-
-        $input['insurance_date'] = $insDate;
-
-        $pre_org_courses = explode(',', $input['courses'][0]);
+        
+/*        $pre_org_courses = explode(',', $input['courses'][0]);
 
         $pre_courses = [];
         $index = 0;
@@ -461,7 +504,7 @@ class companyHrController extends AppBaseController
         $input['pre_employment_org_names'] = explode(',', $input['organization_name'][0]);
         $input['pre_employment_job_titles'] = explode(',', $input['job_title'][0]);
         $input['pre_employment_from_dates'] = explode(',', $input['employed_from'][0]);
-        $input['pre_employment_until_dates'] = explode(',', $input['employed_until'][0]);
+        $input['pre_employment_until_dates'] = explode(',', $input['employed_until'][0]);*/
 
 
 
@@ -526,11 +569,11 @@ class companyHrController extends AppBaseController
             {
                 $hr_pre_emp = CompanyHrPreEmployment::find($companyHrPreEmployment[$i]->id); 
                 $hr_pre_emp->company_hr_id = $companyHr_id;
-                $hr_pre_emp->organization_name = $input['pre_employment_org_names'][$i];
-                $hr_pre_emp->job_title = $input['pre_employment_job_titles'][$i];
-                $hr_pre_emp->courses = $input['pre_employment_courses'][$i];
-                $hr_pre_emp->employed_from = $input['pre_employment_from_dates'][$i];
-                $hr_pre_emp->employed_until = $input['pre_employment_until_dates'][$i];
+                $hr_pre_emp->organization_name = $input[''][$i];
+                $hr_pre_emp->job_title = $input[''][$i];
+                $hr_pre_emp->courses = $input[''][$i];
+                $hr_pre_emp->employed_from = $input[''][$i];
+                $hr_pre_emp->employed_until = $input[''][$i];
                 $hr_pre_emp->save();            
             }
 

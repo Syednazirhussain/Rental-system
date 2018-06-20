@@ -276,12 +276,14 @@
                                 <input type="text" placeholder="ex: Equipments" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->other_reference }}@endif" name="other_reference" class="form-control">
                             </div>
                         </div>
+                        
                         <div class="col-sm-12 col-md-12">
                             <div class="col-sm-12 col-md-12 form-group">
                                 <label>Attach Files</label>
                                 <input type="file" name="files" class="form-control uploadFiles">
                             </div>
                         </div>
+
                         <div class="col-sm-12 col-md-12">
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Building</label>
@@ -906,11 +908,7 @@
       $('#wizard-3').on('submit', function(e) {
 
         
-      asd = $("input[name='files']").val();
 
-      console.log(asd);
-
-      return false;
        
             e.preventDefault();
 

@@ -1290,6 +1290,7 @@ Route::get('company/hrCivilStatuses/{hrCivilStatuses}/edit', ['as'=> 'company.hr
 
 Route::post('company/companyHrs/hrOtherInformation', ['as'=> 'company.hrOtherInformation.store', 'uses' => 'Company\companyHrController@hrOtherInformation']);
 
+Route::post('company/companyHrs/imageRemove', ['as'=> 'company.companyHrs.image_remove', 'uses' => 'Company\companyHrController@imageRemove']);
 Route::get('company/companyHrs', ['as'=> 'company.companyHrs.index', 'uses' => 'Company\companyHrController@index']);
 Route::post('company/companyHrs', ['as'=> 'company.companyHrs.store', 'uses' => 'Company\companyHrController@store']);
 Route::get('company/companyHrs/create', ['as'=> 'company.companyHrs.create', 'uses' => 'Company\companyHrController@create']);
@@ -1429,3 +1430,13 @@ Route::patch('company/companyHrNotes/{companyHrNotes}', ['as'=> 'company.company
 Route::delete('company/companyHrNotes/{companyHrNotes}', ['as'=> 'company.companyHrNotes.destroy', 'uses' => 'Company\CompanyHrNotesController@destroy']);
 Route::get('company/companyHrNotes/{companyHrNotes}', ['as'=> 'company.companyHrNotes.show', 'uses' => 'Company\CompanyHrNotesController@show']);
 Route::get('company/companyHrNotes/{companyHrNotes}/edit', ['as'=> 'company.companyHrNotes.edit', 'uses' => 'Company\CompanyHrNotesController@edit']);
+
+
+Route::get('company/companyHrDocuments', ['as'=> 'company.companyHrDocuments.index', 'uses' => 'Company\CompanyHrDocumentsController@index']);
+Route::post('company/companyHrDocuments', ['as'=> 'company.companyHrDocuments.store', 'uses' => 'Company\CompanyHrDocumentsController@store']);
+Route::get('company/companyHrDocuments/create', ['as'=> 'company.companyHrDocuments.create', 'uses' => 'Company\CompanyHrDocumentsController@create']);
+Route::put('company/companyHrDocuments/{companyHrDocuments}', ['as'=> 'company.companyHrDocuments.update', 'uses' => 'Company\CompanyHrDocumentsController@update']);
+Route::patch('company/companyHrDocuments/{companyHrDocuments}', ['as'=> 'company.companyHrDocuments.update', 'uses' => 'Company\CompanyHrDocumentsController@update']);
+Route::delete('company/companyHrDocuments/{companyHrDocuments}', ['as'=> 'company.companyHrDocuments.destroy', 'uses' => 'Company\CompanyHrDocumentsController@destroy']);
+Route::get('company/companyHrDocuments/{companyHrDocuments}', ['as'=> 'company.companyHrDocuments.show', 'uses' => 'Company\CompanyHrDocumentsController@show']);
+Route::get('company/companyHrDocuments/{companyHrDocuments}/edit', ['as'=> 'company.companyHrDocuments.edit', 'uses' => 'Company\CompanyHrDocumentsController@edit']);

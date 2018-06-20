@@ -239,3 +239,7 @@
     <a href="{!! route('company.companyHrNotes.index') !!}"><i class="fa fa-edit"></i><span>Company Hr Notes</span></a>
 </li>
 
+<li class="{{ Request::is('companyHrDocuments*') ? 'active' : '' }}">
+    <a href="{!! route('company.companyHrDocuments.index') !!}"><i class="fa fa-edit"></i><span>Company Hr Documents</span></a>
+</li>
+

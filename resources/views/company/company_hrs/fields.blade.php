@@ -570,22 +570,23 @@
 
                      <div class="col-sm-12 col-md-12 form-group">
                         <label for="">Attach Files</label>
-                        <input type="file" name="files" class="form-control uploadFiles">
+                        <input type="file" name="docFiles" class="form-control uploadFiles">
                      </div>
+
 
                      @if(isset($companyHrNotes))
 
                         @foreach($companyHrNotes as $companyHrNote)
 
-                           @if($companyHrNote->code == 'hr_notes'))
+                           @if($companyHrNote->code == 'hr_note'))
                               <input type="hidden" id="edit_hr_note" value="{{ $companyHrNote->note }}">
                            @endif
 
-                           @if($companyHrNote->code == 'manager_notes'))
+                           @if($companyHrNote->code == 'manager_note'))
                               <input type="hidden" id="edit_manager_note" value="{{ $companyHrNote->note }}">
                            @endif
 
-                           @if($companyHrNote->code == 'salary_development_notes'))
+                           @if($companyHrNote->code == 'sal_dev_note'))
                               <input type="hidden" id="edit_sal_dev_note" value="{{ $companyHrNote->note }}">
                            @endif
 
@@ -615,7 +616,6 @@
                      <a href="{!! route('company.companyHrs.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
                      <button type="submit"  class="btn btn-primary"  data-wizard-action="next">@if(isset($companyHr)) <i class="fa fa-refresh"></i>  Update @else <i class="fa fa-plus"></i> Create  @endif<i class="fa fa-arrow-right m-l-1"></i></button>
                   </div>
-
                </form>
 
                <!-- ================================================================ -->
@@ -712,7 +712,6 @@
 <script type="text/javascript">
 
 
-   
    var editCompanyHr = "{{ (isset($companyHr)) ? $companyHr->id : 0 }}";
 
    if (editCompanyHr != 0) 
@@ -726,6 +725,101 @@
       $('#hr_note').val(edit_hr_note);
       $('#manager_note').val(edit_manager_note);
       $('#sal_dev_note').val(edit_sal_dev_note);
+
+      <?php
+       $data = [];
+       if(isset($imageFiles))
+       {
+         for($i = 0 ; $i < count($imageFiles) ; $i++ )
+         {
+           $data[$i] = $imageFiles[$i];
+         }
+       }
+     ?>
+     var images = <?php echo json_encode($data); ?>
+
+     console.log(images);
+
+     $('.uploadFiles').fileuploader({
+         theme: 'thumbnails',
+         enableApi: true,
+         addMore: true,
+         thumbnails: {
+             box: '<div class="fileuploader-items">' +
+                       '<ul class="fileuploader-items-list">' +
+                           '<li class="fileuploader-thumbnails-input"><div class="fileuploader-thumbnails-input-inner">+</div></li>' +
+                       '</ul>' +
+                   '</div>',
+             item: '<li class="fileuploader-item">' +
+                        '<div class="fileuploader-item-inner">' +
+                            '<div class="thumbnail-holder">${image}</div>' +
+                            '<div class="actions-holder">' +
+                                '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
+                            '</div>' +
+                            '<div class="progress-holder">${progressBar}</div>' +
+                        '</div>' +
+                    '</li>',
+             item2: '<li class="fileuploader-item">' +
+                        '<div class="fileuploader-item-inner">' +
+                            '<div class="thumbnail-holder">${image}</div>' +
+                            '<div class="actions-holder">' +
+                                '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
+                            '</div>' +
+                        '</div>' +
+                    '</li>',
+             startImageRenderer: true,
+             canvasImage: false,
+             _selectors: {
+                 list: '.fileuploader-items-list',
+                 item: '.fileuploader-item',
+                 start: '.fileuploader-action-start',
+                 retry: '.fileuploader-action-retry',
+                 remove: '.fileuploader-action-remove'
+             },
+             onItemShow: function(item, listEl) {
+                 var plusInput = listEl.find('.fileuploader-thumbnails-input');
+                 
+                 plusInput.insertAfter(item.html);
+                 
+                 if(item.format == 'image') {
+                     item.html.find('.fileuploader-item-icon').hide();
+                 }
+             }
+         },
+         afterRender: function(listEl, parentEl, newInputEl, inputEl) {
+             var plusInput = listEl.find('.fileuploader-thumbnails-input'),
+                 api = $.fileuploader.getInstance(inputEl.get(0));
+         
+             plusInput.on('click', function() {
+                 api.open();
+             });
+         },
+          allowDuplicates: false,
+          files: images,
+          limit: null,
+          fileMaxSize:2,
+          extensions: ['jpg','gif','png','jpeg','bmp','pdf','txt','docx','doc','odt','rtf'],
+         onRemove: function(itemEl, file, id, listEl, boxEl, newInputEl, inputEl){
+
+             var jsObj = {
+               'image' : itemEl.name
+             };
+
+             console.log(jsObj);
+             
+             $.ajax({
+               url : "{{ route('company.companyHrs.image_remove') }}",
+               type : "POST",
+               data : jsObj,
+               dataType : "json",
+               success : function(response){
+                 alert(response.msg);
+               }
+             });
+
+
+         },
+     });
 
    }
 
@@ -786,9 +880,6 @@
 
          if($('#father').is(':checked')) { father = 1; }
          if($('#mother').is(':checked')) { mother = 1; }
-
-
-         
 
          //Set
          $('#fname').val(fname);
@@ -893,69 +984,48 @@
          $('#manager_note_hidden').val(manager_note);
          $('#sal_dev_note_hidden').val(sal_dev_note);
 
+         var myform = document.getElementById("wizard-4");
+         var filer = new FormData(myform);
 
-
-         var jsObj = {
-            'first_name' : fname,
-            'last_name' : lname,
-            'address_1' : add1,
-            'address_2' : add2,
-            'post_code' : pcode,
-            'city_id' : city,
-            'state_id' : state,
-            'country_id' : country,
-            'telephone_job' : telephone,
-            'telephone_private' : telephoneJ,
-            'email_private' : emailId,
-            'ePrivate' : emailJob,
-            'civil_status_id' : civilId,
-            'employment_date' : daterangeEmpl,
-            'termination_time' : termId,
-            'employeed_untill' : daterangeEmplUntil,
-            'personal_category' : personalId,
-            'collectiveId_hidden' : collectiveId,
-            'employment_form' : employFormId,
-            'insurance_date' : daterangeInsurance,
-            'insurance_fees' : insuranceFees,
-            'departmentWiz2_hidden' : departmentWiz2,
-            'designation' : desigWiz2,
-            'vacancies' : vacancyWiz2,
-            'salary' : salaryId,
-            'employment_percent' : empInPercent,
-            'costDivision_hidden' : costDivision,
-            'projectWiz3_hidden' : projectWiz3,
-            'vat_table' : valueAdded,
-            'vacation_days' : vacationDays,
-            'vacation_category' : vacationWiz3,
-            'father' : father,
-            'mother' : mother,
-            'languages' : languages,
-            'hrCourseId' : hrCourseId,
-            'skills' : skills,
-            'driving_license' : driving_license,
-            'organization_name[]' : organization_name,
-            'job_title[]' : job_titles,
-            'courses[]' : courses,
-            'employed_from[]' : employed_froms,
-            'employed_until[]' : employed_untils,
-            'hr_notes' : hr_note,
-            'manager_notes' : manager_note,
-            'salary_development_notes' : sal_dev_note
-         };
-
-
-
-         console.log(jsObj);
-
+         filer.append('first_name', fname);
+         filer.append('last_name', lname);
+         filer.append('address_1', add1);
+         filer.append('address_2', add2);
+         filer.append('post_code', pcode);
+         filer.append('city_id', city);
+         filer.append('state_id', state);
+         filer.append('country_id', country);
+         filer.append('telephone_job', telephone);
+         filer.append('telephone_private', telephoneJ);
+         filer.append('email_private', emailId);
+         filer.append('email_job', emailJob);
+         filer.append('civil_status_id', civilId);
+         filer.append('employment_date', daterangeEmpl);
+         filer.append('termination_time', termId);
+         filer.append('employeed_untill', daterangeEmplUntil);
+         filer.append('personal_category', personalId);
+         filer.append('collective_type', collectiveId);
+         filer.append('employment_form', employFormId);
+         filer.append('insurance_date', daterangeInsurance);
+         filer.append('insurance_fees', insuranceFees);
+         filer.append('department', departmentWiz2);
+         filer.append('designation', desigWiz2);
+         filer.append('vacancies', vacancyWiz2);
+         filer.append('salary_type', salaryTypeWiz3);
+         filer.append('salary', salaryId);
+         filer.append('employment_percent', empInPercent);
+         filer.append('cost_division', costDivision);
+         filer.append('project', projectWiz3);
+         filer.append('vat_table', valueAdded);
+         filer.append('vacation_days', vacationDays);
+         filer.append('vacation_category', vacationWiz3);
+         filer.append('father', father);
+         filer.append('mother', mother);
+         filer.append('driving_license', driving_license);
 
 
       if (editCompanyHr != 0) 
       {
-
-         var myform = document.getElementById("wizard-4");
-         var data = new FormData(myform);
-
-
          <?php
            if (isset($companyHr)) {
               $updateRoute = route("company.companyHrs.update", [$companyHr->id]);
@@ -967,11 +1037,10 @@
          $.ajax({
             url: '{{ $updateRoute }}',
             type: 'POST',
-            data: data,
-            dataType: 'json',
-            enctype: 'multipart/form-data',
-            contentType: false,
-            processData: false,
+            data: filer,
+           cache: false,
+           contentType: false,
+           processData: false,
             success: function(data){
                  // myform.pxWizard('goTo', 2);
 
@@ -988,9 +1057,17 @@
          $.ajax({
              url: '{{ route("company.companyHrs.store") }}',
              type: 'POST',
-             data : jsObj,
+             data : filer,
+            cache: false,
+              contentType: false,
+              processData: false,
              success: function(data){
-                 console.log(data);
+                 // console.log(data);
+                  alert(data.msg);
+                  if(data.status == 1)
+                  {
+                      location.href = "{{ route('company.companyHrs.index') }}";
+                  }
              },
              error: function(xhr,status,error)  {
 
@@ -1022,62 +1099,64 @@
          // $('#hiddenForm').submit();
      });
 
-    $("input[name='files']").fileuploader({
-        theme: 'thumbnails',
-        enableApi: true,
-        addMore: true,
-        thumbnails: {
+      // enable fileuploader plugin
+      $('input[name="docFiles"]').fileuploader({
+           extensions: ['jpg', 'jpeg', 'png', 'gif', 'bmp'],
+         changeInput: ' ',
+         theme: 'thumbnails',
+           enableApi: true,
+         addMore: true,
+         thumbnails: {
             box: '<div class="fileuploader-items">' +
-                      '<ul class="fileuploader-items-list">' +
-                          '<li class="fileuploader-thumbnails-input"><div class="fileuploader-thumbnails-input-inner">+</div></li>' +
-                      '</ul>' +
-                  '</div>',
+                         '<ul class="fileuploader-items-list">' +
+                        '<li class="fileuploader-thumbnails-input"><div class="fileuploader-thumbnails-input-inner">+</div></li>' +
+                         '</ul>' +
+                     '</div>',
             item: '<li class="fileuploader-item">' +
-                       '<div class="fileuploader-item-inner">' +
-                           '<div class="thumbnail-holder">${image}</div>' +
-                           '<div class="actions-holder">' +
-                               '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
-                           '</div>' +
-                           '<div class="progress-holder">${progressBar}</div>' +
-                       '</div>' +
-                   '</li>',
+                      '<div class="fileuploader-item-inner">' +
+                              '<div class="thumbnail-holder">${image}</div>' +
+                              '<div class="actions-holder">' +
+                                  '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
+                              '</div>' +
+                              '<div class="progress-holder">${progressBar}</div>' +
+                          '</div>' +
+                      '</li>',
             item2: '<li class="fileuploader-item">' +
-                       '<div class="fileuploader-item-inner">' +
-                           '<div class="thumbnail-holder">${image}</div>' +
-                           '<div class="actions-holder">' +
-                               '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
-                           '</div>' +
-                       '</div>' +
-                   '</li>',
+                      '<div class="fileuploader-item-inner">' +
+                              '<div class="thumbnail-holder">${image}</div>' +
+                              '<div class="actions-holder">' +
+                                  '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
+                              '</div>' +
+                          '</div>' +
+                      '</li>',
             startImageRenderer: true,
             canvasImage: false,
             _selectors: {
-                list: '.fileuploader-items-list',
-                item: '.fileuploader-item',
-                start: '.fileuploader-action-start',
-                retry: '.fileuploader-action-retry',
-                remove: '.fileuploader-action-remove'
+               list: '.fileuploader-items-list',
+               item: '.fileuploader-item',
+               start: '.fileuploader-action-start',
+               retry: '.fileuploader-action-retry',
+               remove: '.fileuploader-action-remove'
             },
             onItemShow: function(item, listEl) {
-                var plusInput = listEl.find('.fileuploader-thumbnails-input');
-                
-                plusInput.insertAfter(item.html);
-                
-                if(item.format == 'image') {
-                    item.html.find('.fileuploader-item-icon').hide();
-                }
+               var plusInput = listEl.find('.fileuploader-thumbnails-input');
+               
+               plusInput.insertAfter(item.html);
+               
+               if(item.format == 'image') {
+                  item.html.find('.fileuploader-item-icon').hide();
+               }
             }
-        },
-        afterRender: function(listEl, parentEl, newInputEl, inputEl) {
+         },
+         afterRender: function(listEl, parentEl, newInputEl, inputEl) {
             var plusInput = listEl.find('.fileuploader-thumbnails-input'),
-                api = $.fileuploader.getInstance(inputEl.get(0));
-        
+               api = $.fileuploader.getInstance(inputEl.get(0));
+         
             plusInput.on('click', function() {
-                api.open();
+               api.open();
             });
-        },
-        extensions: ['jpg','gif','png','jpeg','bmp','pdf','txt','docx','doc','odt','rtf'],
-    });
+         },
+       });
 
    $(document).on('click', ".addEmployment", function() {
       
@@ -1102,9 +1181,6 @@
             maxTags: 6
       });
 
-
-
-
    });
 
    $(document).ready(function(){
@@ -1115,6 +1191,30 @@
       $('.skills').tagsinput({
             maxTags: 10
       });
+   });
+
+   $('#daterangeEmpl').daterangepicker({
+     singleDatePicker: true,
+     showDropdowns: true,
+     locale: {
+         format: 'Y-MM-DD'
+     }
+   });
+
+   $('#daterangeEmplUntil').daterangepicker({
+     singleDatePicker: true,
+     showDropdowns: true,
+     locale: {
+         format: 'Y-MM-DD'
+     }
+   });
+
+   $('#daterangeInsurance').daterangepicker({
+     singleDatePicker: true,
+     showDropdowns: true,
+     locale: {
+         format: 'Y-MM-DD'
+     }
    });
 
 
@@ -1537,47 +1637,6 @@
    
 
          
-           $('#daterangeEmpl').daterangepicker({
-             singleDatePicker: true,
-             showDropdowns: true,
-   
-           });
-   
-         
-           $('#daterangeEmplUntil').daterangepicker({
-             singleDatePicker: true,
-             showDropdowns: true,
-             startDate: moment().add('year', 1),
-   
-           });
-           $('#daterangeInsurance').daterangepicker({
-             singleDatePicker: true,
-             showDropdowns: true,
-   
-           });
-           $('#daterange-4').daterangepicker({
-             singleDatePicker: true,
-             showDropdowns: true,
-   
-           });
-           $('#daterange-4').daterangepicker({
-             singleDatePicker: true,
-             showDropdowns: true,
-             startDate: "12/31/2018",
-   
-           });
-           $('#daterange-4').daterangepicker({
-             singleDatePicker: true,
-             showDropdowns: true,
-             startDate: "12/31/2018",
-   
-           });
-           $('#daterange-4').daterangepicker({
-             singleDatePicker: true,
-             showDropdowns: true,
-             startDate: "12/31/2018",
-   
-           });
            // -------------------------------------------------------------------------
            // Initialize Select2
            
