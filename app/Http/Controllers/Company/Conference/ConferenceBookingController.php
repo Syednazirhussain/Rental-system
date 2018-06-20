@@ -344,7 +344,6 @@ class ConferenceBookingController extends AppBaseController
         $equipments             = $this->equipmentRepository->all();
         $foodItems              = $this->foodRepository->all();
         $packages               = $this->packagesRepository->all();
-        $rooms                  = DB::table('rooms')->where('company_id', $id)->orderBy('name', 'asc')->get();
 
         $generalSetting         = $this->generalSettingRepository->getBookingTaxValue();
 
@@ -353,6 +352,7 @@ class ConferenceBookingController extends AppBaseController
         $getBookingFoodsItems           = $this->conferenceBookingItemRepository->getBookingFoodsItems($conferenceBooking->id);
 
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        $rooms                  = DB::table('rooms')->where('company_id', $company_id)->orderBy('name', 'asc')->get();
         $getCompanyCustomer = CompanyCustomer::where('company_id', $company_id)->get();
         $companyCustomerInfo = CompanyCustomer::where('id', $conferenceBooking->company_customer_id)->first();
 

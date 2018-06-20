@@ -46,8 +46,8 @@
 
                                                                 
                                 <div class="row">
-                                    <div class="col-sm-12 m-t-3">
-                                            <button id="submitBtn" type="submit" class="btn btn-primary">@if(isset($conferenceBooking))  <i class="fa fa-refresh"></i>  Update Booking  @else <i class="fa fa-plus"></i>  Add Booking @endif</button>
+                                    <div class="col-sm-12 text-right m-t-3">
+                                            <button id="submitBtn" type="submit" class="btn btn-primary">@if(isset($conferenceBooking))  <i class="fa fa-refresh"></i>  Update Booking  @else Next &nbsp;<i class="fa fa-arrow-circle-right"></i>   @endif</button>
                                             <a href="{!! route('company.conference.conferenceBookings.index') !!}" class="btn btn-default"> <i class="fa fa-times"></i> Cancel</a>
                                     </div>
                                 </div>
@@ -423,31 +423,34 @@
 
           function calculateRoomPrice(price, time) {
 
+
+                // alert(price);
+                // alert(time);
+
                 // roomHourlyPrice = $("#room_id").find(':selected').attr('data-hour-price');
-                roomHourlyPrice = price;
 
-                var valuestart = $('#start_datetime').val();
-                var valuestop = $('#end_datetime').val();
-
-                // alert(valuestart);
-                // alert(valuestop);
 
                 if (time == "time") {
-                  //create date format          
+
+                  roomHourlyPrice = price;
+
+                  var valuestart = $('#start_datetime').val();
+                  var valuestop = $('#end_datetime').val();
+
                   var timeStart = new Date("01/01/2007 " + valuestart).getHours();
                   var timeEnd = new Date("01/01/2007 " + valuestop).getHours();
-                } else {
-                  //create date format          
-                  var timeStart = new Date("01/01/2007 " + valuestart).getDay();
-                  var timeEnd = new Date("01/01/2007 " + valuestop).getDay();
+
+                  var hourDiff = timeEnd - timeStart;  
+
+                  roomPrice = (roomHourlyPrice*hourDiff);
+
+                } else if (time == "multiDays") {
+
+                  roomPrice = price;
+
                 }
 
-                var hourDiff = timeEnd - timeStart;  
-
-                // alert(parseInt(hourDiff));
-                // alert(parseFloat(roomHourlyPrice));
-
-                roomPrice = (roomHourlyPrice*hourDiff);
+                
 
                 $('#room_price').val(parseFloat(roomPrice).toFixed(2));
 
@@ -467,11 +470,26 @@
                 roomHourlyPrice = $("#room_id").find(':selected').attr('data-hour-price');
                 time = "time";
                 calculateRoomPrice(roomHourlyPrice, time);
+                // console.log(roomHourlyPrice);
+                // console.log('asd');
 
           });
 
 
 
+
+
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [month, day, year].join('/');
+}
 
 
 
@@ -486,11 +504,13 @@
               roomDayPrice = $("#room_id").find(':selected').attr('data-day-price');
               durationCode = $(this).find(':selected').attr('data-duration-code');
 
+
               if (durationCode == "hour") {
 
                 generateTimeFields();
 
               } else if (durationCode == "multiple_days") {
+
 
                   $('#start_datetime').remove();
 
@@ -511,6 +531,31 @@
                       // disabledDates: [new Date()],
                     },
                   function(start, end, label) {
+
+                      $('#multiDayHiddenStart').val(start);
+                      time = "multiDays";
+
+                      getMultiDayEnd = formatDate($('#multiDayHiddenEnd').val());
+                      getMultiDayStart = formatDate(start);
+
+                          
+                      var startDay = new Date(getMultiDayStart);
+                      var endDay = new Date(getMultiDayEnd);
+                      var millisecondsPerDay = 1000 * 60 * 60 * 24;
+
+                      var millisBetween = endDay.getTime() - startDay.getTime();
+                      var days = millisBetween / millisecondsPerDay;
+                          days = Math.floor(days);
+
+                      roomMultiDayPrice = $("#room_id").find(':selected').attr('data-day-price');
+
+
+                      multiDayRoomPrice = roomMultiDayPrice * days;
+
+                      calculateRoomPrice(multiDayRoomPrice, time)
+                      // calculateRoomPrice(days, time);
+
+
 
                   });
 
@@ -545,9 +590,32 @@
                   
                   function(start, end, label) {
 
+                      multiDayEndVal = $('#multiDayHiddenEnd').val(end);
+                      time = "multiDays";
+                    
+                      getMultiDayEnd = formatDate(end);
+                      getMultiDayStart = formatDate($('#multiDayHiddenStart').val());
+                          
+                      var startDay = new Date(getMultiDayStart);
+                      var endDay = new Date(getMultiDayEnd);
+                      var millisecondsPerDay = 1000 * 60 * 60 * 24;
+
+                      var millisBetween = endDay.getTime() - startDay.getTime();
+                      var days = millisBetween / millisecondsPerDay;
+                          days = Math.floor(days);
+
+                      roomMultiDayPrice = $("#room_id").find(':selected').attr('data-day-price');
+
+                      multiDayRoomPrice = roomMultiDayPrice * days;
+
+                      calculateRoomPrice(multiDayRoomPrice, time)
+
+
                   });
 
                 roomPrice = (roomDayPrice*3);
+
+                // console.log(roomDayPrice)
 
               } else if (durationCode == "halfday_morning") {
 
