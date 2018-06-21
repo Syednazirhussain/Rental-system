@@ -751,6 +751,8 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::delete('company/rcustomer/{rcustomer}', ['as'=> 'company.rcustomer.destroy', 'uses' => 'Company\Rental\CustomerController@destroy']);
     Route::get('company/rcustomer/{rcustomer}', ['as'=> 'company.rcustomer.show', 'uses' => 'Company\Rental\CustomerController@show']);
     Route::get('company/rcustomer/{rcustomer}/edit', ['as'=> 'company.rcustomer.edit', 'uses' => 'Company\Rental\CustomerController@edit']);
+    Route::post('company/rcustomer/search', ['as'=> 'company.rcustomer.search', 'uses' => 'Company\Rental\CustomerController@normal_search']);
+    Route::post('company/rcustomer/advance_search', ['as'=> 'company.rcustomer.advance_search', 'uses' => 'Company\Rental\CustomerController@advance_search']);
     // Second Tab -  Contacts
     Route::get('company/rcontact', ['as'=> 'company.rcontact.index', 'uses' => 'Company\Rental\ContactController@index']);
     Route::post('company/rcontact', ['as'=> 'company.rcontact.store', 'uses' => 'Company\Rental\ContactController@store']);
@@ -778,6 +780,9 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::delete('company/rarticle/{rarticle}', ['as'=> 'company.rarticle.destroy', 'uses' => 'Company\Rental\ArticleController@destroy']);
     Route::get('company/rarticle/{rarticle}', ['as'=> 'company.rarticle.show', 'uses' => 'Company\Rental\ArticleController@show']);
     Route::get('company/rarticle/{rarticle}/edit', ['as'=> 'company.rarticle.edit', 'uses' => 'Company\Rental\ArticleController@edit']);
+    Route::post('company/rarticle/search', ['as'=> 'company.rarticle.search', 'uses' => 'Company\Rental\ArticleController@normal_search']);
+    Route::post('company/rarticle/advance_search', ['as'=> 'company.rarticle.advance_search', 'uses' => 'Company\Rental\ArticleController@advance_search']);
+
     // Fifth Tab - Price
     Route::get('company/rprice', ['as'=> 'company.rprice.index', 'uses' => 'Company\Rental\PriceController@index']);
     Route::post('company/rprice', ['as'=> 'company.rprice.store', 'uses' => 'Company\Rental\PriceController@store']);
@@ -824,6 +829,40 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::get('company/rinvoice/{rinvoice}', ['as'=> 'company.rinvoice.show', 'uses' => 'Company\Rental\InvoiceController@show']);
     Route::get('company/rinvoice/{rinvoice}/edit', ['as'=> 'company.rinvoice.edit', 'uses' => 'Company\Rental\InvoiceController@edit']);
 
+
+    /**
+     ** Routes for Survey System
+     **/
+    //Answer Type
+    Route::get('company/answer_types', ['as'=> 'company.answer_types.index', 'uses' => 'Company\Survey\AnswerTypeController@index']);
+    //Survey Category
+    Route::get('company/survey/categories', ['as'=> 'company.survey_categories.index', 'uses' => 'Company\Survey\SurveyCategoryController@index']);
+    //Company Survey
+    Route::get('company/survey', ['as'=> 'company.survey.index', 'uses' => 'Company\Survey\CompanySurveyController@index']);
+    Route::post('company/survey', ['as'=> 'company.survey.store', 'uses' => 'Company\Survey\CompanySurveyController@store']);
+    Route::get('company/survey/create', ['as'=> 'company.survey.create', 'uses' => 'Company\Survey\CompanySurveyController@create']);
+    Route::put('company/survey/{survey}', ['as'=> 'company.survey.update', 'uses' => 'Company\Survey\CompanySurveyController@update']);
+    Route::patch('company/survey/{survey}', ['as'=> 'company.survey.update', 'uses' => 'Company\Survey\CompanySurveyController@update']);
+    Route::delete('company/survey/{survey}', ['as'=> 'company.survey.destroy', 'uses' => 'Company\Survey\CompanySurveyController@destroy']);
+    Route::get('company/survey/{survey}', ['as'=> 'company.survey.show', 'uses' => 'Company\Survey\CompanySurveyController@show']);
+    Route::get('company/survey/{survey}/edit', ['as'=> 'company.survey.edit', 'uses' => 'Company\Survey\CompanySurveyController@edit']);
+    Route::get('company/survey/{survey}/dashboard', ['as'=> 'company.survey.dashboard', 'uses' => 'Company\Survey\CompanySurveyController@dashboard']);
+    //Company Survey Questions
+    Route::get('company/survey_question', ['as'=> 'company.survey_question.index', 'uses' => 'Company\Survey\SurveyQuestionController@index']);
+    Route::post('company/survey_question', ['as'=> 'company.survey_question.store', 'uses' => 'Company\Survey\SurveyQuestionController@store']);
+    Route::get('company/survey_question/create', ['as'=> 'company.survey_question.create', 'uses' => 'Company\Survey\SurveyQuestionController@create']);
+    Route::put('company/survey_question/{survey_question}', ['as'=> 'company.survey_question.update', 'uses' => 'Company\Survey\SurveyQuestionController@update']);
+    Route::patch('company/survey_question/{survey_question}', ['as'=> 'company.survey_question.update', 'uses' => 'Company\Survey\SurveyQuestionController@update']);
+    Route::delete('company/survey_question/{survey_question}', ['as'=> 'company.survey_question.destroy', 'uses' => 'Company\Survey\SurveyQuestionController@destroy']);
+    Route::get('company/survey_question/{survey_question}', ['as'=> 'company.survey_question.show', 'uses' => 'Company\Survey\SurveyQuestionController@show']);
+    Route::get('company/survey_question/{survey_question}/edit', ['as'=> 'company.survey_question.edit', 'uses' => 'Company\Survey\SurveyQuestionController@edit']);
+    //Survey Answer Page
+    Route::get('company/feedback', ['as'=> 'company.feedback.index', 'uses' => 'Company\Survey\SurveyAnswerController@index']);
+    Route::get('company/survey_answers/list', ['as'=> 'company.survey_answers.list', 'uses' => 'Company\Survey\SurveyAnswerController@lists']);
+    Route::get('company/answer/{answer}/show/{user}', ['as'=> 'company.survey_answers.show', 'uses' => 'Company\Survey\SurveyAnswerController@show']);
+    Route::post('company/feedback', ['as'=> 'company.feedback.store', 'uses' => 'Company\Survey\SurveyAnswerController@store']);
+    //Survey Question Option
+    Route::delete('company/question_option/delete', ['as'=> 'company.question_option.destroy', 'uses' => 'Company\Survey\QuestionOptionController@destroy']);
 
     Route::group(['middleware' => ['newsletter.auth']], function () {
         //NewsLetter System Integration

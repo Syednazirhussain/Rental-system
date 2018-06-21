@@ -16,16 +16,16 @@
         <div class="panel">
             <div class="panel-body">
 
-                @include('company.rental.tabs.edit_customers')
+                @include('company.Rental.tabs.edit_customers')
 
             </div>
         </div>
     </div>
 
         @section('js')
-            @include('company.rental.customers.js')
-            @include('company.rental.contacts.js')
-            @include('company.rental.signage.js')
-            @include('company.rental.invoices.js')
+            @include('company.Rental.customers.js')
+            @include('company.Rental.contacts.js')
+            @include('company.Rental.signage.js')
+            @include('company.Rental.invoices.js')
         @endsection
 @endsection
