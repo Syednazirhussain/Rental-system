@@ -11,7 +11,7 @@
                      Basic Info.
                      </span>
                   </li>
-                  <li data-target="#wizard-2">
+                  <li data-target="#wizard-2" >
                      <span class="wizard-step-number">2</span>
                      <span class="wizard-step-complete"><i class="fa fa-check"></i></span>
                      <span class="wizard-step-caption">
@@ -203,7 +203,7 @@
                   <!-- Last Name Field -->
                   <div class="form-group col-sm-6">
                      <label for="termination_time">Termination Time In Months</label>
-                     <input type="number" id="termination_time" name="termination_time" placeholder="01" value="@if(isset($companyHr)){{ $companyHr->termination_time }}@endif" class="form-control">
+                     <input type="number" id="termination_time" name="termination_time" min="1.00" placeholder="01" value="@if(isset($companyHr)){{ $companyHr->termination_time }}@endif" class="form-control">
                      <div class="errorTxt"></div>
                   </div>
                   <!-- Address 1 Field -->
@@ -272,7 +272,7 @@
                   <!-- Country Id Field -->
                   <div class="col-sm-6 form-group">
                      <label for="insurance_fees">Insurance Fees</label>
-                     <input type="number" id="insurance_fees" placeholder="10.00" value="@if(isset($companyHr)){{ $companyHr->insurance_fees }}@endif" name="insurance_fees" class="form-control">
+                     <input type="number" id="insurance_fees" placeholder="10.00" min="1.00" value="@if(isset($companyHr)){{ $companyHr->insurance_fees }}@endif" name="insurance_fees" class="form-control">
                      <div class="errorTxt"></div>
                   </div>
                   <!-- Telephone Job Field -->
@@ -312,7 +312,7 @@
                   <!-- Email Job Field -->
                   <div class="form-group col-sm-6">
                      <fieldset class="form-group">
-                        <label for="vacancies">Vacancies</label>
+                        <label for="vacancies">Vacations Attest By</label>
                         <select name="vacancies" id="vacancies" class="form-control select2-vacancy" style="width: 100%" data-allow-clear="true">
                            <option></option>
                            @foreach ($hrDesig as $desig)
@@ -360,7 +360,7 @@
                      <!-- Last Name Field -->
                      <div class="form-group col-sm-6">
                         <label for="salary">Salary</label>
-                        <input type="number" name="salary" id="salary" placeholder="2000.00" value="@if(isset($companyHr)){{ $companyHr->salary }}@endif" class="form-control">
+                        <input type="number" name="salary" id="salary" min="1.00" placeholder="2000.00" value="@if(isset($companyHr)){{ $companyHr->salary }}@endif" class="form-control">
                         <div class="errorTxt"></div>
                      </div>
                   </div>
@@ -368,13 +368,13 @@
                      <!-- Address 1 Field -->
                      <div class="form-group col-sm-6">
                         <label for="employment_percent">Employment in % (percentage)</label>
-                        <input type="number" name="employment_percent" value="@if(isset($companyHr)){{ $companyHr->employment_percent }}@endif" id="employment_percent" placeholder="75.00" class="form-control">
+                        <input type="number" name="employment_percent" min="1.00" value="@if(isset($companyHr)){{ $companyHr->employment_percent }}@endif" id="employment_percent" placeholder="75.00" class="form-control">
                         <div class="errorTxt"></div>
                      </div>
                      <!-- Address 2 Field -->
                      <div class="form-group col-sm-6">
                         <label for="cost_division">Cost Division</label>
-                        <input type="number" id="cost_division" name="cost_division" value="@if(isset($companyHr)){{ $companyHr->cost_division }}@endif" placeholder="00.00" class="form-control">
+                        <input type="number" id="cost_division" min="1.00" name="cost_division" value="@if(isset($companyHr)){{ $companyHr->cost_division }}@endif" placeholder="00.00" class="form-control">
                         <div class="errorTxt"></div>
                      </div>
                   </div>
@@ -399,7 +399,7 @@
                      <!-- City Id Field -->
                      <div class="form-group col-sm-6">
                         <label for="vat_table">VAT Table</label>
-                        <input type="number" name="vat_table" id="vat_table" value="@if(isset($companyHr)){{ $companyHr->vat_table }}@endif" placeholder="00.00" class="form-control">
+                        <input type="number" name="vat_table" id="vat_table" min="1.00" value="@if(isset($companyHr)){{ $companyHr->vat_table }}@endif" placeholder="00.00" class="form-control">
                         <div class="errorTxt"></div>
                      </div>
                      <!-- State Id Field -->
@@ -407,7 +407,7 @@
                   <div class="row">
                      <div class="form-group col-sm-6">
                         <label for="vacation_days">Vacation Days</label>
-                        <input type="number" name="vacation_days" id="vacation_days" value="@if(isset($companyHr)){{ $companyHr->vacation_days }}@endif" placeholder="00.00" class="form-control">
+                        <input type="number" name="vacation_days" id="vacation_days" min="1.00" value="@if(isset($companyHr)){{ $companyHr->vacation_days }}@endif" placeholder="00.00" class="form-control">
                         <div class="errorTxt"></div>
                      </div>
                      <!-- Country Id Field -->
@@ -893,10 +893,10 @@
 
       jQuery.validator.addMethod("alphanumeric", function(value, element) {
               return this.optional(element) || /^[a-zA-Z0-9%-]+$/.test(value);
-      }); 
+      }, "You must enter only alphanumeric characters or % , - "); 
 
       jQuery.validator.addMethod("dollarsscents", function(value, element) {
-          return this.optional(element) || /^\d{0,4}(\.\d{0,2})?$/i.test(value);
+          return this.optional(element) || /^\d{0,10}(\.\d{0,2})?$/i.test(value);
       }, "You must include two decimal places");  
 
       $('#wizard-1').validate({
@@ -917,7 +917,8 @@
               },
               'post_code': {
                 required:  true,
-                alphanumeric: true
+                alphanumeric: true,
+                maxlength: 10,
               },
               'city_id': {
                 required:  true,
@@ -934,10 +935,14 @@
               'telephone_job': {
                 required:  true,
                 digits: true,
+                minlength: 11,
+                maxlength: 15
               },
               'telephone_private': {
                 required:  true,
                 digits: true,
+                minlength: 11,
+                maxlength: 15
               },
               'email_job': {
                 required:  true,
@@ -1002,7 +1007,8 @@
               },
               'insurance_fees': {
                 required:  true,
-                digits: true
+                dollarsscents: true,
+                maxlength: 10,
               },
               'department': {
                 required:  true,
@@ -1365,7 +1371,7 @@
 
    $(function() {
     $('#civil_status_id').select2({
-      placeholder: 'Select City',
+      placeholder: 'Select Civil Status',
     });
   });
 
@@ -1434,7 +1440,7 @@
 
    $(function() {
     $('#vacancies').select2({
-      placeholder: 'Select Vacancies',
+      placeholder: 'Select Vacations Attest By',
     });
   });
 
