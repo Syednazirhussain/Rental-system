@@ -90,6 +90,20 @@ class companyHrController extends AppBaseController
             ->with('companyHrs', $companyHrs);
     }
 
+
+    public function getHrNotes(Request $request)
+    {
+        $input = $request->all();
+
+        $companyHrNotes =  CompanyHrNotes::where('company_hr_id',$input['companyHrId'])->where('code',$input['code'])->orderBy('id', 'DESC')->get();
+
+        if (!empty($companyHrNotes)) 
+        {
+            return response()->json($companyHrNotes);
+        }
+
+    }
+
     /**
      * Show the form for creating a new companyHr.
      *

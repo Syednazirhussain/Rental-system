@@ -4,7 +4,7 @@
          <div class="wizard panel-wizard" id="wizard-validation">
             <div class="wizard-wrapper">
                <ul class="wizard-steps">
-                  <li data-target="#wizard-1" class="active">
+                  <li data-target="#wizard-1">
                      <span class="wizard-step-number">1</span>
                      <span class="wizard-step-complete"><i class="fa fa-check"></i></span>
                      <span class="wizard-step-caption">
@@ -25,7 +25,7 @@
                      Salary and vacation
                      </span>
                   </li>
-                  <li data-target="#wizard-4">
+                  <li data-target="#wizard-4" class="active">
                      <span class="wizard-step-number">4</span>
                      <span class="wizard-step-complete"><i class="fa fa-check"></i></span>
                      <span class="wizard-step-caption">
@@ -586,8 +586,6 @@
                                </div>
                              </div>
                           @endif
-
-
                         </div> 
 
                       </div>
@@ -619,18 +617,50 @@
                         @endforeach
 
                      @endif
+
+
                      
                         <div class="col-sm-12 col-md-12 form-group">
-                          <label>HR Notes</label>
-                          <textarea name="hr_note" id="hr_note"></textarea>
+                          
+                           <span><a href="javascript:void(0)" data-toggle="modal" id="check-HrNotes" data-companyhr="@if(isset($companyHr)){{ $companyHr->id }}@endif" data-target="#modal-HrNotes"><i class="fa fa-chevron-circle-up"></i>&nbsp;HR Notes</a></span>
+
+                           <div class="modal fade" id="modal-HrNotes" tabindex="-1">
+                             <div class="modal-dialog">
+                               <div class="modal-content">
+                                 <div class="modal-header">
+                                   <button type="button" class="close" data-dismiss="modal">×</button>
+                                   <h4 class="modal-title">HR Notes</h4>
+                                 </div>
+                                 <div class="modal-body">
+
+                                    <div class="row">
+                                       <div class="col-sm-12 col-md-12">
+                                          <textarea name="hr_note" placeholder="write your note here.." style="width: 100%;height: 100px"></textarea>                                          
+                                       </div>
+                                       <div class="col-sm-12 col-md-12" id="hrNotes-logs">
+                                         
+                                       </div>
+                                    </div>
+                           
+                                 </div>
+                                 <div class="modal-footer">
+                                   <button type="button" class="btn" data-dismiss="modal">Close</button>
+                                   <button type="button" class="btn btn-primary">Save changes</button>
+                                 </div>
+                               </div>
+                             </div>
+                           </div>
+                           
+<!--                            <textarea name="hr_note" id="hr_note"></textarea> -->
+
                         </div>
                         <div class="col-sm-12 col-md-12 form-group">
                            <label for="">Manager Notes</label>
-                           <textarea name="manager_note" id="manager_note"></textarea>
+                           <!-- <textarea name="manager_note" id="manager_note"></textarea> -->
                         </div>
                         <div class="col-sm-12 col-md-12 form-group">
                           <label>Salary Development Notes</label>
-                          <textarea name="sal_dev_note" id="sal_dev_note"></textarea>
+                          <!-- <textarea name="sal_dev_note" id="sal_dev_note"></textarea> -->
                         </div>
 
 
@@ -678,6 +708,71 @@
       $('#hr_note').val(edit_hr_note);
       $('#manager_note').val(edit_manager_note);
       $('#sal_dev_note').val(edit_sal_dev_note);
+
+
+      $('#check-HrNotes').on('click',function(){
+
+         var companyHrId = $(this).attr('data-companyhr');
+
+         var jsObj = {
+            'companyHrId' : companyHrId,
+            'code'        : 'hr_note'
+         };
+
+         var user_id = "{{ auth()->guard('company')->user()->id  }}";
+
+
+         $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObj,function(response){
+
+            var html = '';
+            html += '<table class="table table-striped">';
+            html += '<thead>';
+            html += '<th>User</th>';
+            html += '<th>Notes</th>';
+            html += '<th></th>';
+            html += '</thead>';
+            html += '<tbody>';
+            for(var i = 0 ; i < response.length ; i++)
+            {
+               if(user_id == response[i].user_id)
+               {
+                  html += '<tr>';
+                  html += '<td>'+response[i].user_id+'</td>';
+                  html += '<td>'+response[i].note+'</td>';
+                  html += '<td> <i class="fa fa-edit text-primary fa-lg hrNoteEdit" data-userHrNote="'+response[i].id+'"></i>&nbsp;&nbsp;<i class="fa fa-trash text-danger fa-lg hrNoteDelete" data-userHrNote="'+response[i].id+'"></i> </td>';
+                  html += '</tr>';
+               }
+               else
+               {
+                  html += '<tr>';
+                  html += '<td>'+response[i].user_id+'</td>';
+                  html += '<td>'+response[i].note+'</td>';
+                  html += '</tr>';
+               }
+            }
+            html += '</tbody>';
+            html += '</table>'; 
+
+            $('#hrNotes-logs').html(html);
+
+         });
+
+
+      });
+
+      $(document).on('click','.hrNoteEdit',function(){
+
+         console.log("edit notes "+$(this).attr('data-userHrNote')  );
+
+      });
+
+      $(document).on('click','.hrNoteDelete',function(){
+
+         console.log("delete notes "+$(this).attr('data-userHrNote')  );
+         
+      });
+
+
 
       <?php
        $data = [];

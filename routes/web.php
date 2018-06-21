@@ -1327,7 +1327,7 @@ Route::delete('company/hrCivilStatuses/{hrCivilStatuses}', ['as'=> 'company.hrCi
 Route::get('company/hrCivilStatuses/{hrCivilStatuses}', ['as'=> 'company.hrCivilStatuses.show', 'uses' => 'Company\hrCivilStatusController@show']);
 Route::get('company/hrCivilStatuses/{hrCivilStatuses}/edit', ['as'=> 'company.hrCivilStatuses.edit', 'uses' => 'Company\hrCivilStatusController@edit']);
 
-Route::post('company/companyHrs/hrOtherInformation', ['as'=> 'company.hrOtherInformation.store', 'uses' => 'Company\companyHrController@hrOtherInformation']);
+Route::post('company/companyHrs/getHrNotes', ['as'=> 'company.companyHrs.getHrNotes', 'uses' => 'Company\companyHrController@getHrNotes']);
 
 Route::post('company/companyHrs/imageRemove', ['as'=> 'company.companyHrs.image_remove', 'uses' => 'Company\companyHrController@imageRemove']);
 Route::get('company/companyHrs', ['as'=> 'company.companyHrs.index', 'uses' => 'Company\companyHrController@index']);
