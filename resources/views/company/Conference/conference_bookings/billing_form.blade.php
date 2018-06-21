@@ -31,7 +31,7 @@
 	<div class="col-md-6">
             <div class="form-group m-t-2">
                 <label for="customer">Contact Person</label>
-                <input class="form-control" id="contact_person" name="contact_person" value="" placeholder="Contact Person">
+                <input class="form-control" id="contact_person" name="contact_person" value="@if(isset($companyCustomerInfo)){{$companyCustomerInfo->contact_person}}@endif" placeholder="Contact Person">
                 <div class="errorTxt"></div>
             </div>
 	</div>

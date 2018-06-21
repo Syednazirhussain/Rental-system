@@ -167,6 +167,7 @@ class ConferenceBookingController extends AppBaseController
     {
         $input = $request->all();
 
+
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
 
         $updateCustomer = [
@@ -195,10 +196,11 @@ class ConferenceBookingController extends AppBaseController
         $booking_date   = date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $input['booking_date'])));
         $start_datetime = date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $input['start_datetime'])));
         $end_datetime   = date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $input['end_datetime'])));
-
+     
         $input['booking_date']      = $booking_date;
         $input['start_datetime']    = $start_datetime;
         $input['end_datetime']      = $end_datetime;
+
 
         if (empty($input['packages'])) {
             $input['package_price'] = 0.00;
@@ -387,6 +389,7 @@ class ConferenceBookingController extends AppBaseController
                     'bookingAgencies'        => $bookingAgencies,
                     'roomCalenderId'        => "",
                 ];
+
 
         return view('company.Conference.conference_bookings.edit', $data);
     }
