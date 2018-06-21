@@ -60,7 +60,7 @@
                 </div>
 
                 <div class="table-primary">
-                    @include('company.rental.articles.table')
+                    @include('company.Rental.articles.table')
                 </div>
             </div>
         </div>

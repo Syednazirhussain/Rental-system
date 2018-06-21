@@ -76,7 +76,7 @@
                 </div>
 
                 <div class="table-primary">
-                    @include('company.rental.customers.table')
+                    @include('company.Rental.customers.table')
                 </div>
             </div>
         </div>

@@ -15,15 +15,15 @@
 
 <div class="tab-content clearfix">
     <div class="tab-pane active" id="customers">
-        @include('company.rental.customers.customer_edit')
+        @include('company.Rental.customers.customer_edit')
     </div>
     <div class="tab-pane" id="contacts">
-        @include('company.rental.contacts.edit')
+        @include('company.Rental.contacts.edit')
     </div>
     <div class="tab-pane" id="signage">
-        @include('company.rental.signage.edit')
+        @include('company.Rental.signage.edit')
     </div>
     <div class="tab-pane" id="invoices">
-        @include('company.rental.invoices.edit')
+        @include('company.Rental.invoices.edit')
     </div>
 </div>

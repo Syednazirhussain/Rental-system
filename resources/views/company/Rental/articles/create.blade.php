@@ -16,16 +16,16 @@
         <div class="panel">
             <div class="panel-body">
 
-                @include('company.rental.tabs.create_articles')
+                @include('company.Rental.tabs.create_articles')
 
             </div>
         </div>
     </div>
 
     @section('js')
-        @include('company.rental.articles.js')
-        @include('company.rental.prices.js')
-        @include('company.rental.stocks.js')
-        @include('company.rental.financial.js')
+        @include('company.Rental.articles.js')
+        @include('company.Rental.prices.js')
+        @include('company.Rental.stocks.js')
+        @include('company.Rental.financial.js')
     @endsection
 @endsection
