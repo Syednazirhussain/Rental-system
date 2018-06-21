@@ -179,6 +179,9 @@
                                     <li><a href="{{ route('company.conference.calender.view') }}">Calender</a></li>
                                 </ul>
                             </li>
+                        @elseif($module->module->code == 'signage_module')
+                            <li class="divider"></li>
+                            <li><a href="{{ route('company.rsignage.index') }}">Signage System</a></li>
                         @elseif($module->module->code == 'newsletter_module')
                             <li class="divider"></li>
                             <li class="dropdown-toggle">
