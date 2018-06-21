@@ -9,7 +9,7 @@
     <tbody>
     @foreach($foods as $food)
         <tr>
-            <td>{!! $food->title !!}</td>
+            <td>{!! ucfirst($food->title) !!}</td>
             <td>{!! $food->price_per_attendee !!}</td>
             <td>
                 {!! Form::open(['route' => ['company.conference.foods.destroy', $food->id], 'method' => 'delete']) !!}

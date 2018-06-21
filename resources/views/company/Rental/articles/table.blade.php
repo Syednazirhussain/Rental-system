@@ -1,3 +1,4 @@
+<div id="export_buttons"></div>
 <table class="table table-striped table-bordered" id="datatables">
     <thead>
     <tr>
@@ -12,7 +13,7 @@
         <th width="200px">Action</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody id="article_table_body">
     @if(isset($articles))
         @foreach($articles as $article)
             <tr class="odd gradeX">

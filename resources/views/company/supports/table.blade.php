@@ -17,7 +17,7 @@
               <tr class="odd gradeX">
                 <td>{{ $loop->index + 1 }}</td>
                 <td> 
-                  <a href="{{ route('company.supports.show',[$support->id]) }}">{{ $support->subject }}</a> 
+                  <a href="{{ route('company.supports.show',[$support->id]) }}">{{ ucfirst($support->subject) }}</a> 
                 </td>
                 <td>
 

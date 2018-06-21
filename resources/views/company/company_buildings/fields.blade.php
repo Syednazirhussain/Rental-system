@@ -19,11 +19,11 @@
     </div>
     <div class="col-sm-12 form-group">
         <label for="company_building_num_floors">Num Floors:</label>
-        <input type="number" name="num_floors" id="company_building_num_floors" class="form-control" value="@if(isset($companyBuilding)){{ $companyBuilding->num_floors }}@endif" disabled>
+        <input type="number" id="company_building_num_floors" class="form-control" value="@if(isset($companyBuilding)){{ $companyBuilding->num_floors }}@endif" disabled>
     </div>
     <div class="col-sm-12">
-        <button type="submit" class="btn btn-primary">@if(isset($companyBuilding)) <i class="fa fa-refresh"></i>  Update Company Building @else <i class="fa fa-plus"></i>  Add Company Building @endif</button>
-        <a href="{!! route('company.companyBuildings.index') !!}" class="btn btn-default">Cancel</a>
+        <button type="submit" class="btn btn-primary">@if(isset($companyBuilding)) <i class="fa fa-refresh"></i>  Update @else <i class="fa fa-plus"></i>  Create @endif</button>
+        <a href="{!! route('company.companyBuildings.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> Cancel</a>
     </div>
 </div>
 
@@ -46,6 +46,7 @@
                 },
                 'zipcode': {
                     required: true,
+                    maxlength: 20,
                 },
                 'num_floors': {
                     required: true,
@@ -55,6 +56,12 @@
             messages: {
                 'name': {
                     required: "Please enter the name",
+                },
+                'address': {
+                    required: "Please enter the address",
+                },
+                'zipcode': {
+                    required: "Please enter the zipcode",
                 }
             }
 

@@ -8,9 +8,9 @@
             <h1>
                 <span class="text-muted font-weight-light">
                     <i class="page-header-icon ion-android-checkbox-outline"></i>
-                    Booking Agencies /
+                    Conference / Booking Agencies /
                 </span>
-                Edit
+                Edit Booking Agencies
             </h1>
         </div>
 

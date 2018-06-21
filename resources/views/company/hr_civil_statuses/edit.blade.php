@@ -7,8 +7,8 @@
             <h1>
                 <span class="text-muted font-weight-light">
                     <i class="page-header-icon ion-ios-keypad"></i>
-                    <a href="{{ route('company.supports.index') }}">Support</a>
-                </span>
+                    <a href="{{ route('company.hrCivilStatuses.index') }}">Company HR / HR Civil Status</a> / 
+                </span>Edit HR Civil Status
             </h1>
         </div>
 
@@ -18,7 +18,7 @@
        <div class="box box-primary">
            <div class="box-body">
                <div class="row">
-                   {!! Form::model($hrCivilStatus, ['route' => ['company.hrCivilStatuses.update', $hrCivilStatus->id], 'method' => 'patch']) !!}
+                   {!! Form::model($hrCivilStatus, ['route' => ['company.hrCivilStatuses.update', $hrCivilStatus->id], 'method' => 'patch', 'id' => 'form']) !!}
 
                         @include('company.hr_civil_statuses.fields')
 

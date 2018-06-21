@@ -13,6 +13,7 @@ use Auth;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use App\Models\Company;
 
 class CompanyBuildingController extends AppBaseController
 {
@@ -37,9 +38,10 @@ class CompanyBuildingController extends AppBaseController
     public function index(Request $request)
     {
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        $company = Company::find($company_id);
         $companyBuildings = CompanyBuilding::where('company_id', $company_id)->get();
 
-        return view('company.company_buildings.index', ['companyBuildings' => $companyBuildings]);
+        return view('company.company_buildings.index', ['companyBuildings' => $companyBuildings, 'company' => $company]);
     }
 
     /**
@@ -167,8 +169,7 @@ class CompanyBuildingController extends AppBaseController
             $request->session()->flash('msg.error', 'Company Building not found');
             return redirect(route('company.companyBuildings.index'));
         }
-
-        $this->companyBuildingRepository->update($request->all(), $id);
+        $this->companyBuildingRepository->update($request->all('name','address','zipcode'), $id);
         $request->session()->flash('msg.success', 'Company Building updated successfully.');
 
         return redirect(route('company.companyBuildings.index'));

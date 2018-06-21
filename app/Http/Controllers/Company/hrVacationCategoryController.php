@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Auth;
+use App\Models\Company\hrVacationCategory;
 
 class hrVacationCategoryController extends AppBaseController
 {
@@ -30,7 +32,10 @@ class hrVacationCategoryController extends AppBaseController
     public function index(Request $request)
     {
         $this->hrVacationCategoryRepository->pushCriteria(new RequestCriteria($request));
-        $hrVacationCategories = $this->hrVacationCategoryRepository->all();
+        $companyId         =   Auth::guard('company')->user()->companyUser()->first()->company_id;
+        
+        $hrVacationCategories    = hrVacationCategory::where('company_id',$companyId)->get();
+
 
         return view('company.hr_vacation_categories.index')
             ->with('hrVacationCategories', $hrVacationCategories);
@@ -56,6 +61,7 @@ class hrVacationCategoryController extends AppBaseController
     public function store(CreatehrVacationCategoryRequest $request)
     {
         $input = $request->all();
+        $input['company_id'] =   Auth::guard('company')->user()->companyUser()->first()->company_id;
 
         $hrVacationCategory = $this->hrVacationCategoryRepository->create($input);
 

@@ -5,7 +5,7 @@
     <div class="px-content">
 
         <div class="page-header">
-            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i><a href="{{ route('company.hrCompanyDesignations.create') }}">Hr Company Designations</a></span></h1>
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i><a href="{{ route('company.hrCompanyDesignations.index') }}">Company HR</a> / </span>HR Company Designations</h1>
         </div>
 
         <div class="panel">
@@ -27,7 +27,7 @@
                 
 
                 <div class="text-right m-b-3">
-                    <a href="{{ route('company.hrCompanyDesignations.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;Create Personal Cats</a> 
+                    <a href="{{ route('company.hrCompanyDesignations.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;Create</a> 
                 </div>
 
                 <div class="table-primary">
@@ -39,4 +39,17 @@
 
 
 @endsection
+@section('js')
+        <script type="text/javascript">
+            // -------------------------------------------------------------------------
+            // Initialize DataTables
+
+            $(function() {
+              $('#datatables').dataTable();
+              $('#datatables_wrapper .table-caption').text('HR Company Designations');
+              $('#datatables_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
+            });
+        </script>
+@endsection
+
 

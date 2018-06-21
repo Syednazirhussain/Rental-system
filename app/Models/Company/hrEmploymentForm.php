@@ -38,7 +38,7 @@ class hrEmploymentForm extends Model
 
 
     public $fillable = [
-        'name'
+        'name','company_id'
     ];
 
     /**
@@ -48,7 +48,8 @@ class hrEmploymentForm extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'name' => 'string'
+        'name' => 'string',
+        'company_id' => 'integer'
     ];
 
     /**

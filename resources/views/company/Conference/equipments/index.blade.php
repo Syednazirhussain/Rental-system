@@ -1,14 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
 @extends('company.default')
 
 @section('content')
@@ -16,7 +5,7 @@
 
   <div class="px-content">
     <div class="page-header">
-      <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i></span>Equipments</h1>
+      <h1><span class="text-muted font-weight-light"><i class="page-header-icon fa fa-building-o"></i>Buildings / Rooms / Room Equipments / </span>Equipments</h1>
     </div>
 
     <div class="panel">
@@ -39,7 +28,7 @@
 
 
         <div class="text-right m-b-3">
-            <a href="{!! route('company.conference.equipments.create') !!}" class="btn btn-primary"><i class="fa fa-plus"></i> &nbsp;Add Equipment</a>
+            <a href="{!! route('company.conference.equipments.create') !!}" class="btn btn-primary"><i class="fa fa-plus"></i> &nbsp;Create</a>
         </div>
 
 

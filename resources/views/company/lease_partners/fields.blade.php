@@ -659,6 +659,18 @@
                 alphanumeric: true
               }
             },
+
+        messages: {
+          'parent_company': {
+            required: "Please enter the parent company",
+          },
+          'sister_company': {
+            required: "Please enter the sister company",
+          },
+          'sales_person': {
+            required: "Please enter the sales person",
+          }
+        }
       });
 
       var leasePartnersCreated = 0;
@@ -748,7 +760,25 @@
                 required:  true,
                 email: true
               }
-            }
+            },
+
+        messages: {
+          'organization_number': {
+            required: "Please enter the organization number",
+          },
+          'company_name': {
+            required: "Please enter the company name",
+          },
+          'contract_person': {
+            required: "Please enter the contract person",
+          },
+          'tel': {
+            required: "Please enter the tel",
+          },
+          'email': {
+            required: "Please enter the email",
+          }
+        }
       });
 
       var leaseCounterpartsCreated = 0;
@@ -900,9 +930,60 @@
               'cost_number':{
                 required: true
               }
-            }
+            },
+
+        messages: {
+          'contract_start_date': {
+            required: "Please enter the contract start date",
+          },
+          'contract_length': {
+            required: "Please enter the contract length",
+          },
+          'termination_time': {
+            required: "Please enter the termination time",
+          },
+          'contract_auto_renewal': {
+            required: "Please enter the contract auto renewal",
+          },
+          'contract_type': {
+            required: "Please enter the contract type",
+          },
+          'contract_name': {
+            required: "Please enter the contract name",
+          },
+          'contract_desc': {
+            required: "Please enter the contract desc",
+          },
+          'contract_number': {
+            required: "Please enter the contract number",
+          },
+          'amount_per_month': {
+            required: "Please enter the amount per month",
+          },
+          'income_per_month': {
+            required: "Please enter the income per month",
+          },
+          'currency_id': {
+            required: "Please enter the currency id",
+          },
+          'cost_reference': {
+            required: "Please enter the cost reference",
+          },
+          'income_reference': {
+            required: "Please enter the income reference",
+          },
+          'other_reference': {
+            required: "Please enter the other reference",
+          },
+          'building_id': {
+            required: "Please select the building",
+          },
+          'cost_number': {
+            required: "Please enter the cost number",
+          }
+        }
       });
-      
+        
       var leaseContractInformationsCreated = 0;
 
       $('#wizard-3').on('submit', function(e) {

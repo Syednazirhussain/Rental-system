@@ -50,7 +50,7 @@ class SignageController extends AppBaseController
           'signages' => $signages,
         ];
 
-        return view('company.rental.signage.index', $data);
+        return view('company.Rental.signage.index', $data);
     }
 
     /**
@@ -65,7 +65,7 @@ class SignageController extends AppBaseController
             'tab' => 'signage',
         ];
 
-        return view('company.rental.signage.create', $data);
+        return view('company.Rental.signage.create', $data);
     }
 
     /**

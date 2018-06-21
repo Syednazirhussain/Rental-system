@@ -3,14 +3,14 @@
     <thead>
         <tr>
             <th>Title</th>
-            <th>Action</th>
+            <th width="200px" class="pull-right">Action</th>
         </tr>
     </thead>
     <tbody>
         @foreach($equipmentCriterias as $equipmentCriteria)
              <tr class="odd gradeX">
                 <td>{{$equipmentCriteria->title}}</td>
-                <td>
+                <td width="200px" class="pull-right">
                     {!! Form::open(['route' => ['company.conference.equipmentCriterias.destroy', $equipmentCriteria->id], 'method' => 'delete']) !!}
                     
                         <a href="{!! route('company.conference.equipmentCriterias.edit', [$equipmentCriteria->id]) !!}" class='btn btn-default btn-xs'><i class="fa fa-edit"></i></a>

@@ -24,11 +24,11 @@
     </div>
     <div class="col-sm-12 form-group" id="service_price">
         <label for="price">Price</label>
-        <input type="number" name="price" id="price" class="form-control" value="@if(isset($service)){{ $service->price }}@endif">
+        <input type="number" name="price" id="price" min="0" class="form-control" value="@if(isset($service)){{ $service->price }}@endif">
     </div>
     <div class="col-sm-12">
-        <button type="submit" class="btn btn-primary">@if(isset($service)) <i class="fa fa-refresh"></i>  Update Service @else <i class="fa fa-plus"></i>  Add Service @endif</button>
-        <a href="{!! route('company.services.index') !!}" class="btn btn-default">Cancel</a>
+        <button type="submit" class="btn btn-primary">@if(isset($service)) <i class="fa fa-refresh"></i>  Update @else <i class="fa fa-plus"></i>  Create @endif</button>
+        <a href="{!! route('company.services.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> Cancel</a>
     </div>
 </div>
 
@@ -49,12 +49,21 @@
             rules: {
                 'name': {
                     required: true,
+                    maxlength: 50
                 },
+                'price': {
+                    required: true,
+                    maxlength: 50,
+                    number: true,
+                }
             },
 
             messages: {
                 'name': {
                     required: "Please enter the service name !",
+                },
+                'price': {
+                    required: "Please enter the price !",
                 }
             }
         });

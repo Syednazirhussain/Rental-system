@@ -1,24 +1,24 @@
-@extends('layouts.app')
+@extends('company.default')
 
 @section('content')
-    <section class="content-header">
-        <h1>
-            Hr Employment Form
-        </h1>
-    </section>
-    <div class="content">
-        @include('adminlte-templates::common.errors')
-        <div class="box box-primary">
-
-            <div class="box-body">
-                <div class="row">
-                    {!! Form::open(['route' => 'company.hrEmploymentForms.store']) !!}
+    <div class="px-content">
+        <div class="page-header">
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon fa fa-plus"></i><a href="{{ route('company.hrEmploymentForms.index')}}">Company HR / HR Employment From</a> / </span>Add HR Employment From</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div class="panel-title">Add HR Employment From</div>
+                    </div>
+                    <div class="panel-body">
+                    {!! Form::open(['route' => 'company.hrEmploymentForms.store', 'id' => 'form']) !!}
 
                         @include('company.hr_employment_forms.fields')
 
                     {!! Form::close() !!}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 @endsection

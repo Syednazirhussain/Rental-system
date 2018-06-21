@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Auth;
+use App\Models\Company\hrCompanyCollective;
 
 class hrCompanyCollectiveController extends AppBaseController
 {
@@ -30,7 +32,10 @@ class hrCompanyCollectiveController extends AppBaseController
     public function index(Request $request)
     {
         $this->hrCompanyCollectiveRepository->pushCriteria(new RequestCriteria($request));
-        $hrCompanyCollectives = $this->hrCompanyCollectiveRepository->all();
+        $companyId         =   Auth::guard('company')->user()->companyUser()->first()->company_id;
+        
+        $hrCompanyCollectives    = hrCompanyCollective::where('company_id',$companyId)->get();
+
 
         return view('company.hr_company_collectives.index')
             ->with('hrCompanyCollectives', $hrCompanyCollectives);
@@ -56,6 +61,7 @@ class hrCompanyCollectiveController extends AppBaseController
     public function store(CreatehrCompanyCollectiveRequest $request)
     {
         $input = $request->all();
+        $input['company_id'] =   Auth::guard('company')->user()->companyUser()->first()->company_id;
 
         $hrCompanyCollective = $this->hrCompanyCollectiveRepository->create($input);
 

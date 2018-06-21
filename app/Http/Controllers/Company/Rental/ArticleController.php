@@ -40,12 +40,14 @@ class ArticleController extends AppBaseController
     {
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $articles = CompanyArticle::where('company_id', $company_id)->get();
+        $companyBuildings = CompanyBuilding::where('company_id', $company_id)->get();
         $data = [
-          'articles' => $articles,
+            'articles' => $articles,
+            'buildings' => $companyBuildings,
 
         ];
 
-        return view('company.rental.articles.index', $data);
+        return view('company.Rental.articles.index', $data);
     }
 
     /**
@@ -67,7 +69,7 @@ class ArticleController extends AppBaseController
             'rooms' => $rooms,
         ];
 
-        return view('company.rental.articles.create', $data);
+        return view('company.Rental.articles.create', $data);
     }
 
     /**
@@ -131,7 +133,7 @@ class ArticleController extends AppBaseController
         ];
 
         //dd($article);
-        return view('company.rental.articles.edit', $data);
+        return view('company.Rental.articles.edit', $data);
     }
 
     /**
@@ -171,7 +173,69 @@ class ArticleController extends AppBaseController
      */
     public function destroy($id, Request $request)
     {
-        return redirect(route('company.contracts.index'));
+        $article = CompanyArticle::find($id);
+
+        if (empty($article)) {
+            Flash::error('Company Article not found');
+
+            return redirect(route('company.rarticle.index'));
+        }
+
+        $article->delete();
+
+        $request->session()->flash('msg.success', 'Company Article deleted successfully.');
+
+        return redirect(route('company.rarticle.index'));
     }
 
+    /**
+     * Articles Normal Search by ID, Name
+     */
+    public function normal_search(Request $request)
+    {
+        $input = $request->all();
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        if($input['data'] !== '') {
+            $articles = CompanyArticle::where('company_id', $company_id)
+                ->where(function($q) use($input){
+                    $q->where('id', $input['data'])
+                        ->orWhere('article_name_swedish', 'like', '%'.$input['data'].'%')
+                        ->orWhere('article_name_english', 'like', '%'.$input['data'].'%');
+                })->get();
+        } else {
+            $articles = CompanyArticle::where('company_id', $company_id)->get();
+        }
+
+        $data = [
+            'company_id' => $company_id,
+            'articles' => $articles,
+        ];
+
+        return response()->json(['success'=>1, 'msg'=>'', 'data'=>$data]);
+    }
+
+
+    /**
+     * Articles Normal Search by building, floor
+     */
+    public function advance_search(Request $request)
+    {
+        $input = $request->all();
+
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        if($input['building'] !== '') {
+            $articles = CompanyArticle::where('company_id', $company_id)
+                ->where('building', $input['building'])
+                ->get();
+        } else {
+            $articles = CompanyArticle::where('company_id', $company_id)->get();
+        }
+
+        $data = [
+            'company_id' => $company_id,
+            'articles' => $articles,
+        ];
+
+        return response()->json(['success'=>1, 'msg'=>'', 'data'=>$data]);
+    }
 }
