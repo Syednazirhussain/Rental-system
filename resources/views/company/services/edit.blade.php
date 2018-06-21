@@ -5,10 +5,10 @@
         <div class="page-header">
             <h1>
                 <span class="text-muted font-weight-light">
-                    <i class="page-header-icon ion-android-checkbox-outline"></i>
+                    <i class="page-header-icon fa fa-edit"></i>
                     Service /
                 </span>
-                Edit Service
+                Edit "{{ucfirst($service->name)}}"
             </h1>
         </div>
 

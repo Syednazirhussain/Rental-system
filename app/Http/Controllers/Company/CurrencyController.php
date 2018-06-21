@@ -63,6 +63,8 @@ class CurrencyController extends AppBaseController
     {
         $input = $request->all();
 
+        $input['company_id'] =   Auth::guard('company')->user()->companyUser()->first()->company_id;
+        dd($input['company_id']);
         $currency = $this->currencyRepository->create($input);
 
         if($currency)

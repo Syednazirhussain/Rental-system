@@ -4,7 +4,7 @@
 
      <div class="px-content">
         <div class="page-header">
-            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Conference / Food &amp; Drinks / Packages / </span>Edit Package</h1>
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Conference / Food &amp; Drinks / Packages / </span>Edit "{!! ucfirst($packages->title) !!}"</h1>
         </div>
         <div class="row">
             <div class="col-md-6 col-md-offset-3">

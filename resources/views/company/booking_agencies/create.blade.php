@@ -5,7 +5,7 @@
 @section('content')
     <div class="px-content">
         <div class="page-header">
-            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Conference / Booking Agencies / </span>Add Booking Agency</h1>
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon fa fa-plus"></i>Conference / Booking Agencies / </span>Create Booking Agency</h1>
         </div>
         <div class="row">
             <div class="col-md-6 col-md-offset-3">

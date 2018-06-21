@@ -6,7 +6,7 @@
 
      <div class="px-content">
         <div class="page-header">
-            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Conference Bookings / </span>Add Conference Booking</h1>
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Conference Bookings / </span>Create Conference Booking</h1>
         </div>
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -47,7 +47,7 @@
                                                                 
                                 <div class="row">
                                     <div class="col-sm-12 m-t-3">
-                                            <button id="submitBtn" type="submit" class="btn btn-primary">@if(isset($conferenceBooking))  <i class="fa fa-refresh"></i>  Update Booking  @else <i class="fa fa-plus"></i>  Add Booking @endif</button>
+                                            <button id="submitBtn" type="submit" class="btn btn-primary">@if(isset($conferenceBooking))  <i class="fa fa-refresh"></i>  Update  @else <i class="fa fa-plus"></i>  Create @endif</button>
                                             <a href="{!! route('company.conference.conferenceBookings.index') !!}" class="btn btn-default"> <i class="fa fa-times"></i> Cancel</a>
                                     </div>
                                 </div>

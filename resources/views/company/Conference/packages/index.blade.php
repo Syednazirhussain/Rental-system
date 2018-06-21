@@ -32,7 +32,7 @@
 
 
         <div class="text-right m-b-3">
-            <a href="{!! route('company.conference.packages.create') !!}" class="btn btn-primary"><i class="fa fa-plus"></i> Add</a>
+            <a href="{!! route('company.conference.packages.create') !!}" class="btn btn-primary"><i class="fa fa-plus"></i> Create</a>
         </div>
 
         <div class="table-primary">

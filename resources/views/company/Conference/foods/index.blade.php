@@ -1,9 +1,3 @@
-
-
-
-
-
-
 @extends('company.default')
 
 @section('content')
