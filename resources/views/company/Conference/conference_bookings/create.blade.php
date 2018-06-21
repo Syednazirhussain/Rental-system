@@ -47,7 +47,7 @@
                                                                 
                                 <div class="row">
                                     <div class="col-sm-12 text-right m-t-3">
-                                            <button id="submitBtn" type="submit" class="btn btn-primary">@if(isset($conferenceBooking))  <i class="fa fa-refresh"></i>  Update Booking  @else Next &nbsp;<i class="fa fa-arrow-circle-right"></i>   @endif</button>
+                                            <button id="submitBtn" type="submit" class="btn btn-primary">@if(isset($conferenceBooking))  <i class="fa fa-refresh"></i>  Update   @else Next &nbsp;<i class="fa fa-arrow-circle-right"></i>   @endif</button>
                                             <a href="{!! route('company.conference.conferenceBookings.index') !!}" class="btn btn-default"> <i class="fa fa-times"></i> Cancel</a>
                                     </div>
                                 </div>
