@@ -192,12 +192,13 @@
                <!-- ============================wizard-2==================================== -->
                <form class="wizard-pane" id="wizard-2">
                   @if (isset($companyHr))
+
                   <input name="_method" type="hidden" value="PATCH">
                   @endif
-                  <h3 class="m-t-0">Information about employment</h3>
+                  <h3 class="m-t-0">Information about employment </p></h3>
                   <div class="form-group col-sm-6">
                      <label for="employment_date">Employment Date</label>
-                     <input type="text" id="employment_date" name="employment_date" value="@if(isset($companyHr)){{ $companyHr->employment_date }} @endif" class="form-control employment_date">
+                     <input type="text" name="employment_date" value="@if(isset($companyHr)){{ $companyHr->employment_date }} @endif" class="form-control" id="employment_date">
                      <div class="errorTxt"></div>
                   </div>
                   <!-- Last Name Field -->
@@ -209,7 +210,7 @@
                   <!-- Address 1 Field -->
                   <div class="form-group col-sm-6">
                      <label for="employeed_untill">Employeed Untill</label>
-                     <input type="text" id="employeed_untill" name="employeed_untill" value="@if(isset($companyHr)){{ $companyHr->employeed_untill }} @endif" class="form-control employeed_untill">
+                     <input type="text" name="employeed_untill" value="@if(isset($companyHr)){{ $companyHr->employeed_untill }} @endif" class="form-control"  id="employeed_untill">
                      <div class="errorTxt"></div>
                   </div>
                   <!-- Address 2 Field -->
@@ -266,7 +267,7 @@
                   <!-- State Id Field -->
                   <div class="col-sm-6 form-group">
                      <label for="insurance_date">Insurance Date</label>
-                     <input type="text" id="insurance_date" name="insurance_date" value="@if(isset($companyHr)){{ $companyHr->insurance_date }} @endif"  class="form-control insurance_date">
+                     <input type="text" name="insurance_date" value="@if(isset($companyHr)){{ $companyHr->insurance_date }} @endif"  class="form-control"  id="insurance_date">
                      <div class="errorTxt"></div>
                   </div>
                   <!-- Country Id Field -->
@@ -535,15 +536,15 @@
                                  <div class="col-sm-12 col-sm-12 m-t-2">
                                      <div class="col-sm-2 col-md-2 form-group">
                                        <label for="sitting_name">Organization Name</label>
-                                       <input type="text" name="organization_name[]" value="@if(isset($companyHrPreEmploy)){{ $companyHrPreEmploy->organization_name }}@endif" class="form-control organization_name" >
+                                       <input type="text" name="organization_name[]" value="@if(isset($companyHrPreEmploy)){{ $companyHrPreEmploy->organization_name }}@endif" class="form-control organization_name">
                                      </div>
                                      <div class="col-sm-2 col-md-2 form-group">
                                        <label for="sitting_number_person">Job Title</label>
-                                       <input type="text" name="job_title[]" value="@if(isset($companyHrPreEmploy)){{ $companyHrPreEmploy->job_title }}@endif" class="form-control job_title" >
+                                       <input type="text" name="job_title[]" value="@if(isset($companyHrPreEmploy)){{ $companyHrPreEmploy->job_title }}@endif" class="form-control job_title">
                                      </div> 
                                     <div class="col-sm-4 col-md-4 form-group">
                                        <label for="sitting_number_person">Learning Courses</label>
-                                       <input type="text" name="courses[]" value="@if(isset($companyHrPreEmploy)){{ $companyHrPreEmploy->courses }}@endif" data-role="tagsinput" class="form-control courses" >
+                                       <input type="text" name="courses[]" value="@if(isset($companyHrPreEmploy)){{ $companyHrPreEmploy->courses }}@endif" data-role="tagsinput" class="form-control courses">
                                      </div>
                                     <div class="col-sm-2 col-md-2 form-group">
                                        <label for="sitting_number_person">Employment From</label>
@@ -603,15 +604,15 @@
 
                         @foreach($companyHrNotes as $companyHrNote)
 
-                           @if($companyHrNote->code == 'hr_note'))
+                           @if($companyHrNote->code == 'hr_note')
                               <input type="hidden" id="edit_hr_note" value="{{ $companyHrNote->note }}">
                            @endif
 
-                           @if($companyHrNote->code == 'manager_note'))
+                           @if($companyHrNote->code == 'manager_note')
                               <input type="hidden" id="edit_manager_note" value="{{ $companyHrNote->note }}">
                            @endif
 
-                           @if($companyHrNote->code == 'sal_dev_note'))
+                           @if($companyHrNote->code == 'sal_dev_note')
                               <input type="hidden" id="edit_sal_dev_note" value="{{ $companyHrNote->note }}">
                            @endif
 
@@ -1054,7 +1055,8 @@
               },
               'salary': {
                 required:  true,
-                digits: true
+                dollarsscents: true,
+                maxlength: 10,
               },
               'employment_percent': {
                 required:  true,
@@ -1062,7 +1064,8 @@
               },
               'cost_division': {
                 required:  true,
-                dollarsscents: true
+                dollarsscents: true,
+                maxlength: 10,
               },
               'project': {
                 required:  true,
@@ -1379,33 +1382,36 @@
 
    //---------------- Tab 2 ------------------ //
 
-    $(document).ready(function(){
 
-      $('#employment_date').daterangepicker({
-           singleDatePicker: true,
-           showDropdowns: true,
-           locale: {
-               format: 'Y-MM-DD'
-           }
-      });
 
-      $('#employeed_untill').daterangepicker({
-           singleDatePicker: true,
-           showDropdowns: true,
-           locale: {
-               format: 'Y-MM-DD'
-           }
-      });
-
-      $('#insurance_date').daterangepicker({
-           singleDatePicker: true,
-           showDropdowns: true,
-           locale: {
-               format: 'Y-MM-DD'
-           }
-      });
-
+   $('#employment_date').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        locale: {
+            format: 'YYYY-MM-DD'
+        }
    });
+
+   $('#employeed_untill').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        locale: {
+            format: 'Y-MM-DD'
+        }
+   });
+
+   $('#insurance_date').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        locale: {
+            format: 'Y-MM-DD'
+        }
+   });      
+
+
+
+
+
 
    $(function() {
     $('#personal_category').select2({
@@ -1521,14 +1527,29 @@
      }
    });
 
-   $('.employed_until').daterangepicker({
-      singleDatePicker: true,
-      showDropdowns: true,
-      startDate : moment().add('years',1),
-      locale: {
-            format: 'Y-MM-DD'
-      }
-   });
+   if (editCompanyHr != 0) 
+   {
+      $('.employed_until').daterangepicker({
+         singleDatePicker: true,
+         showDropdowns: true,
+         locale: {
+               format: 'Y-MM-DD'
+         }
+      });   
+   }
+   else
+   {
+      $('.employed_until').daterangepicker({
+         singleDatePicker: true,
+         showDropdowns: true,
+         startDate : moment().add('years',1),
+         locale: {
+               format: 'Y-MM-DD'
+         }
+      });
+   }
+
+
 
    $('#hr_note').summernote({
       height: 112,
@@ -1583,6 +1604,22 @@
 
 
    //---------------- Tab 4 ------------------ //          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
            
 

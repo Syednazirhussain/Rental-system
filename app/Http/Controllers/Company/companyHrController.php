@@ -129,12 +129,6 @@ class companyHrController extends AppBaseController
     }
 
 
-    public function hrOtherInformation(Request $request){
-
-        print_r($request->all());
-        exit;
-    }
-
     /**
      * Store a newly created companyHr in storage.
      *
@@ -145,7 +139,6 @@ class companyHrController extends AppBaseController
     public function store(CreatecompanyHrRequest $request)
     {
         $input = $request->all();
-
 
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $user_id = Auth::guard('company')->user()->id;
@@ -635,7 +628,7 @@ class companyHrController extends AppBaseController
 
         $this->companyHrRepository->delete($id);
 
-        Flash::success('Company Hr deleted successfully.');
+        session()->flash('msg.success','Company Hr deleted successfully.');
 
         return redirect(route('company.companyHrs.index'));
     }
