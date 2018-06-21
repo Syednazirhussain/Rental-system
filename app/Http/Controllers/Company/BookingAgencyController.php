@@ -111,7 +111,7 @@ class BookingAgencyController extends AppBaseController
         // dd($input);
 
                     
-                  $input['buildings'] = json_encode(array_values($input['buildings']));
+            $input['buildings'] = json_encode(array_values($input['buildings']));
 
             $bookingAgency = $this->bookingAgencyRepository->create($input);
 

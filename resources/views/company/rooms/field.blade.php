@@ -73,7 +73,7 @@
               <label for="room_name">Room Name</label>
               <input type="text" id="room_name" name="name" placeholder="enter room name here" class="form-control" value="@if(isset($room)){{ $room->name }}@endif">
               <div class="errorTxt"></div>
-            </div>
+            </div><!-- 
             <div class="col-sm-6 col-md-6 form-group">
               <label for="service_id">Services</label>
               <select class="form-control" id="service_id" name="service_id">
@@ -91,7 +91,29 @@
                   @endif
               </select>
               <div class="errorTxt"></div>            
-            </div>
+            </div> -->
+            <div class="col-sm-6 col-md-6 form-group">
+              <label for="service_id">Services</label>
+            <select type="text" name="services[]" id="service_id" class="form-control select2-example" multiple>
+                            @if (isset($room))
+
+                            @foreach($services as $service)
+                        <option value="{{ $service->id }}" <?php foreach ($selectedService as $selct) { if($service->id == $selct->id){ echo "selected"; }}  ?> >
+                          {{$service->name}}
+                        </option>
+                          
+                      @endforeach
+
+                      @else
+                          @foreach($services as $services)
+                          <option value="{{ $services->id }}">{{ ucwords($services->name) }}</option>
+                     @endforeach
+
+                     @endif
+
+           </select>
+          <label id="companyId-error" class="error" for="companyId"></label>
+        </div>
           </div>
 
           <div class="col-sm-12 col-md-12">
@@ -150,18 +172,25 @@
             </div>
           </div>
 
-
           <div class="col-sm-12 col-md-12">
               <span class="col-sm-4 col-md-4 form-group">
                   <label for="start_date">Start Date</label>
-                  <input type="text" id="start_date" name="start_date" value="" class="form-control" value="@if(isset($room)){{ $room->start_date }}@endif">
+                  <input type="text" id="start_date" name="start_date" value="@if(isset($room)){{ $room->start_date }} @endif" class="form-control" value="@if(isset($room)){{ $room->start_date }}@endif">
                   <div class="errorTxt"></div>
               </span>
+              @if(isset($room))
               <span class="col-sm-4 col-md-4 form-group">
                   <label for="end_date">End Date</label>
-                  <input type="text" id="end_date" name="end_date" class="form-control" value="@if(isset($room)){{ $room->end_date }}@endif">
+                  <input type="text" id="end_date_edit" name="end_date" class="form-control" value="@if(isset($room)){{ $room->end_date }} @endif">
                   <div class="errorTxt"></div>
               </span>
+              @else
+              <span class="col-sm-4 col-md-4 form-group">
+                  <label for="end_date">End Date</label>
+                  <input type="text" id="end_date" name="end_date" class="form-control" value="">
+                  <div class="errorTxt"></div>
+              </span>
+              @endif
               <span class="col-sm-4 col-md-4 form-group">
                 <label class="custom-control custom-checkbox m-t-4">
                   <input type="checkbox" name="end_date_continue" id="end_date_continue" class="custom-control-input">
@@ -257,6 +286,7 @@
             <div class="col-md-12 col-sm-12 form-group">
               <label for="service_id">Conference Room Type</label>
               <select class="form-control" id="conf_room_type" name="conf_room_type" value="@if(isset($room)){{ $room->conf_room_type }}@endif">
+                  
                   <option value="">Select</option>
                   <option value="hall">Hall</option>
                   <option value="study">Study</option>
@@ -656,24 +686,38 @@
             <div class="col-sm-4 col-md-4 form-group">
               <label for="service_id">Room Type</label>
               <select class="form-control" id="rent_room_type" name="rent_room_type" value="@if(isset($room)){{ $room->rent_room_type }}@endif">
+                   @if(isset($room))
+                        <option value="{{ $room->rent_room_type }}" <?php echo "selected"; ?> >
+                          @else
+                        </option>
                   <option value="">Select</option>
                   <option value="hall">Hall</option>
                   <option value="study">Study</option>
                   <option value="meeting">Meeting</option>
+                  @endif
               </select>
               <div class="errorTxt"></div>
             </div>
               <span class="col-sm-4 col-md-4 form-group">
                   <label for="rent_start_date">Start Date</label>
-                  <input type="text" id="rent_start_date" name="rent_start_date" value="" class="form-control" value="@if(isset($room)){{ $room->rent_start_date }}@endif">
+                  <input type="text" id="rent_start_date" name="rent_start_date" class="form-control" value="@if(isset($room)){{ $room->rent_start_date }}@endif">
                   <div class="errorTxt"></div>
                   <!-- <input type="text" id="daterange-3" value="10/24/1984" class="form-control"> -->
               </span>
+              @if(isset($room))
               <span class="col-sm-4 col-md-4 form-group">
                   <label for="rent_end_date">End Date</label>
-                  <input type="text" id="rent_end_date" name="rent_end_date" class="form-control">
+                  <input type="text" id="rent_end_date_edit" value="@if(isset($room)){{ $room->rent_end_date }}@endif" name="rent_end_date" class="form-control">
                   <div class="errorTxt"></div>
               </span>
+          @else
+              <span class="col-sm-4 col-md-4 form-group">
+                  <label for="rent_end_date">End Date</label>
+                  <input type="text" id="rent_end_date" value="@if(isset($room)){{ $room->rent_end_date }}@endif" name="rent_end_date" class="form-control">
+                  <div class="errorTxt"></div>
+              </span>
+
+          @endif
           </div>
 
 
@@ -1445,6 +1489,12 @@
         });
 
         $(function() {
+                      $('.select2-example').select2({
+                        placeholder: 'Select Services',
+                      });
+                });
+
+        $(function() {
           $('#building_id').select2({
             placeholder: 'Select Building',
           });
@@ -1676,7 +1726,7 @@
         singleDatePicker: true,
         showDropdowns: true,
         locale: {
-            format: 'DD-MM-Y'
+            format: 'Y-MM-DD'
         }
       });
 
@@ -1685,15 +1735,24 @@
         showDropdowns: true,
         startDate : moment().add('years',1),
         locale: {
-            format: 'DD-MM-Y'
+            format: 'Y-MM-DD'
         }
       });
+
+      $('#end_date_edit').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        locale: {
+            format: 'Y-MM-DD'
+        }
+      });
+
 
       $('#rent_start_date').daterangepicker({
         singleDatePicker: true,
         showDropdowns: true,
         locale: {
-            format: 'DD-MM-Y'
+            format: 'Y-MM-DD'
         }
       });
 
@@ -1702,7 +1761,15 @@
         showDropdowns: true,
         startDate : moment().add('years',1),
         locale: {
-            format: 'DD-MM-Y'
+            format: 'Y-MM-DD'
+        }
+      });
+
+      $('#rent_end_date_edit').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        locale: {
+            format: 'Y-MM-DD'
         }
       });
 
