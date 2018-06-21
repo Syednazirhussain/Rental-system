@@ -14,11 +14,11 @@ class AddCompanyIdToHrCivilStatus extends Migration
     public function up()
     {
         Schema::table('hr_civil_status', function (Blueprint $table) {
+            $table->dropColumn('company_id');
             $table->integer('company_id')->unsigned()->nullable()->index('company_id');
             $table->foreign('company_id', 'hr_civil_status_ibfk_1')->references('id')->on('companies')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }
-
     /**
      * Reverse the migrations.
      *

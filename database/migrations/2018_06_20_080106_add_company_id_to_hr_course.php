@@ -14,6 +14,7 @@ class AddCompanyIdToHrCourse extends Migration
     public function up()
     {
         Schema::table('hr_course', function (Blueprint $table) {
+            $table->dropColumn('company_id');
             $table->integer('company_id')->unsigned()->nullable()->index('company_id');
             $table->foreign('company_id', 'hr_course_ibfk_1')->references('id')->on('companies')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
