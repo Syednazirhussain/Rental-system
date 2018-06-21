@@ -125,16 +125,16 @@
                      <li class="dropdown-toggle">
                         <a href="">Rental</a>
                         <ul class="dropdown-menu">
-                           <li><a href="{{ route('company.services.index') }}">&nbsp;&nbsp;Service</a></li>
+                           <li><a href="{{ route('company.services.index') }}"><i class="fa fa-file-text"></i> &nbsp;&nbsp;Service</a></li>
                            <li class="dropdown-toggle">
-                              <a href="{{ route('company.contracts.index') }}">Contracts</a>
+                              <a href="{{ route('company.contracts.index') }}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Contracts</a>
                               <ul class="dropdown-menu">
                                  <li><a href="{{ route('company.contracts.status') }}"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Contract Calendar</a></li>
                                  <li class="divider"></li>
                                  <li><a href="{{ route('company.contracts.index') }}"><i class="fa fa-file-text"></i>&nbsp;&nbsp;New Contracts</a></li>
                               </ul>
                            </li>
-                           <li><a href="{{ route('company.companyInvoices.index') }}"><i class="fa fa-file-text"></i>&nbsp;&nbsp;Invoices</a></li>
+                           <li><a href="{{ route('company.companyInvoices.index') }}"><i class="fa fa-file-text"></i>&nbsp;&nbsp;&nbsp;Invoices</a></li>
                         </ul>
                      </li>
 
@@ -176,7 +176,7 @@
                               </ul>
                            </li>
                            <li><a href="{{ route('company.conference.conferenceBookings.index') }}"><i class="fa fa-wpforms"></i>&nbsp;&nbsp;Bookings</a></li>
-                           <li><a href="{{ route('company.bookingAgencies.index') }}">Booking Agencies</a></li>
+                           <li><a href="{{ route('company.bookingAgencies.index') }}"><i class="fa fa-clipboard"></i>&nbsp;&nbsp;Booking Agencies</a></li>
                            <li><a href="{{ route('company.conference.calender.view') }}"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Calender</a></li>
                         </ul>
                      </li>

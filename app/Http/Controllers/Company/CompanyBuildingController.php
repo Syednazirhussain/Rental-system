@@ -169,8 +169,7 @@ class CompanyBuildingController extends AppBaseController
             $request->session()->flash('msg.error', 'Company Building not found');
             return redirect(route('company.companyBuildings.index'));
         }
-
-        $this->companyBuildingRepository->update($request->all(), $id);
+        $this->companyBuildingRepository->update($request->all('name','address','zipcode'), $id);
         $request->session()->flash('msg.success', 'Company Building updated successfully.');
 
         return redirect(route('company.companyBuildings.index'));

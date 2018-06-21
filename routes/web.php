@@ -474,7 +474,7 @@ Route::group(['middleware' => ['admin.auth']], function () {
 
 		Route::get('admin/supports/dashboard', ['as'=> 'admin.supports.dashboard', 'uses' => 'Admin\SupportController@dashboard']);
 
-		Route::get('admin/supports', ['as'=> 'admin.supports.index', 'uses' => 'Admin\SupportController@index']);
+/*		Route::get('admin/supports', ['as'=> 'admin.supports.index', 'uses' => 'Admin\SupportController@index']);
 		Route::post('admin/supports', ['as'=> 'admin.supports.store', 'uses' => 'Admin\SupportController@store']);
 		Route::get('admin/supports/create', ['as'=> 'admin.supports.create', 'uses' => 'Admin\SupportController@create']);
 		Route::put('admin/supports/{supports}', ['as'=> 'admin.supports.update', 'uses' => 'Admin\SupportController@update']);
@@ -482,7 +482,7 @@ Route::group(['middleware' => ['admin.auth']], function () {
 		Route::delete('admin/supports/{supports}', ['as'=> 'admin.supports.destroy', 'uses' => 'Admin\SupportController@destroy']);
 		Route::get('admin/supports/{supportsID}', ['as'=> 'admin.supports.show', 'uses' => 'Admin\SupportController@show'])->where(['supportsID'=>'[0-9]+']);
 		Route::get('admin/supports/{supports}/edit', ['as'=> 'admin.supports.edit', 'uses' => 'Admin\SupportController@edit']);
-
+*/
 	});
 	
 	# Admin Settings Section ----> Discount Types routes

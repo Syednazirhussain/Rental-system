@@ -281,6 +281,9 @@
                 },
                 "discount": {
                     required: true
+                },
+                "discount_type": {
+                    required: true
                 }
             },
 
@@ -299,15 +302,19 @@
                 },
                 "payment_method": {
 
-                    required: "Please enter the payment method",
+                    required: "Please select payment method",
                 },
                 "payment_cycle": {
 
-                    required: "Please enter the payment cycle",
+                    required: "Please select payment cycle",
                 },
                 "discount": {
 
                     required: "Please enter the discount",
+                },
+                "discount_type": {
+
+                    required: "Please select discount type",
                 }
             },
             // errorElement : 'div',
@@ -431,6 +438,7 @@
                 },
                 'phone': {
                     required: true,
+                    number: true,
                     minlength: 7,
                     maxlength: 20,
                 },

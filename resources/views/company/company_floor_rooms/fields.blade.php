@@ -21,11 +21,11 @@
     </div>
     <div class="col-sm-12 form-group">
         <label for="num_rooms">Num Rooms</label>
-        <input type="number" name="num_rooms" id="num_rooms" class="form-control" value="@if(isset($companyFloorRoom)){{ $companyFloorRoom->num_rooms }}@endif" disabled>
+        <input type="number" id="num_rooms" class="form-control" value="@if(isset($companyFloorRoom)){{ $companyFloorRoom->num_rooms }}@endif" disabled>
     </div>
     <div class="col-sm-12">
-        <button type="submit" class="btn btn-primary">@if(isset($companyFloorRoom)) <i class="fa fa-refresh"></i>  Update FloorRoom @else <i class="fa fa-plus"></i>  Add FloorRoom @endif</button>
-        <a href="{!! route('company.companyFloorRooms.index') !!}" class="btn btn-default">Cancel</a>
+        <button type="submit" class="btn btn-primary">@if(isset($companyFloorRoom)) <i class="fa fa-refresh"></i>  Update @else <i class="fa fa-plus"></i>  Create @endif</button>
+        <a href="{!! route('company.companyFloorRooms.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> Cancel</a>
     </div>
 </div>
 
@@ -38,6 +38,7 @@
             rules: {
                 'floor': {
                     required: true,
+                    maxlength: 20
                 },
                 'num_rooms': {
                     required: true,

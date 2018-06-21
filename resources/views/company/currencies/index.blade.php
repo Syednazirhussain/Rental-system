@@ -3,9 +3,8 @@
 @section('content')
     <div class="px-content">
         <div class="page-header">
-            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i>Currencies </span></h1>
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon fa fa-usd"></i>Currencies </span></h1>
         </div>
-
         <div class="panel">
             <div class="panel-body">
 
