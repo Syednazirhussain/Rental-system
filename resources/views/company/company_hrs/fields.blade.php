@@ -1048,7 +1048,7 @@
               },
               'salary': {
                 required:  true,
-                dollarsscents: true
+                digits: true
               },
               'employment_percent': {
                 required:  true,
@@ -1264,7 +1264,7 @@
       {
 
       }
-      
+
    });
       
 
