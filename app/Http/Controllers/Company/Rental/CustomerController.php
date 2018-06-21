@@ -48,7 +48,7 @@ class CustomerController extends AppBaseController
             'floors' => $companyFloors,
         ];
 
-        return view('company.rental.customers.index', $data);
+        return view('company.Rental.customers.index', $data);
     }
 
     /**
@@ -70,7 +70,7 @@ class CustomerController extends AppBaseController
             'rooms' => $rooms,
         ];
 
-        return view('company.rental.customers.create', $data);
+        return view('company.Rental.customers.create', $data);
     }
 
     /**
@@ -141,7 +141,7 @@ class CustomerController extends AppBaseController
             'room_name' => $room_name,
         ];
 
-        return view('company.rental.customers.edit', $data);
+        return view('company.Rental.customers.edit', $data);
     }
 
     /**

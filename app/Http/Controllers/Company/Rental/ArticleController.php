@@ -47,7 +47,7 @@ class ArticleController extends AppBaseController
 
         ];
 
-        return view('company.rental.articles.index', $data);
+        return view('company.Rental.articles.index', $data);
     }
 
     /**
@@ -69,7 +69,7 @@ class ArticleController extends AppBaseController
             'rooms' => $rooms,
         ];
 
-        return view('company.rental.articles.create', $data);
+        return view('company.Rental.articles.create', $data);
     }
 
     /**
@@ -133,7 +133,7 @@ class ArticleController extends AppBaseController
         ];
 
         //dd($article);
-        return view('company.rental.articles.edit', $data);
+        return view('company.Rental.articles.edit', $data);
     }
 
     /**
