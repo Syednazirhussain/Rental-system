@@ -640,7 +640,7 @@
                   <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
                      <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> PREVIOUS</button>&nbsp;&nbsp;
                      <a href="{!! route('company.companyHrs.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
-                     <button type="submit"  class="btn btn-primary"  data-wizard-action="next">@if(isset($companyHr)) <i class="fa fa-refresh"></i>  Update @else <i class="fa fa-plus"></i> Create  @endif<i class="fa fa-arrow-right m-l-1"></i></button>
+                     <button type="submit"  class="btn btn-primary" id="finish-btn"  data-wizard-action="next">@if(isset($companyHr)) <i class="fa fa-refresh"></i>  Update @else <i class="fa fa-plus"></i> Create  @endif<i class="fa fa-arrow-right m-l-1"></i></button>
                   </div>
                </form>
 
@@ -1129,6 +1129,9 @@
          if( $('#wizard-4').validate().form() ) 
          {
 
+         $('#finish-btn').attr('disabled', 'disabled');
+          $('#finish-btn').text('Processing..');
+
             $('#createCompanyHrBtn').attr('disabled', 'disabled');
             $('#createCompanyHrBtn').text('Processing..');
 
@@ -1228,7 +1231,7 @@
                  contentType: false,
                  processData: false,
                   success: function(data){
-                     alert(data.msg);
+                     // alert(data.msg);
                      if(data.status == 1)
                      {
                          location.href = "{{ route('company.companyHrs.index') }}";
@@ -1251,7 +1254,7 @@
                     processData: false,
                    success: function(data){
 
-                        alert(data.msg);
+                        // alert(data.msg);
                         if(data.status == 1)
                         {
                             location.href = "{{ route('company.companyHrs.index') }}";
