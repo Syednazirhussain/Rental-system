@@ -146,60 +146,15 @@ class companyHrController extends AppBaseController
     {
         $input = $request->all();
 
-/*            $date = str_replace('-', '/', $input['employment_date']);
 
-            $emplDate = date('Y-m-d', strtotime($date));
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        $user_id = Auth::guard('company')->user()->id;
 
-            $input['employment_date'] = $emplDate;
-
-            $date = str_replace('-', '/', $input['employeed_untill']);
-
-            $emplUntill = date('Y-m-d', strtotime($date));
-
-            $input['employeed_untill'] = $emplUntill;
-
-            $date = str_replace('-', '/', $input['insurance_date']);
-
-            $insDate = date('Y-m-d', strtotime($date));
-
-            $input['insurance_date'] = $insDate;
-
-            $pre_org_courses = explode(',', $input['courses'][0]);
-
-            $pre_courses = [];
-            $index = 0;
-            $value = '';
-            foreach ($pre_org_courses as  $course) 
-            {
-                if ($course != '|') 
-                {
-                    $value .= $course.",";
-                }
-                else
-                {
-                    $pre_courses[$index] = substr($value, 0, -1);
-                    $index++;
-                    $value = '';
-                    continue;
-                }
-            }
-
-            $input['pre_employment_courses'] = $pre_courses;
-
-            $input['pre_employment_org_names'] = explode(',', $input['organization_name'][0]);
-            $input['pre_employment_job_titles'] = explode(',', $input['job_title'][0]);
-            $input['pre_employment_from_dates'] = explode(',', $input['employed_from'][0]);
-            $input['pre_employment_until_dates'] = explode(',', $input['employed_until'][0]);*/
-
-
-
-            $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
-            $user_id = Auth::guard('company')->user()->id;
-
-            if (isset($input['father']) && $input['father'] == '1') { $input['father'] = 1; }else{ $input['father'] = 0; }
-            if (isset($input['mother']) && $input['mother'] == '1') { $input['mother'] = 1; }else{ $input['mother'] = 0; }
-           
-
+        if (isset($input['father']) && $input['father'] == '1') { $input['father'] = 1; }else{ $input['father'] = 0; }
+        if (isset($input['mother']) && $input['mother'] == '1') { $input['mother'] = 1; }else{ $input['mother'] = 0; }
+       
+        try
+        {
             $companyHr = new companyHr;
             $companyHr->company_id    = $company_id;
             $companyHr->first_name    = $input['first_name'];
@@ -246,11 +201,9 @@ class companyHrController extends AppBaseController
                 $driving_license = 1;
             }
 
-
             if($companyHr)
             {
                 $companyHr_id  =  $companyHr->id;
-
 
                 $companyHrOtherInfo = new CompanyHrOtherInfo;
                 $companyHrOtherInfo->company_hr_id = $companyHr_id;
@@ -340,7 +293,13 @@ class companyHrController extends AppBaseController
             {
                 session()->flash('msg.error','Hr Company Designation are not saved');
                 return response()->json(['status' => 0,'msg' => 'Hr Company Designation are not saved']);
-            }    
+            }  
+        }
+        catch(\Exception $e)
+        {
+            session()->flash('msg.error','Error : '.$e->getMessage());
+            return response()->json(['status' => 0,'msg' => 'There is some problem while creating company hr..']);
+        }
 
     }
 
@@ -451,6 +410,7 @@ class companyHrController extends AppBaseController
             return redirect(route('company.companyHrs.index'));
         }
 
+
         return view('company.company_hrs.edit', $data);
     }
 
@@ -464,9 +424,9 @@ class companyHrController extends AppBaseController
      */
     public function update($id,UpdatecompanyHrRequest  $request)
     {
+
         $input = $request->all();
-        print_r($input);
-        exit;
+
 
         $companyHr = $this->companyHrRepository->findWithoutFail($id);
 
@@ -478,44 +438,16 @@ class companyHrController extends AppBaseController
         }       
 
 
-        
-/*        $pre_org_courses = explode(',', $input['courses'][0]);
-
-        $pre_courses = [];
-        $index = 0;
-        $value = '';
-        foreach ($pre_org_courses as  $course) 
-        {
-            if ($course != '|') 
-            {
-                $value .= $course.",";
-            }
-            else
-            {
-                $pre_courses[$index] = substr($value, 0, -1);
-                $index++;
-                $value = '';
-                continue;
-            }
-        }
-
-        $input['pre_employment_courses'] = $pre_courses;
-
-        $input['pre_employment_org_names'] = explode(',', $input['organization_name'][0]);
-        $input['pre_employment_job_titles'] = explode(',', $input['job_title'][0]);
-        $input['pre_employment_from_dates'] = explode(',', $input['employed_from'][0]);
-        $input['pre_employment_until_dates'] = explode(',', $input['employed_until'][0]);*/
-
-
-
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $user_id = Auth::guard('company')->user()->id;
+
 
         if (isset($input['father']) && $input['father'] == 1) { $input['father'] = 1; }else{ $input['father'] = 0; }
         if (isset($input['mother']) && $input['mother'] == 1) { $input['mother'] = 1; }else{ $input['mother'] = 0; }
 
         try 
         {
+
             $companyHr->company_id    = $company_id;
             $companyHr->first_name    = $input['first_name'];
             $companyHr->last_name    = $input['last_name'];
@@ -545,7 +477,7 @@ class companyHrController extends AppBaseController
             $companyHr->salary    = $input['salary'];
             $companyHr->employment_percent    = $input['employment_percent'];
             $companyHr->cost_division    = $input['cost_division'];
-            $companyHr->courses    = $input['hrCourseId'];
+            $companyHr->courses    = json_encode($input['name']);
             $companyHr->project    = $input['project'];
             $companyHr->vat_table    = $input['vat_table'];
             $companyHr->vacation_days    = $input['vacation_days'];
@@ -554,12 +486,21 @@ class companyHrController extends AppBaseController
             $companyHr->vacation_category    = $input['vacation_category'];
             $companyHr->save();
 
+            $driving_license = 0;
+
+            if (isset($input['driving_license'])) 
+            {
+                $driving_license = 1;
+            }
+
+
+
             $companyHr_id  =  $companyHr->id;
 
             $companyHrOtherInfo = CompanyHrOtherInfo::where('company_hr_id',$companyHr_id)->first();
             $companyHrOtherInfo->company_hr_id = $companyHr_id;
             $companyHrOtherInfo->languages = $input['languages'];
-            $companyHrOtherInfo->driving_license = $input['driving_license'];
+            $companyHrOtherInfo->driving_license = $driving_license;
             $companyHrOtherInfo->skills = $input['skills'];
             $companyHrOtherInfo->save();
 
@@ -569,26 +510,26 @@ class companyHrController extends AppBaseController
             {
                 $hr_pre_emp = CompanyHrPreEmployment::find($companyHrPreEmployment[$i]->id); 
                 $hr_pre_emp->company_hr_id = $companyHr_id;
-                $hr_pre_emp->organization_name = $input[''][$i];
-                $hr_pre_emp->job_title = $input[''][$i];
-                $hr_pre_emp->courses = $input[''][$i];
-                $hr_pre_emp->employed_from = $input[''][$i];
-                $hr_pre_emp->employed_until = $input[''][$i];
+                $hr_pre_emp->organization_name = $input['organization_name'][$i];
+                $hr_pre_emp->job_title = $input['job_title'][$i];
+                $hr_pre_emp->courses = $input['courses'][$i];
+                $hr_pre_emp->employed_from = $input['employed_from'][$i];
+                $hr_pre_emp->employed_until = $input['employed_until'][$i];
                 $hr_pre_emp->save();            
             }
 
             $companyHrNotes = CompanyHrNotes::where('company_hr_id',$companyHr_id)->get();
             foreach ($companyHrNotes as $companyHrNote) 
             {
-                if($companyHrNote->code == 'hr_notes')
+                if($companyHrNote->code == 'hr_note')
                 {
-                    if (isset($input['hr_notes']) && !is_null($input['hr_notes']) ) 
+                    if (isset($input['hr_note']) && !is_null($input['hr_note']) ) 
                     {
                         $hr_notes = CompanyHrNotes::find($companyHrNote->id);
                         $hr_notes->company_hr_id = $companyHr_id;
                         $hr_notes->user_id = $user_id;
-                        $hr_notes->code = 'hr_notes'; 
-                        $hr_notes->note = $input['hr_notes'];
+                        $hr_notes->code = 'hr_note'; 
+                        $hr_notes->note = $input['hr_note'];
                         $hr_notes->save();
                     }
                     else
@@ -597,15 +538,15 @@ class companyHrController extends AppBaseController
                         $hr_notes->delete();
                     }
                 }
-                elseif ($companyHrNote->code == 'manager_notes') 
+                elseif ($companyHrNote->code == 'manager_note') 
                 {
-                    if (isset($input['manager_notes']) && !is_null($input['manager_notes']) ) 
+                    if (isset($input['manager_note']) && !is_null($input['manager_note']) ) 
                     {
                         $manager_notes = CompanyHrNotes::find($companyHrNote->id);
                         $manager_notes->company_hr_id = $companyHr_id;
                         $manager_notes->user_id = $user_id;
-                        $manager_notes->code = 'manager_notes'; 
-                        $manager_notes->note = $input['manager_notes'];
+                        $manager_notes->code = 'manager_note'; 
+                        $manager_notes->note = $input['manager_note'];
                         $manager_notes->save();
                     }
                     else
@@ -615,15 +556,15 @@ class companyHrController extends AppBaseController
                     }
 
                 }
-                elseif ($companyHrNote->code == 'salary_development_notes') 
+                elseif ($companyHrNote->code == 'sal_dev_note') 
                 {
-                    if(isset($input['salary_development_notes']) && !is_null($input['salary_development_notes']))
+                    if(isset($input['sal_dev_note']) && !is_null($input['sal_dev_note']))
                     {
                         $salary_development_notes = CompanyHrNotes::find($companyHrNote->id);
                         $salary_development_notes->company_hr_id = $companyHr_id;
                         $salary_development_notes->user_id = $user_id;
-                        $salary_development_notes->code = 'salary_development_notes'; 
-                        $salary_development_notes->note = $input['salary_development_notes'];
+                        $salary_development_notes->code = 'sal_dev_note'; 
+                        $salary_development_notes->note = $input['sal_dev_note'];
                         $salary_development_notes->save();
                     }
                     else
@@ -635,13 +576,42 @@ class companyHrController extends AppBaseController
                 }
             }
 
+            if(isset($input['docFiles']))
+            {
+                $files = $input['docFiles'];
+
+                if(count($files) > 0)
+                {
+                    $file_names = [];
+                    $index = 0;
+                    foreach ($files as  $file) 
+                    {
+                        $path = $file->store('public/hrImages');
+                        $pathArr = explode('/', $path);
+                        $count = count($pathArr);
+                        $path = $pathArr[$count - 1];
+                        $file_names[$index] = $path;
+                        $index++;
+                    }
+
+                    foreach ($file_names as  $file_name) 
+                    {
+                        $companyHrDocuments = new CompanyHrDocuments;
+                        $companyHrDocuments->company_hr_id = $companyHr_id;
+                        $companyHrDocuments->file_name = $file_name;
+                        $companyHrDocuments->save();
+                    }           
+                }
+            }
+
             session()->flash('msg.success','Company Hr updated successfully.');
-            return redirect()->route('company.companyHrs.index'); 
+            return response()->json(['status' => 1,'msg' => 'Company Hr updated successfully.']);
+ 
         }
         catch (\Exception $e) 
         {
-            session()->flash('msg.success','Company Hr cannot updated Error : '.$e->getMessage());
-            return redirect()->route('company.companyHrs.index');
+            session()->flash('msg.error','Error : '.$e->getMessage());
+            return response()->json(['status' => 0,'msg' => 'There is some problem while updating company hr..']);
         }
 
 

@@ -45,31 +45,36 @@
                      <!-- First Name Field -->
                      <div class="form-group col-sm-6">
                         <label for="">First Name</label>
-                        <input type="text" name="first_name_show" placeholder="John" class="form-control" id="firstName"  value="@if(isset($companyHr)){{ $companyHr->first_name }}@endif" >
+                        <input type="text" name="first_name" placeholder="John" class="form-control" id="first_name"  value="@if(isset($companyHr)){{ $companyHr->first_name }}@endif" >
+                        <div class="errorTxt"></div>
                      </div>
                      <!-- Last Name Field -->
                      <div class="form-group col-sm-6">
                         <label for="">Last Name</label>
-                        <input type="text" name="last_name_show" placeholder="Doe" class="form-control" id="lastName" value="@if(isset($companyHr)){{ $companyHr->last_name }}@endif">
+                        <input type="text" name="last_name" placeholder="Doe" class="form-control" id="last_name" value="@if(isset($companyHr)){{ $companyHr->last_name }}@endif">
+                        <div class="errorTxt"></div>
                      </div>
                   </div>
+
                   <div class="row">
                      <!-- Address 1 Field -->
                      <div class="form-group col-sm-6">
                         <label for="">Address 1</label>
-                        <input type="text" name="address_1_show" class="form-control"  placeholder="1516  Hoffman Avenue New York" id="Address1" value="@if(isset($companyHr)){{ $companyHr->address_1 }}@endif">
+                        <input type="text" name="address_1" class="form-control"  placeholder="1516  Hoffman Avenue New York" id="address_1" value="@if(isset($companyHr)){{ $companyHr->address_1 }}@endif">
+                        <div class="errorTxt"></div>
                      </div>
                      <!-- Address 2 Field -->
                      <div class="form-group col-sm-6">
                         <label for="">Address 2</label>
-                        <input type="text" name="address_2_show" class="form-control" id="Address2" placeholder="1516  Hoffman Avenue New York"  value="@if(isset($companyHr)){{ $companyHr->address_2 }}@endif">
+                        <input type="text" name="address_2" class="form-control" id="address_2" placeholder="1516  Hoffman Avenue New York"  value="@if(isset($companyHr)){{ $companyHr->address_2 }}@endif">
+                        <div class="errorTxt"></div>
                      </div>
                   </div>
                   <div class="row">
                      <div class="col-sm-6 form-group">
                         <fieldset class="form-group">
                            <label for="country_id">Country</label>
-                           <select name="country_id_show" id="countyId" class="form-control select2-country" style="width: 100%" data-allow-clear="true">
+                           <select name="country_id" id="country_id" class="form-control select2-country" style="width: 100%" data-allow-clear="true">
                               <option></option>
                               @foreach ($countries as $country)
                               @if (isset($companyHr) && $companyHr->country_id == $country->id)
@@ -85,7 +90,7 @@
                      <div class="col-sm-6 form-group">
                         <fieldset class="form-group">
                            <label for="state_id">State</label>
-                           <select name="state_id_show" id="stateId" class="form-control select2-state" style="width: 100%" data-allow-clear="true">
+                           <select name="state_id" id="state_id" class="form-control select2-state" style="width: 100%" data-allow-clear="true">
                               <option></option>
                               @foreach ($states as $state)
                               @if (isset($companyHr) && $companyHr->state_id == $state->id)
@@ -104,7 +109,7 @@
                      <div class="col-sm-6 form-group">
                         <fieldset class="form-group">
                            <label for="city_id">City</label>
-                           <select name="city_id_show" id="cityId" class="form-control select2-city"  style="width: 100%" data-allow-clear="true">
+                           <select name="city_id" id="city_id" class="form-control select2-city"  style="width: 100%" data-allow-clear="true">
                               <option></option>
                               @foreach ($cities as $city)
                               @if (isset($companyHr) && $companyHr->city_id == $city->id)
@@ -119,8 +124,9 @@
                      </div>
                      <!-- Post Code Field -->
                      <div class="form-group col-sm-6">
-                        <label for="phone">Post Code</label>
-                        <input type="text" id="postCode" name="post_code_show" placeholder="ABC123" class="form-control"  value="@if(isset($companyHr)){{ $companyHr->post_code }}@endif">
+                        <label for="post_code">Post Code</label>
+                        <input type="text" id="post_code" name="post_code" placeholder="ABC123" class="form-control"  value="@if(isset($companyHr)){{ $companyHr->post_code }}@endif">
+                        <div class="errorTxt"></div>
                      </div>
                   </div>
                   <!-- City Id Field -->
@@ -128,32 +134,36 @@
                   <div class="row">
                      <!-- Telephone Job Field -->
                      <div class="form-group col-sm-6">
-                        <label for="phone">Telephone Job</label>
-                        <input type="text" id="telephoneId" name="telephone_job_show" placeholder="0210234567" class="form-control" value="@if(isset($companyHr)){{ $companyHr->telephone_job }}@endif">
+                        <label for="telephone_job">Telephone Job</label>
+                        <input type="text" id="telephone_job" name="telephone_job" placeholder="0210234567" class="form-control" value="@if(isset($companyHr)){{ $companyHr->telephone_job }}@endif">
+                        <div class="errorTxt"></div>
                      </div>
                      <!-- Telephone Private Field -->
                      <div class="form-group col-sm-6">
-                        <label for="phone">Telephone Private</label>
-                        <input type="text" id="telephoneJob" name="telephone_private_show" placeholder="0210234567" class="form-control" value="@if(isset($companyHr)){{ $companyHr->telephone_private }}@endif">
+                        <label for="telephone_private">Telephone Private</label>
+                        <input type="text" id="telephone_private" name="telephone_private" placeholder="0210234567" class="form-control" value="@if(isset($companyHr)){{ $companyHr->telephone_private }}@endif">
+                        <div class="errorTxt"></div>
                      </div>
                   </div>
                   <div class="row">
                      <!-- Email Job Field -->
                      <div class="form-group col-sm-6">
-                        <label for="email">Email Job</label>
-                        <input type="email" id="emailJob" name="email_job_show" placeholder="someone@mail.com" class="form-control" value="@if(isset($companyHr)){{ $companyHr->email_job }}@endif">
+                        <label for="email_job">Email Job</label>
+                        <input type="email" id="email_job" name="email_job" placeholder="someone@mail.com" class="form-control" value="@if(isset($companyHr)){{ $companyHr->email_job }}@endif">
+                        <div class="errorTxt"></div>
                      </div>
                      <!-- Email Private Field -->
                      <div class="form-group col-sm-6">
-                        <label for="email">Email Private</label>
-                        <input type="email" id="emailId" name="email_private_show" placeholder="someone@mail.com" class="form-control" value="@if(isset($companyHr)){{ $companyHr->email_private }}@endif">
+                        <label for="email_private">Email Private</label>
+                        <input type="email" id="email_private" name="email_private" placeholder="someone@mail.com" class="form-control" value="@if(isset($companyHr)){{ $companyHr->email_private }}@endif">
+                        <div class="errorTxt"></div>
                      </div>
                   </div>
                   <div class="row">
                      <!-- Civil Status Id Field -->
                      <div class="form-group col-sm-6">
-                        <label for="wizard-country">Civil Status</label>
-                        <select class="form-control select2-status" name="civil_status_id_show" id="civilId" style="width: 100%" data-allow-clear="true">
+                        <label for="civil_status_id">Civil Status</label>
+                        <select class="form-control select2-status" name="civil_status_id" id="civil_status_id" style="width: 100%" data-allow-clear="true">
                            <option></option>
                            @foreach ($hrCivil as $hrCivil)
                            @if (isset($companyHr) && $companyHr->civil_status_id == $hrCivil->id)
@@ -163,8 +173,11 @@
                            @endif
                            @endforeach
                         </select>
+                        <div class="errorTxt"></div>
                      </div>
                   </div>
+
+
                   <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
                      <a href="{!! route('company.companyHrs.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
                      @if (isset($companyHr))
@@ -183,24 +196,27 @@
                   @endif
                   <h3 class="m-t-0">Information about employment</h3>
                   <div class="form-group col-sm-6">
-                     <label for="">Employment Date</label>
-                     <input type="text" id="daterangeEmpl" name="employment_date" value="@if(isset($companyHr)){{ date('m/d/Y', strtotime($companyHr->employment_date)) }} @endif" class="form-control">
+                     <label for="employment_date">Employment Date</label>
+                     <input type="text" id="employment_date" name="employment_date" value="@if(isset($companyHr)){{ $companyHr->employment_date }} @endif" class="form-control employment_date">
+                     <div class="errorTxt"></div>
                   </div>
                   <!-- Last Name Field -->
                   <div class="form-group col-sm-6">
-                     <label for="">Termination Time In Months</label>
-                     <input type="number" id="termId" name="termination_time" placeholder="01" value="@if(isset($companyHr)){{ $companyHr->termination_time }}@endif" class="form-control">
+                     <label for="termination_time">Termination Time In Months</label>
+                     <input type="number" id="termination_time" name="termination_time" placeholder="01" value="@if(isset($companyHr)){{ $companyHr->termination_time }}@endif" class="form-control">
+                     <div class="errorTxt"></div>
                   </div>
                   <!-- Address 1 Field -->
                   <div class="form-group col-sm-6">
-                     <label for="">Employeed Untill</label>
-                     <input type="text" id="daterangeEmplUntil" name="employeed_untill" value="@if(isset($companyHr)){{ date('m/d/Y', strtotime($companyHr->employeed_untill)) }} @endif" class="form-control">
+                     <label for="employeed_untill">Employeed Untill</label>
+                     <input type="text" id="employeed_untill" name="employeed_untill" value="@if(isset($companyHr)){{ $companyHr->employeed_untill }} @endif" class="form-control employeed_untill">
+                     <div class="errorTxt"></div>
                   </div>
                   <!-- Address 2 Field -->
                   <div class="col-sm-6 form-group">
                      <fieldset class="form-group">
-                        <label for="city_id">Personal Category</label>
-                        <select name="personal_category" id="personalId" class="form-control select2-personal" style="width: 100%" data-allow-clear="true">
+                        <label for="personal_category">Personal Category</label>
+                        <select name="personal_category" id="personal_category" class="form-control select2-personal" style="width: 100%" data-allow-clear="true">
                            <option></option>
                            @foreach ($hrPersonal as $personal)
                            @if (isset($companyHr) && $companyHr->personal_category == $personal->id)
@@ -216,8 +232,8 @@
                   <!-- Post Code Field -->
                   <div class="col-sm-6 form-group">
                      <fieldset class="form-group">
-                        <label for="city_id">Collective Type</label>
-                        <select name="collective_type" id="collectiveId" class="form-control select2-collective" style="width: 100%" data-allow-clear="true">
+                        <label for="collective_type">Collective Type</label>
+                        <select name="collective_type" id="collective_type" class="form-control select2-collective" style="width: 100%" data-allow-clear="true">
                            <option></option>
                            @foreach ($hrCollectivetype as $collective)
                            @if (isset($companyHr) && $companyHr->collective_type == $collective->id)
@@ -233,8 +249,8 @@
                   <!-- City Id Field -->
                   <div class="col-sm-6 form-group">
                      <fieldset class="form-group">
-                        <label for="city_id">Employment Form</label>
-                        <select name="employment_form" id="employFormId" class="form-control select2-emplyForm" style="width: 100%" data-allow-clear="true">
+                        <label for="employment_form">Employment Form</label>
+                        <select name="employment_form" id="employment_form" class="form-control select2-employment_form" style="width: 100%" data-allow-clear="true">
                            <option></option>
                            @foreach ($hrEmployForm as $employ)
                            @if (isset($companyHr) && $companyHr->employment_form == $employ->id)
@@ -249,19 +265,21 @@
                   </div>
                   <!-- State Id Field -->
                   <div class="col-sm-6 form-group">
-                     <label for="">Insurance Date</label>
-                     <input type="text" id="daterangeInsurance" name="insurance_date" value="@if(isset($companyHr)){{ date('m/d/Y', strtotime($companyHr->insurance_date)) }} @endif"  class="form-control">
+                     <label for="insurance_date">Insurance Date</label>
+                     <input type="text" id="insurance_date" name="insurance_date" value="@if(isset($companyHr)){{ $companyHr->insurance_date }} @endif"  class="form-control insurance_date">
+                     <div class="errorTxt"></div>
                   </div>
                   <!-- Country Id Field -->
                   <div class="col-sm-6 form-group">
-                     <label for="">Insurance Fees</label>
-                     <input type="number" id="insuranceFees" placeholder="10.00" value="@if(isset($companyHr)){{ $companyHr->insurance_fees }}@endif" name="insurance_fees" class="form-control">
+                     <label for="insurance_fees">Insurance Fees</label>
+                     <input type="number" id="insurance_fees" placeholder="10.00" value="@if(isset($companyHr)){{ $companyHr->insurance_fees }}@endif" name="insurance_fees" class="form-control">
+                     <div class="errorTxt"></div>
                   </div>
                   <!-- Telephone Job Field -->
                   <div class="form-group col-sm-6">
                      <fieldset class="form-group">
-                        <label for="city_id">Department</label>
-                        <select name="department" id="departmentWiz2" class="form-control select2-department" style="width: 100%" data-allow-clear="true">
+                        <label for="department">Department</label>
+                        <select name="department" id="department" class="form-control select2-department" style="width: 100%" data-allow-clear="true">
                            <option></option>
                            @foreach ($hrPersonal as $personal)
                            @if (isset($companyHr) && $companyHr->department == $personal->id)
@@ -277,8 +295,8 @@
                   <!-- Telephone Private Field -->
                   <div class="form-group col-sm-6">
                      <fieldset class="form-group">
-                        <label for="city_id">Designation</label>
-                        <select name="designation" id="desigWiz2" class="form-control select2-designation" style="width: 100%" data-allow-clear="true">
+                        <label for="designation">Designation</label>
+                        <select name="designation" id="designation" class="form-control select2-designation" style="width: 100%" data-allow-clear="true">
                            <option></option>
                            @foreach ($hrDesig as $desig)
                            @if (isset($companyHr) && $companyHr->designation == $desig->id)
@@ -294,8 +312,8 @@
                   <!-- Email Job Field -->
                   <div class="form-group col-sm-6">
                      <fieldset class="form-group">
-                        <label for="city_id">Vacancies</label>
-                        <select name="vacancies" id="vacancyWiz2" class="form-control select2-vacancy" style="width: 100%" data-allow-clear="true">
+                        <label for="vacancies">Vacancies</label>
+                        <select name="vacancies" id="vacancies" class="form-control select2-vacancy" style="width: 100%" data-allow-clear="true">
                            <option></option>
                            @foreach ($hrDesig as $desig)
                            @if (isset($companyHr) && $companyHr->vacancies == $desig->id)
@@ -317,7 +335,6 @@
 
                <!-- ============================wizard-3==================================== -->
 
-
                <form class="wizard-pane" id="wizard-3">
                   @if (isset($companyHr))
                   <input name="_method" type="hidden" value="PATCH">
@@ -327,7 +344,7 @@
                      <div class="form-group col-sm-6">
                         <fieldset class="form-group">
                            <label for="salary_type">Salary Type</label>
-                           <select name="salary_type" id="salaryTypeWiz3" class="form-control select2-salaryType" style="width: 100%" data-allow-clear="true">
+                           <select name="salary_type" id="salary_type" class="form-control select2-salary_type" style="width: 100%" data-allow-clear="true">
                               <option></option>
                               @foreach ($hrSalaryType as $salary)
                               @if (isset($companyHr) && $companyHr->salary_type == $salary->id)
@@ -342,20 +359,23 @@
                      </div>
                      <!-- Last Name Field -->
                      <div class="form-group col-sm-6">
-                        <label for="">Salary</label>
-                        <input type="number" name="salary" id="salaryId" placeholder="2000.00" value="@if(isset($companyHr)){{ $companyHr->salary }}@endif" class="form-control">
+                        <label for="salary">Salary</label>
+                        <input type="number" name="salary" id="salary" placeholder="2000.00" value="@if(isset($companyHr)){{ $companyHr->salary }}@endif" class="form-control">
+                        <div class="errorTxt"></div>
                      </div>
                   </div>
                   <div class="row">
                      <!-- Address 1 Field -->
                      <div class="form-group col-sm-6">
-                        <label for="">Employment in %</label>
-                        <input type="number" name="employment_percent" value="@if(isset($companyHr)){{ $companyHr->employment_percent }}@endif" id="empInPercent" placeholder="75.00" class="form-control">
+                        <label for="employment_percent">Employment in % (percentage)</label>
+                        <input type="number" name="employment_percent" value="@if(isset($companyHr)){{ $companyHr->employment_percent }}@endif" id="employment_percent" placeholder="75.00" class="form-control">
+                        <div class="errorTxt"></div>
                      </div>
                      <!-- Address 2 Field -->
                      <div class="form-group col-sm-6">
-                        <label for="">Cost Division</label>
-                        <input type="number" id="costDivision" name="cost_division" value="@if(isset($companyHr)){{ $companyHr->cost_division }}@endif" placeholder="00.00" class="form-control">
+                        <label for="cost_division">Cost Division</label>
+                        <input type="number" id="cost_division" name="cost_division" value="@if(isset($companyHr)){{ $companyHr->cost_division }}@endif" placeholder="00.00" class="form-control">
+                        <div class="errorTxt"></div>
                      </div>
                   </div>
                   <div class="row">
@@ -363,7 +383,7 @@
                      <div class="form-group col-sm-6">
                         <fieldset class="form-group">
                            <label for="project">Project</label>
-                           <select name="project" id="projectWiz3" class="form-control select2-project" style="width: 100%" data-allow-clear="true">
+                           <select name="project" id="project" class="form-control select2-project" style="width: 100%" data-allow-clear="true">
                               <option></option>
                               @foreach ($hrCompanyPro as $project)
                               @if (isset($companyHr) && $companyHr->project == $project->id)
@@ -378,21 +398,23 @@
                      </div>
                      <!-- City Id Field -->
                      <div class="form-group col-sm-6">
-                        <label for="">VAT Table</label>
-                        <input type="number" name="vat_table" id="valueAdded" value="@if(isset($companyHr)){{ $companyHr->vat_table }}@endif" placeholder="00.00" class="form-control">
+                        <label for="vat_table">VAT Table</label>
+                        <input type="number" name="vat_table" id="vat_table" value="@if(isset($companyHr)){{ $companyHr->vat_table }}@endif" placeholder="00.00" class="form-control">
+                        <div class="errorTxt"></div>
                      </div>
                      <!-- State Id Field -->
                   </div>
                   <div class="row">
                      <div class="form-group col-sm-6">
-                        <label for="">Vacation Days</label>
-                        <input type="number" name="vacation_days" id="vacationDays" value="@if(isset($companyHr)){{ $companyHr->vacation_days }}@endif" placeholder="00.00" class="form-control">
+                        <label for="vacation_days">Vacation Days</label>
+                        <input type="number" name="vacation_days" id="vacation_days" value="@if(isset($companyHr)){{ $companyHr->vacation_days }}@endif" placeholder="00.00" class="form-control">
+                        <div class="errorTxt"></div>
                      </div>
                      <!-- Country Id Field -->
                      <div class="form-group col-sm-6">
                         <fieldset class="form-group">
-                           <label for="salary_type">Vacation Category</label>
-                           <select name="vacation_category" id="vacationWiz3" class="form-control select2-project" style="width: 100%" data-allow-clear="true">
+                           <label for="vacation_category">Vacation Category</label>
+                           <select name="vacation_category" id="vacation_category" class="form-control select2-vacation_category" style="width: 100%" data-allow-clear="true">
                               <option></option>
                               @foreach ($hrVacCategory as $cat)
                               @if (isset($companyHr) && $companyHr->vacation_category == $cat->id)
@@ -459,14 +481,16 @@
                      <div class="col-sm-6 col-md-6 form-group">
                         <label for="">Languages</label>
                         <input type="text" id="languages" name="languages" value="@if(isset($companyHrOtherInfo)){{ $companyHrOtherInfo->languages }}@endif" class="form-control languages" data-role="tagsinput" />
+                        <div class="errorTxt"></div>
                      </div>
                      <div class="col-sm-6 col-md-6 form-group">
                         <label for="">Skills</label>
                         <input type="text" name="skills" value="@if(isset($companyHrOtherInfo)){{ $companyHrOtherInfo->skills }}@endif" id="skills" class="form-control skills" data-role="tagsinput" />
+                        <div class="errorTxt"></div>
                      </div>
                      <div class="col-sm-6 col-md-6 form-group">
-                        <label for="city_id">HR Courses</label>
-                        <select name="name[]" id="hrCourseId" class="form-control select2-hrCourses" multiple>
+                        <label for="name">HR Courses</label>
+                        <select name="name[]" id="name" class="form-control select2-name" multiple>
                            <option></option>
                            @if(isset($companyHrOtherInfo))
                               @foreach($HRCourses as $HRCourse)
@@ -478,6 +502,7 @@
                               @endforeach
                            @endif
                         </select>
+                        <div class="errorTxt"></div>
                      </div>
                      <div class="col-sm-6 col-md-6 form-group m-t-4">
                         @if(isset($companyHrOtherInfo) && $companyHrOtherInfo->driving_license == 1)
@@ -636,73 +661,6 @@
 
 
 
-   @if(isset($companyHr))
-
-   <form action="{{ route('company.companyHrs.update', $companyHr->id) }}" method="POST" id="hiddenForm">
-      <input type="hidden" name="_method" value="PATCH">
-
-   @else
-
-   <form method="POST" action="{{ route('company.companyHrs.store') }}" id="hiddenForm">
-      
-   @endif
-      <!-- ================= wiz-1 =================== -->
-      <input type="hidden" name="_token" value="{{ csrf_token() }}">
-      <input type="hidden" name="first_name" id="fname"  value="" >
-      <input type="hidden" name="last_name" id="lname"  value="" >
-      <input type="hidden" name="address_1" id="AddressOne"  value="" >
-      <input type="hidden" name="address_2" id="AddressTwo" value="" >
-      <input type="hidden" name="post_code" id="pCode" value="" >
-      <input type="hidden" name="city_id" id="cId"  value="" >
-      <input type="hidden" name="state_id" id="sId"  value="" >
-      <input type="hidden" name="country_id" id="countyHiddenId"  value="" >
-      <input type="hidden" name="telephone_job" id="tId"  value="" >
-      <input type="hidden" name="telephone_private" id="tPrivate"  value="" >
-      <input type="hidden" name="email_private" id="eId"  value="" >
-      <input type="hidden" name="email_job" id="ePrivate"  value="" >
-      <input type="hidden" name="civil_status_id" id="cStatusId"  value="" >
-      <!-- ================= wiz-2 =================== -->
-      <input type="hidden" name="employment_date" id="daterangeEmpl_hidden"  value="" >
-      <input type="hidden" name="termination_time" id="termId_hidden"  value="" >
-      <input type="hidden" name="employeed_untill" id="daterangeEmplUntil_hidden"  value="" >
-      <input type="hidden" name="personal_category" id="personalId_hidden"  value="" >
-      <input type="hidden" name="collective_type" id="collectiveId_hidden"  value="" >
-      <input type="hidden" name="employment_form" id="employFormId_hidden"  value="" >
-      <input type="hidden" name="insurance_date" id="daterangeInsurance_hidden"  value="" >
-      <input type="hidden" name="insurance_fees" id="insuranceFees_hidden"  value="" >
-      <input type="hidden" name="department" id="departmentWiz2_hidden"  value="" >
-      <input type="hidden" name="designation" id="desigWiz2_hidden"  value="" >
-      <input type="hidden" name="vacancies" id="vacancyWiz2_hidden"  value="" >
-      <!-- ================= wiz-3 =================== -->
-      <input type="hidden" name="salary_type" id="salaryTypeWiz3_hidden"  value="" >
-      <input type="hidden" name="salary" id="salaryId_hidden"  value="" >
-      <input type="hidden" name="employment_percent" id="empInPercent_hidden"  value="" >
-      <input type="hidden" name="cost_division" id="costDivision_hidden"  value="" >
-      <input type="hidden" name="project" id="projectWiz3_hidden"  value="" >
-      <input type="hidden" name="vat_table" id="valueAdded_hidden"  value="" >
-      <input type="hidden" name="vacation_days" id="vacationDays_hidden"  value="" >
-      <input type="hidden" name="vacation_category" id="vacationWiz3_hidden"  value="" >
-      <input type="hidden" name="father" id="father_hidden" value="">
-      <input type="hidden" name="mother" id="mother_hidden" value="">
-      <!-- ================= wiz-4 =================== -->
-      <input type="hidden" name="languages" id="languages_hidden" value="">
-      <input type="hidden" name="skills" id="skills_hidden" value="">
-      <input type="hidden" name="hrCourseId" id="hrCourseId_hidden" value="">
-      <input type="hidden" name="driving_license" id="driving_license_hidden" value="">
-
-      <input type="hidden" name="organization_name[]" id="organization_name_hidden" value="">
-      <input type="hidden" name="job_title[]" id="job_title_hidden" value="">
-      <input type="hidden" name="courses[]" id="courses_hidden" value="">
-      <input type="hidden" name="employed_from[]" id="employed_from_hidden" value="">
-      <input type="hidden" name="employed_until[]" id="employed_until_hidden" value="">
-
-      <input type="hidden" name="hr_notes" id="hr_note_hidden" value="">
-      <input type="hidden" name="manager_notes" id="manager_note_hidden" value="">
-      <input type="hidden" name="salary_development_notes" id="sal_dev_note_hidden" value="">
-
-
-   </form>
-
 
 
 
@@ -710,7 +668,6 @@
 @section('js')
 
 <script type="text/javascript">
-
 
    var editCompanyHr = "{{ (isset($companyHr)) ? $companyHr->id : 0 }}";
 
@@ -738,7 +695,7 @@
      ?>
      var images = <?php echo json_encode($data); ?>
 
-     console.log(images);
+     // console.log(images);
 
      $('.uploadFiles').fileuploader({
          theme: 'thumbnails',
@@ -824,282 +781,6 @@
    }
 
 
-
-   // $('#createCompanyHrBtn').on('click', function() {
-
-   $('#wizard-4').on('submit', function(e) {
-
-
-
-      e.preventDefault();
-
-         $('#createCompanyHrBtn').attr('disabled', 'disabled');
-         $('#createCompanyHrBtn').text('Processing..');
-       
-         var fname         =       $('#firstName').val();
-         var lname         =       $('#lastName').val();
-         var add1          =       $('#Address1').val();
-         var add2          =       $('#Address2').val();
-         var pcode         =       $('#postCode').val();
-         var city          =       $('#cityId').val();
-         var state         =       $('#stateId').val();
-         var country       =       $('#countyId').val();
-         var telephone     =       $('#telephoneId').val();
-         var telephoneJ    =       $('#telephoneJob').val();
-         var emailId       =       $('#emailId').val();
-         var emailJob      =       $('#emailJob').val();
-         var civilId       =       $('#civilId').val();
-
-
-         var daterangeEmpl =       $('#daterangeEmpl').val();
-         var termId        =       $('#termId').val();
-         var daterangeEmplUntil =  $('#daterangeEmplUntil').val();
-         var personalId    =       $('#personalId').val();
-         var collectiveId =        $('#collectiveId').val();
-         var employFormId =        $('#employFormId').val();
-         var daterangeInsurance =  $('#daterangeInsurance').val();
-         var insuranceFees =       $('#insuranceFees').val();
-         var departmentWiz2 =      $('#departmentWiz2').val();
-         var desigWiz2   =         $('#desigWiz2').val();
-         var vacancyWiz2 =         $('#vacancyWiz2').val();
-
-   
-         var salaryTypeWiz3 =         $('#salaryTypeWiz3').val();
-         var salaryId =         $('#salaryId').val();
-         var empInPercent =         $('#empInPercent').val();
-         var costDivision =         $('#costDivision').val();
-         var projectWiz3 =         $('#projectWiz3').val();
-         var valueAdded =         $('#valueAdded').val();
-         var vacationDays =         $('#vacationDays').val();
-         var vacationWiz3 =         $('#vacationWiz3').val();
-
-
-         var father  =   0;
-         var mother  =   0;
-
-
-         if($('#father').is(':checked')) { father = 1; }
-         if($('#mother').is(':checked')) { mother = 1; }
-
-         //Set
-         $('#fname').val(fname);
-         $('#lname').val(lname);
-         $('#AddressOne').val(add1);
-         $('#AddressTwo').val(add2);
-         $('#pCode').val(pcode);
-         $('#cId').val(city);
-         $('#sId').val(state);
-         $('#countyHiddenId').val(country);
-         $('#tId').val(telephone);
-         $('#tPrivate').val(telephoneJ);
-         $('#eId').val(emailId);
-         $('#ePrivate').val(emailJob);
-         $('#cStatusId').val(civilId);
-
-
-         $('#daterangeEmpl_hidden').val(daterangeEmpl);
-         $('#termId_hidden').val(termId);
-         $('#daterangeEmplUntil_hidden').val(daterangeEmplUntil);
-         $('#personalId_hidden').val(personalId);
-         $('#collectiveId_hidden').val(collectiveId);
-         $('#employFormId_hidden').val(employFormId);
-         $('#daterangeInsurance_hidden').val(daterangeInsurance);
-         $('#insuranceFees_hidden').val(insuranceFees);
-         $('#departmentWiz2_hidden').val(departmentWiz2);
-         $('#desigWiz2_hidden').val(desigWiz2);
-         $('#vacancyWiz2_hidden').val(vacancyWiz2);
-
-   
-         $('#salaryTypeWiz3_hidden').val(salaryTypeWiz3);
-         $('#salaryId_hidden').val(salaryId);
-         $('#empInPercent_hidden').val(empInPercent);
-         $('#costDivision_hidden').val(costDivision);
-         $('#projectWiz3_hidden').val(projectWiz3);
-         $('#valueAdded_hidden').val(valueAdded);
-         $('#vacationDays_hidden').val(vacationDays);
-         $('#vacationWiz3_hidden').val(vacationWiz3);
-         $('#father_hidden').val(father);
-         $('#mother_hidden').val(mother);
-
-
-         var driving_license = 0;
-         if($('#driving_license').is(':checked')) { driving_license = 1; }
-
-         var languages           =         $('#languages').val();
-         var hrCourseId          =         $('#hrCourseId').val();
-         var skills              =         $('#skills').val();
-
-         var org_names = $('.organization_name').serializeArray();
-         var job_title = $('.job_title').serializeArray();
-         var course = $('.courses').serializeArray();
-         var employed_from = $('.employed_from').serializeArray();
-         var employed_until = $('.employed_until').serializeArray();
-
-         // console.log(org_names);
-
-         var organization_name = [];
-         var job_titles = [];
-         var courses = [];
-         var employed_froms = [];
-         var employed_untils = [];
-
-         $.each(org_names,function(index,field){
-            organization_name[index]   = field.value;
-         });
-
-         $.each(job_title,function(index,field){
-            job_titles[index]   = field.value;
-         });
-
-         $.each(course,function(index,field){
-            courses[index]   = field.value+",|";
-         });
-
-         $.each(employed_from,function(index,field){
-            employed_froms[index]   = field.value;
-         });
-
-         $.each(employed_until,function(index,field){
-            employed_untils[index]   = field.value;
-         });
-
-
-         var hr_note             =         $('#hr_note').val();
-         var manager_note        =         $('#manager_note').val();
-         var sal_dev_note        =         $('#sal_dev_note').val();
-
-         $('#languages_hidden').val(languages);
-         $('#hrCourseId_hidden').val(hrCourseId);
-         $('#skills_hidden').val(skills);
-         $('#driving_license_hidden').val(driving_license);
-
-
-         $('#organization_name_hidden').val(organization_name);
-         $('#job_title_hidden').val(job_titles);
-         $('#courses_hidden').val(courses);
-         $('#employed_from_hidden').val(employed_froms);
-         $('#employed_until_hidden').val(employed_untils);
-
-         $('#hr_note_hidden').val(hr_note);
-         $('#manager_note_hidden').val(manager_note);
-         $('#sal_dev_note_hidden').val(sal_dev_note);
-
-         var myform = document.getElementById("wizard-4");
-         var filer = new FormData(myform);
-
-         filer.append('first_name', fname);
-         filer.append('last_name', lname);
-         filer.append('address_1', add1);
-         filer.append('address_2', add2);
-         filer.append('post_code', pcode);
-         filer.append('city_id', city);
-         filer.append('state_id', state);
-         filer.append('country_id', country);
-         filer.append('telephone_job', telephone);
-         filer.append('telephone_private', telephoneJ);
-         filer.append('email_private', emailId);
-         filer.append('email_job', emailJob);
-         filer.append('civil_status_id', civilId);
-         filer.append('employment_date', daterangeEmpl);
-         filer.append('termination_time', termId);
-         filer.append('employeed_untill', daterangeEmplUntil);
-         filer.append('personal_category', personalId);
-         filer.append('collective_type', collectiveId);
-         filer.append('employment_form', employFormId);
-         filer.append('insurance_date', daterangeInsurance);
-         filer.append('insurance_fees', insuranceFees);
-         filer.append('department', departmentWiz2);
-         filer.append('designation', desigWiz2);
-         filer.append('vacancies', vacancyWiz2);
-         filer.append('salary_type', salaryTypeWiz3);
-         filer.append('salary', salaryId);
-         filer.append('employment_percent', empInPercent);
-         filer.append('cost_division', costDivision);
-         filer.append('project', projectWiz3);
-         filer.append('vat_table', valueAdded);
-         filer.append('vacation_days', vacationDays);
-         filer.append('vacation_category', vacationWiz3);
-         filer.append('father', father);
-         filer.append('mother', mother);
-         filer.append('driving_license', driving_license);
-
-
-      if (editCompanyHr != 0) 
-      {
-         <?php
-           if (isset($companyHr)) {
-              $updateRoute = route("company.companyHrs.update", [$companyHr->id]);
-           } else {
-             $updateRoute = '';
-           }
-         ?>
-
-         $.ajax({
-            url: '{{ $updateRoute }}',
-            type: 'POST',
-            data: filer,
-           cache: false,
-           contentType: false,
-           processData: false,
-            success: function(data){
-                 // myform.pxWizard('goTo', 2);
-
-                 console.log(data);
-             },
-             error: function(xhr,status,error)  {
-
-             }
-
-         });
-      }
-      else
-      {
-         $.ajax({
-             url: '{{ route("company.companyHrs.store") }}',
-             type: 'POST',
-             data : filer,
-            cache: false,
-              contentType: false,
-              processData: false,
-             success: function(data){
-                 // console.log(data);
-                  alert(data.msg);
-                  if(data.status == 1)
-                  {
-                      location.href = "{{ route('company.companyHrs.index') }}";
-                  }
-             },
-             error: function(xhr,status,error)  {
-
-             }
-
-         });
-      }
-
-/*         console.log(languages);
-         console.log(hrCourseId);
-         console.log(skills);
-
-         console.log(organization_name);
-         console.log(job_titles);
-         console.log(courses);
-         console.log(employed_froms);
-         console.log(employed_untils);
-
-         console.log(hr_note);
-         console.log(manager_note);
-         console.log(sal_dev_note);*/
-
-         /*var jsObj = {};
-         $.each(data,function(index,field){
-            jsObj[field.name] = field.value;
-         });
-         */
-
-         // $('#hiddenForm').submit();
-     });
-
-      // enable fileuploader plugin
       $('input[name="docFiles"]').fileuploader({
            extensions: ['jpg', 'jpeg', 'png', 'gif', 'bmp'],
          changeInput: ' ',
@@ -1158,84 +839,7 @@
          },
        });
 
-   $(document).on('click', ".addEmployment", function() {
-      
-      $('.employed_from').daterangepicker({
-        singleDatePicker: true,
-        showDropdowns: true,
-        locale: {
-            format: 'Y-MM-DD'
-        }
-      });
 
-      $('.employed_until').daterangepicker({
-         singleDatePicker: true,
-         showDropdowns: true,
-         startDate : moment().add('years',1),
-         locale: {
-               format: 'Y-MM-DD'
-         }
-      });
-
-      $('.courses').tagsinput({
-            maxTags: 6
-      });
-
-   });
-
-   $(document).ready(function(){
-      $('.languages').tagsinput({
-            maxTags: 10
-      });
-
-      $('.skills').tagsinput({
-            maxTags: 10
-      });
-   });
-
-   $('#daterangeEmpl').daterangepicker({
-     singleDatePicker: true,
-     showDropdowns: true,
-     locale: {
-         format: 'Y-MM-DD'
-     }
-   });
-
-   $('#daterangeEmplUntil').daterangepicker({
-     singleDatePicker: true,
-     showDropdowns: true,
-     locale: {
-         format: 'Y-MM-DD'
-     }
-   });
-
-   $('#daterangeInsurance').daterangepicker({
-     singleDatePicker: true,
-     showDropdowns: true,
-     locale: {
-         format: 'Y-MM-DD'
-     }
-   });
-
-
-
-
-   $('.employed_from').daterangepicker({
-     singleDatePicker: true,
-     showDropdowns: true,
-     locale: {
-         format: 'Y-MM-DD'
-     }
-   });
-
-   $('.employed_until').daterangepicker({
-      singleDatePicker: true,
-      showDropdowns: true,
-      startDate : moment().add('years',1),
-      locale: {
-            format: 'Y-MM-DD'
-      }
-   });
 
    $('.addEmployment').click(function(){
       var employment = '<div class="row">';
@@ -1266,59 +870,7 @@
 
    });
 
-       $('#hr_note').summernote({
-      height: 112,
-      toolbar: [
-        ['parastyle', ['style']],
-        ['fontstyle', ['fontname', 'fontsize']],
-        ['style', ['bold', 'italic', 'underline', 'clear']],
-        ['font', ['strikethrough', 'superscript', 'subscript']],
-        ['color', ['color']],
-        ['para', ['ul', 'ol', 'paragraph']],
-        ['height', ['height']],
-        ['insert', ['picture', 'link', 'video', 'table', 'hr']],
-        ['history', ['undo', 'redo']],
-        ['misc', ['codeview', 'fullscreen']],
-        ['help', ['help']]
-      ],
-    });
-
-   $('#manager_note').summernote({
-      height: 112,
-      toolbar: [
-        ['parastyle', ['style']],
-        ['fontstyle', ['fontname', 'fontsize']],
-        ['style', ['bold', 'italic', 'underline', 'clear']],
-        ['font', ['strikethrough', 'superscript', 'subscript']],
-        ['color', ['color']],
-        ['para', ['ul', 'ol', 'paragraph']],
-        ['height', ['height']],
-        ['insert', ['picture', 'link', 'video', 'table', 'hr']],
-        ['history', ['undo', 'redo']],
-        ['misc', ['codeview', 'fullscreen']],
-        ['help', ['help']]
-      ],
-    });
-
-   $('#sal_dev_note').summernote({
-      height: 112,
-      toolbar: [
-        ['parastyle', ['style']],
-        ['fontstyle', ['fontname', 'fontsize']],
-        ['style', ['bold', 'italic', 'underline', 'clear']],
-        ['font', ['strikethrough', 'superscript', 'subscript']],
-        ['color', ['color']],
-        ['para', ['ul', 'ol', 'paragraph']],
-        ['height', ['height']],
-        ['insert', ['picture', 'link', 'video', 'table', 'hr']],
-        ['history', ['undo', 'redo']],
-        ['misc', ['codeview', 'fullscreen']],
-        ['help', ['help']]
-      ],
-    });
-
-
-         
+ 
    
    // -------------------------------------------------------------------------
    // Initialize wizard validation example
@@ -1340,18 +892,22 @@
       // Rules
 
       jQuery.validator.addMethod("alphanumeric", function(value, element) {
-              return this.optional(element) || /^[a-zA-Z0-9]+$/.test(value);
+              return this.optional(element) || /^[a-zA-Z0-9%-]+$/.test(value);
       }); 
-  
+
+      jQuery.validator.addMethod("dollarsscents", function(value, element) {
+          return this.optional(element) || /^\d{0,4}(\.\d{0,2})?$/i.test(value);
+      }, "You must include two decimal places");  
 
       $('#wizard-1').validate({
           rules: {
               'first_name': {
                 required:  true,
+                maxlength: 30,
               },
               'last_name': {
                 required:  true,
-                maxlength: 100,
+                maxlength: 30,
               },
               'address_1': {
                 required:  true,
@@ -1365,12 +921,15 @@
               },
               'city_id': {
                 required:  true,
+                digits: true
               },
               'state_id': {
                 required:  true,
+                digits: true
               },
               'country_id': {
                 required:  true,
+                digits: true
               },
               'telephone_job': {
                 required:  true,
@@ -1390,124 +949,9 @@
               },
               'civil_status_id': {
                 required:  true,
+                digits: true
               },
-            }
-      });
-
-
-      $('#wizard-1').on('submit', function(e) {
-
-            e.preventDefault();
-
-
-            // test if form is valid 
-            if( $('#wizard-1').validate().form() ) {
-
-
-
-
-            } else {
-                // console.log("does not validate");
-            }
-        });
-
-
-      $('#wizard-2').validate();
-      
-      $('#wizard-2').on('submit', function(e) {
-       
-            e.preventDefault();
-
-            // test if form is valid 
-            if($('#wizard-2').validate().form()) {
-
-            } else {
-                // console.log("does not validate");
-            }
-        });
-
-
-      $('#wizard-3').validate();
-      
-      $('#wizard-3').on('submit', function(e) {
-       
-            e.preventDefault();
-
-            // test if form is valid 
-            if( $('#wizard-3').validate().form() ) {
-
-
-
-            } else {
-                // console.log("does not validate");
-            }
-        });
-
-/*      $('').validate({
-
-          rules: {
-              "number": {
-                  required: true,
-                  maxlength: 150,
-                  remote: {
-                      // url: "{{ route('validate.contract') }}",
-                      // type: "POST",
-                      // cache: false,
-                      // dataType: "json",
-                      // data: {
-                      //     number: function() { return $("#contract-no").val(); }
-                      // },
-                      // dataFilter: function(response) {
-
-                      //     // console.log(response);
-                      //     return checkField(response);
-                      // }
-
-                      param: {
-                          url: "{{ route('validate.contract') }}",
-                          type: "POST",
-                          cache: false,
-                          dataType: "json",
-                          data: {
-                              number: function() { return $("#contract-no").val(); }
-                          },
-                          dataFilter: function(response) {
-
-                              // console.log(response);
-                              return checkField(response);
-                          }
-                      },
-                      depends: function(element) {
-                          // compare email address in form to hidden field
-                          return ($(element).val() !== $('#contract-no-hidden').val());
-                      }
-                  }
-              },
-              "start_date": {
-                  required: true
-              },
-              "end_date": {
-                  required: true
-              },
-              "payment_method": {
-                  required: true
-              },
-              "payment_cycle": {
-                  required: true
-              },
-              "discount": {
-                  required: true
-              }
-          },
-
-          messages: {
-             "number": {
-
-                remote: "A contract with same number already exists",
-             }
-          },
-          // errorElement : 'div',
-          // errorLabelContainer: '.errorTxt'
+            },
           errorPlacement: function(error, element) {
             var placement = $(element).parent().find('.errorTxt');
             if (placement) {
@@ -1516,44 +960,313 @@
               error.insertAfter(element);
             }
           }
-      });*/
-      
-     /* $('#).on('submit', function(e) {
-       alert('step-4 submit');
+      });
+
+
+      $('#wizard-1').on('submit', function(e) {
+
             e.preventDefault();
 
-            // test if form is valid 
-            if( $('#').validate().form() ) {
-
-                  var myform = document.getElementById("");
-                  var data = new FormData(myform);
-                  
-                  $.ajax({
-                      url: '{{ route("company.hrOtherInformation.store") }}',
-                      data: data,
-                      cache: false,
-                      contentType: false,
-                      processData: false,
-                      type: 'POST', // For jQuery < 1.9
-                      success: function(data){
-
-                        console.log(data);
-                          // myform.pxWizard('goTo', 2);
-                          // company_id = data.company.id;
-                          // companyCreated = data.success;
-
-                          // console.log(data);
-                      },
-                      error: function(xhr,status,error)  {
-
-                      }
-
-                  });
+            if( $('#wizard-1').validate().form() ) {
 
             } else {
-                // console.log("does not validate");
+
             }
-        });*/
+      });
+
+
+      $('#wizard-2').validate({
+          rules: {
+              'employment_date': {
+                required:  true
+              },
+              'termination_time': {
+                required:  true,
+                digits: true
+              },
+              'employeed_untill': {
+                required:  true,
+              },
+              'personal_category': {
+                required:  true,
+              },
+              'collective_type': {
+                required:  true,
+                digits: true
+              },
+              'employment_form': {
+                required:  true,
+              },
+              'insurance_date': {
+                required:  true
+              },
+              'insurance_fees': {
+                required:  true,
+                digits: true
+              },
+              'department': {
+                required:  true,
+                digits: true,
+              },
+              'designation': {
+                required:  true,
+                digits: true,
+              },
+              'vacancies': {
+                required:  true,
+                digits: true
+              }
+            },
+          errorPlacement: function(error, element) {
+            var placement = $(element).parent().find('.errorTxt');
+            if (placement) {
+              $(placement).append(error)
+            } else {
+              error.insertAfter(element);
+            }
+          }
+      });
+      
+      $('#wizard-2').on('submit', function(e) {
+       
+            e.preventDefault();
+
+            if($('#wizard-2').validate().form()) {
+
+            } else {
+
+            }
+        });
+
+
+
+      $('#wizard-3').validate({
+          rules: {
+              'salary_type': {
+                required:  true,
+                digits: true
+              },
+              'salary': {
+                required:  true,
+                dollarsscents: true
+              },
+              'employment_percent': {
+                required:  true,
+                alphanumeric: true
+              },
+              'cost_division': {
+                required:  true,
+                dollarsscents: true
+              },
+              'project': {
+                required:  true,
+                digits: true
+              },
+              'vat_table': {
+                required:  true,
+                dollarsscents: true
+              },
+              'vacation_days': {
+                required:  true,
+                digits: true
+              },
+              'vacation_category': {
+                required:  true,
+                digits: true
+              }
+            },
+          errorPlacement: function(error, element) {
+            var placement = $(element).parent().find('.errorTxt');
+            if (placement) {
+              $(placement).append(error)
+            } else {
+              error.insertAfter(element);
+            }
+          }
+      });
+      
+      $('#wizard-3').on('submit', function(e) {
+       
+            e.preventDefault();
+
+            if( $('#wizard-3').validate().form() ) {
+
+            } else {
+
+            }
+        });
+
+      $('#wizard-4').validate({
+          rules: {
+              'languages': {
+                required:  true
+              },
+              'skills': {
+                required:  true
+              },
+              'name': {
+                required:  true
+              }
+            },
+          errorPlacement: function(error, element) {
+            var placement = $(element).parent().find('.errorTxt');
+            if (placement) {
+              $(placement).append(error)
+            } else {
+              error.insertAfter(element);
+            }
+          }
+      });
+
+      $('#wizard-4').on('submit', function(e) {
+
+         e.preventDefault();
+
+         if( $('#wizard-4').validate().form() ) 
+         {
+
+            $('#createCompanyHrBtn').attr('disabled', 'disabled');
+            $('#createCompanyHrBtn').text('Processing..');
+
+            var first_name = $('#first_name').val();
+            var last_name = $('#last_name').val();
+            var address_1 = $('#address_1').val();
+            var address_2 = $('#address_2').val();
+            var post_code = $('#post_code').val();
+            var city_id = $('#city_id').val();
+            var state_id = $('#state_id').val();
+            var country_id = $('#country_id').val();
+            var telephone_job = $('#telephone_job').val();
+            var telephone_private = $('#telephone_private').val();
+            var email_private = $('#email_private').val();
+            var email_job = $('#email_job').val();
+            var civil_status_id = $('#civil_status_id').val();
+            var employment_date = $('#employment_date').val();
+            var termination_time = $('#termination_time').val();
+            var employeed_untill = $('#employeed_untill').val();
+            var personal_category = $('#personal_category').val();
+            var collective_type = $('#collective_type').val();
+            var employment_form = $('#employment_form').val();
+            var insurance_date = $('#insurance_date').val();
+            var insurance_fees = $('#insurance_fees').val();
+            var department = $('#department').val();
+            var designation = $('#designation').val();
+            var vacancies = $('#vacancies').val();
+            var salary_type = $('#salary_type').val();
+            var salary = $('#salary').val();
+            var employment_percent = $('#employment_percent').val();
+            var cost_division = $('#cost_division').val();
+            var project = $('#project').val();
+            var vat_table = $('#vat_table').val();
+            var vacation_days = $('#vacation_days').val();
+            var vacation_category = $('#vacation_category').val();
+
+            var father  =   0;
+            var mother  =   0;
+            if($('#father').is(':checked')) { father = 1; }
+            if($('#mother').is(':checked')) { mother = 1; }
+
+            var myform = document.getElementById("wizard-4");
+            var filer = new FormData(myform);
+
+            filer.append('first_name', first_name);
+            filer.append('last_name', last_name);
+            filer.append('address_1', address_1);
+            filer.append('address_2', address_2);
+            filer.append('post_code', post_code);
+            filer.append('city_id', city_id);
+            filer.append('state_id', state_id);
+            filer.append('country_id', country_id);
+            filer.append('telephone_job', telephone_job);
+            filer.append('telephone_private', telephone_private);
+            filer.append('email_private', email_private);
+            filer.append('email_job', email_job);
+            filer.append('civil_status_id', civil_status_id);
+            filer.append('employment_date', employment_date);
+            filer.append('termination_time', termination_time);
+            filer.append('employeed_untill', employeed_untill);
+            filer.append('personal_category', personal_category);
+            filer.append('collective_type', collective_type);
+            filer.append('employment_form', employment_form);
+            filer.append('insurance_date', insurance_date);
+            filer.append('insurance_fees', insurance_fees);
+            filer.append('department', department);
+            filer.append('designation', designation);
+            filer.append('vacancies', vacancies);
+            filer.append('salary_type', salary_type);
+            filer.append('salary', salary);
+            filer.append('employment_percent', employment_percent);
+            filer.append('cost_division', cost_division);
+            filer.append('project', project);
+            filer.append('vat_table', vat_table);
+            filer.append('vacation_days', vacation_days);
+            filer.append('vacation_category', vacation_category);
+            filer.append('father', father);
+            filer.append('mother', mother);
+            filer.append('driving_license', driving_license);
+
+
+            if (editCompanyHr != 0) 
+            {
+               <?php
+                 if (isset($companyHr)) {
+                    $updateRoute = route("company.companyHrs.update", [$companyHr->id]);
+                 } else {
+                   $updateRoute = '';
+                 }
+               ?>
+
+               $.ajax({
+                  url: '{{ $updateRoute }}',
+                  type: 'POST',
+                  data: filer,
+                 cache: false,
+                 contentType: false,
+                 processData: false,
+                  success: function(data){
+                     alert(data.msg);
+                     if(data.status == 1)
+                     {
+                         location.href = "{{ route('company.companyHrs.index') }}";
+                     }
+                   },
+                   error: function(xhr,status,error)  {
+
+                   }
+
+               });
+            }
+            else
+            {
+               $.ajax({
+                   url: '{{ route("company.companyHrs.store") }}',
+                   type: 'POST',
+                   data : filer,
+                  cache: false,
+                    contentType: false,
+                    processData: false,
+                   success: function(data){
+
+                        alert(data.msg);
+                        if(data.status == 1)
+                        {
+                            location.href = "{{ route('company.companyHrs.index') }}";
+                        }
+                   },
+                   error: function(xhr,status,error)  {
+
+                   }
+
+               });
+            }
+      }
+      else
+      {
+
+      }
+      
+   });
+      
 
 
       $('#state_id').on('change', function() {
@@ -1621,120 +1334,252 @@
         }
       });
 
-      // Finish
 
       $wizard.on('finished.px.wizard', function() {
-        //
-        // Collect and send data...
-        //
-
         $('#wizard-finish').find('.ion-checkmark-round').removeClass('ion-checkmark-round').addClass('ion-checkmark-circled');
         $('#wizard-finish').find('h4').text('Thank You!');
         $('#wizard-finish').find('button').remove();
       });
 
     });
-   
 
-         
-           // -------------------------------------------------------------------------
-           // Initialize Select2
-           
-           $(function() {
-             $('.select2-country').select2({
-               placeholder: 'Select Country',
-             });
-           });
-           
-           $(function() {
-             $('.select2-state').select2({
-               placeholder: 'Select State',
-             });
-           });
-           
-           $(function() {
-             $('.select2-city').select2({
-               placeholder: 'Select City',
-             });
-           });
-           
-           $(function() {
-             $('.select2-status').select2({
-               placeholder: 'Select Status',
-             });
-           });
-           
-           $(function() {
-             $('.select2-personal').select2({
-               placeholder: 'Select Personal Category',
-             });
-           });
-           
-           $(function() {
-             $('.select2-collective').select2({
-               placeholder: 'Select Collective',
-             });
-           });
-           
-           $(function() {
-             $('.select2-emplyForm').select2({
-               placeholder: 'Select Employment Form',
-             });
-           });
-           
-           $(function() {
-             $('.select2-department').select2({
-               placeholder: 'Select Department',
-             });
-           });
-           
-           $(function() {
-             $('.select2-designation').select2({
-               placeholder: 'Select Designation',
-             });
-           });
-           
-           $(function() {
-             $('.select2-vacancy').select2({
-               placeholder: 'Select Vacancy',
-             });
-           });
-           
-           $(function() {
-             $('.select2-salaryType').select2({
-               placeholder: 'Select Salary Type',
-             });
-           });
-           
-           $(function() {
-             $('.select2-project').select2({
-               placeholder: 'Select Salary Type',
-             });
-           });
-   
-           $(function() {
-             $('.select2-payment-method').select2({
-               placeholder: 'Select Payment Method',
-             });
-           });
-   
-           $(function() {
-             $('.select2-payment-cycle').select2({
-               placeholder: 'Select Payment Cycle',
-             });
-           });
-   
-           $(function() {
-             $('.select2-discount-type').select2({
-               placeholder: 'Select Discount Type',
-             });
-           }); 
+    //---------------- Tab 1 ------------------ //
 
-            $(function() {
-             $('.select2-hrCourses').select2({
-               placeholder: 'Select Discount Type',
-             });
-           });
+   $(function() {
+    $('#country_id').select2({
+      placeholder: 'Select Country',
+    });
+  });
+
+   $(function() {
+    $('#state_id').select2({
+      placeholder: 'Select State',
+    });
+  });
+
+   $(function() {
+    $('#city_id').select2({
+      placeholder: 'Select City',
+    });
+  });
+
+   $(function() {
+    $('#civil_status_id').select2({
+      placeholder: 'Select City',
+    });
+  });
+
+   //---------------- Tab 1 ------------------ //
+
+   //---------------- Tab 2 ------------------ //
+
+    $(document).ready(function(){
+
+      $('#employment_date').daterangepicker({
+           singleDatePicker: true,
+           showDropdowns: true,
+           locale: {
+               format: 'Y-MM-DD'
+           }
+      });
+
+      $('#employeed_untill').daterangepicker({
+           singleDatePicker: true,
+           showDropdowns: true,
+           locale: {
+               format: 'Y-MM-DD'
+           }
+      });
+
+      $('#insurance_date').daterangepicker({
+           singleDatePicker: true,
+           showDropdowns: true,
+           locale: {
+               format: 'Y-MM-DD'
+           }
+      });
+
+   });
+
+   $(function() {
+    $('#personal_category').select2({
+      placeholder: 'Select Personal Category',
+    });
+  });
+
+   $(function() {
+    $('#collective_type').select2({
+      placeholder: 'Select Collective Type',
+    });
+  });
+
+   $(function() {
+    $('#employment_form').select2({
+      placeholder: 'Select Employment Form',
+    });
+  });
+
+   $(function() {
+    $('#department').select2({
+      placeholder: 'Select Department',
+    });
+  });
+
+   $(function() {
+    $('#designation').select2({
+      placeholder: 'Select Designation',
+    });
+  });
+
+
+   $(function() {
+    $('#vacancies').select2({
+      placeholder: 'Select Vacancies',
+    });
+  });
+
+   //---------------- Tab 2 ------------------ //
+
+   //---------------- Tab 3 ------------------ //
+
+   $(function() {
+    $('#salary_type').select2({
+      placeholder: 'Select Salary Type',
+    });
+  });
+
+   $(function() {
+    $('#project').select2({
+      placeholder: 'Select Project',
+    });
+  });
+
+   $(function() {
+    $('#vacation_category').select2({
+      placeholder: 'Select Vacation Category',
+    });
+  });
+
+
+   //---------------- Tab 3 ------------------ //
+
+   //---------------- Tab 4 ------------------ //
+
+   $(function() {
+    $('#name').select2({
+      placeholder: 'Select Courses',
+    });
+  });
+
+   $(document).ready(function(){
+      $('.languages').tagsinput({
+            maxTags: 10
+      });
+
+      $('.skills').tagsinput({
+            maxTags: 10
+      });
+   });
+
+   $(document).on('click', ".addEmployment", function() {
+      
+      $('.employed_from').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        locale: {
+            format: 'Y-MM-DD'
+        }
+      });
+
+      $('.employed_until').daterangepicker({
+         singleDatePicker: true,
+         showDropdowns: true,
+         startDate : moment().add('years',1),
+         locale: {
+               format: 'Y-MM-DD'
+         }
+      });
+
+      $('.courses').tagsinput({
+            maxTags: 6
+      });
+
+   });
+
+
+   $('.employed_from').daterangepicker({
+     singleDatePicker: true,
+     showDropdowns: true,
+     locale: {
+         format: 'Y-MM-DD'
+     }
+   });
+
+   $('.employed_until').daterangepicker({
+      singleDatePicker: true,
+      showDropdowns: true,
+      startDate : moment().add('years',1),
+      locale: {
+            format: 'Y-MM-DD'
+      }
+   });
+
+   $('#hr_note').summernote({
+      height: 112,
+      toolbar: [
+        ['parastyle', ['style']],
+        ['fontstyle', ['fontname', 'fontsize']],
+        ['style', ['bold', 'italic', 'underline', 'clear']],
+        ['font', ['strikethrough', 'superscript', 'subscript']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['height', ['height']],
+        ['insert', ['picture', 'link', 'video', 'table', 'hr']],
+        ['history', ['undo', 'redo']],
+        ['misc', ['codeview', 'fullscreen']],
+        ['help', ['help']]
+      ],
+    });
+
+   $('#manager_note').summernote({
+      height: 112,
+      toolbar: [
+        ['parastyle', ['style']],
+        ['fontstyle', ['fontname', 'fontsize']],
+        ['style', ['bold', 'italic', 'underline', 'clear']],
+        ['font', ['strikethrough', 'superscript', 'subscript']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['height', ['height']],
+        ['insert', ['picture', 'link', 'video', 'table', 'hr']],
+        ['history', ['undo', 'redo']],
+        ['misc', ['codeview', 'fullscreen']],
+        ['help', ['help']]
+      ],
+    });
+
+   $('#sal_dev_note').summernote({
+      height: 112,
+      toolbar: [
+        ['parastyle', ['style']],
+        ['fontstyle', ['fontname', 'fontsize']],
+        ['style', ['bold', 'italic', 'underline', 'clear']],
+        ['font', ['strikethrough', 'superscript', 'subscript']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['height', ['height']],
+        ['insert', ['picture', 'link', 'video', 'table', 'hr']],
+        ['history', ['undo', 'redo']],
+        ['misc', ['codeview', 'fullscreen']],
+        ['help', ['help']]
+      ],
+    });
+
+
+   //---------------- Tab 4 ------------------ //          
+
+           
+
    
          
 </script>
