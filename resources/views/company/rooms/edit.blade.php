@@ -3,12 +3,8 @@
 @section('content')
     <div class="px-content">
         <div class="page-header">
-            <h1>
-                <span class="text-muted font-weight-light">
-                    <i class="page-header-icon ion-android-checkbox-outline"></i>
-                    Settings /
-                </span>
-                Edit Room
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon fa fa-edit"></i><a href="{{route('company.rooms.index')}}">Rooms</a>  / </span>
+                Edit "{!! ucfirst($room->name) !!}"
             </h1>
         </div>
 

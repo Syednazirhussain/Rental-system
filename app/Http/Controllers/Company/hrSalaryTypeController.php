@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Auth;
+use App\Models\Company\hrSalaryType;
 
 class hrSalaryTypeController extends AppBaseController
 {
@@ -30,7 +32,10 @@ class hrSalaryTypeController extends AppBaseController
     public function index(Request $request)
     {
         $this->hrSalaryTypeRepository->pushCriteria(new RequestCriteria($request));
-        $hrSalaryTypes = $this->hrSalaryTypeRepository->all();
+        $companyId         =   Auth::guard('company')->user()->companyUser()->first()->company_id;
+        
+        $hrSalaryTypes    = hrSalaryType::where('company_id',$companyId)->get();
+
 
         return view('company.hr_salary_types.index')
             ->with('hrSalaryTypes', $hrSalaryTypes);
@@ -56,6 +61,7 @@ class hrSalaryTypeController extends AppBaseController
     public function store(CreatehrSalaryTypeRequest $request)
     {
         $input = $request->all();
+        $input['company_id'] =   Auth::guard('company')->user()->companyUser()->first()->company_id;
 
         $hrSalaryType = $this->hrSalaryTypeRepository->create($input);
 

@@ -4,28 +4,22 @@
     <div class="px-content">
 
         <div class="page-header">
-            <h1>
-                <span class="text-muted font-weight-light">
-                    <i class="page-header-icon ion-ios-keypad"></i>
-                    <a href="{{ route('company.hrVacationCategories.index') }}">Hr Vacation Category</a>
-                </span>
-            </h1>
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i><a href="{{ route('company.hrVacationCategories.index')}}">Company HR / HR Vacation Category</a> / </span>Edit HR Vacation Category</h1>
         </div>
-
-        <div class="panel">
-            <div class="panel-body">
-        @include('adminlte-templates::common.errors')
-        <div class="box box-primary">
-
-            <div class="box-body">
-                <div class="row">
-                    {!! Form::model($hrVacationCategory, ['route' => ['company.hrVacationCategories.update', $hrVacationCategory->id], 'method' => 'patch']) !!}
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div class="panel-title">Edit HR Vacation Category</div>
+                    </div>
+                    <div class="panel-body">
+                    {!! Form::model($hrVacationCategory, ['route' => ['company.hrVacationCategories.update', $hrVacationCategory->id], 'method' => 'patch', 'id' => 'form']) !!}
 
                         @include('company.hr_vacation_categories.fields')
 
                     {!! Form::close() !!}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 @endsection

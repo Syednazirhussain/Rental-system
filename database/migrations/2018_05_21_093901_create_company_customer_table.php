@@ -30,9 +30,9 @@ class CreateCompanyCustomerTable extends Migration {
 			$table->string('payment_condition', 191)->nullable()->collation('utf8_unicode_ci');
 			$table->string('interest_fees', 191)->nullable()->collation('utf8_unicode_ci');
 			$table->string('peyment_reminder', 191)->nullable()->collation('utf8_unicode_ci');
-			$table->integer('country_id')->unsigned()->nullable()->index('user_id');
-			$table->integer('state_id')->unsigned()->nullable()->index('user_id');
-			$table->integer('city_id')->unsigned()->nullable()->index('user_id');		
+			$table->integer('country_id')->unsigned()->nullable()->index('country_id');
+			$table->integer('state_id')->unsigned()->nullable()->index('state_id');
+			$table->integer('city_id')->unsigned()->nullable()->index('city_id');		
 				
 			$table->timestamps();
 			$table->softDeletes();

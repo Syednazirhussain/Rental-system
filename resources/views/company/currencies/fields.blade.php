@@ -31,7 +31,7 @@
         rules: {
           'name': {
             required: true,
-            maxlength: 100,
+            maxlength: 50,
           },
           'code': {
             required: true,
@@ -42,6 +42,9 @@
         messages: {
           'name': {
             required: "Please enter the name",
+          },
+          'code': {
+            required: "Please enter the code",
           }
         }
 

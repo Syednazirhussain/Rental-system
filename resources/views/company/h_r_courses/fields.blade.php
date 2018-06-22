@@ -26,7 +26,7 @@
         rules: {
           'name': {
             required: true,
-            maxlength: 100,
+            maxlength: 50,
           }
         },
 

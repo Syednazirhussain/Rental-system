@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Auth;
+use App\Models\Company\hrCompanyProject;
 
 class hrCompanyProjectController extends AppBaseController
 {
@@ -30,7 +32,10 @@ class hrCompanyProjectController extends AppBaseController
     public function index(Request $request)
     {
         $this->hrCompanyProjectRepository->pushCriteria(new RequestCriteria($request));
-        $hrCompanyProjects = $this->hrCompanyProjectRepository->all();
+        $companyId         =   Auth::guard('company')->user()->companyUser()->first()->company_id;
+        
+        $hrCompanyProjects    = hrCompanyProject::where('company_id',$companyId)->get();
+
 
         return view('company.hr_company_projects.index')
             ->with('hrCompanyProjects', $hrCompanyProjects);
@@ -56,6 +61,7 @@ class hrCompanyProjectController extends AppBaseController
     public function store(CreatehrCompanyProjectRequest $request)
     {
         $input = $request->all();
+        $input['company_id'] =   Auth::guard('company')->user()->companyUser()->first()->company_id;
 
         $hrCompanyProject = $this->hrCompanyProjectRepository->create($input);
 

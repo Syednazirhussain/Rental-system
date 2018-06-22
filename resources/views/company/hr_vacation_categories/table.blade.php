@@ -1,20 +1,19 @@
-<table class="table table-responsive" id="hrVacationCategories-table">
+<table class="table table-responsive" id="datatables">
     <thead>
         <tr>
-            <th>Name</th>
-            <th colspan="3">Action</th>
+            <th width="200px">Name</th>
+            <th class="pull-right" width="200px">Action</th>
         </tr>
     </thead>
     <tbody>
     @foreach($hrVacationCategories as $hrVacationCategory)
         <tr>
-            <td>{!! $hrVacationCategory->name !!}</td>
-            <td>
+            <td width="200px">{!! ucfirst($hrVacationCategory->name) !!}</td>
+            <td class="pull-right" width="200px">
                 {!! Form::open(['route' => ['company.hrVacationCategories.destroy', $hrVacationCategory->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>
-                    <a href="{!! route('company.hrVacationCategories.show', [$hrVacationCategory->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
-                    <a href="{!! route('company.hrVacationCategories.edit', [$hrVacationCategory->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-edit"></i></a>
-                    {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                    <a href="{!! route('company.hrVacationCategories.edit', [$hrVacationCategory->id]) !!}" class='btn btn-default btn-xs'><i class="fa fa-edit fa-lg text-info"></i></a>
+                    {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
                 </div>
                 {!! Form::close() !!}
             </td>

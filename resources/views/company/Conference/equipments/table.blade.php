@@ -11,9 +11,9 @@
     <tbody>
     @foreach($equipments as $equipments)
         <tr>
-            <td>{!! $equipments->title !!}</td>
+            <td>{!! ucfirst($equipments->title) !!}</td>
             <td>{!! $equipments->price !!}</td>
-            <td>{!! $equipments->conferenceEquipmentsCriterion->title !!}</td>
+            <td>{!! ucfirst($equipments->conferenceEquipmentsCriterion->title) !!}</td>
             <td>@if($equipments->is_multi_units == '1') <label class="label label-success">Yes</label> @else <label class="label label-danger">No</label> @endif </td>
             <td>
                 {!! Form::open(['route' => ['company.conference.equipments.destroy', $equipments->id], 'method' => 'delete']) !!}

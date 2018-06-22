@@ -197,6 +197,7 @@ class LeaseContractInformationController extends AppBaseController
      */
     public function update($id, UpdateLeaseContractInformationRequest $request)
     {
+
         $leaseContractInformation = $this->leaseContractInformationRepository->findWithoutFail($id);
 
 

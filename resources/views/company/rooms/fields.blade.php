@@ -74,6 +74,18 @@
                         @endforeach
                     </select>
                 </div>
+                <!-- <div class="col-sm-12 form-group">
+                    <label for="service_id">Select Service</label>
+                    <select type="text" name="role" class="form-control">
+                        @foreach($room as $room)
+                            @if( isset($user_has_role) && $user_has_role->role_id == $role->id )
+                                <option value="{{ $role->name }}" selected="selected">{{ $role->name }}</option>
+                            @else
+                                <option value="{{ $role->name }}">{{ $role->name }}</option>
+                            @endif
+                        @endforeach
+                    </select>
+                </div> -->
                 <div class="col-sm-12 form-group">
                     <label for="service_id">Select Service</label>
                     <select class="form-control" id="service_id" name="service_id">

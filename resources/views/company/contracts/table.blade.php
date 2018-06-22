@@ -14,7 +14,7 @@
         <tr>
             <td>{!! $loop->index + 1 !!}</td>
             <td>{!! $contract->number !!}</td>
-            <td>{!! $contract->payment_method !!}</td>
+            <td>{!! ucfirst($contract->payment_method) !!}</td>
             <td>{!! $contract->start_date !!}</td>
             <td>{!! $contract->end_date !!}</td>
             <td  width="200px" class="text-center">

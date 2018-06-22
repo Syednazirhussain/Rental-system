@@ -15,7 +15,7 @@
                 <div class="col-sm-8">
 
                   <div class="form-group">
-                    <label for="building_id">Select Building</label>
+                    <label for="building_id">Buildings</label>
                     <select class="form-control" id="building_id" name="building_id">
                         <option value="">Select</option>
                         @foreach ($buildings as $building)
@@ -30,7 +30,7 @@
                   </div>
 
                   <div class="form-group">
-                    <label for="select_floor">Floor Name</label>
+                    <label for="select_floor">Floors</label>
                     <select class="form-control" id="select_floor" name="floor_id">
                       @if(isset($room))
                         <option value="{{ $room->floor_id }}" selected="selected">{{ $room->floor->floor }}</option>
@@ -75,7 +75,7 @@
               <div class="errorTxt"></div>
             </div>
             <div class="col-sm-6 col-md-6 form-group">
-              <label for="service_id">Select Service</label>
+              <label for="service_id">Services</label>
               <select class="form-control" id="service_id" name="service_id">
                   <option value="">Select</option>
                   @if(isset($services))
@@ -105,12 +105,12 @@
           <div class="col-sm-12 col-md-12">
             <div class="col-sm-6 col-md-6 form-group">
               <label for="room_area">Area</label>
-              <input type="number" id="room_area" placeholder="enter area here" name="area" class="form-control" value="@if(isset($room)){{ $room->area }}@endif">
+              <input type="number"  min="0" id="room_area" placeholder="enter area here" name="area" class="form-control" value="@if(isset($room)){{ $room->area }}@endif">
               <div class="errorTxt"></div>          
             </div>
             <div class="col-sm-6 col-md-6 form-group">
               <label for="room_price">Price</label>
-              <input type="number" id="room_price" name="price" placeholder="enter price here" class="form-control" value="@if(isset($room)){{ $room->price }}@endif">
+              <input type="number" min="0" id="room_price" name="price" placeholder="enter price here" class="form-control" value="@if(isset($room)){{ $room->price }}@endif">
               <div class="errorTxt"></div>          
             </div>
           </div>
@@ -123,7 +123,7 @@
             </div>
             <div class="col-sm-6 col-md-6 form-group">
               <label for="sort_index">Sort Index</label>
-              <input type="number" id="sort_index" placeholder="enter sort index here" name="sort_index" class="form-control" value="@if(isset($room)){{ $room->sort_index }}@endif">
+              <input type="number"  min="0" id="sort_index" placeholder="enter sort index here" name="sort_index" class="form-control" value="@if(isset($room)){{ $room->sort_index }}@endif">
               <div class="errorTxt"></div>          
             </div>
           </div>
@@ -207,12 +207,12 @@
         <div class="col-sm-12 col-md-12">
             <div class="col-sm-6 col-md-6 form-group">
                 <label for="conf_day_price">Day Price</label>
-                <input type="number" id="conf_day_price" name="conf_day_price" class="form-control" value="@if(isset($room)){{ $room->conf_day_price }}@endif">
+                <input type="number"  min="0" id="conf_day_price" name="conf_day_price" class="form-control" value="@if(isset($room)){{ $room->conf_day_price }}@endif">
                 <div class="errorTxt"></div>                              
             </div>
             <div class="col-sm-6 col-md-6 form-group">
                 <label for="public_name">Half Day Price</label>
-                <input type="number" id="conf_half_day_price" name="conf_half_day_price" class="form-control" value="@if(isset($room)){{ $room->conf_half_day_price }}@endif">
+                <input type="number"  min="0" id="conf_half_day_price" name="conf_half_day_price" class="form-control" value="@if(isset($room)){{ $room->conf_half_day_price }}@endif">
                 <div class="errorTxt"></div>
             </div>
         </div>
@@ -220,12 +220,12 @@
         <div class="col-sm-12 col-md-12">
             <div class="col-sm-6 col-md-6 form-group">
               <label for="conf_cost">Cost</label>
-              <input type="number" id="conf_cost" name="conf_cost" class="form-control" value="@if(isset($room)){{ $room->conf_cost }}@endif">
+              <input type="number"  min="0" id="conf_cost" name="conf_cost" class="form-control" value="@if(isset($room)){{ $room->conf_cost }}@endif">
               <div class="errorTxt"></div>                             
             </div>
             <div class="col-sm-6 col-md-6 form-group">
               <label for="conf_vat">VAT</label>
-              <input type="number" id="conf_vat" name="conf_vat" class="form-control" value="@if(isset($room)){{ $room->conf_vat }}@endif">
+              <input type="number"  min="0" id="conf_vat" name="conf_vat" class="form-control" value="@if(isset($room)){{ $room->conf_vat }}@endif">
               <div class="errorTxt"></div>
             </div>
         </div>
@@ -233,22 +233,22 @@
         <div class="col-sm-12 col-md-12">
             <div class="col-sm-3 col-md-3 form-group">
                 <label for="conf_sm_price">Small Group Price</label>
-                <input type="number" id="conf_sm_price" name="conf_sm_price" class="form-control" value="@if(isset($room)){{ $room->conf_small_group_price }}@endif"> 
+                <input type="number"  min="0" id="conf_sm_price" name="conf_sm_price" class="form-control" value="@if(isset($room)){{ $room->conf_small_group_price }}@endif"> 
                 <div class="errorTxt"></div> 
             </div>
             <div class="col-sm-3 col-md-3 form-group">
                 <label for="conf_high_price">High</label>
-                <input type="number" id="conf_high_price" name="conf_high_price" class="form-control" value="@if(isset($room)){{ $room->conf_high_price }}@endif">
+                <input type="number"  min="0" id="conf_high_price" name="conf_high_price" class="form-control" value="@if(isset($room)){{ $room->conf_high_price }}@endif">
                 <div class="errorTxt"></div>
             </div>
             <div class="col-sm-3 col-md-3 form-group">
                 <label for="conf_medium_price">Medium</label>
-                <input type="number" id="conf_medium_price" name="conf_medium_price" class="form-control" value="@if(isset($room)){{ $room->conf_medium_price }}@endif">
+                <input type="number"  min="0" id="conf_medium_price" name="conf_medium_price" class="form-control" value="@if(isset($room)){{ $room->conf_medium_price }}@endif">
                 <div class="errorTxt"></div>
             </div>
             <div class="col-sm-3 col-md-3 form-group">
                 <label for="conf_low_price">Low</label>
-                <input type="number" id="conf_low_price" name="conf_low_price" class="form-control" value="@if(isset($room)){{ $room->conf_low_price }}@endif">
+                <input type="number"  min="0" id="conf_low_price" name="conf_low_price" class="form-control" value="@if(isset($room)){{ $room->conf_low_price }}@endif">
                 <div class="errorTxt"></div>
             </div>
         </div>
@@ -341,7 +341,7 @@
 
                       <div class="col-sm-4 col-md-4 form-group">
                         <label for="sitting_number_person">Number of Person</label>
-                        <input type="number" name="sitting_number_person[]" id="sitting_number_person" class="form-control" value="@if(isset($room)){{ $roomSittingArrangment->number_persons }}@endif">
+                        <input type="number"  min="0" name="sitting_number_person[]" id="sitting_number_person" class="form-control" value="@if(isset($room)){{ $roomSittingArrangment->number_persons }}@endif">
                       </div> 
 
                       <div class="col-sm-2 col-md-4 form-group">
@@ -373,7 +373,7 @@
 
                       <div class="col-sm-4 col-md-4 form-group">
                         <label for="sitting_number_person">Number of Person</label>
-                        <input type="number" name="sitting_number_person[]" id="sitting_number_person" class="form-control" >
+                        <input type="number"  min="0" name="sitting_number_person[]" id="sitting_number_person" class="form-control" >
                       </div> 
 
                       <div class="col-sm-2 col-md-4 form-group">
@@ -410,7 +410,7 @@
               <input type="hidden" name="roomEquipmentId[]" value="@if(isset($room)){{ $roomEquipment->id }}@endif">
 
               <div class="row includedItem">
-                  <div class="col-sm-12 col-sm-12 included">
+                  <div class="row col-sm-12 col-sm-12 included">
                       <div class="col-sm-3 col-md-3 form-group">
                         <label for="include_equipment_id">Item</label>
                         <select class="form-control" id="include_equipment_id" name="include_equipment_id[]">
@@ -428,11 +428,11 @@
                       </div>
                       <div class="col-sm-2 col-md-2 form-group">
                         <label for="include_qty">Quantity</label>
-                        <input type="number" name="include_qty[]" value="@if(isset($room)){{ $roomEquipment->qty }}@endif" id="include_qty" class="form-control" >
+                        <input type="number"  min="0" name="include_qty[]" value="@if(isset($room)){{ $roomEquipment->qty }}@endif" id="include_qty" class="form-control" >
                       </div>
                       <div class="col-sm-2 col-md-2 form-group">
                         <label for="include_price">Price</label>
-                        <input type="number" name="include_price[]" value="@if(isset($room)){{ $roomEquipment->price }}@endif" id="include_price" class="form-control" >
+                        <input type="number"  min="0" name="include_price[]" value="@if(isset($room)){{ $roomEquipment->price }}@endif" id="include_price" class="form-control" >
                       </div>
                       <div class="col-sm-4 col-md-4 form-group">
                         <label for="include_info">Information</label>
@@ -448,7 +448,7 @@
               @else
 
               <div class="row includedItem">
-                  <div class="col-sm-12 col-sm-12 included">
+                  <div class="row col-sm-12 col-sm-12 included">
                       <div class="col-sm-3 col-md-3 form-group">
                         <label for="include_equipment_id">Item</label>
                         <select class="form-control" id="include_equipment_id" name="include_equipment_id[]">
@@ -460,11 +460,11 @@
                       </div>
                       <div class="col-sm-2 col-md-2 form-group">
                         <label for="include_qty">Quantity</label>
-                        <input type="number" name="include_qty[]" id="include_qty" class="form-control" >
+                        <input type="number"  min="0" name="include_qty[]" id="include_qty" class="form-control" >
                       </div>
                       <div class="col-sm-2 col-md-2 form-group">
                         <label for="include_price">Price</label>
-                        <input type="number" name="include_price[]" id="include_price" class="form-control" >
+                        <input type="number"  min="0" name="include_price[]" id="include_price" class="form-control" >
                       </div>
                       <div class="col-sm-4 col-md-4 form-group">
                         <label for="include_info">Information</label>
@@ -542,12 +542,12 @@
           <div class="col-sm-12 col-md-12">
             <div class="col-sm-6 col-md-6 form-group">
               <label for="monthly_rent">Montly Rent</label>
-              <input type="number" id="rent_monthly_rent" name="rent_monthly_rent" class="form-control" value="@if(isset($room)){{ $room->rent_monthly_rent }}@endif">
+              <input type="number"  min="0" id="rent_monthly_rent" name="rent_monthly_rent" class="form-control" value="@if(isset($room)){{ $room->rent_monthly_rent }}@endif">
               <div class="errorTxt"></div>          
             </div>
             <div class="col-sm-6 col-md-6 form-group">
               <label for="number_person">Number Person</label>
-              <input type="number" id="rent_number_person" name="rent_number_person" class="form-control" value="@if(isset($room)){{ $room->rent_num_persons }}@endif">
+              <input type="number"  min="0" id="rent_number_person" name="rent_number_person" class="form-control" value="@if(isset($room)){{ $room->rent_num_persons }}@endif">
               <div class="errorTxt"></div>
             </div>
           </div>
@@ -555,12 +555,12 @@
           <div class="col-sm-12 col-md-12">
             <div class="col-sm-6 col-md-6 form-group">
               <label for="vat">VAT</label>
-              <input type="number" id="rent_vat" name="rent_vat" class="form-control" value="@if(isset($room)){{ $room->rent_vat }}@endif">
+              <input type="number"  min="0" id="rent_vat" name="rent_vat" class="form-control" value="@if(isset($room)){{ $room->rent_vat }}@endif">
               <div class="errorTxt"></div> 
             </div>
             <div class="col-sm-6 col-md-6 form-group">
               <label for="new_price">New Price</label>
-              <input type="number" id="rent_new_price" name="rent_new_price" class="form-control" value="@if(isset($room)){{ $room->rent_new_price }}@endif">
+              <input type="number"  min="0" id="rent_new_price" name="rent_new_price" class="form-control" value="@if(isset($room)){{ $room->rent_new_price }}@endif">
               <div class="errorTxt"></div>
             </div>
           </div>
@@ -600,11 +600,11 @@
                         </div>
                         <div class="col-sm-2 col-md-2 form-group">
                           <label for="include_qty">Quantity</label>
-                          <input type="number" name="include_qty_rent[]" class="form-control" value="@if(isset($room)){{ $roomEquipment->qty }}@endif">
+                          <input type="number"  min="0" name="include_qty_rent[]" class="form-control" value="@if(isset($room)){{ $roomEquipment->qty }}@endif">
                         </div>
                         <div class="col-sm-2 col-md-2 form-group">
                           <label for="include_price">Price</label>
-                          <input type="number" name="include_price_rent[]" class="form-control" value="@if(isset($room)){{ $roomEquipment->price }}@endif">
+                          <input type="number"  min="0" name="include_price_rent[]" class="form-control" value="@if(isset($room)){{ $roomEquipment->price }}@endif">
                         </div>
                         <div class="col-sm-4 col-md-4 form-group">
                           <label for="include_info">Notes</label>
@@ -632,11 +632,11 @@
                         </div>
                         <div class="col-sm-2 col-md-2 form-group">
                           <label for="include_qty">Quantity</label>
-                          <input type="number" name="include_qty_rent[]" class="form-control" >
+                          <input type="number"  min="0" name="include_qty_rent[]" class="form-control" >
                         </div>
                         <div class="col-sm-2 col-md-2 form-group">
                           <label for="include_price">Price</label>
-                          <input type="number" name="include_price_rent[]" class="form-control" >
+                          <input type="number"  min="0" name="include_price_rent[]" class="form-control" >
                         </div>
                         <div class="col-sm-4 col-md-4 form-group">
                           <label for="include_info">Notes</label>
@@ -653,7 +653,7 @@
           </div>
 
           <div class="col-sm-12 col-md-12">
-            <div class="col-sm-12 col-md-12 form-group">
+            <div class="col-sm-4 col-md-4 form-group">
               <label for="service_id">Room Type</label>
               <select class="form-control" id="rent_room_type" name="rent_room_type" value="@if(isset($room)){{ $room->rent_room_type }}@endif">
                   <option value="">Select</option>
@@ -663,10 +663,6 @@
               </select>
               <div class="errorTxt"></div>
             </div>
-          </div>
-
-
-          <div class="col-sm-12 col-md-12">
               <span class="col-sm-4 col-md-4 form-group">
                   <label for="rent_start_date">Start Date</label>
                   <input type="text" id="rent_start_date" name="rent_start_date" value="" class="form-control" value="@if(isset($room)){{ $room->rent_start_date }}@endif">
@@ -678,6 +674,10 @@
                   <input type="text" id="rent_end_date" name="rent_end_date" class="form-control">
                   <div class="errorTxt"></div>
               </span>
+          </div>
+
+
+          <div class="col-sm-12 col-md-12">
               <span class="col-sm-4 col-md-4 form-group">
                 <label class="custom-control custom-checkbox m-t-4">
                   <input type="checkbox" name="rent_end_date_continue" id="rent_end_date_continue" class="custom-control-input" value="@if(isset($room)){{ $room->rent_end_date }}@endif">
@@ -685,12 +685,8 @@
                   Continue
                 </label>  
               </span>
-          </div>
-
-          <div class="col-sm-12 col-md-12">
-            
-              <div class="col-sm-6 col-md-6">
-                <label class="custom-control custom-checkbox">
+              <span class="col-sm-4 col-md-4 form-group">
+                <label class="custom-control custom-checkbox m-t-4">
                   @if(isset($room) && $room->rent_calendar_available == 1)
                     <input type="checkbox" name="rent_calender_available" id="rent_calender_available" class="custom-control-input" checked="checked">
                     <span class="custom-control-indicator"></span>
@@ -701,12 +697,9 @@
                     Calender Available
                   @endif
                 </label>                             
-              </div>
-
-
-
-              <div class="col-sm-6 col-md-6">
-                <label class="custom-control custom-checkbox">
+              </span>
+              <span class="col-sm-4 col-md-4 form-group">
+                <label class="custom-control custom-checkbox m-t-4">
                   @if(isset($room) && $room->rent_available_users == 1)
                     <input type="checkbox" name="rent_available_users" id="rent_available_users" class="custom-control-input" checked="checked">
                     <span class="custom-control-indicator"></span>
@@ -717,7 +710,15 @@
                     Available User
                   @endif
                 </label>
-              </div>
+              </span>
+          </div>
+
+          <div class="col-sm-12 col-md-12">
+            
+
+
+
+              
           </div>
 
           <input type="hidden" id="notes" value="@if(isset($roomNote)){{ $roomNote->note }}@endif">
@@ -736,7 +737,7 @@
 </div>
 
 <div class="col-xs-12 col-sm-12 col-md-12 m-t-2">
-    <button type="submit" class="btn btn-primary">@if(isset($room)) <i class="fa fa-refresh"></i>  Update Room @else <i class="fa fa-plus"></i>  Add Room @endif</button>
+    <button type="submit" class="btn btn-primary">@if(isset($room)) <i class="fa fa-refresh"></i>  Update @else <i class="fa fa-plus"></i>  Create @endif</button>
     <a href="{!! route('company.rooms.index') !!}" class="btn btn-default"><i class="fa fa-times"></i>&nbsp;Cancel</a>
 </div>
 
@@ -1165,6 +1166,138 @@
                 }
 
             },
+
+        messages: {
+          'name': {
+            required: "Please enter the name",
+          },
+          'include_equipment_id': {
+            required: "Please enter the include equipment id",
+          },
+          'include_qty': {
+            required: "Please enter the include qty",
+          },
+          'include_price': {
+            required: "Please enter the include price",
+          },
+          'include_info': {
+            required: "Please enter the include info",
+          },
+          'sitting_name': {
+            required: "Please enter the sitting name",
+          },
+          'sitting_number_person': {
+            required: "Please enter the sitting number person",
+          },
+          'floor_id': {
+            required: "Please select floor",
+          },
+          'service_id': {
+            required: "Please select service",
+          },
+          'address': {
+            required: "Please enter the address",
+          },
+          'area': {
+            required: "Please enter the area",
+          },
+          'price': {
+            required: "Please enter the price",
+          },
+          'security_code': {
+            required: "Please enter the security code",
+          },
+          'sort_index': {
+            required: "Please enter the sort index",
+          },
+          'article_number': {
+            required: "Please enter the article number",
+          },
+          'public_name': {
+            required: "Please enter the public name",
+          },
+          'SQNA': {
+            required: "Please enter the SQNA",
+          },
+          'building_id': {
+            required: "Please select building",
+          },
+          'start_date': {
+            required: "Please enter the start date",
+          },
+          'end_date': {
+            required: "Please enter the end date",
+          },
+          'rent_monthly_rent': {
+            required: "Please enter the monthly rent",
+          },
+          'rent_number_person': {
+            required: "Please enter the number person",
+          },
+          'rent_vat': {
+            required: "Please enter the vat",
+          },
+          'rent_new_price': {
+            required: "Please enter the new price",
+          },
+          'rent_start_date': {
+            required: "Please enter the start date",
+          },
+          'rent_end_date': {
+            required: "Please enter the end date",
+          },
+          'rent_room_type': {
+            required: "Please enter the room type",
+          },
+          'conf_day_price': {
+            required: "Please enter the conf day price",
+          },
+          'conf_half_day_price': {
+            required: "Please enter the conf half day price",
+          },
+          'conf_room_type': {
+            required: "Please enter the conf room type",
+          },
+          'conf_cost': {
+            required: "Please enter the conf cost",
+          },
+          'conf_sm_price': {
+            required: "Please enter the conf sm price",
+          },
+          'conf_high_price': {
+            required: "Please enter the conf high price",
+          },
+          'conf_medium_price': {
+            required: "Please enter the conf medium price",
+          },
+          'conf_low_price': {
+            required: "Please enter the conf low price",
+          },
+          'conf_termination_cond': {
+            required: "Please enter the conf termination cond",
+          },
+          'conf_vat': {
+            required: "Please enter the conf vat",
+          },
+          'conf_calender_available': {
+            required: "Please enter the ",
+          },
+          'conf_info_internal': {
+            required: "Please enter the conf calender available",
+          },
+          'conf_info_customer_se': {
+            required: "Please enter the conf info customer se",
+          },
+          'conf_info_customer_en': {
+            required: "Please enter the conf info customer en",
+          },
+          'conf_info_technical_se': {
+            required: "Please enter the conf info technical se",
+          },
+          'conf_info_technical_en': {
+            required: "Please enter the conf info technical en",
+          },
+        },
             errorPlacement: function(error, element) {
                 var placement = $(element).parent().find('.errorTxt');
                 if (placement) {
@@ -1188,7 +1321,7 @@
           sitting += '</div>';
           sitting += '<div class="col-sm-4 col-md-4 form-group">';
           sitting += '<label for="sitting_number_person">Number of Person</label>';
-          sitting += '<input type="number" name="sitting_number_person[]" id="sitting_number_person" class="form-control" >';
+          sitting += '<input type="number"  min="0" name="sitting_number_person[]" id="sitting_number_person" class="form-control" >';
           sitting += '</div>'; 
           sitting += '<div class="col-sm-2 col-md-4 form-group">';
           sitting += '<i class="fa fa-times fa-lg remove-sitting cursor-p m-t-4 pull-right"></i>';
@@ -1227,11 +1360,11 @@
                 included += '</div>';
                 included += '<div class="col-sm-2 col-md-2 form-group">';
                 included += '<label for="">Quantity</label>';
-                included += '<input type="number" name="include_qty_rent[]" class="form-control" >';
+                included += '<input type="number"  min="0" name="include_qty_rent[]" class="form-control" >';
                 included += '</div>';
                 included += '<div class="col-sm-2 col-md-2 form-group">';
                 included += '<label for="">Price</label>';
-                included += '<input type="number" name="include_price_rent[]" class="form-control" >';
+                included += '<input type="number"  min="0" name="include_price_rent[]" class="form-control" >';
                 included += '</div>';
                 included += '<div class="col-sm-4 col-md-4 form-group">';
                 included += '<label for="">Notes</label>';
@@ -1273,11 +1406,11 @@
                 included += '</div>';
                 included += '<div class="col-sm-2 col-md-2 form-group">';
                 included += '<label for="">Quantity</label>';
-                included += '<input type="number" name="include_qty[]" class="form-control" >';
+                included += '<input type="number"  min="0" name="include_qty[]" id="include_qty" class="form-control" >';
                 included += '</div>';
                 included += '<div class="col-sm-2 col-md-2 form-group">';
                 included += '<label for="">Price</label>';
-                included += '<input type="number" name="include_price[]" class="form-control" >';
+                included += '<input type="number"  min="0" name="include_price[]" class="form-control" >';
                 included += '</div>';
                 included += '<div class="col-sm-4 col-md-4 form-group">';
                 included += '<label for="">Information</label>';
@@ -1346,6 +1479,17 @@
         }
 
         $(document).ready(function() {
+          if (editRoom == 0) {
+          $('#room_area').val('0.00');            
+          $('#room_price').val('0.00');            
+          $('#sort_index').val('0.00');            
+          $('#rent_monthly_rent').val('0.00');            
+          $('#rent_number_person').val('0.00');            
+          $('#rent_vat').val('0.00');            
+          $('#include_qty').val('0.00');            
+          $('#include_price').val('0.00');            
+          $('#conf_high_price').val('0.00');
+          }
 
           fileUploader();
 

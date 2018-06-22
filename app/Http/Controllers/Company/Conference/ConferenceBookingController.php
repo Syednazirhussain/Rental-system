@@ -619,7 +619,7 @@ class ConferenceBookingController extends AppBaseController
         $roomLayouts            = $this->roomLayoutRepository->all();
         $equipments             = $this->equipmentRepository->all();
         $foodItems              = $this->foodRepository->all();
-
+        $company_id         =   Auth::guard('company')->user()->companyUser()->first()->company_id;
         $rooms                  = DB::table('rooms')->where('company_id', $company_id)->orderBy('name', 'asc')->get();
 
         $dataBooking = json_encode($conferenceBookings);

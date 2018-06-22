@@ -251,7 +251,7 @@ class SupportController extends AppBaseController
 
 
             $support = $this->supportRepository->create($input);
-            dd($input);
+            // dd($input);
             if($support)
             {
                 $input['header'] = 'Dear '.$user_name;
@@ -448,8 +448,11 @@ class SupportController extends AppBaseController
 
         $support = $this->supportRepository->findWithoutFail($ticketId);
 
+        dd($support);
+
         if (empty($support)) 
         {
+            dd($support);
             // session()->flash('msg.error','Ticket not found');
             return redirect(route('admin.supports.index'));
         }

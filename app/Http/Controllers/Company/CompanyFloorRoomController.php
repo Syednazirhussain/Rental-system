@@ -135,8 +135,7 @@ class CompanyFloorRoomController extends AppBaseController
 
             return redirect(route('company.companyFloorRooms.index'));
         }
-
-        $this->companyFloorRoomRepository->update($request->all(), $id);
+        $this->companyFloorRoomRepository->update($request->all('floor'), $id);
         $request->session()->flash('msg.success', 'Company Floor Room updated successfully.');
 
         return redirect(route('company.companyFloorRooms.index'));
