@@ -29,7 +29,7 @@ use App\Models\Company\CompanyHrOtherInfo;
 use App\Models\Company\CompanyHrPreEmployment;
 use App\Models\Company\CompanyHrNotes;
 use App\Models\Company\CompanyHrDocuments;
-
+use App\Models\User;
 
 class companyHrController extends AppBaseController
 {
@@ -95,14 +95,120 @@ class companyHrController extends AppBaseController
     {
         $input = $request->all();
 
-        $companyHrNotes =  CompanyHrNotes::where('company_hr_id',$input['companyHrId'])->where('code',$input['code'])->orderBy('id', 'DESC')->get();
-
-        if (!empty($companyHrNotes)) 
+        if( isset($input['companyHrId']) && isset($input['code']))
         {
-            return response()->json($companyHrNotes);
-        }
+            $companyHrNotes =  CompanyHrNotes::where('company_hr_id',$input['companyHrId'])->where('code',$input['code'])->orderBy('id', 'DESC')->get();
+            $users = User::all();
 
+            if (!empty($companyHrNotes)) 
+            {
+                $data = [
+                    'users' => $users,
+                    'companyHrNotes' => $companyHrNotes
+                ];
+
+                return response()->json($data);
+            }
+            else
+            {
+                return response()->json(['status' => 0 ,'msg' => 'Not enough HR Notes']);
+            }
+        }
+        else
+        {
+            return response()->json(['status' => 0 ,'msg' => 'There is some problem while getting HR Notes']);
+        }
     }
+
+
+    public function editHrNotes($hrNoteId)
+    {
+        if ($hrNoteId) 
+        {
+            $companyHrNote = CompanyHrNotes::find($hrNoteId);
+            if (!empty($companyHrNote)) 
+            {
+                return response()->json($companyHrNote);
+            }
+            else
+            {
+                return response()->json(['status' => 0,'msg' => 'Hr Note does not exist']);
+            }
+        }
+    }
+
+    public function updateHrNotes($id,Request $request)
+    {
+        $input = $request->all();
+
+        if (isset($input['note'])) 
+        {
+            $companyHrNote = CompanyHrNotes::find($id);
+            $companyHrNote->note = $input['note'];
+            $companyHrNote->save();
+            if($companyHrNote)
+            {
+                return response()->json($companyHrNote);
+            }
+            else
+            {
+                return response()->json(['status' => 0,'msg' => 'Hr Note are not update']);
+            }
+        }
+        else
+        {
+            return response()->json(['status' => 0,'msg' => 'There is some problem while updating HR Note']);
+        }
+    }
+
+    public function createHrNote(Request $request)
+    {
+        $input = $request->all();
+
+        $user_id = Auth::guard('company')->user()->id;
+
+        if( isset($input['note']) && isset($input['code']) && isset($input['companyHrId']) )
+        {
+            $companyHrNote = new CompanyHrNotes;
+            $companyHrNote->company_hr_id = $input['companyHrId'];
+            $companyHrNote->user_id = $user_id;
+            $companyHrNote->code = $input['code'];
+            $companyHrNote->note = $input['note'];
+            $companyHrNote->save();
+            if($companyHrNote)
+            {
+                return response()->json($companyHrNote);   
+            }
+            else
+            {
+                return response()->json(['status' => 0 ,'msg' => 'HR Note are not create']);
+            }
+        }
+        else
+        {
+            return response()->json(['status' => 0,'msg' => 'There is some problem while creating HR Note']);
+        }
+    }
+
+    public function deleteHrNote($id)
+    {
+        if ($id) 
+        {
+            $companyHrNote = CompanyHrNotes::find($id);
+            $companyHrNote->delete();
+
+            if($companyHrNote->deleted_at == null)
+            {
+                return response()->json(['status' => 0,'msg' => 'HR Note are not delete']);
+            }
+        }
+        else
+        {
+            return response()->json(['status' => 0,'msg' => 'There is some problem while deleting HR Note']);   
+        }
+    }
+
+
 
     /**
      * Show the form for creating a new companyHr.
@@ -372,8 +478,6 @@ class companyHrController extends AppBaseController
         $companyHrOtherInfo = CompanyHrOtherInfo::where('company_hr_id',$companyHr->id)->first();
         $companyHrPreEmployment = CompanyHrPreEmployment::where('company_hr_id',$companyHr->id)->get();
         $companyHrNotes = CompanyHrNotes::where('company_hr_id',$companyHr->id)->get();
-
-
 
          $data = [
             'countries'                 => $countries,

@@ -1327,7 +1327,14 @@ Route::delete('company/hrCivilStatuses/{hrCivilStatuses}', ['as'=> 'company.hrCi
 Route::get('company/hrCivilStatuses/{hrCivilStatuses}', ['as'=> 'company.hrCivilStatuses.show', 'uses' => 'Company\hrCivilStatusController@show']);
 Route::get('company/hrCivilStatuses/{hrCivilStatuses}/edit', ['as'=> 'company.hrCivilStatuses.edit', 'uses' => 'Company\hrCivilStatusController@edit']);
 
+// This is Hr Notes Routes
 Route::post('company/companyHrs/getHrNotes', ['as'=> 'company.companyHrs.getHrNotes', 'uses' => 'Company\companyHrController@getHrNotes']);
+Route::get('company/companyHrs/editHrNotes/{hrNoteId}', ['as'=> 'company.editHrNotes', 'uses' => 'Company\companyHrController@editHrNotes']);
+Route::put('company/companyHrs/updateHrNotes/{hrNoteId}', ['as'=> 'company.updateHrNotes', 'uses' => 'Company\companyHrController@updateHrNotes']);
+Route::post('company/companyHrs/HrNotes/createHrNote', ['as'=> 'company.HrNotes.createHrNote', 'uses' => 'Company\companyHrController@createHrNote']);
+Route::delete('company/companyHrs/deleteHrNote/{hrNoteId}', ['as'=> 'company.deleteHrNote', 'uses' => 'Company\companyHrController@deleteHrNote']);
+
+
 
 Route::post('company/companyHrs/imageRemove', ['as'=> 'company.companyHrs.image_remove', 'uses' => 'Company\companyHrController@imageRemove']);
 Route::get('company/companyHrs', ['as'=> 'company.companyHrs.index', 'uses' => 'Company\companyHrController@index']);

@@ -635,7 +635,7 @@
 
                                     <div class="row">
                                        <div class="col-sm-12 col-md-12">
-                                          <textarea name="hr_note" placeholder="write your note here.." style="width: 100%;height: 100px"></textarea>                                          
+                                          <textarea name="hr_note" placeholder="write your note here.." id="hrNoteEditor" style="width: 100%;height: 100px"></textarea>                                          
                                        </div>
                                        <div class="col-sm-12 col-md-12" id="hrNotes-logs">
                                          
@@ -644,8 +644,8 @@
                            
                                  </div>
                                  <div class="modal-footer">
-                                   <button type="button" class="btn" data-dismiss="modal">Close</button>
-                                   <button type="button" class="btn btn-primary">Save changes</button>
+                                   <button type="button" class="btn btn-primary" id="modalBtn"></button>
+                                    <button type="button" class="btn" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Cancel</button>
                                  </div>
                                </div>
                              </div>
@@ -654,10 +654,43 @@
 <!--                            <textarea name="hr_note" id="hr_note"></textarea> -->
 
                         </div>
+
                         <div class="col-sm-12 col-md-12 form-group">
-                           <label for="">Manager Notes</label>
+
+                           <span><a href="javascript:void(0)" data-toggle="modal" id="check-ManagerNotes" data-companyhr="@if(isset($companyHr)){{ $companyHr->id }}@endif" data-target="#modal-ManagerNote"><i class="fa fa-chevron-circle-up"></i>&nbsp;Manager Notes</a></span>
+
+                           <div class="modal fade" id="modal-ManagerNote" tabindex="-1">
+                             <div class="modal-dialog">
+                               <div class="modal-content">
+                                 <div class="modal-header">
+                                   <button type="button" class="close" data-dismiss="modal">×</button>
+                                   <h4 class="modal-title">Manager Notes</h4>
+                                 </div>
+                                 <div class="modal-body">
+
+                                    <div class="row">
+                                       <div class="col-sm-12 col-md-12">
+                                          <textarea name="manager_note" placeholder="write your note here.." id="managerNoteEditor" style="width: 100%;height: 100px"></textarea>                                          
+                                       </div>
+                                       <div class="col-sm-12 col-md-12" id="managerNote-logs">
+                                         
+                                       </div>
+                                    </div>
+                           
+                                 </div>
+                                 <div class="modal-footer">
+                                   <button type="button" class="btn btn-primary" id="modalBtnManger"></button>
+                                    <button type="button" class="btn" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Cancel</button>
+                                 </div>
+                               </div>
+                             </div>
+                           </div>
+
                            <!-- <textarea name="manager_note" id="manager_note"></textarea> -->
+
                         </div>
+
+
                         <div class="col-sm-12 col-md-12 form-group">
                           <label>Salary Development Notes</label>
                           <!-- <textarea name="sal_dev_note" id="sal_dev_note"></textarea> -->
@@ -695,6 +728,11 @@
 
 <script type="text/javascript">
 
+   function isEmpty(val)
+   {
+       return (val === undefined || val == null || val.length <= 0) ? true : false;
+   }
+
    var editCompanyHr = "{{ (isset($companyHr)) ? $companyHr->id : 0 }}";
 
    if (editCompanyHr != 0) 
@@ -709,10 +747,412 @@
       $('#manager_note').val(edit_manager_note);
       $('#sal_dev_note').val(edit_sal_dev_note);
 
+      var companyHrId;
+
+// This is Manager Note Work Start //
+
+      $('#check-ManagerNotes').on('click',function(){
+
+         $('#modalBtnManger').text("Save");
+
+         companyHrId = $(this).attr('data-companyhr');
+
+         var jsObj = {
+            'companyHrId' : companyHrId,
+            'code'        : 'manager_note'
+         };
+
+         var user_id = "{{ auth()->guard('company')->user()->id  }}";
+
+         $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObj,function(response){
+            if(response.hasOwnProperty("status"))
+            {
+               var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+               $('#hrNotes-logs').html(html);
+            }
+            else
+            {
+               var html = '';
+               html += '<table class="table table-striped">';
+               html += '<thead>';
+               html += '<th>User</th>';
+               html += '<th>Notes</th>';
+               html += '<th></th>';
+               html += '</thead>';
+               html += '<tbody>';
+               for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+               {
+
+                  if(user_id == response.companyHrNotes[i].user_id)
+                  {
+                     html += '<tr>';
+                     for(var j = 0 ; j < response.users.length ; j++)
+                     {
+                        if( response.users[j].id == response.companyHrNotes[i].user_id )
+                        {
+                           html += '<td>'+response.users[j].name+'</td>';
+                           break;
+                        }
+                        
+                     }
+                     html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                     html += '<td> <i class="fa fa-edit text-primary fa-lg managerNoteEdit" data-userManagerNotes="'+response.companyHrNotes[i].id+'"></i>&nbsp;&nbsp;<i class="fa fa-trash text-danger fa-lg managerNoteDelete" data-userManagerNotes="'+response.companyHrNotes[i].id+'"></i> </td>';
+                     html += '</tr>';
+                  }
+                  else
+                  {
+                     html += '<tr>';
+                     for(var j = 0 ; j < response.users.length ; j++)
+                     {
+                        if( response.users[j].id == response.companyHrNotes[i].user_id )
+                        {
+                           html += '<td>'+response.users[j].name+'</td>';
+                           break;
+                        }
+                        
+                     }
+                     html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                     html += '</tr>';
+                  }
+               }
+               html += '</tbody>';
+               html += '</table>'; 
+               $('#managerNote-logs').html('');               
+               $('#managerNote-logs').html(html);               
+            }
+         });
+      });
+
+      var managerNote_currentOperation = 0;
+      var managerNoteId;
+
+      $(document).on('click','.managerNoteEdit',function(){
+
+         $('#modalBtnManger').text("Update");
+
+         managerNote_currentOperation = 1;
+
+         managerNoteId = $(this).attr('data-userManagerNotes');
+
+         var url = "{{ route('company.editHrNotes', array("")) }}/"+managerNoteId;
+
+         $.ajax({
+            url  : url,
+            type : "GET",
+            success : function(response){
+               if(response.hasOwnProperty("status"))
+               {
+                  alert(response.msg);
+               }
+               else
+               {
+                  $('#managerNoteEditor').val(response.note);
+               }
+            }
+         });
+      });
+
+      $(document).on('click','#modalBtnManger',function(){
+
+         if(managerNote_currentOperation)
+         {
+            var textEditor = $('#managerNoteEditor').val();
+
+            var jsObj = {
+               'note'   : textEditor
+            };
+
+            var url = "{{ route('company.updateHrNotes', array("")) }}/"+managerNoteId;
+
+            $.ajax({
+               url  : url,
+               type : "PUT",
+               data : jsObj,
+               success : function(response){
+                  if(response.hasOwnProperty("status"))
+                  {
+                     alert(response.msg);
+                  }
+                  else
+                  {
+                     managerNote_currentOperation = 0;
+                     $('#modalBtnManger').text("Save");
+                     $('#managerNoteEditor').val("");
+
+                     var jsObj = {
+                        'companyHrId' : companyHrId,
+                        'code'        : 'manager_note'
+                     };
+
+                     var user_id = "{{ auth()->guard('company')->user()->id  }}";
+
+
+                     $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObj,function(response){
+                        if(response.hasOwnProperty("status"))
+                        {
+                           var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                           $('#managerNote-logs').html(html);
+                        }
+                        else
+                        {
+                           var html = '';
+                           html += '<table class="table table-striped">';
+                           html += '<thead>';
+                           html += '<th>User</th>';
+                           html += '<th>Notes</th>';
+                           html += '<th></th>';
+                           html += '</thead>';
+                           html += '<tbody>';
+                           for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+                           {
+
+                              if(user_id == response.companyHrNotes[i].user_id)
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                 html += '<td> <i class="fa fa-edit text-primary fa-lg managerNoteEdit" data-userManagerNotes="'+response.companyHrNotes[i].id+'"></i>&nbsp;&nbsp;<i class="fa fa-trash text-danger fa-lg managerNoteDelete" data-userManagerNotes="'+response.companyHrNotes[i].id+'"></i> </td>';
+                                 html += '</tr>';
+                              }
+                              else
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                 html += '</tr>';
+                              }
+                           }
+                           html += '</tbody>';
+                           html += '</table>'; 
+                           $('#managerNote-logs').html('');               
+                           $('#managerNote-logs').html(html);               
+                        }
+                     });
+                  }
+               } 
+            });
+         }
+         else
+         {
+            var textEditor =  $('#managerNoteEditor').val();
+
+            if(isEmpty(textEditor))
+            {
+               alert("Please provide some content");
+            }
+            else
+            {
+               var jsObj = {
+                  'companyHrId' : companyHrId,
+                  'note' : textEditor,
+                  'code' : 'manager_note'
+               };
+
+               $.ajax({
+                  url : "{{ route('company.HrNotes.createHrNote') }}",
+                  type : "POST",
+                  data : jsObj,
+                  dataType : "json",
+                  success : function(response){
+                     if(response.hasOwnProperty("status"))
+                     {
+                        alert(response.msg);
+                     }
+                     else
+                     {
+                        $('#modalBtnManger').text("Save");
+                        $('#managerNoteEditor').val("");
+
+                        var jsObj = {
+                           'companyHrId' : companyHrId,
+                           'code'        : 'manager_note'
+                        };
+
+                        var user_id = "{{ auth()->guard('company')->user()->id  }}";
+
+
+                        $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObj,function(response){
+                           if(response.hasOwnProperty("status"))
+                           {
+                              var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                              $('#managerNote-logs').html(html);
+                           }
+                           else
+                           {
+                              var html = '';
+                              html += '<table class="table table-striped">';
+                              html += '<thead>';
+                              html += '<th>User</th>';
+                              html += '<th>Notes</th>';
+                              html += '<th></th>';
+                              html += '</thead>';
+                              html += '<tbody>';
+                              for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+                              {
+
+                                 if(user_id == response.companyHrNotes[i].user_id)
+                                 {
+                                    html += '<tr>';
+                                    for(var j = 0 ; j < response.users.length ; j++)
+                                    {
+                                       if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                       {
+                                          html += '<td>'+response.users[j].name+'</td>';
+                                          break;
+                                       }
+                                       
+                                    }
+                                    html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                    html += '<td> <i class="fa fa-edit text-primary fa-lg managerNoteEdit" data-userManagerNotes="'+response.companyHrNotes[i].id+'"></i>&nbsp;&nbsp;<i class="fa fa-trash text-danger fa-lg managerNoteDelete" data-userManagerNotes="'+response.companyHrNotes[i].id+'"></i> </td>';
+                                    html += '</tr>';
+                                 }
+                                 else
+                                 {
+                                    html += '<tr>';
+                                    for(var j = 0 ; j < response.users.length ; j++)
+                                    {
+                                       if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                       {
+                                          html += '<td>'+response.users[j].name+'</td>';
+                                          break;
+                                       }
+                                       
+                                    }
+                                    html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                    html += '</tr>';
+                                 }
+                              }
+                              html += '</tbody>';
+                              html += '</table>'; 
+                              $('#managerNote-logs').html('');               
+                              $('#managerNote-logs').html(html);               
+                           }
+
+                        });
+                     }
+                  }
+               });
+            }
+         }
+      });
+
+      $(document).on('click','.managerNoteDelete',function(){
+         if( confirm("Are you sure you want to delete this record!") ) 
+         {
+            var managerNoteId = $(this).attr('data-userManagerNotes');
+
+            var url = "{{ route('company.deleteHrNote', array("")) }}/"+managerNoteId;
+
+            $.ajax({
+               url : url,
+               type : "DELETE",
+               success : function(response){
+                  if(response.hasOwnProperty("status"))
+                  {
+                     alert(response.msg);
+                  }
+                  else
+                  {
+                     var jsObj = {
+                        'companyHrId' : companyHrId,
+                        'code'        : 'manager_note'
+                     };
+
+                     var user_id = "{{ auth()->guard('company')->user()->id  }}";
+
+
+                     $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObj,function(response){
+                        if(response.hasOwnProperty("status"))
+                        {
+                           var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                           $('#managerNote-logs').html(html);
+                        }
+                        else
+                        {
+                           var html = '';
+                           html += '<table class="table table-striped">';
+                           html += '<thead>';
+                           html += '<th>User</th>';
+                           html += '<th>Notes</th>';
+                           html += '<th></th>';
+                           html += '</thead>';
+                           html += '<tbody>';
+                           for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+                           {
+
+                              if(user_id == response.companyHrNotes[i].user_id)
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                 html += '<td> <i class="fa fa-edit text-primary fa-lg managerNoteEdit" data-userManagerNotes="'+response.companyHrNotes[i].id+'"></i>&nbsp;&nbsp;<i class="fa fa-trash text-danger fa-lg managerNoteDelete" data-userManagerNotes="'+response.companyHrNotes[i].id+'"></i> </td>';
+                                 html += '</tr>';
+                              }
+                              else
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                 html += '</tr>';
+                              }
+                           }
+                           html += '</tbody>';
+                           html += '</table>'; 
+                           $('#managerNote-logs').html('');               
+                           $('#managerNote-logs').html(html);               
+                        }
+
+                     });
+                  }
+               }
+            });
+         } 
+      });
+
+// This is Manager Note Work End //
+
+//    This is HR Note Work Start //
+
+      var hrNote_currentOperation = 0;
+
 
       $('#check-HrNotes').on('click',function(){
 
-         var companyHrId = $(this).attr('data-companyhr');
+         $('#modalBtn').text("Save");
+
+         companyHrId = $(this).attr('data-companyhr');
 
          var jsObj = {
             'companyHrId' : companyHrId,
@@ -721,56 +1161,388 @@
 
          var user_id = "{{ auth()->guard('company')->user()->id  }}";
 
-
          $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObj,function(response){
-
-            var html = '';
-            html += '<table class="table table-striped">';
-            html += '<thead>';
-            html += '<th>User</th>';
-            html += '<th>Notes</th>';
-            html += '<th></th>';
-            html += '</thead>';
-            html += '<tbody>';
-            for(var i = 0 ; i < response.length ; i++)
+            if(response.hasOwnProperty("status"))
             {
-               if(user_id == response[i].user_id)
-               {
-                  html += '<tr>';
-                  html += '<td>'+response[i].user_id+'</td>';
-                  html += '<td>'+response[i].note+'</td>';
-                  html += '<td> <i class="fa fa-edit text-primary fa-lg hrNoteEdit" data-userHrNote="'+response[i].id+'"></i>&nbsp;&nbsp;<i class="fa fa-trash text-danger fa-lg hrNoteDelete" data-userHrNote="'+response[i].id+'"></i> </td>';
-                  html += '</tr>';
-               }
-               else
-               {
-                  html += '<tr>';
-                  html += '<td>'+response[i].user_id+'</td>';
-                  html += '<td>'+response[i].note+'</td>';
-                  html += '</tr>';
-               }
+               var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+               $('#hrNotes-logs').html(html);
             }
-            html += '</tbody>';
-            html += '</table>'; 
+            else
+            {
+               var html = '';
+               html += '<table class="table table-striped">';
+               html += '<thead>';
+               html += '<th>User</th>';
+               html += '<th>Notes</th>';
+               html += '<th></th>';
+               html += '</thead>';
+               html += '<tbody>';
+               for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+               {
 
-            $('#hrNotes-logs').html(html);
+                  if(user_id == response.companyHrNotes[i].user_id)
+                  {
+                     html += '<tr>';
+                     for(var j = 0 ; j < response.users.length ; j++)
+                     {
+                        if( response.users[j].id == response.companyHrNotes[i].user_id )
+                        {
+                           html += '<td>'+response.users[j].name+'</td>';
+                           break;
+                        }
+                        
+                     }
+                     html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                     html += '<td> <i class="fa fa-edit text-primary fa-lg hrNoteEdit" data-userHrNote="'+response.companyHrNotes[i].id+'"></i>&nbsp;&nbsp;<i class="fa fa-trash text-danger fa-lg hrNoteDelete" data-userHrNote="'+response.companyHrNotes[i].id+'"></i> </td>';
+                     html += '</tr>';
+                  }
+                  else
+                  {
+                     html += '<tr>';
+                     for(var j = 0 ; j < response.users.length ; j++)
+                     {
+                        if( response.users[j].id == response.companyHrNotes[i].user_id )
+                        {
+                           html += '<td>'+response.users[j].name+'</td>';
+                           break;
+                        }
+                        
+                     }
+                     html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                     html += '</tr>';
+                  }
+               }
+               html += '</tbody>';
+               html += '</table>'; 
+               $('#hrNotes-logs').html('');               
+               $('#hrNotes-logs').html(html);               
+            }
 
          });
-
-
       });
+
+      var hrNoteId;
 
       $(document).on('click','.hrNoteEdit',function(){
 
-         console.log("edit notes "+$(this).attr('data-userHrNote')  );
+         $('#modalBtn').text("Update");
 
+         hrNote_currentOperation = 1;
+
+         hrNoteId = $(this).attr('data-userHrNote');
+
+         var url = "{{ route('company.editHrNotes', array("")) }}/"+hrNoteId;
+
+         $.ajax({
+            url  : url,
+            type : "GET",
+            success : function(response){
+               if(response.hasOwnProperty("status"))
+               {
+                  alert(response.msg);
+               }
+               else
+               {
+                  $('#hrNoteEditor').val(response.note);
+               }
+            }
+         });
       });
+
+
+      $(document).on('click','#modalBtn',function(){
+
+         if(hrNote_currentOperation)
+         {
+            var textEditor = $('#hrNoteEditor').val();
+
+            var jsObj = {
+               'note'   : textEditor
+            };
+
+            var url = "{{ route('company.updateHrNotes', array("")) }}/"+hrNoteId;
+
+            $.ajax({
+               url  : url,
+               type : "PUT",
+               data : jsObj,
+               success : function(response){
+                  if(response.hasOwnProperty("status"))
+                  {
+                     alert(response.msg);
+                  }
+                  else
+                  {
+                     hrNote_currentOperation = 0;
+                     $('#modalBtn').text("Save");
+                     $('#hrNoteEditor').val("");
+
+                     var jsObj = {
+                        'companyHrId' : companyHrId,
+                        'code'        : 'hr_note'
+                     };
+
+                     var user_id = "{{ auth()->guard('company')->user()->id  }}";
+
+
+                     $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObj,function(response){
+                        if(response.hasOwnProperty("status"))
+                        {
+                           var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                           $('#hrNotes-logs').html(html);
+                        }
+                        else
+                        {
+                           var html = '';
+                           html += '<table class="table table-striped">';
+                           html += '<thead>';
+                           html += '<th>User</th>';
+                           html += '<th>Notes</th>';
+                           html += '<th></th>';
+                           html += '</thead>';
+                           html += '<tbody>';
+                           for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+                           {
+
+                              if(user_id == response.companyHrNotes[i].user_id)
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                 html += '<td> <i class="fa fa-edit text-primary fa-lg hrNoteEdit" data-userHrNote="'+response.companyHrNotes[i].id+'"></i>&nbsp;&nbsp;<i class="fa fa-trash text-danger fa-lg hrNoteDelete" data-userHrNote="'+response.companyHrNotes[i].id+'"></i> </td>';
+                                 html += '</tr>';
+                              }
+                              else
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                 html += '</tr>';
+                              }
+                           }
+                           html += '</tbody>';
+                           html += '</table>'; 
+                           $('#hrNotes-logs').html('');               
+                           $('#hrNotes-logs').html(html);               
+                        }
+
+                     });
+                  }
+               } 
+            });
+         }
+         else
+         {
+            var textEditor =  $('#hrNoteEditor').val();
+
+            if(isEmpty(textEditor))
+            {
+               alert("Please provide some content");
+            }
+            else
+            {
+               var jsObj = {
+                  'companyHrId' : companyHrId,
+                  'note' : textEditor,
+                  'code' : 'hr_note'
+               };
+
+               $.ajax({
+                  url : "{{ route('company.HrNotes.createHrNote') }}",
+                  type : "POST",
+                  data : jsObj,
+                  dataType : "json",
+                  success : function(response){
+                     if(response.hasOwnProperty("status"))
+                     {
+                        alert(response.msg);
+                     }
+                     else
+                     {
+                        $('#modalBtn').text("Save");
+                        $('#hrNoteEditor').val("");
+
+                        var jsObj = {
+                           'companyHrId' : companyHrId,
+                           'code'        : 'hr_note'
+                        };
+
+                        var user_id = "{{ auth()->guard('company')->user()->id  }}";
+
+
+                        $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObj,function(response){
+                           if(response.hasOwnProperty("status"))
+                           {
+                              var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                              $('#hrNotes-logs').html(html);
+                           }
+                           else
+                           {
+                              var html = '';
+                              html += '<table class="table table-striped">';
+                              html += '<thead>';
+                              html += '<th>User</th>';
+                              html += '<th>Notes</th>';
+                              html += '<th></th>';
+                              html += '</thead>';
+                              html += '<tbody>';
+                              for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+                              {
+
+                                 if(user_id == response.companyHrNotes[i].user_id)
+                                 {
+                                    html += '<tr>';
+                                    for(var j = 0 ; j < response.users.length ; j++)
+                                    {
+                                       if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                       {
+                                          html += '<td>'+response.users[j].name+'</td>';
+                                          break;
+                                       }
+                                       
+                                    }
+                                    html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                    html += '<td> <i class="fa fa-edit text-primary fa-lg hrNoteEdit" data-userHrNote="'+response.companyHrNotes[i].id+'"></i>&nbsp;&nbsp;<i class="fa fa-trash text-danger fa-lg hrNoteDelete" data-userHrNote="'+response.companyHrNotes[i].id+'"></i> </td>';
+                                    html += '</tr>';
+                                 }
+                                 else
+                                 {
+                                    html += '<tr>';
+                                    for(var j = 0 ; j < response.users.length ; j++)
+                                    {
+                                       if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                       {
+                                          html += '<td>'+response.users[j].name+'</td>';
+                                          break;
+                                       }
+                                       
+                                    }
+                                    html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                    html += '</tr>';
+                                 }
+                              }
+                              html += '</tbody>';
+                              html += '</table>'; 
+                              $('#hrNotes-logs').html('');               
+                              $('#hrNotes-logs').html(html);               
+                           }
+
+                        });
+                     }
+                  }
+               });
+            }
+         }
+      });
+
 
       $(document).on('click','.hrNoteDelete',function(){
 
-         console.log("delete notes "+$(this).attr('data-userHrNote')  );
-         
+         if( confirm("Are you sure you want to delete this record!") ) 
+         {
+            var hrNoteId = $(this).attr('data-userHrNote');
+
+            var url = "{{ route('company.deleteHrNote', array("")) }}/"+hrNoteId;
+
+            $.ajax({
+               url : url,
+               type : "DELETE",
+               success : function(response){
+                  if(response.hasOwnProperty("status"))
+                  {
+                     alert(response.msg);
+                  }
+                  else
+                  {
+                     var jsObj = {
+                        'companyHrId' : companyHrId,
+                        'code'        : 'hr_note'
+                     };
+
+                     var user_id = "{{ auth()->guard('company')->user()->id  }}";
+
+
+                     $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObj,function(response){
+                        if(response.hasOwnProperty("status"))
+                        {
+                           var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                           $('#hrNotes-logs').html(html);
+                        }
+                        else
+                        {
+                           var html = '';
+                           html += '<table class="table table-striped">';
+                           html += '<thead>';
+                           html += '<th>User</th>';
+                           html += '<th>Notes</th>';
+                           html += '<th></th>';
+                           html += '</thead>';
+                           html += '<tbody>';
+                           for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+                           {
+
+                              if(user_id == response.companyHrNotes[i].user_id)
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                 html += '<td> <i class="fa fa-edit text-primary fa-lg hrNoteEdit" data-userHrNote="'+response.companyHrNotes[i].id+'"></i>&nbsp;&nbsp;<i class="fa fa-trash text-danger fa-lg hrNoteDelete" data-userHrNote="'+response.companyHrNotes[i].id+'"></i> </td>';
+                                 html += '</tr>';
+                              }
+                              else
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                 html += '</tr>';
+                              }
+                           }
+                           html += '</tbody>';
+                           html += '</table>'; 
+                           $('#hrNotes-logs').html('');               
+                           $('#hrNotes-logs').html(html);               
+                        }
+
+                     });
+                  }
+               }
+            });
+         } 
       });
+
+//    This is HR Note Work End //
 
 
 
