@@ -12,6 +12,7 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use Auth;
 use App\Models\Company\hrCompanyProject;
+use Session;
 
 class hrCompanyProjectController extends AppBaseController
 {
@@ -65,7 +66,8 @@ class hrCompanyProjectController extends AppBaseController
 
         $hrCompanyProject = $this->hrCompanyProjectRepository->create($input);
 
-        Flash::success('Hr Company Project saved successfully.');
+        /*Flash::success('Hr Company Project saved successfully.');*/
+        Session::flash("successMessage", "Hr Company Project saved successfully");
 
         return redirect(route('company.hrCompanyProjects.index'));
     }
@@ -130,7 +132,8 @@ class hrCompanyProjectController extends AppBaseController
 
         $hrCompanyProject = $this->hrCompanyProjectRepository->update($request->all(), $id);
 
-        Flash::success('Hr Company Project updated successfully.');
+        /*Flash::success('Hr Company Project updated successfully.');*/
+        Session::flash("successMessage", "Hr Company Project updated successfully");
 
         return redirect(route('company.hrCompanyProjects.index'));
     }
@@ -154,7 +157,8 @@ class hrCompanyProjectController extends AppBaseController
 
         $this->hrCompanyProjectRepository->delete($id);
 
-        Flash::success('Hr Company Project deleted successfully.');
+        /*Flash::success('Hr Company Project deleted successfully.');*/
+        Session::flash("deleteMessage", "Hr Company Project deleted successfully.');
 
         return redirect(route('company.hrCompanyProjects.index'));
     }

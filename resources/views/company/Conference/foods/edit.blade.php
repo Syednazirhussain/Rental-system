@@ -4,7 +4,7 @@
 
      <div class="px-content">
         <div class="page-header">
-            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Conference / Food &amp; Drinks / </span>Edit "{{$food->title}}"</h1>
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon fa fa-edit"></i>Conference / Food &amp; Drinks / </span>Edit "{{$food->title}}"</h1>
         </div>
         <div class="row">
             <div class="col-md-8 col-md-offset-2">

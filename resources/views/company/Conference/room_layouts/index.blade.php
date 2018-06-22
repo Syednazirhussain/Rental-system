@@ -19,11 +19,20 @@
           <h4 class="m-t-0 m-b-0"><strong><i class="fa fa-check-circle fa-lg"></i>&nbsp;&nbsp;{{Session::get('successMessage')}}</strong></h4>
       </div>
       @elseif(Session::has('deleteMessage'))
-      <div class="alert alert-danger alert-dismissable" style="text-align: center;">
+      <div class="alert alert-success alert-dismissable" style="text-align: center;">
           <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-          <h4 class="m-t-0 m-b-0"><strong><i class="fa fa-times-circle fa-lg"></i>&nbsp;&nbsp;{{Session::get('deleteMessage')}}</strong></h4>
+          <h4 class="m-t-0 m-b-0"><strong><i class="fa fa-trash fa-lg"></i>&nbsp;&nbsp;{{Session::get('deleteMessage')}}</strong></h4>
       </div>
       @endif
+
+     <!--  @if (session()->has('msg.success'))
+                    @include('layouts.success_msg')
+                @endif
+
+                @if (session()->has('msg.error'))
+                    @include('layouts.error_msg')
+                @endif -->
+
 
 
         <div class="text-right m-b-3">

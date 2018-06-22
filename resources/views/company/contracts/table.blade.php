@@ -20,7 +20,7 @@
             <td  width="200px" class="text-center">
                 {!! Form::open(['route' => ['company.contracts.destroy', $contract->id], 'method' => 'delete']) !!}
                 <a href="{{ route('company.generateInvoice', ['contract_id' => $contract->id]) }}" class="btn btn-primary btn-xs">Generate Invoice&nbsp;<i class="fa fa-arrow-right fa-md"></i></a>
-                <a href="{!! route('company.contracts.edit', [$contract->id]) !!}"><i class="fa fa-edit fa-lg text-info"></i></a>
+                <a href="{!! route('company.contracts.edit', [$contract->id]) !!}" class='btn btn-default btn-xs'><i class="fa fa-edit fa-lg text-info"></i></a>
                 {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
                 {!! Form::close() !!}
             </td>

@@ -25,6 +25,10 @@
 
   <script type="text/javascript">
       
+jQuery.validator.addMethod("alphanumeric", function(value, element) {
+    return this.optional(element) || /^[a-z\_]+$/i.test(value);
+}, "Please enter characters and underscore '_' only.");
+
       // Initialize validator
       $('#currencyForm').pxValidate({
         focusInvalid: false,
@@ -36,6 +40,7 @@
           'code': {
             required: true,
             maxlength: 50,
+            alphanumeric: true,
           }
         },
 

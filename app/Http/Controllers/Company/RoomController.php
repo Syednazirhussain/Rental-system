@@ -25,6 +25,7 @@ use App\Models\Company\RoomSettingArrangment;
 use App\Models\Company\RoomEquipments;
 use App\Models\Company\RoomNotes;
 use App\Repositories\Company\ServiceRepository;
+use Session;
 
 class RoomController extends AppBaseController
 {
@@ -533,7 +534,8 @@ class RoomController extends AppBaseController
             }
 
 
-            session()->flash('msg.success','room successfully created');
+            /*session()->flash('msg.success','room successfully created');*/
+            Session::flash("successMessage", "room successfully created");
             return redirect()->route('company.rooms.index');            
         }
     }
@@ -574,15 +576,8 @@ class RoomController extends AppBaseController
         }
 
 
-        if($request->has('end_date_continue'))
-        {
-            $input['end_date_continue'] = 1;
-            $input['end_date'] = null;
-        }
-        else
-        {
-            $input['end_date_continue'] = 0;
-        }
+        
+
 
 
 
@@ -636,8 +631,9 @@ class RoomController extends AppBaseController
 
         $errors = [];
 
-        if($request->has('start_date') && $request->has('end_date'))
+        if($request->has('start_date') && $request->has('end_date') && $input['end_date_continue'] = 0)
         {
+            // dd($input);
             $start_date = strtotime($input['start_date']);
             $end_date = strtotime($input['end_date']);
 
@@ -658,6 +654,9 @@ class RoomController extends AppBaseController
                 $errors[] = 'Rent End date must be greater than rent start date';
             }
         }
+
+
+        // dd($errors);
 
         if($errors)
         {
@@ -697,6 +696,16 @@ class RoomController extends AppBaseController
              
         }
 // dd($input);
+
+        if($request->has('end_date_continue'))
+        {
+            $input['end_date_continue'] = 1;
+            $input['end_date'] = null;
+        }
+        else
+        {
+            $input['end_date_continue'] = 0;
+        }
         $room_id = $room->id;
         $building_id = $room->building_id;
         $user_id = Auth::guard('company')->user()->id;
@@ -725,7 +734,7 @@ class RoomController extends AppBaseController
         $room->start_date =  date('Y-m-d', strtotime(str_replace('-', '/', $input['start_date'])));
         $room->end_date = date('Y-m-d', strtotime(str_replace('-', '/', $input['end_date'])));
         $room->end_date_continue = $input['end_date_continue'];
-
+        // dd($input['end_date_continue']);
         if($input['room_module_type'] == 'conference')
         {
             $room->conf_room_type = $input['conf_room_type'];
@@ -845,8 +854,9 @@ class RoomController extends AppBaseController
         // dd($input);
         }
 
-
-        session()->flash('msg.success','Room updated successfully');
+/*
+        session()->flash('msg.success','Room updated successfully');*/
+            Session::flash("successMessage", "Room updated successfully");
         return redirect()->route('company.rooms.index');
     }
 
@@ -869,7 +879,8 @@ class RoomController extends AppBaseController
 
         $this->roomRepository->delete($id);
 
-        $request->session()->flash('msg.success', 'Company Room deleted successfully.');
+        /*$request->session()->flash('msg.success', 'Company Room deleted successfully.');*/
+        Session::flash("deleteMessage", "Company Room deleted successfully");
 
         return redirect(route('company.rooms.index'));
     }

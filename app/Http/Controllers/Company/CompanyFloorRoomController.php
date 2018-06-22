@@ -14,6 +14,7 @@ use Auth;
 use App\Models\Company;
 use App\Models\CompanyBuilding;
 use App\Models\CompanyFloorRoom;
+use Session;
 
 class CompanyFloorRoomController extends AppBaseController
 {
@@ -65,7 +66,8 @@ class CompanyFloorRoomController extends AppBaseController
 
         $companyFloorRoom = $this->companyFloorRoomRepository->create($input);
 
-        Flash::success('Company Floor Room saved successfully.');
+        /*Flash::success('Company Floor Room saved successfully.');*/
+        Session::flash("successMessage", "Company Floor Room saved successfully");
 
         return redirect(route('company.companyFloorRooms.index'));
     }
@@ -136,7 +138,8 @@ class CompanyFloorRoomController extends AppBaseController
             return redirect(route('company.companyFloorRooms.index'));
         }
         $this->companyFloorRoomRepository->update($request->all('floor'), $id);
-        $request->session()->flash('msg.success', 'Company Floor Room updated successfully.');
+        Session::flash("successMessage", "Company Floor Room updated successfully");
+        /*$request->session()->flash('msg.success', 'Company Floor Room updated successfully.');*/
 
         return redirect(route('company.companyFloorRooms.index'));
     }
@@ -160,7 +163,8 @@ class CompanyFloorRoomController extends AppBaseController
 
         $this->companyFloorRoomRepository->delete($id);
 
-        Flash::success('Company Floor Room deleted successfully.');
+        /*Flash::success('Company Floor Room deleted successfully.');*/
+        Session::flash("deleteMessage", "Company Floor Room deleted successfully");
 
         return redirect(route('company.companyFloorRooms.index'));
     }

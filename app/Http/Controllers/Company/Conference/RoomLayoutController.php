@@ -58,6 +58,9 @@ class RoomLayoutController extends AppBaseController
      */
     public function store(CreateRoomLayoutRequest $request)
     {
+        $request->validate([
+                'image' => 'max:1024',
+            ]);
         $input = $request->all();
 
         if ($request->hasFile('image')) {
