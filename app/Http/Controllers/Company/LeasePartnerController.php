@@ -73,7 +73,9 @@ class LeasePartnerController extends AppBaseController
      */
     public function store(CreateLeasePartnerRequest $request)
     {
+        
         $input = $request->all();
+
 
         if(isset($input['delegated']) &&  $input['delegated'] == 'on')
         {

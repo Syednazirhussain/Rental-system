@@ -21,8 +21,7 @@ class CreateCompanyHrPreEmploymentTable extends Migration {
 			$table->text('courses')->nullable();
 			$table->date('employed_from')->nullable();
 			$table->date('employed_until')->nullable();
-			$table->dateTime('create_at')->nullable();
-			$table->dateTime('updated_at')->nullable();
+			$table->timestamps();
 			$table->softDeletes();
 		});
 	}

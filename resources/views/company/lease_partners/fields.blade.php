@@ -276,12 +276,14 @@
                                 <input type="text" placeholder="ex: Equipments" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->other_reference }}@endif" name="other_reference" class="form-control">
                             </div>
                         </div>
+                        
                         <div class="col-sm-12 col-md-12">
                             <div class="col-sm-12 col-md-12 form-group">
                                 <label>Attach Files</label>
                                 <input type="file" name="files" class="form-control uploadFiles">
                             </div>
                         </div>
+
                         <div class="col-sm-12 col-md-12">
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Building</label>
@@ -990,6 +992,9 @@
       var leaseContractInformationsCreated = 0;
 
       $('#wizard-3').on('submit', function(e) {
+
+        
+
        
             e.preventDefault();
 
@@ -1029,7 +1034,10 @@
 
                     var myform = document.getElementById("wizard-3");
                     var data = new FormData(myform );
+
                     data.append('lease_partner_id', editLease);
+
+
 
                     var editLeaseContractInformation = "{{ isset($leaseContractInformation) ? $leaseContractInformation[0]->id: 0 }}";
 
