@@ -1329,6 +1329,7 @@ Route::get('company/hrCivilStatuses/{hrCivilStatuses}/edit', ['as'=> 'company.hr
 
 Route::post('company/companyHrs/hrOtherInformation', ['as'=> 'company.hrOtherInformation.store', 'uses' => 'Company\companyHrController@hrOtherInformation']);
 
+Route::post('company/companyHrs/imageRemove', ['as'=> 'company.companyHrs.image_remove', 'uses' => 'Company\companyHrController@imageRemove']);
 Route::get('company/companyHrs', ['as'=> 'company.companyHrs.index', 'uses' => 'Company\companyHrController@index']);
 Route::post('company/companyHrs', ['as'=> 'company.companyHrs.store', 'uses' => 'Company\companyHrController@store']);
 Route::get('company/companyHrs/create', ['as'=> 'company.companyHrs.create', 'uses' => 'Company\companyHrController@create']);
@@ -1438,3 +1439,43 @@ Route::patch('company/hRCourses/{hRCourses}', ['as'=> 'company.hRCourses.update'
 Route::delete('company/hRCourses/{hRCourses}', ['as'=> 'company.hRCourses.destroy', 'uses' => 'Company\HRCoursesController@destroy']);
 Route::get('company/hRCourses/{hRCourses}', ['as'=> 'company.hRCourses.show', 'uses' => 'Company\HRCoursesController@show']);
 Route::get('company/hRCourses/{hRCourses}/edit', ['as'=> 'company.hRCourses.edit', 'uses' => 'Company\HRCoursesController@edit']);
+
+
+Route::get('company/companyHrOtherInfos', ['as'=> 'company.companyHrOtherInfos.index', 'uses' => 'Company\CompanyHrOtherInfoController@index']);
+Route::post('company/companyHrOtherInfos', ['as'=> 'company.companyHrOtherInfos.store', 'uses' => 'Company\CompanyHrOtherInfoController@store']);
+Route::get('company/companyHrOtherInfos/create', ['as'=> 'company.companyHrOtherInfos.create', 'uses' => 'Company\CompanyHrOtherInfoController@create']);
+Route::put('company/companyHrOtherInfos/{companyHrOtherInfos}', ['as'=> 'company.companyHrOtherInfos.update', 'uses' => 'Company\CompanyHrOtherInfoController@update']);
+Route::patch('company/companyHrOtherInfos/{companyHrOtherInfos}', ['as'=> 'company.companyHrOtherInfos.update', 'uses' => 'Company\CompanyHrOtherInfoController@update']);
+Route::delete('company/companyHrOtherInfos/{companyHrOtherInfos}', ['as'=> 'company.companyHrOtherInfos.destroy', 'uses' => 'Company\CompanyHrOtherInfoController@destroy']);
+Route::get('company/companyHrOtherInfos/{companyHrOtherInfos}', ['as'=> 'company.companyHrOtherInfos.show', 'uses' => 'Company\CompanyHrOtherInfoController@show']);
+Route::get('company/companyHrOtherInfos/{companyHrOtherInfos}/edit', ['as'=> 'company.companyHrOtherInfos.edit', 'uses' => 'Company\CompanyHrOtherInfoController@edit']);
+
+
+Route::get('company/companyHrPreEmployments', ['as'=> 'company.companyHrPreEmployments.index', 'uses' => 'Company\CompanyHrPreEmploymentController@index']);
+Route::post('company/companyHrPreEmployments', ['as'=> 'company.companyHrPreEmployments.store', 'uses' => 'Company\CompanyHrPreEmploymentController@store']);
+Route::get('company/companyHrPreEmployments/create', ['as'=> 'company.companyHrPreEmployments.create', 'uses' => 'Company\CompanyHrPreEmploymentController@create']);
+Route::put('company/companyHrPreEmployments/{companyHrPreEmployments}', ['as'=> 'company.companyHrPreEmployments.update', 'uses' => 'Company\CompanyHrPreEmploymentController@update']);
+Route::patch('company/companyHrPreEmployments/{companyHrPreEmployments}', ['as'=> 'company.companyHrPreEmployments.update', 'uses' => 'Company\CompanyHrPreEmploymentController@update']);
+Route::delete('company/companyHrPreEmployments/{companyHrPreEmployments}', ['as'=> 'company.companyHrPreEmployments.destroy', 'uses' => 'Company\CompanyHrPreEmploymentController@destroy']);
+Route::get('company/companyHrPreEmployments/{companyHrPreEmployments}', ['as'=> 'company.companyHrPreEmployments.show', 'uses' => 'Company\CompanyHrPreEmploymentController@show']);
+Route::get('company/companyHrPreEmployments/{companyHrPreEmployments}/edit', ['as'=> 'company.companyHrPreEmployments.edit', 'uses' => 'Company\CompanyHrPreEmploymentController@edit']);
+
+
+Route::get('company/companyHrNotes', ['as'=> 'company.companyHrNotes.index', 'uses' => 'Company\CompanyHrNotesController@index']);
+Route::post('company/companyHrNotes', ['as'=> 'company.companyHrNotes.store', 'uses' => 'Company\CompanyHrNotesController@store']);
+Route::get('company/companyHrNotes/create', ['as'=> 'company.companyHrNotes.create', 'uses' => 'Company\CompanyHrNotesController@create']);
+Route::put('company/companyHrNotes/{companyHrNotes}', ['as'=> 'company.companyHrNotes.update', 'uses' => 'Company\CompanyHrNotesController@update']);
+Route::patch('company/companyHrNotes/{companyHrNotes}', ['as'=> 'company.companyHrNotes.update', 'uses' => 'Company\CompanyHrNotesController@update']);
+Route::delete('company/companyHrNotes/{companyHrNotes}', ['as'=> 'company.companyHrNotes.destroy', 'uses' => 'Company\CompanyHrNotesController@destroy']);
+Route::get('company/companyHrNotes/{companyHrNotes}', ['as'=> 'company.companyHrNotes.show', 'uses' => 'Company\CompanyHrNotesController@show']);
+Route::get('company/companyHrNotes/{companyHrNotes}/edit', ['as'=> 'company.companyHrNotes.edit', 'uses' => 'Company\CompanyHrNotesController@edit']);
+
+
+Route::get('company/companyHrDocuments', ['as'=> 'company.companyHrDocuments.index', 'uses' => 'Company\CompanyHrDocumentsController@index']);
+Route::post('company/companyHrDocuments', ['as'=> 'company.companyHrDocuments.store', 'uses' => 'Company\CompanyHrDocumentsController@store']);
+Route::get('company/companyHrDocuments/create', ['as'=> 'company.companyHrDocuments.create', 'uses' => 'Company\CompanyHrDocumentsController@create']);
+Route::put('company/companyHrDocuments/{companyHrDocuments}', ['as'=> 'company.companyHrDocuments.update', 'uses' => 'Company\CompanyHrDocumentsController@update']);
+Route::patch('company/companyHrDocuments/{companyHrDocuments}', ['as'=> 'company.companyHrDocuments.update', 'uses' => 'Company\CompanyHrDocumentsController@update']);
+Route::delete('company/companyHrDocuments/{companyHrDocuments}', ['as'=> 'company.companyHrDocuments.destroy', 'uses' => 'Company\CompanyHrDocumentsController@destroy']);
+Route::get('company/companyHrDocuments/{companyHrDocuments}', ['as'=> 'company.companyHrDocuments.show', 'uses' => 'Company\CompanyHrDocumentsController@show']);
+Route::get('company/companyHrDocuments/{companyHrDocuments}/edit', ['as'=> 'company.companyHrDocuments.edit', 'uses' => 'Company\CompanyHrDocumentsController@edit']);
