@@ -13,12 +13,20 @@
 
 
 <!-- Price Per Attendee Field -->
-
+<!-- 
 <div class="col-sm-12 form-group">
     <label for="">Price Per Attendee</label>
     <input type="number" id="price_per_attendee" placeholder="30.00" value="@if(isset($food)){{$food->price_per_attendee}}@endif" name="price_per_attendee" class="form-control" min="1.00">
     <div class="errorTxt"></div>
-</div>
+</div> -->
+          <div class="col-sm-12 form-group">
+              <label for="">Price Per Attendee</label>
+                <div class="input-group">
+                    <span class="input-group-addon">SEK</span>
+                    <input type="number" id="price_per_attendee" placeholder="30.00" value="@if(isset($food)){{$food->price_per_attendee}}@endif" name="price_per_attendee" class="form-control" min="1.00">
+                   <div class="errorTxt"></div> 
+                </div>
+            </div>
 
 
 

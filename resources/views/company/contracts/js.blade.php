@@ -903,20 +903,22 @@
         $('.person-email').each(function () {
             $(this).rules("add", {
                 required: true,
-                maxlength: 100,
                 email: true,
+                maxlength: 100,
             });
         });
 
         $('.person-phone').each(function () {
             $(this).rules("add", {
                 required: true,
+                number: true,
                 rangelength: [7, 20],
             });
         });
 
         $('.person-fax').each(function () {
             $(this).rules("add", {
+                number:true,
                 rangelength: [7, 20],
             });
         });

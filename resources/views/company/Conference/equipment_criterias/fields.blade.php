@@ -25,8 +25,8 @@
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
-    <button type="submit" class="btn btn-primary">@if(isset($equipmentCriteria)) <i class="fa fa-refresh"></i>  Update  @else <i class="fa fa-plus"></i>  Add  @endif</button>
-    <a href="{!! route('company.conference.equipmentCriterias.index') !!}" class="btn btn-default"><i class="fa fa-times"></i>  Cancel</a>
+    <button type="submit" class="btn btn-primary">@if(isset($equipmentCriteria)) <i class="fa fa-refresh"></i>  UPDATE  @else <i class="fa fa-plus"></i>  CREATE  @endif</button>
+    <a href="{!! route('company.conference.equipmentCriterias.index') !!}" class="btn btn-default"><i class="fa fa-times"></i>  CANCEL</a>
 </div>
 
 

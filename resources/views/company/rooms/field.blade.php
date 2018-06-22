@@ -130,10 +130,18 @@
               <input type="number"  min="0" id="room_area" placeholder="enter area here" name="area" class="form-control" value="@if(isset($room)){{ $room->area }}@endif">
               <div class="errorTxt"></div>          
             </div>
-            <div class="col-sm-6 col-md-6 form-group">
+            <!-- <div class="col-sm-6 col-md-6 form-group">
               <label for="room_price">Price</label>
               <input type="number" min="0" id="room_price" name="price" placeholder="enter price here" class="form-control" value="@if(isset($room)){{ $room->price }}@endif">
               <div class="errorTxt"></div>          
+            </div> -->
+            <div class="col-sm-6 col-md-6 form-group">
+              <label for="room_price">Price</label>
+                <div class="input-group">
+                    <span class="input-group-addon">SEK</span>
+                    <input type="number" min="0" id="room_price"  value="@if(isset($room)){{ $room->price }}@endif" name="price" class="form-control">
+                    <div class="errorTxt"></div> 
+                </div>
             </div>
           </div>
 
@@ -148,6 +156,7 @@
               <input type="number"  min="0" id="sort_index" placeholder="enter sort index here" name="sort_index" class="form-control" value="@if(isset($room)){{ $room->sort_index }}@endif">
               <div class="errorTxt"></div>          
             </div>
+            
           </div>
 
           <div class="col-sm-12 col-md-12">
@@ -234,51 +243,115 @@
       <div class="row">
         
         <div class="col-sm-12 col-md-12">
-            <div class="col-sm-6 col-md-6 form-group">
+            <!-- <div class="col-sm-6 col-md-6 form-group">
                 <label for="conf_day_price">Day Price</label>
                 <input type="number"  min="0" id="conf_day_price" name="conf_day_price" class="form-control" value="@if(isset($room)){{ $room->conf_day_price }}@endif">
                 <div class="errorTxt"></div>                              
+            </div> -->
+            <div class="col-sm-6 col-md-6 form-group">
+                <label for="conf_day_price">Day Price</label>
+                <div class="input-group">
+                    <span class="input-group-addon">SEK</span>
+                    <input type="number"  min="0" id="conf_day_price" name="conf_day_price" class="form-control" value="@if(isset($room)){{ $room->conf_day_price }}@endif">
+                 <div class="errorTxt"></div> 
+                </div>
             </div>
             <div class="col-sm-6 col-md-6 form-group">
                 <label for="public_name">Half Day Price</label>
+                <div class="input-group">
+                    <span class="input-group-addon">SEK</span>
+                    <input type="number"  min="0" id="conf_half_day_price" name="conf_half_day_price" class="form-control" value="@if(isset($room)){{ $room->conf_half_day_price }}@endif">
+                <div class="errorTxt"></div> 
+                </div>
+            </div>
+            <!-- <div class="col-sm-6 col-md-6 form-group">
+                <label for="public_name">Half Day Price</label>
                 <input type="number"  min="0" id="conf_half_day_price" name="conf_half_day_price" class="form-control" value="@if(isset($room)){{ $room->conf_half_day_price }}@endif">
                 <div class="errorTxt"></div>
-            </div>
+            </div> -->
         </div>
 
         <div class="col-sm-12 col-md-12">
-            <div class="col-sm-6 col-md-6 form-group">
+            <!-- <div class="col-sm-6 col-md-6 form-group">
               <label for="conf_cost">Cost</label>
               <input type="number"  min="0" id="conf_cost" name="conf_cost" class="form-control" value="@if(isset($room)){{ $room->conf_cost }}@endif">
               <div class="errorTxt"></div>                             
+            </div> -->
+            <div class="col-sm-6 col-md-6 form-group">
+              <label for="conf_cost">Cost</label>
+                <div class="input-group">
+                    <span class="input-group-addon">SEK</span>
+                    <input type="number"  min="0" id="conf_cost" name="conf_cost" class="form-control" value="@if(isset($room)){{ $room->conf_cost }}@endif">
+                    <div class="errorTxt"></div> 
+                </div>
             </div>
             <div class="col-sm-6 col-md-6 form-group">
               <label for="conf_vat">VAT</label>
+                <div class="input-group">
+                    <span class="input-group-addon">%</span>
+                    <input type="number"  min="0" id="conf_vat" name="conf_vat" class="form-control" value="@if(isset($room)){{ $room->conf_vat }}@endif">
+                    <div class="errorTxt"></div> 
+                </div>
+            </div>
+            <!-- <div class="col-sm-6 col-md-6 form-group">
+              <label for="conf_vat">VAT</label>
               <input type="number"  min="0" id="conf_vat" name="conf_vat" class="form-control" value="@if(isset($room)){{ $room->conf_vat }}@endif">
               <div class="errorTxt"></div>
-            </div>
+            </div> -->
         </div>
 
         <div class="col-sm-12 col-md-12">
-            <div class="col-sm-3 col-md-3 form-group">
+            <!-- <div class="col-sm-3 col-md-3 form-group">
                 <label for="conf_sm_price">Small Group Price</label>
                 <input type="number"  min="0" id="conf_sm_price" name="conf_sm_price" class="form-control" value="@if(isset($room)){{ $room->conf_small_group_price }}@endif"> 
                 <div class="errorTxt"></div> 
+            </div> -->
+            <div class="col-sm-6 col-md-6 form-group">
+                <label for="conf_sm_price">Small Group Price</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">SEK</span>
+                    <input type="number"  min="0" id="conf_sm_price" name="conf_sm_price" class="form-control" value="@if(isset($room)){{ $room->conf_small_group_price }}@endif"> 
+                    <div class="errorTxt"></div> 
+                  </div>
             </div>
-            <div class="col-sm-3 col-md-3 form-group">
+            <!-- <div class="col-sm-3 col-md-3 form-group">
                 <label for="conf_high_price">High</label>
                 <input type="number"  min="0" id="conf_high_price" name="conf_high_price" class="form-control" value="@if(isset($room)){{ $room->conf_high_price }}@endif">
                 <div class="errorTxt"></div>
+            </div> -->
+            <div class="col-sm-6 col-md-6 form-group">
+                <label for="conf_high_price">High</label>
+                <div class="input-group">
+                    <span class="input-group-addon">SEK</span>
+                    <input type="number"  min="0" id="conf_high_price" name="conf_high_price" class="form-control" value="@if(isset($room)){{ $room->conf_high_price }}@endif">
+                    <div class="errorTxt"></div> 
+                </div>
             </div>
-            <div class="col-sm-3 col-md-3 form-group">
+            <!-- <div class="col-sm-3 col-md-3 form-group">
                 <label for="conf_medium_price">Medium</label>
                 <input type="number"  min="0" id="conf_medium_price" name="conf_medium_price" class="form-control" value="@if(isset($room)){{ $room->conf_medium_price }}@endif">
                 <div class="errorTxt"></div>
+            </div> -->
+            <div class="col-sm-6 col-md-6 form-group">
+                <label for="conf_medium_price">Medium</label>
+                <div class="input-group">
+                    <span class="input-group-addon">SEK</span>
+                    <input type="number"  min="0" id="conf_medium_price" name="conf_medium_price" class="form-control" value="@if(isset($room)){{ $room->conf_medium_price }}@endif">
+                    <div class="errorTxt"></div> 
+                </div>
             </div>
-            <div class="col-sm-3 col-md-3 form-group">
+            <!-- <div class="col-sm-3 col-md-3 form-group">
                 <label for="conf_low_price">Low</label>
                 <input type="number"  min="0" id="conf_low_price" name="conf_low_price" class="form-control" value="@if(isset($room)){{ $room->conf_low_price }}@endif">
                 <div class="errorTxt"></div>
+            </div> -->
+            <div class="col-sm-6 col-md-6 form-group">
+                <label for="conf_low_price">Low</label>
+                <div class="input-group">
+                    <span class="input-group-addon">SEK</span>
+                    <input type="number"  min="0" id="conf_low_price" name="conf_low_price" class="form-control" value="@if(isset($room)){{ $room->conf_low_price }}@endif">
+                    <div class="errorTxt"></div> 
+                </div>
             </div>
         </div>
 
@@ -464,6 +537,14 @@
                         <label for="include_price">Price</label>
                         <input type="number"  min="0" name="include_price[]" value="@if(isset($room)){{ $roomEquipment->price }}@endif" id="include_price" class="form-control" >
                       </div>
+                      <!-- <div class="col-sm-2 col-md-2 form-group">
+                        <label for="include_price">Price</label>
+                          <div class="input-group">
+                              <span class="input-group-addon">SEK</span>
+                              <input type="number"  min="0" name="include_price[]" value="@if(isset($room)){{ $roomEquipment->price }}@endif" id="include_price" class="form-control" >
+                              <div class="errorTxt"></div> 
+                          </div>
+                      </div> -->
                       <div class="col-sm-4 col-md-4 form-group">
                         <label for="include_info">Information</label>
                         <input type="text" name="include_info[]" value="@if(isset($room)){{ $roomEquipment->info }}@endif" id="include_info" class="form-control" >
@@ -496,6 +577,14 @@
                         <label for="include_price">Price</label>
                         <input type="number"  min="0" name="include_price[]" id="include_price" class="form-control" >
                       </div>
+                      <!-- <div class="col-sm-2 col-md-2 form-group">
+                        <label for="include_price">Price</label>
+                          <div class="input-group">
+                              <span class="input-group-addon">SEK</span>
+                              <input type="number"  min="0" name="include_price[]" id="include_price" class="form-control" >
+                              <div class="errorTxt"></div> 
+                          </div>
+                      </div> -->
                       <div class="col-sm-4 col-md-4 form-group">
                         <label for="include_info">Information</label>
                         <input type="text" name="include_info[]" id="include_info" class="form-control" >
@@ -570,11 +659,19 @@
         <div class="row">
           
           <div class="col-sm-12 col-md-12">
-            <div class="col-sm-6 col-md-6 form-group">
+            <!-- <div class="col-sm-6 col-md-6 form-group">
               <label for="monthly_rent">Montly Rent</label>
               <input type="number"  min="0" id="rent_monthly_rent" name="rent_monthly_rent" class="form-control" value="@if(isset($room)){{ $room->rent_monthly_rent }}@endif">
               <div class="errorTxt"></div>          
+            </div> -->
+          <div class="col-sm-6 col-md-6 form-group">
+            <label for="monthly_rent">Monthly Rent</label>
+            <div class="input-group">
+              <span class="input-group-addon">SEK</span>
+              <input type="number"  min="0" id="rent_monthly_rent" name="rent_monthly_rent" class="form-control" value="@if(isset($room)){{ $room->rent_monthly_rent }}@endif">
+              <div class="errorTxt"></div> 
             </div>
+          </div>
             <div class="col-sm-6 col-md-6 form-group">
               <label for="number_person">Number Person</label>
               <input type="number"  min="0" id="rent_number_person" name="rent_number_person" class="form-control" value="@if(isset($room)){{ $room->rent_num_persons }}@endif">
@@ -583,16 +680,32 @@
           </div>
 
           <div class="col-sm-12 col-md-12">
-            <div class="col-sm-6 col-md-6 form-group">
+            <!-- <div class="col-sm-6 col-md-6 form-group">
               <label for="vat">VAT</label>
               <input type="number"  min="0" id="rent_vat" name="rent_vat" class="form-control" value="@if(isset($room)){{ $room->rent_vat }}@endif">
               <div class="errorTxt"></div> 
+            </div> -->
+          <div class="col-sm-6 col-md-6 form-group">
+              <label for="vat">VAT</label>
+            <div class="input-group">
+              <span class="input-group-addon">%</span>
+              <input type="number"  min="0" id="rent_vat" name="rent_vat" class="form-control" value="@if(isset($room)){{ $room->rent_vat }}@endif">
+              <div class="errorTxt"></div> 
             </div>
-            <div class="col-sm-6 col-md-6 form-group">
+          </div>
+            <!-- <div class="col-sm-6 col-md-6 form-group">
               <label for="new_price">New Price</label>
               <input type="number"  min="0" id="rent_new_price" name="rent_new_price" class="form-control" value="@if(isset($room)){{ $room->rent_new_price }}@endif">
               <div class="errorTxt"></div>
+            </div> -->
+          <div class="col-sm-6 col-md-6 form-group">
+            <label for="new_price">New Price</label>
+            <div class="input-group">
+              <span class="input-group-addon">SEK</span>
+              <input type="number"  min="0" id="rent_new_price" name="rent_new_price" class="form-control" value="@if(isset($room)){{ $room->rent_new_price }}@endif">
+              <div class="errorTxt"></div> 
             </div>
+          </div>
           </div>
 
           <div class="col-sm-12 col-md-12">
@@ -636,6 +749,14 @@
                           <label for="include_price">Price</label>
                           <input type="number"  min="0" name="include_price_rent[]" class="form-control" value="@if(isset($room)){{ $roomEquipment->price }}@endif">
                         </div>
+                        <!-- <div class="col-sm-2 col-md-2 form-group">
+                          <label for="include_price">Price</label>
+                          <div class="input-group">
+                            <span class="input-group-addon">SEK</span>
+                            <input type="number"  min="0" name="include_price_rent[]" class="form-control" value="@if(isset($room)){{ $roomEquipment->price }}@endif">
+                            <div class="errorTxt"></div> 
+                          </div>
+                        </div> -->
                         <div class="col-sm-4 col-md-4 form-group">
                           <label for="include_info">Notes</label>
                           <input type="text" name="include_info_rent[]" class="form-control" value="@if(isset($room)){{ $roomEquipment->info }}@endif">
@@ -685,10 +806,10 @@
           <div class="col-sm-12 col-md-12">
             <div class="col-sm-4 col-md-4 form-group">
               <label for="service_id">Room Type</label>
-              <select class="form-control" id="rent_room_type" name="rent_room_type" value="@if(isset($room)){{ $room->rent_room_type }}@endif">
+              <select class="form-control" id="rent_room_type" name="rent_room_type">
                    @if(isset($room))
-                        <option value="{{ $room->rent_room_type }}" <?php echo "selected"; ?> >
-                          @else
+                        <option value="{{ $room->rent_room_type }}" <?php echo "selected"; ?> >{{ ucfirst($room->rent_room_type) }}
+                         
                         </option>
                   <option value="">Select</option>
                   <option value="hall">Hall</option>
@@ -1068,7 +1189,7 @@
                 },
                 'area': {
                     required: true,
-                    digits: true,
+                    number: true,
                     maxlength : 11 
                 },
                 'price': {
@@ -1082,7 +1203,7 @@
                 },
                 'sort_index': {
                     required: true,
-                    digits: true
+                    number: true
                 },
                 'article_number': {
                     required: true,
@@ -1119,7 +1240,7 @@
                 
                 'rent_number_person': {
                     required: true,
-                    digits: true
+                    number: true
                 },
                 
                 'rent_vat': {
@@ -1534,11 +1655,20 @@
           $('#room_price').val('0.00');            
           $('#sort_index').val('0.00');            
           $('#rent_monthly_rent').val('0.00');            
-          $('#rent_number_person').val('0.00');            
+          $('#rent_new_price').val('0.00');            
           $('#rent_vat').val('0.00');            
           $('#include_qty').val('0.00');            
           $('#include_price').val('0.00');            
           $('#conf_high_price').val('0.00');
+          $('#include_price_rent').val('0.00');
+          $('#conf_day_price').val('0.00');
+          $('#conf_half_day_price').val('0.00');
+          $('#conf_cost').val('0.00');
+          $('#conf_vat').val('0.00');
+          $('#conf_sm_price').val('0.00');
+          $('#conf_high_price').val('0.00');
+          $('#conf_medium_price').val('0.00');
+          $('#conf_low_price').val('0.00');
           }
 
           fileUploader();

@@ -5,7 +5,7 @@
     <div class="px-content">
 
         <div class="page-header">
-            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i><a href="{{ route('company.hrPersonalCats.index') }}">Company HR</a> / </span>HR Personal Categories</h1>
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i><a href="{{ route('company.hrPersonalCats.index') }}">Company HR</a> / </span>Personal Categories</h1>
         </div>
 
         <div class="panel">

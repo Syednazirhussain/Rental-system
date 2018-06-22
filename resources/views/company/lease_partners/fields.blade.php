@@ -144,7 +144,7 @@
                             </div>
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Contract Number Of Months</label>
-                                <input value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->contract_length }}@endif" type="number" name="contract_length" placeholder="ex: 2" class="form-control">
+                                <input value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->contract_length }}@endif" type="number" name="contract_length" min="0" placeholder="ex: 2" class="form-control">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-12">
@@ -234,15 +234,31 @@
                                 <label>Contract Number</label>
                                 <input type="number" placeholder="ex: 2456" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->contract_number }}@endif" min="0" name="contract_number" class="form-control">
                             </div>
-                            <div class="col-sm-6 col-md-6 form-group">
+                            <!-- <div class="col-sm-6 col-md-6 form-group">
                                 <label>Amount Per Month</label>
                                 <input type="number" min="0" placeholder="ex: 2"  value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->amount_per_month }}@endif" name="amount_per_month" class="form-control">
+                            </div> -->
+                            <div class="col-sm-6 col-md-6 form-group">
+                                <label>Amount Per Month</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">SEK</span>
+                                    <input type="number" min="0" placeholder="ex: 2"  value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->amount_per_month }}@endif" name="amount_per_month" class="form-control">
+                                   <div class="errorTxt"></div> 
+                                </div>
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-12">
-                            <div class="col-sm-6 col-md-6 form-group">
+                           <!--  <div class="col-sm-6 col-md-6 form-group">
                                 <label>Income Per Month</label>
                                 <input type="number" min="0" placeholder="ex: 25000" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->income_per_month }}@endif" name="income_per_month" class="form-control">
+                            </div> -->
+                            <div class="col-sm-6 col-md-6 form-group">
+                                <label>Income Per Month</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">SEK</span>
+                                    <input type="number" min="0" placeholder="ex: 25000" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->income_per_month }}@endif" name="income_per_month" class="form-control">
+                                    <div class="errorTxt"></div> 
+                                </div>
                             </div>
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Currency</label>
@@ -504,6 +520,7 @@
         theme: 'thumbnails',
         enableApi: true,
         addMore: true,
+        limit: null,
         thumbnails: {
             box: '<div class="fileuploader-items">' +
                       '<ul class="fileuploader-items-list">' +
@@ -555,6 +572,7 @@
             });
         },
         extensions: ['jpg','gif','png','jpeg','bmp','pdf','txt','docx','doc','odt','rtf'],
+        
     });
 
 
