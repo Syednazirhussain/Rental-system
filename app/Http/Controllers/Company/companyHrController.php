@@ -338,36 +338,6 @@ class companyHrController extends AppBaseController
                     $companyHrPreEmployment->save();
                 }
 
-                if (isset($input['hr_note'])) 
-                {
-                    $companyHrNotes = new CompanyHrNotes;
-                    $companyHrNotes->company_hr_id = $companyHr_id;
-                    $companyHrNotes->user_id = $user_id;
-                    $companyHrNotes->code = 'hr_note'; 
-                    $companyHrNotes->note = $input['hr_note'];
-                    $companyHrNotes->save();                
-                }
-
-                if (isset($input['manager_note'])) 
-                {
-                    $companyHrNotes = new CompanyHrNotes;
-                    $companyHrNotes->company_hr_id = $companyHr_id;
-                    $companyHrNotes->user_id = $user_id;
-                    $companyHrNotes->code = 'manager_note'; 
-                    $companyHrNotes->note = $input['manager_note'];
-                    $companyHrNotes->save();                
-                }
-
-                if (isset($input['sal_dev_note'])) 
-                {
-                    $companyHrNotes = new CompanyHrNotes;
-                    $companyHrNotes->company_hr_id = $companyHr_id;
-                    $companyHrNotes->user_id = $user_id;
-                    $companyHrNotes->code =  'sal_dev_note';
-                    $companyHrNotes->note = $input['sal_dev_note'];
-                    $companyHrNotes->save();                    
-                }
-
                 if(isset($input['docFiles']))
                 {
                     $files = $input['docFiles'];
@@ -495,7 +465,6 @@ class companyHrController extends AppBaseController
             'HRCourses'                 => $HRCourses,
             'companyHrOtherInfo'        => $companyHrOtherInfo,
             'companyHrPreEmployment'    => $companyHrPreEmployment,
-            'companyHrNotes'            => $companyHrNotes
         ];
 
         $companyHrDocuments =  CompanyHrDocuments::where('company_hr_id',$companyHr->id)->get();
@@ -627,64 +596,6 @@ class companyHrController extends AppBaseController
                 $hr_pre_emp->employed_from = $input['employed_from'][$i];
                 $hr_pre_emp->employed_until = $input['employed_until'][$i];
                 $hr_pre_emp->save();            
-            }
-
-            $companyHrNotes = CompanyHrNotes::where('company_hr_id',$companyHr_id)->get();
-            foreach ($companyHrNotes as $companyHrNote) 
-            {
-                if($companyHrNote->code == 'hr_note')
-                {
-                    if (isset($input['hr_note']) && !is_null($input['hr_note']) ) 
-                    {
-                        $hr_notes = CompanyHrNotes::find($companyHrNote->id);
-                        $hr_notes->company_hr_id = $companyHr_id;
-                        $hr_notes->user_id = $user_id;
-                        $hr_notes->code = 'hr_note'; 
-                        $hr_notes->note = $input['hr_note'];
-                        $hr_notes->save();
-                    }
-                    else
-                    {
-                        $hr_notes = CompanyHrNotes::find($companyHrNote->id);
-                        $hr_notes->delete();
-                    }
-                }
-                elseif ($companyHrNote->code == 'manager_note') 
-                {
-                    if (isset($input['manager_note']) && !is_null($input['manager_note']) ) 
-                    {
-                        $manager_notes = CompanyHrNotes::find($companyHrNote->id);
-                        $manager_notes->company_hr_id = $companyHr_id;
-                        $manager_notes->user_id = $user_id;
-                        $manager_notes->code = 'manager_note'; 
-                        $manager_notes->note = $input['manager_note'];
-                        $manager_notes->save();
-                    }
-                    else
-                    {
-                        $manager_notes = CompanyHrNotes::find($companyHrNote->id);
-                        $manager_notes->delete();
-                    }
-
-                }
-                elseif ($companyHrNote->code == 'sal_dev_note') 
-                {
-                    if(isset($input['sal_dev_note']) && !is_null($input['sal_dev_note']))
-                    {
-                        $salary_development_notes = CompanyHrNotes::find($companyHrNote->id);
-                        $salary_development_notes->company_hr_id = $companyHr_id;
-                        $salary_development_notes->user_id = $user_id;
-                        $salary_development_notes->code = 'sal_dev_note'; 
-                        $salary_development_notes->note = $input['sal_dev_note'];
-                        $salary_development_notes->save();
-                    }
-                    else
-                    {
-                        $salary_development_notes = CompanyHrNotes::find($companyHrNote->id);
-                        $salary_development_notes->delete();
-                    }
-
-                }
             }
 
             if(isset($input['docFiles']))

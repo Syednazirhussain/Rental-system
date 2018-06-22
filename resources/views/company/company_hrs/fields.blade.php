@@ -592,142 +592,101 @@
                     </div>
 
 
+                  <div class="col-sm-12 col-md-12 form-group">
+                     <label for="">Attach Files</label>
+                     <input type="file" name="docFiles" class="form-control uploadFiles">
+                  </div>
+
+
+
+                  @if (isset($companyHr))
+
                      <div class="col-sm-12 col-md-12 form-group">
-                        <label for="">Attach Files</label>
-                        <input type="file" name="docFiles" class="form-control uploadFiles">
+                        <span><a href="javascript:void(0)" data-toggle="modal" id="check-HrNotes" data-companyhr="@if(isset($companyHr)){{ $companyHr->id }}@endif" data-target="#modal-HrNotes"><i class="fa fa-chevron-circle-up"></i>&nbsp;HR Notes</a></span>
+                        <div class="modal fade" id="modal-HrNotes" tabindex="-1">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">×</button>
+                                <h4 class="modal-title">HR Notes</h4>
+                              </div>
+                              <div class="modal-body">
+                                 <div class="row">
+                                    <div class="col-sm-12 col-md-12">
+                                       <textarea name="hr_note" placeholder="write your note here.." id="hrNoteEditor" style="width: 100%;height: 100px"></textarea>                                          
+                                    </div>
+                                    <div class="col-sm-12 col-md-12" id="hrNotes-logs">
+                                      
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" id="modalBtn"></button>
+                                 <button type="button" class="btn" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Cancel</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                      </div>
 
+                     <div class="col-sm-12 col-md-12 form-group">
+                        <span><a href="javascript:void(0)" data-toggle="modal" id="check-ManagerNotes" data-companyhr="@if(isset($companyHr)){{ $companyHr->id }}@endif" data-target="#modal-ManagerNote"><i class="fa fa-chevron-circle-up"></i>&nbsp;Manager Notes</a></span>
+                        <div class="modal fade" id="modal-ManagerNote" tabindex="-1">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">×</button>
+                                <h4 class="modal-title">Manager Notes</h4>
+                              </div>
+                              <div class="modal-body">
 
-                     @if(isset($companyHrNotes))
+                                 <div class="row">
+                                    <div class="col-sm-12 col-md-12">
+                                       <textarea name="manager_note" placeholder="write your note here.." id="managerNoteEditor" style="width: 100%;height: 100px"></textarea>                                          
+                                    </div>
+                                    <div class="col-sm-12 col-md-12" id="managerNote-logs">
+                                      
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" id="modalBtnManger"></button>
+                                 <button type="button" class="btn" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Cancel</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                     </div>
 
-                        @foreach($companyHrNotes as $companyHrNote)
-
-                           @if($companyHrNote->code == 'hr_note')
-                              <input type="hidden" id="edit_hr_note" value="{{ $companyHrNote->note }}">
-                           @endif
-
-                           @if($companyHrNote->code == 'manager_note')
-                              <input type="hidden" id="edit_manager_note" value="{{ $companyHrNote->note }}">
-                           @endif
-
-                           @if($companyHrNote->code == 'sal_dev_note')
-                              <input type="hidden" id="edit_sal_dev_note" value="{{ $companyHrNote->note }}">
-                           @endif
-
-                        @endforeach
+                     <div class="col-sm-12 col-md-12 form-group">
+                        <span><a href="javascript:void(0)" data-toggle="modal" id="check-SalDevNotes" data-companyhr="@if(isset($companyHr)){{ $companyHr->id }}@endif" data-target="#modal-SalDevNote"><i class="fa fa-chevron-circle-up"></i>&nbsp;Salary Development Notes</a></span>
+                        <div class="modal fade" id="modal-SalDevNote" tabindex="-1">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">×</button>
+                                <h4 class="modal-title">Salary Development Notes</h4>
+                              </div>
+                              <div class="modal-body">
+                                 <div class="row">
+                                    <div class="col-sm-12 col-md-12">
+                                       <textarea name="sal_dev_note" placeholder="write your note here.." id="salDevNoteEditor" style="width: 100%;height: 100px"></textarea>                                          
+                                    </div>
+                                    <div class="col-sm-12 col-md-12" id="salDevNote-logs">
+                                      
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" id="modalBtnSalDev"></button>
+                                 <button type="button" class="btn" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Cancel</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                     </div>
 
                      @endif
-
-
-                     
-                        <div class="col-sm-12 col-md-12 form-group">
-                          
-                           <span><a href="javascript:void(0)" data-toggle="modal" id="check-HrNotes" data-companyhr="@if(isset($companyHr)){{ $companyHr->id }}@endif" data-target="#modal-HrNotes"><i class="fa fa-chevron-circle-up"></i>&nbsp;HR Notes</a></span>
-
-                           <div class="modal fade" id="modal-HrNotes" tabindex="-1">
-                             <div class="modal-dialog">
-                               <div class="modal-content">
-                                 <div class="modal-header">
-                                   <button type="button" class="close" data-dismiss="modal">×</button>
-                                   <h4 class="modal-title">HR Notes</h4>
-                                 </div>
-                                 <div class="modal-body">
-
-                                    <div class="row">
-                                       <div class="col-sm-12 col-md-12">
-                                          <textarea name="hr_note" placeholder="write your note here.." id="hrNoteEditor" style="width: 100%;height: 100px"></textarea>                                          
-                                       </div>
-                                       <div class="col-sm-12 col-md-12" id="hrNotes-logs">
-                                         
-                                       </div>
-                                    </div>
-                           
-                                 </div>
-                                 <div class="modal-footer">
-                                   <button type="button" class="btn btn-primary" id="modalBtn"></button>
-                                    <button type="button" class="btn" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Cancel</button>
-                                 </div>
-                               </div>
-                             </div>
-                           </div>
-                           
-<!--                            <textarea name="hr_note" id="hr_note"></textarea> -->
-
-                        </div>
-
-                        <div class="col-sm-12 col-md-12 form-group">
-
-                           <span><a href="javascript:void(0)" data-toggle="modal" id="check-ManagerNotes" data-companyhr="@if(isset($companyHr)){{ $companyHr->id }}@endif" data-target="#modal-ManagerNote"><i class="fa fa-chevron-circle-up"></i>&nbsp;Manager Notes</a></span>
-
-                           <div class="modal fade" id="modal-ManagerNote" tabindex="-1">
-                             <div class="modal-dialog">
-                               <div class="modal-content">
-                                 <div class="modal-header">
-                                   <button type="button" class="close" data-dismiss="modal">×</button>
-                                   <h4 class="modal-title">Manager Notes</h4>
-                                 </div>
-                                 <div class="modal-body">
-
-                                    <div class="row">
-                                       <div class="col-sm-12 col-md-12">
-                                          <textarea name="manager_note" placeholder="write your note here.." id="managerNoteEditor" style="width: 100%;height: 100px"></textarea>                                          
-                                       </div>
-                                       <div class="col-sm-12 col-md-12" id="managerNote-logs">
-                                         
-                                       </div>
-                                    </div>
-                           
-                                 </div>
-                                 <div class="modal-footer">
-                                   <button type="button" class="btn btn-primary" id="modalBtnManger"></button>
-                                    <button type="button" class="btn" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Cancel</button>
-                                 </div>
-                               </div>
-                             </div>
-                           </div>
-
-                           <!-- <textarea name="manager_note" id="manager_note"></textarea> -->
-
-                        </div>
-
-
-                        <div class="col-sm-12 col-md-12 form-group">
-
-                           <span><a href="javascript:void(0)" data-toggle="modal" id="check-SalDevNotes" data-companyhr="@if(isset($companyHr)){{ $companyHr->id }}@endif" data-target="#modal-SalDevNote"><i class="fa fa-chevron-circle-up"></i>&nbsp;Salary Development Notes</a></span>
-
-                           <div class="modal fade" id="modal-SalDevNote" tabindex="-1">
-                             <div class="modal-dialog">
-                               <div class="modal-content">
-                                 <div class="modal-header">
-                                   <button type="button" class="close" data-dismiss="modal">×</button>
-                                   <h4 class="modal-title">Salary Development Notes</h4>
-                                 </div>
-                                 <div class="modal-body">
-
-                                    <div class="row">
-                                       <div class="col-sm-12 col-md-12">
-                                          <textarea name="sal_dev_note" placeholder="write your note here.." id="salDevNoteEditor" style="width: 100%;height: 100px"></textarea>                                          
-                                       </div>
-                                       <div class="col-sm-12 col-md-12" id="salDevNote-logs">
-                                         
-                                       </div>
-                                    </div>
-                           
-                                 </div>
-                                 <div class="modal-footer">
-                                   <button type="button" class="btn btn-primary" id="modalBtnSalDev"></button>
-                                    <button type="button" class="btn" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Cancel</button>
-                                 </div>
-                               </div>
-                             </div>
-                           </div>
-
-
-                          <!-- <textarea name="sal_dev_note" id="sal_dev_note"></textarea> -->
-                        </div>
-
-
-                     
                   </div>
 
                   <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
