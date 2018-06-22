@@ -8,7 +8,7 @@
     'timezone' => 'UTC',
     'locale' => 'en',
     'fallback_locale' => 'en',
-    'key' => 'base64:inE6enmmZuOEq1G+U4HXJTaM9M3wNqzg6p2oXNPurco=',
+    'key' => 'base64:7EifsuYQKd3gAxD8I9tsFBS7cfZBORed7k16qGpTk6g=',
     'cipher' => 'AES-256-CBC',
     'log' => 'single',
     'log_level' => 'debug',
@@ -215,7 +215,7 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'C:\\xampp\\htdocs\\nazir\\storage\\framework/cache/data',
+        'path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -255,17 +255,17 @@
       'sqlite' => 
       array (
         'driver' => 'sqlite',
-        'database' => 'homestead',
+        'database' => 'new_rental',
         'prefix' => '',
       ),
       'mysql' => 
       array (
         'driver' => 'mysql',
-        'host' => 'localhost',
+        'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'homestead',
+        'database' => 'new_rental',
         'username' => 'root',
-        'password' => '',
+        'password' => 'testing123',
         'unix_socket' => '',
         'charset' => 'utf8mb4',
         'collation' => 'utf8mb4_unicode_ci',
@@ -276,11 +276,11 @@
       'pgsql' => 
       array (
         'driver' => 'pgsql',
-        'host' => 'localhost',
+        'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'homestead',
+        'database' => 'new_rental',
         'username' => 'root',
-        'password' => '',
+        'password' => 'testing123',
         'charset' => 'utf8',
         'prefix' => '',
         'schema' => 'public',
@@ -289,11 +289,11 @@
       'sqlsrv' => 
       array (
         'driver' => 'sqlsrv',
-        'host' => 'localhost',
+        'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'homestead',
+        'database' => 'new_rental',
         'username' => 'root',
-        'password' => '',
+        'password' => 'testing123',
         'charset' => 'utf8',
         'prefix' => '',
       ),
@@ -320,12 +320,12 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\xampp\\htdocs\\nazir\\storage\\app',
+        'root' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\storage\\app',
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\xampp\\htdocs\\nazir\\storage\\app/public',
+        'root' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\storage\\app/public',
         'url' => 'http://localhost/storage',
         'visibility' => 'public',
       ),
@@ -343,18 +343,18 @@
   array (
     'config' => 
     array (
-      'model_template_path' => 'C:\\xampp\\htdocs\\nazir\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/model.txt',
-      'scaffold_model_template_path' => 'C:\\xampp\\htdocs\\nazir\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/scaffolding/model.txt',
-      'controller_template_path' => 'C:\\xampp\\htdocs\\nazir\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/controller.txt',
-      'scaffold_controller_template_path' => 'C:\\xampp\\htdocs\\nazir\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/scaffolding/controller.txt',
-      'migration_template_path' => 'C:\\xampp\\htdocs\\nazir\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/migration.txt',
-      'seed_template_path' => 'C:\\xampp\\htdocs\\nazir\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/seed.txt',
-      'view_template_path' => 'C:\\xampp\\htdocs\\nazir\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/view.txt',
-      'model_target_path' => 'C:\\xampp\\htdocs\\nazir\\app',
-      'controller_target_path' => 'C:\\xampp\\htdocs\\nazir\\app\\Http/Controllers',
-      'migration_target_path' => 'C:\\xampp\\htdocs\\nazir\\database/migrations',
-      'seed_target_path' => 'C:\\xampp\\htdocs\\nazir\\database/seeds',
-      'view_target_path' => 'C:\\xampp\\htdocs\\nazir\\resources/views',
+      'model_template_path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/model.txt',
+      'scaffold_model_template_path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/scaffolding/model.txt',
+      'controller_template_path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/controller.txt',
+      'scaffold_controller_template_path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/scaffolding/controller.txt',
+      'migration_template_path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/migration.txt',
+      'seed_template_path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/seed.txt',
+      'view_template_path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/view.txt',
+      'model_target_path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\app',
+      'controller_target_path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\app\\Http/Controllers',
+      'migration_target_path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\database/migrations',
+      'seed_target_path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\database/seeds',
+      'view_target_path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\resources/views',
     ),
   ),
   'infyom' => 
@@ -363,23 +363,23 @@
     array (
       'path' => 
       array (
-        'migration' => 'C:\\xampp\\htdocs\\nazir\\database/migrations/',
-        'model' => 'C:\\xampp\\htdocs\\nazir\\app\\Models/',
-        'datatables' => 'C:\\xampp\\htdocs\\nazir\\app\\DataTables/',
-        'repository' => 'C:\\xampp\\htdocs\\nazir\\app\\Repositories/',
-        'routes' => 'C:\\xampp\\htdocs\\nazir\\routes/web.php',
-        'api_routes' => 'C:\\xampp\\htdocs\\nazir\\routes/api.php',
-        'request' => 'C:\\xampp\\htdocs\\nazir\\app\\Http/Requests/',
-        'api_request' => 'C:\\xampp\\htdocs\\nazir\\app\\Http/Requests/API/',
-        'controller' => 'C:\\xampp\\htdocs\\nazir\\app\\Http/Controllers/',
-        'api_controller' => 'C:\\xampp\\htdocs\\nazir\\app\\Http/Controllers/API/',
-        'test_trait' => 'C:\\xampp\\htdocs\\nazir\\tests/traits/',
-        'repository_test' => 'C:\\xampp\\htdocs\\nazir\\tests/',
-        'api_test' => 'C:\\xampp\\htdocs\\nazir\\tests/',
-        'views' => 'C:\\xampp\\htdocs\\nazir\\resources/views/',
-        'schema_files' => 'C:\\xampp\\htdocs\\nazir\\resources/model_schemas/',
-        'templates_dir' => 'C:\\xampp\\htdocs\\nazir\\resources/infyom/infyom-generator-templates/',
-        'modelJs' => 'C:\\xampp\\htdocs\\nazir\\resources/assets/js/models/',
+        'migration' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\database/migrations/',
+        'model' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\app\\Models/',
+        'datatables' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\app\\DataTables/',
+        'repository' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\app\\Repositories/',
+        'routes' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\routes/web.php',
+        'api_routes' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\routes/api.php',
+        'request' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\app\\Http/Requests/',
+        'api_request' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\app\\Http/Requests/API/',
+        'controller' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\app\\Http/Controllers/',
+        'api_controller' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\app\\Http/Controllers/API/',
+        'test_trait' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\tests/traits/',
+        'repository_test' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\tests/',
+        'api_test' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\tests/',
+        'views' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\resources/views/',
+        'schema_files' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\resources/model_schemas/',
+        'templates_dir' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\resources/infyom/infyom-generator-templates/',
+        'modelJs' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\resources/assets/js/models/',
       ),
       'namespace' => 
       array (
@@ -431,23 +431,23 @@
   'mail' => 
   array (
     'driver' => 'smtp',
-    'host' => 'smtp.sendgrid.net',
-    'port' => '587',
+    'host' => 'smtp.mailtrap.io',
+    'port' => '2525',
     'from' => 
     array (
       'address' => 'admin@highnox.com',
       'name' => 'HighNox',
     ),
     'encryption' => NULL,
-    'username' => 'qaiserpc',
-    'password' => 'Allahisone786',
+    'username' => NULL,
+    'password' => NULL,
     'sendmail' => '/usr/sbin/sendmail -bs',
     'markdown' => 
     array (
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'C:\\xampp\\htdocs\\nazir\\resources\\views/vendor/mail',
+        0 => 'C:\\xampp\\htdocs\\rental-system-backend-new\\resources\\views/vendor/mail',
       ),
     ),
   ),
@@ -574,9 +574,9 @@
     ),
     'generator' => 
     array (
-      'basePath' => 'C:\\xampp\\htdocs\\nazir\\app',
+      'basePath' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\app',
       'rootNamespace' => 'App\\',
-      'stubsOverridePath' => 'C:\\xampp\\htdocs\\nazir\\app',
+      'stubsOverridePath' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\app',
       'paths' => 
       array (
         'models' => 'Entities',
@@ -621,7 +621,7 @@
     'lifetime' => '120',
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'C:\\xampp\\htdocs\\nazir\\storage\\framework/sessions',
+    'files' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -676,9 +676,9 @@
   array (
     'paths' => 
     array (
-      0 => 'C:\\xampp\\htdocs\\nazir\\resources\\views',
+      0 => 'C:\\xampp\\htdocs\\rental-system-backend-new\\resources\\views',
     ),
-    'compiled' => 'C:\\xampp\\htdocs\\nazir\\storage\\framework\\views',
+    'compiled' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\storage\\framework\\views',
   ),
   'dompdf' => 
   array (
@@ -686,10 +686,10 @@
     'orientation' => 'portrait',
     'defines' => 
     array (
-      'font_dir' => 'C:\\xampp\\htdocs\\nazir\\storage\\fonts/',
-      'font_cache' => 'C:\\xampp\\htdocs\\nazir\\storage\\fonts/',
-      'temp_dir' => 'C:\\Users\\PAKCOM~1\\AppData\\Local\\Temp',
-      'chroot' => 'C:\\xampp\\htdocs\\nazir',
+      'font_dir' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\storage\\fonts/',
+      'font_cache' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\storage\\fonts/',
+      'temp_dir' => 'C:\\Users\\STY-3-PC\\AppData\\Local\\Temp',
+      'chroot' => 'C:\\xampp\\htdocs\\rental-system-backend-new',
       'enable_font_subsetting' => false,
       'pdf_backend' => 'CPDF',
       'default_media_type' => 'screen',
@@ -699,7 +699,7 @@
       'enable_php' => false,
       'enable_javascript' => true,
       'enable_remote' => true,
-      'font_height_ratio' => 1.1000000000000001,
+      'font_height_ratio' => 1.1,
       'enable_html5_parser' => false,
     ),
   ),
