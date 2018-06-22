@@ -602,7 +602,7 @@
                   @if (isset($companyHr))
 
                      <div class="col-sm-12 col-md-12 form-group">
-                        <span><a href="javascript:void(0)" data-toggle="modal" id="check-HrNotes" data-companyhr="@if(isset($companyHr)){{ $companyHr->id }}@endif" data-target="#modal-HrNotes"><i class="fa fa-chevron-circle-up"></i>&nbsp;HR Notes</a></span>
+                        <span><button type="button" class="btn btn-primary pull-right" data-toggle="modal" id="check-HrNotes" data-companyhr="@if(isset($companyHr)){{ $companyHr->id }}@endif" data-target="#modal-HrNotes"><i class="fa fa-plus"></i>&nbsp;HR Notes</button></span>
                         <div class="modal fade" id="modal-HrNotes" tabindex="-1">
                           <div class="modal-dialog">
                             <div class="modal-content">
@@ -629,8 +629,24 @@
                         </div>
                      </div>
 
+                     <div class="col-sm-12 col-md-12 "> 
+                        <div class="table-primary">
+                           <table class="table table-striped table-bordered" id="compnay-HRNotes">
+                              <thead>
+                                 <th>Username</th>
+                                 <th>Note</th>
+                                 <th>Created at</th>
+                                 <th>Last updated</th>
+                              </thead>
+                              <tbody id="log-HRNotes">
+                                 
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+
                      <div class="col-sm-12 col-md-12 form-group">
-                        <span><a href="javascript:void(0)" data-toggle="modal" id="check-ManagerNotes" data-companyhr="@if(isset($companyHr)){{ $companyHr->id }}@endif" data-target="#modal-ManagerNote"><i class="fa fa-chevron-circle-up"></i>&nbsp;Manager Notes</a></span>
+                        <span><button type="button" class="btn btn-primary pull-right" data-toggle="modal" id="check-ManagerNotes" data-companyhr="@if(isset($companyHr)){{ $companyHr->id }}@endif" data-target="#modal-ManagerNote"><i class="fa fa-plus"></i>&nbsp;Manager Notes</button></span>
                         <div class="modal fade" id="modal-ManagerNote" tabindex="-1">
                           <div class="modal-dialog">
                             <div class="modal-content">
@@ -658,8 +674,24 @@
                         </div>
                      </div>
 
+                     <div class="col-sm-12 col-md-12 "> 
+                        <div class="table-primary">
+                           <table class="table table-striped table-bordered" id="compnay-ManagerNotes">
+                              <thead>
+                                 <th>Username</th>
+                                 <th>Note</th>
+                                 <th>Created at</th>
+                                 <th>Last updated</th>
+                              </thead>
+                              <tbody id="log-ManagerNotes">
+                                 
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+
                      <div class="col-sm-12 col-md-12 form-group">
-                        <span><a href="javascript:void(0)" data-toggle="modal" id="check-SalDevNotes" data-companyhr="@if(isset($companyHr)){{ $companyHr->id }}@endif" data-target="#modal-SalDevNote"><i class="fa fa-chevron-circle-up"></i>&nbsp;Salary Development Notes</a></span>
+                        <span><button type="button" class="btn btn-primary pull-right" data-toggle="modal" id="check-SalDevNotes" data-companyhr="@if(isset($companyHr)){{ $companyHr->id }}@endif" data-target="#modal-SalDevNote"><i class="fa fa-plus"></i>&nbsp;Salary Development Notes</button></span>
                         <div class="modal fade" id="modal-SalDevNote" tabindex="-1">
                           <div class="modal-dialog">
                             <div class="modal-content">
@@ -686,7 +718,24 @@
                         </div>
                      </div>
 
-                     @endif
+
+                     <div class="col-sm-12 col-md-12 "> 
+                        <div class="table-primary">
+                           <table class="table table-striped table-bordered" id="compnay-SalDevNotes">
+                              <thead>
+                                 <th>Username</th>
+                                 <th>Note</th>
+                                 <th>Created at</th>
+                                 <th>Last updated</th>
+                              </thead>
+                              <tbody id="log-SalDevNotes">
+                                 
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+
+                  @endif
                   </div>
 
                   <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
@@ -717,6 +766,24 @@
 
 <script type="text/javascript">
 
+  $(function () {
+      $('#compnay-HRNotes').dataTable();
+      $('#compnay-HRNotes_wrapper .table-caption').text('HR Notes');
+      $('#compnay-HRNotes_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
+  });
+
+  $(function () {
+      $('#compnay-ManagerNotes').dataTable();
+      $('#compnay-ManagerNotes_wrapper .table-caption').text('Manager Notes');
+      $('#compnay-ManagerNotes_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
+  });
+
+  $(function () {
+      $('#compnay-SalDevNotes').dataTable();
+      $('#compnay-SalDevNotes_wrapper .table-caption').text('Salary Development Notes');
+      $('#compnay-SalDevNotes_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
+  });
+
    function isEmpty(val)
    {
        return (val === undefined || val == null || val.length <= 0) ? true : false;
@@ -738,6 +805,187 @@
 
       var companyHrId;
       var user_id = "{{ auth()->guard('company')->user()->id  }}";
+
+      $(document).ready(function(){
+
+         var jsObjHr = {
+            'companyHrId' : editCompanyHr,
+            'code'        : 'hr_note'
+         };
+
+         $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObjHr,function(response){
+            if(response.hasOwnProperty("status"))
+            {
+               var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+               $('#log-HRNotes').html(html);
+            }
+            else
+            {
+               var html = '';
+               for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+               {
+
+                  if(user_id == response.companyHrNotes[i].user_id)
+                  {
+                     html += '<tr>';
+                     for(var j = 0 ; j < response.users.length ; j++)
+                     {
+                        if( response.users[j].id == response.companyHrNotes[i].user_id )
+                        {
+                           html += '<td>'+response.users[j].name+'</td>';
+                           break;
+                        }
+                        
+                     }
+                     html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                     html += '<td>'+response.companyHrNotes[i].created_at+'</td>';
+                     html += '<td>'+response.companyHrNotes[i].updated_at+'</td>';
+                     html += '</tr>';
+                  }
+                  else
+                  {
+                     html += '<tr>';
+                     for(var j = 0 ; j < response.users.length ; j++)
+                     {
+                        if( response.users[j].id == response.companyHrNotes[i].user_id )
+                        {
+                           html += '<td>'+response.users[j].name+'</td>';
+                           break;
+                        }
+                        
+                     }
+                     html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                     html += '<td>'+response.companyHrNotes[i].created_at+'</td>';
+                     html += '<td>'+response.companyHrNotes[i].updated_at+'</td>';
+                     html += '</tr>';
+                  }
+               }
+               html += '</tbody>';
+               html += '</table>'; 
+               $('#log-HRNotes').html('');               
+               $('#log-HRNotes').html(html);               
+            }
+         });
+
+         var jsObjManager = {
+            'companyHrId' : editCompanyHr,
+            'code'        : 'manager_note'
+         };
+
+         $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObjManager,function(response){
+            if(response.hasOwnProperty("status"))
+            {
+               var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+               $('#log-ManagerNotes').html(html);
+            }
+            else
+            {
+               var html = '';
+               for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+               {
+
+                  if(user_id == response.companyHrNotes[i].user_id)
+                  {
+                     html += '<tr>';
+                     for(var j = 0 ; j < response.users.length ; j++)
+                     {
+                        if( response.users[j].id == response.companyHrNotes[i].user_id )
+                        {
+                           html += '<td>'+response.users[j].name+'</td>';
+                           break;
+                        }
+                        
+                     }
+                     html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                     html += '<td>'+response.companyHrNotes[i].created_at+'</td>';
+                     html += '<td>'+response.companyHrNotes[i].updated_at+'</td>';
+                     html += '</tr>';
+                  }
+                  else
+                  {
+                     html += '<tr>';
+                     for(var j = 0 ; j < response.users.length ; j++)
+                     {
+                        if( response.users[j].id == response.companyHrNotes[i].user_id )
+                        {
+                           html += '<td>'+response.users[j].name+'</td>';
+                           break;
+                        }
+                        
+                     }
+                     html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                     html += '<td>'+response.companyHrNotes[i].created_at+'</td>';
+                     html += '<td>'+response.companyHrNotes[i].updated_at+'</td>';
+                     html += '</tr>';
+                  }
+               }
+               html += '</tbody>';
+               html += '</table>'; 
+               $('#log-ManagerNotes').html('');               
+               $('#log-ManagerNotes').html(html);               
+            }
+         });
+
+         var jsObjSalDev = {
+            'companyHrId' : editCompanyHr,
+            'code'        : 'sal_dev_note'
+         };
+
+         $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObjSalDev,function(response){
+            if(response.hasOwnProperty("status"))
+            {
+               var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+               $('#log-SalDevNotes').html(html);
+            }
+            else
+            {
+               var html = '';
+               for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+               {
+
+                  if(user_id == response.companyHrNotes[i].user_id)
+                  {
+                     html += '<tr>';
+                     for(var j = 0 ; j < response.users.length ; j++)
+                     {
+                        if( response.users[j].id == response.companyHrNotes[i].user_id )
+                        {
+                           html += '<td>'+response.users[j].name+'</td>';
+                           break;
+                        }
+                        
+                     }
+                     html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                     html += '<td>'+response.companyHrNotes[i].created_at+'</td>';
+                     html += '<td>'+response.companyHrNotes[i].updated_at+'</td>';
+                     html += '</tr>';
+                  }
+                  else
+                  {
+                     html += '<tr>';
+                     for(var j = 0 ; j < response.users.length ; j++)
+                     {
+                        if( response.users[j].id == response.companyHrNotes[i].user_id )
+                        {
+                           html += '<td>'+response.users[j].name+'</td>';
+                           break;
+                        }
+                        
+                     }
+                     html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                     html += '<td>'+response.companyHrNotes[i].created_at+'</td>';
+                     html += '<td>'+response.companyHrNotes[i].updated_at+'</td>';
+                     html += '</tr>';
+                  }
+               }
+               html += '</tbody>';
+               html += '</table>'; 
+               $('#log-SalDevNotes').html('');               
+               $('#log-SalDevNotes').html(html);               
+            }
+         });
+
+      });
 
 // This is Salary Development Note Work Start //
 
