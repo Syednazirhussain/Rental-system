@@ -171,9 +171,6 @@ class ConferenceBookingController extends AppBaseController
     {
         $input = $request->all();
 
-        // dd($input);
-
-
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
 
         $updateCustomer = [
