@@ -202,9 +202,12 @@
               @endif
               <span class="col-sm-4 col-md-4 form-group">
                 <label class="custom-control custom-checkbox m-t-4">
-                  <input type="checkbox" name="end_date_continue" id="end_date_continue" class="custom-control-input">
+
+              @if(isset($room))
+                  <input type="checkbox" name="end_date_continue" id="end_date_continue" class="custom-control-input end-date-continue" <?php if($room->end_date_continue == '1') { echo "checked='checked'"; } ?> >
                   <span class="custom-control-indicator"></span>
-                  Continue
+                                Continue
+                  @endif
                 </label>
               </span>
           </div>
@@ -743,11 +746,11 @@
                         </div>
                         <div class="col-sm-2 col-md-2 form-group">
                           <label for="include_qty">Quantity</label>
-                          <input type="number"  min="0" name="include_qty_rent[]" class="form-control" value="@if(isset($room)){{ $roomEquipment->qty }}@endif">
+                          <input type="number"  min="0" name="include_qty_rent[]" id="include_qty_rent" class="form-control" value="@if(isset($room)){{ $roomEquipment->qty }}@endif">
                         </div>
                         <div class="col-sm-2 col-md-2 form-group">
                           <label for="include_price">Price</label>
-                          <input type="number"  min="0" name="include_price_rent[]" class="form-control" value="@if(isset($room)){{ $roomEquipment->price }}@endif">
+                          <input type="number"  min="0" name="include_price_rent[]" id="include_price_rent" class="form-control" value="@if(isset($room)){{ $roomEquipment->price }}@endif">
                         </div>
                         <!-- <div class="col-sm-2 col-md-2 form-group">
                           <label for="include_price">Price</label>
@@ -783,11 +786,11 @@
                         </div>
                         <div class="col-sm-2 col-md-2 form-group">
                           <label for="include_qty">Quantity</label>
-                          <input type="number"  min="0" name="include_qty_rent[]" class="form-control" >
+                          <input type="number"  min="0" name="include_qty_rent[]"  id="include_qty_rent" class="form-control" >
                         </div>
                         <div class="col-sm-2 col-md-2 form-group">
                           <label for="include_price">Price</label>
-                          <input type="number"  min="0" name="include_price_rent[]" class="form-control" >
+                          <input type="number"  min="0" name="include_price_rent[]" id="include_price_rent" class="form-control" >
                         </div>
                         <div class="col-sm-4 col-md-4 form-group">
                           <label for="include_info">Notes</label>
@@ -811,6 +814,10 @@
                         <option value="{{ $room->rent_room_type }}" <?php echo "selected"; ?> >{{ ucfirst($room->rent_room_type) }}
                          
                         </option>
+                  <option value="hall">Hall</option>
+                  <option value="study">Study</option>
+                  <option value="meeting">Meeting</option>
+                    @else
                   <option value="">Select</option>
                   <option value="hall">Hall</option>
                   <option value="study">Study</option>
@@ -845,9 +852,11 @@
           <div class="col-sm-12 col-md-12">
               <span class="col-sm-4 col-md-4 form-group">
                 <label class="custom-control custom-checkbox m-t-4">
-                  <input type="checkbox" name="rent_end_date_continue" id="rent_end_date_continue" class="custom-control-input" value="@if(isset($room)){{ $room->rent_end_date }}@endif">
+                  @if(isset($room))
+                  <input type="checkbox" name="rent_end_date_continue" id="rent_end_date_continue" class="custom-control-input" <?php if($room->rent_end_date_continue == '1') { echo "checked='checked'"; } ?> >
                   <span class="custom-control-indicator"></span>
-                  Continue
+                                Continue
+                  @endif
                 </label>  
               </span>
               <span class="col-sm-4 col-md-4 form-group">
@@ -1651,6 +1660,9 @@
 
         $(document).ready(function() {
           if (editRoom == 0) {
+
+
+
           $('#room_area').val('0.00');            
           $('#room_price').val('0.00');            
           $('#sort_index').val('0.00');            
@@ -1669,7 +1681,13 @@
           $('#conf_high_price').val('0.00');
           $('#conf_medium_price').val('0.00');
           $('#conf_low_price').val('0.00');
+          $('#include_qty_rent').val('1');
+          $('#rent_number_person').val('1');
           }
+
+          
+
+         
 
           fileUploader();
 
@@ -1710,27 +1728,58 @@
           
 
 
+      
             var flag = 0;
+/*
+              $('#end_date').attr('disabled', 'disabled');*/
+            if ($('#end_date_continue').is(':checked')) { 
+              $( "#end_date_edit" ).prop( "disabled", true );
 
+
+                $('#end_date_edit').daterangepicker({
+                  singleDatePicker: true,
+                  showDropdowns: true,
+                  startDate : moment().add('years',1),
+                  locale: {
+                      format: 'Y-MM-DD'
+                  }
+                });
+            }
+            
             $('#end_date_continue').change(function() {
+              // alert('ok');
                 if ($(this).is(":checked")) 
                 {
-                    $( "#end_date" ).prop( "disabled", true );
+                    $( "#end_date_edit" ).prop( "disabled", true );
                 }
                 else
                 {
-                    $( "#end_date" ).prop( "disabled", false );
+                    $( "#end_date_edit" ).prop( "disabled", false );
                 } 
             });
+
+            if ($('#rent_end_date_continue').is(':checked')) { 
+              $( "#rent_end_date_edit" ).prop( "disabled", true );
+              
+
+                $('#rent_end_date_edit').daterangepicker({
+                  singleDatePicker: true,
+                  showDropdowns: true,
+                  startDate : moment().add('years',1),
+                  locale: {
+                      format: 'Y-MM-DD'
+                  }
+                });
+            }
 
             $('#rent_end_date_continue').change(function() {
                 if ($(this).is(":checked")) 
                 {
-                    $( "#rent_end_date" ).prop( "disabled", true );
+                    $( "#rent_end_date_edit" ).prop( "disabled", true );
                 }
                 else
                 {
-                    $( "#rent_end_date" ).prop( "disabled", false );
+                    $( "#rent_end_date_edit" ).prop( "disabled", false );
                 } 
             });
 

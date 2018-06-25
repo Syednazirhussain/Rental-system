@@ -12,6 +12,7 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use Auth;
 use App\Models\Company\hrCompanyDesignation;
+use Session;
 
 class hrCompanyDesignationController extends AppBaseController
 {
@@ -65,7 +66,8 @@ class hrCompanyDesignationController extends AppBaseController
 
         $hrCompanyDesignation = $this->hrCompanyDesignationRepository->create($input);
 
-        Flash::success('Hr Company Designation saved successfully.');
+       /* Flash::success('Hr Company Designation saved successfully.');*/
+        Session::flash("successMessage", "Hr Company Designation saved successfully");
 
         return redirect(route('company.hrCompanyDesignations.index'));
     }
@@ -130,7 +132,8 @@ class hrCompanyDesignationController extends AppBaseController
 
         $hrCompanyDesignation = $this->hrCompanyDesignationRepository->update($request->all(), $id);
 
-        Flash::success('Hr Company Designation updated successfully.');
+        /*s*/
+        Session::flash("successMessage", "Hr Civil Status updated successfully");
 
         return redirect(route('company.hrCompanyDesignations.index'));
     }
@@ -154,7 +157,8 @@ class hrCompanyDesignationController extends AppBaseController
 
         $this->hrCompanyDesignationRepository->delete($id);
 
-        Flash::success('Hr Company Designation deleted successfully.');
+        /*Flash::success('Hr Company Designation deleted successfully.');*/
+        Session::flash("deleteMessage", "Hr Civil Status deleted successfully");
 
         return redirect(route('company.hrCompanyDesignations.index'));
     }

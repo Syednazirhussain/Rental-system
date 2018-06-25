@@ -17,6 +17,7 @@ use Auth;
 
 use App\Models\Company;
 use App\Models\User;
+use Session;
 
 class BookingAgencyController extends AppBaseController
 {
@@ -115,7 +116,8 @@ class BookingAgencyController extends AppBaseController
 
             $bookingAgency = $this->bookingAgencyRepository->create($input);
 
-            Flash::success('Booking Agency saved successfully.');
+            /*Flash::success('Booking Agency saved successfully.');*/
+            Session::flash("successMessage", "Booking Agency saved successfully");
 
             return redirect(route('company.bookingAgencies.index'));
     }
@@ -231,7 +233,8 @@ class BookingAgencyController extends AppBaseController
 
             $bookingAgency = $this->bookingAgencyRepository->update($input, $id);
 
-            Flash::success('Booking Agency updated successfully.');
+            /*Flash::success('Booking Agency updated successfully.');*/
+            Session::flash("successMessage", "Booking Agency updated successfully");
 
             return redirect(route('company.bookingAgencies.index'));
     }
@@ -255,7 +258,8 @@ class BookingAgencyController extends AppBaseController
 
         $this->bookingAgencyRepository->delete($id);
 
-        Flash::success('Booking Agency deleted successfully.');
+        /*Flash::success('Booking Agency deleted successfully.');*/
+        Session::flash("deleteMessage", "Booking Agency deleted successfully");
 
         return redirect(route('company.bookingAgencies.index'));
     }
