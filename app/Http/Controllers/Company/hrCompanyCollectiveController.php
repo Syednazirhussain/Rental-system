@@ -12,6 +12,7 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use Auth;
 use App\Models\Company\hrCompanyCollective;
+use Session;
 
 class hrCompanyCollectiveController extends AppBaseController
 {
@@ -65,7 +66,8 @@ class hrCompanyCollectiveController extends AppBaseController
 
         $hrCompanyCollective = $this->hrCompanyCollectiveRepository->create($input);
 
-        Flash::success('Hr Company Collective saved successfully.');
+        /*Flash::success('Hr Company Collective saved successfully.');*/
+        Session::flash("successMessage", "Hr Company Collective saved successfully");
 
         return redirect(route('company.hrCompanyCollectives.index'));
     }
@@ -130,7 +132,8 @@ class hrCompanyCollectiveController extends AppBaseController
 
         $hrCompanyCollective = $this->hrCompanyCollectiveRepository->update($request->all(), $id);
 
-        Flash::success('Hr Company Collective updated successfully.');
+        /*Flash::success('Hr Company Collective updated successfully.');*/
+        Session::flash("successMessage", "Hr Company Collective updated successfully");
 
         return redirect(route('company.hrCompanyCollectives.index'));
     }
@@ -154,7 +157,8 @@ class hrCompanyCollectiveController extends AppBaseController
 
         $this->hrCompanyCollectiveRepository->delete($id);
 
-        Flash::success('Hr Company Collective deleted successfully.');
+        /*Flash::success('Hr Company Collective deleted successfully.');*/
+        Session::flash("deleteMessage", "Hr Company Collective deleted successfully");
 
         return redirect(route('company.hrCompanyCollectives.index'));
     }

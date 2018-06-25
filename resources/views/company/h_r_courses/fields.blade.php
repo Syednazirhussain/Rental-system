@@ -11,7 +11,7 @@
 </div>
 
 <div class="col-sm-12">
-	<button type="submit" class="btn btn-primary">@if(isset($hRCourses)) <i class="fa fa-refresh"></i> UPDATE @else <i class="fa fa-plus"></i> ADD  @endif</button>
+	<button type="submit" class="btn btn-primary">@if(isset($hRCourses)) <i class="fa fa-refresh"></i> UPDATE @else <i class="fa fa-plus"></i> CREATE  @endif</button>
     <a href="{!! route('company.hRCourses.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
 </div>
 

@@ -54,7 +54,7 @@
                                                                 
                                 <div class="row">
                                     <div class="col-sm-12 m-t-3">
-                                            <button type="submit" class="btn btn-primary">@if(isset($conferenceBooking))  <i class="fa fa-refresh"></i>  Update Booking  @else <i class="fa fa-plus"></i>  Add Booking @endif</button>
+                                            <button type="submit" class="btn btn-primary">@if(isset($conferenceBooking))  <i class="fa fa-refresh"></i>  Update   @else <i class="fa fa-plus"></i>  Add Booking @endif</button>
                                             <a href="{!! route('company.conference.conferenceBookings.index') !!}" class="btn btn-default"> <i class="fa fa-times"></i> Cancel</a>
                                     </div>
                                 </div>
@@ -156,9 +156,7 @@
                           'invoice_send': {
                             required: true,
                           },
-                          'reference': {
-                            required: true,
-                          },
+                          
                           'contact_person': {
                             required: true,
                           },
@@ -391,7 +389,7 @@
                   $('.start-time').append(startTime);
 
                   $('#start_datetime').timepicker({
-                      maxHours: 24
+                      maxHours: 24,
                   });
 
 
@@ -476,6 +474,103 @@
                 calculateRoomPrice(roomHourlyPrice, time);
 
           });
+
+
+
+
+
+
+          // ==============================================
+
+
+
+
+
+          $(document).ready(function() {
+
+              roomDayPrice = $("#room_id").find(':selected').attr('data-day-price');
+              durationCode = $("#duration_code").find(':selected').attr('data-duration-code');
+
+              if (durationCode == "hour") {
+
+                generateTimeFields();
+
+              } else if (durationCode == "multiple_days") {
+
+                  $('#start_datetime').remove();
+
+                  var startTime = '<input type="text" id="start_datetime" placeholder="" value="" name="start_datetime" class="form-control">';
+
+                  $('.start-time').append(startTime);
+
+                  $('#start_datetime').daterangepicker({
+                    singleDatePicker: true,
+                    showDropdowns: true,
+                    timePicker: true,
+                    locale: {
+                        format: 'MM/DD/YYYY h:mm A'
+                    },
+
+                     minDate: new Date(),
+                     // maxDate:'04/23/2018',
+                      // disabledDates: [new Date()],
+                    },
+                  function(start, end, label) {
+
+                  });
+
+
+                  $('#end_datetime').remove();
+
+                  var endTime = '<input type="text" id="end_datetime" placeholder="" value="" name="end_datetime" class="form-control">';
+
+                  $('.end-time').append(endTime);
+
+                  Date.prototype.addDays = function(days) {
+                    var dat = new Date(this.valueOf());
+                    dat.setDate(dat.getDate() + days);
+                    return dat;
+                  }
+
+                  var dat = new Date();
+
+                  $('#end_datetime').daterangepicker({
+                    singleDatePicker: true,
+                    showDropdowns: true,
+                    timePicker: true,
+                    locale: {
+                        format: 'MM/DD/YYYY h:mm A'
+                    },
+
+                    startDate: dat.addDays(1),
+                    minDate: dat.addDays(1),
+                     // maxDate:'04/23/2018',
+                      // disabledDates: [new Date()],
+                    },
+                  
+                  function(start, end, label) {
+
+                  });
+
+                roomPrice = (roomDayPrice*3);
+
+              } else if (durationCode == "halfday_morning") {
+
+                  generateTimeFields();
+
+              } else if (durationCode == "halfday_afternoon") {
+
+                  generateTimeFields();
+
+              }
+
+          });
+
+
+
+
+
+          // ==============================================
 
 
 

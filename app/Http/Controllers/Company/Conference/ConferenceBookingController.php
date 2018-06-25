@@ -167,6 +167,7 @@ class ConferenceBookingController extends AppBaseController
     {
         $input = $request->all();
 
+
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
 
         $updateCustomer = [
@@ -195,10 +196,11 @@ class ConferenceBookingController extends AppBaseController
         $booking_date   = date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $input['booking_date'])));
         $start_datetime = date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $input['start_datetime'])));
         $end_datetime   = date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $input['end_datetime'])));
-
+     
         $input['booking_date']      = $booking_date;
         $input['start_datetime']    = $start_datetime;
         $input['end_datetime']      = $end_datetime;
+
 
         if (empty($input['packages'])) {
             $input['package_price'] = 0.00;
@@ -344,7 +346,6 @@ class ConferenceBookingController extends AppBaseController
         $equipments             = $this->equipmentRepository->all();
         $foodItems              = $this->foodRepository->all();
         $packages               = $this->packagesRepository->all();
-        $rooms                  = DB::table('rooms')->where('company_id', $id)->orderBy('name', 'asc')->get();
 
         $generalSetting         = $this->generalSettingRepository->getBookingTaxValue();
 
@@ -353,6 +354,7 @@ class ConferenceBookingController extends AppBaseController
         $getBookingFoodsItems           = $this->conferenceBookingItemRepository->getBookingFoodsItems($conferenceBooking->id);
 
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        $rooms                  = DB::table('rooms')->where('company_id', $company_id)->orderBy('name', 'asc')->get();
         $getCompanyCustomer = CompanyCustomer::where('company_id', $company_id)->get();
         $companyCustomerInfo = CompanyCustomer::where('id', $conferenceBooking->company_customer_id)->first();
 
@@ -387,6 +389,7 @@ class ConferenceBookingController extends AppBaseController
                     'bookingAgencies'        => $bookingAgencies,
                     'roomCalenderId'        => "",
                 ];
+
 
         return view('company.Conference.conference_bookings.edit', $data);
     }

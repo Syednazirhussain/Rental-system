@@ -16,7 +16,7 @@
 </div>
 
 <div class="col-sm-12">
-	<button type="submit" class="btn btn-primary">@if(isset($currency)) <i class="fa fa-refresh"></i> UPDATE @else <i class="fa fa-plus"></i> ADD  @endif</button>
+	<button type="submit" class="btn btn-primary">@if(isset($currency)) <i class="fa fa-refresh"></i> UPDATE @else <i class="fa fa-plus"></i> CREATE  @endif</button>
     <a href="{!! route('company.currencies.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
 </div>
 
@@ -25,6 +25,10 @@
 
   <script type="text/javascript">
       
+jQuery.validator.addMethod("alphanumeric", function(value, element) {
+    return this.optional(element) || /^[a-z\_]+$/i.test(value);
+}, "Please enter characters and underscore '_' only.");
+
       // Initialize validator
       $('#currencyForm').pxValidate({
         focusInvalid: false,
@@ -36,6 +40,7 @@
           'code': {
             required: true,
             maxlength: 50,
+            alphanumeric: true,
           }
         },
 

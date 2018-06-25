@@ -12,6 +12,7 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use Auth;
 use App\Models\Company\hrVacationCategory;
+use Session;
 
 class hrVacationCategoryController extends AppBaseController
 {
@@ -65,7 +66,8 @@ class hrVacationCategoryController extends AppBaseController
 
         $hrVacationCategory = $this->hrVacationCategoryRepository->create($input);
 
-        Flash::success('Hr Vacation Category saved successfully.');
+        /*Flash::success('Hr Vacation Category saved successfully.');*/
+        Session::flash("successMessage", "Hr Vacation Category saved successfully");
 
         return redirect(route('company.hrVacationCategories.index'));
     }
@@ -130,7 +132,8 @@ class hrVacationCategoryController extends AppBaseController
 
         $hrVacationCategory = $this->hrVacationCategoryRepository->update($request->all(), $id);
 
-        Flash::success('Hr Vacation Category updated successfully.');
+       /* Flash::success('Hr Vacation Category updated successfully.');*/
+        Session::flash("successMessage", "Hr Vacation Category updated successfully");
 
         return redirect(route('company.hrVacationCategories.index'));
     }
@@ -154,7 +157,8 @@ class hrVacationCategoryController extends AppBaseController
 
         $this->hrVacationCategoryRepository->delete($id);
 
-        Flash::success('Hr Vacation Category deleted successfully.');
+        /*Flash::success('Hr Vacation Category deleted successfully.');*/
+        Session::flash("deleteMessage", "Hr Vacation Category deleted successfully");
 
         return redirect(route('company.hrVacationCategories.index'));
     }

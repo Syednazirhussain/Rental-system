@@ -10,7 +10,7 @@
             <div class="col-md-6 col-md-offset-3">
                 <div class="panel">
                     <div class="panel-heading">
-                        <div class="panel-title">Add Currency</div>
+                        <div class="panel-title">Create Currency</div>
                     </div>
                     <div class="panel-body">
                         <form action="{{ route('company.currencies.store') }}" method="POST" id="currencyForm">

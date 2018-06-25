@@ -17,6 +17,7 @@ use App\Models\CompanyBuilding;
 use App\Models\Company\LeaseCounterpart;
 use App\Models\Company\LeaseContractInformation;
 use App\Models\Company\LeaseAttachment;
+use Session;
 
 class LeasePartnerController extends AppBaseController
 {
@@ -77,6 +78,7 @@ class LeasePartnerController extends AppBaseController
         $input = $request->all();
 
 
+
         if(isset($input['delegated']) &&  $input['delegated'] == 'on')
         {
             $input['delegated'] = 1;
@@ -87,6 +89,7 @@ class LeasePartnerController extends AppBaseController
         }
 
         $leasePartner = $this->leasePartnerRepository->create($input);
+        /*Session::flash("successMessage", "Hr Civil Status updated successfully");*/
         return response()->json($leasePartner);
     }
 
@@ -202,7 +205,7 @@ class LeasePartnerController extends AppBaseController
 
         if($leasePartner)
         {   
-            return response()->json(['status' => 'success','msg' => 'Lease Partner updated successfully']);
+            return response()->json(['status' => 'success','msg' => 'Leaseing updated successfully']);
         }
         else
         {
@@ -233,7 +236,7 @@ class LeasePartnerController extends AppBaseController
 
         $this->leasePartnerRepository->delete($id);
 
-        Flash::success('Lease Partner deleted successfully.');
+        Flash::success('Leasing deleted successfully.');
 
         return redirect(route('company.leasePartners.index'));
     }

@@ -13,10 +13,18 @@
 
 <!-- Price Field -->
 
-<div class="col-sm-6 form-group">
+<!-- <div class="col-sm-6 form-group">
     <label for="">Price</label>
     <input type="number" id="price" placeholder="30.00" value="@if(isset($equipments)){{$equipments->price}}@endif" name="price" class="form-control" min="1.00">
     <div class="errorTxt"></div>
+</div> -->
+<div class="col-sm-6 form-group">
+    <label for="">Price</label>
+    <div class="input-group">
+      <span class="input-group-addon">SEK</span>
+      <input type="number" id="price" placeholder="30.00" value="@if(isset($equipments)){{$equipments->price}}@endif" name="price" class="form-control" min="1.00">
+     <div class="errorTxt"></div> 
+    </div>
 </div>
 
 <!-- Criteria Id Field -->

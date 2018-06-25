@@ -12,6 +12,7 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use Auth;
 use App\Models\Company\HRCourses;
+use Session;
 
 class HRCoursesController extends AppBaseController
 {
@@ -67,7 +68,8 @@ class HRCoursesController extends AppBaseController
 
         if ($hRCourses) 
         {
-            session()->flash('msg.success','HR Courses saved successfully.');
+            /*session()->flash('msg.success','HR Courses saved successfully.');*/
+            Session::flash("successMessage", "HR Course saved successfully");
         }
 
         return redirect(route('company.hRCourses.index'));
@@ -135,7 +137,8 @@ class HRCoursesController extends AppBaseController
 
         if($hRCourses)
         {
-            session()->flash('msg.success','HR Courses updated successfully.');
+            /*session()->flash('msg.success','HR Courses updated successfully.');*/
+        Session::flash("successMessage", "HR Courses updated successfully");
         }
 
         return redirect(route('company.hRCourses.index'));
@@ -160,7 +163,8 @@ class HRCoursesController extends AppBaseController
 
         $this->hRCoursesRepository->delete($id);
 
-        session()->flash('msg.success','HR Courses deleted successfully.');
+        /*session()->flash('msg.success','HR Courses deleted successfully.');*/
+        Session::flash("deleteMessage", "HR Courses deleted successfully");
 
         return redirect(route('company.hRCourses.index'));
     }
