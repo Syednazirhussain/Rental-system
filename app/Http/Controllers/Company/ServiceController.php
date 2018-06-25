@@ -13,6 +13,7 @@ use Response;
 use Auth;
 use App\Models\Company;
 use App\Models\Service;
+use Session;
 
 class ServiceController extends AppBaseController
 {
@@ -71,7 +72,8 @@ class ServiceController extends AppBaseController
 
         $this->serviceRepository->create($input);
 
-        Flash::success('Company Floor Room saved successfully.');
+        /*Flash::success('Company Floor Room saved successfully.');*/
+        Session::flash("successMessage", "Service saved successfully");
 
         return redirect(route('company.services.index'));
     }
@@ -151,7 +153,8 @@ class ServiceController extends AppBaseController
         $input['company_id'] = $company_id;
 
         $this->serviceRepository->update($input, $id);
-        $request->session()->flash('msg.success', 'Company Floor Room updated successfully.');
+        /*$request->session()->flash('successMessage', 'Service updated successfully.');*/
+        Session::flash("successMessage", "Service updated successfully");
 
         return redirect(route('company.services.index'));
     }
@@ -175,7 +178,8 @@ class ServiceController extends AppBaseController
 
         $this->serviceRepository->delete($id);
 
-        $request->session()->flash('msg.success', 'Company Service deleted successfully.');
+       /* $request->session()->flash('msg.success', 'Company Service deleted successfully.');*/
+        Session::flash("deleteMessage", "Company Service deleted successfully");
 
         return redirect(route('company.services.index'));
     }

@@ -12,6 +12,7 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use Auth;
 use App\Models\Company\hrPersonalCat;
+use Session;
 
 class hrPersonalCatController extends AppBaseController
 {
@@ -64,7 +65,8 @@ class hrPersonalCatController extends AppBaseController
         $input['company_id'] =   Auth::guard('company')->user()->companyUser()->first()->company_id;  
         // dd($input['company_id']);
         $hrPersonalCat = $this->hrPersonalCatRepository->create($input);
-        Flash::success('Hr Personal Cat saved successfully.');
+        /*Flash::success('Hr Personal Cat saved successfully.');*/
+        Session::flash("successMessage", "Hr Personal Cat saved successfully");
 
         return redirect(route('company.hrPersonalCats.index'));
     }
@@ -129,7 +131,8 @@ class hrPersonalCatController extends AppBaseController
 
         $hrPersonalCat = $this->hrPersonalCatRepository->update($request->all(), $id);
 
-        Flash::success('Hr Personal Cat updated successfully.');
+        /*Flash::success('Hr Personal Cat updated successfully.');*/
+        Session::flash("successMessage", "Hr Personal Cat updated successfully");
 
         return redirect(route('company.hrPersonalCats.index'));
     }
@@ -153,7 +156,8 @@ class hrPersonalCatController extends AppBaseController
 
         $this->hrPersonalCatRepository->delete($id);
 
-        Flash::success('Hr Personal Cat deleted successfully.');
+        /*Flash::success('Hr Personal Cat deleted successfully.');*/
+        Session::flash("deleteMessage", "Hr Personal Cat deleted successfully");
 
         return redirect(route('company.hrPersonalCats.index'));
     }

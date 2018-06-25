@@ -20,7 +20,7 @@
             <td>{{ $companyBuilding->num_floors }}</td>
             <td>{{ ucfirst($company->name) }}</td>
             <td  width="200px" class="text-center">
-                <a href="{!! route('company.companyBuildings.edit', [$companyBuilding->id]) !!}"><i class="fa fa-edit fa-lg text-info"></i></a>
+                <a href="{!! route('company.companyBuildings.edit', [$companyBuilding->id]) !!}" class='btn btn-default btn-xs'><i class="fa fa-edit fa-lg text-info"></i></a>
             </td>
         </tr>
     @endforeach

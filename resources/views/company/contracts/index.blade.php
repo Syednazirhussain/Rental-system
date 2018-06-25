@@ -17,6 +17,18 @@
                     @include('layouts.error_msg')
                 @endif
 
+               <!--  @if(Session::has('successMessage'))
+                  <div class="alert alert-success alert-dismissable" style="text-align: center;">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                      <h4 class="m-t-0 m-b-0"><strong><i class="fa fa-check-circle fa-lg"></i>&nbsp;&nbsp;{{Session::get('successMessage')}}</strong></h4>
+                  </div>
+                  @elseif(Session::has('deleteMessage'))
+                  <div class="alert alert-success alert-dismissable" style="text-align: center;">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                      <h4 class="m-t-0 m-b-0"><strong><i class="fa fa-trash fa-lg"></i>&nbsp;&nbsp;{{Session::get('deleteMessage')}}</strong></h4>
+                  </div>
+                  @endif -->
+
                 <div class="text-right m-b-3">
                     <a href="{{ route('company.contracts.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Create</a>
                 </div>
