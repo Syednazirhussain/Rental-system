@@ -13,10 +13,12 @@ class AddColumnIsMultiUnitsInCompanyArticles extends Migration
      */
     public function up()
     {
+
         Schema::table('company_articles', function (Blueprint $table) {
             $table->dropColumn('is_multi_units');
             $table->tinyInteger('is_multi_units', 1)->unsigned()->nullable()->default(0);
         });
+
     }
 
     /**
@@ -26,8 +28,10 @@ class AddColumnIsMultiUnitsInCompanyArticles extends Migration
      */
     public function down()
     {
+
         Schema::table('company_articles', function (Blueprint $table) {
             $table->dropColumn('is_multi_units');
         });
+        
     }
 }
