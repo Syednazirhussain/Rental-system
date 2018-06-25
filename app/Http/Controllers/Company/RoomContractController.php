@@ -151,7 +151,51 @@ class RoomContractController extends AppBaseController
         $termination = CompanyTermination::create($termination);
         $landlord_termination = Company\CompanyLandlordTermination::create($landlord_termination);
 
-        return response()->json(['success'=>1, 'msg'=>'Company contract has been generated successfully', 'termination'=>$termination]);
+        $data = [
+            'termination_id' => $termination->id,
+            'lord_termination_id' => $landlord_termination->id,
+        ];
+
+        return response()->json(['success'=>1, 'msg'=>'Company contract has been generated successfully', 'termination'=>$data]);
+    }
+
+
+    /**
+     * Store a newly created Room in storage.
+     *
+     * @param CreateRoomRequest $request
+     *
+     * @return Response
+     */
+    public function update_termination($id, Request $request)
+    {
+        $input = $request->all();
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+
+        $termination = [
+            'termination_date' => $input['termination_date'],
+            'termination_issue' => $input['termination_issue'],
+            'contract_end_date' => $input['contract_end_date'],
+            'immigrant_date' => $input['immigrant_date'],
+            'room_can_rented_date' => $input['room_can_rented_date'],
+            'note' => $input['note'],
+            'contract_id' => $input['contract_id'],
+            'company_id' => $company_id,
+        ];
+
+        $landlord_termination = [
+            'termination_date' => $input['lord_termination_date'],
+            'termination_issue' => $input['lord_termination_issue'],
+            'contract_end_date' => $input['lord_contract_end_date'],
+            'note' => $input['lord_note'],
+            'contract_id' => $input['contract_id'],
+            'company_id' => $company_id,
+        ];
+
+        CompanyTermination::where('contract_id', $id)->first()->update($termination);
+        Company\CompanyLandlordTermination::where('contract_id', $id)->first()->update($landlord_termination);
+
+        return response()->json(['success'=>1, 'msg'=>'Company contract has been generated successfully']);
     }
 
 
@@ -203,6 +247,11 @@ class RoomContractController extends AppBaseController
         $modules = Module::all();
         $paymentCycles = PaymentCycle::all();
         $paymentMethods = PaymentMethod::all();
+        $termination = CompanyTermination::where('contract_id', $id)->first();
+        $lord_termination = Company\CompanyLandlordTermination::where('contract_id', $id)->first();
+        $companyBuildings = CompanyBuilding::where('company_id', $company_id)->get();
+        $companyFloors = CompanyFloorRoom::where('company_id', $company_id)->get();
+        $customers = CompanyCustomer::where('company_id', $company_id)->get();
         if(isset ($company)) {
             $companyUsers = CompanyUser::where('company_id', $company->id)->get();
         }else {
@@ -211,6 +260,7 @@ class RoomContractController extends AppBaseController
 
         $data = [
             'contract' => $contract,
+            'company_id' => $company_id,
             'company' => $company,
             'rooms' => $rooms,
             'countries' => $countries,
@@ -222,6 +272,11 @@ class RoomContractController extends AppBaseController
             'paymentCycles' => $paymentCycles,
             'paymentMethods' => $paymentMethods,
             'companyUsers' => $companyUsers,
+            'termination' => $termination,
+            'lord_termination' => $lord_termination,
+            'buildings' => $companyBuildings,
+            'floors' => $companyFloors,
+            'customers' => $customers,
         ];
         //dd($rooms);
 
@@ -236,10 +291,13 @@ class RoomContractController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateRoomContractRequest $request)
+    public function update($id, Request $request)
     {
-
         $input = $request->all();
+        echo "<pre>";
+        print_r($input);
+        echo "</pre>";
+
         $room_contract = $this->roomContractRepository->findWithoutFail($id);
 
         if (empty($room_contract)) {

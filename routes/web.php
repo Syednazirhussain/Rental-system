@@ -699,8 +699,8 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::get('company/contracts', ['as'=> 'company.contracts.index', 'uses' => 'Company\RoomContractController@index']);
     Route::post('company/contracts', ['as'=> 'company.contracts.store', 'uses' => 'Company\RoomContractController@store']);
     Route::get('company/contracts/create', ['as'=> 'company.contracts.create', 'uses' => 'Company\RoomContractController@create']);
-    Route::put('company/contracts/{contracts}', ['as'=> 'company.contracts.update', 'uses' => 'Company\RoomContractController@update']);
-    Route::patch('company/contracts/{contracts}', ['as'=> 'company.contracts.update', 'uses' => 'Company\RoomContractController@update']);
+    Route::put('company/contracts/{id}', ['as'=> 'company.contracts.update', 'uses' => 'Company\RoomContractController@update']);
+    Route::patch('company/contracts/{id}', ['as'=> 'company.contracts.update', 'uses' => 'Company\RoomContractController@update']);
     Route::delete('company/contracts/{contracts}', ['as'=> 'company.contracts.destroy', 'uses' => 'Company\RoomContractController@destroy']);
     Route::get('company/contracts/{contracts}', ['as'=> 'company.contracts.show', 'uses' => 'Company\RoomContractController@show']);
     Route::get('company/contracts/{contracts}/edit', ['as'=> 'company.contracts.edit', 'uses' => 'Company\RoomContractController@edit']);
@@ -708,7 +708,8 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::post('company/periods', ['as'=> 'company.contracts.period', 'uses' => 'Company\RoomContractController@getPeriod']);
     Route::post('company/calendar/advanced_filter', ['as'=> 'company.contracts.filter', 'uses' => 'Company\RoomContractController@calendar_filter']);
     Route::post('company/contracts/termination', ['as'=> 'company.contracts.save_termination', 'uses' => 'Company\RoomContractController@save_termination']);
-
+    Route::put('company/contracts/termination/{id}', ['as'=> 'company.contracts.update_termination', 'uses' => 'Company\RoomContractController@update_termination']);
+    Route::patch('company/contracts/termination/{id}', ['as'=> 'company.contracts.update_termination', 'uses' => 'Company\RoomContractController@update_termination']);
 
     # Company Contract Persons Section routes
     Route::post('company/companies', ['as'=> 'company.companies.store', 'uses' => 'Company\CompanyController@store']);

@@ -1,7 +1,9 @@
 <script type="text/javascript">
     //Global Value
-    var company_id = "{{ isset($company_id) ? $company_id: 0 }}";
+    var company_id = "{{ isset($contract) ? $company_id: 0 }}";
     var contract_id = "{{ isset($contract) ? $contract->id: 0 }}";
+    var termination_id = "{{ isset($termination) ? $termination->id: 0 }}";
+    var lord_termination_id = "{{ isset($lord_termination) ? $lord_termination->id: 0 }}";
 
     /**
      * jQuery Validation for all fields
@@ -171,7 +173,7 @@
                    success: function (data) {
                        console.log(data);
                        if(data.success) {
-                           customer_id = data.customer.id;
+                           contract_id = data.room_contract_id;
                        }
                    },
                    error: function (xhr, status, error) {
@@ -181,8 +183,8 @@
            }else {
                <?php
                $updateRoute = '';
-               if (isset($customer)) {
-                   $updateRoute = route("company.rcustomer.update", [$customer->id]);
+               if (isset($contract)) {
+                   $updateRoute = route("company.contracts.update", [$contract->id]);
                }
                ?>
 
@@ -213,8 +215,8 @@
             var data = new FormData(myform);
 
             data.append('company_id', company_id);
-            data.append('contract_id', 5);
-            if(contract_id < 1) {
+            data.append('contract_id', contract_id);
+            if(termination_id < 1 && lord_termination_id < 1) {
                 $.ajax({
                     url: '{{ route("company.contracts.save_termination") }}',
                     data: data,
@@ -225,7 +227,8 @@
                     success: function (data) {
                         console.log(data);
                         if(data.success) {
-                            customer_id = data.customer.id;
+                            termination_id = data.termination.termination_id;
+                            lord_termination_id = data.termination.lord_termination_id;
                         }
                     },
                     error: function (xhr, status, error) {
@@ -235,8 +238,8 @@
             }else {
                 <?php
                 $updateRoute = '';
-                if (isset($customer)) {
-                    $updateRoute = route("company.rcustomer.update", [$customer->id]);
+                if (isset($contract)) {
+                    $updateRoute = route("company.contracts.update_termination", [$contract->id]);
                 }
                 ?>
 
@@ -248,7 +251,8 @@
                     processData: false,
                     type: 'POST', // For jQuery < 1.9
                     success: function (data) {
-
+                        if(data.success) {
+                        }
                     },
                     error: function (xhr, status, error) {
 
