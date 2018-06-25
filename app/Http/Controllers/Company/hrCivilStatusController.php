@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Auth;
+use App\Models\Company\hrCivilStatus;
+use Session;
 
 class hrCivilStatusController extends AppBaseController
 {
@@ -30,8 +33,10 @@ class hrCivilStatusController extends AppBaseController
     public function index(Request $request)
     {
         $this->hrCivilStatusRepository->pushCriteria(new RequestCriteria($request));
-        $hrCivilStatuses = $this->hrCivilStatusRepository->all();
+        $companyId         =   Auth::guard('company')->user()->companyUser()->first()->company_id;
 
+
+        $hrCivilStatuses    = hrCivilStatus::where('company_id',$companyId)->get();
         return view('company.hr_civil_statuses.index')
             ->with('hrCivilStatuses', $hrCivilStatuses);
     }
@@ -57,9 +62,11 @@ class hrCivilStatusController extends AppBaseController
     {
         $input = $request->all();
 
+        $input['company_id'] =   Auth::guard('company')->user()->companyUser()->first()->company_id;  
         $hrCivilStatus = $this->hrCivilStatusRepository->create($input);
 
-        Flash::success('Hr Civil Status saved successfully.');
+        /*Flash::success('Hr Civil Status saved successfully.');*/
+        Session::flash("successMessage", "Hr Civil Status updated successfully");
 
         return redirect(route('company.hrCivilStatuses.index'));
     }
@@ -124,7 +131,8 @@ class hrCivilStatusController extends AppBaseController
 
         $hrCivilStatus = $this->hrCivilStatusRepository->update($request->all(), $id);
 
-        Flash::success('Hr Civil Status updated successfully.');
+        /*Flash::success('Hr Civil Status updated successfully.');*/
+        Session::flash("successMessage", "Hr Civil Status updated successfully");
 
         return redirect(route('company.hrCivilStatuses.index'));
     }
@@ -148,7 +156,8 @@ class hrCivilStatusController extends AppBaseController
 
         $this->hrCivilStatusRepository->delete($id);
 
-        Flash::success('Hr Civil Status deleted successfully.');
+        /*Flash::success('Hr Civil Status deleted successfully.');*/
+        Session::flash("deleteMessage", "Hr Civil Status deleted successfully");
 
         return redirect(route('company.hrCivilStatuses.index'));
     }

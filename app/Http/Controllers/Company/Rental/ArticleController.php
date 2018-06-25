@@ -85,7 +85,9 @@ class ArticleController extends AppBaseController
 
         /*echo "<pre>";
         print_r($input);
-        echo "</pre>";*/
+        echo "</pre>";
+
+        exit();*/
 
         $article = CompanyArticle::create($input);
 

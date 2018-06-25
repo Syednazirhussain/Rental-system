@@ -28,6 +28,7 @@ use App\Models\Module;
 use App\Models\PaymentCycle;
 use App\Models\PaymentMethod;
 use App\Models\UserStatus;
+use Session;
 
 class RoomContractController extends AppBaseController
 {

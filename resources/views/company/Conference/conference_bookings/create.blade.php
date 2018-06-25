@@ -6,7 +6,7 @@
 
      <div class="px-content">
         <div class="page-header">
-            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Conference Bookings / </span>Add Conference Booking</h1>
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon fa fa-edit"></i>Conference Bookings / </span>Create Conference Booking</h1>
         </div>
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -27,6 +27,12 @@
                           <li>
                             <a href="#BillingFormTab" data-toggle="tab">Billing</a>
                           </li>
+                          <li>
+                            <a href="#ArticlesFormTab" data-toggle="tab">Articles</a>
+                          </li>
+                          <li>
+                            <a href="#draftFormTab" data-toggle="tab">Draft</a>
+                          </li>
                         </ul>
 
                             <form action="{{ route('company.conference.conferenceBookings.store') }}" method="POST" id="bookingForm">
@@ -40,14 +46,21 @@
                                   </div>
                                   <div class="tab-pane fade" id="BillingFormTab">
                                     @include('company.Conference.conference_bookings.billing_form')
-                                  </div>
-                                  
+                                  </div>  
+                                  <div class="tab-pane fade" id="ArticlesFormTab">
+                                    @include('company.Conference.conference_bookings.articles_form')
+                                  </div>  
+                                  <div class="tab-pane fade" id="draftFormTab">
+                                    @include('company.Conference.conference_bookings.draft_form')
+                                  </div>                              
                                 </div>
 
                                                                 
                                 <div class="row">
-                                    <div class="col-sm-12 m-t-3">
-                                            <button id="submitBtn" type="submit" class="btn btn-primary">@if(isset($conferenceBooking))  <i class="fa fa-refresh"></i>  Update Booking  @else <i class="fa fa-plus"></i>  Add Booking @endif</button>
+
+                                    <div class="col-sm-12 text-right m-t-3">
+                                            <button id="submitBtn" type="submit" class="btn btn-primary">@if(isset($conferenceBooking))  <i class="fa fa-refresh"></i>  Update   @else Next &nbsp;<i class="fa fa-arrow-circle-right"></i>   @endif</button>
+
                                             <a href="{!! route('company.conference.conferenceBookings.index') !!}" class="btn btn-default"> <i class="fa fa-times"></i> Cancel</a>
                                     </div>
                                 </div>
@@ -139,9 +152,7 @@
                           'invoice_send': {
                             required: true,
                           },
-                          'reference': {
-                            required: true,
-                          },
+                          
                           'contact_person': {
                             required: true,
                           },
@@ -158,6 +169,46 @@
                             required: true,
                           },
                           'remarks': {
+                            required: true,
+                          },
+
+                          'booking_type': {
+                            required: true,
+                          },
+                          'cancellation_policy': {
+                            required: true,
+                          },
+                          'booking_category': {
+                            required: true,
+                          },
+                          'booking_color': {
+                            required: true,
+                          },
+                          'signage': {
+                            required: true,
+                          },
+                          'customer_in_place': {
+                            required: true,
+                          },
+                          'contact_person_in_place': {
+                            required: true,
+                          },
+                          'event_name': {
+                            required: true,
+                          },
+                          'telephone_number': {
+                            required: true,
+                          },
+                          'email_address': {
+                            required: true,
+                          },
+                          'project_leader': {
+                            required: true,
+                          },
+                          'other_personal': {
+                            required: true,
+                          },
+                          'sales_person': {
                             required: true,
                           },
 
@@ -311,10 +362,111 @@
             });
 
             $(function() {
+              $('.select2-type').select2({
+                placeholder: 'Select Booking Type',
+              })
+            });
+
+            $(function() {
+              $('.select2-policy').select2({
+                placeholder: 'Select Cancellation Policy',
+              })
+            });
+
+            $(function() {
+              $('.select2-category').select2({
+                placeholder: 'Select Booking Category',
+              })
+            });
+
+            $(function() {
+              $('.select2-agency').select2({
+                placeholder: 'Select Booking Agency',
+              })
+            });
+
+            $(function() {
+              $('.select2-color').select2({
+                placeholder: 'Select Booking Color',
+              })
+            });
+
+            $(function() {
+              $('.select2-signage').select2({
+                placeholder: 'Select Signage',
+              })
+            });
+
+            $(function() {
               $('.select2-payment-methods').select2({
                 placeholder: 'Select Payment Method',
               })
             });
+
+            $('#project_time').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#writer_time').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#clearing_time').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#furnishing_time').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#first_person_time').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#guest_arrival').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#morning_coffee').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#meeting_start').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#lunch').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#after_noon_coffee').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#meeting_end').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#dinner').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#party').timepicker({
+                      maxHours: 24
+
+                  });
 
             
           $('#booking_date').daterangepicker({
@@ -423,31 +575,34 @@
 
           function calculateRoomPrice(price, time) {
 
+
+                // alert(price);
+                // alert(time);
+
                 // roomHourlyPrice = $("#room_id").find(':selected').attr('data-hour-price');
-                roomHourlyPrice = price;
 
-                var valuestart = $('#start_datetime').val();
-                var valuestop = $('#end_datetime').val();
-
-                // alert(valuestart);
-                // alert(valuestop);
 
                 if (time == "time") {
-                  //create date format          
+
+                  roomHourlyPrice = price;
+
+                  var valuestart = $('#start_datetime').val();
+                  var valuestop = $('#end_datetime').val();
+
                   var timeStart = new Date("01/01/2007 " + valuestart).getHours();
                   var timeEnd = new Date("01/01/2007 " + valuestop).getHours();
-                } else {
-                  //create date format          
-                  var timeStart = new Date("01/01/2007 " + valuestart).getDay();
-                  var timeEnd = new Date("01/01/2007 " + valuestop).getDay();
+
+                  var hourDiff = timeEnd - timeStart;  
+
+                  roomPrice = (roomHourlyPrice*hourDiff);
+
+                } else if (time == "multiDays") {
+
+                  roomPrice = price;
+
                 }
 
-                var hourDiff = timeEnd - timeStart;  
-
-                // alert(parseInt(hourDiff));
-                // alert(parseFloat(roomHourlyPrice));
-
-                roomPrice = (roomHourlyPrice*hourDiff);
+                
 
                 $('#room_price').val(parseFloat(roomPrice).toFixed(2));
 
@@ -467,11 +622,26 @@
                 roomHourlyPrice = $("#room_id").find(':selected').attr('data-hour-price');
                 time = "time";
                 calculateRoomPrice(roomHourlyPrice, time);
+                // console.log(roomHourlyPrice);
+                // console.log('asd');
 
           });
 
 
 
+
+
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [month, day, year].join('/');
+}
 
 
 
@@ -486,11 +656,13 @@
               roomDayPrice = $("#room_id").find(':selected').attr('data-day-price');
               durationCode = $(this).find(':selected').attr('data-duration-code');
 
+
               if (durationCode == "hour") {
 
                 generateTimeFields();
 
               } else if (durationCode == "multiple_days") {
+
 
                   $('#start_datetime').remove();
 
@@ -511,6 +683,31 @@
                       // disabledDates: [new Date()],
                     },
                   function(start, end, label) {
+
+                      $('#multiDayHiddenStart').val(start);
+                      time = "multiDays";
+
+                      getMultiDayEnd = formatDate($('#multiDayHiddenEnd').val());
+                      getMultiDayStart = formatDate(start);
+
+                          
+                      var startDay = new Date(getMultiDayStart);
+                      var endDay = new Date(getMultiDayEnd);
+                      var millisecondsPerDay = 1000 * 60 * 60 * 24;
+
+                      var millisBetween = endDay.getTime() - startDay.getTime();
+                      var days = millisBetween / millisecondsPerDay;
+                          days = Math.floor(days);
+
+                      roomMultiDayPrice = $("#room_id").find(':selected').attr('data-day-price');
+
+
+                      multiDayRoomPrice = roomMultiDayPrice * days;
+
+                      calculateRoomPrice(multiDayRoomPrice, time)
+                      // calculateRoomPrice(days, time);
+
+
 
                   });
 
@@ -545,9 +742,32 @@
                   
                   function(start, end, label) {
 
+                      multiDayEndVal = $('#multiDayHiddenEnd').val(end);
+                      time = "multiDays";
+                    
+                      getMultiDayEnd = formatDate(end);
+                      getMultiDayStart = formatDate($('#multiDayHiddenStart').val());
+                          
+                      var startDay = new Date(getMultiDayStart);
+                      var endDay = new Date(getMultiDayEnd);
+                      var millisecondsPerDay = 1000 * 60 * 60 * 24;
+
+                      var millisBetween = endDay.getTime() - startDay.getTime();
+                      var days = millisBetween / millisecondsPerDay;
+                          days = Math.floor(days);
+
+                      roomMultiDayPrice = $("#room_id").find(':selected').attr('data-day-price');
+
+                      multiDayRoomPrice = roomMultiDayPrice * days;
+
+                      calculateRoomPrice(multiDayRoomPrice, time)
+
+
                   });
 
                 roomPrice = (roomDayPrice*3);
+
+                // console.log(roomDayPrice)
 
               } else if (durationCode == "halfday_morning") {
 
@@ -860,36 +1080,79 @@
 
 
 
+                // DRAFT FIELDS
+                var booking_type = $('#booking_type').val();
+                var cancellation_policy = $('#cancellation_policy').val();
+                var booking_category = $('#booking_category').val();
+                var booking_color = $('#booking_color').val();
+                var signage = $('#signage').val();
+                var customer_in_place = $('#customer_in_place').val();
+                var contact_person_in_place = $('#contact_person_in_place').val();
+                var event_name = $('#event_name').val();
+                var telephone_number = $('#telephone_number').val();
+                var email_address = $('#email_address').val();
+                var project_leader = $('#project_leader').val();
+                var other_personal = $('#other_personal').val();
+                var sales_person = $('#sales_person').val();
+
+
+
 
                 if(room_id == '' || room_layout_id == '' || booking_status == '' || payment_method_code == '' ) {
 
                     $('ul.nav-tabs li:first-child').addClass('active');
                     $('ul.nav-tabs li:nth-child(2)').removeClass('active');
                     $('ul.nav-tabs li:nth-child(3)').removeClass('active');
+                    $('ul.nav-tabs li:nth-child(4)').removeClass('active');
+                    $('ul.nav-tabs li:nth-child(5)').removeClass('active');
 
                     $('#BookingFormTab').addClass('active in');
                     $('#CustomerFormTab').removeClass('active in');
                     $('#BillingFormTab').removeClass('active in');
+                    $('#ArticlesFormTab').removeClass('active in');
+                    $('#draftFormTab').removeClass('active in');
 
                 } else if (customer_id == '' || customer_address == '' || customer_country == '' || customer_state == '' || customer_city == '' || customer_post_code == '' || customer_telephone == '' || customer_mobile == '' || customer_fax == '' || customer_org_num == '') {
 
                     $('ul.nav-tabs li:first-child').removeClass('active');
                     $('ul.nav-tabs li:nth-child(2)').addClass('active');
                     $('ul.nav-tabs li:nth-child(3)').removeClass('active');
+                    $('ul.nav-tabs li:nth-child(4)').removeClass('active');
+                    $('ul.nav-tabs li:nth-child(5)').removeClass('active');
 
                     $('#BookingFormTab').removeClass('active in');
                     $('#CustomerFormTab').addClass('active in');
                     $('#BillingFormTab').removeClass('active in');
+                    $('#ArticlesFormTab').removeClass('active in');
+                    $('#draftFormTab').removeClass('active in');
 
                 } else if (invoice_send == '' || reference == '' || contact_person == '' || cost == '' || payment_conditions == '' || interest_fees == '' || payment_reminder == '') {
 
                     $('ul.nav-tabs li:first-child').removeClass('active');
                     $('ul.nav-tabs li:nth-child(2)').removeClass('active');
                     $('ul.nav-tabs li:nth-child(3)').addClass('active');
+                    $('ul.nav-tabs li:nth-child(4)').removeClass('active');
+                    $('ul.nav-tabs li:nth-child(5)').removeClass('active');
 
                     $('#BookingFormTab').removeClass('active in');
                     $('#CustomerFormTab').removeClass('active in');
                     $('#BillingFormTab').addClass('active in');
+                    $('#ArticlesFormTab').removeClass('active in');
+                    $('#draftFormTab').removeClass('active in');
+
+                } else if (booking_type == '' || cancellation_policy == '' || booking_category == '' || booking_color == '' || signage == '' || customer_in_place == '' || contact_person_in_place == '' || event_name == '' || telephone_number == '' || email_address == '' || project_leader == '' || other_personal == '' || sales_person == '') {
+
+                    $('ul.nav-tabs li:first-child').removeClass('active');
+                    $('ul.nav-tabs li:nth-child(2)').removeClass('active');
+                    $('ul.nav-tabs li:nth-child(3)').removeClass('active');
+                    $('ul.nav-tabs li:nth-child(4)').removeClass('active');
+                    $('ul.nav-tabs li:nth-child(5)').addClass('active');
+
+                    $('#BookingFormTab').removeClass('active in');
+                    $('#CustomerFormTab').removeClass('active in');
+                    $('#BillingFormTab').removeClass('active in');
+                    $('#ArticlesFormTab').removeClass('active in');
+                    $('#draftFormTab').addClass('active in');
 
                 }
 

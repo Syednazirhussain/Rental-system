@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Auth;
+use App\Models\Company\hrSalaryType;
+use Session;
 
 class hrSalaryTypeController extends AppBaseController
 {
@@ -30,7 +33,10 @@ class hrSalaryTypeController extends AppBaseController
     public function index(Request $request)
     {
         $this->hrSalaryTypeRepository->pushCriteria(new RequestCriteria($request));
-        $hrSalaryTypes = $this->hrSalaryTypeRepository->all();
+        $companyId         =   Auth::guard('company')->user()->companyUser()->first()->company_id;
+        
+        $hrSalaryTypes    = hrSalaryType::where('company_id',$companyId)->get();
+
 
         return view('company.hr_salary_types.index')
             ->with('hrSalaryTypes', $hrSalaryTypes);
@@ -56,10 +62,12 @@ class hrSalaryTypeController extends AppBaseController
     public function store(CreatehrSalaryTypeRequest $request)
     {
         $input = $request->all();
+        $input['company_id'] =   Auth::guard('company')->user()->companyUser()->first()->company_id;
 
         $hrSalaryType = $this->hrSalaryTypeRepository->create($input);
 
-        Flash::success('Hr Salary Type saved successfully.');
+        /*Flash::success('Hr Salary Type saved successfully.');*/
+        Session::flash("successMessage", "Hr Salary Type saved successfully");
 
         return redirect(route('company.hrSalaryTypes.index'));
     }
@@ -124,7 +132,8 @@ class hrSalaryTypeController extends AppBaseController
 
         $hrSalaryType = $this->hrSalaryTypeRepository->update($request->all(), $id);
 
-        Flash::success('Hr Salary Type updated successfully.');
+        /*Flash::success('Hr Salary Type updated successfully.');*/
+        Session::flash("successMessage", "Hr Salary Type updated successfully");
 
         return redirect(route('company.hrSalaryTypes.index'));
     }
@@ -148,7 +157,8 @@ class hrSalaryTypeController extends AppBaseController
 
         $this->hrSalaryTypeRepository->delete($id);
 
-        Flash::success('Hr Salary Type deleted successfully.');
+        /*Flash::success('Hr Salary Type deleted successfully.');*/
+        Session::flash("deleteMessage", "Hr Salary Type deleted successfully");
 
         return redirect(route('company.hrSalaryTypes.index'));
     }

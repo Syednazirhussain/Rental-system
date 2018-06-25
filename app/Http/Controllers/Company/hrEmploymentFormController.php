@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Auth;
+use App\Models\Company\hrEmploymentForm;
+use Session;
 
 class hrEmploymentFormController extends AppBaseController
 {
@@ -30,7 +33,10 @@ class hrEmploymentFormController extends AppBaseController
     public function index(Request $request)
     {
         $this->hrEmploymentFormRepository->pushCriteria(new RequestCriteria($request));
-        $hrEmploymentForms = $this->hrEmploymentFormRepository->all();
+        $companyId         =   Auth::guard('company')->user()->companyUser()->first()->company_id;
+        
+        $hrEmploymentForms    = hrEmploymentForm::where('company_id',$companyId)->get();
+
 
         return view('company.hr_employment_forms.index')
             ->with('hrEmploymentForms', $hrEmploymentForms);
@@ -56,10 +62,12 @@ class hrEmploymentFormController extends AppBaseController
     public function store(CreatehrEmploymentFormRequest $request)
     {
         $input = $request->all();
+        $input['company_id'] =   Auth::guard('company')->user()->companyUser()->first()->company_id;
 
         $hrEmploymentForm = $this->hrEmploymentFormRepository->create($input);
 
-        Flash::success('Hr Employment Form saved successfully.');
+        /*Flash::success('Hr Employment Form saved successfully.');*/
+        Session::flash("successMessage", "Hr Employment Form saved successfully");
 
         return redirect(route('company.hrEmploymentForms.index'));
     }
@@ -124,7 +132,8 @@ class hrEmploymentFormController extends AppBaseController
 
         $hrEmploymentForm = $this->hrEmploymentFormRepository->update($request->all(), $id);
 
-        Flash::success('Hr Employment Form updated successfully.');
+        /*Flash::success('Hr Employment Form updated successfully.');*/
+        Session::flash("successMessage", "Hr Employment Form updated successfully");
 
         return redirect(route('company.hrEmploymentForms.index'));
     }
@@ -148,7 +157,8 @@ class hrEmploymentFormController extends AppBaseController
 
         $this->hrEmploymentFormRepository->delete($id);
 
-        Flash::success('Hr Employment Form deleted successfully.');
+        /*Flash::success('Hr Employment Form deleted successfully.');*/
+        Session::flash("deleteMessage", "Hr Employment Form deleted successfully");
 
         return redirect(route('company.hrEmploymentForms.index'));
     }

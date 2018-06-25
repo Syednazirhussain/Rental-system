@@ -24,6 +24,7 @@
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/holder/2.9.0/holder.js"></script>
     <!-- Pace.js -->
     <script src="{{ asset('/skin-1/assets/pace/pace.min.js') }}"></script>
+    <script src="{{ asset('/skin-1/assets/dateformat/dateformat.js') }}"></script>
     <script src="{{ asset('/skin-1/assets/demo/demo.js') }}"></script>
     <!-- Custom styling -->
     <style>
@@ -89,7 +90,7 @@
                             <li><a href="{{ route('company.rcustomer.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
                                     Customer</a>
                             </li>
-                            <li><a href="{{ route('company.rcustomer.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Customers</a>
+                            <li><a href="{{ route('company.rcustomer.index') }}"><i class="fa fa-users"></i>&nbsp;&nbsp;Customers</a>
                             </li>
                         </ul>
                     </li>
@@ -100,7 +101,7 @@
                             <li><a href="{{ route('company.rarticle.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
                                     Article</a>
                             </li>
-                            <li><a href="{{ route('company.rarticle.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Articles</a>
+                            <li><a href="{{ route('company.rarticle.index') }}"><i class="ionicons ion-ios-paper-outline"></i>&nbsp;&nbsp;Articles</a>
                             </li>
                         </ul>
                     </li>
@@ -108,65 +109,66 @@
                     <li class="dropdown-toggle">
                         <a href="{{ route('company.companyBuildings.index') }}">Buildings</a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ route('company.companyBuildings.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Buildings</a></li>
-                            <li><a href="{{ route('company.companyFloorRooms.index') }}"><i class="fa fa-ellipsis-v"></i>&nbsp;&nbsp;Floor</a></li>
-                            <li class="dropdown-toggle">
-                                <a href="{{ route('company.rooms.index') }}">Rooms</a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="{{ route('company.rooms.index') }}"><i class="fa fa-th-large"></i>&nbsp;&nbsp;Rooms</a>
-                                    </li>
-                                    <li class="dropdown-toggle">
-                                        <a href="{{ route('company.conference.equipments.create') }}">Room Equipments</a>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                            <li><a href="{{ route('company.conference.equipments.index') }}"><i class="fa fa-wrench"></i>&nbsp;&nbsp;Equipments</a></li>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('company.conference.equipmentCriterias.index') }}"><i class="fa fa-wrench"></i>&nbsp;&nbsp;Equipments Criteria</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
+                           <li><a href="{{ route('company.companyBuildings.index') }}"><i class="fa fa-building-o"></i>&nbsp;&nbsp;Buildings</a></li>
+                           <li><a href="{{ route('company.companyFloorRooms.index') }}"><i class="fa fa-ellipsis-v"></i>&nbsp;&nbsp;Floor</a></li>
+                           <li class="dropdown-toggle">
+                              <a href="{{ route('company.rooms.index') }}">Rooms</a>
+                              <ul class="dropdown-menu">
+                                 <li>
+                                    <a href="{{ route('company.rooms.index') }}"><i class="fa fa-th-large"></i>&nbsp;&nbsp;Rooms</a>
+                                 </li>
+                                 <li class="dropdown-toggle">
+                                    <a href="{{ route('company.conference.equipments.create') }}">Room Equipments</a>
+                                    <ul class="dropdown-menu">
+                                       <li>
+                                       <li><a href="{{ route('company.conference.equipments.index') }}"><i class="fa fa-wrench"></i>&nbsp;&nbsp;Equipments</a></li>
+                                       </li>
+                                       <li>
+                                          <a href="{{ route('company.conference.equipmentCriterias.index') }}"><i class="fa fa-wrench"></i>&nbsp;&nbsp;Equipments Criteria</a>
+                                       </li>
+                                    </ul>
+                                 </li>
+                              </ul>
+                           </li>
+                        </ul>
+                     </li>
+                     @foreach($companyModules as $module)
+                     @if($module->module->code == 'rental_module')
+                     <li class="divider"></li>
+                     <li class="dropdown-toggle">
+                        <a href="">Rental</a>
+                        <ul class="dropdown-menu">
+                           <li><a href="{{ route('company.services.index') }}"><i class="fa fa-file-text"></i> &nbsp;&nbsp;Service</a></li>
+                           <li class="dropdown-toggle">
+                              <a href="{{ route('company.contracts.index') }}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Contracts</a>
+                              <ul class="dropdown-menu">
+                                 <li><a href="{{ route('company.contracts.status') }}"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Contract Calendar</a></li>
+                                 <li class="divider"></li>
+                                 <li><a href="{{ route('company.contracts.index') }}"><i class="fa fa-file-text"></i>&nbsp;&nbsp;New Contracts</a></li>
+                              </ul>
+                           </li>
+                           <li><a href="{{ route('company.companyInvoices.index') }}"><i class="fa fa-file-text"></i>&nbsp;&nbsp;&nbsp;Invoices</a></li>
+
                         </ul>
                     </li>
-                    @foreach($companyModules as $module)
-                        @if($module->module->code == 'rental_module')
-                            <li class="divider"></li>
-                            <li class="dropdown-toggle">
-                                <a href="">Rental</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="{{ route('company.services.index') }}">&nbsp;&nbsp;Service</a></li>
-                                    <li class="dropdown-toggle">
-                                        <a href="{{ route('company.contracts.index') }}">Contracts</a>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="{{ route('company.contracts.status') }}">Contract Calendar</a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="{{ route('company.contracts.index') }}"><i class="fa fa-file-text"></i>&nbsp;&nbsp;New Contracts</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="{{ route('company.companyInvoices.index') }}"><i class="fa fa-file-text"></i>&nbsp;&nbsp;Invoices</a></li>
-                                </ul>
-                            </li>
+                    @elseif($module->module->code == 'hr_module')
+                     <li class="divider"></li>
+                     <li class="dropdown-toggle">
+                        <a href="">Company HR</a>
+                        <ul class="dropdown-menu">
+                           <li><a href="{{ route('company.companyHrs.index') }}"><i class="ionicons ion-person-stalker"></i>&nbsp;&nbsp;HR</a></li>
+                           <li><a href="{{ route('company.hrCivilStatuses.index') }}"><i class="ionicons ion-person-stalker"></i>&nbsp;&nbsp;Civil Status</a></li>
+                           <li><a href="{{ route('company.hrPersonalCats.index') }}"><i class="ionicons ion-person-stalker"></i>&nbsp;&nbsp;Personal Category</a></li>
+                           <li><a href="{{ route('company.hrCompanyCollectives.index') }}"><i class="ionicons ion-person-stalker"></i>&nbsp;&nbsp;Collectives</a></li>
+                           <li><a href="{{ route('company.hrCompanyDesignations.index') }}"><i class="ionicons ion-person-stalker"></i>&nbsp;&nbsp;Designations</a></li>
+                           <li><a href="{{ route('company.hrEmploymentForms.index') }}"><i class="ionicons ion-person-stalker"></i>&nbsp;&nbsp;Employment From</a></li>
+                           <li><a href="{{ route('company.hrSalaryTypes.index') }}"><i class="ionicons ion-person-stalker"></i>&nbsp;&nbsp;Salary Types</a></li>
+                           <li><a href="{{ route('company.hrCompanyProjects.index') }}"><i class="ionicons ion-person-stalker"></i>&nbsp;&nbsp;Projects</a></li>
+                           <li><a href="{{ route('company.hrVacationCategories.index') }}"><i class="ionicons ion-person-stalker"></i>&nbsp;&nbsp;Vacations</a></li>
+                           <li><a href="{{ route('company.hRCourses.index') }}"><i class="ionicons ion-person-stalker"></i>&nbsp;&nbsp;Courses</a></li>
+                        </ul>
+                     </li>
 
-                        @elseif($module->module->code == 'hr_module')
-                            <li class="divider"></li>
-                            <li class="dropdown-toggle">
-                                <a href="">Company HR</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="{{ route('company.companyHrs.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR</a></li>
-                                    <li><a href="{{ route('company.hrCivilStatuses.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Civil Status</a></li>
-                                    <li><a href="{{ route('company.hrPersonalCats.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Personal Category</a></li>
-                                    <li><a href="{{ route('company.hrCompanyCollectives.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Collectives</a></li>
-                                    <li><a href="{{ route('company.hrCompanyDesignations.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Designations</a></li>
-                                    <li><a href="{{ route('company.hrEmploymentForms.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Employment From</a></li>
-                                    <li><a href="{{ route('company.hrSalaryTypes.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Salary Types</a></li>
-                                    <li><a href="{{ route('company.hrCompanyProjects.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Projects</a></li>
-                                    <li><a href="{{ route('company.hrVacationCategories.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Vacations</a></li>
-                                    <li><a href="{{ route('company.hRCourses.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR Courses</a></li>
-                                </ul>
-                            </li>
 
                         @elseif($module->module->code == 'lease_module')
 
@@ -174,104 +176,111 @@
                             <li><a href="{{ route('company.leasePartners.index') }}">Leasings</a></li>
 
 
-                        @elseif($module->module->code == 'conference_module')
-                            <li class="divider"></li>
-                            <li class="dropdown-toggle">
-                                <a href="">Conference</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="{{ route('company.conference.roomLayouts.index') }}"><i class="fa fa-braille"></i>&nbsp;&nbsp;Rooms Layouts</a></li>
-                                    <li class="dropdown-toggle">
-                                        <a href="{{ route('company.conference.foods.index') }}"><i class="fa fa-cutlery"></i>&nbsp;&nbsp;Food &amp; Drinks</a>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="{{ route('company.conference.foods.index') }}"><i class="fa fa-cutlery"></i>&nbsp;&nbsp;Food &amp; Drinks</a></li>
-                                            <li><a href="{{ route('company.conference.packages.index') }}"><i class="fa fa-cube"></i>&nbsp;&nbsp;Packages</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="{{ route('company.conference.conferenceBookings.index') }}"><i class="fa fa-wpforms"></i>&nbsp;&nbsp;Bookings</a></li>
-                                    <li><a href="{{ route('company.bookingAgencies.index') }}">Booking Agencies</a></li>
-                                    <li><a href="{{ route('company.conference.calender.view') }}">Calender</a></li>
-                                </ul>
-                            </li>
+
+                     @elseif($module->module->code == 'conference_module')
+                     <li class="divider"></li>
+                     <li class="dropdown-toggle">
+                        <a href="">Conference</a>
+                        <ul class="dropdown-menu">
+                           <li><a href="{{ route('company.conference.roomLayouts.index') }}"><i class="fa fa-braille"></i>&nbsp;&nbsp;Rooms Layouts</a></li>
+                           <li class="dropdown-toggle">
+                              <a href="{{ route('company.conference.foods.index') }}"><i class="fa fa-cutlery"></i>&nbsp;&nbsp;Food &amp; Drinks</a>
+                              <ul class="dropdown-menu">
+                                 <li><a href="{{ route('company.conference.foods.index') }}"><i class="fa fa-cutlery"></i>&nbsp;&nbsp;Food &amp; Drinks</a></li>
+                                 <li><a href="{{ route('company.conference.packages.index') }}"><i class="fa fa-cube"></i>&nbsp;&nbsp;Packages</a></li>
+                              </ul>
+                           </li>
+                           <li><a href="{{ route('company.conference.conferenceBookings.index') }}"><i class="fa fa-wpforms"></i>&nbsp;&nbsp;Bookings</a></li>
+                           <li><a href="{{ route('company.bookingAgencies.index') }}"><i class="fa fa-clipboard"></i>&nbsp;&nbsp;Booking Agencies</a></li>
+                           <li><a href="{{ route('company.conference.calender.view') }}"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Calender</a></li>
+                        </ul>
+                     </li>
+                     @elseif($module->module->code == 'newsletter_module')
+                     <li class="divider"></li>
+                     <li class="dropdown-toggle">
+                        <a href="">Newsletter</a>
+                        <ul class="dropdown-menu">
+                           <li><a href="{{ route('company.newsletter.dashboard') }}"><i
+                              class="fa fa-trello"></i>&nbsp;&nbsp;Dashboard</a>
+                           </li>
+                           <li><a href="{{ route('company.newsletterGroups.sendmail') }}"><i
+                              class="fa fa-paper-plane"></i>&nbsp;&nbsp;Send Mail</a>
+                           </li>
+                           <li class="dropdown-toggle">
+                              <a href>Group</a>
+                              <ul class="dropdown-menu">
+                                 <li><a href="{{ route('company.newsletterGroups.create') }}"><i
+                                    class="fa fa-plus"></i>&nbsp;&nbsp;Add Group</a>
+                                 </li>
+                                 <li><a href="{{ route('company.newsletterGroups.index') }}"><i
+                                    class="fa fa-users"></i>&nbsp;&nbsp;Groups</a></li>
+                              </ul>
+                           </li>
+                        </ul>
+                     </li>
+
+
+                        
                         @elseif($module->module->code == 'signage_module')
                             <li class="divider"></li>
                             <li><a href="{{ route('company.rsignage.index') }}">Signage System</a></li>
-                        @elseif($module->module->code == 'newsletter_module')
-                            <li class="divider"></li>
-                            <li class="dropdown-toggle">
-                                <a href="">Newsletter</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="{{ route('company.newsletter.dashboard') }}"><i
-                                                    class="fa fa-trello"></i>&nbsp;&nbsp;Dashboard</a>
-                                    </li>
-                                    <li><a href="{{ route('company.newsletterGroups.sendmail') }}"><i
-                                                    class="fa fa-paper-plane"></i>&nbsp;&nbsp;Send Mail</a>
-                                    </li>
-                                    <li class="dropdown-toggle">
-                                        <a href>Group</a>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="{{ route('company.newsletterGroups.create') }}"><i
-                                                            class="fa fa-plus"></i>&nbsp;&nbsp;Add Group</a>
-                                            </li>
-                                            <li><a href="{{ route('company.newsletterGroups.index') }}"><i
-                                                            class="fa fa-users"></i>&nbsp;&nbsp;Groups</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
+                        
                         @elseif($module->module->code == 'survey_module')
-                            <li class="divider"></li>
-                            <li class="dropdown-toggle">
-                                <a href="">Survey & Feedback</a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="{{ route('company.answer_types.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Answer Types</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('company.survey_categories.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Survey Categories</a>
-                                    </li>
-                                    <li class="dropdown-toggle">
-                                        <a href="{{ route('company.survey.index') }}">Survey</a>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="{{ route('company.survey.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
-                                                    Survey</a></li>
-                                            <li><a href="{{ route('company.survey.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Survey</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="dropdown-toggle">
-                                        <a href="{{ route('company.survey_question.index') }}">Survey Questions</a>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="{{ route('company.survey_question.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
-                                                    Survey Question</a></li>
-                                            <li><a href="{{ route('company.survey_question.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Survey Questions</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="dropdown-toggle">
-                                        <a href="{{ route('company.survey_answers.list') }}">Survey Answers</a>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="{{ route('company.survey_answers.list') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Survey Answers</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('company.feedback.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Feedback</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        @elseif($module->module->code == 'support_module')
-                            <li class="divider"></li>
-                            <li><a href="{{ route('company.supports.index') }}">Support Center</a></li>
-                            <li class="divider"></li>
-                            <li><a href="{{ route('company.companySupports.index') }}">Tickets</a></li>
-                        @endif
-                    @endforeach
-                    <li class="divider"></li>
-                    <li><a href="{{ route('company.companyInvoices.index') }}">Invoices</a> </li>
-                    <li class="divider"></li>
-                    <li><a href="{{ route('company.currencies.index') }}">Currency</a></li>
+                        <li class="divider"></li>
+                        <li class="dropdown-toggle">
+                            <a href="">Survey & Feedback</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="{{ route('company.answer_types.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Answer Types</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('company.survey_categories.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Survey Categories</a>
+                                </li>
+                                <li class="dropdown-toggle">
+                                    <a href="{{ route('company.survey.index') }}">Survey</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{{ route('company.survey.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
+                                                Survey</a></li>
+                                        <li><a href="{{ route('company.survey.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Survey</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-toggle">
+                                    <a href="{{ route('company.survey_question.index') }}">Survey Questions</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{{ route('company.survey_question.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
+                                                Survey Question</a></li>
+                                        <li><a href="{{ route('company.survey_question.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Survey Questions</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-toggle">
+                                    <a href="{{ route('company.survey_answers.list') }}">Survey Answers</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{{ route('company.survey_answers.list') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Survey Answers</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="{{ route('company.feedback.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Feedback</a>
+                                </li>
+                            </ul>
+                        </li>
+           
 
 
+
+                     @elseif($module->module->code == 'support_module')
+                     <li class="divider"></li>
+                     <li><a href="{{ route('company.supports.index') }}">Support Center</a></li>
+                     <li class="divider"></li>
+                     <li><a href="{{ route('company.companySupports.index') }}">Tickets</a></li>
+                     @endif
+                     @endforeach
+                     <li class="divider"></li>
+                     <li><a href="{{ route('company.companyInvoices.index') }}">Invoices</a> </li>
+                     <li class="divider"></li>
+                     <li><a href="{{ route('company.currencies.index') }}">Currency</a></li>
                 </ul>
             </li>
         </ul>

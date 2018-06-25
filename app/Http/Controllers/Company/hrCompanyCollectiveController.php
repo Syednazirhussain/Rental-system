@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Auth;
+use App\Models\Company\hrCompanyCollective;
+use Session;
 
 class hrCompanyCollectiveController extends AppBaseController
 {
@@ -30,7 +33,10 @@ class hrCompanyCollectiveController extends AppBaseController
     public function index(Request $request)
     {
         $this->hrCompanyCollectiveRepository->pushCriteria(new RequestCriteria($request));
-        $hrCompanyCollectives = $this->hrCompanyCollectiveRepository->all();
+        $companyId         =   Auth::guard('company')->user()->companyUser()->first()->company_id;
+        
+        $hrCompanyCollectives    = hrCompanyCollective::where('company_id',$companyId)->get();
+
 
         return view('company.hr_company_collectives.index')
             ->with('hrCompanyCollectives', $hrCompanyCollectives);
@@ -56,10 +62,12 @@ class hrCompanyCollectiveController extends AppBaseController
     public function store(CreatehrCompanyCollectiveRequest $request)
     {
         $input = $request->all();
+        $input['company_id'] =   Auth::guard('company')->user()->companyUser()->first()->company_id;
 
         $hrCompanyCollective = $this->hrCompanyCollectiveRepository->create($input);
 
-        Flash::success('Hr Company Collective saved successfully.');
+        /*Flash::success('Hr Company Collective saved successfully.');*/
+        Session::flash("successMessage", "Hr Company Collective saved successfully");
 
         return redirect(route('company.hrCompanyCollectives.index'));
     }
@@ -124,7 +132,8 @@ class hrCompanyCollectiveController extends AppBaseController
 
         $hrCompanyCollective = $this->hrCompanyCollectiveRepository->update($request->all(), $id);
 
-        Flash::success('Hr Company Collective updated successfully.');
+        /*Flash::success('Hr Company Collective updated successfully.');*/
+        Session::flash("successMessage", "Hr Company Collective updated successfully");
 
         return redirect(route('company.hrCompanyCollectives.index'));
     }
@@ -148,7 +157,8 @@ class hrCompanyCollectiveController extends AppBaseController
 
         $this->hrCompanyCollectiveRepository->delete($id);
 
-        Flash::success('Hr Company Collective deleted successfully.');
+        /*Flash::success('Hr Company Collective deleted successfully.');*/
+        Session::flash("deleteMessage", "Hr Company Collective deleted successfully");
 
         return redirect(route('company.hrCompanyCollectives.index'));
     }

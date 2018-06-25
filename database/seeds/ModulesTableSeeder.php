@@ -77,6 +77,26 @@ class ModulesTableSeeder extends Seeder
                 'deleted_at' => NULL,
                 'code' => 'hr_module',
             ),
+            6 => 
+            array (
+                'id' => 7,
+                'name' => 'Signage_Module',
+                'price' => '2000.00',
+                'created_at' => '2018-06-01 04:57:35',
+                'updated_at' => '2018-06-01 04:57:35',
+                'deleted_at' => NULL,
+                'code' => 'signage_module',
+            ),
+            7 => 
+            array (
+                'id' => 8,
+                'name' => 'Survey_Module',
+                'price' => '2000.00',
+                'created_at' => '2018-06-01 04:57:35',
+                'updated_at' => '2018-06-01 04:57:35',
+                'deleted_at' => NULL,
+                'code' => 'survey_module',
+            ),
         ));
         
         

@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Auth;
+use App\Models\Company\Currency;
+use Session;
 
 class CurrencyController extends AppBaseController
 {
@@ -30,7 +33,11 @@ class CurrencyController extends AppBaseController
     public function index(Request $request)
     {
         $this->currencyRepository->pushCriteria(new RequestCriteria($request));
-        $currencies = $this->currencyRepository->all();
+
+        $companyId         =   Auth::guard('company')->user()->companyUser()->first()->company_id;
+
+
+        $currencies    = Currency::where('company_id',$companyId)->get();
 
         return view('company.currencies.index')
             ->with('currencies', $currencies);
@@ -57,11 +64,14 @@ class CurrencyController extends AppBaseController
     {
         $input = $request->all();
 
+        $input['company_id'] =   Auth::guard('company')->user()->companyUser()->first()->company_id;
+        // dd($input['company_id']);
         $currency = $this->currencyRepository->create($input);
 
         if($currency)
         {
-            session()->flash('msg.success','Currency successfully created');
+            /*session()->flash('msg.success','Currency successfully created');*/
+            Session::flash("successMessage", "Currency successfully created");
         }
 
         return redirect(route('company.currencies.index'));
@@ -130,7 +140,8 @@ class CurrencyController extends AppBaseController
 
         if($currency)
         {
-            session()->flash('msg.success','Currency updated successfully.');
+            Session::flash("successMessage", "Currency updated successfully.");
+           /* session()->flash('msg.success','Currency updated successfully.');*/
         }
 
         return redirect(route('company.currencies.index'));
@@ -154,9 +165,10 @@ class CurrencyController extends AppBaseController
         }
 
         $this->currencyRepository->delete($id);
-
-        Flash::success('Currency deleted successfully.');
-
+/*
+        Flash::success('Currency deleted successfully.');*/
+        Session::flash("deleteMessage", "Currency deleted successfully.");
+        /*session()->flash('msg.success','Currency deleted successfully');*/
         return redirect(route('company.currencies.index'));
     }
 }

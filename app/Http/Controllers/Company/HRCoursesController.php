@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Auth;
+use App\Models\Company\HRCourses;
+use Session;
 
 class HRCoursesController extends AppBaseController
 {
@@ -30,7 +33,10 @@ class HRCoursesController extends AppBaseController
     public function index(Request $request)
     {
         $this->hRCoursesRepository->pushCriteria(new RequestCriteria($request));
-        $hRCourses = $this->hRCoursesRepository->all();
+        $companyId         =   Auth::guard('company')->user()->companyUser()->first()->company_id;
+        
+        $hRCourses    = HRCourses::where('company_id',$companyId)->get();
+
 
         return view('company.h_r_courses.index')
             ->with('hRCourses', $hRCourses);
@@ -56,12 +62,14 @@ class HRCoursesController extends AppBaseController
     public function store(CreateHRCoursesRequest $request)
     {
         $input = $request->all();
+        $input['company_id'] =   Auth::guard('company')->user()->companyUser()->first()->company_id;
 
         $hRCourses = $this->hRCoursesRepository->create($input);
 
         if ($hRCourses) 
         {
-            session()->flash('msg.success','HR Courses saved successfully.');
+            /*session()->flash('msg.success','HR Courses saved successfully.');*/
+            Session::flash("successMessage", "HR Course saved successfully");
         }
 
         return redirect(route('company.hRCourses.index'));
@@ -129,7 +137,8 @@ class HRCoursesController extends AppBaseController
 
         if($hRCourses)
         {
-            session()->flash('msg.success','HR Courses updated successfully.');
+            /*session()->flash('msg.success','HR Courses updated successfully.');*/
+        Session::flash("successMessage", "HR Courses updated successfully");
         }
 
         return redirect(route('company.hRCourses.index'));
@@ -154,7 +163,8 @@ class HRCoursesController extends AppBaseController
 
         $this->hRCoursesRepository->delete($id);
 
-        session()->flash('msg.success','HR Courses deleted successfully.');
+        /*session()->flash('msg.success','HR Courses deleted successfully.');*/
+        Session::flash("deleteMessage", "HR Courses deleted successfully");
 
         return redirect(route('company.hRCourses.index'));
     }

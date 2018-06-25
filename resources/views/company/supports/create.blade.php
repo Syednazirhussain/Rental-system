@@ -7,7 +7,7 @@
         <div class="page-header">
             <h1>
                 <span class="text-muted font-weight-light">
-                    <i class="page-header-icon ion-ios-keypad"></i>
+                    <i class="page-header-icon fa fa-life-ring"></i>
                     <a href="{{ route('company.supports.index') }}">Support</a>
                 </span>
             </h1>

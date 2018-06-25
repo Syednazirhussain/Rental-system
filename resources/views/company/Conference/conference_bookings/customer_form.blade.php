@@ -21,6 +21,9 @@
             </div>
 	</div>
 
+</div>
+
+<div class="row">
 	<div class="col-md-6">
             <div class="form-group m-t-2">
                 <label for="customer">Country</label>
@@ -56,7 +59,9 @@
                 <div class="errorTxt"></div>
             </div>
 	</div>
+</div>
 
+<div class="row">
 	<div class="col-md-6">
             <div class="form-group m-t-2">
                 <label for="customer">City</label>
@@ -81,7 +86,9 @@
                 <div class="errorTxt"></div>
             </div>
 	</div>
+</div>
 
+<div class="row">
 	<div class="col-md-6">
             <div class="form-group m-t-2">
                 <label for="customer">Telephone</label>
@@ -97,7 +104,9 @@
                 <div class="errorTxt"></div>
             </div>
 	</div>
+</div>
 
+<div class="row">
 	<div class="col-md-6">
             <div class="form-group m-t-2">
                 <label for="customer">Fax</label>
@@ -113,5 +122,4 @@
                 <div class="errorTxt"></div>
             </div>
 	</div>
-
 </div>

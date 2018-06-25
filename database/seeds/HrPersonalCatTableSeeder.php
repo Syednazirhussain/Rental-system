@@ -12,7 +12,7 @@ class HrPersonalCatTableSeeder extends Seeder
      */
     public function run()
     {
-        
+        /*
 
         \DB::table('hr_personal_cat')->delete();
         
@@ -34,7 +34,7 @@ class HrPersonalCatTableSeeder extends Seeder
                 'deleted_at' => NULL,
             ),
         ));
-        
+        */
         
     }
 }

@@ -6,7 +6,7 @@
             <th>Address</th>
             <th>Zipcode</th>
             <th>Num Floors</th>
-            <th>Company Id</th>
+            <th>Company Name</th>
             <th width="200px">Action</th>
         </tr>
     </thead>
@@ -14,14 +14,13 @@
     @foreach($companyBuildings as $companyBuilding)
         <tr>
             <td>{{ $loop->index + 1 }}</td>
-            <td>{{ $companyBuilding->name }}</td>
-            <td>{{ $companyBuilding->address }}</td>
+            <td>{{ ucfirst($companyBuilding->name) }}</td>
+            <td>{{ ucfirst($companyBuilding->address) }}</td>
             <td>{{ $companyBuilding->zipcode }}</td>
             <td>{{ $companyBuilding->num_floors }}</td>
-            <td>{{ $companyBuilding->company_id }}</td>
+            <td>{{ ucfirst($company->name) }}</td>
             <td  width="200px" class="text-center">
-                <a href="{!! route('company.companyBuildings.show', [$companyBuilding->id]) !!}"><i class="fa fa-eye fa-lg text-info"></i></a>
-                <a href="{!! route('company.companyBuildings.edit', [$companyBuilding->id]) !!}"><i class="fa fa-edit fa-lg text-info"></i></a>
+                <a href="{!! route('company.companyBuildings.edit', [$companyBuilding->id]) !!}" class='btn btn-default btn-xs'><i class="fa fa-edit fa-lg text-info"></i></a>
             </td>
         </tr>
     @endforeach

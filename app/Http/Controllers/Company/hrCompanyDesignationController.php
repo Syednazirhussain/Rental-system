@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Auth;
+use App\Models\Company\hrCompanyDesignation;
+use Session;
 
 class hrCompanyDesignationController extends AppBaseController
 {
@@ -30,7 +33,10 @@ class hrCompanyDesignationController extends AppBaseController
     public function index(Request $request)
     {
         $this->hrCompanyDesignationRepository->pushCriteria(new RequestCriteria($request));
-        $hrCompanyDesignations = $this->hrCompanyDesignationRepository->all();
+        $companyId         =   Auth::guard('company')->user()->companyUser()->first()->company_id;
+        
+        $hrCompanyDesignations    = hrCompanyDesignation::where('company_id',$companyId)->get();
+
 
         return view('company.hr_company_designations.index')
             ->with('hrCompanyDesignations', $hrCompanyDesignations);
@@ -56,10 +62,12 @@ class hrCompanyDesignationController extends AppBaseController
     public function store(CreatehrCompanyDesignationRequest $request)
     {
         $input = $request->all();
+        $input['company_id'] =   Auth::guard('company')->user()->companyUser()->first()->company_id;
 
         $hrCompanyDesignation = $this->hrCompanyDesignationRepository->create($input);
 
-        Flash::success('Hr Company Designation saved successfully.');
+       /* Flash::success('Hr Company Designation saved successfully.');*/
+        Session::flash("successMessage", "Hr Company Designation saved successfully");
 
         return redirect(route('company.hrCompanyDesignations.index'));
     }
@@ -124,7 +132,8 @@ class hrCompanyDesignationController extends AppBaseController
 
         $hrCompanyDesignation = $this->hrCompanyDesignationRepository->update($request->all(), $id);
 
-        Flash::success('Hr Company Designation updated successfully.');
+        /*s*/
+        Session::flash("successMessage", "Hr Civil Status updated successfully");
 
         return redirect(route('company.hrCompanyDesignations.index'));
     }
@@ -148,7 +157,8 @@ class hrCompanyDesignationController extends AppBaseController
 
         $this->hrCompanyDesignationRepository->delete($id);
 
-        Flash::success('Hr Company Designation deleted successfully.');
+        /*Flash::success('Hr Company Designation deleted successfully.');*/
+        Session::flash("deleteMessage", "Hr Civil Status deleted successfully");
 
         return redirect(route('company.hrCompanyDesignations.index'));
     }

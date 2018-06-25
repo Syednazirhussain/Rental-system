@@ -27,7 +27,7 @@
 
 
         <div class="text-right m-b-3">
-            <a href="{!! route('company.conference.conferenceBookings.create') !!}" class="btn btn-primary"><i class="fa fa-plus"></i> ADD BOOKING</a>
+            <a href="{!! route('company.conference.conferenceBookings.create') !!}" class="btn btn-primary"><i class="fa fa-plus"></i> CREATE </a>
         </div>
 
         <div class="table-primary">
