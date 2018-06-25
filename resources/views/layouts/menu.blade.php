@@ -243,3 +243,7 @@
     <a href="{!! route('company.companyHrDocuments.index') !!}"><i class="fa fa-edit"></i><span>Company Hr Documents</span></a>
 </li>
 
+<li class="{{ Request::is('conferenceBookingDrafts*') ? 'active' : '' }}">
+    <a href="{!! route('conferenceBookingDrafts.index') !!}"><i class="fa fa-edit"></i><span>Conference Booking Drafts</span></a>
+</li>
+

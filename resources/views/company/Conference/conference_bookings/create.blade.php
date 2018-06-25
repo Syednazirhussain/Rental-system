@@ -31,7 +31,7 @@
                             <a href="#ArticlesFormTab" data-toggle="tab">Articles</a>
                           </li>
                           <li>
-                            <a href="#driftFormTab" data-toggle="tab">Drift</a>
+                            <a href="#draftFormTab" data-toggle="tab">Draft</a>
                           </li>
                         </ul>
 
@@ -50,14 +50,14 @@
                                   <div class="tab-pane fade" id="ArticlesFormTab">
                                     @include('company.Conference.conference_bookings.articles_form')
                                   </div>  
-                                  <div class="tab-pane fade" id="driftFormTab">
-                                    @include('company.Conference.conference_bookings.drift_form')
+                                  <div class="tab-pane fade" id="draftFormTab">
+                                    @include('company.Conference.conference_bookings.draft_form')
                                   </div>                              
                                 </div>
 
                                                                 
                                 <div class="row">
-<<<<<<< HEAD
+
                                     <div class="col-sm-12 text-right m-t-3">
                                             <button id="submitBtn" type="submit" class="btn btn-primary">@if(isset($conferenceBooking))  <i class="fa fa-refresh"></i>  Update   @else Next &nbsp;<i class="fa fa-arrow-circle-right"></i>   @endif</button>
 
@@ -169,6 +169,46 @@
                             required: true,
                           },
                           'remarks': {
+                            required: true,
+                          },
+
+                          'booking_type': {
+                            required: true,
+                          },
+                          'cancellation_policy': {
+                            required: true,
+                          },
+                          'booking_category': {
+                            required: true,
+                          },
+                          'booking_color': {
+                            required: true,
+                          },
+                          'signage': {
+                            required: true,
+                          },
+                          'customer_in_place': {
+                            required: true,
+                          },
+                          'contact_person_in_place': {
+                            required: true,
+                          },
+                          'event_name': {
+                            required: true,
+                          },
+                          'telephone_number': {
+                            required: true,
+                          },
+                          'email_address': {
+                            required: true,
+                          },
+                          'project_leader': {
+                            required: true,
+                          },
+                          'other_personal': {
+                            required: true,
+                          },
+                          'sales_person': {
                             required: true,
                           },
 
@@ -363,7 +403,27 @@
               })
             });
 
-            $('#time_of_project').timepicker({
+            $('#project_time').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#writer_time').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#clearing_time').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#furnishing_time').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#first_person_time').timepicker({
                       maxHours: 24
 
                   });
@@ -1020,6 +1080,23 @@ function formatDate(date) {
 
 
 
+                // DRAFT FIELDS
+                var booking_type = $('#booking_type').val();
+                var cancellation_policy = $('#cancellation_policy').val();
+                var booking_category = $('#booking_category').val();
+                var booking_color = $('#booking_color').val();
+                var signage = $('#signage').val();
+                var customer_in_place = $('#customer_in_place').val();
+                var contact_person_in_place = $('#contact_person_in_place').val();
+                var event_name = $('#event_name').val();
+                var telephone_number = $('#telephone_number').val();
+                var email_address = $('#email_address').val();
+                var project_leader = $('#project_leader').val();
+                var other_personal = $('#other_personal').val();
+                var sales_person = $('#sales_person').val();
+
+
+
 
                 if(room_id == '' || room_layout_id == '' || booking_status == '' || payment_method_code == '' ) {
 
@@ -1033,7 +1110,7 @@ function formatDate(date) {
                     $('#CustomerFormTab').removeClass('active in');
                     $('#BillingFormTab').removeClass('active in');
                     $('#ArticlesFormTab').removeClass('active in');
-                    $('#driftFormTab').removeClass('active in');
+                    $('#draftFormTab').removeClass('active in');
 
                 } else if (customer_id == '' || customer_address == '' || customer_country == '' || customer_state == '' || customer_city == '' || customer_post_code == '' || customer_telephone == '' || customer_mobile == '' || customer_fax == '' || customer_org_num == '') {
 
@@ -1045,22 +1122,37 @@ function formatDate(date) {
 
                     $('#BookingFormTab').removeClass('active in');
                     $('#CustomerFormTab').addClass('active in');
-                    $('#driftFormTab').removeClass('active in');
+                    $('#BillingFormTab').removeClass('active in');
+                    $('#ArticlesFormTab').removeClass('active in');
+                    $('#draftFormTab').removeClass('active in');
 
                 } else if (invoice_send == '' || reference == '' || contact_person == '' || cost == '' || payment_conditions == '' || interest_fees == '' || payment_reminder == '') {
 
                     $('ul.nav-tabs li:first-child').removeClass('active');
                     $('ul.nav-tabs li:nth-child(2)').removeClass('active');
                     $('ul.nav-tabs li:nth-child(3)').addClass('active');
-                    $('ul.nav-tabs li:nth-child(4)').addClass('active');
-                    $('ul.nav-tabs li:nth-child(5)').addClass('active');
+                    $('ul.nav-tabs li:nth-child(4)').removeClass('active');
+                    $('ul.nav-tabs li:nth-child(5)').removeClass('active');
 
                     $('#BookingFormTab').removeClass('active in');
                     $('#CustomerFormTab').removeClass('active in');
                     $('#BillingFormTab').addClass('active in');
                     $('#ArticlesFormTab').removeClass('active in');
-                    $('#driftFormTab').removeClass('active in');
+                    $('#draftFormTab').removeClass('active in');
 
+                } else if (booking_type == '' || cancellation_policy == '' || booking_category == '' || booking_color == '' || signage == '' || customer_in_place == '' || contact_person_in_place == '' || event_name == '' || telephone_number == '' || email_address == '' || project_leader == '' || other_personal == '' || sales_person == '') {
+
+                    $('ul.nav-tabs li:first-child').removeClass('active');
+                    $('ul.nav-tabs li:nth-child(2)').removeClass('active');
+                    $('ul.nav-tabs li:nth-child(3)').removeClass('active');
+                    $('ul.nav-tabs li:nth-child(4)').removeClass('active');
+                    $('ul.nav-tabs li:nth-child(5)').addClass('active');
+
+                    $('#BookingFormTab').removeClass('active in');
+                    $('#CustomerFormTab').removeClass('active in');
+                    $('#BillingFormTab').removeClass('active in');
+                    $('#ArticlesFormTab').removeClass('active in');
+                    $('#draftFormTab').addClass('active in');
 
                 }
 

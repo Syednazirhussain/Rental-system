@@ -18,6 +18,7 @@ use App\Repositories\CountryRepository;
 use App\Repositories\StateRepository;
 use App\Repositories\CityRepository;
 use App\Repositories\BookingAgencyRepository;
+use App\Repositories\ConferenceBookingDraftRepository;
 use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -32,6 +33,7 @@ class ConferenceBookingController extends AppBaseController
     /** @var  ConferenceBookingRepository */
     private $conferenceBookingRepository;
     private $conferenceBookingItemRepository;
+    private $conferenceBookingDraftRepository;
     private $roomLayoutRepository;
     private $conferenceDurationRepository;
     private $equipmentRepository;
@@ -46,6 +48,7 @@ class ConferenceBookingController extends AppBaseController
 
     public function __construct(ConferenceBookingRepository $conferenceBookingRepo,
                                 ConferenceBookingItemRepository $conferenceBookingItemRepo,
+                                ConferenceBookingDraftRepository $conferenceBookingDraftRepo,
                                 RoomLayoutRepository $roomLayoutRepo,
                                 EquipmentsRepository $equipmentRepo,
                                 PaymentMethodRepository $paymentMethodRepo,
@@ -61,6 +64,7 @@ class ConferenceBookingController extends AppBaseController
     {
         $this->conferenceBookingRepository      = $conferenceBookingRepo;
         $this->conferenceBookingItemRepository  = $conferenceBookingItemRepo;
+        $this->conferenceBookingDraftRepository = $conferenceBookingDraftRepo;
         $this->roomLayoutRepository             = $roomLayoutRepo;
         $this->conferenceDurationRepository     = $conferenceDurationRepo;
         $this->equipmentRepository              = $equipmentRepo;
@@ -167,6 +171,8 @@ class ConferenceBookingController extends AppBaseController
     {
         $input = $request->all();
 
+        // dd($input);
+
 
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
 
@@ -215,6 +221,7 @@ class ConferenceBookingController extends AppBaseController
         } 
 
         $conferenceBooking = $this->conferenceBookingRepository->create($input);
+
 
 
         // ==========================================================================
@@ -294,6 +301,11 @@ class ConferenceBookingController extends AppBaseController
             }
         }
 
+
+        // ==========================================================================
+
+        $input['booking_id'] = $conferenceBooking->id;
+        $this->conferenceBookingDraftRepository->create($input);
 
         // ==========================================================================
 
