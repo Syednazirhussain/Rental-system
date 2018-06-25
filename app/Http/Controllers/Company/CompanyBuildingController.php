@@ -14,6 +14,7 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use App\Models\Company;
+use Session;
 
 class CompanyBuildingController extends AppBaseController
 {
@@ -170,7 +171,8 @@ class CompanyBuildingController extends AppBaseController
             return redirect(route('company.companyBuildings.index'));
         }
         $this->companyBuildingRepository->update($request->all('name','address','zipcode'), $id);
-        $request->session()->flash('msg.success', 'Company Building updated successfully.');
+        Session::flash("successMessage", "Company Building updated successfully");
+        /*$request->session()->flash('msg.success', 'Company Building updated successfully.');*/
 
         return redirect(route('company.companyBuildings.index'));
     }

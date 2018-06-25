@@ -6,7 +6,7 @@
 
      <div class="px-content">
         <div class="page-header">
-            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Conference Bookings / </span>Create Conference Booking</h1>
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon fa fa-edit"></i>Conference Bookings / </span>Create Conference Booking</h1>
         </div>
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -27,6 +27,12 @@
                           <li>
                             <a href="#BillingFormTab" data-toggle="tab">Billing</a>
                           </li>
+                          <li>
+                            <a href="#ArticlesFormTab" data-toggle="tab">Articles</a>
+                          </li>
+                          <li>
+                            <a href="#driftFormTab" data-toggle="tab">Drift</a>
+                          </li>
                         </ul>
 
                             <form action="{{ route('company.conference.conferenceBookings.store') }}" method="POST" id="bookingForm">
@@ -40,8 +46,13 @@
                                   </div>
                                   <div class="tab-pane fade" id="BillingFormTab">
                                     @include('company.Conference.conference_bookings.billing_form')
-                                  </div>
-                                  
+                                  </div>  
+                                  <div class="tab-pane fade" id="ArticlesFormTab">
+                                    @include('company.Conference.conference_bookings.articles_form')
+                                  </div>  
+                                  <div class="tab-pane fade" id="driftFormTab">
+                                    @include('company.Conference.conference_bookings.drift_form')
+                                  </div>                              
                                 </div>
 
                                                                 
@@ -311,10 +322,91 @@
             });
 
             $(function() {
+              $('.select2-type').select2({
+                placeholder: 'Select Booking Type',
+              })
+            });
+
+            $(function() {
+              $('.select2-policy').select2({
+                placeholder: 'Select Cancellation Policy',
+              })
+            });
+
+            $(function() {
+              $('.select2-category').select2({
+                placeholder: 'Select Booking Category',
+              })
+            });
+
+            $(function() {
+              $('.select2-agency').select2({
+                placeholder: 'Select Booking Agency',
+              })
+            });
+
+            $(function() {
+              $('.select2-color').select2({
+                placeholder: 'Select Booking Color',
+              })
+            });
+
+            $(function() {
+              $('.select2-signage').select2({
+                placeholder: 'Select Signage',
+              })
+            });
+
+            $(function() {
               $('.select2-payment-methods').select2({
                 placeholder: 'Select Payment Method',
               })
             });
+
+            $('#time_of_project').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#guest_arrival').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#morning_coffee').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#meeting_start').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#lunch').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#after_noon_coffee').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#meeting_end').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#dinner').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#party').timepicker({
+                      maxHours: 24
+
+                  });
 
             
           $('#booking_date').daterangepicker({
@@ -866,30 +958,41 @@
                     $('ul.nav-tabs li:first-child').addClass('active');
                     $('ul.nav-tabs li:nth-child(2)').removeClass('active');
                     $('ul.nav-tabs li:nth-child(3)').removeClass('active');
+                    $('ul.nav-tabs li:nth-child(4)').removeClass('active');
+                    $('ul.nav-tabs li:nth-child(5)').removeClass('active');
 
                     $('#BookingFormTab').addClass('active in');
                     $('#CustomerFormTab').removeClass('active in');
                     $('#BillingFormTab').removeClass('active in');
+                    $('#ArticlesFormTab').removeClass('active in');
+                    $('#driftFormTab').removeClass('active in');
 
                 } else if (customer_id == '' || customer_address == '' || customer_country == '' || customer_state == '' || customer_city == '' || customer_post_code == '' || customer_telephone == '' || customer_mobile == '' || customer_fax == '' || customer_org_num == '') {
 
                     $('ul.nav-tabs li:first-child').removeClass('active');
                     $('ul.nav-tabs li:nth-child(2)').addClass('active');
                     $('ul.nav-tabs li:nth-child(3)').removeClass('active');
+                    $('ul.nav-tabs li:nth-child(4)').removeClass('active');
+                    $('ul.nav-tabs li:nth-child(5)').removeClass('active');
 
                     $('#BookingFormTab').removeClass('active in');
                     $('#CustomerFormTab').addClass('active in');
-                    $('#BillingFormTab').removeClass('active in');
+                    $('#driftFormTab').removeClass('active in');
 
                 } else if (invoice_send == '' || reference == '' || contact_person == '' || cost == '' || payment_conditions == '' || interest_fees == '' || payment_reminder == '') {
 
                     $('ul.nav-tabs li:first-child').removeClass('active');
                     $('ul.nav-tabs li:nth-child(2)').removeClass('active');
                     $('ul.nav-tabs li:nth-child(3)').addClass('active');
+                    $('ul.nav-tabs li:nth-child(4)').addClass('active');
+                    $('ul.nav-tabs li:nth-child(5)').addClass('active');
 
                     $('#BookingFormTab').removeClass('active in');
                     $('#CustomerFormTab').removeClass('active in');
                     $('#BillingFormTab').addClass('active in');
+                    $('#ArticlesFormTab').removeClass('active in');
+                    $('#driftFormTab').removeClass('active in');
+
 
                 }
 

@@ -12,6 +12,7 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use Auth;
 use App\Models\Company\hrSalaryType;
+use Session;
 
 class hrSalaryTypeController extends AppBaseController
 {
@@ -65,7 +66,8 @@ class hrSalaryTypeController extends AppBaseController
 
         $hrSalaryType = $this->hrSalaryTypeRepository->create($input);
 
-        Flash::success('Hr Salary Type saved successfully.');
+        /*Flash::success('Hr Salary Type saved successfully.');*/
+        Session::flash("successMessage", "Hr Salary Type saved successfully");
 
         return redirect(route('company.hrSalaryTypes.index'));
     }
@@ -130,7 +132,8 @@ class hrSalaryTypeController extends AppBaseController
 
         $hrSalaryType = $this->hrSalaryTypeRepository->update($request->all(), $id);
 
-        Flash::success('Hr Salary Type updated successfully.');
+        /*Flash::success('Hr Salary Type updated successfully.');*/
+        Session::flash("successMessage", "Hr Salary Type updated successfully");
 
         return redirect(route('company.hrSalaryTypes.index'));
     }
@@ -154,7 +157,8 @@ class hrSalaryTypeController extends AppBaseController
 
         $this->hrSalaryTypeRepository->delete($id);
 
-        Flash::success('Hr Salary Type deleted successfully.');
+        /*Flash::success('Hr Salary Type deleted successfully.');*/
+        Session::flash("deleteMessage", "Hr Salary Type deleted successfully");
 
         return redirect(route('company.hrSalaryTypes.index'));
     }

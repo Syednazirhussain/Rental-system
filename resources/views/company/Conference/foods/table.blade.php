@@ -14,7 +14,7 @@
             <td>
                 {!! Form::open(['route' => ['company.conference.foods.destroy', $food->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>
-                    <a href="{!! route('company.conference.foods.edit', [$food->id]) !!}" class='btn btn-default btn-xs'><i class="fa fa-edit"></i></a>
+                    <a href="{!! route('company.conference.foods.edit', [$food->id]) !!}" class='btn btn-default btn-xs'><i class="fa fa-edit fa-lg text-info"></i></a>
                     {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
                 </div>
                 {!! Form::close() !!}
