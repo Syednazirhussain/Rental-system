@@ -14,8 +14,8 @@ class AddPriceToServices extends Migration
     public function up()
     {
         Schema::table('services', function (Blueprint $table) {
-                //$table->dropColumn('price');
-                $table->integer('price')->decimal(10,2)->nullable()->index('price');
+                // $table->dropColumn('price');
+                $table->unsignedDecimal('price', 10, 2)->change();
             });
     }
 
