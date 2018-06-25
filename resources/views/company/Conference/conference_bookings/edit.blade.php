@@ -156,9 +156,7 @@
                           'invoice_send': {
                             required: true,
                           },
-                          'reference': {
-                            required: true,
-                          },
+                          
                           'contact_person': {
                             required: true,
                           },
