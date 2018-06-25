@@ -24,6 +24,7 @@
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/holder/2.9.0/holder.js"></script>
     <!-- Pace.js -->
     <script src="{{ asset('/skin-1/assets/pace/pace.min.js') }}"></script>
+    <script src="{{ asset('/skin-1/assets/dateformat/dateformat.js') }}"></script>
     <script src="{{ asset('/skin-1/assets/demo/demo.js') }}"></script>
     <!-- Custom styling -->
     <style>
