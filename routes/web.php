@@ -706,6 +706,7 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::get('company/contracts/{contracts}/edit', ['as'=> 'company.contracts.edit', 'uses' => 'Company\RoomContractController@edit']);
     Route::get('company/calendar', ['as'=> 'company.contracts.status', 'uses' => 'Company\RoomContractController@status']);
     Route::post('company/periods', ['as'=> 'company.contracts.period', 'uses' => 'Company\RoomContractController@getPeriod']);
+    Route::post('company/calendar/advanced_filter', ['as'=> 'company.contracts.filter', 'uses' => 'Company\RoomContractController@calendar_filter']);
 
 
     # Company Contract Persons Section routes

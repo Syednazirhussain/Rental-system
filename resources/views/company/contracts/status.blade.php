@@ -23,6 +23,44 @@
             <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Settings / </span>Contract Status</h1>
         </div>
         <div class="row">
+            <div class="col-md-12 m-b-2">
+                <div class="col-md-1">
+                    <label class="custom-control custom-checkbox" style="font-size: 14px; margin-top: 4px;">
+                        <input type="checkbox" id="block_customer" data-toggle="switch" class="custom-control-input">
+                        <span class="custom-control-indicator"></span>
+                        &nbsp;&nbsp;Active
+                    </label>
+                </div>
+                <div class="col-md-3">
+                    <label for="building" class="col-md-5 form-label">Select Building </label>
+                    <div class="col-md-7">
+                        <select class="form-control" id="building" name="building">
+                            @foreach ($buildings as $building)
+                                <option value="{{ $building->id }}"><span>{{ $building->name }}</span></option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label for="floor" class="col-md-5 form-label">Select Floor </label>
+                    <div class="col-md-7">
+                        <select class="form-control" id="floor" name="floor">
+                            @foreach ($floors as $floor)
+                                <option value="{{ $floor->id }}"><span>{{ $floor->floor }}</span></option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label for="floor" class="col-md-5 form-label">Year</label>
+                    <div class="col-md-7">
+                        <input type="text" id="year" name="year" class="form-control" placeholder="2018">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-primary" id="calendar_filter">Search</button>
+                </div>
+            </div>
             <div class="col-md-12">
                 <div id="calendar"></div>
                 <input id="calendar_data" type="hidden" value="{{ isset($data) ? $data : '' }}">
@@ -187,12 +225,49 @@
         if(data) {
             data = JSON.parse(data);
         }
-        console.log(data);
+
+        $('#calendar_filter').on('click', function() {
+            var building = document.getElementById('building').value;
+            var floor = document.getElementById('floor').value;
+            var year = document.getElementById('year').value;
+
+            $.ajax({
+                url: '{{ route("company.contracts.filter") }}',
+                data: {building: building, floor: floor, year: year},
+                dataType: 'json',
+                cache: false,
+                type: 'POST', // For jQuery < 1.9
+                success: function (return_data) {
+                    if(return_data.success) {
+                        document.getElementById('calendar_data').value = return_data.data.data;
+                        data = JSON.parse(return_data.data.data);
+                        calculate_events();
+                        $('#calendar').fullCalendar( 'removeEvents');
+                        $('#calendar').fullCalendar( 'addEventSource', event_data);
+                    }
+                },
+                error: function (xhr, status, error) {
+
+                }
+
+            });
+
+        });
+
         var event_data = [];
-        var resource_data = []
-        for(var i=0; i< data.length; i++) {
-            event_data.push({'title' : data[i].name, 'start' : data[i].start_date ? data[i].start_date : '', 'end' : data[i].end_date ? data[i].end_date : '', 'color' : colors[i % 7], 'resourceId' : data[i].id});
-            resource_data.push({'id': data[i].id, 'title' : data[i].buildingName + ' - ' + data[i].floor + ' - ' + data[i].name});
+        var resource_data = [];
+        calculate_events();
+
+        function calculate_events() {
+            if(data.length == 0) {
+                event_data = [];
+                resource_data = [];
+            }
+
+            for(var i=0; i< data.length; i++) {
+                event_data.push({'title' : data[i].name, 'start' : data[i].start_date ? data[i].start_date : '', 'end' : data[i].end_date ? data[i].end_date : '', 'color' : colors[i % 7], 'resourceId' : data[i].id});
+                resource_data.push({'id': data[i].id, 'room' : data[i].buildingName + ' - ' + data[i].floor + ' - ' + data[i].name, 'kvm': data[i].area});
+            }
         }
 
         $('#calendar').fullCalendar({
@@ -207,7 +282,16 @@
             //Events
             events: event_data,
             defaultView: 'timelineDay',
-            resourceLabelText: 'Rooms',
+            resourceColumns: [
+                {
+                    labelText: 'Rooms',
+                    field: 'room'
+                },
+                {
+                    labelText: 'KVM',
+                    field: 'kvm'
+                }
+            ],
             resources: resource_data,
             selectable: true,
             select: function(startDate, endDate) {

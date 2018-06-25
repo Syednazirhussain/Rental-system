@@ -251,6 +251,8 @@ class RoomContractController extends AppBaseController
         $modules = Module::all();
         $paymentCycles = PaymentCycle::all();
         $paymentMethods = PaymentMethod::all();
+        $companyBuildings = CompanyBuilding::where('company_id', $company_id)->get();
+        $companyFloors = CompanyFloorRoom::where('company_id', $company_id)->get();
 
 
         $contracts = Room::leftJoin('room_contracts', 'rooms.id', '=', 'room_contracts.room_id')
@@ -258,7 +260,7 @@ class RoomContractController extends AppBaseController
             ->join('company_buildings', 'company_floor_rooms.building_id', '=', 'company_buildings.id')
             ->where('rooms.company_id', $company_id)
             ->where('room_contracts.deleted_at', NULL)
-            ->select('rooms.id','rooms.name', 'room_contracts.start_date', 'room_contracts.end_date', 'company_buildings.name as buildingName', 'company_floor_rooms.floor')
+            ->select('rooms.id','rooms.name', 'rooms.area', 'room_contracts.start_date', 'room_contracts.end_date', 'company_buildings.name as buildingName', 'company_floor_rooms.floor')
             ->distinct('rooms.id')->orderBy('rooms.id', 'DESC')->get();
 
 
@@ -273,7 +275,9 @@ class RoomContractController extends AppBaseController
             'paymentCycles' => $paymentCycles,
             'paymentMethods' => $paymentMethods,
             'companyUsers' => '',
-            'data' => $data = json_encode($contracts)
+            'data' => $data = json_encode($contracts),
+            'buildings' => $companyBuildings,
+            'floors' => $companyFloors,
         ];
 
         return view('company.contracts.status', $data);
@@ -289,5 +293,36 @@ class RoomContractController extends AppBaseController
         $input = $request->room_id;
         $contracts = RoomContracts::where('room_id', $input)->get();
         return response()->json(['success'=>1, 'msg'=>'Fetched Room Contract Period successfully', 'data' => $contracts]);
+    }
+
+    public function calendar_filter(Request $request)
+    {
+        $input = $request->all();
+
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+
+        $contracts = Room::leftJoin('room_contracts', 'rooms.id', '=', 'room_contracts.room_id')
+            ->join('company_floor_rooms', 'rooms.floor_id', '=', 'company_floor_rooms.id')
+            ->join('company_buildings', 'company_floor_rooms.building_id', '=', 'company_buildings.id')
+            ->where('rooms.company_id', $company_id)
+            ->where('room_contracts.deleted_at', NULL)
+            ->select('rooms.id','rooms.name', 'rooms.area', 'room_contracts.start_date', 'room_contracts.end_date', 'company_buildings.name as buildingName', 'company_buildings.id as building', 'company_floor_rooms.id as floor_id', 'company_floor_rooms.floor')
+            ->distinct('rooms.id')->orderBy('rooms.id', 'DESC');
+
+        if($input['building']) {
+            $contracts = $contracts->where('company_buildings.id', $input['building']);
+        }
+
+        if($input['floor']) {
+            $contracts = $contracts->where('company_floor_rooms.id', $input['floor']);
+        }
+
+        $contracts = $contracts->get();
+
+        $data = [
+            'data' => json_encode($contracts),
+        ];
+
+        return response()->json(['success'=>1, 'msg'=>'', 'data'=>$data]);
     }
 }
