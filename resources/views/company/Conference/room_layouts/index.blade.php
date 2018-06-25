@@ -27,7 +27,7 @@
 
 
         <div class="text-right m-b-3">
-            <a href="{!! route('company.conference.roomLayouts.create') !!}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Room Layout</a>
+            <a href="{!! route('company.conference.roomLayouts.create') !!}" class="btn btn-primary"><i class="fa fa-plus"></i> Create</a>
         </div>
 
         <div class="table-primary">

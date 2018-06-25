@@ -6,8 +6,8 @@
 
 <div class="row">
     <div class="col-sm-12 form-group">
-        <label for="company_id">Company Name</label>
-        <input type="text" id="company_id" class="form-control"
+        <label>Company Name</label>
+        <input type="text" class="form-control"
                value="@if(isset($company)){{ $company->name }}@endif" disabled>
     </div>
     <div class="col-sm-12 form-group">
@@ -22,13 +22,21 @@
             Free Service
         </label>
     </div>
-    <div class="col-sm-12 form-group" id="service_price">
+    <!-- <div class="col-sm-12 form-group" id="service_price">
         <label for="price">Price</label>
         <input type="number" name="price" id="price" min="0" class="form-control" value="@if(isset($service)){{ $service->price }}@endif">
+    </div> -->
+    <div class="col-sm-12 form-group" id="service_price">
+        <label for="price">Price</label>
+        <div class="input-group">
+            <span class="input-group-addon">SEK</span>
+            <input type="number" name="price" id="price" min="0" class="form-control" value="@if(isset($service)){{ $service->price }}@endif">
+            <div class="errorTxt"></div> 
+        </div>
     </div>
     <div class="col-sm-12">
-        <button type="submit" class="btn btn-primary">@if(isset($service)) <i class="fa fa-refresh"></i>  Update @else <i class="fa fa-plus"></i>  Create @endif</button>
-        <a href="{!! route('company.services.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> Cancel</a>
+        <button type="submit" class="btn btn-primary">@if(isset($service)) <i class="fa fa-refresh"></i>  UPDATE @else <i class="fa fa-plus"></i>  CREATE @endif</button>
+        <a href="{!! route('company.services.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
     </div>
 </div>
 

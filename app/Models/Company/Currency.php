@@ -41,7 +41,8 @@ class Currency extends Model
 
     public $fillable = [
         'code',
-        'name'
+        'name',
+        'company_id'
     ];
 
     /**
@@ -52,7 +53,8 @@ class Currency extends Model
     protected $casts = [
         'id' => 'integer',
         'code' => 'string',
-        'name' => 'string'
+        'name' => 'string',
+        'company_id'    =>  'string'
     ];
 
     /**

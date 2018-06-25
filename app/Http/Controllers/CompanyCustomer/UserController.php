@@ -228,9 +228,9 @@ class UserController extends AppBaseController
             {
                 Auth::guard('company_customer')->user()->update(array('first_login' => false));
 
-                return redirect()->route('company.users.edit', Auth::guard('company')->user()->id);
-            }
+                // return redirect()->route('company.users.edit', Auth::guard('company')->user()->id);
             return redirect()->route('companyCustomer.dashboard');
+            }
                     
 
         }

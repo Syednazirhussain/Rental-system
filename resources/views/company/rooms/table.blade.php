@@ -4,7 +4,6 @@
             <th>No</th>
             <th>Room Name</th>
             <th>Floor</th>
-            <th>Service Name</th>
             <th>Price</th>
             <th>Area</th>
             <th>Security Code</th>
@@ -17,7 +16,6 @@
             <td>{!! $loop->index + 1 !!}</td>
             <td>{!! ucfirst($room->name) !!}</td>
             <td>{!! $room->floor->floor !!}</td>
-            <td>{!! ucfirst($room->service->name) !!}</td>
             <td>{!! $room->price !!}</td>
             <td>{!! $room->area !!} sqm</td>
             <td>{!! $room->security_code !!}</td>

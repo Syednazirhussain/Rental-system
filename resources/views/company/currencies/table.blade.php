@@ -10,7 +10,7 @@
     @foreach($currencies as $currency)
         <tr>
             <td>{!! $currency->code !!}</td>
-            <td>{!! $currency->name !!}</td>
+            <td>{!! ucfirst($currency->name) !!}</td>
 
             <td  width="200px" class="center">
                 {!! Form::open(['route' => ['company.currencies.destroy', $currency->id], 'method' => 'delete']) !!}

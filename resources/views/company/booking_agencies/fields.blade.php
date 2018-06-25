@@ -97,7 +97,7 @@
 
         <!-- Submit Field -->
             <div class="col-sm-12">
-                    <button type="submit" class="btn btn-primary">@if(isset($bookingAgency)) <i class="fa fa-refresh"></i>  Update Agency @else <i class="fa fa-plus"></i>  Add Agency @endif</button>
+                    <button type="submit" class="btn btn-primary">@if(isset($bookingAgency)) <i class="fa fa-refresh"></i>  Update @else <i class="fa fa-plus"></i>  CREATE @endif</button>
                     <a href="{!! route('company.bookingAgencies.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> Cancel</a>
                 </div>
             </div>

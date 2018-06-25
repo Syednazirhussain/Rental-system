@@ -77,6 +77,7 @@ class LeasePartnerController extends AppBaseController
         $input = $request->all();
 
 
+
         if(isset($input['delegated']) &&  $input['delegated'] == 'on')
         {
             $input['delegated'] = 1;

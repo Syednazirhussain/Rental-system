@@ -160,7 +160,7 @@
                             </div>
                             <div class="col-sm-6 form-group">
                                 <label for="discount">Discount</label>
-                                <input type="number" name="discount" id="discount" class="form-control"
+                                <input type="number" name="discount" min="0" id="discount" class="form-control"
                                        value="{{ (isset($contract)) ? $contract->discount:'0.00' }}">
                                 <div class="errorTxt"></div>
 

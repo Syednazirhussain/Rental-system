@@ -3,7 +3,7 @@
 @section('content')
     <div class="px-content">
         <div class="page-header">
-            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i><a href="{{ route('company.hRCourses.index')}}">Company HR / </a></span>HR Courses</h1>
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i><a href="{{ route('company.hRCourses.index')}}">Company HR / </a></span>Courses</h1>
         </div>
 
         <div class="panel">

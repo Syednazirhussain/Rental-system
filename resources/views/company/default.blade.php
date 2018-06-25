@@ -76,7 +76,7 @@
                             <li><a href="{{ route('company.rcustomer.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
                                     Customer</a>
                             </li>
-                            <li><a href="{{ route('company.rcustomer.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Customers</a>
+                            <li><a href="{{ route('company.rcustomer.index') }}"><i class="fa fa-users"></i>&nbsp;&nbsp;Customers</a>
                             </li>
                         </ul>
                     </li>
@@ -87,7 +87,7 @@
                             <li><a href="{{ route('company.rarticle.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add
                                     Article</a>
                             </li>
-                            <li><a href="{{ route('company.rarticle.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Articles</a>
+                            <li><a href="{{ route('company.rarticle.index') }}"><i class="ionicons ion-ios-paper-outline"></i>&nbsp;&nbsp;Articles</a>
                             </li>
                         </ul>
                     </li>
@@ -142,16 +142,16 @@
                      <li class="dropdown-toggle">
                         <a href="">Company HR</a>
                         <ul class="dropdown-menu">
-                           <li><a href="{{ route('company.companyHrs.index') }}"><i class="fa fa-address-book-o"></i>&nbsp;&nbsp;HR</a></li>
-                           <li><a href="{{ route('company.hrCivilStatuses.index') }}">&nbsp;&nbsp;Civil Status</a></li>
-                           <li><a href="{{ route('company.hrPersonalCats.index') }}">&nbsp;&nbsp;Personal Category</a></li>
-                           <li><a href="{{ route('company.hrCompanyCollectives.index') }}">&nbsp;&nbsp;Collectives</a></li>
-                           <li><a href="{{ route('company.hrCompanyDesignations.index') }}">&nbsp;&nbsp;Designations</a></li>
-                           <li><a href="{{ route('company.hrEmploymentForms.index') }}">&nbsp;&nbsp;Employment From</a></li>
-                           <li><a href="{{ route('company.hrSalaryTypes.index') }}">&nbsp;&nbsp;Salary Types</a></li>
-                           <li><a href="{{ route('company.hrCompanyProjects.index') }}">&nbsp;&nbsp;Projects</a></li>
-                           <li><a href="{{ route('company.hrVacationCategories.index') }}">&nbsp;&nbsp;Vacations</a></li>
-                           <li><a href="{{ route('company.hRCourses.index') }}">&nbsp;&nbsp;Courses</a></li>
+                           <li><a href="{{ route('company.companyHrs.index') }}"><i class="ionicons ion-person-stalker"></i>&nbsp;&nbsp;HR</a></li>
+                           <li><a href="{{ route('company.hrCivilStatuses.index') }}"><i class="ionicons ion-person-stalker"></i>&nbsp;&nbsp;Civil Status</a></li>
+                           <li><a href="{{ route('company.hrPersonalCats.index') }}"><i class="ionicons ion-person-stalker"></i>&nbsp;&nbsp;Personal Category</a></li>
+                           <li><a href="{{ route('company.hrCompanyCollectives.index') }}"><i class="ionicons ion-person-stalker"></i>&nbsp;&nbsp;Collectives</a></li>
+                           <li><a href="{{ route('company.hrCompanyDesignations.index') }}"><i class="ionicons ion-person-stalker"></i>&nbsp;&nbsp;Designations</a></li>
+                           <li><a href="{{ route('company.hrEmploymentForms.index') }}"><i class="ionicons ion-person-stalker"></i>&nbsp;&nbsp;Employment From</a></li>
+                           <li><a href="{{ route('company.hrSalaryTypes.index') }}"><i class="ionicons ion-person-stalker"></i>&nbsp;&nbsp;Salary Types</a></li>
+                           <li><a href="{{ route('company.hrCompanyProjects.index') }}"><i class="ionicons ion-person-stalker"></i>&nbsp;&nbsp;Projects</a></li>
+                           <li><a href="{{ route('company.hrVacationCategories.index') }}"><i class="ionicons ion-person-stalker"></i>&nbsp;&nbsp;Vacations</a></li>
+                           <li><a href="{{ route('company.hRCourses.index') }}"><i class="ionicons ion-person-stalker"></i>&nbsp;&nbsp;Courses</a></li>
                         </ul>
                      </li>
 
