@@ -6,7 +6,7 @@
 
   <div class="px-content">
     <div class="page-header">
-      <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i>Invoices / </span></h1>
+      <h1><span class="text-muted font-weight-light"><i class="page-header-icon fa fa-file-text"></i></span> Invoices </h1>
     </div>
 
     <div class="panel">

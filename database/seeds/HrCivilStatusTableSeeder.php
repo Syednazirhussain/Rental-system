@@ -14,7 +14,7 @@ class HrCivilStatusTableSeeder extends Seeder
     {
         
 
-        \DB::table('hr_civil_status')->delete();
+        /*\DB::table('hr_civil_status')->delete();
         
         \DB::table('hr_civil_status')->insert(array (
             0 => 
@@ -57,7 +57,7 @@ class HrCivilStatusTableSeeder extends Seeder
                 'updated_at' => '2018-06-19 06:40:44',
                 'deleted_at' => NULL,
             ),
-        ));
+        ));*/
         
         
     }

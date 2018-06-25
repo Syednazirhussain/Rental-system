@@ -227,3 +227,23 @@
     <a href="{!! route('company.hRCourses.index') !!}"><i class="fa fa-edit"></i><span>H R Courses</span></a>
 </li>
 
+<li class="{{ Request::is('companyHrOtherInfos*') ? 'active' : '' }}">
+    <a href="{!! route('company.companyHrOtherInfos.index') !!}"><i class="fa fa-edit"></i><span>Company Hr Other Infos</span></a>
+</li>
+
+<li class="{{ Request::is('companyHrPreEmployments*') ? 'active' : '' }}">
+    <a href="{!! route('company.companyHrPreEmployments.index') !!}"><i class="fa fa-edit"></i><span>Company Hr Pre Employments</span></a>
+</li>
+
+<li class="{{ Request::is('companyHrNotes*') ? 'active' : '' }}">
+    <a href="{!! route('company.companyHrNotes.index') !!}"><i class="fa fa-edit"></i><span>Company Hr Notes</span></a>
+</li>
+
+<li class="{{ Request::is('companyHrDocuments*') ? 'active' : '' }}">
+    <a href="{!! route('company.companyHrDocuments.index') !!}"><i class="fa fa-edit"></i><span>Company Hr Documents</span></a>
+</li>
+
+<li class="{{ Request::is('conferenceBookingDrafts*') ? 'active' : '' }}">
+    <a href="{!! route('conferenceBookingDrafts.index') !!}"><i class="fa fa-edit"></i><span>Conference Booking Drafts</span></a>
+</li>
+

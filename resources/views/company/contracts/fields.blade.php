@@ -80,7 +80,7 @@
                         @endif
 
                         <div class="row">
-                            <div class="col-sm-12 form-group">
+                            <div class="col-sm-6 form-group">
                                 <label for="contract-no">Select a Room</label>
                                 <select id="room_id" name="room_id" class="form-control">
                                     @foreach($rooms as $room)
@@ -93,7 +93,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-sm-12 form-group">
+                            <div class="col-sm-6 form-group">
                                 <label for="contract-no">Contract No.</label>
                                 <input type="text" name="number" id="contract-no" class="form-control"
                                        placeholder="Contract No"
@@ -160,8 +160,8 @@
                             </div>
                             <div class="col-sm-6 form-group">
                                 <label for="discount">Discount</label>
-                                <input type="number" name="discount" id="discount" class="form-control"
-                                       value="{{ (isset($contract)) ? $contract->discount:'0' }}">
+                                <input type="number" name="discount" min="0" id="discount" class="form-control"
+                                       value="{{ (isset($contract)) ? $contract->discount:'0.00' }}">
                                 <div class="errorTxt"></div>
 
                             </div>
@@ -355,7 +355,7 @@
                             @if (isset($company))
                                 <button type="submit" class="btn btn-primary" id="updateCompanyBtn" data-wizard-action="next">NEXT <i class="fa fa-arrow-right m-l-1"></i></button>
                             @else
-                                <button type="submit" class="btn btn-primary" id="createCompanyBtn" data-wizard-action="next">CREATE COMPANY <i class="fa fa-arrow-right m-l-1"></i></button>
+                                <button type="submit" class="btn btn-primary" id="createCompanyBtn" data-wizard-action="next">NEXT <i class="fa fa-arrow-right m-l-1"></i></button>
                             @endif
                         </div>
 

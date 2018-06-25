@@ -14,7 +14,7 @@ class HrCompanyDesignationTableSeeder extends Seeder
     {
         
 
-        \DB::table('hr_company_designation')->delete();
+       /* \DB::table('hr_company_designation')->delete();
         
         \DB::table('hr_company_designation')->insert(array (
             0 => 
@@ -34,7 +34,7 @@ class HrCompanyDesignationTableSeeder extends Seeder
                 'deleted_at' => NULL,
             ),
         ));
-        
+        */
         
     }
 }

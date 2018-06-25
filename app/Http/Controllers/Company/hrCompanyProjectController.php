@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Auth;
+use App\Models\Company\hrCompanyProject;
+use Session;
 
 class hrCompanyProjectController extends AppBaseController
 {
@@ -30,7 +33,10 @@ class hrCompanyProjectController extends AppBaseController
     public function index(Request $request)
     {
         $this->hrCompanyProjectRepository->pushCriteria(new RequestCriteria($request));
-        $hrCompanyProjects = $this->hrCompanyProjectRepository->all();
+        $companyId         =   Auth::guard('company')->user()->companyUser()->first()->company_id;
+        
+        $hrCompanyProjects    = hrCompanyProject::where('company_id',$companyId)->get();
+
 
         return view('company.hr_company_projects.index')
             ->with('hrCompanyProjects', $hrCompanyProjects);
@@ -56,10 +62,12 @@ class hrCompanyProjectController extends AppBaseController
     public function store(CreatehrCompanyProjectRequest $request)
     {
         $input = $request->all();
+        $input['company_id'] =   Auth::guard('company')->user()->companyUser()->first()->company_id;
 
         $hrCompanyProject = $this->hrCompanyProjectRepository->create($input);
 
-        Flash::success('Hr Company Project saved successfully.');
+        /*Flash::success('Hr Company Project saved successfully.');*/
+        Session::flash("successMessage", "Hr Company Project saved successfully");
 
         return redirect(route('company.hrCompanyProjects.index'));
     }
@@ -124,7 +132,8 @@ class hrCompanyProjectController extends AppBaseController
 
         $hrCompanyProject = $this->hrCompanyProjectRepository->update($request->all(), $id);
 
-        Flash::success('Hr Company Project updated successfully.');
+        /*Flash::success('Hr Company Project updated successfully.');*/
+        Session::flash("successMessage", "Hr Company Project updated successfully");
 
         return redirect(route('company.hrCompanyProjects.index'));
     }
@@ -148,7 +157,8 @@ class hrCompanyProjectController extends AppBaseController
 
         $this->hrCompanyProjectRepository->delete($id);
 
-        Flash::success('Hr Company Project deleted successfully.');
+        /*Flash::success('Hr Company Project deleted successfully.');*/
+        Session::flash("deleteMessage", "Hr Company Project deleted successfully.');
 
         return redirect(route('company.hrCompanyProjects.index'));
     }

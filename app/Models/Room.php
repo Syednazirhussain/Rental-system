@@ -36,7 +36,7 @@ class Room extends Model
         'name',
         'price',
         'floor_id',
-        'service_id',
+        'services',
         'area',
         'company_id',
         'security_code',

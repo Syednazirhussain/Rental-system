@@ -15,7 +15,7 @@
                 <div class="col-sm-8">
 
                   <div class="form-group">
-                    <label for="building_id">Select Building</label>
+                    <label for="building_id">Buildings</label>
                     <select class="form-control" id="building_id" name="building_id">
                         <option value="">Select</option>
                         @foreach ($buildings as $building)
@@ -30,7 +30,7 @@
                   </div>
 
                   <div class="form-group">
-                    <label for="select_floor">Floor Name</label>
+                    <label for="select_floor">Floors</label>
                     <select class="form-control" id="select_floor" name="floor_id">
                       @if(isset($room))
                         <option value="{{ $room->floor_id }}" selected="selected">{{ $room->floor->floor }}</option>
@@ -73,9 +73,9 @@
               <label for="room_name">Room Name</label>
               <input type="text" id="room_name" name="name" placeholder="enter room name here" class="form-control" value="@if(isset($room)){{ $room->name }}@endif">
               <div class="errorTxt"></div>
-            </div>
+            </div><!-- 
             <div class="col-sm-6 col-md-6 form-group">
-              <label for="service_id">Select Service</label>
+              <label for="service_id">Services</label>
               <select class="form-control" id="service_id" name="service_id">
                   <option value="">Select</option>
                   @if(isset($services))
@@ -91,7 +91,29 @@
                   @endif
               </select>
               <div class="errorTxt"></div>            
-            </div>
+            </div> -->
+            <div class="col-sm-6 col-md-6 form-group">
+              <label for="service_id">Services</label>
+            <select type="text" name="services[]" id="service_id" class="form-control select2-example" multiple>
+                            @if (isset($room))
+
+                            @foreach($services as $service)
+                        <option value="{{ $service->id }}" <?php foreach ($selectedService as $selct) { if($service->id == $selct->id){ echo "selected"; }}  ?> >
+                          {{$service->name}}
+                        </option>
+                          
+                      @endforeach
+
+                      @else
+                          @foreach($services as $services)
+                          <option value="{{ $services->id }}">{{ ucwords($services->name) }}</option>
+                     @endforeach
+
+                     @endif
+
+           </select>
+          <label id="companyId-error" class="error" for="companyId"></label>
+        </div>
           </div>
 
           <div class="col-sm-12 col-md-12">
@@ -105,13 +127,21 @@
           <div class="col-sm-12 col-md-12">
             <div class="col-sm-6 col-md-6 form-group">
               <label for="room_area">Area</label>
-              <input type="number" id="room_area" placeholder="enter area here" name="area" class="form-control" value="@if(isset($room)){{ $room->area }}@endif">
+              <input type="number"  min="0" id="room_area" placeholder="enter area here" name="area" class="form-control" value="@if(isset($room)){{ $room->area }}@endif">
               <div class="errorTxt"></div>          
             </div>
+            <!-- <div class="col-sm-6 col-md-6 form-group">
+              <label for="room_price">Price</label>
+              <input type="number" min="0" id="room_price" name="price" placeholder="enter price here" class="form-control" value="@if(isset($room)){{ $room->price }}@endif">
+              <div class="errorTxt"></div>          
+            </div> -->
             <div class="col-sm-6 col-md-6 form-group">
               <label for="room_price">Price</label>
-              <input type="number" id="room_price" name="price" placeholder="enter price here" class="form-control" value="@if(isset($room)){{ $room->price }}@endif">
-              <div class="errorTxt"></div>          
+                <div class="input-group">
+                    <span class="input-group-addon">SEK</span>
+                    <input type="number" min="0" id="room_price"  value="@if(isset($room)){{ $room->price }}@endif" name="price" class="form-control">
+                    <div class="errorTxt"></div> 
+                </div>
             </div>
           </div>
 
@@ -123,9 +153,10 @@
             </div>
             <div class="col-sm-6 col-md-6 form-group">
               <label for="sort_index">Sort Index</label>
-              <input type="number" id="sort_index" placeholder="enter sort index here" name="sort_index" class="form-control" value="@if(isset($room)){{ $room->sort_index }}@endif">
+              <input type="number"  min="0" id="sort_index" placeholder="enter sort index here" name="sort_index" class="form-control" value="@if(isset($room)){{ $room->sort_index }}@endif">
               <div class="errorTxt"></div>          
             </div>
+            
           </div>
 
           <div class="col-sm-12 col-md-12">
@@ -150,23 +181,33 @@
             </div>
           </div>
 
-
           <div class="col-sm-12 col-md-12">
               <span class="col-sm-4 col-md-4 form-group">
                   <label for="start_date">Start Date</label>
-                  <input type="text" id="start_date" name="start_date" value="" class="form-control" value="@if(isset($room)){{ $room->start_date }}@endif">
+                  <input type="text" id="start_date" name="start_date" value="@if(isset($room)){{ $room->start_date }} @endif" class="form-control" value="@if(isset($room)){{ $room->start_date }}@endif">
                   <div class="errorTxt"></div>
               </span>
+              @if(isset($room))
               <span class="col-sm-4 col-md-4 form-group">
                   <label for="end_date">End Date</label>
-                  <input type="text" id="end_date" name="end_date" class="form-control" value="@if(isset($room)){{ $room->end_date }}@endif">
+                  <input type="text" id="end_date_edit" name="end_date" class="form-control" value="@if(isset($room)){{ $room->end_date }} @endif">
                   <div class="errorTxt"></div>
               </span>
+              @else
+              <span class="col-sm-4 col-md-4 form-group">
+                  <label for="end_date">End Date</label>
+                  <input type="text" id="end_date" name="end_date" class="form-control" value="">
+                  <div class="errorTxt"></div>
+              </span>
+              @endif
               <span class="col-sm-4 col-md-4 form-group">
                 <label class="custom-control custom-checkbox m-t-4">
-                  <input type="checkbox" name="end_date_continue" id="end_date_continue" class="custom-control-input">
+
+              @if(isset($room))
+                  <input type="checkbox" name="end_date_continue" id="end_date_continue" class="custom-control-input end-date-continue" <?php if($room->end_date_continue == '1') { echo "checked='checked'"; } ?> >
                   <span class="custom-control-indicator"></span>
-                  Continue
+                                Continue
+                  @endif
                 </label>
               </span>
           </div>
@@ -205,51 +246,115 @@
       <div class="row">
         
         <div class="col-sm-12 col-md-12">
+            <!-- <div class="col-sm-6 col-md-6 form-group">
+                <label for="conf_day_price">Day Price</label>
+                <input type="number"  min="0" id="conf_day_price" name="conf_day_price" class="form-control" value="@if(isset($room)){{ $room->conf_day_price }}@endif">
+                <div class="errorTxt"></div>                              
+            </div> -->
             <div class="col-sm-6 col-md-6 form-group">
                 <label for="conf_day_price">Day Price</label>
-                <input type="number" id="conf_day_price" name="conf_day_price" class="form-control" value="@if(isset($room)){{ $room->conf_day_price }}@endif">
-                <div class="errorTxt"></div>                              
+                <div class="input-group">
+                    <span class="input-group-addon">SEK</span>
+                    <input type="number"  min="0" id="conf_day_price" name="conf_day_price" class="form-control" value="@if(isset($room)){{ $room->conf_day_price }}@endif">
+                 <div class="errorTxt"></div> 
+                </div>
             </div>
             <div class="col-sm-6 col-md-6 form-group">
                 <label for="public_name">Half Day Price</label>
-                <input type="number" id="conf_half_day_price" name="conf_half_day_price" class="form-control" value="@if(isset($room)){{ $room->conf_half_day_price }}@endif">
-                <div class="errorTxt"></div>
+                <div class="input-group">
+                    <span class="input-group-addon">SEK</span>
+                    <input type="number"  min="0" id="conf_half_day_price" name="conf_half_day_price" class="form-control" value="@if(isset($room)){{ $room->conf_half_day_price }}@endif">
+                <div class="errorTxt"></div> 
+                </div>
             </div>
+            <!-- <div class="col-sm-6 col-md-6 form-group">
+                <label for="public_name">Half Day Price</label>
+                <input type="number"  min="0" id="conf_half_day_price" name="conf_half_day_price" class="form-control" value="@if(isset($room)){{ $room->conf_half_day_price }}@endif">
+                <div class="errorTxt"></div>
+            </div> -->
         </div>
 
         <div class="col-sm-12 col-md-12">
+            <!-- <div class="col-sm-6 col-md-6 form-group">
+              <label for="conf_cost">Cost</label>
+              <input type="number"  min="0" id="conf_cost" name="conf_cost" class="form-control" value="@if(isset($room)){{ $room->conf_cost }}@endif">
+              <div class="errorTxt"></div>                             
+            </div> -->
             <div class="col-sm-6 col-md-6 form-group">
               <label for="conf_cost">Cost</label>
-              <input type="number" id="conf_cost" name="conf_cost" class="form-control" value="@if(isset($room)){{ $room->conf_cost }}@endif">
-              <div class="errorTxt"></div>                             
+                <div class="input-group">
+                    <span class="input-group-addon">SEK</span>
+                    <input type="number"  min="0" id="conf_cost" name="conf_cost" class="form-control" value="@if(isset($room)){{ $room->conf_cost }}@endif">
+                    <div class="errorTxt"></div> 
+                </div>
             </div>
             <div class="col-sm-6 col-md-6 form-group">
               <label for="conf_vat">VAT</label>
-              <input type="number" id="conf_vat" name="conf_vat" class="form-control" value="@if(isset($room)){{ $room->conf_vat }}@endif">
-              <div class="errorTxt"></div>
+                <div class="input-group">
+                    <span class="input-group-addon">%</span>
+                    <input type="number"  min="0" id="conf_vat" name="conf_vat" class="form-control" value="@if(isset($room)){{ $room->conf_vat }}@endif">
+                    <div class="errorTxt"></div> 
+                </div>
             </div>
+            <!-- <div class="col-sm-6 col-md-6 form-group">
+              <label for="conf_vat">VAT</label>
+              <input type="number"  min="0" id="conf_vat" name="conf_vat" class="form-control" value="@if(isset($room)){{ $room->conf_vat }}@endif">
+              <div class="errorTxt"></div>
+            </div> -->
         </div>
 
         <div class="col-sm-12 col-md-12">
-            <div class="col-sm-3 col-md-3 form-group">
+            <!-- <div class="col-sm-3 col-md-3 form-group">
                 <label for="conf_sm_price">Small Group Price</label>
-                <input type="number" id="conf_sm_price" name="conf_sm_price" class="form-control" value="@if(isset($room)){{ $room->conf_small_group_price }}@endif"> 
+                <input type="number"  min="0" id="conf_sm_price" name="conf_sm_price" class="form-control" value="@if(isset($room)){{ $room->conf_small_group_price }}@endif"> 
                 <div class="errorTxt"></div> 
+            </div> -->
+            <div class="col-sm-6 col-md-6 form-group">
+                <label for="conf_sm_price">Small Group Price</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">SEK</span>
+                    <input type="number"  min="0" id="conf_sm_price" name="conf_sm_price" class="form-control" value="@if(isset($room)){{ $room->conf_small_group_price }}@endif"> 
+                    <div class="errorTxt"></div> 
+                  </div>
             </div>
-            <div class="col-sm-3 col-md-3 form-group">
+            <!-- <div class="col-sm-3 col-md-3 form-group">
                 <label for="conf_high_price">High</label>
-                <input type="number" id="conf_high_price" name="conf_high_price" class="form-control" value="@if(isset($room)){{ $room->conf_high_price }}@endif">
+                <input type="number"  min="0" id="conf_high_price" name="conf_high_price" class="form-control" value="@if(isset($room)){{ $room->conf_high_price }}@endif">
                 <div class="errorTxt"></div>
+            </div> -->
+            <div class="col-sm-6 col-md-6 form-group">
+                <label for="conf_high_price">High</label>
+                <div class="input-group">
+                    <span class="input-group-addon">SEK</span>
+                    <input type="number"  min="0" id="conf_high_price" name="conf_high_price" class="form-control" value="@if(isset($room)){{ $room->conf_high_price }}@endif">
+                    <div class="errorTxt"></div> 
+                </div>
             </div>
-            <div class="col-sm-3 col-md-3 form-group">
+            <!-- <div class="col-sm-3 col-md-3 form-group">
                 <label for="conf_medium_price">Medium</label>
-                <input type="number" id="conf_medium_price" name="conf_medium_price" class="form-control" value="@if(isset($room)){{ $room->conf_medium_price }}@endif">
+                <input type="number"  min="0" id="conf_medium_price" name="conf_medium_price" class="form-control" value="@if(isset($room)){{ $room->conf_medium_price }}@endif">
                 <div class="errorTxt"></div>
+            </div> -->
+            <div class="col-sm-6 col-md-6 form-group">
+                <label for="conf_medium_price">Medium</label>
+                <div class="input-group">
+                    <span class="input-group-addon">SEK</span>
+                    <input type="number"  min="0" id="conf_medium_price" name="conf_medium_price" class="form-control" value="@if(isset($room)){{ $room->conf_medium_price }}@endif">
+                    <div class="errorTxt"></div> 
+                </div>
             </div>
-            <div class="col-sm-3 col-md-3 form-group">
+            <!-- <div class="col-sm-3 col-md-3 form-group">
                 <label for="conf_low_price">Low</label>
-                <input type="number" id="conf_low_price" name="conf_low_price" class="form-control" value="@if(isset($room)){{ $room->conf_low_price }}@endif">
+                <input type="number"  min="0" id="conf_low_price" name="conf_low_price" class="form-control" value="@if(isset($room)){{ $room->conf_low_price }}@endif">
                 <div class="errorTxt"></div>
+            </div> -->
+            <div class="col-sm-6 col-md-6 form-group">
+                <label for="conf_low_price">Low</label>
+                <div class="input-group">
+                    <span class="input-group-addon">SEK</span>
+                    <input type="number"  min="0" id="conf_low_price" name="conf_low_price" class="form-control" value="@if(isset($room)){{ $room->conf_low_price }}@endif">
+                    <div class="errorTxt"></div> 
+                </div>
             </div>
         </div>
 
@@ -257,6 +362,7 @@
             <div class="col-md-12 col-sm-12 form-group">
               <label for="service_id">Conference Room Type</label>
               <select class="form-control" id="conf_room_type" name="conf_room_type" value="@if(isset($room)){{ $room->conf_room_type }}@endif">
+                  
                   <option value="">Select</option>
                   <option value="hall">Hall</option>
                   <option value="study">Study</option>
@@ -341,7 +447,7 @@
 
                       <div class="col-sm-4 col-md-4 form-group">
                         <label for="sitting_number_person">Number of Person</label>
-                        <input type="number" name="sitting_number_person[]" id="sitting_number_person" class="form-control" value="@if(isset($room)){{ $roomSittingArrangment->number_persons }}@endif">
+                        <input type="number"  min="0" name="sitting_number_person[]" id="sitting_number_person" class="form-control" value="@if(isset($room)){{ $roomSittingArrangment->number_persons }}@endif">
                       </div> 
 
                       <div class="col-sm-2 col-md-4 form-group">
@@ -373,7 +479,7 @@
 
                       <div class="col-sm-4 col-md-4 form-group">
                         <label for="sitting_number_person">Number of Person</label>
-                        <input type="number" name="sitting_number_person[]" id="sitting_number_person" class="form-control" >
+                        <input type="number"  min="0" name="sitting_number_person[]" id="sitting_number_person" class="form-control" >
                       </div> 
 
                       <div class="col-sm-2 col-md-4 form-group">
@@ -410,7 +516,7 @@
               <input type="hidden" name="roomEquipmentId[]" value="@if(isset($room)){{ $roomEquipment->id }}@endif">
 
               <div class="row includedItem">
-                  <div class="col-sm-12 col-sm-12 included">
+                  <div class="row col-sm-12 col-sm-12 included">
                       <div class="col-sm-3 col-md-3 form-group">
                         <label for="include_equipment_id">Item</label>
                         <select class="form-control" id="include_equipment_id" name="include_equipment_id[]">
@@ -428,12 +534,20 @@
                       </div>
                       <div class="col-sm-2 col-md-2 form-group">
                         <label for="include_qty">Quantity</label>
-                        <input type="number" name="include_qty[]" value="@if(isset($room)){{ $roomEquipment->qty }}@endif" id="include_qty" class="form-control" >
+                        <input type="number"  min="0" name="include_qty[]" value="@if(isset($room)){{ $roomEquipment->qty }}@endif" id="include_qty" class="form-control" >
                       </div>
                       <div class="col-sm-2 col-md-2 form-group">
                         <label for="include_price">Price</label>
-                        <input type="number" name="include_price[]" value="@if(isset($room)){{ $roomEquipment->price }}@endif" id="include_price" class="form-control" >
+                        <input type="number"  min="0" name="include_price[]" value="@if(isset($room)){{ $roomEquipment->price }}@endif" id="include_price" class="form-control" >
                       </div>
+                      <!-- <div class="col-sm-2 col-md-2 form-group">
+                        <label for="include_price">Price</label>
+                          <div class="input-group">
+                              <span class="input-group-addon">SEK</span>
+                              <input type="number"  min="0" name="include_price[]" value="@if(isset($room)){{ $roomEquipment->price }}@endif" id="include_price" class="form-control" >
+                              <div class="errorTxt"></div> 
+                          </div>
+                      </div> -->
                       <div class="col-sm-4 col-md-4 form-group">
                         <label for="include_info">Information</label>
                         <input type="text" name="include_info[]" value="@if(isset($room)){{ $roomEquipment->info }}@endif" id="include_info" class="form-control" >
@@ -448,7 +562,7 @@
               @else
 
               <div class="row includedItem">
-                  <div class="col-sm-12 col-sm-12 included">
+                  <div class="row col-sm-12 col-sm-12 included">
                       <div class="col-sm-3 col-md-3 form-group">
                         <label for="include_equipment_id">Item</label>
                         <select class="form-control" id="include_equipment_id" name="include_equipment_id[]">
@@ -460,12 +574,20 @@
                       </div>
                       <div class="col-sm-2 col-md-2 form-group">
                         <label for="include_qty">Quantity</label>
-                        <input type="number" name="include_qty[]" id="include_qty" class="form-control" >
+                        <input type="number"  min="0" name="include_qty[]" id="include_qty" class="form-control" >
                       </div>
                       <div class="col-sm-2 col-md-2 form-group">
                         <label for="include_price">Price</label>
-                        <input type="number" name="include_price[]" id="include_price" class="form-control" >
+                        <input type="number"  min="0" name="include_price[]" id="include_price" class="form-control" >
                       </div>
+                      <!-- <div class="col-sm-2 col-md-2 form-group">
+                        <label for="include_price">Price</label>
+                          <div class="input-group">
+                              <span class="input-group-addon">SEK</span>
+                              <input type="number"  min="0" name="include_price[]" id="include_price" class="form-control" >
+                              <div class="errorTxt"></div> 
+                          </div>
+                      </div> -->
                       <div class="col-sm-4 col-md-4 form-group">
                         <label for="include_info">Information</label>
                         <input type="text" name="include_info[]" id="include_info" class="form-control" >
@@ -540,29 +662,53 @@
         <div class="row">
           
           <div class="col-sm-12 col-md-12">
-            <div class="col-sm-6 col-md-6 form-group">
+            <!-- <div class="col-sm-6 col-md-6 form-group">
               <label for="monthly_rent">Montly Rent</label>
-              <input type="number" id="rent_monthly_rent" name="rent_monthly_rent" class="form-control" value="@if(isset($room)){{ $room->rent_monthly_rent }}@endif">
+              <input type="number"  min="0" id="rent_monthly_rent" name="rent_monthly_rent" class="form-control" value="@if(isset($room)){{ $room->rent_monthly_rent }}@endif">
               <div class="errorTxt"></div>          
+            </div> -->
+          <div class="col-sm-6 col-md-6 form-group">
+            <label for="monthly_rent">Monthly Rent</label>
+            <div class="input-group">
+              <span class="input-group-addon">SEK</span>
+              <input type="number"  min="0" id="rent_monthly_rent" name="rent_monthly_rent" class="form-control" value="@if(isset($room)){{ $room->rent_monthly_rent }}@endif">
+              <div class="errorTxt"></div> 
             </div>
+          </div>
             <div class="col-sm-6 col-md-6 form-group">
               <label for="number_person">Number Person</label>
-              <input type="number" id="rent_number_person" name="rent_number_person" class="form-control" value="@if(isset($room)){{ $room->rent_num_persons }}@endif">
+              <input type="number"  min="0" id="rent_number_person" name="rent_number_person" class="form-control" value="@if(isset($room)){{ $room->rent_num_persons }}@endif">
               <div class="errorTxt"></div>
             </div>
           </div>
 
           <div class="col-sm-12 col-md-12">
-            <div class="col-sm-6 col-md-6 form-group">
+            <!-- <div class="col-sm-6 col-md-6 form-group">
               <label for="vat">VAT</label>
-              <input type="number" id="rent_vat" name="rent_vat" class="form-control" value="@if(isset($room)){{ $room->rent_vat }}@endif">
+              <input type="number"  min="0" id="rent_vat" name="rent_vat" class="form-control" value="@if(isset($room)){{ $room->rent_vat }}@endif">
+              <div class="errorTxt"></div> 
+            </div> -->
+          <div class="col-sm-6 col-md-6 form-group">
+              <label for="vat">VAT</label>
+            <div class="input-group">
+              <span class="input-group-addon">%</span>
+              <input type="number"  min="0" id="rent_vat" name="rent_vat" class="form-control" value="@if(isset($room)){{ $room->rent_vat }}@endif">
               <div class="errorTxt"></div> 
             </div>
-            <div class="col-sm-6 col-md-6 form-group">
+          </div>
+            <!-- <div class="col-sm-6 col-md-6 form-group">
               <label for="new_price">New Price</label>
-              <input type="number" id="rent_new_price" name="rent_new_price" class="form-control" value="@if(isset($room)){{ $room->rent_new_price }}@endif">
+              <input type="number"  min="0" id="rent_new_price" name="rent_new_price" class="form-control" value="@if(isset($room)){{ $room->rent_new_price }}@endif">
               <div class="errorTxt"></div>
+            </div> -->
+          <div class="col-sm-6 col-md-6 form-group">
+            <label for="new_price">New Price</label>
+            <div class="input-group">
+              <span class="input-group-addon">SEK</span>
+              <input type="number"  min="0" id="rent_new_price" name="rent_new_price" class="form-control" value="@if(isset($room)){{ $room->rent_new_price }}@endif">
+              <div class="errorTxt"></div> 
             </div>
+          </div>
           </div>
 
           <div class="col-sm-12 col-md-12">
@@ -600,12 +746,20 @@
                         </div>
                         <div class="col-sm-2 col-md-2 form-group">
                           <label for="include_qty">Quantity</label>
-                          <input type="number" name="include_qty_rent[]" class="form-control" value="@if(isset($room)){{ $roomEquipment->qty }}@endif">
+                          <input type="number"  min="0" name="include_qty_rent[]" id="include_qty_rent" class="form-control" value="@if(isset($room)){{ $roomEquipment->qty }}@endif">
                         </div>
                         <div class="col-sm-2 col-md-2 form-group">
                           <label for="include_price">Price</label>
-                          <input type="number" name="include_price_rent[]" class="form-control" value="@if(isset($room)){{ $roomEquipment->price }}@endif">
+                          <input type="number"  min="0" name="include_price_rent[]" id="include_price_rent" class="form-control" value="@if(isset($room)){{ $roomEquipment->price }}@endif">
                         </div>
+                        <!-- <div class="col-sm-2 col-md-2 form-group">
+                          <label for="include_price">Price</label>
+                          <div class="input-group">
+                            <span class="input-group-addon">SEK</span>
+                            <input type="number"  min="0" name="include_price_rent[]" class="form-control" value="@if(isset($room)){{ $roomEquipment->price }}@endif">
+                            <div class="errorTxt"></div> 
+                          </div>
+                        </div> -->
                         <div class="col-sm-4 col-md-4 form-group">
                           <label for="include_info">Notes</label>
                           <input type="text" name="include_info_rent[]" class="form-control" value="@if(isset($room)){{ $roomEquipment->info }}@endif">
@@ -632,11 +786,11 @@
                         </div>
                         <div class="col-sm-2 col-md-2 form-group">
                           <label for="include_qty">Quantity</label>
-                          <input type="number" name="include_qty_rent[]" class="form-control" >
+                          <input type="number"  min="0" name="include_qty_rent[]"  id="include_qty_rent" class="form-control" >
                         </div>
                         <div class="col-sm-2 col-md-2 form-group">
                           <label for="include_price">Price</label>
-                          <input type="number" name="include_price_rent[]" class="form-control" >
+                          <input type="number"  min="0" name="include_price_rent[]" id="include_price_rent" class="form-control" >
                         </div>
                         <div class="col-sm-4 col-md-4 form-group">
                           <label for="include_info">Notes</label>
@@ -653,44 +807,60 @@
           </div>
 
           <div class="col-sm-12 col-md-12">
-            <div class="col-sm-12 col-md-12 form-group">
+            <div class="col-sm-4 col-md-4 form-group">
               <label for="service_id">Room Type</label>
-              <select class="form-control" id="rent_room_type" name="rent_room_type" value="@if(isset($room)){{ $room->rent_room_type }}@endif">
+              <select class="form-control" id="rent_room_type" name="rent_room_type">
+                   @if(isset($room))
+                        <option value="{{ $room->rent_room_type }}" <?php echo "selected"; ?> >{{ ucfirst($room->rent_room_type) }}
+                         
+                        </option>
+                  <option value="hall">Hall</option>
+                  <option value="study">Study</option>
+                  <option value="meeting">Meeting</option>
+                    @else
                   <option value="">Select</option>
                   <option value="hall">Hall</option>
                   <option value="study">Study</option>
                   <option value="meeting">Meeting</option>
+                  @endif
               </select>
               <div class="errorTxt"></div>
             </div>
-          </div>
-
-
-          <div class="col-sm-12 col-md-12">
               <span class="col-sm-4 col-md-4 form-group">
                   <label for="rent_start_date">Start Date</label>
-                  <input type="text" id="rent_start_date" name="rent_start_date" value="" class="form-control" value="@if(isset($room)){{ $room->rent_start_date }}@endif">
+                  <input type="text" id="rent_start_date" name="rent_start_date" class="form-control" value="@if(isset($room)){{ $room->rent_start_date }}@endif">
                   <div class="errorTxt"></div>
                   <!-- <input type="text" id="daterange-3" value="10/24/1984" class="form-control"> -->
               </span>
+              @if(isset($room))
               <span class="col-sm-4 col-md-4 form-group">
                   <label for="rent_end_date">End Date</label>
-                  <input type="text" id="rent_end_date" name="rent_end_date" class="form-control">
+                  <input type="text" id="rent_end_date_edit" value="@if(isset($room)){{ $room->rent_end_date }}@endif" name="rent_end_date" class="form-control">
                   <div class="errorTxt"></div>
+              </span>
+          @else
+              <span class="col-sm-4 col-md-4 form-group">
+                  <label for="rent_end_date">End Date</label>
+                  <input type="text" id="rent_end_date" value="@if(isset($room)){{ $room->rent_end_date }}@endif" name="rent_end_date" class="form-control">
+                  <div class="errorTxt"></div>
+              </span>
+
+          @endif
+          </div>
+
+
+          <div class="col-sm-12 col-md-12">
+              <span class="col-sm-4 col-md-4 form-group">
+                <label class="custom-control custom-checkbox m-t-4">
+                  @if(isset($room))
+                  <input type="checkbox" name="rent_end_date_continue" id="rent_end_date_continue" class="custom-control-input" <?php if($room->rent_end_date_continue == '1') { echo "checked='checked'"; } ?> >
+                  <span class="custom-control-indicator"></span>
+                                Continue
+                  @endif
+                </label>  
               </span>
               <span class="col-sm-4 col-md-4 form-group">
                 <label class="custom-control custom-checkbox m-t-4">
-                  <input type="checkbox" name="rent_end_date_continue" id="rent_end_date_continue" class="custom-control-input" value="@if(isset($room)){{ $room->rent_end_date }}@endif">
-                  <span class="custom-control-indicator"></span>
-                  Continue
-                </label>  
-              </span>
-          </div>
-
-          <div class="col-sm-12 col-md-12">
-            
-              <div class="col-sm-6 col-md-6">
-                <label class="custom-control custom-checkbox">
                   @if(isset($room) && $room->rent_calendar_available == 1)
                     <input type="checkbox" name="rent_calender_available" id="rent_calender_available" class="custom-control-input" checked="checked">
                     <span class="custom-control-indicator"></span>
@@ -701,12 +871,9 @@
                     Calender Available
                   @endif
                 </label>                             
-              </div>
-
-
-
-              <div class="col-sm-6 col-md-6">
-                <label class="custom-control custom-checkbox">
+              </span>
+              <span class="col-sm-4 col-md-4 form-group">
+                <label class="custom-control custom-checkbox m-t-4">
                   @if(isset($room) && $room->rent_available_users == 1)
                     <input type="checkbox" name="rent_available_users" id="rent_available_users" class="custom-control-input" checked="checked">
                     <span class="custom-control-indicator"></span>
@@ -717,18 +884,63 @@
                     Available User
                   @endif
                 </label>
-              </div>
+              </span>
           </div>
 
-          <input type="hidden" id="notes" value="@if(isset($roomNote)){{ $roomNote->note }}@endif">
+          @if(isset($room))
 
-          <div class="col-sm-12 col-md-12" id="notes">
             <div class="col-sm-12 col-md-12 form-group">
-              <label for="rent_notes">Notes</label>
-              <textarea type="text" id="rent_notes" name="rent_notes" class="form-control" required="required"></textarea>
-              <div class="errorTxt" id="errorNotes"></div>
-            </div>
-          </div>
+                <span><button type="button" class="btn btn-primary pull-right" data-toggle="modal" id="popup-HrNotes" data-companyhr="@if(isset($companyHr)){{ $companyHr->id }}@endif" data-target="#popup-modal-HrNotes"><i class="fa fa-plus"></i>&nbsp;HR Notes</button></span>
+                <div class="modal fade" id="popup-modal-HrNotes" tabindex="-1">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                        <h4 class="modal-title">Notes</h4>
+                      </div>
+                      <div class="modal-body">
+                         <div class="row">
+                            <div class="col-sm-12 col-md-12">
+                               <textarea name="hr_note" placeholder="write your note here.." id="Editor-hrNote" style="width: 100%;height: 100px"></textarea>
+                               <span class="error"></span>                                          
+                            </div>
+                         </div>                         
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="popup-modalBtn"></button>
+                         <button type="button" class="btn" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Cancel</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+             </div>
+
+             <div class="col-sm-12 col-md-12 "> 
+                <div class="table-primary">
+                   <table class="table table-striped table-bordered" id="compnay-HRNotes">
+                      <thead>
+                         <th>Username</th>
+                         <th>Note</th>
+                         <th>Created at</th>
+                         <th>Last updated</th>
+                         <th>Actions</th>
+                      </thead>
+                      <tbody id="log-HRNotes">
+                      </tbody>
+                   </table>
+                </div>
+             </div>
+
+<!--             <input type="hidden" id="notes" value="@if(isset($roomNote)){{ $roomNote->note }}@endif">
+            <div class="col-sm-12 col-md-12" id="notes">
+              <div class="col-sm-12 col-md-12 form-group">
+                <label for="rent_notes">Notes</label>
+                <textarea type="text" id="rent_notes" name="rent_notes" class="form-control" required="required"></textarea>
+                <div class="errorTxt" id="errorNotes"></div>
+              </div>
+            </div> -->
+
+          @endif
 
         </div>
     </div>
@@ -736,7 +948,7 @@
 </div>
 
 <div class="col-xs-12 col-sm-12 col-md-12 m-t-2">
-    <button type="submit" class="btn btn-primary">@if(isset($room)) <i class="fa fa-refresh"></i>  Update Room @else <i class="fa fa-plus"></i>  Add Room @endif</button>
+    <button type="submit" class="btn btn-primary">@if(isset($room)) <i class="fa fa-refresh"></i>  Update @else <i class="fa fa-plus"></i>  Create @endif</button>
     <a href="{!! route('company.rooms.index') !!}" class="btn btn-default"><i class="fa fa-times"></i>&nbsp;Cancel</a>
 </div>
 
@@ -744,13 +956,436 @@
 
 <script type="text/javascript">
 
+    function isEmpty(val)
+   {
+       return (val === undefined || val == null || val.length <= 0) ? true : false;
+   }
+
   var editRoom = "{{ isset($room) ? $room->id: 0 }}";
+
+  var user_id = "{{ auth()->guard('company')->user()->id  }}";
 
   $('#notes').hide();
 
   if(editRoom != 0)
   {
-    $('#notes').show();
+/*    $('#notes').show();*/
+
+
+    $('#popup-HrNotes').on("click",function(){
+       $('.errorTxt').empty();
+       $('#popup-modalBtn').text("Add");
+       $('#Editor-hrNote').val("");
+    });
+
+
+    var popupEditRoomNotesId;
+    var currentOperationRoomNotes = 0;
+
+    $(document).on('click','.HrNoteEdit-popup',function(){
+       $('.errorTxt').empty();
+       currentOperationRoomNotes = 1;
+       popupEditRoomNotesId = $(this).attr('data-userHrNotes');
+
+       var url = "{{ route('company.editRoomNotes', array("")) }}/"+popupEditRoomNotesId;
+
+       $.ajax({
+          url  : url,
+          type : "GET",
+          success : function(response){
+             if(response.hasOwnProperty("status"))
+             {
+                alert(response.msg);
+             }
+             else
+             {
+                $('#popup-modal-HrNotes').modal('toggle');
+                $('#Editor-hrNote').val(response.note);
+                $('#popup-modalBtn').text("Update");
+             }
+          }
+       });
+    });
+
+    $(document).on('click','#popup-modalBtn',function(){
+       if(currentOperationRoomNotes == 1)
+       {
+          var textEditor = $('#Editor-hrNote').val();
+
+          if(isEmpty(textEditor))
+          {
+             //alert("Please provide some content");
+             $('.errorTxt').text("Please provide some content");
+          }
+          else if(textEditor.length > 100)
+          {
+             // alert("Please enter characters between 1 to 100");
+             $('.errorTxt').text("Please enter characters between 1 to 100");
+          }
+          else
+          {
+             var jsObj = {
+                'roomId' : editRoom,
+                'note'   : textEditor
+             };
+             
+             var url = "{{ route('company.updateHrNotes', array("")) }}/"+popupEditRoomNotesId;
+
+             console.log(jsObj);
+
+             console.log(url);
+
+/*             $.ajax({
+                url  : url,
+                type : "PUT",
+                data : jsObj,
+                success : function(response){
+                   if(response.hasOwnProperty("status"))
+                   {
+                      alert(response.msg);
+                   }
+                   else
+                   {
+                      currentOperationHrNotes = 0;
+                      $('#Editor-hrNote').val("");
+
+                      var jsObjHr = {
+                         'companyHrId' : editCompanyHr,
+                         'code'        : 'hr_note'
+                      };
+
+                      $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObjHr,function(response){
+                         if(response.hasOwnProperty("status"))
+                         {
+                            var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                            $('#log-HRNotes').html(html);
+                         }
+                         else
+                         {
+                            var html = '';
+                            var created_at;
+                            var updated_at;
+                            for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+                            {
+                               created_at = new Date(response.companyHrNotes[i].created_at);
+                               updated_at = new Date(response.companyHrNotes[i].updated_at);
+
+                               if(user_id == response.companyHrNotes[i].user_id)
+                               {
+                                  html += '<tr>';
+                                  for(var j = 0 ; j < response.users.length ; j++)
+                                  {
+                                     if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                     {
+                                        html += '<td>'+response.users[j].name+'</td>';
+                                        break;
+                                     }
+                                     
+                                  }
+                                  html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                  html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                  html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                  html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg HrNoteEdit-popup" data-userHrNotes="'+response.companyHrNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg HrNoteDelete-popup" data-userHrNotes="'+response.companyHrNotes[i].id+'"></i></a> </td>';
+                                  html += '</tr>';
+                               }
+                               else
+                               {
+                                  html += '<tr>';
+                                  for(var j = 0 ; j < response.users.length ; j++)
+                                  {
+                                     if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                     {
+                                        html += '<td>'+response.users[j].name+'</td>';
+                                        break;
+                                     }
+                                     
+                                  }
+                                  html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                  html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                  html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                  html += '</tr>';
+                               }
+                            }
+                            html += '</tbody>';
+                            html += '</table>'; 
+                            $('#log-HRNotes').html('');               
+                            $('#log-HRNotes').html(html);               
+                         }
+                      });
+
+                      $("#popup-modal-HrNotes .close").click();
+                   }
+                } 
+             });*/
+          }
+       }
+       else
+       {
+          var note = $('#Editor-hrNote').val();
+
+          if(isEmpty(note))
+          {
+             // alert("Please provide some content");
+             $('.error').text("Please provide some content");
+          }
+          else if(note.length > 100)
+          {
+             // alert("Please enter characters between 1 to 100");
+             $('.error').text("Please enter characters between 1 to 100");
+          }
+          else
+          {
+             var jsObj = {
+                'roomId' : editRoom,
+                'note' : note,
+             };
+
+             $.ajax({
+                url : "{{ route('company.createRoomNotes') }}",
+                type : "POST",
+                data : jsObj,
+                dataType : "json",
+                success : function(response){
+                   if(response.hasOwnProperty("status"))
+                   {
+                      alert(response.msg);
+                   }
+                   else
+                   {
+                      $('#Editor-hrNote').val("");
+
+                       var url = "{{ route('company.getRoomNotes', array("")) }}/"+editRoom;
+
+                       $.ajax({
+                          url  : url,
+                          type : "GET",
+                          success : function(response){
+                            if(response.hasOwnProperty("status"))
+                            {
+                               var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                               $('#log-HRNotes').html(html);
+                            }
+                            else
+                            {
+                               var html = '';
+                               var created_at;
+                               var updated_at;
+                               for(var i = 0 ; i < response.roomNotes.length ; i++)
+                               {
+                                  created_at = new Date(response.roomNotes[i].created_at);
+                                  updated_at = new Date(response.roomNotes[i].updated_at);
+
+                                  if(user_id == response.roomNotes[i].user_id)
+                                  {
+                                     html += '<tr>';
+                                     for(var j = 0 ; j < response.users.length ; j++)
+                                     {
+                                        if( response.users[j].id == response.roomNotes[i].user_id )
+                                        {
+                                           html += '<td>'+response.users[j].name+'</td>';
+                                           break;
+                                        }
+                                        
+                                     }
+                                     html += '<td>'+response.roomNotes[i].note+'</td>';
+                                     html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                     html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                     html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg HrNoteEdit-popup" data-userHrNotes="'+response.roomNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg HrNoteDelete-popup" data-userHrNotes="'+response.roomNotes[i].id+'"></i></a> </td>';
+                                     html += '</tr>';
+                                  }
+                                  else
+                                  {
+                                     html += '<tr>';
+                                     for(var j = 0 ; j < response.users.length ; j++)
+                                     {
+                                        if( response.users[j].id == response.roomNotes[i].user_id )
+                                        {
+                                           html += '<td>'+response.users[j].name+'</td>';
+                                           break;
+                                        }
+                                        
+                                     }
+                                     html += '<td>'+response.roomNotes[i].note+'</td>';
+                                     html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                     html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                     html += '</tr>';
+                                  }
+                               }
+                               html += '</tbody>';
+                               html += '</table>'; 
+                               $('#log-HRNotes').html('');               
+                               $('#log-HRNotes').html(html);               
+                            }
+                          }
+                       });
+
+                      $("#popup-modal-HrNotes .close").click();
+
+                   }
+                }
+             });
+          }
+       }
+    });
+
+    $(document).on('click','.HrNoteDelete-popup',function(){
+
+       if( confirm("Are you sure you want to delete this record!") ) 
+       {
+          var hrNoteId = $(this).attr('data-userHrNotes');
+
+          var url = "{{ route('company.deleteHrNote', array("")) }}/"+hrNoteId;
+
+          $.ajax({
+             url : url,
+             type : "DELETE",
+             success : function(response){
+                if(response.hasOwnProperty("status"))
+                {
+                   alert(response.msg);
+                }
+                else
+                {
+                   var jsObjHr = {
+                      'companyHrId' : editCompanyHr,
+                      'code'        : 'hr_note'
+                   };
+
+                   $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObjHr,function(response){
+                      if(response.hasOwnProperty("status"))
+                      {
+                         var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                         $('#log-HRNotes').html(html);
+                      }
+                      else
+                      {
+                         var html = '';
+                         var created_at;
+                         var updated_at;
+                         for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+                         {
+                            created_at = new Date(response.companyHrNotes[i].created_at);
+                            updated_at = new Date(response.companyHrNotes[i].updated_at);
+
+                            if(user_id == response.companyHrNotes[i].user_id)
+                            {
+                               html += '<tr>';
+                               for(var j = 0 ; j < response.users.length ; j++)
+                               {
+                                  if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                  {
+                                     html += '<td>'+response.users[j].name+'</td>';
+                                     break;
+                                  }
+                                  
+                               }
+                               html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                               html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                               html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                               html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg HrNoteEdit-popup" data-userHrNotes="'+response.companyHrNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg HrNoteDelete-popup" data-userHrNotes="'+response.companyHrNotes[i].id+'"></i></a> </td>';
+                               html += '</tr>';
+                            }
+                            else
+                            {
+                               html += '<tr>';
+                               for(var j = 0 ; j < response.users.length ; j++)
+                               {
+                                  if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                  {
+                                     html += '<td>'+response.users[j].name+'</td>';
+                                     break;
+                                  }
+                                  
+                               }
+                               html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                               html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                               html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                               html += '</tr>';
+                            }
+                         }
+                         html += '</tbody>';
+                         html += '</table>'; 
+                         $('#log-HRNotes').html('');               
+                         $('#log-HRNotes').html(html);               
+                      }
+                   });
+                }
+             }
+          });
+       } 
+    });
+
+
+    $(document).ready(function(){
+
+     var url = "{{ route('company.getRoomNotes', array("")) }}/"+editRoom;
+
+     $.ajax({
+        url  : url,
+        type : "GET",
+        success : function(response){
+          if(response.hasOwnProperty("status"))
+          {
+             var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+             $('#log-HRNotes').html(html);
+          }
+          else
+          {
+             var html = '';
+             var created_at;
+             var updated_at;
+             for(var i = 0 ; i < response.roomNotes.length ; i++)
+             {
+                created_at = new Date(response.roomNotes[i].created_at);
+                updated_at = new Date(response.roomNotes[i].updated_at);
+
+                if(user_id == response.roomNotes[i].user_id)
+                {
+                   html += '<tr>';
+                   for(var j = 0 ; j < response.users.length ; j++)
+                   {
+                      if( response.users[j].id == response.roomNotes[i].user_id )
+                      {
+                         html += '<td>'+response.users[j].name+'</td>';
+                         break;
+                      }
+                      
+                   }
+                   html += '<td>'+response.roomNotes[i].note+'</td>';
+                   html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                   html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                   html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg HrNoteEdit-popup" data-userHrNotes="'+response.roomNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg HrNoteDelete-popup" data-userHrNotes="'+response.roomNotes[i].id+'"></i></a> </td>';
+                   html += '</tr>';
+                }
+                else
+                {
+                   html += '<tr>';
+                   for(var j = 0 ; j < response.users.length ; j++)
+                   {
+                      if( response.users[j].id == response.roomNotes[i].user_id )
+                      {
+                         html += '<td>'+response.users[j].name+'</td>';
+                         break;
+                      }
+                      
+                   }
+                   html += '<td>'+response.roomNotes[i].note+'</td>';
+                   html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                   html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                   html += '</tr>';
+                }
+             }
+             html += '</tbody>';
+             html += '</table>'; 
+             $('#log-HRNotes').html('');               
+             $('#log-HRNotes').html(html);               
+          }
+        }
+     });
+
+    });
+
+
 
     $('#conf_termination_cond').val($('#ctc').val());
     $('#conf_info_internal').val( $('#cii').val());
@@ -1023,7 +1658,7 @@
                 },
                 'area': {
                     required: true,
-                    digits: true,
+                    number: true,
                     maxlength : 11 
                 },
                 'price': {
@@ -1037,7 +1672,7 @@
                 },
                 'sort_index': {
                     required: true,
-                    digits: true
+                    number: true
                 },
                 'article_number': {
                     required: true,
@@ -1074,7 +1709,7 @@
                 
                 'rent_number_person': {
                     required: true,
-                    digits: true
+                    number: true
                 },
                 
                 'rent_vat': {
@@ -1165,6 +1800,138 @@
                 }
 
             },
+
+        messages: {
+          'name': {
+            required: "Please enter the name",
+          },
+          'include_equipment_id': {
+            required: "Please enter the include equipment id",
+          },
+          'include_qty': {
+            required: "Please enter the include qty",
+          },
+          'include_price': {
+            required: "Please enter the include price",
+          },
+          'include_info': {
+            required: "Please enter the include info",
+          },
+          'sitting_name': {
+            required: "Please enter the sitting name",
+          },
+          'sitting_number_person': {
+            required: "Please enter the sitting number person",
+          },
+          'floor_id': {
+            required: "Please select floor",
+          },
+          'service_id': {
+            required: "Please select service",
+          },
+          'address': {
+            required: "Please enter the address",
+          },
+          'area': {
+            required: "Please enter the area",
+          },
+          'price': {
+            required: "Please enter the price",
+          },
+          'security_code': {
+            required: "Please enter the security code",
+          },
+          'sort_index': {
+            required: "Please enter the sort index",
+          },
+          'article_number': {
+            required: "Please enter the article number",
+          },
+          'public_name': {
+            required: "Please enter the public name",
+          },
+          'SQNA': {
+            required: "Please enter the SQNA",
+          },
+          'building_id': {
+            required: "Please select building",
+          },
+          'start_date': {
+            required: "Please enter the start date",
+          },
+          'end_date': {
+            required: "Please enter the end date",
+          },
+          'rent_monthly_rent': {
+            required: "Please enter the monthly rent",
+          },
+          'rent_number_person': {
+            required: "Please enter the number person",
+          },
+          'rent_vat': {
+            required: "Please enter the vat",
+          },
+          'rent_new_price': {
+            required: "Please enter the new price",
+          },
+          'rent_start_date': {
+            required: "Please enter the start date",
+          },
+          'rent_end_date': {
+            required: "Please enter the end date",
+          },
+          'rent_room_type': {
+            required: "Please enter the room type",
+          },
+          'conf_day_price': {
+            required: "Please enter the conf day price",
+          },
+          'conf_half_day_price': {
+            required: "Please enter the conf half day price",
+          },
+          'conf_room_type': {
+            required: "Please enter the conf room type",
+          },
+          'conf_cost': {
+            required: "Please enter the conf cost",
+          },
+          'conf_sm_price': {
+            required: "Please enter the conf sm price",
+          },
+          'conf_high_price': {
+            required: "Please enter the conf high price",
+          },
+          'conf_medium_price': {
+            required: "Please enter the conf medium price",
+          },
+          'conf_low_price': {
+            required: "Please enter the conf low price",
+          },
+          'conf_termination_cond': {
+            required: "Please enter the conf termination cond",
+          },
+          'conf_vat': {
+            required: "Please enter the conf vat",
+          },
+          'conf_calender_available': {
+            required: "Please enter the ",
+          },
+          'conf_info_internal': {
+            required: "Please enter the conf calender available",
+          },
+          'conf_info_customer_se': {
+            required: "Please enter the conf info customer se",
+          },
+          'conf_info_customer_en': {
+            required: "Please enter the conf info customer en",
+          },
+          'conf_info_technical_se': {
+            required: "Please enter the conf info technical se",
+          },
+          'conf_info_technical_en': {
+            required: "Please enter the conf info technical en",
+          },
+        },
             errorPlacement: function(error, element) {
                 var placement = $(element).parent().find('.errorTxt');
                 if (placement) {
@@ -1188,7 +1955,7 @@
           sitting += '</div>';
           sitting += '<div class="col-sm-4 col-md-4 form-group">';
           sitting += '<label for="sitting_number_person">Number of Person</label>';
-          sitting += '<input type="number" name="sitting_number_person[]" id="sitting_number_person" class="form-control" >';
+          sitting += '<input type="number"  min="0" name="sitting_number_person[]" id="sitting_number_person" class="form-control" >';
           sitting += '</div>'; 
           sitting += '<div class="col-sm-2 col-md-4 form-group">';
           sitting += '<i class="fa fa-times fa-lg remove-sitting cursor-p m-t-4 pull-right"></i>';
@@ -1227,11 +1994,11 @@
                 included += '</div>';
                 included += '<div class="col-sm-2 col-md-2 form-group">';
                 included += '<label for="">Quantity</label>';
-                included += '<input type="number" name="include_qty_rent[]" class="form-control" >';
+                included += '<input type="number"  min="0" name="include_qty_rent[]" class="form-control" >';
                 included += '</div>';
                 included += '<div class="col-sm-2 col-md-2 form-group">';
                 included += '<label for="">Price</label>';
-                included += '<input type="number" name="include_price_rent[]" class="form-control" >';
+                included += '<input type="number"  min="0" name="include_price_rent[]" class="form-control" >';
                 included += '</div>';
                 included += '<div class="col-sm-4 col-md-4 form-group">';
                 included += '<label for="">Notes</label>';
@@ -1273,11 +2040,11 @@
                 included += '</div>';
                 included += '<div class="col-sm-2 col-md-2 form-group">';
                 included += '<label for="">Quantity</label>';
-                included += '<input type="number" name="include_qty[]" class="form-control" >';
+                included += '<input type="number"  min="0" name="include_qty[]" id="include_qty" class="form-control" >';
                 included += '</div>';
                 included += '<div class="col-sm-2 col-md-2 form-group">';
                 included += '<label for="">Price</label>';
-                included += '<input type="number" name="include_price[]" class="form-control" >';
+                included += '<input type="number"  min="0" name="include_price[]" class="form-control" >';
                 included += '</div>';
                 included += '<div class="col-sm-4 col-md-4 form-group">';
                 included += '<label for="">Information</label>';
@@ -1310,6 +2077,12 @@
             placeholder: 'Select Service',
           });
         });
+
+        $(function() {
+                      $('.select2-example').select2({
+                        placeholder: 'Select Services',
+                      });
+                });
 
         $(function() {
           $('#building_id').select2({
@@ -1346,6 +2119,35 @@
         }
 
         $(document).ready(function() {
+          if (editRoom == 0) {
+
+
+
+          $('#room_area').val('0.00');            
+          $('#room_price').val('0.00');            
+          $('#sort_index').val('0.00');            
+          $('#rent_monthly_rent').val('0.00');            
+          $('#rent_new_price').val('0.00');            
+          $('#rent_vat').val('0.00');            
+          $('#include_qty').val('0.00');            
+          $('#include_price').val('0.00');            
+          $('#conf_high_price').val('0.00');
+          $('#include_price_rent').val('0.00');
+          $('#conf_day_price').val('0.00');
+          $('#conf_half_day_price').val('0.00');
+          $('#conf_cost').val('0.00');
+          $('#conf_vat').val('0.00');
+          $('#conf_sm_price').val('0.00');
+          $('#conf_high_price').val('0.00');
+          $('#conf_medium_price').val('0.00');
+          $('#conf_low_price').val('0.00');
+          $('#include_qty_rent').val('1');
+          $('#rent_number_person').val('1');
+          }
+
+          
+
+         
 
           fileUploader();
 
@@ -1386,27 +2188,58 @@
           
 
 
+      
             var flag = 0;
+/*
+              $('#end_date').attr('disabled', 'disabled');*/
+            if ($('#end_date_continue').is(':checked')) { 
+              $( "#end_date_edit" ).prop( "disabled", true );
 
+
+                $('#end_date_edit').daterangepicker({
+                  singleDatePicker: true,
+                  showDropdowns: true,
+                  startDate : moment().add('years',1),
+                  locale: {
+                      format: 'Y-MM-DD'
+                  }
+                });
+            }
+            
             $('#end_date_continue').change(function() {
+              // alert('ok');
                 if ($(this).is(":checked")) 
                 {
-                    $( "#end_date" ).prop( "disabled", true );
+                    $( "#end_date_edit" ).prop( "disabled", true );
                 }
                 else
                 {
-                    $( "#end_date" ).prop( "disabled", false );
+                    $( "#end_date_edit" ).prop( "disabled", false );
                 } 
             });
+
+            if ($('#rent_end_date_continue').is(':checked')) { 
+              $( "#rent_end_date_edit" ).prop( "disabled", true );
+              
+
+                $('#rent_end_date_edit').daterangepicker({
+                  singleDatePicker: true,
+                  showDropdowns: true,
+                  startDate : moment().add('years',1),
+                  locale: {
+                      format: 'Y-MM-DD'
+                  }
+                });
+            }
 
             $('#rent_end_date_continue').change(function() {
                 if ($(this).is(":checked")) 
                 {
-                    $( "#rent_end_date" ).prop( "disabled", true );
+                    $( "#rent_end_date_edit" ).prop( "disabled", true );
                 }
                 else
                 {
-                    $( "#rent_end_date" ).prop( "disabled", false );
+                    $( "#rent_end_date_edit" ).prop( "disabled", false );
                 } 
             });
 
@@ -1532,7 +2365,7 @@
         singleDatePicker: true,
         showDropdowns: true,
         locale: {
-            format: 'DD-MM-Y'
+            format: 'Y-MM-DD'
         }
       });
 
@@ -1541,15 +2374,24 @@
         showDropdowns: true,
         startDate : moment().add('years',1),
         locale: {
-            format: 'DD-MM-Y'
+            format: 'Y-MM-DD'
         }
       });
+
+      $('#end_date_edit').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        locale: {
+            format: 'Y-MM-DD'
+        }
+      });
+
 
       $('#rent_start_date').daterangepicker({
         singleDatePicker: true,
         showDropdowns: true,
         locale: {
-            format: 'DD-MM-Y'
+            format: 'Y-MM-DD'
         }
       });
 
@@ -1558,7 +2400,15 @@
         showDropdowns: true,
         startDate : moment().add('years',1),
         locale: {
-            format: 'DD-MM-Y'
+            format: 'Y-MM-DD'
+        }
+      });
+
+      $('#rent_end_date_edit').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        locale: {
+            format: 'Y-MM-DD'
         }
       });
 

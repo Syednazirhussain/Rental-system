@@ -56,18 +56,18 @@ class ConferenceBookingItemRepository extends BaseRepository
 
     public function deleteBookingPackages($packageArr)
     {
-        return ConferenceBookingItem::destroy($packageArr);
+        return ConferenceBookingItem::whereIn('id', $packageArr)->delete();
     }
 
     public function deleteBookingFood($foodArr)
     {
-        return ConferenceBookingItem::destroy($foodArr);
+        return ConferenceBookingItem::whereIn('id', $foodArr)->delete();
     }
 
 
     public function deleteBookingEqupment($equipmentArr)
     {
-        return ConferenceBookingItem::destroy($equipmentArr);
+        return ConferenceBookingItem::whereIn('id', $equipmentArr)->delete();
     }
 
 

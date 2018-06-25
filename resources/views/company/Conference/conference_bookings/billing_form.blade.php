@@ -31,7 +31,7 @@
 	<div class="col-md-6">
             <div class="form-group m-t-2">
                 <label for="customer">Contact Person</label>
-                <input class="form-control" id="contact_person" name="contact_person" value="" placeholder="Contact Person">
+                <input class="form-control" id="contact_person" name="contact_person" value="@if(isset($companyCustomerInfo)){{$companyCustomerInfo->contact_person}}@endif" placeholder="Contact Person">
                 <div class="errorTxt"></div>
             </div>
 	</div>
@@ -40,12 +40,7 @@
 	<div class="col-md-6">
             <div class="form-group m-t-2">
                 <label for="customer">Payment Conditions</label>
-                <select class="form-control select2-payment_conditions" id="payment_conditions" name="payment_conditions">
-                    <option></option>
-                    <option <?php if(isset($companyCustomerInfo) && $companyCustomerInfo->payment_condition == "qwe" ) { echo "selected"; } ?> value="qwe">qwe</option>
-                    <option <?php if(isset($companyCustomerInfo) && $companyCustomerInfo->payment_condition == "asd" ) { echo "selected"; } ?>  value="asd">asd</option>
-                    <option <?php if(isset($companyCustomerInfo) && $companyCustomerInfo->payment_condition == "zxc" ) { echo "selected"; } ?>  value="zxc">zxc</option>
-                </select>
+                <input class="form-control" id="payment_conditions" name="payment_conditions" value="@if(isset($companyCustomerInfo)){{$companyCustomerInfo->payment_conditions}}@endif" placeholder="Payment Condition">
                 <div class="errorTxt"></div>
             </div>
 	</div>

@@ -3,7 +3,7 @@
 @section('content')
     <div class="px-content">
         <div class="page-header">
-            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i><a href="{{route('company.rooms.index')}}">Rooms</a>  / </span>Add Room</h1>
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon fa fa-plus"></i><a href="{{route('company.rooms.index')}}">Rooms</a>  / </span>Create Room</h1>
         </div>
         <div class="row">
             <div class="col-md-6 col-md-offset-3">

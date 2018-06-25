@@ -76,7 +76,7 @@
                     @if (isset($leasePartner))
                         <button type="submit" class="btn btn-primary" id="updateCompanyBtn" data-wizard-action="next">NEXT <i class="fa fa-arrow-right m-l-1"></i></button>
                     @else
-                        <button type="submit" class="btn btn-primary" id="createCompanyBtn" data-wizard-action="next">CREATE LEASING <i class="fa fa-arrow-right m-l-1"></i></button>
+                        <button type="submit" class="btn btn-primary" id="createCompanyBtn" data-wizard-action="next">NEXT<i class="fa fa-arrow-right m-l-1"></i></button>
                     @endif
                 </div>
             </form>
@@ -88,13 +88,13 @@
                 @if (isset($leaseCounterPart))
                     <input name="_method" type="hidden" value="PATCH">
                 @endif
-                <h3 class="m-t-0">Company Contact Persons</h3>
+                <h3 class="m-t-0">Counterpart</h3>
 
                 <div class="row">
                     <div class="col-sm-12 col-md-12">
                         <div class="col-sm-6 col-md-6 form-group">
                             <label>Organization Number</label>
-                            <input type="number" placeholder="ex: 7810" name="organization_number" value="@if(isset($leaseCounterPart)){{ $leaseCounterPart[0]->organization_number }}@endif" class="form-control">
+                            <input type="number" min="0" placeholder="ex: 7810" name="organization_number" value="@if(isset($leaseCounterPart)){{ $leaseCounterPart[0]->organization_number }}@endif" class="form-control">
                         </div>
                         <div class="col-sm-6 col-md-6">
                             <label>Company Name</label>
@@ -123,8 +123,8 @@
                 </div>
 
                 <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
-                  <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> PREVIOUS</button>&nbsp;&nbsp;
-                  <a href="{!! route('company.leasePartners.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
+                  <a href="{!! route('company.leasePartners.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>&nbsp;&nbsp;
+                  <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> PREVIOUS</button>
                   <button type="submit" class="btn btn-primary" id="addContactPersonBtn" data-wizard-action="next">NEXT <i class="fa fa-arrow-right m-l-1"></i></button>
                 </div>
             </form>
@@ -144,13 +144,13 @@
                             </div>
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Contract Number Of Months</label>
-                                <input value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->contract_length }}@endif" type="number" name="contract_length" placeholder="ex: 2" class="form-control">
+                                <input value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->contract_length }}@endif" type="number" name="contract_length" min="0" placeholder="ex: 2" class="form-control">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-12">
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Contract Termination Time In Months</label>
-                                <input value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->termination_time }}@endif" type="number" name="termination_time" placeholder="ex: 2" class="form-control">
+                                <input value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->termination_time }}@endif" type="number" name="termination_time" min="0" placeholder="ex: 2" class="form-control">
                             </div>
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Is Contract Automatic Renewal</label>
@@ -232,17 +232,33 @@
                         <div class="col-sm-12 col-md-12">
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Contract Number</label>
-                                <input type="number" placeholder="ex: 2456" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->contract_number }}@endif" name="contract_number" class="form-control">
+                                <input type="number" placeholder="ex: 2456" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->contract_number }}@endif" min="0" name="contract_number" class="form-control">
                             </div>
+                            <!-- <div class="col-sm-6 col-md-6 form-group">
+                                <label>Amount Per Month</label>
+                                <input type="number" min="0" placeholder="ex: 2"  value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->amount_per_month }}@endif" name="amount_per_month" class="form-control">
+                            </div> -->
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Amount Per Month</label>
-                                <input type="number" placeholder="ex: 2"  value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->amount_per_month }}@endif" name="amount_per_month" class="form-control">
+                                <div class="input-group">
+                                    <span class="input-group-addon">SEK</span>
+                                    <input type="number" min="0" placeholder="ex: 2"  value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->amount_per_month }}@endif" name="amount_per_month" class="form-control">
+                                   <div class="errorTxt"></div> 
+                                </div>
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-12">
+                           <!--  <div class="col-sm-6 col-md-6 form-group">
+                                <label>Income Per Month</label>
+                                <input type="number" min="0" placeholder="ex: 25000" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->income_per_month }}@endif" name="income_per_month" class="form-control">
+                            </div> -->
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Income Per Month</label>
-                                <input type="number" placeholder="ex: 25000" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->income_per_month }}@endif" name="income_per_month" class="form-control">
+                                <div class="input-group">
+                                    <span class="input-group-addon">SEK</span>
+                                    <input type="number" min="0" placeholder="ex: 25000" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->income_per_month }}@endif" name="income_per_month" class="form-control">
+                                    <div class="errorTxt"></div> 
+                                </div>
                             </div>
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Currency</label>
@@ -276,12 +292,14 @@
                                 <input type="text" placeholder="ex: Equipments" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->other_reference }}@endif" name="other_reference" class="form-control">
                             </div>
                         </div>
+                        
                         <div class="col-sm-12 col-md-12">
                             <div class="col-sm-12 col-md-12 form-group">
                                 <label>Attach Files</label>
                                 <input type="file" name="files" class="form-control uploadFiles">
                             </div>
                         </div>
+
                         <div class="col-sm-12 col-md-12">
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Building</label>
@@ -302,16 +320,16 @@
                             </div>
                             <div class="col-sm-6 col-md-6 form-group">
                                 <label>Cost Number</label>
-                                <input type="number" placeholder="ex: 254" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->cost_number }}@endif" name="cost_number" class="form-control">
+                                <input type="number" placeholder="ex: 254" value="@if(isset($leaseContractInformation)){{ $leaseContractInformation[0]->cost_number }}@endif" min="0" name="cost_number" class="form-control">
                             </div>
 
                         </div>
                     </div>
 
 
-                    <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
-                      <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> PREVIOUS</button>&nbsp;&nbsp;
+                    <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">&nbsp;&nbsp;
                       <a href="{!! route('company.leasePartners.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
+                      <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> PREVIOUS</button>
                       <button type="submit" class="btn btn-primary" id="finish-btn" data-wizard-action="next">FINISH  <i class="fa fa-arrow-right m-l-1"></i></button>
                     
                     </div>
@@ -504,6 +522,7 @@
         theme: 'thumbnails',
         enableApi: true,
         addMore: true,
+        limit: null,
         thumbnails: {
             box: '<div class="fileuploader-items">' +
                       '<ul class="fileuploader-items-list">' +
@@ -555,6 +574,7 @@
             });
         },
         extensions: ['jpg','gif','png','jpeg','bmp','pdf','txt','docx','doc','odt','rtf'],
+        
     });
 
 
@@ -657,6 +677,18 @@
                 alphanumeric: true
               }
             },
+
+        messages: {
+          'parent_company': {
+            required: "Please enter the parent company",
+          },
+          'sister_company': {
+            required: "Please enter the sister company",
+          },
+          'sales_person': {
+            required: "Please enter the sales person",
+          }
+        }
       });
 
       var leasePartnersCreated = 0;
@@ -727,7 +759,8 @@
           rules: {
               'organization_number': {
                 required:  true,
-                digits : true
+                digits : true,
+                maxlength: 100
               },
               'company_name': {
                 required:  true,
@@ -740,13 +773,33 @@
               },
               'tel': {
                 required:  true,
-                alphanumeric: true
+                number: true,
+                maxlength: 20,
               },
               'email': {
                 required:  true,
-                email: true
+                email: true,
+                maxlength: 50
               }
-            }
+            },
+
+        messages: {
+          'organization_number': {
+            required: "Please enter the organization number",
+          },
+          'company_name': {
+            required: "Please enter the company name",
+          },
+          'contract_person': {
+            required: "Please enter the contract person",
+          },
+          'tel': {
+            required: "Please enter the telephone",
+          },
+          'email': {
+            required: "Please enter the email",
+          }
+        }
       });
 
       var leaseCounterpartsCreated = 0;
@@ -856,6 +909,7 @@
               },
               'termination_time': {
                 required:  true,
+                number: true
               },
               'contract_auto_renewal': {
                 required:  true
@@ -865,6 +919,7 @@
               },
               'contract_name': {
                 required:  true,
+                maxlength: 50
               },
               'contract_desc': {
                 required:  true,
@@ -898,12 +953,66 @@
               'cost_number':{
                 required: true
               }
-            }
+            },
+
+        messages: {
+          'contract_start_date': {
+            required: "Please enter the contract start date",
+          },
+          'contract_length': {
+            required: "Please enter the contract length",
+          },
+          'termination_time': {
+            required: "Please enter the termination time",
+          },
+          'contract_auto_renewal': {
+            required: "Please enter the contract auto renewal",
+          },
+          'contract_type': {
+            required: "Please enter the contract type",
+          },
+          'contract_name': {
+            required: "Please enter the contract name",
+          },
+          'contract_desc': {
+            required: "Please enter the contract desc",
+          },
+          'contract_number': {
+            required: "Please enter the contract number",
+          },
+          'amount_per_month': {
+            required: "Please enter the amount per month",
+          },
+          'income_per_month': {
+            required: "Please enter the income per month",
+          },
+          'currency_id': {
+            required: "Please enter the currency id",
+          },
+          'cost_reference': {
+            required: "Please enter the cost reference",
+          },
+          'income_reference': {
+            required: "Please enter the income reference",
+          },
+          'other_reference': {
+            required: "Please enter the other reference",
+          },
+          'building_id': {
+            required: "Please select the building",
+          },
+          'cost_number': {
+            required: "Please enter the cost number",
+          }
+        }
       });
-      
+        
       var leaseContractInformationsCreated = 0;
 
       $('#wizard-3').on('submit', function(e) {
+
+        
+
        
             e.preventDefault();
 
@@ -943,7 +1052,10 @@
 
                     var myform = document.getElementById("wizard-3");
                     var data = new FormData(myform );
+
                     data.append('lease_partner_id', editLease);
+
+
 
                     var editLeaseContractInformation = "{{ isset($leaseContractInformation) ? $leaseContractInformation[0]->id: 0 }}";
 

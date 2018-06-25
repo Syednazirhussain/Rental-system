@@ -25,14 +25,24 @@ use App\Models\Company\RoomSettingArrangment;
 use App\Models\Company\RoomEquipments;
 use App\Models\Company\RoomNotes;
 
+use App\Models\User;
+
+
+use App\Repositories\Company\ServiceRepository;
+use Session;
+
+
 class RoomController extends AppBaseController
 {
     /** @var  RoomRepository */
     private $roomRepository;
+    private $serviceRepository;
 
-    public function __construct(RoomRepository $roomRepository)
+    public function __construct(RoomRepository $roomRepository,
+                                    ServiceRepository $serviceRepository)
     {
         $this->roomRepository = $roomRepository;
+        $this->serviceRepository = $serviceRepository;
     }
 
     /**
@@ -52,6 +62,93 @@ class RoomController extends AppBaseController
 
         return view('company.rooms.index', ['rooms' => $rooms, 'company' => $company, 'services' => $services,
             'floors' => $floors]);
+    }
+
+    public function getRoomNotes($id)
+    {
+
+        $roomNotes =  RoomNotes::where('room_id',$id)->orderBy('id', 'DESC')->get();
+        $users = User::all();
+
+        if (!empty($roomNotes) && count($roomNotes) > 0) 
+        {
+            $data = [
+                'users' => $users,
+                'roomNotes' => $roomNotes
+            ];
+
+            return response()->json($data);
+        }
+        else
+        {
+            return response()->json(['status' => 0 ,'msg' => 'Not enough HR Notes']);
+        }
+    }
+
+    public function createRoomNotes(Request $request)
+    {
+        $input = $request->all();
+
+        $user_id = Auth::guard('company')->user()->id;
+
+        if( isset($input['note']) && isset($input['roomId']) )
+        {
+            $roomNotes = new RoomNotes;
+            $roomNotes->note = $input['note'];
+            $roomNotes->room_id = $input['roomId'];
+            $roomNotes->user_id = $user_id;
+            $roomNotes->save();
+            if($roomNotes)
+            {
+                return response()->json($roomNotes);   
+            }
+            else
+            {
+                return response()->json(['status' => 0 ,'msg' => 'Room Note are not create']);
+            }
+        }
+        else
+        {
+            return response()->json(['status' => 0,'msg' => 'There is some problem while creating HR Note']);
+        }
+    }
+
+    public function editRoomNotes($id)
+    {
+        $roomNotes =  RoomNotes::find($id);
+        if (!empty($roomNotes)) 
+        {
+            return response()->json($roomNotes);
+        }
+        else
+        {
+            return response()->json(['status' => 0,'msg' => 'Room Note does not exist']);
+        }
+    }
+
+    public function updateRoomNotes($id,Request $request)
+    {
+        $input = $request->all();
+
+        if (isset($input['note'])) 
+        {
+            $roomNotes = RoomNotes::find($id);
+            $roomNotes->room_id = $input['roomId'];
+            $roomNotes->note = $input['note'];
+            $roomNotes->save();
+            if($roomNotes)
+            {
+                return response()->json($roomNotes);
+            }
+            else
+            {
+                return response()->json(['status' => 0,'msg' => 'Room Note are not update']);
+            }
+        }
+        else
+        {
+            return response()->json(['status' => 0,'msg' => 'There is some problem while updating HR Note']);
+        }
     }
 
     public function imageRemove(Request $request)
@@ -101,7 +198,7 @@ class RoomController extends AppBaseController
             'company' => $company,
             'companyFloors' => $companyFloors,
             'companyBuildings' => $companyBuildings,
-            'services' => $services,
+            'services'          => $services,
             'companyServices' => $services,
             'buildings'   => $buildings,
             'equipments'  => $equipments  
@@ -154,8 +251,14 @@ class RoomController extends AppBaseController
     {
 
         $room = $this->roomRepository->findWithoutFail($id);
+        $servicerepo = $this->serviceRepository->findWithoutFail($id);
 
-        
+        $servicejson = json_decode($room->services);
+
+         $selectedService = Service::whereIn('id', $servicejson)->get();
+         // dd($servicejson);
+         // dd($selectedService);
+        // dd($room['end_date']);
         if (empty($room)) 
         {
             session()->flash('msg.error','Company Room not found');
@@ -203,7 +306,7 @@ class RoomController extends AppBaseController
                 }
             }
 
-
+              
             $data = [
                 'room'  => $room,
                 'buildings' => $buildings,
@@ -215,11 +318,15 @@ class RoomController extends AppBaseController
                 'equipments' => $equipments,
                 'roomSittingArrangments' => $roomSittingArrangments,
                 'roomImages' => $roomImages,
-                'imageFiles' => $imageFiles    
+                'imageFiles' => $imageFiles,
+                'servicejson'   =>  $servicejson,
+                'selectedService'   =>  $selectedService 
             ];
         }
         elseif($room->room_module_type == 'rental')
         {
+              // dd($room->rent_end_date_continue); 
+
 
             $data = [
                 'room'  => $room,
@@ -231,7 +338,9 @@ class RoomController extends AppBaseController
                 'roomEquipments' => $roomEquipments,
                 'equipments' => $equipments,
                 'roomSittingArrangments' => $roomSittingArrangments,
-                'roomNote'      => $roomNote   
+                'roomNote'      => $roomNote,
+                'servicejson'   =>  $servicejson,
+                'selectedService'   =>  $selectedService 
             ];
 
         }
@@ -254,7 +363,20 @@ class RoomController extends AppBaseController
 
         $input = $request->all();
 
-        // dd($input);
+
+
+        /*$actualDate = date('Y-m-d', strtotime($input['start_date']));
+
+        $input['start_date'] = $actualDate;
+
+        $actualDate = date('Y-m-d', strtotime($input['end_date']));
+
+        $input['end_date'] = $actualDate;*/
+        $input['services'] = json_encode(array_values($input['services']));
+          // dd($input['services']);
+
+
+        // dd($input['rent_room_type']);
 
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
 
@@ -339,7 +461,7 @@ class RoomController extends AppBaseController
                 $errors[] = 'End date must be greater than start date';
             }
         }
-
+        // dd($input);
         if($request->has('rent_start_date') && $request->has('rent_end_date'))
         {
             $start_date = strtotime($input['rent_start_date']);
@@ -362,7 +484,7 @@ class RoomController extends AppBaseController
         $room = new Room;
         $room->floor_id = $input['floor_id'];
         $room->company_id = $company_id;
-        $room->service_id = $input['service_id'];
+        $room->services = $input['services'];
         $room->name = $input['name'];
         $room->area = $input['area'];
         $room->price = $input['price'];
@@ -509,7 +631,8 @@ class RoomController extends AppBaseController
             }
 
 
-            session()->flash('msg.success','room successfully created');
+            /*session()->flash('msg.success','room successfully created');*/
+            Session::flash("successMessage", "room successfully created");
             return redirect()->route('company.rooms.index');            
         }
     }
@@ -528,8 +651,19 @@ class RoomController extends AppBaseController
         $room = $this->roomRepository->findWithoutFail($id);
 
         $input = $request->all();
+        $input['services'] = json_encode(array_values($input['services']));
 
-        // dd( $request->all() );
+
+        // dd($input['rent_room_type']);
+        /*$actualDate = date('Y-m-d', strtotime($input['start_date']));
+
+        $input['start_date'] = $actualDate;
+
+        $actualDates = date('Y-m-d', strtotime($input['end_date']));
+
+        $input['end_date'] = $actualDates;*/
+
+         // dd( $input );
 
         if ($request->hasFile('image1')) 
         {
@@ -539,15 +673,8 @@ class RoomController extends AppBaseController
         }
 
 
-        if($request->has('end_date_continue'))
-        {
-            $input['end_date_continue'] = 1;
-            $input['end_date'] = null;
-        }
-        else
-        {
-            $input['end_date_continue'] = 0;
-        }
+        
+
 
 
 
@@ -601,8 +728,9 @@ class RoomController extends AppBaseController
 
         $errors = [];
 
-        if($request->has('start_date') && $request->has('end_date'))
+        if($request->has('start_date') && $request->has('end_date') && $input['end_date_continue'] = 0)
         {
+            // dd($input);
             $start_date = strtotime($input['start_date']);
             $end_date = strtotime($input['end_date']);
 
@@ -624,6 +752,9 @@ class RoomController extends AppBaseController
             }
         }
 
+
+        // dd($errors);
+
         if($errors)
         {
             return redirect()->back()->withErrors($errors);
@@ -632,7 +763,7 @@ class RoomController extends AppBaseController
 
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
 
-        // dd($input['files0']);
+        // dd($input);
         if (isset($input['files0'])) 
         {
             $sepratorArr = [];
@@ -659,16 +790,26 @@ class RoomController extends AppBaseController
                     $cursor++;
                 }
             }
-            // dd($sepratorArr);
+             
         }
+// dd($input);
 
+        if($request->has('end_date_continue'))
+        {
+            $input['end_date_continue'] = 1;
+            $input['end_date'] = null;
+        }
+        else
+        {
+            $input['end_date_continue'] = 0;
+        }
         $room_id = $room->id;
         $building_id = $room->building_id;
         $user_id = Auth::guard('company')->user()->id;
         
         $room->floor_id = $input['floor_id'];
         $room->company_id = $company_id;
-        $room->service_id = $input['service_id'];
+        $room->services = $input['services'];
         $room->building_id = $input['building_id'];
         $room->name = $input['name'];
         $room->area = $input['area'];
@@ -690,7 +831,7 @@ class RoomController extends AppBaseController
         $room->start_date =  date('Y-m-d', strtotime(str_replace('-', '/', $input['start_date'])));
         $room->end_date = date('Y-m-d', strtotime(str_replace('-', '/', $input['end_date'])));
         $room->end_date_continue = $input['end_date_continue'];
-
+        // dd($input['end_date_continue']);
         if($input['room_module_type'] == 'conference')
         {
             $room->conf_room_type = $input['conf_room_type'];
@@ -736,8 +877,10 @@ class RoomController extends AppBaseController
 
 
 
-        }        
-        // $room->save();
+        }
+
+        $room->save();       
+        // dd($input);
 
         $entity_type = $input['room_module_type'];
 
@@ -805,9 +948,12 @@ class RoomController extends AppBaseController
         elseif($input['room_module_type'] == 'rental')
         {
 
+        // dd($input);
         }
 
-        session()->flash('msg.success','Room updated successfully');
+/*
+        session()->flash('msg.success','Room updated successfully');*/
+            Session::flash("successMessage", "Room updated successfully");
         return redirect()->route('company.rooms.index');
     }
 
@@ -830,7 +976,8 @@ class RoomController extends AppBaseController
 
         $this->roomRepository->delete($id);
 
-        $request->session()->flash('msg.success', 'Company Room deleted successfully.');
+        /*$request->session()->flash('msg.success', 'Company Room deleted successfully.');*/
+        Session::flash("deleteMessage", "Company Room deleted successfully");
 
         return redirect(route('company.rooms.index'));
     }

@@ -2,30 +2,24 @@
 
 @section('content')
     <div class="px-content">
-
         <div class="page-header">
-            <h1>
-                <span class="text-muted font-weight-light">
-                    <i class="page-header-icon ion-ios-keypad"></i>
-                    <a href="{{ route('company.supports.index') }}">Support</a>
-                </span>
-            </h1>
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon fa fa-plus"></i><a href="{{ route('company.hrCivilStatuses.index')}}">Company HR / Civil Status</a> / </span>Create Civil Status</h1>
         </div>
 
-        <div class="panel">
-            <div class="panel-body">
-        @include('adminlte-templates::common.errors')
-        <div class="box box-primary">
-
-            <div class="box-body">
-                <div class="row">
-                    {!! Form::open(['route' => 'company.hrCivilStatuses.store']) !!}
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div class="panel-title">Create Civil Status</div>
+                    </div>
+                    <div class="panel-body">
+                    {!! Form::open(['route' => 'company.hrCivilStatuses.store', 'id' => 'form']) !!}
 
                         @include('company.hr_civil_statuses.fields')
 
                     {!! Form::close() !!}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 @endsection

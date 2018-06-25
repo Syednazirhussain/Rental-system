@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Group;
 use App\Models\Customer;
 use Mail;
+use Session;
 
 class NewsLetterGroupController extends AppBaseController
 {
@@ -48,7 +49,8 @@ class NewsLetterGroupController extends AppBaseController
             'name' => 'required',
         ]);
         Group::create(array_merge($request->all(), ['user_id' => Auth::guard('company')->user()->id, 'company_id' => $company_id]));
-        return redirect()->route('company.newsletterGroups.index')->with('success', 'New Group has been created!');
+        Session::flash("successMessage", "New Group has been created");
+        return redirect()->route('company.newsletterGroups.index');
     }
 
     /**
@@ -89,7 +91,8 @@ class NewsLetterGroupController extends AppBaseController
 
         $data = request()->except(['_token', '_method']);
         Group::where('id', $id)->update(array_merge($data, ['user_id' => Auth::guard('company')->user()->id]));
-        return redirect()->route('company.newsletterGroups.index')->with('success', 'New Group has been created!');
+        Session::flash("successMessage", "Group has been Updated");
+        return redirect()->route('company.newsletterGroups.index');
     }
 
     /**
@@ -102,6 +105,7 @@ class NewsLetterGroupController extends AppBaseController
     {
         $group = Group::find($id);
         $group->delete();
+        Session::flash("successMessage", "Group has been deleted successfully");
         return redirect()->route('company.newsletterGroups.index')->with('success', 'The Group has been deleted!');
     }
 
@@ -156,7 +160,8 @@ class NewsLetterGroupController extends AppBaseController
                     }
                 });
             }
-            return redirect()->route('company.newsletterGroups.index')->with('success', 'Emails are sent successfully !');
+            Session::flash("successMessage", "Emails are sent successfully !");
+            return redirect()->route('company.newsletterGroups.index');
         }
         else
             return redirect()->route('company.newsletterGroups.index');

@@ -4,14 +4,14 @@
          <div class="wizard panel-wizard" id="wizard-validation">
             <div class="wizard-wrapper">
                <ul class="wizard-steps">
-                  <li data-target="#wizard-1" class="">
+                  <li data-target="#wizard-1" class="active">
                      <span class="wizard-step-number">1</span>
                      <span class="wizard-step-complete"><i class="fa fa-check"></i></span>
                      <span class="wizard-step-caption">
                      Basic Info.
                      </span>
                   </li>
-                  <li data-target="#wizard-2">
+                  <li data-target="#wizard-2" >
                      <span class="wizard-step-number">2</span>
                      <span class="wizard-step-complete"><i class="fa fa-check"></i></span>
                      <span class="wizard-step-caption">
@@ -25,7 +25,7 @@
                      Salary and vacation
                      </span>
                   </li>
-                  <li data-target="#wizard-4"  class="active">
+                  <li data-target="#wizard-4">
                      <span class="wizard-step-number">4</span>
                      <span class="wizard-step-complete"><i class="fa fa-check"></i></span>
                      <span class="wizard-step-caption">
@@ -36,7 +36,7 @@
             </div>
             <div class="wizard-content">
                <!-- ===========================wizard-1===================================== -->
-               <form class="wizard-pane " id="wizard-1" method="post">
+               <form class="wizard-pane " id="wizard-1">
                   @if (isset($companyHr))
                   <input name="_method" type="hidden" value="PATCH">
                   @endif
@@ -45,31 +45,36 @@
                      <!-- First Name Field -->
                      <div class="form-group col-sm-6">
                         <label for="">First Name</label>
-                        <input type="text" name="first_name_show" placeholder="John" class="form-control" id="firstName"  value="@if(isset($companyHr)){{ $companyHr->first_name }}@endif" >
+                        <input type="text" name="first_name" placeholder="John" class="form-control" id="first_name"  value="@if(isset($companyHr)){{ $companyHr->first_name }}@endif" >
+                        <div class="errorTxt"></div>
                      </div>
                      <!-- Last Name Field -->
                      <div class="form-group col-sm-6">
                         <label for="">Last Name</label>
-                        <input type="text" name="last_name_show" placeholder="Doe" class="form-control" id="lastName" value="@if(isset($companyHr)){{ $companyHr->last_name }}@endif">
+                        <input type="text" name="last_name" placeholder="Doe" class="form-control" id="last_name" value="@if(isset($companyHr)){{ $companyHr->last_name }}@endif">
+                        <div class="errorTxt"></div>
                      </div>
                   </div>
+
                   <div class="row">
                      <!-- Address 1 Field -->
                      <div class="form-group col-sm-6">
                         <label for="">Address 1</label>
-                        <input type="text" name="address_1_show" class="form-control"  placeholder="1516  Hoffman Avenue New York" id="Address1" value="@if(isset($companyHr)){{ $companyHr->address_1 }}@endif">
+                        <input type="text" name="address_1" class="form-control"  placeholder="1516  Hoffman Avenue New York" id="address_1" value="@if(isset($companyHr)){{ $companyHr->address_1 }}@endif">
+                        <div class="errorTxt"></div>
                      </div>
                      <!-- Address 2 Field -->
                      <div class="form-group col-sm-6">
                         <label for="">Address 2</label>
-                        <input type="text" name="address_2_show" class="form-control" id="Address2" placeholder="1516  Hoffman Avenue New York"  value="@if(isset($companyHr)){{ $companyHr->address_2 }}@endif">
+                        <input type="text" name="address_2" class="form-control" id="address_2" placeholder="1516  Hoffman Avenue New York"  value="@if(isset($companyHr)){{ $companyHr->address_2 }}@endif">
+                        <div class="errorTxt"></div>
                      </div>
                   </div>
                   <div class="row">
                      <div class="col-sm-6 form-group">
                         <fieldset class="form-group">
                            <label for="country_id">Country</label>
-                           <select name="country_id_show" id="countyId" class="form-control select2-country" style="width: 100%" data-allow-clear="true">
+                           <select name="country_id" id="country_id" class="form-control select2-country" style="width: 100%" data-allow-clear="true">
                               <option></option>
                               @foreach ($countries as $country)
                               @if (isset($companyHr) && $companyHr->country_id == $country->id)
@@ -85,7 +90,7 @@
                      <div class="col-sm-6 form-group">
                         <fieldset class="form-group">
                            <label for="state_id">State</label>
-                           <select name="state_id_show" id="stateId" class="form-control select2-state" style="width: 100%" data-allow-clear="true">
+                           <select name="state_id" id="state_id" class="form-control select2-state" style="width: 100%" data-allow-clear="true">
                               <option></option>
                               @foreach ($states as $state)
                               @if (isset($companyHr) && $companyHr->state_id == $state->id)
@@ -104,7 +109,7 @@
                      <div class="col-sm-6 form-group">
                         <fieldset class="form-group">
                            <label for="city_id">City</label>
-                           <select name="city_id_show" id="cityId" class="form-control select2-city"  style="width: 100%" data-allow-clear="true">
+                           <select name="city_id" id="city_id" class="form-control select2-city"  style="width: 100%" data-allow-clear="true">
                               <option></option>
                               @foreach ($cities as $city)
                               @if (isset($companyHr) && $companyHr->city_id == $city->id)
@@ -119,8 +124,9 @@
                      </div>
                      <!-- Post Code Field -->
                      <div class="form-group col-sm-6">
-                        <label for="phone">Post Code</label>
-                        <input type="text" id="postCode" name="post_code_show" placeholder="ABC123" class="form-control"  value="@if(isset($companyHr)){{ $companyHr->post_code }}@endif">
+                        <label for="post_code">Post Code</label>
+                        <input type="text" id="post_code" name="post_code" placeholder="ABC123" class="form-control"  value="@if(isset($companyHr)){{ $companyHr->post_code }}@endif">
+                        <div class="errorTxt"></div>
                      </div>
                   </div>
                   <!-- City Id Field -->
@@ -128,32 +134,36 @@
                   <div class="row">
                      <!-- Telephone Job Field -->
                      <div class="form-group col-sm-6">
-                        <label for="phone">Telephone Job</label>
-                        <input type="text" id="telephoneId" name="telephone_job_show" placeholder="0210234567" class="form-control" value="@if(isset($companyHr)){{ $companyHr->telephone_job }}@endif">
+                        <label for="telephone_job">Telephone Job</label>
+                        <input type="text" id="telephone_job" name="telephone_job" placeholder="0210234567" class="form-control" value="@if(isset($companyHr)){{ $companyHr->telephone_job }}@endif">
+                        <div class="errorTxt"></div>
                      </div>
                      <!-- Telephone Private Field -->
                      <div class="form-group col-sm-6">
-                        <label for="phone">Telephone Private</label>
-                        <input type="text" id="telephoneJob" name="telephone_private_show" placeholder="0210234567" class="form-control" value="@if(isset($companyHr)){{ $companyHr->telephone_private }}@endif">
+                        <label for="telephone_private">Telephone Private</label>
+                        <input type="text" id="telephone_private" name="telephone_private" placeholder="0210234567" class="form-control" value="@if(isset($companyHr)){{ $companyHr->telephone_private }}@endif">
+                        <div class="errorTxt"></div>
                      </div>
                   </div>
                   <div class="row">
                      <!-- Email Job Field -->
                      <div class="form-group col-sm-6">
-                        <label for="email">Email Job</label>
-                        <input type="email" id="emailJob" name="email_job_show" placeholder="someone@mail.com" class="form-control" value="@if(isset($companyHr)){{ $companyHr->email_job }}@endif">
+                        <label for="email_job">Email Job</label>
+                        <input type="email" id="email_job" name="email_job" placeholder="someone@mail.com" class="form-control" value="@if(isset($companyHr)){{ $companyHr->email_job }}@endif">
+                        <div class="errorTxt"></div>
                      </div>
                      <!-- Email Private Field -->
                      <div class="form-group col-sm-6">
-                        <label for="email">Email Private</label>
-                        <input type="email" id="emailId" name="email_private_show" placeholder="someone@mail.com" class="form-control" value="@if(isset($companyHr)){{ $companyHr->email_private }}@endif">
+                        <label for="email_private">Email Private</label>
+                        <input type="email" id="email_private" name="email_private" placeholder="someone@mail.com" class="form-control" value="@if(isset($companyHr)){{ $companyHr->email_private }}@endif">
+                        <div class="errorTxt"></div>
                      </div>
                   </div>
                   <div class="row">
                      <!-- Civil Status Id Field -->
                      <div class="form-group col-sm-6">
-                        <label for="wizard-country">Civil Status</label>
-                        <select class="form-control select2-status" name="civil_status_id_show" id="civilId" style="width: 100%" data-allow-clear="true">
+                        <label for="civil_status_id">Civil Status</label>
+                        <select class="form-control select2-status" name="civil_status_id" id="civil_status_id" style="width: 100%" data-allow-clear="true">
                            <option></option>
                            @foreach ($hrCivil as $hrCivil)
                            @if (isset($companyHr) && $companyHr->civil_status_id == $hrCivil->id)
@@ -163,8 +173,11 @@
                            @endif
                            @endforeach
                         </select>
+                        <div class="errorTxt"></div>
                      </div>
                   </div>
+
+
                   <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
                      <a href="{!! route('company.companyHrs.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
                      @if (isset($companyHr))
@@ -179,28 +192,32 @@
                <!-- ============================wizard-2==================================== -->
                <form class="wizard-pane" id="wizard-2">
                   @if (isset($companyHr))
+
                   <input name="_method" type="hidden" value="PATCH">
                   @endif
-                  <h3 class="m-t-0">Information about employment</h3>
+                  <h3 class="m-t-0">Information about employment </p></h3>
                   <div class="form-group col-sm-6">
-                     <label for="">Employment Date</label>
-                     <input type="text" id="daterangeEmpl" name="employment_date" value="@if(isset($companyHr)){{ date('m/d/Y', strtotime($companyHr->employment_date)) }} @endif" class="form-control">
+                     <label for="employment_date">Employment Date</label>
+                     <input type="text" name="employment_date" value="@if(isset($companyHr)){{ $companyHr->employment_date }} @endif" class="form-control" id="employment_date">
+                     <div class="errorTxt"></div>
                   </div>
                   <!-- Last Name Field -->
                   <div class="form-group col-sm-6">
-                     <label for="">Termination Time In Months</label>
-                     <input type="number" id="termId" name="termination_time" placeholder="01" value="@if(isset($companyHr)){{ $companyHr->termination_time }}@endif" class="form-control">
+                     <label for="termination_time">Termination Time In Months</label>
+                     <input type="number" id="termination_time" name="termination_time" min="1.00" placeholder="01" value="@if(isset($companyHr)){{ $companyHr->termination_time }}@endif" class="form-control">
+                     <div class="errorTxt"></div>
                   </div>
                   <!-- Address 1 Field -->
                   <div class="form-group col-sm-6">
-                     <label for="">Employeed Untill</label>
-                     <input type="text" id="daterangeEmplUntil" name="employeed_untill" value="@if(isset($companyHr)){{ date('m/d/Y', strtotime($companyHr->employeed_untill)) }} @endif" class="form-control">
+                     <label for="employeed_untill">Employeed Untill</label>
+                     <input type="text" name="employeed_untill" value="@if(isset($companyHr)){{ $companyHr->employeed_untill }} @endif" class="form-control"  id="employeed_untill">
+                     <div class="errorTxt"></div>
                   </div>
                   <!-- Address 2 Field -->
                   <div class="col-sm-6 form-group">
                      <fieldset class="form-group">
-                        <label for="city_id">Personal Category</label>
-                        <select name="personal_category" id="personalId" class="form-control select2-personal" style="width: 100%" data-allow-clear="true">
+                        <label for="personal_category">Personal Category</label>
+                        <select name="personal_category" id="personal_category" class="form-control select2-personal" style="width: 100%" data-allow-clear="true">
                            <option></option>
                            @foreach ($hrPersonal as $personal)
                            @if (isset($companyHr) && $companyHr->personal_category == $personal->id)
@@ -216,8 +233,8 @@
                   <!-- Post Code Field -->
                   <div class="col-sm-6 form-group">
                      <fieldset class="form-group">
-                        <label for="city_id">Collective Type</label>
-                        <select name="collective_type" id="collectiveId" class="form-control select2-collective" style="width: 100%" data-allow-clear="true">
+                        <label for="collective_type">Collective Type</label>
+                        <select name="collective_type" id="collective_type" class="form-control select2-collective" style="width: 100%" data-allow-clear="true">
                            <option></option>
                            @foreach ($hrCollectivetype as $collective)
                            @if (isset($companyHr) && $companyHr->collective_type == $collective->id)
@@ -233,8 +250,8 @@
                   <!-- City Id Field -->
                   <div class="col-sm-6 form-group">
                      <fieldset class="form-group">
-                        <label for="city_id">Employment Form</label>
-                        <select name="employment_form" id="employFormId" class="form-control select2-emplyForm" style="width: 100%" data-allow-clear="true">
+                        <label for="employment_form">Employment Form</label>
+                        <select name="employment_form" id="employment_form" class="form-control select2-employment_form" style="width: 100%" data-allow-clear="true">
                            <option></option>
                            @foreach ($hrEmployForm as $employ)
                            @if (isset($companyHr) && $companyHr->employment_form == $employ->id)
@@ -249,19 +266,21 @@
                   </div>
                   <!-- State Id Field -->
                   <div class="col-sm-6 form-group">
-                     <label for="">Insurance Date</label>
-                     <input type="text" id="daterangeInsurance" name="insurance_date" value="@if(isset($companyHr)){{ date('m/d/Y', strtotime($companyHr->insurance_date)) }} @endif"  class="form-control">
+                     <label for="insurance_date">Insurance Date</label>
+                     <input type="text" name="insurance_date" value="@if(isset($companyHr)){{ $companyHr->insurance_date }} @endif"  class="form-control"  id="insurance_date">
+                     <div class="errorTxt"></div>
                   </div>
                   <!-- Country Id Field -->
                   <div class="col-sm-6 form-group">
-                     <label for="">Insurance Fees</label>
-                     <input type="number" id="insuranceFees" placeholder="10.00" value="@if(isset($companyHr)){{ $companyHr->insurance_fees }}@endif" name="insurance_fees" class="form-control">
+                     <label for="insurance_fees">Insurance Fees</label>
+                     <input type="number" id="insurance_fees" placeholder="10.00" min="1.00" value="@if(isset($companyHr)){{ $companyHr->insurance_fees }}@endif" name="insurance_fees" class="form-control">
+                     <div class="errorTxt"></div>
                   </div>
                   <!-- Telephone Job Field -->
                   <div class="form-group col-sm-6">
                      <fieldset class="form-group">
-                        <label for="city_id">Department</label>
-                        <select name="department" id="departmentWiz2" class="form-control select2-department" style="width: 100%" data-allow-clear="true">
+                        <label for="department">Department</label>
+                        <select name="department" id="department" class="form-control select2-department" style="width: 100%" data-allow-clear="true">
                            <option></option>
                            @foreach ($hrPersonal as $personal)
                            @if (isset($companyHr) && $companyHr->department == $personal->id)
@@ -277,8 +296,8 @@
                   <!-- Telephone Private Field -->
                   <div class="form-group col-sm-6">
                      <fieldset class="form-group">
-                        <label for="city_id">Designation</label>
-                        <select name="designation" id="desigWiz2" class="form-control select2-designation" style="width: 100%" data-allow-clear="true">
+                        <label for="designation">Designation</label>
+                        <select name="designation" id="designation" class="form-control select2-designation" style="width: 100%" data-allow-clear="true">
                            <option></option>
                            @foreach ($hrDesig as $desig)
                            @if (isset($companyHr) && $companyHr->designation == $desig->id)
@@ -294,8 +313,8 @@
                   <!-- Email Job Field -->
                   <div class="form-group col-sm-6">
                      <fieldset class="form-group">
-                        <label for="city_id">Vacancies</label>
-                        <select name="vacancies" id="vacancyWiz2" class="form-control select2-vacancy" style="width: 100%" data-allow-clear="true">
+                        <label for="vacancies">Vacations Attest By</label>
+                        <select name="vacancies" id="vacancies" class="form-control select2-vacancy" style="width: 100%" data-allow-clear="true">
                            <option></option>
                            @foreach ($hrDesig as $desig)
                            @if (isset($companyHr) && $companyHr->vacancies == $desig->id)
@@ -317,7 +336,6 @@
 
                <!-- ============================wizard-3==================================== -->
 
-
                <form class="wizard-pane" id="wizard-3">
                   @if (isset($companyHr))
                   <input name="_method" type="hidden" value="PATCH">
@@ -327,7 +345,7 @@
                      <div class="form-group col-sm-6">
                         <fieldset class="form-group">
                            <label for="salary_type">Salary Type</label>
-                           <select name="salary_type" id="salaryTypeWiz3" class="form-control select2-salaryType" style="width: 100%" data-allow-clear="true">
+                           <select name="salary_type" id="salary_type" class="form-control select2-salary_type" style="width: 100%" data-allow-clear="true">
                               <option></option>
                               @foreach ($hrSalaryType as $salary)
                               @if (isset($companyHr) && $companyHr->salary_type == $salary->id)
@@ -342,20 +360,23 @@
                      </div>
                      <!-- Last Name Field -->
                      <div class="form-group col-sm-6">
-                        <label for="">Salary</label>
-                        <input type="number" name="salary" id="salaryId" placeholder="2000.00" value="@if(isset($companyHr)){{ $companyHr->salary }}@endif" class="form-control">
+                        <label for="salary">Salary</label>
+                        <input type="number" name="salary" id="salary" min="1.00" placeholder="2000.00" value="@if(isset($companyHr)){{ $companyHr->salary }}@endif" class="form-control">
+                        <div class="errorTxt"></div>
                      </div>
                   </div>
                   <div class="row">
                      <!-- Address 1 Field -->
                      <div class="form-group col-sm-6">
-                        <label for="">Employment in %</label>
-                        <input type="number" name="employment_percent" value="@if(isset($companyHr)){{ $companyHr->employment_percent }}@endif" id="empInPercent" placeholder="75.00" class="form-control">
+                        <label for="employment_percent">Employment in % (percentage)</label>
+                        <input type="number" name="employment_percent" min="1.00" value="@if(isset($companyHr)){{ $companyHr->employment_percent }}@endif" id="employment_percent" placeholder="75.00" class="form-control">
+                        <div class="errorTxt"></div>
                      </div>
                      <!-- Address 2 Field -->
                      <div class="form-group col-sm-6">
-                        <label for="">Cost Division</label>
-                        <input type="number" id="costDivision" name="cost_division" value="@if(isset($companyHr)){{ $companyHr->cost_division }}@endif" placeholder="00.00" class="form-control">
+                        <label for="cost_division">Cost Division</label>
+                        <input type="number" id="cost_division" min="1.00" name="cost_division" value="@if(isset($companyHr)){{ $companyHr->cost_division }}@endif" placeholder="00.00" class="form-control">
+                        <div class="errorTxt"></div>
                      </div>
                   </div>
                   <div class="row">
@@ -363,7 +384,7 @@
                      <div class="form-group col-sm-6">
                         <fieldset class="form-group">
                            <label for="project">Project</label>
-                           <select name="project" id="projectWiz3" class="form-control select2-project" style="width: 100%" data-allow-clear="true">
+                           <select name="project" id="project" class="form-control select2-project" style="width: 100%" data-allow-clear="true">
                               <option></option>
                               @foreach ($hrCompanyPro as $project)
                               @if (isset($companyHr) && $companyHr->project == $project->id)
@@ -378,21 +399,23 @@
                      </div>
                      <!-- City Id Field -->
                      <div class="form-group col-sm-6">
-                        <label for="">VAT Table</label>
-                        <input type="number" name="vat_table" id="valueAdded" value="@if(isset($companyHr)){{ $companyHr->vat_table }}@endif" placeholder="00.00" class="form-control">
+                        <label for="vat_table">VAT Table</label>
+                        <input type="number" name="vat_table" id="vat_table" min="1.00" value="@if(isset($companyHr)){{ $companyHr->vat_table }}@endif" placeholder="00.00" class="form-control">
+                        <div class="errorTxt"></div>
                      </div>
                      <!-- State Id Field -->
                   </div>
                   <div class="row">
                      <div class="form-group col-sm-6">
-                        <label for="">Vacation Days</label>
-                        <input type="number" name="vacation_days" id="vacationDays" value="@if(isset($companyHr)){{ $companyHr->vacation_days }}@endif" placeholder="00.00" class="form-control">
+                        <label for="vacation_days">Vacation Days</label>
+                        <input type="number" name="vacation_days" id="vacation_days" min="1.00" value="@if(isset($companyHr)){{ $companyHr->vacation_days }}@endif" placeholder="00.00" class="form-control">
+                        <div class="errorTxt"></div>
                      </div>
                      <!-- Country Id Field -->
                      <div class="form-group col-sm-6">
                         <fieldset class="form-group">
-                           <label for="salary_type">Vacation Category</label>
-                           <select name="vacation_category" id="vacationWiz3" class="form-control select2-project" style="width: 100%" data-allow-clear="true">
+                           <label for="vacation_category">Vacation Category</label>
+                           <select name="vacation_category" id="vacation_category" class="form-control select2-vacation_category" style="width: 100%" data-allow-clear="true">
                               <option></option>
                               @foreach ($hrVacCategory as $cat)
                               @if (isset($companyHr) && $companyHr->vacation_category == $cat->id)
@@ -409,87 +432,94 @@
                   <!-- Telephone Job Field -->
                   <div class="row">
                      <div class="col-sm-1 form-group">
-                      @if(isset($companyHr))
-                       
-                        <label class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input"  <?php if($companyHr->father == 1){ echo "checked='checked'"; } ?> id="father">
-                        <span class="custom-control-indicator"></span>
-                        <strong>Father</strong>
-                        </label>
-                        
-                      @else
-                        <label class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="father">
-                        <span class="custom-control-indicator"></span>
-                        <strong>Father</strong>
-                        </label>
-                      @endif
+                        @if(isset($companyHr) && $companyHr->father == 1)
+                           <label class="custom-control custom-checkbox">
+                           <input type="checkbox" class="custom-control-input" id="father" checked="checked">
+                           <span class="custom-control-indicator"></span>
+                           <strong>Father</strong>
+                           </label>
+                        @else
+                           <label class="custom-control custom-checkbox">
+                           <input type="checkbox" class="custom-control-input" id="father">
+                           <span class="custom-control-indicator"></span>
+                           <strong>Father</strong>
+                           </label>
+                        @endif     
                      </div>
                      <!-- Telephone Private Field -->
                      <div class="col-sm-1 form-group">
-                      @if(isset($companyHr))
-                   
-                        <label class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input"  <?php if($companyHr->mother == 1){ echo "checked='checked'"; } ?> id="mother">
-                        <span class="custom-control-indicator"></span>
-                        <strong>Mother</strong>
-                        </label>
-      
-                      @else
-                        <label class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="mother">
-                        <span class="custom-control-indicator"></span>
-                        <strong>Mother</strong>
-                        </label>
-                      @endif
+                        @if(isset($companyHr) && $companyHr->mother == 1)
+                           <label class="custom-control custom-checkbox">
+                           <input type="checkbox" class="custom-control-input" id="mother" checked="checked">
+                           <span class="custom-control-indicator"></span>
+                           <strong>Mother</strong>
+                           </label>
+                        @else
+                           <label class="custom-control custom-checkbox">
+                           <input type="checkbox" class="custom-control-input" id="mother">
+                           <span class="custom-control-indicator"></span>
+                           <strong>Mother</strong>
+                           </label>
+                        @endif
                      </div>
                   </div>
                   <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
                      <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> PREVIOUS</button>&nbsp;&nbsp;
                      <a href="{!! route('company.companyHrs.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
-                     <button type="submit" class="btn btn-primary" id="" data-wizard-action="next">NEXT <i class="fa fa-arrow-right m-l-1"></i></button>
+                     <button type="button" class="btn btn-primary" id="" data-wizard-action="next">NEXT <i class="fa fa-arrow-right m-l-1"></i></button>
                   </div>
                </form>
 
                <!-- ============================wizard-4==================================== -->
-               <form class="wizard-pane active" id="wizard-4">
+               <form class="wizard-pane" id="wizard-4" enctype="multipart/form-data">
                   @if (isset($companyHr))
-                  <input name="_method" type="hidden" value="PATCH">
+                     <input name="_method" type="hidden" value="PATCH">
                   @endif
+                  <input type="hidden" name="_token" value="{{ csrf_token() }}">
                   <h3 class="m-t-0">Information about employment</h3>
 
                   <div class="row">
-
-                     
-                        <div class="col-sm-6 col-md-6 form-group">
-                           <label for="">Languages</label>
-                           <input type="text" id="languages" name="languages" class="form-control languages" data-role="tagsinput" />
-                        </div>
-                        <div class="col-sm-6 col-md-6 form-group">
-                           <label for="">Skills</label>
-                           <input type="text" name="skills" id="skills" class="form-control skills" data-role="tagsinput" />
-                        </div>
-                     
-
-                     
-                        <div class="col-sm-6 col-md-6 form-group">
-                           <label for="city_id">HR Courses</label>
-                           <select name="name[]" id="hrCourseId" class="form-control select2-hrCourses" multiple>
-                              <option></option>
+                     <div class="col-sm-6 col-md-6 form-group">
+                        <label for="">Languages</label>
+                        <input type="text" id="languages" name="languages" value="@if(isset($companyHrOtherInfo)){{ $companyHrOtherInfo->languages }}@endif" class="form-control languages" data-role="tagsinput" />
+                        <div class="errorTxt"></div>
+                     </div>
+                     <div class="col-sm-6 col-md-6 form-group">
+                        <label for="">Skills</label>
+                        <input type="text" name="skills" value="@if(isset($companyHrOtherInfo)){{ $companyHrOtherInfo->skills }}@endif" id="skills" class="form-control skills" data-role="tagsinput" />
+                        <div class="errorTxt"></div>
+                     </div>
+                     <div class="col-sm-6 col-md-6 form-group">
+                        <label for="name">HR Courses</label>
+                        <select name="name[]" id="name" class="form-control select2-name" multiple>
+                           <option></option>
+                           @if(isset($companyHrOtherInfo))
+                              @foreach($HRCourses as $HRCourse)
+                                 <option value="{{$HRCourse->id}}" selected="selected">{{$HRCourse->name}}</option>
+                              @endforeach
+                           @else
                               @foreach($HRCourses as $HRCourse)
                                  <option value="{{$HRCourse->id}}">{{$HRCourse->name}}</option>
                               @endforeach
-                           </select>
-                        </div>
-                        <div class="col-sm-6 col-md-6 form-group m-t-4">
+                           @endif
+                        </select>
+                        <div class="errorTxt"></div>
+                     </div>
+                     <div class="col-sm-6 col-md-6 form-group m-t-4">
+                        @if(isset($companyHrOtherInfo) && $companyHrOtherInfo->driving_license == 1)
+                           <label class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" id="driving_license" checked="checked">
+                              <span class="custom-control-indicator"></span>
+                              <strong>Driving License</strong>
+                           </label>
+                        @else
                            <label class="custom-control custom-checkbox">
                               <input type="checkbox" class="custom-control-input" id="driving_license">
                               <span class="custom-control-indicator"></span>
                               <strong>Driving License</strong>
                            </label>
-                        </div>
-                     
-
+                        @endif
+                     </div>
                      <div class="col-sm-12 col-md-12">
                       <div class="panel">
                         <div class="panel-heading">
@@ -498,75 +528,300 @@
                         <div class="panel-body">
                           <div class="pull-right">
                             <button class="btn btn-primary addEmployment" type="button"><i class="fa fa-plus"></i> Add</button>
-                          </div>
-                          <div class="row preEmployments">
+                           </div>
+                          @if(isset($companyHrPreEmployment))
+                           @foreach($companyHrPreEmployment as $companyHrPreEmploy)
+                             <div class="row preEmployments">
+                               <div class="row">
+                                 <div class="col-sm-12 col-sm-12 m-t-2">
+                                     <div class="col-sm-2 col-md-2 form-group">
+                                       <label for="sitting_name">Organization Name</label>
+                                       <input type="text" name="organization_name[]" value="@if(isset($companyHrPreEmploy)){{ $companyHrPreEmploy->organization_name }}@endif" class="form-control organization_name">
+                                     </div>
+                                     <div class="col-sm-2 col-md-2 form-group">
+                                       <label for="sitting_number_person">Job Title</label>
+                                       <input type="text" name="job_title[]" value="@if(isset($companyHrPreEmploy)){{ $companyHrPreEmploy->job_title }}@endif" class="form-control job_title">
+                                     </div> 
+                                    <div class="col-sm-4 col-md-4 form-group">
+                                       <label for="sitting_number_person">Learning Courses</label>
+                                       <input type="text" name="courses[]" value="@if(isset($companyHrPreEmploy)){{ $companyHrPreEmploy->courses }}@endif" data-role="tagsinput" class="form-control courses">
+                                     </div>
+                                    <div class="col-sm-2 col-md-2 form-group">
+                                       <label for="sitting_number_person">Employment From</label>
+                                       <input type="text"  name="employed_from[]" value="@if(isset($companyHrPreEmploy)){{ $companyHrPreEmploy->employed_from }}@endif" class="form-control employed_from">
+                                     </div>
+                                    <div class="col-sm-2 col-md-2 form-group">
+                                       <label for="sitting_number_person">Employment Until</label>
+                                       <input type="text"  name="employed_until[]" value="@if(isset($companyHrPreEmploy)){{ $companyHrPreEmploy->employed_until }}@endif" class="form-control employed_until">
+                                     </div>
+                                 </div>
+                               </div>
+                             </div>
+                             @endforeach
+                          @else
+                             <div class="row preEmployments">
+                               <div class="row">
+                                 <div class="col-sm-12 col-sm-12 m-t-2">
+                                     <div class="col-sm-2 col-md-2 form-group">
+                                       <label for="sitting_name">Organization Name</label>
+                                       <input type="text" name="organization_name[]" class="form-control organization_name" >
+                                     </div>
+                                     <div class="col-sm-2 col-md-2 form-group">
+                                       <label for="sitting_number_person">Job Title</label>
+                                       <input type="text" name="job_title[]" class="form-control job_title" >
+                                     </div> 
+                                    <div class="col-sm-4 col-md-4 form-group">
+                                       <label for="sitting_number_person">Learning Courses</label>
+                                       <input type="text" name="courses[]" data-role="tagsinput" class="form-control courses" >
+                                     </div>
+                                    <div class="col-sm-2 col-md-2 form-group">
+                                       <label for="sitting_number_person">Employment From</label>
+                                       <input type="text"  name="employed_from[]" class="form-control employed_from">
+                                     </div>
+                                    <div class="col-sm-2 col-md-2 form-group">
+                                       <label for="sitting_number_person">Employment Until</label>
+                                       <input type="text"  name="employed_until[]" class="form-control employed_until">
+                                     </div>
+                                 </div>
+                               </div>
+                             </div>
+                          @endif
+                        </div> 
 
-                            <div class="row">
-
-                              <div class="col-sm-12 col-sm-12 m-t-2">
-
-                                  <div class="col-sm-2 col-md-2 form-group">
-                                    <label for="sitting_name">Organization Name</label>
-                                    <input type="text" name="organization_name[]" id="organization_name" class="form-control organiztion-fields" >
-                                  </div>
-
-                                  <div class="col-sm-2 col-md-2 form-group">
-                                    <label for="sitting_number_person">Job Title</label>
-                                    <input type="text" name="job_title[]" id="job_title" class="form-control organiztion-fields" >
-                                  </div> 
-
-                                 <div class="col-sm-4 col-md-4 form-group">
-                                    <label for="sitting_number_person">Learning Courses</label>
-                                    <input type="text" name="courses[]" id="coursesId" data-role="tagsinput" class="form-control courses organiztion-fields" >
-                                  </div>
-
-                                 <div class="col-sm-2 col-md-2 form-group">
-                                    <label for="sitting_number_person">Employment From</label>
-                                    <input type="text"  name="employed_from[]" id="employedForm" class="form-control employed_from organiztion-fields">
-                                  </div>
-
-                                 <div class="col-sm-2 col-md-2 form-group">
-                                    <label for="sitting_number_person">Employment Until</label>
-                                    <input type="text"  name="employed_until[]" class="form-control employed_until organiztion-fields">
-                                  </div>
-                     
-                              </div>
-
-                            </div>
-
-                          </div>
-                        </div>            
                       </div>
                     </div>
 
 
+                  <div class="col-sm-12 col-md-12 form-group">
+                     <label for="">Attach Files</label>
+                     <input type="file" name="docFiles" class="form-control uploadFiles">
+                  </div>
 
-                     
-                        <div class="col-sm-12 col-md-12 form-group">
-                           <label for="">Attach Files</label>
-                           <input type="file" name="files" class="form-control uploadFiles">
-                        </div>
-                        <div class="col-sm-12 col-md-12 form-group">
-                          <label>HR Notes</label>
-                          <textarea name="hr_note" id="hr_note"></textarea>
-                        </div>
-                    
 
-                        <div class="col-sm-12 col-md-12 form-group">
-                           <label for="">Manager Notes</label>
-                           <textarea name="manager_note" id="manager_note"></textarea>
+
+                  @if (isset($companyHr))
+
+                     <div class="col-sm-12 col-md-12 form-group" style="display: none;">
+                        <span><button type="button" class="btn btn-primary pull-right" data-toggle="modal" id="check-HrNotes" data-companyhr="@if(isset($companyHr)){{ $companyHr->id }}@endif" data-target="#modal-HrNotes"><i class="fa fa-plus"></i>&nbsp;HR Notes</button></span>
+                        <div class="modal fade" id="modal-HrNotes" tabindex="-1">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">×</button>
+                                <h4 class="modal-title">HR Notes</h4>
+                              </div>
+                              <div class="modal-body">
+                                 <div class="row">
+                                    <div class="col-sm-12 col-md-12">
+                                       <textarea name="hr_note" placeholder="write your note here.." id="hrNoteEditor" style="width: 100%;height: 100px"></textarea>                                          
+                                    </div>
+                                    <div class="col-sm-12 col-md-12" id="hrNotes-logs">
+                                      
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" id="modalBtn"></button>
+                                 <button type="button" class="btn" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Cancel</button>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                        <div class="col-sm-12 col-md-12 form-group">
-                          <label>Salary Development Notes</label>
-                          <textarea name="sal_dev_note" id="sal_dev_note"></textarea>
+                     </div>
+
+                     <div class="col-sm-12 col-md-12 form-group">
+                        <span><button type="button" class="btn btn-primary pull-right" data-toggle="modal" id="popup-HrNotes" data-companyhr="@if(isset($companyHr)){{ $companyHr->id }}@endif" data-target="#popup-modal-HrNotes"><i class="fa fa-plus"></i>&nbsp;HR Notes</button></span>
+                        <div class="modal fade" id="popup-modal-HrNotes" tabindex="-1">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">×</button>
+                                <h4 class="modal-title">HR Notes</h4>
+                              </div>
+                              <div class="modal-body">
+                                 <div class="row">
+                                    <div class="col-sm-12 col-md-12">
+                                       <textarea name="hr_note" placeholder="write your note here.." id="Editor-hrNote" style="width: 100%;height: 100px"></textarea>
+                                       <span class="errorTxt"></span>                                          
+                                    </div>
+                                 </div>                         
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" id="popup-modalBtn"></button>
+                                 <button type="button" class="btn" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Cancel</button>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                     
+                     </div>
+
+                     <div class="col-sm-12 col-md-12 "> 
+                        <div class="table-primary">
+                           <table class="table table-striped table-bordered" id="compnay-HRNotes">
+                              <thead>
+                                 <th>Username</th>
+                                 <th>Note</th>
+                                 <th>Created at</th>
+                                 <th>Last updated</th>
+                                 <th>Actions</th>
+                              </thead>
+                              <tbody id="log-HRNotes">
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+
+                     <div class="col-sm-12 col-md-12 form-group" style="display: none;">
+                        <span><button type="button" class="btn btn-primary pull-right" data-toggle="modal" id="check-ManagerNotes" data-companyhr="@if(isset($companyHr)){{ $companyHr->id }}@endif" data-target="#modal-ManagerNote"><i class="fa fa-plus"></i>&nbsp;Manager Notes</button></span>
+                        <div class="modal fade" id="modal-ManagerNote" tabindex="-1">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">×</button>
+                                <h4 class="modal-title">Manager Notes</h4>
+                              </div>
+                              <div class="modal-body">
+
+                                 <div class="row">
+                                    <div class="col-sm-12 col-md-12">
+                                       <textarea name="manager_note" placeholder="write your note here.." id="managerNoteEditor" style="width: 100%;height: 100px"></textarea>                                          
+                                    </div>
+                                    <div class="col-sm-12 col-md-12" id="managerNote-logs">
+                                      
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" id="modalBtnManger"></button>
+                                 <button type="button" class="btn" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Cancel</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                     </div>
+
+                     <div class="col-sm-12 col-md-12 form-group">
+                        <span><button type="button" class="btn btn-primary pull-right" data-toggle="modal" id="popup-ManagerNotes" data-companyhr="@if(isset($companyHr)){{ $companyHr->id }}@endif" data-target="#popup-modal-ManagerNotes"><i class="fa fa-plus"></i>&nbsp;Manager Notes</button></span>
+                        <div class="modal fade" id="popup-modal-ManagerNotes" tabindex="-1">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">×</button>
+                                <h4 class="modal-title">HR Manager Notes</h4>
+                              </div>
+                              <div class="modal-body">
+                                 <div class="row">
+                                    <div class="col-sm-12 col-md-12">
+                                       <textarea name="manager_note" placeholder="write your note here.." id="Editor-managerNote" style="width: 100%;height: 100px"></textarea>                                          
+                                       <span class="errorTxt"></span>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" id="popup-modalBtnManager"></button>
+                                 <button type="button" class="btn" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Cancel</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                     </div>
+
+                     <div class="col-sm-12 col-md-12 "> 
+                        <div class="table-primary">
+                           <table class="table table-striped table-bordered" id="compnay-ManagerNotes">
+                              <thead>
+                                 <th>Username</th>
+                                 <th>Note</th>
+                                 <th>Created at</th>
+                                 <th>Last updated</th>
+                                 <th>Action</th>
+                              </thead>
+                              <tbody id="log-ManagerNotes">
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+
+                     <div class="col-sm-12 col-md-12 form-group" style="display: none;">
+                        <span><button type="button" class="btn btn-primary pull-right" data-toggle="modal" id="check-SalDevNotes" data-companyhr="@if(isset($companyHr)){{ $companyHr->id }}@endif" data-target="#modal-SalDevNote"><i class="fa fa-plus"></i>&nbsp;Salary Development Notes</button></span>
+                        <div class="modal fade" id="modal-SalDevNote" tabindex="-1">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">×</button>
+                                <h4 class="modal-title">Salary Development Notes</h4>
+                              </div>
+                              <div class="modal-body">
+                                 <div class="row">
+                                    <div class="col-sm-12 col-md-12">
+                                       <textarea name="sal_dev_note" placeholder="write your note here.." id="salDevNoteEditor" style="width: 100%;height: 100px"></textarea>                                          
+                                    </div>
+                                    <div class="col-sm-12 col-md-12" id="salDevNote-logs">
+                                      
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" id="modalBtnSalDev"></button>
+                                 <button type="button" class="btn" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Cancel</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                     </div>
+
+
+                     <div class="col-sm-12 col-md-12 form-group">
+                        <span><button type="button" class="btn btn-primary pull-right" data-toggle="modal" id="popup-SalDevNotes" data-companyhr="@if(isset($companyHr)){{ $companyHr->id }}@endif" data-target="#popup-modal-SalDevNotes"><i class="fa fa-plus"></i>&nbsp;Salary Development Notes</button></span>
+                        <div class="modal fade" id="popup-modal-SalDevNotes" tabindex="-1">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">×</button>
+                                <h4 class="modal-title">Salary Development Notes</h4>
+                              </div>
+                              <div class="modal-body">
+                                 
+                                    <div class="row">
+                                       <div class="col-sm-12 col-md-12">
+                                          <textarea name="sal_dev_note" placeholder="write your note here.." id="Editor-salDevNote" style="width: 100%;height: 100px"></textarea>                                          
+                                          <span class="errorTxt"></span>
+                                       </div>
+                                    </div>
+
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" id="popup-modalBtnSalDev"></button>
+                                 <button type="button" class="btn" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Cancel</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                     </div>
+
+                     <div class="col-sm-12 col-md-12 "> 
+                        <div class="table-primary">
+                           <table class="table table-striped table-bordered" id="compnay-SalDevNotes">
+                              <thead>
+                                 <th>Username</th>
+                                 <th>Note</th>
+                                 <th>Created at</th>
+                                 <th>Last updated</th>
+                                 <th>Action</th>
+                              </thead>
+                              <tbody id="log-SalDevNotes">
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+
+                  @endif
                   </div>
 
                   <div class="panel-wide-block p-x-3 p-t-3 b-t-1 bg-white text-xs-right">
                      <button type="button" class="btn" data-wizard-action="prev"><i class="fa fa-arrow-left m-r-1"></i> PREVIOUS</button>&nbsp;&nbsp;
                      <a href="{!! route('company.companyHrs.index') !!}" class="btn btn-default"><i class="fa fa-times"></i> CANCEL</a>
-                     <button type="button" id="createCompanyHrBtn" class="btn btn-primary"  data-wizard-action="next">Create Company Hr <i class="fa fa-arrow-right m-l-1"></i></button>
+                     <button type="submit"  class="btn btn-primary" id="finish-btn"  data-wizard-action="next">@if(isset($companyHr)) <i class="fa fa-refresh"></i>  Update @else <i class="fa fa-plus"></i> Create  @endif<i class="fa fa-arrow-right m-l-1"></i></button>
                   </div>
                </form>
 
@@ -587,285 +842,2612 @@
 </div>
 
 
-
-   @if(isset($companyHr))
-   <form action="{{ route('company.companyHrs.update', $companyHr->id) }}" method="POST" id="hiddenForm">
-      <input type="hidden" name="_method" value="PATCH">
-   @else
-   <form method="POST" action="{{ route('company.companyHrs.store') }}" id="hiddenForm">
-   @endif
-      <!-- ================= wiz-1 =================== -->
-      <input type="hidden" name="_token" value="{{ csrf_token() }}">
-      <input type="hidden" name="first_name" id="fname"  value="" >
-      <input type="hidden" name="last_name" id="lname"  value="" >
-      <input type="hidden" name="address_1" id="AddressOne"  value="" >
-      <input type="hidden" name="address_2" id="AddressTwo" value="" >
-      <input type="hidden" name="post_code" id="pCode" value="" >
-      <input type="hidden" name="city_id" id="cId"  value="" >
-      <input type="hidden" name="state_id" id="sId"  value="" >
-      <input type="hidden" name="country_id" id="countyHiddenId"  value="" >
-      <input type="hidden" name="telephone_job" id="tId"  value="" >
-      <input type="hidden" name="telephone_private" id="tPrivate"  value="" >
-      <input type="hidden" name="email_private" id="eId"  value="" >
-      <input type="hidden" name="email_job" id="ePrivate"  value="" >
-      <input type="hidden" name="civil_status_id" id="cStatusId"  value="" >
-      <!-- ================= wiz-2 =================== -->
-      <input type="hidden" name="employment_date" id="daterangeEmpl_hidden"  value="" >
-      <input type="hidden" name="termination_time" id="termId_hidden"  value="" >
-      <input type="hidden" name="employeed_untill" id="daterangeEmplUntil_hidden"  value="" >
-      <input type="hidden" name="personal_category" id="personalId_hidden"  value="" >
-      <input type="hidden" name="collective_type" id="collectiveId_hidden"  value="" >
-      <input type="hidden" name="employment_form" id="employFormId_hidden"  value="" >
-      <input type="hidden" name="insurance_date" id="daterangeInsurance_hidden"  value="" >
-      <input type="hidden" name="insurance_fees" id="insuranceFees_hidden"  value="" >
-      <input type="hidden" name="department" id="departmentWiz2_hidden"  value="" >
-      <input type="hidden" name="designation" id="desigWiz2_hidden"  value="" >
-      <input type="hidden" name="vacancies" id="vacancyWiz2_hidden"  value="" >
-      <!-- ================= wiz-3 =================== -->
-      <input type="hidden" name="salary_type" id="salaryTypeWiz3_hidden"  value="" >
-      <input type="hidden" name="salary" id="salaryId_hidden"  value="" >
-      <input type="hidden" name="employment_percent" id="empInPercent_hidden"  value="" >
-      <input type="hidden" name="cost_division" id="costDivision_hidden"  value="" >
-      <input type="hidden" name="project" id="projectWiz3_hidden"  value="" >
-      <input type="hidden" name="vat_table" id="valueAdded_hidden"  value="" >
-      <input type="hidden" name="vacation_days" id="vacationDays_hidden"  value="" >
-      <input type="hidden" name="vacation_category" id="vacationWiz3_hidden"  value="" >
-      <input type="hidden" name="father" id="father_hidden" value="">
-      <input type="hidden" name="mother" id="mother_hidden" value="">
-      <!-- ================= wiz-4 =================== -->
-      <input type="hidden" name="languages" id="languages_hidden" value="">
-      <input type="hidden" name="skills" id="skills_hidden" value="">
-      <input type="hidden" name="driving_license" id="driving_license_hidden" value="">
-      <input type="hidden" name="organization_name[]" id="organization_name_hidden" value="">
-      <input type="hidden" name="job_title[]" id="job_title_hidden" value="">
-      <input type="hidden" name="courses[]" id="coursesId_hidden" value="">
-      <input type="hidden" name="hr_courses" id="hrCourseId_hidden" value="">
-      <input type="hidden" name="hr_notes" id="hr_note_hidden" value="">
-      <input type="hidden" name="manager_notes" id="manager_note_hidden" value="">
-      <input type="hidden" name="salary_development_notes" id="sal_dev_note_hidden" value="">
-   </form>
-
-
-
-
-
 @section('js')
 
 <script type="text/javascript">
-   
+
+  $(function () {
+      $('#compnay-HRNotes').dataTable();
+      $('#compnay-HRNotes_wrapper .table-caption').text('HR Notes');
+      $('#compnay-HRNotes_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
+  });
+
+  $(function () {
+      $('#compnay-ManagerNotes').dataTable();
+      $('#compnay-ManagerNotes_wrapper .table-caption').text('Manager Notes');
+      $('#compnay-ManagerNotes_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
+  });
+
+  $(function () {
+      $('#compnay-SalDevNotes').dataTable();
+      $('#compnay-SalDevNotes_wrapper .table-caption').text('Salary Development Notes');
+      $('#compnay-SalDevNotes_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
+  });
+
+   function isEmpty(val)
+   {
+       return (val === undefined || val == null || val.length <= 0) ? true : false;
+   }
+
    var editCompanyHr = "{{ (isset($companyHr)) ? $companyHr->id : 0 }}";
 
+   if (editCompanyHr != 0) 
+   {
+      var edit_hr_note = $('#edit_hr_note').val();
+      var edit_manager_note = $('#edit_manager_note').val();
+      var edit_sal_dev_note = $('#edit_sal_dev_note').val();
 
-   $('#createCompanyHrBtn').on('click', function() {
-         alert('ok');
-         var fname         =       $('#firstName').val();
-         var lname         =       $('#lastName').val();
-         var add1          =       $('#Address1').val();
-         var add2          =       $('#Address2').val();
-         var pcode         =       $('#postCode').val();
-         var city          =       $('#cityId').val();
-         var state         =       $('#stateId').val();
-         var country       =       $('#countyId').val();
-         var telephone     =       $('#telephoneId').val();
-         var telephoneJ    =       $('#telephoneJob').val();
-         var emailId       =       $('#emailId').val();
-         var emailJob      =       $('#emailJob').val();
-         var civilId       =       $('#civilId').val();
+      // console.log(edit_hr_note+" "+edit_manager_note+" "+edit_sal_dev_note);
+
+      $('#hr_note').val(edit_hr_note);
+      $('#manager_note').val(edit_manager_note);
+      $('#sal_dev_note').val(edit_sal_dev_note);
+
+      var companyHrId;
+      var user_id = "{{ auth()->guard('company')->user()->id  }}";
 
 
-         var daterangeEmpl =       $('#daterangeEmpl').val();
-         var termId        =       $('#termId').val();
-         var daterangeEmplUntil =  $('#daterangeEmplUntil').val();
-         var personalId    =       $('#personalId').val();
-         var collectiveId =        $('#collectiveId').val();
-         var employFormId =        $('#employFormId').val();
-         var daterangeInsurance =  $('#daterangeInsurance').val();
-         var insuranceFees =       $('#insuranceFees').val();
-         var departmentWiz2 =      $('#departmentWiz2').val();
-         var desigWiz2   =         $('#desigWiz2').val();
-         var vacancyWiz2 =         $('#vacancyWiz2').val();
-
-   
-         var salaryTypeWiz3 =         $('#salaryTypeWiz3').val();
-         var salaryId =         $('#salaryId').val();
-         var empInPercent =         $('#empInPercent').val();
-         var costDivision =         $('#costDivision').val();
-         var projectWiz3 =         $('#projectWiz3').val();
-         var valueAdded =         $('#valueAdded').val();
-         var vacationDays =         $('#vacationDays').val();
-         var vacationWiz3 =         $('#vacationWiz3').val();
+      $('#popup-HrNotes').on("click",function(){
+         $('.errorTxt').empty();
+         $('#popup-modalBtn').text("Add");
+         $('#Editor-hrNote').val("");
+      });
 
 
-         var father  =   0;
-         var mother  =   0;
+      var popupEditHrNoteId;
+      var currentOperationHrNotes = 0;
+
+      $(document).on('click','.HrNoteEdit-popup',function(){
+         $('.errorTxt').empty();
+         currentOperationHrNotes = 1;
+         popupEditHrNoteId = $(this).attr('data-userHrNotes');
+
+         var url = "{{ route('company.editHrNotes', array("")) }}/"+popupEditHrNoteId;
+
+         $.ajax({
+            url  : url,
+            type : "GET",
+            success : function(response){
+               if(response.hasOwnProperty("status"))
+               {
+                  alert(response.msg);
+               }
+               else
+               {
+                  $('#popup-modal-HrNotes').modal('toggle');
+                  $('#Editor-hrNote').val(response.note);
+                  $('#popup-modalBtn').text("Update");
+               }
+            }
+         });
+      });
+
+      $(document).on('click','#popup-modalBtn',function(){
+         if(currentOperationHrNotes == 1)
+         {
+            var textEditor = $('#Editor-hrNote').val();
+
+            if(isEmpty(textEditor))
+            {
+               //alert("Please provide some content");
+               $('.errorTxt').text("Please provide some content");
+            }
+            else if(textEditor.length > 100)
+            {
+               // alert("Please enter characters between 1 to 100");
+               $('.errorTxt').text("Please enter characters between 1 to 100");
+            }
+            else
+            {
+               var jsObj = {
+                  'note'   : textEditor
+               };
+               
+               var url = "{{ route('company.updateHrNotes', array("")) }}/"+popupEditHrNoteId;
+
+               $.ajax({
+                  url  : url,
+                  type : "PUT",
+                  data : jsObj,
+                  success : function(response){
+                     if(response.hasOwnProperty("status"))
+                     {
+                        alert(response.msg);
+                     }
+                     else
+                     {
+                        currentOperationHrNotes = 0;
+                        $('#Editor-hrNote').val("");
+
+                        var jsObjHr = {
+                           'companyHrId' : editCompanyHr,
+                           'code'        : 'hr_note'
+                        };
+
+                        $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObjHr,function(response){
+                           if(response.hasOwnProperty("status"))
+                           {
+                              var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                              $('#log-HRNotes').html(html);
+                           }
+                           else
+                           {
+                              var html = '';
+                              var created_at;
+                              var updated_at;
+                              for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+                              {
+                                 created_at = new Date(response.companyHrNotes[i].created_at);
+                                 updated_at = new Date(response.companyHrNotes[i].updated_at);
+
+                                 if(user_id == response.companyHrNotes[i].user_id)
+                                 {
+                                    html += '<tr>';
+                                    for(var j = 0 ; j < response.users.length ; j++)
+                                    {
+                                       if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                       {
+                                          html += '<td>'+response.users[j].name+'</td>';
+                                          break;
+                                       }
+                                       
+                                    }
+                                    html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                    html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                    html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                    html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg HrNoteEdit-popup" data-userHrNotes="'+response.companyHrNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg HrNoteDelete-popup" data-userHrNotes="'+response.companyHrNotes[i].id+'"></i></a> </td>';
+                                    html += '</tr>';
+                                 }
+                                 else
+                                 {
+                                    html += '<tr>';
+                                    for(var j = 0 ; j < response.users.length ; j++)
+                                    {
+                                       if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                       {
+                                          html += '<td>'+response.users[j].name+'</td>';
+                                          break;
+                                       }
+                                       
+                                    }
+                                    html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                    html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                    html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                    html += '</tr>';
+                                 }
+                              }
+                              html += '</tbody>';
+                              html += '</table>'; 
+                              $('#log-HRNotes').html('');               
+                              $('#log-HRNotes').html(html);               
+                           }
+                        });
+
+                        $("#popup-modal-HrNotes .close").click();
+                     }
+                  } 
+               });
+            }
+
+         }
+         else
+         {
+            var note = $('#Editor-hrNote').val();
+
+            if(isEmpty(note))
+            {
+               // alert("Please provide some content");
+               $('.errorTxt').text("Please provide some content");
+            }
+            else if(note.length > 100)
+            {
+               // alert("Please enter characters between 1 to 100");
+               $('.errorTxt').text("Please enter characters between 1 to 100");
+            }
+            else
+            {
+               var jsObj = {
+                  'companyHrId' : editCompanyHr,
+                  'note' : note,
+                  'code' : 'hr_note'
+               };
+
+               $.ajax({
+                  url : "{{ route('company.HrNotes.createHrNote') }}",
+                  type : "POST",
+                  data : jsObj,
+                  dataType : "json",
+                  success : function(response){
+                     if(response.hasOwnProperty("status"))
+                     {
+                        alert(response.msg);
+                     }
+                     else
+                     {
+                        $('#Editor-hrNote').val("");
+
+                        var jsObjHr = {
+                           'companyHrId' : editCompanyHr,
+                           'code'        : 'hr_note'
+                        };
+
+                        $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObjHr,function(response){
+                           if(response.hasOwnProperty("status"))
+                           {
+                              var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                              $('#log-HRNotes').html(html);
+                           }
+                           else
+                           {
+                              var html = '';
+                              var created_at;
+                              var updated_at;
+                              for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+                              {
+                                 created_at = new Date(response.companyHrNotes[i].created_at);
+                                 updated_at = new Date(response.companyHrNotes[i].updated_at);
+
+                                 if(user_id == response.companyHrNotes[i].user_id)
+                                 {
+                                    html += '<tr>';
+                                    for(var j = 0 ; j < response.users.length ; j++)
+                                    {
+                                       if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                       {
+                                          html += '<td>'+response.users[j].name+'</td>';
+                                          break;
+                                       }
+                                       
+                                    }
+                                    html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                    html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                    html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                    html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg HrNoteEdit-popup" data-userHrNotes="'+response.companyHrNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg HrNoteDelete-popup" data-userHrNotes="'+response.companyHrNotes[i].id+'"></i></a> </td>';
+                                    html += '</tr>';
+                                 }
+                                 else
+                                 {
+                                    html += '<tr>';
+                                    for(var j = 0 ; j < response.users.length ; j++)
+                                    {
+                                       if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                       {
+                                          html += '<td>'+response.users[j].name+'</td>';
+                                          break;
+                                       }
+                                       
+                                    }
+                                    html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                    html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                    html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                    html += '</tr>';
+                                 }
+                              }
+                              html += '</tbody>';
+                              html += '</table>'; 
+                              $('#log-HRNotes').html('');               
+                              $('#log-HRNotes').html(html);               
+                           }
+                        });
+
+                        $("#popup-modal-HrNotes .close").click();
+
+                     }
+                  }
+               });
+            }
+
+         }
+      });
+
+      $(document).on('click','.HrNoteDelete-popup',function(){
+
+         if( confirm("Are you sure you want to delete this record!") ) 
+         {
+            var hrNoteId = $(this).attr('data-userHrNotes');
+
+            var url = "{{ route('company.deleteHrNote', array("")) }}/"+hrNoteId;
+
+            $.ajax({
+               url : url,
+               type : "DELETE",
+               success : function(response){
+                  if(response.hasOwnProperty("status"))
+                  {
+                     alert(response.msg);
+                  }
+                  else
+                  {
+                     var jsObjHr = {
+                        'companyHrId' : editCompanyHr,
+                        'code'        : 'hr_note'
+                     };
+
+                     $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObjHr,function(response){
+                        if(response.hasOwnProperty("status"))
+                        {
+                           var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                           $('#log-HRNotes').html(html);
+                        }
+                        else
+                        {
+                           var html = '';
+                           var created_at;
+                           var updated_at;
+                           for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+                           {
+                              created_at = new Date(response.companyHrNotes[i].created_at);
+                              updated_at = new Date(response.companyHrNotes[i].updated_at);
+
+                              if(user_id == response.companyHrNotes[i].user_id)
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                 html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg HrNoteEdit-popup" data-userHrNotes="'+response.companyHrNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg HrNoteDelete-popup" data-userHrNotes="'+response.companyHrNotes[i].id+'"></i></a> </td>';
+                                 html += '</tr>';
+                              }
+                              else
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                 html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '</tr>';
+                              }
+                           }
+                           html += '</tbody>';
+                           html += '</table>'; 
+                           $('#log-HRNotes').html('');               
+                           $('#log-HRNotes').html(html);               
+                        }
+                     });
+                  }
+               }
+            });
+         } 
+      });
 
 
-         if($('#father').is(':checked')) { father = 1; }
-         
-
-         if($('#mother').is(':checked')) { mother = 1; }
-
-         var languages           =         $('#languages').val();
-         var hrCourseId          =         $('#hrCourseId').val();
-         var skills              =         $('#skills').val();
-         var driving_license     =         $('#driving_license').val();
-         var organization_name   =         $('#organization_name').val();
-         var job_title           =         $('#job_title').val();
-         var coursesId           =         $('#coursesId').val();
-         var hr_note             =         $('#hr_note').val();
-         var manager_note        =         $('#manager_note').val();
-         var sal_dev_note        =         $('#sal_dev_note').val();
 
 
-         alert(driving_license);
+      $('#popup-ManagerNotes').on("click",function(){
+         $('.errorTxt').empty();
+         $('#popup-modalBtnManager').text("Add");
+         $('#Editor-managerNote').val("");
+      });
 
-         
+      var popupEditManagerNoteId;
+      var currentOperationManagerNotes = 0;
 
-         //Set
-         $('#fname').val(fname);
-         $('#lname').val(lname);
-         $('#AddressOne').val(add1);
-         $('#AddressTwo').val(add2);
-         $('#pCode').val(pcode);
-         $('#cId').val(city);
-         $('#sId').val(state);
-         $('#countyHiddenId').val(country);
-         $('#tId').val(telephone);
-         $('#tPrivate').val(telephoneJ);
-         $('#eId').val(emailId);
-         $('#ePrivate').val(emailJob);
-         $('#cStatusId').val(civilId);
+      $(document).on('click','.ManagerNoteEdit-popup',function(){
+         $('.errorTxt').empty();
+         currentOperationManagerNotes = 1;
+         popupEditManagerNoteId = $(this).attr('data-userManagerNotes');
+
+         var url = "{{ route('company.editHrNotes', array("")) }}/"+popupEditManagerNoteId;
+
+         $.ajax({
+            url  : url,
+            type : "GET",
+            success : function(response){
+               if(response.hasOwnProperty("status"))
+               {
+                  alert(response.msg);
+               }
+               else
+               {
+                  $('#popup-modal-ManagerNotes').modal('toggle');
+                  $('#Editor-managerNote').val(response.note);
+                  $('#popup-modalBtnManager').text("Update");
+               }
+            }
+         });
+      });
+
+      $(document).on('click','#popup-modalBtnManager',function(){
+         if(currentOperationManagerNotes == 1)
+         {
+            var textEditor = $('#Editor-managerNote').val();
+
+            if(isEmpty(textEditor))
+            {
+               //alert("Please provide some content");
+               $('.errorTxt').text("Please provide some content");
+            }
+            else if(textEditor.length > 100)
+            {
+               // alert("Please enter characters between 1 to 100");
+               $('.errorTxt').text("Please enter characters between 1 to 100");
+            }
+            else
+            {
+               var jsObj = {
+                  'note'   : textEditor
+               };
+
+               var url = "{{ route('company.updateHrNotes', array("")) }}/"+popupEditManagerNoteId;
+
+               $.ajax({
+                  url  : url,
+                  type : "PUT",
+                  data : jsObj,
+                  success : function(response){
+                     if(response.hasOwnProperty("status"))
+                     {
+                        alert(response.msg);
+                     }
+                     else
+                     {
+                        currentOperationManagerNotes = 0;
+                        $('#Editor-managerNote').val("");
+
+                        var jsObjHr = {
+                           'companyHrId' : editCompanyHr,
+                           'code'        : 'manager_note'
+                        };
+
+                        $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObjHr,function(response){
+                           if(response.hasOwnProperty("status"))
+                           {
+                              var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                              $('#log-ManagerNotes').html(html);
+                           }
+                           else
+                           {
+                              var html = '';
+                              var created_at;
+                              var updated_at;
+                              for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+                              {
+                                 created_at = new Date(response.companyHrNotes[i].created_at);
+                                 updated_at = new Date(response.companyHrNotes[i].updated_at);
+
+                                 if(user_id == response.companyHrNotes[i].user_id)
+                                 {
+                                    html += '<tr>';
+                                    for(var j = 0 ; j < response.users.length ; j++)
+                                    {
+                                       if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                       {
+                                          html += '<td>'+response.users[j].name+'</td>';
+                                          break;
+                                       }
+                                       
+                                    }
+                                    html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                    html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                    html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                    html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg ManagerNoteEdit-popup" data-userManagerNotes="'+response.companyHrNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg ManagerNoteDelete-popup" data-userManagerNotes="'+response.companyHrNotes[i].id+'"></i></a> </td>';
+                                    html += '</tr>';
+                                 }
+                                 else
+                                 {
+                                    html += '<tr>';
+                                    for(var j = 0 ; j < response.users.length ; j++)
+                                    {
+                                       if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                       {
+                                          html += '<td>'+response.users[j].name+'</td>';
+                                          break;
+                                       }
+                                       
+                                    }
+                                    html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                    html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                    html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                    html += '</tr>';
+                                 }
+                              }
+                              html += '</tbody>';
+                              html += '</table>'; 
+                              $('#log-ManagerNotes').html('');               
+                              $('#log-ManagerNotes').html(html);               
+                           }
+                        });
+
+                        $("#popup-modal-ManagerNotes .close").click();
+                     }
+                  } 
+               });
+            }
+
+         }
+         else
+         {
+            var note = $('#Editor-managerNote').val();
+            
+            if(isEmpty(note))
+            {
+               // alert("Please provide some content");
+               $('.errorTxt').text("Please provide some content");
+            }
+            else if(note.length > 100)
+            {
+               // alert("Please enter characters between 1 to 100");
+               $('.errorTxt').text("Please enter characters between 1 to 100");
+            }
+            else
+            {
+               var jsObj = {
+                  'companyHrId' : editCompanyHr,
+                  'note' : note,
+                  'code' : 'manager_note'
+               };
+
+               $.ajax({
+                  url : "{{ route('company.HrNotes.createHrNote') }}",
+                  type : "POST",
+                  data : jsObj,
+                  dataType : "json",
+                  success : function(response){
+                     if(response.hasOwnProperty("status"))
+                     {
+                        alert(response.msg);
+                     }
+                     else
+                     {
+                        $('#Editor-managerNote').val("");
+
+                        var jsObjHr = {
+                           'companyHrId' : editCompanyHr,
+                           'code'        : 'manager_note'
+                        };
+
+                        $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObjHr,function(response){
+                           if(response.hasOwnProperty("status"))
+                           {
+                              var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                              $('#log-ManagerNotes').html(html);
+                           }
+                           else
+                           {
+                              var html = '';
+                              var created_at;
+                              var updated_at;
+                              for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+                              {
+                                 created_at = new Date(response.companyHrNotes[i].created_at);
+                                 updated_at = new Date(response.companyHrNotes[i].updated_at);
+
+                                 if(user_id == response.companyHrNotes[i].user_id)
+                                 {
+                                    html += '<tr>';
+                                    for(var j = 0 ; j < response.users.length ; j++)
+                                    {
+                                       if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                       {
+                                          html += '<td>'+response.users[j].name+'</td>';
+                                          break;
+                                       }
+                                       
+                                    }
+                                    html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                    html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                    html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                    html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg ManagerNoteEdit-popup" data-userManagerNotes="'+response.companyHrNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg ManagerNoteDelete-popup" data-userManagerNotes="'+response.companyHrNotes[i].id+'"></i></a> </td>';
+                                    html += '</tr>';
+                                 }
+                                 else
+                                 {
+                                    html += '<tr>';
+                                    for(var j = 0 ; j < response.users.length ; j++)
+                                    {
+                                       if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                       {
+                                          html += '<td>'+response.users[j].name+'</td>';
+                                          break;
+                                       }
+                                       
+                                    }
+                                    html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                    html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                    html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                    html += '</tr>';
+                                 }
+                              }
+                              html += '</tbody>';
+                              html += '</table>'; 
+                              $('#log-ManagerNotes').html('');               
+                              $('#log-ManagerNotes').html(html);               
+                           }
+                        });
+
+                        $("#popup-modal-ManagerNotes .close").click();
+
+                     }
+                  }
+               });
+            }
+
+         }
+      });
+
+      $(document).on('click','.ManagerNoteDelete-popup',function(){
+
+         if( confirm("Are you sure you want to delete this record!") ) 
+         {
+            var managerNoteId = $(this).attr('data-userManagerNotes');
+
+            var url = "{{ route('company.deleteHrNote', array("")) }}/"+managerNoteId;
+
+            $.ajax({
+               url : url,
+               type : "DELETE",
+               success : function(response){
+                  if(response.hasOwnProperty("status"))
+                  {
+                     alert(response.msg);
+                  }
+                  else
+                  {
+                     var jsObjManager = {
+                        'companyHrId' : editCompanyHr,
+                        'code'        : 'manager_note'
+                     };
+
+                     $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObjManager,function(response){
+                        if(response.hasOwnProperty("status"))
+                        {
+                           var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                           $('#log-ManagerNotes').html(html);
+                        }
+                        else
+                        {
+                           var html = '';
+                           var created_at;
+                           var updated_at;
+                           for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+                           {
+                              created_at = new Date(response.companyHrNotes[i].created_at);
+                              updated_at = new Date(response.companyHrNotes[i].updated_at);
+
+                              if(user_id == response.companyHrNotes[i].user_id)
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                 html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg ManagerNoteEdit-popup" data-userManagerNotes="'+response.companyHrNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg ManagerNoteDelete-popup" data-userManagerNotes="'+response.companyHrNotes[i].id+'"></i></a> </td>';
+                                 html += '</tr>';
+                              }
+                              else
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                 html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '</tr>';
+                              }
+                           }
+                           html += '</tbody>';
+                           html += '</table>'; 
+                           $('#log-ManagerNotes').html('');               
+                           $('#log-ManagerNotes').html(html);               
+                        }
+                     });
+                  }
+               }
+            });
+         } 
+      });
 
 
-         $('#daterangeEmpl_hidden').val(daterangeEmpl);
-         $('#termId_hidden').val(termId);
-         $('#daterangeEmplUntil_hidden').val(daterangeEmplUntil);
-         $('#personalId_hidden').val(personalId);
-         $('#collectiveId_hidden').val(collectiveId);
-         $('#employFormId_hidden').val(employFormId);
-         $('#daterangeInsurance_hidden').val(daterangeInsurance);
-         $('#insuranceFees_hidden').val(insuranceFees);
-         $('#departmentWiz2_hidden').val(departmentWiz2);
-         $('#desigWiz2_hidden').val(desigWiz2);
-         $('#vacancyWiz2_hidden').val(vacancyWiz2);
+      $('#popup-SalDevNotes').on("click",function(){
+         $('.errorTxt').empty();
+         $('#popup-modalBtnSalDev').text("Add");
+         $('#Editor-salDevNote').val("");
+      });
 
-   
-         $('#salaryTypeWiz3_hidden').val(salaryTypeWiz3);
-         $('#salaryId_hidden').val(salaryId);
-         $('#empInPercent_hidden').val(empInPercent);
-         $('#costDivision_hidden').val(costDivision);
-         $('#projectWiz3_hidden').val(projectWiz3);
-         $('#valueAdded_hidden').val(valueAdded);
-         $('#vacationDays_hidden').val(vacationDays);
-         $('#vacationWiz3_hidden').val(vacationWiz3);
-         $('#father_hidden').val(father);
+      var popupEditSalDevNoteId;
+      var currentOperationSalDevNotes = 0;
+
+      $(document).on('click','.SalDevNoteEdit-popup',function(){
+         $('.errorTxt').empty();
+         currentOperationSalDevNotes = 1;
+         popupEditSalDevNoteId = $(this).attr('data-userSalDevNotes');
+
+         var url = "{{ route('company.editHrNotes', array("")) }}/"+popupEditSalDevNoteId;
+
+         $.ajax({
+            url  : url,
+            type : "GET",
+            success : function(response){
+               if(response.hasOwnProperty("status"))
+               {
+                  alert(response.msg);
+               }
+               else
+               {
+                  $('#popup-modal-SalDevNotes').modal('toggle');
+                  $('#Editor-salDevNote').val(response.note);
+                  $('#popup-modalBtnSalDev').text("Update");
+               }
+            }
+         });
+      });
+
+      $(document).on('click','#popup-modalBtnSalDev',function(){
+
+         if(currentOperationSalDevNotes == 1)
+         {
+            var textEditor = $('#Editor-salDevNote').val();
+
+            if(isEmpty(textEditor))
+            {
+               //alert("Please provide some content");
+               $('.errorTxt').text("Please provide some content");
+            }
+            else if(textEditor.length > 100)
+            {
+               // alert("Please enter characters between 1 to 100");
+               $('.errorTxt').text("Please enter characters between 1 to 100");
+            }
+            else
+            {
+               var jsObj = {
+                  'note'   : textEditor
+               };
+
+               var url = "{{ route('company.updateHrNotes', array("")) }}/"+popupEditSalDevNoteId;
+
+               $.ajax({
+                  url  : url,
+                  type : "PUT",
+                  data : jsObj,
+                  success : function(response){
+                     if(response.hasOwnProperty("status"))
+                     {
+                        alert(response.msg);
+                     }
+                     else
+                     {
+                        currentOperationSalDevNotes = 0;
+                        $('#Editor-salDevNote').val("");
+
+                        var jsObjSalDev = {
+                           'companyHrId' : editCompanyHr,
+                           'code'        : 'sal_dev_note'
+                        };
+
+                        $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObjSalDev,function(response){
+                           if(response.hasOwnProperty("status"))
+                           {
+                              var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                              $('#log-SalDevNotes').html(html);
+                           }
+                           else
+                           {
+                              var html = '';
+                              var created_at;
+                              var updated_at;
+                              for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+                              {
+                                 created_at = new Date(response.companyHrNotes[i].created_at);
+                                 updated_at = new Date(response.companyHrNotes[i].updated_at);
+
+                                 if(user_id == response.companyHrNotes[i].user_id)
+                                 {
+                                    html += '<tr>';
+                                    for(var j = 0 ; j < response.users.length ; j++)
+                                    {
+                                       if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                       {
+                                          html += '<td>'+response.users[j].name+'</td>';
+                                          break;
+                                       }
+                                       
+                                    }
+                                    html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                    html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                    html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                    html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg SalDevNoteEdit-popup" data-userSalDevNotes="'+response.companyHrNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg SalDevNoteDelete-popup" data-userSalDevNotes="'+response.companyHrNotes[i].id+'"></i></a> </td>';
+                                    html += '</tr>';
+                                 }
+                                 else
+                                 {
+                                    html += '<tr>';
+                                    for(var j = 0 ; j < response.users.length ; j++)
+                                    {
+                                       if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                       {
+                                          html += '<td>'+response.users[j].name+'</td>';
+                                          break;
+                                       }
+                                       
+                                    }
+                                    html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                    html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                    html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                    html += '</tr>';
+                                 }
+                              }
+                              html += '</tbody>';
+                              html += '</table>'; 
+                              $('#log-SalDevNotes').html('');               
+                              $('#log-SalDevNotes').html(html);               
+                           }
+                        });
+
+                        $("#popup-modal-SalDevNotes .close").click();
+                     }
+                  } 
+               });               
+            }
+         }
+         else
+         {
+            var note = $('#Editor-salDevNote').val();
+            
+            if(isEmpty(note))
+            {
+               // alert("Please provide some content");
+               $('.errorTxt').text("Please provide some content");
+            }
+            else if(note.length > 100)
+            {
+               // alert("Please enter characters between 1 to 100");
+               $('.errorTxt').text("Please enter characters between 1 to 100");
+            }
+            else
+            {
+               var jsObj = {
+                  'companyHrId' : editCompanyHr,
+                  'note' : note,
+                  'code' : 'sal_dev_note'
+               };
+
+               $.ajax({
+                  url : "{{ route('company.HrNotes.createHrNote') }}",
+                  type : "POST",
+                  data : jsObj,
+                  dataType : "json",
+                  success : function(response){
+                     if(response.hasOwnProperty("status"))
+                     {
+                        alert(response.msg);
+                     }
+                     else
+                     {
+                        $('#Editor-salDevNote').val("");
+
+                        var jsObjHr = {
+                           'companyHrId' : editCompanyHr,
+                           'code'        : 'sal_dev_note'
+                        };
+
+                        $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObjHr,function(response){
+                           if(response.hasOwnProperty("status"))
+                           {
+                              var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                              $('#log-SalDevNotes').html(html);
+                           }
+                           else
+                           {
+                              var html = '';
+                              var created_at;
+                              var updated_at;
+                              for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+                              {
+                                 created_at = new Date(response.companyHrNotes[i].created_at);
+                                 updated_at = new Date(response.companyHrNotes[i].updated_at);
+
+                                 if(user_id == response.companyHrNotes[i].user_id)
+                                 {
+                                    html += '<tr>';
+                                    for(var j = 0 ; j < response.users.length ; j++)
+                                    {
+                                       if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                       {
+                                          html += '<td>'+response.users[j].name+'</td>';
+                                          break;
+                                       }
+                                       
+                                    }
+                                    html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                    html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                    html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                    html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg SalDevNoteEdit-popup" data-userSalDevNotes="'+response.companyHrNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg SalDevNoteDelete-popup" data-userSalDevNotes="'+response.companyHrNotes[i].id+'"></i></a> </td>';
+                                    html += '</tr>';
+                                 }
+                                 else
+                                 {
+                                    html += '<tr>';
+                                    for(var j = 0 ; j < response.users.length ; j++)
+                                    {
+                                       if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                       {
+                                          html += '<td>'+response.users[j].name+'</td>';
+                                          break;
+                                       }
+                                       
+                                    }
+                                    html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                    html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                    html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                    html += '</tr>';
+                                 }
+                              }
+                              html += '</tbody>';
+                              html += '</table>'; 
+                              $('#log-SalDevNotes').html('');               
+                              $('#log-SalDevNotes').html(html);               
+                           }
+                        });
+
+                        $("#popup-modal-SalDevNotes .close").click();
+
+                     }
+                  }
+               });
+            }
+
+         }
+      });
+
+      $(document).on('click','.SalDevNoteDelete-popup',function(){
+
+         if( confirm("Are you sure you want to delete this record!") ) 
+         {
+            var salDevNoteId = $(this).attr('data-userSalDevNotes');
+
+            var url = "{{ route('company.deleteHrNote', array("")) }}/"+salDevNoteId;
+
+            $.ajax({
+               url : url,
+               type : "DELETE",
+               success : function(response){
+                  if(response.hasOwnProperty("status"))
+                  {
+                     alert(response.msg);
+                  }
+                  else
+                  {
+                     var jsObjManager = {
+                        'companyHrId' : editCompanyHr,
+                        'code'        : 'sal_dev_note'
+                     };
+
+                     $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObjManager,function(response){
+                        if(response.hasOwnProperty("status"))
+                        {
+                           var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                           $('#log-SalDevNotes').html(html);
+                        }
+                        else
+                        {
+                           var html = '';
+                           var created_at;
+                           var updated_at;
+                           for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+                           {
+                              created_at = new Date(response.companyHrNotes[i].created_at);
+                              updated_at = new Date(response.companyHrNotes[i].updated_at);
+
+                              if(user_id == response.companyHrNotes[i].user_id)
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                 html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg SalDevNoteEdit-popup" data-userSalDevNotes="'+response.companyHrNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg SalDevNoteDelete-popup" data-userSalDevNotes="'+response.companyHrNotes[i].id+'"></i></a> </td>';
+                                 html += '</tr>';
+                              }
+                              else
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                 html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '</tr>';
+                              }
+                           }
+                           html += '</tbody>';
+                           html += '</table>'; 
+                           $('#log-SalDevNotes').html('');               
+                           $('#log-SalDevNotes').html(html);               
+                        }
+                     });
+                  }
+               }
+            });
+         } 
+      });
 
 
 
-         $('#languages_hidden').val(languages);
-         $('#hrCourseId_hidden').val(hrCourseId);
-         $('#skills_hidden').val(skills);
-         $('#driving_license_hidden').val(driving_license);
-         $('#organization_name_hidden').val(organization_name);
-         $('#job_title_hidden').val(job_title);
-         $('#coursesId_hidden').val(coursesId);
-         $('#hr_note_hidden').val(hr_note);
-         $('#manager_note_hidden').val(manager_note);
-         $('#sal_dev_note_hidden').val(sal_dev_note);
+      $(document).ready(function(){
 
 
-         var data = $('.organiztion-fields').serializeArray();
+         var jsObjHr = {
+            'companyHrId' : editCompanyHr,
+            'code'        : 'hr_note'
+         };
 
-         /*var jsObj = {};
+         $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObjHr,function(response){
+            if(response.hasOwnProperty("status"))
+            {
+               var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+               $('#log-HRNotes').html(html);
+            }
+            else
+            {
+               var html = '';
+               var created_at;
+               var updated_at;
+               for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+               {
+                  created_at = new Date(response.companyHrNotes[i].created_at);
+                  updated_at = new Date(response.companyHrNotes[i].updated_at);
 
-         $.each(data,function(index,field){
-            jsObj[field.name] = field.value;
+                  if(user_id == response.companyHrNotes[i].user_id)
+                  {
+                     html += '<tr>';
+                     for(var j = 0 ; j < response.users.length ; j++)
+                     {
+                        if( response.users[j].id == response.companyHrNotes[i].user_id )
+                        {
+                           html += '<td>'+response.users[j].name+'</td>';
+                           break;
+                        }
+                        
+                     }
+                     html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                     html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                     html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                     html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg HrNoteEdit-popup" data-userHrNotes="'+response.companyHrNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg HrNoteDelete-popup" data-userHrNotes="'+response.companyHrNotes[i].id+'"></i></a> </td>';
+                     html += '</tr>';
+                  }
+                  else
+                  {
+                     html += '<tr>';
+                     for(var j = 0 ; j < response.users.length ; j++)
+                     {
+                        if( response.users[j].id == response.companyHrNotes[i].user_id )
+                        {
+                           html += '<td>'+response.users[j].name+'</td>';
+                           break;
+                        }
+                        
+                     }
+                     html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                     html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                     html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                     html += '</tr>';
+                  }
+               }
+               html += '</tbody>';
+               html += '</table>'; 
+               $('#log-HRNotes').html('');               
+               $('#log-HRNotes').html(html);               
+            }
          });
 
-*/
-   var org_names = [];
-      $.each(data['organization_name'],function(index,field){
-                  org_names[index] = field.value;
-               });
+         var jsObjManager = {
+            'companyHrId' : editCompanyHr,
+            'code'        : 'manager_note'
+         };
+
+         $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObjManager,function(response){
+            if(response.hasOwnProperty("status"))
+            {
+               var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+               $('#log-ManagerNotes').html(html);
+            }
+            else
+            {
+               var html = '';
+               var created_at;
+               var updated_at;
+               for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+               {
+                  created_at = new Date(response.companyHrNotes[i].created_at);
+                  updated_at = new Date(response.companyHrNotes[i].updated_at);
+
+                  if(user_id == response.companyHrNotes[i].user_id)
+                  {
+                     html += '<tr>';
+                     for(var j = 0 ; j < response.users.length ; j++)
+                     {
+                        if( response.users[j].id == response.companyHrNotes[i].user_id )
+                        {
+                           html += '<td>'+response.users[j].name+'</td>';
+                           break;
+                        }
+                        
+                     }
+                     html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                     html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                     html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                     html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg ManagerNoteEdit-popup" data-userManagerNotes="'+response.companyHrNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg ManagerNoteDelete-popup" data-userManagerNotes="'+response.companyHrNotes[i].id+'"></i></a> </td>';
+                     html += '</tr>';
+                  }
+                  else
+                  {
+                     html += '<tr>';
+                     for(var j = 0 ; j < response.users.length ; j++)
+                     {
+                        if( response.users[j].id == response.companyHrNotes[i].user_id )
+                        {
+                           html += '<td>'+response.users[j].name+'</td>';
+                           break;
+                        }
+                        
+                     }
+                     html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                     html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                     html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                     html += '</tr>';
+                  }
+               }
+               html += '</tbody>';
+               html += '</table>'; 
+               $('#log-ManagerNotes').html('');               
+               $('#log-ManagerNotes').html(html);               
+            }
+         });
+
+         var jsObjSalDev = {
+            'companyHrId' : editCompanyHr,
+            'code'        : 'sal_dev_note'
+         };
+
+         $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObjSalDev,function(response){
+            if(response.hasOwnProperty("status"))
+            {
+               var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+               $('#log-SalDevNotes').html(html);
+            }
+            else
+            {
+               var html = '';
+               var created_at;
+               var updated_at;
+               for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+               {
+                  created_at = new Date(response.companyHrNotes[i].created_at);
+                  updated_at = new Date(response.companyHrNotes[i].updated_at);
+
+                  if(user_id == response.companyHrNotes[i].user_id)
+                  {
+                     html += '<tr>';
+                     for(var j = 0 ; j < response.users.length ; j++)
+                     {
+                        if( response.users[j].id == response.companyHrNotes[i].user_id )
+                        {
+                           html += '<td>'+response.users[j].name+'</td>';
+                           break;
+                        }
+                        
+                     }
+                     html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                     html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                     html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                     html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg SalDevNoteEdit-popup" data-userSalDevNotes="'+response.companyHrNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg SalDevNoteDelete-popup" data-userSalDevNotes="'+response.companyHrNotes[i].id+'"></i></a> </td>';
+                     html += '</tr>';
+                  }
+                  else
+                  {
+                     html += '<tr>';
+                     for(var j = 0 ; j < response.users.length ; j++)
+                     {
+                        if( response.users[j].id == response.companyHrNotes[i].user_id )
+                        {
+                           html += '<td>'+response.users[j].name+'</td>';
+                           break;
+                        }
+                        
+                     }
+                     html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                     html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                     html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                     html += '</tr>';
+                  }
+               }
+               html += '</tbody>';
+               html += '</table>'; 
+               $('#log-SalDevNotes').html('');               
+               $('#log-SalDevNotes').html(html);               
+            }
+         });
+      });
 
 
-         console.log(org_names);
-
-/*
-         $('#hiddenForm').submit();*/
-     });
-
-   $(document).on('click', ".addEmployment", function() {
       
-      $('.employed_from').daterangepicker({
-       singleDatePicker: true,
-       showDropdowns: true,
-       startDate: "01/01/2018",
+
+// This is Salary Development Note Work Start //
+
+      $('#check-SalDevNotes').on('click',function(){
+
+         $('#modalBtnSalDev').text("Save");
+
+         companyHrId = $(this).attr('data-companyhr');
+
+         var jsObj = {
+            'companyHrId' : companyHrId,
+            'code'        : 'sal_dev_note'
+         };
+
+         $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObj,function(response){
+            if(response.hasOwnProperty("status"))
+            {
+               var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+               $('#salDevNote-logs').html(html);
+            }
+            else
+            {
+               var html = '';
+               html += '<table class="table table-striped">';
+               html += '<thead>';
+               html += '<th>User</th>';
+               html += '<th>Notes</th>';
+               html += '<th></th>';
+               html += '</thead>';
+               html += '<tbody>';
+               for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+               {
+
+                  if(user_id == response.companyHrNotes[i].user_id)
+                  {
+                     html += '<tr>';
+                     for(var j = 0 ; j < response.users.length ; j++)
+                     {
+                        if( response.users[j].id == response.companyHrNotes[i].user_id )
+                        {
+                           html += '<td>'+response.users[j].name+'</td>';
+                           break;
+                        }
+                        
+                     }
+                     html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                     html += '<td> <i class="fa fa-edit text-primary fa-lg salDevNoteEdit" data-userSalDevNotes="'+response.companyHrNotes[i].id+'"></i>&nbsp;&nbsp;<i class="fa fa-trash text-danger fa-lg salDevNoteDelete" data-userSalDevNotes="'+response.companyHrNotes[i].id+'"></i> </td>';
+                     html += '</tr>';
+                  }
+                  else
+                  {
+                     html += '<tr>';
+                     for(var j = 0 ; j < response.users.length ; j++)
+                     {
+                        if( response.users[j].id == response.companyHrNotes[i].user_id )
+                        {
+                           html += '<td>'+response.users[j].name+'</td>';
+                           break;
+                        }
+                        
+                     }
+                     html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                     html += '</tr>';
+                  }
+               }
+               html += '</tbody>';
+               html += '</table>'; 
+               $('#salDevNote-logs').html('');               
+               $('#salDevNote-logs').html(html);               
+            }
+         });
+      });
+
+      var salDevNote_currentOperation = 0;
+      var salDevNoteId;
+
+      $(document).on('click','.salDevNoteEdit',function(){
+
+         $('#modalBtnSalDev').text("Update");
+
+         salDevNote_currentOperation = 1;
+
+         salDevNoteId = $(this).attr('data-userSalDevNotes');
+
+         var url = "{{ route('company.editHrNotes', array("")) }}/"+salDevNoteId;
+
+         $.ajax({
+            url  : url,
+            type : "GET",
+            success : function(response){
+               if(response.hasOwnProperty("status"))
+               {
+                  alert(response.msg);
+               }
+               else
+               {
+                  $('#salDevNoteEditor').val(response.note);
+               }
+            }
+         });
+      });
+
+      $(document).on('click','#modalBtnSalDev',function(){
+
+         if(salDevNote_currentOperation)
+         {
+            var textEditor = $('#salDevNoteEditor').val();
+
+            var jsObj = {
+               'note'   : textEditor
+            };
+
+            var url = "{{ route('company.updateHrNotes', array("")) }}/"+salDevNoteId;
+
+            $.ajax({
+               url  : url,
+               type : "PUT",
+               data : jsObj,
+               success : function(response){
+                  if(response.hasOwnProperty("status"))
+                  {
+                     alert(response.msg);
+                  }
+                  else
+                  {
+                     managerNote_currentOperation = 0;
+                     $('#modalBtnSalDev').text("Save");
+                     $('#salDevNoteEditor').val("");
+
+                     var jsObj = {
+                        'companyHrId' : companyHrId,
+                        'code'        : 'sal_dev_note'
+                     };
+
+                     $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObj,function(response){
+                        if(response.hasOwnProperty("status"))
+                        {
+                           var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                           $('#salDevNote-logs').html(html);
+                        }
+                        else
+                        {
+                           var html = '';
+                           html += '<table class="table table-striped">';
+                           html += '<thead>';
+                           html += '<th>User</th>';
+                           html += '<th>Notes</th>';
+                           html += '<th></th>';
+                           html += '</thead>';
+                           html += '<tbody>';
+                           for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+                           {
+
+                              if(user_id == response.companyHrNotes[i].user_id)
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                 html += '<td> <i class="fa fa-edit text-primary fa-lg salDevNoteEdit" data-userSalDevNotes="'+response.companyHrNotes[i].id+'"></i>&nbsp;&nbsp;<i class="fa fa-trash text-danger fa-lg salDevNoteDelete" data-userSalDevNotes="'+response.companyHrNotes[i].id+'"></i> </td>';
+                                 html += '</tr>';
+                              }
+                              else
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                 html += '</tr>';
+                              }
+                           }
+                           html += '</tbody>';
+                           html += '</table>'; 
+                           $('#salDevNote-logs').html('');               
+                           $('#salDevNote-logs').html(html);               
+                        }
+                     });
+                  }
+               } 
+            });
+         }
+         else
+         {
+            var textEditor =  $('#salDevNoteEditor').val();
+
+            if(isEmpty(textEditor))
+            {
+               alert("Please provide some content");
+            }
+            else
+            {
+               var jsObj = {
+                  'companyHrId' : companyHrId,
+                  'note' : textEditor,
+                  'code' : 'sal_dev_note'
+               };
+
+               $.ajax({
+                  url : "{{ route('company.HrNotes.createHrNote') }}",
+                  type : "POST",
+                  data : jsObj,
+                  dataType : "json",
+                  success : function(response){
+                     if(response.hasOwnProperty("status"))
+                     {
+                        alert(response.msg);
+                     }
+                     else
+                     {
+                        $('#modalBtnSalDev').text("Save");
+                        $('#salDevNoteEditor').val("");
+
+                        var jsObj = {
+                           'companyHrId' : companyHrId,
+                           'code'        : 'sal_dev_note'
+                        };
+
+                        $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObj,function(response){
+                           if(response.hasOwnProperty("status"))
+                           {
+                              var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                              $('#salDevNote-logs').html(html);
+                           }
+                           else
+                           {
+                              var html = '';
+                              html += '<table class="table table-striped">';
+                              html += '<thead>';
+                              html += '<th>User</th>';
+                              html += '<th>Notes</th>';
+                              html += '<th></th>';
+                              html += '</thead>';
+                              html += '<tbody>';
+                              for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+                              {
+
+                                 if(user_id == response.companyHrNotes[i].user_id)
+                                 {
+                                    html += '<tr>';
+                                    for(var j = 0 ; j < response.users.length ; j++)
+                                    {
+                                       if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                       {
+                                          html += '<td>'+response.users[j].name+'</td>';
+                                          break;
+                                       }
+                                       
+                                    }
+                                    html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                    html += '<td> <i class="fa fa-edit text-primary fa-lg salDevNoteEdit" data-userSalDevNotes="'+response.companyHrNotes[i].id+'"></i>&nbsp;&nbsp;<i class="fa fa-trash text-danger fa-lg salDevNoteDelete" data-userSalDevNotes="'+response.companyHrNotes[i].id+'"></i> </td>';
+                                    html += '</tr>';
+                                 }
+                                 else
+                                 {
+                                    html += '<tr>';
+                                    for(var j = 0 ; j < response.users.length ; j++)
+                                    {
+                                       if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                       {
+                                          html += '<td>'+response.users[j].name+'</td>';
+                                          break;
+                                       }
+                                       
+                                    }
+                                    html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                    html += '</tr>';
+                                 }
+                              }
+                              html += '</tbody>';
+                              html += '</table>'; 
+                              $('#salDevNote-logs').html('');               
+                              $('#salDevNote-logs').html(html);               
+                           }
+
+                        });
+                     }
+                  }
+               });
+            }
+         }
+      });
+
+      $(document).on('click','.salDevNoteDelete',function(){
+         if( confirm("Are you sure you want to delete this record!") ) 
+         {
+            var salNoteId = $(this).attr('data-userSalDevNotes');
+
+            var url = "{{ route('company.deleteHrNote', array("")) }}/"+salNoteId;
+
+            $.ajax({
+               url : url,
+               type : "DELETE",
+               success : function(response){
+                  if(response.hasOwnProperty("status"))
+                  {
+                     alert(response.msg);
+                  }
+                  else
+                  {
+                     var jsObj = {
+                        'companyHrId' : companyHrId,
+                        'code'        : 'sal_dev_note'
+                     };
+
+                     $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObj,function(response){
+                        if(response.hasOwnProperty("status"))
+                        {
+                           var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                           $('#salDevNote-logs').html(html);
+                        }
+                        else
+                        {
+                           var html = '';
+                           html += '<table class="table table-striped">';
+                           html += '<thead>';
+                           html += '<th>User</th>';
+                           html += '<th>Notes</th>';
+                           html += '<th></th>';
+                           html += '</thead>';
+                           html += '<tbody>';
+                           for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+                           {
+                              if(user_id == response.companyHrNotes[i].user_id)
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                 html += '<td> <i class="fa fa-edit text-primary fa-lg salDevNoteEdit" data-userSalDevNotes="'+response.companyHrNotes[i].id+'"></i>&nbsp;&nbsp;<i class="fa fa-trash text-danger fa-lg salDevNoteDelete" data-userSalDevNotes="'+response.companyHrNotes[i].id+'"></i> </td>';
+                                 html += '</tr>';
+                              }
+                              else
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                 html += '</tr>';
+                              }
+                           }
+                           html += '</tbody>';
+                           html += '</table>'; 
+                           $('#salDevNote-logs').html('');               
+                           $('#salDevNote-logs').html(html);               
+                        }
+                     });
+                  }
+               }
+            });
+         } 
+      });
+
+
+
+// This is Salary Development Note Work End //
+
+// This is Manager Note Work Start //
+
+      $('#check-ManagerNotes').on('click',function(){
+
+         $('#modalBtnManger').text("Save");
+
+         companyHrId = $(this).attr('data-companyhr');
+
+         var jsObj = {
+            'companyHrId' : companyHrId,
+            'code'        : 'manager_note'
+         };
+
+         $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObj,function(response){
+            if(response.hasOwnProperty("status"))
+            {
+               var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+               $('#managerNote-logs').html(html);
+            }
+            else
+            {
+               var html = '';
+               html += '<table class="table table-striped">';
+               html += '<thead>';
+               html += '<th>User</th>';
+               html += '<th>Notes</th>';
+               html += '<th></th>';
+               html += '</thead>';
+               html += '<tbody>';
+               for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+               {
+
+                  if(user_id == response.companyHrNotes[i].user_id)
+                  {
+                     html += '<tr>';
+                     for(var j = 0 ; j < response.users.length ; j++)
+                     {
+                        if( response.users[j].id == response.companyHrNotes[i].user_id )
+                        {
+                           html += '<td>'+response.users[j].name+'</td>';
+                           break;
+                        }
+                        
+                     }
+                     html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                     html += '<td> <i class="fa fa-edit text-primary fa-lg managerNoteEdit" data-userManagerNotes="'+response.companyHrNotes[i].id+'"></i>&nbsp;&nbsp;<i class="fa fa-trash text-danger fa-lg managerNoteDelete" data-userManagerNotes="'+response.companyHrNotes[i].id+'"></i> </td>';
+                     html += '</tr>';
+                  }
+                  else
+                  {
+                     html += '<tr>';
+                     for(var j = 0 ; j < response.users.length ; j++)
+                     {
+                        if( response.users[j].id == response.companyHrNotes[i].user_id )
+                        {
+                           html += '<td>'+response.users[j].name+'</td>';
+                           break;
+                        }
+                        
+                     }
+                     html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                     html += '</tr>';
+                  }
+               }
+               html += '</tbody>';
+               html += '</table>'; 
+               $('#managerNote-logs').html('');               
+               $('#managerNote-logs').html(html);               
+            }
+         });
+      });
+
+      var managerNote_currentOperation = 0;
+      var managerNoteId;
+
+      $(document).on('click','.managerNoteEdit',function(){
+
+         $('#modalBtnManger').text("Update");
+
+         managerNote_currentOperation = 1;
+
+         managerNoteId = $(this).attr('data-userManagerNotes');
+
+         var url = "{{ route('company.editHrNotes', array("")) }}/"+managerNoteId;
+
+         $.ajax({
+            url  : url,
+            type : "GET",
+            success : function(response){
+               if(response.hasOwnProperty("status"))
+               {
+                  alert(response.msg);
+               }
+               else
+               {
+                  $('#managerNoteEditor').val(response.note);
+               }
+            }
+         });
+      });
+
+      $(document).on('click','#modalBtnManger',function(){
+
+         if(managerNote_currentOperation)
+         {
+            var textEditor = $('#managerNoteEditor').val();
+
+            var jsObj = {
+               'note'   : textEditor
+            };
+
+            var url = "{{ route('company.updateHrNotes', array("")) }}/"+managerNoteId;
+
+            $.ajax({
+               url  : url,
+               type : "PUT",
+               data : jsObj,
+               success : function(response){
+                  if(response.hasOwnProperty("status"))
+                  {
+                     alert(response.msg);
+                  }
+                  else
+                  {
+                     managerNote_currentOperation = 0;
+                     $('#modalBtnManger').text("Save");
+                     $('#managerNoteEditor').val("");
+
+                     var jsObj = {
+                        'companyHrId' : companyHrId,
+                        'code'        : 'manager_note'
+                     };
+
+                     $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObj,function(response){
+                        if(response.hasOwnProperty("status"))
+                        {
+                           var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                           $('#managerNote-logs').html(html);
+                        }
+                        else
+                        {
+                           var html = '';
+                           html += '<table class="table table-striped">';
+                           html += '<thead>';
+                           html += '<th>User</th>';
+                           html += '<th>Notes</th>';
+                           html += '<th></th>';
+                           html += '</thead>';
+                           html += '<tbody>';
+                           for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+                           {
+
+                              if(user_id == response.companyHrNotes[i].user_id)
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                 html += '<td> <i class="fa fa-edit text-primary fa-lg managerNoteEdit" data-userManagerNotes="'+response.companyHrNotes[i].id+'"></i>&nbsp;&nbsp;<i class="fa fa-trash text-danger fa-lg managerNoteDelete" data-userManagerNotes="'+response.companyHrNotes[i].id+'"></i> </td>';
+                                 html += '</tr>';
+                              }
+                              else
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                 html += '</tr>';
+                              }
+                           }
+                           html += '</tbody>';
+                           html += '</table>'; 
+                           $('#managerNote-logs').html('');               
+                           $('#managerNote-logs').html(html);               
+                        }
+                     });
+                  }
+               } 
+            });
+         }
+         else
+         {
+            var textEditor =  $('#managerNoteEditor').val();
+
+            if(isEmpty(textEditor))
+            {
+               alert("Please provide some content");
+            }
+            else
+            {
+               var jsObj = {
+                  'companyHrId' : companyHrId,
+                  'note' : textEditor,
+                  'code' : 'manager_note'
+               };
+
+               $.ajax({
+                  url : "{{ route('company.HrNotes.createHrNote') }}",
+                  type : "POST",
+                  data : jsObj,
+                  dataType : "json",
+                  success : function(response){
+                     if(response.hasOwnProperty("status"))
+                     {
+                        alert(response.msg);
+                     }
+                     else
+                     {
+                        $('#modalBtnManger').text("Save");
+                        $('#managerNoteEditor').val("");
+
+                        var jsObj = {
+                           'companyHrId' : companyHrId,
+                           'code'        : 'manager_note'
+                        };
+
+                        $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObj,function(response){
+                           if(response.hasOwnProperty("status"))
+                           {
+                              var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                              $('#managerNote-logs').html(html);
+                           }
+                           else
+                           {
+                              var html = '';
+                              html += '<table class="table table-striped">';
+                              html += '<thead>';
+                              html += '<th>User</th>';
+                              html += '<th>Notes</th>';
+                              html += '<th></th>';
+                              html += '</thead>';
+                              html += '<tbody>';
+                              for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+                              {
+
+                                 if(user_id == response.companyHrNotes[i].user_id)
+                                 {
+                                    html += '<tr>';
+                                    for(var j = 0 ; j < response.users.length ; j++)
+                                    {
+                                       if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                       {
+                                          html += '<td>'+response.users[j].name+'</td>';
+                                          break;
+                                       }
+                                       
+                                    }
+                                    html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                    html += '<td> <i class="fa fa-edit text-primary fa-lg managerNoteEdit" data-userManagerNotes="'+response.companyHrNotes[i].id+'"></i>&nbsp;&nbsp;<i class="fa fa-trash text-danger fa-lg managerNoteDelete" data-userManagerNotes="'+response.companyHrNotes[i].id+'"></i> </td>';
+                                    html += '</tr>';
+                                 }
+                                 else
+                                 {
+                                    html += '<tr>';
+                                    for(var j = 0 ; j < response.users.length ; j++)
+                                    {
+                                       if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                       {
+                                          html += '<td>'+response.users[j].name+'</td>';
+                                          break;
+                                       }
+                                       
+                                    }
+                                    html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                    html += '</tr>';
+                                 }
+                              }
+                              html += '</tbody>';
+                              html += '</table>'; 
+                              $('#managerNote-logs').html('');               
+                              $('#managerNote-logs').html(html);               
+                           }
+
+                        });
+                     }
+                  }
+               });
+            }
+         }
+      });
+
+      $(document).on('click','.managerNoteDelete',function(){
+         if( confirm("Are you sure you want to delete this record!") ) 
+         {
+            var managerNoteId = $(this).attr('data-userManagerNotes');
+
+            var url = "{{ route('company.deleteHrNote', array("")) }}/"+managerNoteId;
+
+            $.ajax({
+               url : url,
+               type : "DELETE",
+               success : function(response){
+                  if(response.hasOwnProperty("status"))
+                  {
+                     alert(response.msg);
+                  }
+                  else
+                  {
+                     var jsObj = {
+                        'companyHrId' : companyHrId,
+                        'code'        : 'manager_note'
+                     };
+
+                     $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObj,function(response){
+                        if(response.hasOwnProperty("status"))
+                        {
+                           var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                           $('#managerNote-logs').html(html);
+                        }
+                        else
+                        {
+                           var html = '';
+                           html += '<table class="table table-striped">';
+                           html += '<thead>';
+                           html += '<th>User</th>';
+                           html += '<th>Notes</th>';
+                           html += '<th></th>';
+                           html += '</thead>';
+                           html += '<tbody>';
+                           for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+                           {
+
+                              if(user_id == response.companyHrNotes[i].user_id)
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                 html += '<td> <i class="fa fa-edit text-primary fa-lg managerNoteEdit" data-userManagerNotes="'+response.companyHrNotes[i].id+'"></i>&nbsp;&nbsp;<i class="fa fa-trash text-danger fa-lg managerNoteDelete" data-userManagerNotes="'+response.companyHrNotes[i].id+'"></i> </td>';
+                                 html += '</tr>';
+                              }
+                              else
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                 html += '</tr>';
+                              }
+                           }
+                           html += '</tbody>';
+                           html += '</table>'; 
+                           $('#managerNote-logs').html('');               
+                           $('#managerNote-logs').html(html);               
+                        }
+
+                     });
+                  }
+               }
+            });
+         } 
+      });
+
+// This is Manager Note Work End //
+
+//    This is HR Note Work Start //
+
+
+      $('#check-HrNotes').on('click',function(){
+
+         $('#modalBtn').text("Save");
+
+         companyHrId = $(this).attr('data-companyhr');
+
+         var jsObj = {
+            'companyHrId' : companyHrId,
+            'code'        : 'hr_note'
+         };
+
+         $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObj,function(response){
+            if(response.hasOwnProperty("status"))
+            {
+               var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+               $('#hrNotes-logs').html(html);
+            }
+            else
+            {
+               var html = '';
+               html += '<table class="table table-striped">';
+               html += '<thead>';
+               html += '<th>User</th>';
+               html += '<th>Notes</th>';
+               html += '<th></th>';
+               html += '</thead>';
+               html += '<tbody>';
+               for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+               {
+
+                  if(user_id == response.companyHrNotes[i].user_id)
+                  {
+                     html += '<tr>';
+                     for(var j = 0 ; j < response.users.length ; j++)
+                     {
+                        if( response.users[j].id == response.companyHrNotes[i].user_id )
+                        {
+                           html += '<td>'+response.users[j].name+'</td>';
+                           break;
+                        }
+                        
+                     }
+                     html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                     html += '<td> <i class="fa fa-edit text-primary fa-lg hrNoteEdit" data-userHrNote="'+response.companyHrNotes[i].id+'"></i>&nbsp;&nbsp;<i class="fa fa-trash text-danger fa-lg hrNoteDelete" data-userHrNote="'+response.companyHrNotes[i].id+'"></i> </td>';
+                     html += '</tr>';
+                  }
+                  else
+                  {
+                     html += '<tr>';
+                     for(var j = 0 ; j < response.users.length ; j++)
+                     {
+                        if( response.users[j].id == response.companyHrNotes[i].user_id )
+                        {
+                           html += '<td>'+response.users[j].name+'</td>';
+                           break;
+                        }
+                        
+                     }
+                     html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                     html += '</tr>';
+                  }
+               }
+               html += '</tbody>';
+               html += '</table>'; 
+               $('#hrNotes-logs').html('');               
+               $('#hrNotes-logs').html(html);               
+            }
+
+         });
+      });
+
+      var hrNote_currentOperation = 0;
+      var hrNoteId;
+
+      $(document).on('click','.hrNoteEdit',function(){
+
+         $('#modalBtn').text("Update");
+
+         hrNote_currentOperation = 1;
+
+         hrNoteId = $(this).attr('data-userHrNote');
+
+         var url = "{{ route('company.editHrNotes', array("")) }}/"+hrNoteId;
+
+         $.ajax({
+            url  : url,
+            type : "GET",
+            success : function(response){
+               if(response.hasOwnProperty("status"))
+               {
+                  alert(response.msg);
+               }
+               else
+               {
+                  $('#hrNoteEditor').val(response.note);
+               }
+            }
+         });
+
+      });
+
+
+      $(document).on('click','#modalBtn',function(){
+
+         if(hrNote_currentOperation)
+         {
+            var textEditor = $('#hrNoteEditor').val();
+
+            var jsObj = {
+               'note'   : textEditor
+            };
+
+            var url = "{{ route('company.updateHrNotes', array("")) }}/"+hrNoteId;
+
+            $.ajax({
+               url  : url,
+               type : "PUT",
+               data : jsObj,
+               success : function(response){
+                  if(response.hasOwnProperty("status"))
+                  {
+                     alert(response.msg);
+                  }
+                  else
+                  {
+                     hrNote_currentOperation = 0;
+                     $('#modalBtn').text("Save");
+                     $('#hrNoteEditor').val("");
+
+                     var jsObj = {
+                        'companyHrId' : companyHrId,
+                        'code'        : 'hr_note'
+                     };
+
+                     $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObj,function(response){
+                        if(response.hasOwnProperty("status"))
+                        {
+                           var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                           $('#hrNotes-logs').html(html);
+                        }
+                        else
+                        {
+                           var html = '';
+                           html += '<table class="table table-striped">';
+                           html += '<thead>';
+                           html += '<th>User</th>';
+                           html += '<th>Notes</th>';
+                           html += '<th></th>';
+                           html += '</thead>';
+                           html += '<tbody>';
+                           for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+                           {
+
+                              if(user_id == response.companyHrNotes[i].user_id)
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                 html += '<td> <i class="fa fa-edit text-primary fa-lg hrNoteEdit" data-userHrNote="'+response.companyHrNotes[i].id+'"></i>&nbsp;&nbsp;<i class="fa fa-trash text-danger fa-lg hrNoteDelete" data-userHrNote="'+response.companyHrNotes[i].id+'"></i> </td>';
+                                 html += '</tr>';
+                              }
+                              else
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                 html += '</tr>';
+                              }
+                           }
+                           html += '</tbody>';
+                           html += '</table>'; 
+                           $('#hrNotes-logs').html('');               
+                           $('#hrNotes-logs').html(html);               
+                        }
+
+                     });
+                  }
+               } 
+            });
+         }
+         else
+         {
+            var textEditor =  $('#hrNoteEditor').val();
+
+            if(isEmpty(textEditor))
+            {
+               alert("Please provide some content");
+            }
+            else
+            {
+               var jsObj = {
+                  'companyHrId' : companyHrId,
+                  'note' : textEditor,
+                  'code' : 'hr_note'
+               };
+
+               $.ajax({
+                  url : "{{ route('company.HrNotes.createHrNote') }}",
+                  type : "POST",
+                  data : jsObj,
+                  dataType : "json",
+                  success : function(response){
+                     if(response.hasOwnProperty("status"))
+                     {
+                        alert(response.msg);
+                     }
+                     else
+                     {
+                        $('#modalBtn').text("Save");
+                        $('#hrNoteEditor').val("");
+
+                        var jsObj = {
+                           'companyHrId' : companyHrId,
+                           'code'        : 'hr_note'
+                        };
+
+                        $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObj,function(response){
+                           if(response.hasOwnProperty("status"))
+                           {
+                              var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                              $('#hrNotes-logs').html(html);
+                           }
+                           else
+                           {
+                              var html = '';
+                              html += '<table class="table table-striped">';
+                              html += '<thead>';
+                              html += '<th>User</th>';
+                              html += '<th>Notes</th>';
+                              html += '<th></th>';
+                              html += '</thead>';
+                              html += '<tbody>';
+                              for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+                              {
+
+                                 if(user_id == response.companyHrNotes[i].user_id)
+                                 {
+                                    html += '<tr>';
+                                    for(var j = 0 ; j < response.users.length ; j++)
+                                    {
+                                       if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                       {
+                                          html += '<td>'+response.users[j].name+'</td>';
+                                          break;
+                                       }
+                                       
+                                    }
+                                    html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                    html += '<td> <i class="fa fa-edit text-primary fa-lg hrNoteEdit" data-userHrNote="'+response.companyHrNotes[i].id+'"></i>&nbsp;&nbsp;<i class="fa fa-trash text-danger fa-lg hrNoteDelete" data-userHrNote="'+response.companyHrNotes[i].id+'"></i> </td>';
+                                    html += '</tr>';
+                                 }
+                                 else
+                                 {
+                                    html += '<tr>';
+                                    for(var j = 0 ; j < response.users.length ; j++)
+                                    {
+                                       if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                       {
+                                          html += '<td>'+response.users[j].name+'</td>';
+                                          break;
+                                       }
+                                       
+                                    }
+                                    html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                    html += '</tr>';
+                                 }
+                              }
+                              html += '</tbody>';
+                              html += '</table>'; 
+                              $('#hrNotes-logs').html('');               
+                              $('#hrNotes-logs').html(html);               
+                           }
+
+                        });
+                     }
+                  }
+               });
+            }
+         }
+      });
+
+
+      $(document).on('click','.hrNoteDelete',function(){
+
+         if( confirm("Are you sure you want to delete this record!") ) 
+         {
+            var hrNoteId = $(this).attr('data-userHrNote');
+
+            var url = "{{ route('company.deleteHrNote', array("")) }}/"+hrNoteId;
+
+            $.ajax({
+               url : url,
+               type : "DELETE",
+               success : function(response){
+                  if(response.hasOwnProperty("status"))
+                  {
+                     alert(response.msg);
+                  }
+                  else
+                  {
+                     var jsObj = {
+                        'companyHrId' : companyHrId,
+                        'code'        : 'hr_note'
+                     };
+
+                     $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObj,function(response){
+                        if(response.hasOwnProperty("status"))
+                        {
+                           var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                           $('#hrNotes-logs').html(html);
+                        }
+                        else
+                        {
+                           var html = '';
+                           html += '<table class="table table-striped">';
+                           html += '<thead>';
+                           html += '<th>User</th>';
+                           html += '<th>Notes</th>';
+                           html += '<th></th>';
+                           html += '</thead>';
+                           html += '<tbody>';
+                           for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+                           {
+
+                              if(user_id == response.companyHrNotes[i].user_id)
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                 html += '<td> <i class="fa fa-edit text-primary fa-lg hrNoteEdit" data-userHrNote="'+response.companyHrNotes[i].id+'"></i>&nbsp;&nbsp;<i class="fa fa-trash text-danger fa-lg hrNoteDelete" data-userHrNote="'+response.companyHrNotes[i].id+'"></i> </td>';
+                                 html += '</tr>';
+                              }
+                              else
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                 html += '</tr>';
+                              }
+                           }
+                           html += '</tbody>';
+                           html += '</table>'; 
+                           $('#hrNotes-logs').html('');               
+                           $('#hrNotes-logs').html(html);               
+                        }
+
+                     });
+                  }
+               }
+            });
+         } 
+      });
+
+//    This is HR Note Work End //
+
+
+
+      <?php
+       $data = [];
+       if(isset($imageFiles))
+       {
+         for($i = 0 ; $i < count($imageFiles) ; $i++ )
+         {
+           $data[$i] = $imageFiles[$i];
+         }
+       }
+     ?>
+     var images = <?php echo json_encode($data); ?>
+
+     // console.log(images);
+
+     $('.uploadFiles').fileuploader({
+         theme: 'thumbnails',
+         enableApi: true,
+         addMore: true,
+         thumbnails: {
+             box: '<div class="fileuploader-items">' +
+                       '<ul class="fileuploader-items-list">' +
+                           '<li class="fileuploader-thumbnails-input"><div class="fileuploader-thumbnails-input-inner">+</div></li>' +
+                       '</ul>' +
+                   '</div>',
+             item: '<li class="fileuploader-item">' +
+                        '<div class="fileuploader-item-inner">' +
+                            '<div class="thumbnail-holder">${image}</div>' +
+                            '<div class="actions-holder">' +
+                                '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
+                            '</div>' +
+                            '<div class="progress-holder">${progressBar}</div>' +
+                        '</div>' +
+                    '</li>',
+             item2: '<li class="fileuploader-item">' +
+                        '<div class="fileuploader-item-inner">' +
+                            '<div class="thumbnail-holder">${image}</div>' +
+                            '<div class="actions-holder">' +
+                                '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
+                            '</div>' +
+                        '</div>' +
+                    '</li>',
+             startImageRenderer: true,
+             canvasImage: false,
+             _selectors: {
+                 list: '.fileuploader-items-list',
+                 item: '.fileuploader-item',
+                 start: '.fileuploader-action-start',
+                 retry: '.fileuploader-action-retry',
+                 remove: '.fileuploader-action-remove'
+             },
+             onItemShow: function(item, listEl) {
+                 var plusInput = listEl.find('.fileuploader-thumbnails-input');
+                 
+                 plusInput.insertAfter(item.html);
+                 
+                 if(item.format == 'image') {
+                     item.html.find('.fileuploader-item-icon').hide();
+                 }
+             }
+         },
+         afterRender: function(listEl, parentEl, newInputEl, inputEl) {
+             var plusInput = listEl.find('.fileuploader-thumbnails-input'),
+                 api = $.fileuploader.getInstance(inputEl.get(0));
+         
+             plusInput.on('click', function() {
+                 api.open();
+             });
+         },
+          allowDuplicates: false,
+          files: images,
+          limit: null,
+          fileMaxSize:2,
+          extensions: ['jpg','gif','png','jpeg','bmp','pdf','txt','docx','doc','odt','rtf'],
+         onRemove: function(itemEl, file, id, listEl, boxEl, newInputEl, inputEl){
+
+             var jsObj = {
+               'image' : itemEl.name
+             };
+
+             console.log(jsObj);
+             
+             $.ajax({
+               url : "{{ route('company.companyHrs.image_remove') }}",
+               type : "POST",
+               data : jsObj,
+               dataType : "json",
+               success : function(response){
+                 alert(response.msg);
+               }
+             });
+
+
+         },
      });
 
-      $('.employed_until').daterangepicker({
-       singleDatePicker: true,
-       showDropdowns: true,
-       startDate: "12/31/2018",
-     });
+   }
 
 
-      $('.courses').tagsinput({
-            maxTags: 6
-      });
+      $('input[name="docFiles"]').fileuploader({
+           extensions: ['jpg', 'jpeg', 'png', 'gif', 'bmp'],
+         changeInput: ' ',
+         theme: 'thumbnails',
+           enableApi: true,
+         addMore: true,
+         thumbnails: {
+            box: '<div class="fileuploader-items">' +
+                         '<ul class="fileuploader-items-list">' +
+                        '<li class="fileuploader-thumbnails-input"><div class="fileuploader-thumbnails-input-inner">+</div></li>' +
+                         '</ul>' +
+                     '</div>',
+            item: '<li class="fileuploader-item">' +
+                      '<div class="fileuploader-item-inner">' +
+                              '<div class="thumbnail-holder">${image}</div>' +
+                              '<div class="actions-holder">' +
+                                  '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
+                              '</div>' +
+                              '<div class="progress-holder">${progressBar}</div>' +
+                          '</div>' +
+                      '</li>',
+            item2: '<li class="fileuploader-item">' +
+                      '<div class="fileuploader-item-inner">' +
+                              '<div class="thumbnail-holder">${image}</div>' +
+                              '<div class="actions-holder">' +
+                                  '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
+                              '</div>' +
+                          '</div>' +
+                      '</li>',
+            startImageRenderer: true,
+            canvasImage: false,
+            _selectors: {
+               list: '.fileuploader-items-list',
+               item: '.fileuploader-item',
+               start: '.fileuploader-action-start',
+               retry: '.fileuploader-action-retry',
+               remove: '.fileuploader-action-remove'
+            },
+            onItemShow: function(item, listEl) {
+               var plusInput = listEl.find('.fileuploader-thumbnails-input');
+               
+               plusInput.insertAfter(item.html);
+               
+               if(item.format == 'image') {
+                  item.html.find('.fileuploader-item-icon').hide();
+               }
+            }
+         },
+         afterRender: function(listEl, parentEl, newInputEl, inputEl) {
+            var plusInput = listEl.find('.fileuploader-thumbnails-input'),
+               api = $.fileuploader.getInstance(inputEl.get(0));
+         
+            plusInput.on('click', function() {
+               api.open();
+            });
+         },
+       });
 
 
-
-
-   });
-
-   $(document).ready(function(){
-      $('.languages').tagsinput({
-            maxTags: 10
-      });
-
-      $('.skills').tagsinput({
-            maxTags: 10
-      });
-   });
-
-
-
-
-   $('.employed_from').daterangepicker({
-      singleDatePicker: true,
-      showDropdowns: true,
-      startDate: "01/01/2018",
-   });
-
-   $('.employed_until').daterangepicker({
-      singleDatePicker: true,
-      showDropdowns: true,
-      startDate: "12/31/2018",
-   });
 
    $('.addEmployment').click(function(){
       var employment = '<div class="row">';
       employment += '<div class="col-sm-12 col-sm-12 m-t-2">';
       employment += '<div class="col-sm-2 col-md-2 form-group">';
       employment += '<label for="sitting_name">Organization Name</label>';
-      employment += '<input type="text" name="organization_name[]" id="organization_name" class="form-control organiztion-fields" >';
+      employment += '<input type="text" name="organization_name[]" class="form-control organization_name">';
       employment += '</div>';
       employment += '<div class="col-sm-2 col-md-2 form-group">';
       employment += '<label for="sitting_number_person">Job Title</label>';
-      employment += '<input type="text" name="job_title[]" id="job_title" class="form-control organiztion-fields" >';
+      employment += '<input type="text" name="job_title[]" class="form-control job_title">';
       employment += '</div> ';
       employment += '<div class="col-sm-4 col-md-4 form-group">';
       employment += '<label for="sitting_number_person">Learning Courses</label>';
-      employment += '<input type="text" name="courses[]" id"coursesId" class="form-control courses organiztion-fields" >';
+      employment += '<input type="text" name="courses[]" class="form-control courses">';
       employment += '</div>';
       employment += '<div class="col-sm-2 col-md-2 form-group">';
       employment += '<label for="sitting_number_person">Employment Form</label>';
-      employment += '<input type="text"  name="employed_from[]" class="form-control employed_from organiztion-fields">';
+      employment += '<input type="text"  name="employed_from[]" class="form-control employed_from">';
       employment += '</div>';
       employment += '<div class="col-sm-2 col-md-2 form-group">';
       employment += '<label for="sitting_number_person">Employment Until</label>';
-      employment += '<input type="text"  name="employed_until[]" class="form-control employed_until organiztion-fields">';
+      employment += '<input type="text"  name="employed_until[]" class="form-control employed_until">';
       employment += '</div>';
       employment += '</div>';
       employment += '</div>';
@@ -873,114 +3455,7 @@
 
    });
 
-       $('#hr_note').summernote({
-      height: 112,
-      toolbar: [
-        ['parastyle', ['style']],
-        ['fontstyle', ['fontname', 'fontsize']],
-        ['style', ['bold', 'italic', 'underline', 'clear']],
-        ['font', ['strikethrough', 'superscript', 'subscript']],
-        ['color', ['color']],
-        ['para', ['ul', 'ol', 'paragraph']],
-        ['height', ['height']],
-        ['insert', ['picture', 'link', 'video', 'table', 'hr']],
-        ['history', ['undo', 'redo']],
-        ['misc', ['codeview', 'fullscreen']],
-        ['help', ['help']]
-      ],
-    });
-
-   $('#manager_note').summernote({
-      height: 112,
-      toolbar: [
-        ['parastyle', ['style']],
-        ['fontstyle', ['fontname', 'fontsize']],
-        ['style', ['bold', 'italic', 'underline', 'clear']],
-        ['font', ['strikethrough', 'superscript', 'subscript']],
-        ['color', ['color']],
-        ['para', ['ul', 'ol', 'paragraph']],
-        ['height', ['height']],
-        ['insert', ['picture', 'link', 'video', 'table', 'hr']],
-        ['history', ['undo', 'redo']],
-        ['misc', ['codeview', 'fullscreen']],
-        ['help', ['help']]
-      ],
-    });
-
-   $('#sal_dev_note').summernote({
-      height: 112,
-      toolbar: [
-        ['parastyle', ['style']],
-        ['fontstyle', ['fontname', 'fontsize']],
-        ['style', ['bold', 'italic', 'underline', 'clear']],
-        ['font', ['strikethrough', 'superscript', 'subscript']],
-        ['color', ['color']],
-        ['para', ['ul', 'ol', 'paragraph']],
-        ['height', ['height']],
-        ['insert', ['picture', 'link', 'video', 'table', 'hr']],
-        ['history', ['undo', 'redo']],
-        ['misc', ['codeview', 'fullscreen']],
-        ['help', ['help']]
-      ],
-    });
-
-       $("input[name='files']").fileuploader({
-        theme: 'thumbnails',
-        enableApi: true,
-        addMore: true,
-        thumbnails: {
-            box: '<div class="fileuploader-items">' +
-                      '<ul class="fileuploader-items-list">' +
-                          '<li class="fileuploader-thumbnails-input"><div class="fileuploader-thumbnails-input-inner">+</div></li>' +
-                      '</ul>' +
-                  '</div>',
-            item: '<li class="fileuploader-item">' +
-                       '<div class="fileuploader-item-inner">' +
-                           '<div class="thumbnail-holder">${image}</div>' +
-                           '<div class="actions-holder">' +
-                               '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
-                           '</div>' +
-                           '<div class="progress-holder">${progressBar}</div>' +
-                       '</div>' +
-                   '</li>',
-            item2: '<li class="fileuploader-item">' +
-                       '<div class="fileuploader-item-inner">' +
-                           '<div class="thumbnail-holder">${image}</div>' +
-                           '<div class="actions-holder">' +
-                               '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
-                           '</div>' +
-                       '</div>' +
-                   '</li>',
-            startImageRenderer: true,
-            canvasImage: false,
-            _selectors: {
-                list: '.fileuploader-items-list',
-                item: '.fileuploader-item',
-                start: '.fileuploader-action-start',
-                retry: '.fileuploader-action-retry',
-                remove: '.fileuploader-action-remove'
-            },
-            onItemShow: function(item, listEl) {
-                var plusInput = listEl.find('.fileuploader-thumbnails-input');
-                
-                plusInput.insertAfter(item.html);
-                
-                if(item.format == 'image') {
-                    item.html.find('.fileuploader-item-icon').hide();
-                }
-            }
-        },
-        afterRender: function(listEl, parentEl, newInputEl, inputEl) {
-            var plusInput = listEl.find('.fileuploader-thumbnails-input'),
-                api = $.fileuploader.getInstance(inputEl.get(0));
-        
-            plusInput.on('click', function() {
-                api.open();
-            });
-        },
-        extensions: ['jpg','gif','png','jpeg','bmp','pdf','txt','docx','doc','odt','rtf'],
-    });
-         
+ 
    
    // -------------------------------------------------------------------------
    // Initialize wizard validation example
@@ -1002,18 +3477,22 @@
       // Rules
 
       jQuery.validator.addMethod("alphanumeric", function(value, element) {
-              return this.optional(element) || /^[a-zA-Z0-9]+$/.test(value);
-      }); 
-  
+              return this.optional(element) || /^[a-zA-Z0-9%-]+$/.test(value);
+      }, "You must enter only alphanumeric characters or % , - "); 
+
+      jQuery.validator.addMethod("dollarsscents", function(value, element) {
+          return this.optional(element) || /^\d{0,10}(\.\d{0,2})?$/i.test(value);
+      }, "You must include two decimal places");  
 
       $('#wizard-1').validate({
           rules: {
               'first_name': {
                 required:  true,
+                maxlength: 30,
               },
               'last_name': {
                 required:  true,
-                maxlength: 100,
+                maxlength: 30,
               },
               'address_1': {
                 required:  true,
@@ -1023,24 +3502,32 @@
               },
               'post_code': {
                 required:  true,
-                alphanumeric: true
+                alphanumeric: true,
+                maxlength: 10,
               },
               'city_id': {
                 required:  true,
+                digits: true
               },
               'state_id': {
                 required:  true,
+                digits: true
               },
               'country_id': {
                 required:  true,
+                digits: true
               },
               'telephone_job': {
                 required:  true,
                 digits: true,
+                minlength: 11,
+                maxlength: 15
               },
               'telephone_private': {
                 required:  true,
                 digits: true,
+                minlength: 11,
+                maxlength: 15
               },
               'email_job': {
                 required:  true,
@@ -1052,124 +3539,9 @@
               },
               'civil_status_id': {
                 required:  true,
+                digits: true
               },
-            }
-      });
-
-
-      $('#wizard-1').on('submit', function(e) {
-
-            e.preventDefault();
-
-
-            // test if form is valid 
-            if( $('#wizard-1').validate().form() ) {
-
-
-
-
-            } else {
-                // console.log("does not validate");
-            }
-        });
-
-
-      $('#wizard-2').validate();
-      
-      $('#wizard-2').on('submit', function(e) {
-       
-            e.preventDefault();
-
-            // test if form is valid 
-            if($('#wizard-2').validate().form()) {
-
-            } else {
-                // console.log("does not validate");
-            }
-        });
-
-
-      $('#wizard-3').validate();
-      
-      $('#wizard-3').on('submit', function(e) {
-       
-            e.preventDefault();
-
-            // test if form is valid 
-            if( $('#wizard-3').validate().form() ) {
-
-
-
-            } else {
-                // console.log("does not validate");
-            }
-        });
-
-/*      $('').validate({
-
-          rules: {
-              "number": {
-                  required: true,
-                  maxlength: 150,
-                  remote: {
-                      // url: "{{ route('validate.contract') }}",
-                      // type: "POST",
-                      // cache: false,
-                      // dataType: "json",
-                      // data: {
-                      //     number: function() { return $("#contract-no").val(); }
-                      // },
-                      // dataFilter: function(response) {
-
-                      //     // console.log(response);
-                      //     return checkField(response);
-                      // }
-
-                      param: {
-                          url: "{{ route('validate.contract') }}",
-                          type: "POST",
-                          cache: false,
-                          dataType: "json",
-                          data: {
-                              number: function() { return $("#contract-no").val(); }
-                          },
-                          dataFilter: function(response) {
-
-                              // console.log(response);
-                              return checkField(response);
-                          }
-                      },
-                      depends: function(element) {
-                          // compare email address in form to hidden field
-                          return ($(element).val() !== $('#contract-no-hidden').val());
-                      }
-                  }
-              },
-              "start_date": {
-                  required: true
-              },
-              "end_date": {
-                  required: true
-              },
-              "payment_method": {
-                  required: true
-              },
-              "payment_cycle": {
-                  required: true
-              },
-              "discount": {
-                  required: true
-              }
-          },
-
-          messages: {
-             "number": {
-
-                remote: "A contract with same number already exists",
-             }
-          },
-          // errorElement : 'div',
-          // errorLabelContainer: '.errorTxt'
+            },
           errorPlacement: function(error, element) {
             var placement = $(element).parent().find('.errorTxt');
             if (placement) {
@@ -1178,44 +3550,319 @@
               error.insertAfter(element);
             }
           }
-      });*/
-      
-     /* $('#).on('submit', function(e) {
-       alert('step-4 submit');
+      });
+
+
+      $('#wizard-1').on('submit', function(e) {
+
             e.preventDefault();
 
-            // test if form is valid 
-            if( $('#').validate().form() ) {
-
-                  var myform = document.getElementById("");
-                  var data = new FormData(myform);
-                  
-                  $.ajax({
-                      url: '{{ route("company.hrOtherInformation.store") }}',
-                      data: data,
-                      cache: false,
-                      contentType: false,
-                      processData: false,
-                      type: 'POST', // For jQuery < 1.9
-                      success: function(data){
-
-                        console.log(data);
-                          // myform.pxWizard('goTo', 2);
-                          // company_id = data.company.id;
-                          // companyCreated = data.success;
-
-                          // console.log(data);
-                      },
-                      error: function(xhr,status,error)  {
-
-                      }
-
-                  });
+            if( $('#wizard-1').validate().form() ) {
 
             } else {
-                // console.log("does not validate");
+
             }
-        });*/
+      });
+
+
+      $('#wizard-2').validate({
+          rules: {
+              'employment_date': {
+                required:  true
+              },
+              'termination_time': {
+                required:  true,
+                digits: true
+              },
+              'employeed_untill': {
+                required:  true,
+              },
+              'personal_category': {
+                required:  true,
+              },
+              'collective_type': {
+                required:  true,
+                digits: true
+              },
+              'employment_form': {
+                required:  true,
+              },
+              'insurance_date': {
+                required:  true
+              },
+              'insurance_fees': {
+                required:  true,
+                dollarsscents: true,
+                maxlength: 10,
+              },
+              'department': {
+                required:  true,
+                digits: true,
+              },
+              'designation': {
+                required:  true,
+                digits: true,
+              },
+              'vacancies': {
+                required:  true,
+                digits: true
+              }
+            },
+          errorPlacement: function(error, element) {
+            var placement = $(element).parent().find('.errorTxt');
+            if (placement) {
+              $(placement).append(error)
+            } else {
+              error.insertAfter(element);
+            }
+          }
+      });
+      
+      $('#wizard-2').on('submit', function(e) {
+       
+            e.preventDefault();
+
+            if($('#wizard-2').validate().form()) {
+
+            } else {
+
+            }
+        });
+
+
+
+      $('#wizard-3').validate({
+          rules: {
+              'salary_type': {
+                required:  true,
+                digits: true
+              },
+              'salary': {
+                required:  true,
+                dollarsscents: true,
+                maxlength: 10,
+              },
+              'employment_percent': {
+                required:  true,
+                alphanumeric: true
+              },
+              'cost_division': {
+                required:  true,
+                dollarsscents: true,
+                maxlength: 10,
+              },
+              'project': {
+                required:  true,
+                digits: true
+              },
+              'vat_table': {
+                required:  true,
+                dollarsscents: true
+              },
+              'vacation_days': {
+                required:  true,
+                digits: true
+              },
+              'vacation_category': {
+                required:  true,
+                digits: true
+              }
+            },
+          errorPlacement: function(error, element) {
+            var placement = $(element).parent().find('.errorTxt');
+            if (placement) {
+              $(placement).append(error)
+            } else {
+              error.insertAfter(element);
+            }
+          }
+      });
+      
+      $('#wizard-3').on('submit', function(e) {
+       
+            e.preventDefault();
+
+            if( $('#wizard-3').validate().form() ) {
+
+            } else {
+
+            }
+        });
+
+      $('#wizard-4').validate({
+          rules: {
+              'languages': {
+                required:  true
+              },
+              'skills': {
+                required:  true
+              },
+              'name': {
+                required:  true
+              }
+            },
+          errorPlacement: function(error, element) {
+            var placement = $(element).parent().find('.errorTxt');
+            if (placement) {
+              $(placement).append(error)
+            } else {
+              error.insertAfter(element);
+            }
+          }
+      });
+
+      $('#wizard-4').on('submit', function(e) {
+
+         e.preventDefault();
+
+         if( $('#wizard-4').validate().form() ) 
+         {
+
+         $('#finish-btn').attr('disabled', 'disabled');
+          $('#finish-btn').text('Processing..');
+
+            $('#createCompanyHrBtn').attr('disabled', 'disabled');
+            $('#createCompanyHrBtn').text('Processing..');
+
+            var first_name = $('#first_name').val();
+            var last_name = $('#last_name').val();
+            var address_1 = $('#address_1').val();
+            var address_2 = $('#address_2').val();
+            var post_code = $('#post_code').val();
+            var city_id = $('#city_id').val();
+            var state_id = $('#state_id').val();
+            var country_id = $('#country_id').val();
+            var telephone_job = $('#telephone_job').val();
+            var telephone_private = $('#telephone_private').val();
+            var email_private = $('#email_private').val();
+            var email_job = $('#email_job').val();
+            var civil_status_id = $('#civil_status_id').val();
+            var employment_date = $('#employment_date').val();
+            var termination_time = $('#termination_time').val();
+            var employeed_untill = $('#employeed_untill').val();
+            var personal_category = $('#personal_category').val();
+            var collective_type = $('#collective_type').val();
+            var employment_form = $('#employment_form').val();
+            var insurance_date = $('#insurance_date').val();
+            var insurance_fees = $('#insurance_fees').val();
+            var department = $('#department').val();
+            var designation = $('#designation').val();
+            var vacancies = $('#vacancies').val();
+            var salary_type = $('#salary_type').val();
+            var salary = $('#salary').val();
+            var employment_percent = $('#employment_percent').val();
+            var cost_division = $('#cost_division').val();
+            var project = $('#project').val();
+            var vat_table = $('#vat_table').val();
+            var vacation_days = $('#vacation_days').val();
+            var vacation_category = $('#vacation_category').val();
+
+            var father  =   0;
+            var mother  =   0;
+            if($('#father').is(':checked')) { father = 1; }
+            if($('#mother').is(':checked')) { mother = 1; }
+
+            var myform = document.getElementById("wizard-4");
+            var filer = new FormData(myform);
+
+            filer.append('first_name', first_name);
+            filer.append('last_name', last_name);
+            filer.append('address_1', address_1);
+            filer.append('address_2', address_2);
+            filer.append('post_code', post_code);
+            filer.append('city_id', city_id);
+            filer.append('state_id', state_id);
+            filer.append('country_id', country_id);
+            filer.append('telephone_job', telephone_job);
+            filer.append('telephone_private', telephone_private);
+            filer.append('email_private', email_private);
+            filer.append('email_job', email_job);
+            filer.append('civil_status_id', civil_status_id);
+            filer.append('employment_date', employment_date);
+            filer.append('termination_time', termination_time);
+            filer.append('employeed_untill', employeed_untill);
+            filer.append('personal_category', personal_category);
+            filer.append('collective_type', collective_type);
+            filer.append('employment_form', employment_form);
+            filer.append('insurance_date', insurance_date);
+            filer.append('insurance_fees', insurance_fees);
+            filer.append('department', department);
+            filer.append('designation', designation);
+            filer.append('vacancies', vacancies);
+            filer.append('salary_type', salary_type);
+            filer.append('salary', salary);
+            filer.append('employment_percent', employment_percent);
+            filer.append('cost_division', cost_division);
+            filer.append('project', project);
+            filer.append('vat_table', vat_table);
+            filer.append('vacation_days', vacation_days);
+            filer.append('vacation_category', vacation_category);
+            filer.append('father', father);
+            filer.append('mother', mother);
+            filer.append('driving_license', driving_license);
+
+
+            if (editCompanyHr != 0) 
+            {
+               <?php
+                 if (isset($companyHr)) {
+                    $updateRoute = route("company.companyHrs.update", [$companyHr->id]);
+                 } else {
+                   $updateRoute = '';
+                 }
+               ?>
+
+               $.ajax({
+                  url: '{{ $updateRoute }}',
+                  type: 'POST',
+                  data: filer,
+                 cache: false,
+                 contentType: false,
+                 processData: false,
+                  success: function(data){
+                     // alert(data.msg);
+                     if(data.status == 1)
+                     {
+                         location.href = "{{ route('company.companyHrs.index') }}";
+                     }
+                   },
+                   error: function(xhr,status,error)  {
+
+                   }
+
+               });
+            }
+            else
+            {
+               $.ajax({
+                   url: '{{ route("company.companyHrs.store") }}',
+                   type: 'POST',
+                   data : filer,
+                  cache: false,
+                    contentType: false,
+                    processData: false,
+                   success: function(data){
+
+                        // alert(data.msg);
+                        if(data.status == 1)
+                        {
+                            location.href = "{{ route('company.companyHrs.index') }}";
+                        }
+                   },
+                   error: function(xhr,status,error)  {
+
+                   }
+
+               });
+            }
+      }
+      else
+      {
+
+      }
+
+   });
+      
 
 
       $('#state_id').on('change', function() {
@@ -1283,161 +3930,286 @@
         }
       });
 
-      // Finish
 
       $wizard.on('finished.px.wizard', function() {
-        //
-        // Collect and send data...
-        //
-
         $('#wizard-finish').find('.ion-checkmark-round').removeClass('ion-checkmark-round').addClass('ion-checkmark-circled');
         $('#wizard-finish').find('h4').text('Thank You!');
         $('#wizard-finish').find('button').remove();
       });
 
     });
-   
 
-         
-           $('#daterangeEmpl').daterangepicker({
-             singleDatePicker: true,
-             showDropdowns: true,
-   
-           });
-   
-         
-           $('#daterangeEmplUntil').daterangepicker({
-             singleDatePicker: true,
-             showDropdowns: true,
-             startDate: moment().add('year', 1),
-   
-           });
-           $('#daterangeInsurance').daterangepicker({
-             singleDatePicker: true,
-             showDropdowns: true,
-   
-           });
-           $('#daterange-4').daterangepicker({
-             singleDatePicker: true,
-             showDropdowns: true,
-   
-           });
-           $('#daterange-4').daterangepicker({
-             singleDatePicker: true,
-             showDropdowns: true,
-             startDate: "12/31/2018",
-   
-           });
-           $('#daterange-4').daterangepicker({
-             singleDatePicker: true,
-             showDropdowns: true,
-             startDate: "12/31/2018",
-   
-           });
-           $('#daterange-4').daterangepicker({
-             singleDatePicker: true,
-             showDropdowns: true,
-             startDate: "12/31/2018",
-   
-           });
-           // -------------------------------------------------------------------------
-           // Initialize Select2
-           
-           $(function() {
-             $('.select2-country').select2({
-               placeholder: 'Select Country',
-             });
-           });
-           
-           $(function() {
-             $('.select2-state').select2({
-               placeholder: 'Select State',
-             });
-           });
-           
-           $(function() {
-             $('.select2-city').select2({
-               placeholder: 'Select City',
-             });
-           });
-           
-           $(function() {
-             $('.select2-status').select2({
-               placeholder: 'Select Status',
-             });
-           });
-           
-           $(function() {
-             $('.select2-personal').select2({
-               placeholder: 'Select Personal Category',
-             });
-           });
-           
-           $(function() {
-             $('.select2-collective').select2({
-               placeholder: 'Select Collective',
-             });
-           });
-           
-           $(function() {
-             $('.select2-emplyForm').select2({
-               placeholder: 'Select Employment Form',
-             });
-           });
-           
-           $(function() {
-             $('.select2-department').select2({
-               placeholder: 'Select Department',
-             });
-           });
-           
-           $(function() {
-             $('.select2-designation').select2({
-               placeholder: 'Select Designation',
-             });
-           });
-           
-           $(function() {
-             $('.select2-vacancy').select2({
-               placeholder: 'Select Vacancy',
-             });
-           });
-           
-           $(function() {
-             $('.select2-salaryType').select2({
-               placeholder: 'Select Salary Type',
-             });
-           });
-           
-           $(function() {
-             $('.select2-project').select2({
-               placeholder: 'Select Salary Type',
-             });
-           });
-   
-           $(function() {
-             $('.select2-payment-method').select2({
-               placeholder: 'Select Payment Method',
-             });
-           });
-   
-           $(function() {
-             $('.select2-payment-cycle').select2({
-               placeholder: 'Select Payment Cycle',
-             });
-           });
-   
-           $(function() {
-             $('.select2-discount-type').select2({
-               placeholder: 'Select Discount Type',
-             });
-           }); 
+    //---------------- Tab 1 ------------------ //
 
-            $(function() {
-             $('.select2-hrCourses').select2({
-               placeholder: 'Select Discount Type',
-             });
-           });
+   $(function() {
+    $('#country_id').select2({
+      placeholder: 'Select Country',
+    });
+  });
+
+   $(function() {
+    $('#state_id').select2({
+      placeholder: 'Select State',
+    });
+  });
+
+   $(function() {
+    $('#city_id').select2({
+      placeholder: 'Select City',
+    });
+  });
+
+   $(function() {
+    $('#civil_status_id').select2({
+      placeholder: 'Select Civil Status',
+    });
+  });
+
+   //---------------- Tab 1 ------------------ //
+
+   //---------------- Tab 2 ------------------ //
+
+
+
+   $('#employment_date').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        locale: {
+            format: 'YYYY-MM-DD'
+        }
+   });
+
+   $('#employeed_untill').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        locale: {
+            format: 'Y-MM-DD'
+        }
+   });
+
+   $('#insurance_date').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        locale: {
+            format: 'Y-MM-DD'
+        }
+   });      
+
+
+
+
+
+
+   $(function() {
+    $('#personal_category').select2({
+      placeholder: 'Select Personal Category',
+    });
+  });
+
+   $(function() {
+    $('#collective_type').select2({
+      placeholder: 'Select Collective Type',
+    });
+  });
+
+   $(function() {
+    $('#employment_form').select2({
+      placeholder: 'Select Employment Form',
+    });
+  });
+
+   $(function() {
+    $('#department').select2({
+      placeholder: 'Select Department',
+    });
+  });
+
+   $(function() {
+    $('#designation').select2({
+      placeholder: 'Select Designation',
+    });
+  });
+
+
+   $(function() {
+    $('#vacancies').select2({
+      placeholder: 'Select Vacations Attest By',
+    });
+  });
+
+   //---------------- Tab 2 ------------------ //
+
+   //---------------- Tab 3 ------------------ //
+
+   $(function() {
+    $('#salary_type').select2({
+      placeholder: 'Select Salary Type',
+    });
+  });
+
+   $(function() {
+    $('#project').select2({
+      placeholder: 'Select Project',
+    });
+  });
+
+   $(function() {
+    $('#vacation_category').select2({
+      placeholder: 'Select Vacation Category',
+    });
+  });
+
+
+   //---------------- Tab 3 ------------------ //
+
+   //---------------- Tab 4 ------------------ //
+
+   $(function() {
+    $('#name').select2({
+      placeholder: 'Select Courses',
+    });
+  });
+
+   $(document).ready(function(){
+      $('.languages').tagsinput({
+            maxTags: 10
+      });
+
+      $('.skills').tagsinput({
+            maxTags: 10
+      });
+   });
+
+   $(document).on('click', ".addEmployment", function() {
+      
+      $('.employed_from').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        locale: {
+            format: 'Y-MM-DD'
+        }
+      });
+
+      $('.employed_until').daterangepicker({
+         singleDatePicker: true,
+         showDropdowns: true,
+         startDate : moment().add('years',1),
+         locale: {
+               format: 'Y-MM-DD'
+         }
+      });
+
+      $('.courses').tagsinput({
+            maxTags: 6
+      });
+
+   });
+
+
+   $('.employed_from').daterangepicker({
+     singleDatePicker: true,
+     showDropdowns: true,
+     locale: {
+         format: 'Y-MM-DD'
+     }
+   });
+
+   if (editCompanyHr != 0) 
+   {
+      $('.employed_until').daterangepicker({
+         singleDatePicker: true,
+         showDropdowns: true,
+         locale: {
+               format: 'Y-MM-DD'
+         }
+      });   
+   }
+   else
+   {
+      $('.employed_until').daterangepicker({
+         singleDatePicker: true,
+         showDropdowns: true,
+         startDate : moment().add('years',1),
+         locale: {
+               format: 'Y-MM-DD'
+         }
+      });
+   }
+
+
+
+   $('#hr_note').summernote({
+      height: 112,
+      toolbar: [
+        ['parastyle', ['style']],
+        ['fontstyle', ['fontname', 'fontsize']],
+        ['style', ['bold', 'italic', 'underline', 'clear']],
+        ['font', ['strikethrough', 'superscript', 'subscript']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['height', ['height']],
+        ['insert', ['picture', 'link', 'video', 'table', 'hr']],
+        ['history', ['undo', 'redo']],
+        ['misc', ['codeview', 'fullscreen']],
+        ['help', ['help']]
+      ],
+    });
+
+   $('#manager_note').summernote({
+      height: 112,
+      toolbar: [
+        ['parastyle', ['style']],
+        ['fontstyle', ['fontname', 'fontsize']],
+        ['style', ['bold', 'italic', 'underline', 'clear']],
+        ['font', ['strikethrough', 'superscript', 'subscript']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['height', ['height']],
+        ['insert', ['picture', 'link', 'video', 'table', 'hr']],
+        ['history', ['undo', 'redo']],
+        ['misc', ['codeview', 'fullscreen']],
+        ['help', ['help']]
+      ],
+    });
+
+   $('#sal_dev_note').summernote({
+      height: 112,
+      toolbar: [
+        ['parastyle', ['style']],
+        ['fontstyle', ['fontname', 'fontsize']],
+        ['style', ['bold', 'italic', 'underline', 'clear']],
+        ['font', ['strikethrough', 'superscript', 'subscript']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['height', ['height']],
+        ['insert', ['picture', 'link', 'video', 'table', 'hr']],
+        ['history', ['undo', 'redo']],
+        ['misc', ['codeview', 'fullscreen']],
+        ['help', ['help']]
+      ],
+    });
+
+
+   //---------------- Tab 4 ------------------ //          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           
+
    
          
 </script>

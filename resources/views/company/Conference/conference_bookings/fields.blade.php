@@ -41,7 +41,7 @@
             <select class="form-control select2-rooms" id="room_id" name="room_id">
                 <option value=""></option>
                 @foreach ($rooms as $room)
-                    <option <?php if(isset($conferenceBooking) && $conferenceBooking->room_id == $room->id ) { echo "selected='selected'"; } if($roomCalenderId != '' && $roomCalenderId == $room->id ) { echo "selected='selected'"; } ?> value="{{ $room->id }}" data-hour-price="{{ $room->price }}" data-day-price="{{ $room->price }}" data-room-tax="{{ $room->conf_vat }}">
+                    <option <?php if(isset($conferenceBooking) && $conferenceBooking->room_id == $room->id ) { echo "selected='selected'"; } else if($roomCalenderId != '' && $roomCalenderId == $room->id ) { echo "selected='selected'"; } ?> value="{{ $room->id }}" data-hour-price="{{ $room->price }}" data-day-price="{{ $room->conf_day_price }}" data-room-tax="{{ $room->conf_vat }}">
                         {{ $room->name }}
                     </option>
                 @endforeach
@@ -532,3 +532,8 @@
 
 
 
+
+
+
+<input type="hidden" id="multiDayHiddenStart" value="">
+<input type="hidden" id="multiDayHiddenEnd" value="">

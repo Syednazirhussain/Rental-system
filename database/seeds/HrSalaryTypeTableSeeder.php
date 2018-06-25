@@ -14,7 +14,7 @@ class HrSalaryTypeTableSeeder extends Seeder
     {
         
 
-        \DB::table('hr_salary_type')->delete();
+      /*  \DB::table('hr_salary_type')->delete();
         
         \DB::table('hr_salary_type')->insert(array (
             0 => 
@@ -42,7 +42,7 @@ class HrSalaryTypeTableSeeder extends Seeder
                 'deleted_at' => NULL,
             ),
         ));
-        
+        */
         
     }
 }

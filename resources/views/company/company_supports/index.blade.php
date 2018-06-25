@@ -5,7 +5,7 @@
     <div class="px-content">
 
         <div class="page-header">
-            <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i><a href="{{ route('admin.supports.index') }}">Support</a></span></h1>
+            <h1><span class="text-muted font-weight-light"><i class="page-header-icon fa fa-file-text"></i><a href="{{ route('company.companySupports.index') }}"> Tickets</a></span></h1>
         </div>
 
         <div class="panel">

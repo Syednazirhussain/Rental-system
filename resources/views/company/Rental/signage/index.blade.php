@@ -20,7 +20,7 @@
                 @endif
 
                 <div class="table-primary">
-                    @include('company.rental.signage.table')
+                    @include('company.Rental.signage.table')
                 </div>
             </div>
         </div>
