@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Company;
 
 use App\Http\Requests\CreateRoomContractRequest;
 use App\Http\Requests\UpdateRoomContractRequest;
+use App\Model\Company\CompanyTermination;
+use App\Models\Rental\CompanyCustomer;
 use App\Models\CompanyUser;
 use App\Repositories\RoomContractRepository;
 use App\Http\Controllers\AppBaseController;
@@ -68,6 +70,9 @@ class RoomContractController extends AppBaseController
         $modules = Module::all();
         $paymentCycles = PaymentCycle::all();
         $paymentMethods = PaymentMethod::all();
+        $companyBuildings = CompanyBuilding::where('company_id', $company_id)->get();
+        $companyFloors = CompanyFloorRoom::where('company_id', $company_id)->get();
+        $customers = CompanyCustomer::where('company_id', $company_id)->get();
 
         $data = [
             'rooms' => $rooms,
@@ -80,6 +85,9 @@ class RoomContractController extends AppBaseController
             'paymentCycles' => $paymentCycles,
             'paymentMethods' => $paymentMethods,
             'companyUsers' => '',
+            'buildings' => $companyBuildings,
+            'floors' => $companyFloors,
+            'customers' => $customers,
         ];
         //dd($rooms);
 
@@ -105,6 +113,45 @@ class RoomContractController extends AppBaseController
         $roomContract = $this->roomContractRepository->create($input);
 
         return response()->json(['success'=>1, 'msg'=>'Company contract has been generated successfully', 'room_contract_id'=>$roomContract->id]);
+    }
+
+
+    /**
+     * Store a newly created Room in storage.
+     *
+     * @param CreateRoomRequest $request
+     *
+     * @return Response
+     */
+    public function save_termination(Request $request)
+    {
+        $input = $request->all();
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+
+        $termination = [
+            'termination_date' => $input['termination_date'],
+            'termination_issue' => $input['termination_issue'],
+            'contract_end_date' => $input['contract_end_date'],
+            'immigrant_date' => $input['immigrant_date'],
+            'room_can_rented_date' => $input['room_can_rented_date'],
+            'note' => $input['note'],
+            'contract_id' => $input['contract_id'],
+            'company_id' => $company_id,
+        ];
+
+        $landlord_termination = [
+            'termination_date' => $input['lord_termination_date'],
+            'termination_issue' => $input['lord_termination_issue'],
+            'contract_end_date' => $input['lord_contract_end_date'],
+            'note' => $input['lord_note'],
+            'contract_id' => $input['contract_id'],
+            'company_id' => $company_id,
+        ];
+
+        $termination = CompanyTermination::create($termination);
+        $landlord_termination = Company\CompanyLandlordTermination::create($landlord_termination);
+
+        return response()->json(['success'=>1, 'msg'=>'Company contract has been generated successfully', 'termination'=>$termination]);
     }
 
 
