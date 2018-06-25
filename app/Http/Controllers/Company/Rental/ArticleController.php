@@ -83,9 +83,11 @@ class ArticleController extends AppBaseController
     {
         $input = $request->except('_token');
 
-        /*echo "<pre>";
+        echo "<pre>";
         print_r($input);
-        echo "</pre>";*/
+        echo "</pre>";
+
+        exit();
 
         $article = CompanyArticle::create($input);
 

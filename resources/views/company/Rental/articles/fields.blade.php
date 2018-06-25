@@ -143,14 +143,22 @@
         <div class="col-md-6 form-group">
             <label for="category" class="col-md-5 form-label">Category </label>
             <div class="col-md-7">
-                <input class="form-control" name="category" type="text" id="category" value="@if(isset($article)){{ $article->category }}@endif">
+                <select class="form-control" id="category" name="category">
+                    
+                    <option value="general">General</option>
+                    <option value="food">Food</option>
+                    <option value="equipment">Equipment</option>
+                    <option value="service">Service</option>
+                    <option value="food_package">Food Package</option>
+                    
+                </select>
             </div>
         </div>
         <div class="col-md-6 form-group">
             <label class="custom-control custom-checkbox" style="display: inline-block;">
-                <input type="radio" class="custom-control-input" value="1">
+                <input name="is_multi_units" type="checkbox" class="custom-control-input" value="1">
                 <span class="custom-control-indicator"></span>
-                Bonus Article
+                Is Multi Units
             </label>&nbsp;&nbsp;
         </div>
     </div>
@@ -163,13 +171,13 @@
             </div>
         </div>
         <div class="col-md-6 form-group">
-            <label for=""></label>
             <label class="custom-control custom-checkbox" style="display: inline-block;">
                 <input type="radio" class="custom-control-input" value="1">
                 <span class="custom-control-indicator"></span>
-                Package Article
-            </label>
+                Bonus Article
+            </label>&nbsp;&nbsp;
         </div>
+        
     </div>
 
     <div class="col-md-12">
@@ -180,11 +188,14 @@
             </div>
         </div>
         <div class="col-md-6 form-group">
-            <label for="sort_index" class="col-md-5 form-label">Sort Index</label>
-            <div class="col-md-7">
-                <input class="form-control" name="sort_index" type="number" id="sort_index" value="@if(isset($article)){{ $article->sort_index }}@endif">
-            </div>
+            <label for=""></label>
+            <label class="custom-control custom-checkbox" style="display: inline-block;">
+                <input type="radio" class="custom-control-input" value="1">
+                <span class="custom-control-indicator"></span>
+                Package Article
+            </label>
         </div>
+        
     </div>
 
     <div class="col-md-12">
@@ -195,12 +206,27 @@
             </div>
         </div>
         <div class="col-md-6 form-group">
+            <label for="sort_index" class="col-md-5 form-label">Sort Index</label>
+            <div class="col-md-7">
+                <input class="form-control" name="sort_index" type="number" id="sort_index" value="@if(isset($article)){{ $article->sort_index }}@endif">
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="col-md-12">
+        <div class="col-md-6 form-group">
+  
+        </div>
+    <div class="col-md-6 form-group">
             <label for="cancellation_condition" class="col-md-5 form-label">Cancellation Condition</label>
             <div class="col-md-7">
                 <input class="form-control" name="cancellation_condition" type="text" id="cancellation_condition" value="@if(isset($article)){{ $article->cancellation_condition }}@endif">
             </div>
-        </div>
     </div>
+        
+    </div>
+    
 
     <br>
     <div class="col-md-12">
