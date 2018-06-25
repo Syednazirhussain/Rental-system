@@ -713,23 +713,60 @@
               </span>
           </div>
 
-          <div class="col-sm-12 col-md-12">
-            
+          @if(isset($room))
 
-
-
-              
-          </div>
-
-          <input type="hidden" id="notes" value="@if(isset($roomNote)){{ $roomNote->note }}@endif">
-
-          <div class="col-sm-12 col-md-12" id="notes">
             <div class="col-sm-12 col-md-12 form-group">
-              <label for="rent_notes">Notes</label>
-              <textarea type="text" id="rent_notes" name="rent_notes" class="form-control" required="required"></textarea>
-              <div class="errorTxt" id="errorNotes"></div>
-            </div>
-          </div>
+                <span><button type="button" class="btn btn-primary pull-right" data-toggle="modal" id="popup-HrNotes" data-companyhr="@if(isset($companyHr)){{ $companyHr->id }}@endif" data-target="#popup-modal-HrNotes"><i class="fa fa-plus"></i>&nbsp;HR Notes</button></span>
+                <div class="modal fade" id="popup-modal-HrNotes" tabindex="-1">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                        <h4 class="modal-title">Notes</h4>
+                      </div>
+                      <div class="modal-body">
+                         <div class="row">
+                            <div class="col-sm-12 col-md-12">
+                               <textarea name="hr_note" placeholder="write your note here.." id="Editor-hrNote" style="width: 100%;height: 100px"></textarea>
+                               <span class="error"></span>                                          
+                            </div>
+                         </div>                         
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="popup-modalBtn"></button>
+                         <button type="button" class="btn" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Cancel</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+             </div>
+
+             <div class="col-sm-12 col-md-12 "> 
+                <div class="table-primary">
+                   <table class="table table-striped table-bordered" id="compnay-HRNotes">
+                      <thead>
+                         <th>Username</th>
+                         <th>Note</th>
+                         <th>Created at</th>
+                         <th>Last updated</th>
+                         <th>Actions</th>
+                      </thead>
+                      <tbody id="log-HRNotes">
+                      </tbody>
+                   </table>
+                </div>
+             </div>
+
+<!--             <input type="hidden" id="notes" value="@if(isset($roomNote)){{ $roomNote->note }}@endif">
+            <div class="col-sm-12 col-md-12" id="notes">
+              <div class="col-sm-12 col-md-12 form-group">
+                <label for="rent_notes">Notes</label>
+                <textarea type="text" id="rent_notes" name="rent_notes" class="form-control" required="required"></textarea>
+                <div class="errorTxt" id="errorNotes"></div>
+              </div>
+            </div> -->
+
+          @endif
 
         </div>
     </div>
@@ -745,13 +782,436 @@
 
 <script type="text/javascript">
 
+    function isEmpty(val)
+   {
+       return (val === undefined || val == null || val.length <= 0) ? true : false;
+   }
+
   var editRoom = "{{ isset($room) ? $room->id: 0 }}";
+
+  var user_id = "{{ auth()->guard('company')->user()->id  }}";
 
   $('#notes').hide();
 
   if(editRoom != 0)
   {
-    $('#notes').show();
+/*    $('#notes').show();*/
+
+
+    $('#popup-HrNotes').on("click",function(){
+       $('.errorTxt').empty();
+       $('#popup-modalBtn').text("Add");
+       $('#Editor-hrNote').val("");
+    });
+
+
+    var popupEditRoomNotesId;
+    var currentOperationRoomNotes = 0;
+
+    $(document).on('click','.HrNoteEdit-popup',function(){
+       $('.errorTxt').empty();
+       currentOperationRoomNotes = 1;
+       popupEditRoomNotesId = $(this).attr('data-userHrNotes');
+
+       var url = "{{ route('company.editRoomNotes', array("")) }}/"+popupEditRoomNotesId;
+
+       $.ajax({
+          url  : url,
+          type : "GET",
+          success : function(response){
+             if(response.hasOwnProperty("status"))
+             {
+                alert(response.msg);
+             }
+             else
+             {
+                $('#popup-modal-HrNotes').modal('toggle');
+                $('#Editor-hrNote').val(response.note);
+                $('#popup-modalBtn').text("Update");
+             }
+          }
+       });
+    });
+
+    $(document).on('click','#popup-modalBtn',function(){
+       if(currentOperationRoomNotes == 1)
+       {
+          var textEditor = $('#Editor-hrNote').val();
+
+          if(isEmpty(textEditor))
+          {
+             //alert("Please provide some content");
+             $('.errorTxt').text("Please provide some content");
+          }
+          else if(textEditor.length > 100)
+          {
+             // alert("Please enter characters between 1 to 100");
+             $('.errorTxt').text("Please enter characters between 1 to 100");
+          }
+          else
+          {
+             var jsObj = {
+                'roomId' : editRoom,
+                'note'   : textEditor
+             };
+             
+             var url = "{{ route('company.updateHrNotes', array("")) }}/"+popupEditRoomNotesId;
+
+             console.log(jsObj);
+
+             console.log(url);
+
+/*             $.ajax({
+                url  : url,
+                type : "PUT",
+                data : jsObj,
+                success : function(response){
+                   if(response.hasOwnProperty("status"))
+                   {
+                      alert(response.msg);
+                   }
+                   else
+                   {
+                      currentOperationHrNotes = 0;
+                      $('#Editor-hrNote').val("");
+
+                      var jsObjHr = {
+                         'companyHrId' : editCompanyHr,
+                         'code'        : 'hr_note'
+                      };
+
+                      $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObjHr,function(response){
+                         if(response.hasOwnProperty("status"))
+                         {
+                            var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                            $('#log-HRNotes').html(html);
+                         }
+                         else
+                         {
+                            var html = '';
+                            var created_at;
+                            var updated_at;
+                            for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+                            {
+                               created_at = new Date(response.companyHrNotes[i].created_at);
+                               updated_at = new Date(response.companyHrNotes[i].updated_at);
+
+                               if(user_id == response.companyHrNotes[i].user_id)
+                               {
+                                  html += '<tr>';
+                                  for(var j = 0 ; j < response.users.length ; j++)
+                                  {
+                                     if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                     {
+                                        html += '<td>'+response.users[j].name+'</td>';
+                                        break;
+                                     }
+                                     
+                                  }
+                                  html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                  html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                  html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                  html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg HrNoteEdit-popup" data-userHrNotes="'+response.companyHrNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg HrNoteDelete-popup" data-userHrNotes="'+response.companyHrNotes[i].id+'"></i></a> </td>';
+                                  html += '</tr>';
+                               }
+                               else
+                               {
+                                  html += '<tr>';
+                                  for(var j = 0 ; j < response.users.length ; j++)
+                                  {
+                                     if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                     {
+                                        html += '<td>'+response.users[j].name+'</td>';
+                                        break;
+                                     }
+                                     
+                                  }
+                                  html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                                  html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                  html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                  html += '</tr>';
+                               }
+                            }
+                            html += '</tbody>';
+                            html += '</table>'; 
+                            $('#log-HRNotes').html('');               
+                            $('#log-HRNotes').html(html);               
+                         }
+                      });
+
+                      $("#popup-modal-HrNotes .close").click();
+                   }
+                } 
+             });*/
+          }
+       }
+       else
+       {
+          var note = $('#Editor-hrNote').val();
+
+          if(isEmpty(note))
+          {
+             // alert("Please provide some content");
+             $('.error').text("Please provide some content");
+          }
+          else if(note.length > 100)
+          {
+             // alert("Please enter characters between 1 to 100");
+             $('.error').text("Please enter characters between 1 to 100");
+          }
+          else
+          {
+             var jsObj = {
+                'roomId' : editRoom,
+                'note' : note,
+             };
+
+             $.ajax({
+                url : "{{ route('company.createRoomNotes') }}",
+                type : "POST",
+                data : jsObj,
+                dataType : "json",
+                success : function(response){
+                   if(response.hasOwnProperty("status"))
+                   {
+                      alert(response.msg);
+                   }
+                   else
+                   {
+                      $('#Editor-hrNote').val("");
+
+                       var url = "{{ route('company.getRoomNotes', array("")) }}/"+editRoom;
+
+                       $.ajax({
+                          url  : url,
+                          type : "GET",
+                          success : function(response){
+                            if(response.hasOwnProperty("status"))
+                            {
+                               var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                               $('#log-HRNotes').html(html);
+                            }
+                            else
+                            {
+                               var html = '';
+                               var created_at;
+                               var updated_at;
+                               for(var i = 0 ; i < response.roomNotes.length ; i++)
+                               {
+                                  created_at = new Date(response.roomNotes[i].created_at);
+                                  updated_at = new Date(response.roomNotes[i].updated_at);
+
+                                  if(user_id == response.roomNotes[i].user_id)
+                                  {
+                                     html += '<tr>';
+                                     for(var j = 0 ; j < response.users.length ; j++)
+                                     {
+                                        if( response.users[j].id == response.roomNotes[i].user_id )
+                                        {
+                                           html += '<td>'+response.users[j].name+'</td>';
+                                           break;
+                                        }
+                                        
+                                     }
+                                     html += '<td>'+response.roomNotes[i].note+'</td>';
+                                     html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                     html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                     html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg HrNoteEdit-popup" data-userHrNotes="'+response.roomNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg HrNoteDelete-popup" data-userHrNotes="'+response.roomNotes[i].id+'"></i></a> </td>';
+                                     html += '</tr>';
+                                  }
+                                  else
+                                  {
+                                     html += '<tr>';
+                                     for(var j = 0 ; j < response.users.length ; j++)
+                                     {
+                                        if( response.users[j].id == response.roomNotes[i].user_id )
+                                        {
+                                           html += '<td>'+response.users[j].name+'</td>';
+                                           break;
+                                        }
+                                        
+                                     }
+                                     html += '<td>'+response.roomNotes[i].note+'</td>';
+                                     html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                     html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                     html += '</tr>';
+                                  }
+                               }
+                               html += '</tbody>';
+                               html += '</table>'; 
+                               $('#log-HRNotes').html('');               
+                               $('#log-HRNotes').html(html);               
+                            }
+                          }
+                       });
+
+                      $("#popup-modal-HrNotes .close").click();
+
+                   }
+                }
+             });
+          }
+       }
+    });
+
+    $(document).on('click','.HrNoteDelete-popup',function(){
+
+       if( confirm("Are you sure you want to delete this record!") ) 
+       {
+          var hrNoteId = $(this).attr('data-userHrNotes');
+
+          var url = "{{ route('company.deleteHrNote', array("")) }}/"+hrNoteId;
+
+          $.ajax({
+             url : url,
+             type : "DELETE",
+             success : function(response){
+                if(response.hasOwnProperty("status"))
+                {
+                   alert(response.msg);
+                }
+                else
+                {
+                   var jsObjHr = {
+                      'companyHrId' : editCompanyHr,
+                      'code'        : 'hr_note'
+                   };
+
+                   $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObjHr,function(response){
+                      if(response.hasOwnProperty("status"))
+                      {
+                         var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                         $('#log-HRNotes').html(html);
+                      }
+                      else
+                      {
+                         var html = '';
+                         var created_at;
+                         var updated_at;
+                         for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+                         {
+                            created_at = new Date(response.companyHrNotes[i].created_at);
+                            updated_at = new Date(response.companyHrNotes[i].updated_at);
+
+                            if(user_id == response.companyHrNotes[i].user_id)
+                            {
+                               html += '<tr>';
+                               for(var j = 0 ; j < response.users.length ; j++)
+                               {
+                                  if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                  {
+                                     html += '<td>'+response.users[j].name+'</td>';
+                                     break;
+                                  }
+                                  
+                               }
+                               html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                               html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                               html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                               html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg HrNoteEdit-popup" data-userHrNotes="'+response.companyHrNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg HrNoteDelete-popup" data-userHrNotes="'+response.companyHrNotes[i].id+'"></i></a> </td>';
+                               html += '</tr>';
+                            }
+                            else
+                            {
+                               html += '<tr>';
+                               for(var j = 0 ; j < response.users.length ; j++)
+                               {
+                                  if( response.users[j].id == response.companyHrNotes[i].user_id )
+                                  {
+                                     html += '<td>'+response.users[j].name+'</td>';
+                                     break;
+                                  }
+                                  
+                               }
+                               html += '<td>'+response.companyHrNotes[i].note+'</td>';
+                               html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                               html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                               html += '</tr>';
+                            }
+                         }
+                         html += '</tbody>';
+                         html += '</table>'; 
+                         $('#log-HRNotes').html('');               
+                         $('#log-HRNotes').html(html);               
+                      }
+                   });
+                }
+             }
+          });
+       } 
+    });
+
+
+    $(document).ready(function(){
+
+     var url = "{{ route('company.getRoomNotes', array("")) }}/"+editRoom;
+
+     $.ajax({
+        url  : url,
+        type : "GET",
+        success : function(response){
+          if(response.hasOwnProperty("status"))
+          {
+             var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+             $('#log-HRNotes').html(html);
+          }
+          else
+          {
+             var html = '';
+             var created_at;
+             var updated_at;
+             for(var i = 0 ; i < response.roomNotes.length ; i++)
+             {
+                created_at = new Date(response.roomNotes[i].created_at);
+                updated_at = new Date(response.roomNotes[i].updated_at);
+
+                if(user_id == response.roomNotes[i].user_id)
+                {
+                   html += '<tr>';
+                   for(var j = 0 ; j < response.users.length ; j++)
+                   {
+                      if( response.users[j].id == response.roomNotes[i].user_id )
+                      {
+                         html += '<td>'+response.users[j].name+'</td>';
+                         break;
+                      }
+                      
+                   }
+                   html += '<td>'+response.roomNotes[i].note+'</td>';
+                   html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                   html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                   html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg HrNoteEdit-popup" data-userHrNotes="'+response.roomNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg HrNoteDelete-popup" data-userHrNotes="'+response.roomNotes[i].id+'"></i></a> </td>';
+                   html += '</tr>';
+                }
+                else
+                {
+                   html += '<tr>';
+                   for(var j = 0 ; j < response.users.length ; j++)
+                   {
+                      if( response.users[j].id == response.roomNotes[i].user_id )
+                      {
+                         html += '<td>'+response.users[j].name+'</td>';
+                         break;
+                      }
+                      
+                   }
+                   html += '<td>'+response.roomNotes[i].note+'</td>';
+                   html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                   html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                   html += '</tr>';
+                }
+             }
+             html += '</tbody>';
+             html += '</table>'; 
+             $('#log-HRNotes').html('');               
+             $('#log-HRNotes').html(html);               
+          }
+        }
+     });
+
+    });
+
+
 
     $('#conf_termination_cond').val($('#ctc').val());
     $('#conf_info_internal').val( $('#cii').val());

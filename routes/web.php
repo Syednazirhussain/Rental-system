@@ -638,8 +638,12 @@ Route::group(['middleware' => ['company.auth']], function () {
     # Company Rooms Section routes
     Route::get('company/floor/{building}', ['as'=> 'company.floors', 'uses' => 'Company\RoomController@getFloorsByBuildingId']);
 	Route::get('company/room/equipments', ['as'=> 'company.room.equipments', 'uses' => 'Company\RoomController@getCompanyRoomEquipment']);
-
     Route::post('company/rooms/imageRemove', ['as'=> 'company.rooms.image_remove', 'uses' => 'Company\RoomController@imageRemove']);
+
+    Route::get('company/rooms/getRoomNotes/{rooms}', ['as'=> 'company.getRoomNotes', 'uses' => 'Company\RoomController@getRoomNotes']);    
+    Route::post('company/rooms/createRoomNotes', ['as'=> 'company.createRoomNotes', 'uses' => 'Company\RoomController@createRoomNotes']);
+    Route::get('company/rooms/editRoomNotes/{rooms}', ['as'=> 'company.editRoomNotes', 'uses' => 'Company\RoomController@editRoomNotes']);
+    Route::put('company/rooms/updateRoomNotes/{rooms}', ['as'=> 'company.updateRoomNotes', 'uses' => 'Company\RoomController@updateRoomNotes']);
 
     Route::get('company/rooms', ['as'=> 'company.rooms.index', 'uses' => 'Company\RoomController@index']);
     Route::post('company/rooms', ['as'=> 'company.rooms.store', 'uses' => 'Company\RoomController@store']);

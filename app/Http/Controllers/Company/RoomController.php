@@ -24,6 +24,8 @@ use App\Models\Company\RoomImages;
 use App\Models\Company\RoomSettingArrangment;
 use App\Models\Company\RoomEquipments;
 use App\Models\Company\RoomNotes;
+use App\Models\User;
+
 
 class RoomController extends AppBaseController
 {
@@ -52,6 +54,93 @@ class RoomController extends AppBaseController
 
         return view('company.rooms.index', ['rooms' => $rooms, 'company' => $company, 'services' => $services,
             'floors' => $floors]);
+    }
+
+    public function getRoomNotes($id)
+    {
+
+        $roomNotes =  RoomNotes::where('room_id',$id)->orderBy('id', 'DESC')->get();
+        $users = User::all();
+
+        if (!empty($roomNotes) && count($roomNotes) > 0) 
+        {
+            $data = [
+                'users' => $users,
+                'roomNotes' => $roomNotes
+            ];
+
+            return response()->json($data);
+        }
+        else
+        {
+            return response()->json(['status' => 0 ,'msg' => 'Not enough HR Notes']);
+        }
+    }
+
+    public function createRoomNotes(Request $request)
+    {
+        $input = $request->all();
+
+        $user_id = Auth::guard('company')->user()->id;
+
+        if( isset($input['note']) && isset($input['roomId']) )
+        {
+            $roomNotes = new RoomNotes;
+            $roomNotes->note = $input['note'];
+            $roomNotes->room_id = $input['roomId'];
+            $roomNotes->user_id = $user_id;
+            $roomNotes->save();
+            if($roomNotes)
+            {
+                return response()->json($roomNotes);   
+            }
+            else
+            {
+                return response()->json(['status' => 0 ,'msg' => 'Room Note are not create']);
+            }
+        }
+        else
+        {
+            return response()->json(['status' => 0,'msg' => 'There is some problem while creating HR Note']);
+        }
+    }
+
+    public function editRoomNotes($id)
+    {
+        $roomNotes =  RoomNotes::find($id);
+        if (!empty($roomNotes)) 
+        {
+            return response()->json($roomNotes);
+        }
+        else
+        {
+            return response()->json(['status' => 0,'msg' => 'Room Note does not exist']);
+        }
+    }
+
+    public function updateRoomNotes($id,Request $request)
+    {
+        $input = $request->all();
+
+        if (isset($input['note'])) 
+        {
+            $roomNotes = RoomNotes::find($id);
+            $roomNotes->room_id = $input['roomId'];
+            $roomNotes->note = $input['note'];
+            $roomNotes->save();
+            if($roomNotes)
+            {
+                return response()->json($roomNotes);
+            }
+            else
+            {
+                return response()->json(['status' => 0,'msg' => 'Room Note are not update']);
+            }
+        }
+        else
+        {
+            return response()->json(['status' => 0,'msg' => 'There is some problem while updating HR Note']);
+        }
     }
 
     public function imageRemove(Request $request)
