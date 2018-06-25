@@ -156,7 +156,11 @@ class RoomContractController extends AppBaseController
         $modules = Module::all();
         $paymentCycles = PaymentCycle::all();
         $paymentMethods = PaymentMethod::all();
-        $companyUsers = CompanyUser::where('company_id', $company->id)->get();
+        if(isset ($company)) {
+            $companyUsers = CompanyUser::where('company_id', $company->id)->get();
+        }else {
+            $companyUsers = [];
+        }
 
         $data = [
             'contract' => $contract,

@@ -36,6 +36,19 @@
             margin-top: 3px;
             font-weight: 400;
         }
+
+        #horizontal_nav {
+            margin-top: 50px;
+            margin-bottom: 0px;
+        }
+
+        #horizontal_nav a{
+            font-size: 14px;
+        }
+
+        .px-content {
+            margin-top: -10px !important;
+        }
     </style>
     <!-- / Custom styling -->
     <?php
@@ -295,6 +308,47 @@
         </ul>
     </div>
     <!-- /.navbar-collapse -->
+</nav>
+<nav class="navbar navbar-default" id="horizontal_nav">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ route('company.dashboard') }}">Dashboard</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{{ route('company.rcustomer.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Customer</a></li>
+                <li><a href="{{ route('company.rarticle.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Article</a></li>
+                <li><a href="{{ route('company.companyBuildings.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Buildings</a></li>
+                @foreach($companyModules as $module)
+                    @if($module->module->code == 'rental_module')
+                        <li><a href="{{ route('company.contracts.index') }}"><i class="fa fa-file-text"></i>&nbsp;&nbsp;Rental</a></li>
+                    @elseif($module->module->code == 'hr_module')
+                        <li><a href="{{ route('company.companyHrs.index') }}"><i class="fa fa-trello"></i>&nbsp;&nbsp;HR</a></li>
+                    @elseif($module->module->code == 'lease_module')
+                        <li><a href="{{ route('company.leasePartners.index') }}">Leasings</a></li>
+                    @elseif($module->module->code == 'conference_module')
+                        <li><a href="{{ route('company.conference.conferenceBookings.index') }}"><i class="fa fa-wpforms"></i>&nbsp;&nbsp;Conference</a></li>
+                    @elseif($module->module->code == 'signage_module')
+                        <li><a href="{{ route('company.rsignage.index') }}">Signage System</a></li>
+                    @elseif($module->module->code == 'newsletter_module')
+                        <li><a href="{{ route('company.newsletterGroups.index') }}"><i
+                                        class="fa fa-trello"></i>&nbsp;&nbsp;Newsletter</a>
+                        </li>
+                    @elseif($module->module->code == 'survey_module')
+                        <li><a href="{{ route('company.survey.index') }}">Survey</a></li>
+                    @elseif($module->module->code == 'support_module')
+                        <li><a href="{{ route('company.supports.index') }}">Support Center</a></li>
+                    @endif
+                @endforeach
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div><!--/.container-fluid -->
 </nav>
 @yield('content')
 <div class="m-t-4 p-b-4" id="empty-space"></div>
