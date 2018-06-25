@@ -163,7 +163,8 @@ class RoomController extends AppBaseController
 
         $servicejson = json_decode($room->services);
 
-        $selectedService = Service::whereIn('id', $servicejson)->get();
+         $selectedService = Service::whereIn('id', $servicejson)->get();
+         // dd($servicejson);
          // dd($selectedService);
         // dd($room['end_date']);
         if (empty($room)) 
@@ -213,7 +214,7 @@ class RoomController extends AppBaseController
                 }
             }
 
-
+              
             $data = [
                 'room'  => $room,
                 'buildings' => $buildings,
@@ -232,6 +233,8 @@ class RoomController extends AppBaseController
         }
         elseif($room->room_module_type == 'rental')
         {
+              // dd($room->rent_end_date_continue); 
+
 
             $data = [
                 'room'  => $room,
@@ -267,6 +270,8 @@ class RoomController extends AppBaseController
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
 
         $input = $request->all();
+
+
 
         /*$actualDate = date('Y-m-d', strtotime($input['start_date']));
 
@@ -364,7 +369,7 @@ class RoomController extends AppBaseController
                 $errors[] = 'End date must be greater than start date';
             }
         }
-
+        // dd($input);
         if($request->has('rent_start_date') && $request->has('rent_end_date'))
         {
             $start_date = strtotime($input['rent_start_date']);

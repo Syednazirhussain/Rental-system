@@ -133,25 +133,41 @@ class RoomLayoutController extends AppBaseController
     public function update($id, UpdateRoomLayoutRequest $request)
     {
         $roomLayout = $this->roomLayoutRepository->findWithoutFail($id);
-
+        $input  =   $request->all();
         if (empty($roomLayout)) {
             Flash::error('Room Layout not found');
 
             return redirect(route('company.conference.roomLayouts.index'));
         }
 
+        /*if ($request->hasFile('image')) {
 
+            $path = $request->file('image')->store('public/room_layouts_images');
+
+            // dd($path);
+
+            $path = explode("/", $path);
+
+            $input['image'] = $path[2];
+
+        }*/
+        // dd($request);
+        /*echo "<pre>";
+        print_r($request->all());
+
+        exit();*/
         if ($request->hasFile('image') && !empty($request->hasFile('image'))) {
 
                 $path = $request->file('image')->store('public/room_layouts_images');
                 $path = explode("/", $path);
-                $request->image = $path[2];
+                $x = count($path)-1;
+                $input['image'] = $path[$x];
 
         }
 
 
 
-        $roomLayout = $this->roomLayoutRepository->update($request->all(), $id);
+        $roomLayout = $this->roomLayoutRepository->update($input, $id);
 
         Session::flash("successMessage", "The Room Layout has been updated successfully.");
 
