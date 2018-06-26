@@ -14,6 +14,7 @@ class AddColumnServicesToRoomTable extends Migration
     public function up()
     {
         Schema::table('rooms', function (Blueprint $table) {
+            $table->dropColumn('services');
             $table->text('services')->nullable();
         });
     }

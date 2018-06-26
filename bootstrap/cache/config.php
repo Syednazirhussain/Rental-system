@@ -8,9 +8,7 @@
     'timezone' => 'UTC',
     'locale' => 'en',
     'fallback_locale' => 'en',
-
     'key' => 'base64:0LEO4HHV/YbMEBKjHdTnFDjbiTYUzCZCj9MwcTb4FNw=',
-
     'cipher' => 'AES-256-CBC',
     'log' => 'single',
     'log_level' => 'debug',
@@ -217,9 +215,7 @@
       'file' => 
       array (
         'driver' => 'file',
-
         'path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\storage\\framework/cache/data',
-
       ),
       'memcached' => 
       array (
@@ -259,19 +255,15 @@
       'sqlite' => 
       array (
         'driver' => 'sqlite',
-
         'database' => 'rental_system_db',
-
         'prefix' => '',
       ),
       'mysql' => 
       array (
         'driver' => 'mysql',
-        'host' => 'localhost',
+        'host' => '127.0.0.1',
         'port' => '3306',
-
         'database' => 'rental_system_db',
-
         'username' => 'root',
         'password' => '',
         'unix_socket' => '',
@@ -284,11 +276,9 @@
       'pgsql' => 
       array (
         'driver' => 'pgsql',
-        'host' => 'localhost',
+        'host' => '127.0.0.1',
         'port' => '3306',
-
         'database' => 'rental_system_db',
-
         'username' => 'root',
         'password' => '',
         'charset' => 'utf8',
@@ -299,11 +289,9 @@
       'sqlsrv' => 
       array (
         'driver' => 'sqlsrv',
-        'host' => 'localhost',
+        'host' => '127.0.0.1',
         'port' => '3306',
-
         'database' => 'rental_system_db',
-
         'username' => 'root',
         'password' => '',
         'charset' => 'utf8',
@@ -332,16 +320,12 @@
       'local' => 
       array (
         'driver' => 'local',
-
         'root' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\storage\\app',
-
       ),
       'public' => 
       array (
         'driver' => 'local',
-
         'root' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\storage\\app/public',
-
         'url' => 'http://localhost/storage',
         'visibility' => 'public',
       ),
@@ -359,7 +343,6 @@
   array (
     'config' => 
     array (
-
       'model_template_path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/model.txt',
       'scaffold_model_template_path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/scaffolding/model.txt',
       'controller_template_path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\vendor/xethron/laravel-4-generators/src/Way/Generators/templates/controller.txt',
@@ -372,7 +355,6 @@
       'migration_target_path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\database/migrations',
       'seed_target_path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\database/seeds',
       'view_target_path' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\resources/views',
-
     ),
   ),
   'infyom' => 
@@ -381,7 +363,6 @@
     array (
       'path' => 
       array (
-
         'migration' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\database/migrations/',
         'model' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\app\\Models/',
         'datatables' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\app\\DataTables/',
@@ -399,7 +380,6 @@
         'schema_files' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\resources/model_schemas/',
         'templates_dir' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\resources/infyom/infyom-generator-templates/',
         'modelJs' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\resources/assets/js/models/',
-
       ),
       'namespace' => 
       array (
@@ -467,9 +447,7 @@
       'theme' => 'default',
       'paths' => 
       array (
-
         0 => 'C:\\xampp\\htdocs\\rental-system-backend-new\\resources\\views/vendor/mail',
-
       ),
     ),
   ),
@@ -596,11 +574,9 @@
     ),
     'generator' => 
     array (
-
       'basePath' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\app',
       'rootNamespace' => 'App\\',
       'stubsOverridePath' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\app',
-
       'paths' => 
       array (
         'models' => 'Entities',
@@ -645,9 +621,7 @@
     'lifetime' => '120',
     'expire_on_close' => false,
     'encrypt' => false,
-
     'files' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\storage\\framework/sessions',
-
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -702,11 +676,9 @@
   array (
     'paths' => 
     array (
-
       0 => 'C:\\xampp\\htdocs\\rental-system-backend-new\\resources\\views',
     ),
     'compiled' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\storage\\framework\\views',
-
   ),
   'dompdf' => 
   array (
@@ -714,12 +686,10 @@
     'orientation' => 'portrait',
     'defines' => 
     array (
-
       'font_dir' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\storage\\fonts/',
       'font_cache' => 'C:\\xampp\\htdocs\\rental-system-backend-new\\storage\\fonts/',
       'temp_dir' => 'C:\\Users\\STY-1\\AppData\\Local\\Temp',
       'chroot' => 'C:\\xampp\\htdocs\\rental-system-backend-new',
-
       'enable_font_subsetting' => false,
       'pdf_backend' => 'CPDF',
       'default_media_type' => 'screen',
@@ -729,7 +699,7 @@
       'enable_php' => false,
       'enable_javascript' => true,
       'enable_remote' => true,
-      'font_height_ratio' => 1.1000000000000001,
+      'font_height_ratio' => 1.1,
       'enable_html5_parser' => false,
     ),
   ),
