@@ -1,11 +1,13 @@
 
+            
+
             <div class="form-group col-sm-6 m-t-2">
                 <label for="booking_status">Booking Type</label>
                 <select class="form-control select2-type" id="booking_type" name="booking_type">
                     <option value=""></option>
-                    <option value="event">Event</option>
-                    <option value="meeting">Meeting</option>
-                    <option value="wedding">Wedding</option>
+                    <option <?php if(isset($getBookingDraft) && $getBookingDraft->booking_type == 'event') { echo "selected='selected'"; } ?> value="event">Event</option>
+                    <option <?php if(isset($getBookingDraft) && $getBookingDraft->booking_type == 'meeting') { echo "selected='selected'"; } ?> value="meeting">Meeting</option>
+                    <option <?php if(isset($getBookingDraft) && $getBookingDraft->booking_type == 'wedding') { echo "selected='selected'"; } ?> value="wedding">Wedding</option>
                     
                 </select>
                 <div class="errorTxt"></div>
@@ -15,9 +17,9 @@
                 <label for="booking_status">Cancellation Policy</label>
                 <select class="form-control select2-policy" id="cancellation_policy" name="cancellation_policy">
                     <option value=""></option>
-                    <option value="policy1">Policy 1</option>
-                    <option value="policy2">Policy 2</option>
-                    <option value="policy3">Policy 3</option>
+                    <option <?php if(isset($getBookingDraft) && $getBookingDraft->cancellation_policy == 'policy1') { echo "selected='selected'"; } ?>  value="policy1">Policy 1</option>
+                    <option <?php if(isset($getBookingDraft) && $getBookingDraft->cancellation_policy == 'policy2') { echo "selected='selected'"; } ?>  value="policy2">Policy 2</option>
+                    <option <?php if(isset($getBookingDraft) && $getBookingDraft->cancellation_policy == 'policy3') { echo "selected='selected'"; } ?>  value="policy3">Policy 3</option>
                     
                 </select>
                 <div class="errorTxt"></div>
@@ -27,8 +29,8 @@
                 <label for="booking_status">Booking Category</label>
                 <select class="form-control select2-category" id="booking_category" name="booking_category">
                     <option value=""></option>
-                    <option value="internal">Internal</option>
-                    <option value="external">External</option>
+                    <option <?php if(isset($getBookingDraft) && $getBookingDraft->booking_category == 'internal') { echo "selected='selected'"; } ?> value="internal">Internal</option>
+                    <option <?php if(isset($getBookingDraft) && $getBookingDraft->booking_category == 'external') { echo "selected='selected'"; } ?> value="external">External</option>
                     
                 </select>
                 <div class="errorTxt"></div>
@@ -39,9 +41,9 @@
                 <label for="booking_status">Booking Color</label>
                 <select class="form-control select2-color" id="booking_color" name="booking_color">
                     <option value=""></option>
-                    <option value="color1">Color 1</option>
-                    <option value="color2">Color 2</option>
-                    <option value="color3">Color 3</option>
+                    <option <?php if(isset($getBookingDraft) && $getBookingDraft->booking_color == 'color1') { echo "selected='selected'"; } ?> value="color1">Color 1</option>
+                    <option <?php if(isset($getBookingDraft) && $getBookingDraft->booking_color == 'color2') { echo "selected='selected'"; } ?> value="color2">Color 2</option>
+                    <option <?php if(isset($getBookingDraft) && $getBookingDraft->booking_color == 'color3') { echo "selected='selected'"; } ?> value="color3">Color 3</option>
                     
                 </select>
                 <div class="errorTxt"></div>
@@ -51,9 +53,9 @@
                 <label for="booking_status">Signage</label>
                 <select class="form-control select2-signage" id="signage" name="signage">
                     <option value=""></option>
-                    <option value="signage1">Signage 1</option>
-                    <option value="signage2">Signage 2</option>
-                    <option value="signage3">Signage 3</option>
+                    <option <?php if(isset($getBookingDraft) && $getBookingDraft->signage == 'signage1') { echo "selected='selected'"; } ?> value="signage1">Signage 1</option>
+                    <option <?php if(isset($getBookingDraft) && $getBookingDraft->signage == 'signage2') { echo "selected='selected'"; } ?> value="signage2">Signage 2</option>
+                    <option <?php if(isset($getBookingDraft) && $getBookingDraft->signage == 'signage3') { echo "selected='selected'"; } ?> value="signage3">Signage 3</option>
                     
                 </select>
                 <div class="errorTxt"></div>
@@ -61,35 +63,35 @@
             <div class="col-md-6">
                     <div class="form-group m-t-2">
                         <label for="customer">Customer in Place</label>
-                        <input class="form-control" id="customer_in_place" name="customer_in_place" value="">
+                        <input class="form-control" id="customer_in_place" name="customer_in_place" value="@if(isset($getBookingDraft)){{$getBookingDraft->customer_in_place}}@endif">
                         <div class="errorTxt"></div>
                     </div>
             </div>
             <div class="col-md-6">
                     <div class="form-group m-t-2">
                         <label for="customer">Event Name</label>
-                        <input class="form-control" id="contact_person_in_place" name="contact_person_in_place" value="">
+                        <input class="form-control" id="contact_person_in_place" name="contact_person_in_place" value="@if(isset($getBookingDraft)){{$getBookingDraft->contact_person_in_place}}@endif">
                         <div class="errorTxt"></div>
                     </div>
             </div>
             <div class="col-md-6">
                     <div class="form-group m-t-2">
                         <label for="customer">Contact Person in Place</label>
-                        <input type="text" class="form-control" id="event_name" name="event_name" value="">
+                        <input type="text" class="form-control" id="event_name" name="event_name" value="@if(isset($getBookingDraft)){{$getBookingDraft->event_name}}@endif">
                         <div class="errorTxt"></div>
                     </div>
             </div>
             <div class="col-md-6">
                     <div class="form-group m-t-2">
                         <label for="customer">Telephone Number</label>
-                        <input type="text" class="form-control" id="telephone_number" name="telephone_number" value="">
+                        <input type="text" class="form-control" id="telephone_number" name="telephone_number" value="@if(isset($getBookingDraft)){{$getBookingDraft->telephone_number}}@endif">
                         <div class="errorTxt"></div>
                     </div>
             </div>
             <div class="col-md-6">
                     <div class="form-group m-t-2">
                         <label for="customer">Email Address</label>
-                        <input type="email" class="form-control" id="email_address" name="email_address" value="" placeholder="someone@mail.com">
+                        <input type="email" class="form-control" id="email_address" name="email_address" value="@if(isset($getBookingDraft)){{$getBookingDraft->email_address}}@endif" placeholder="someone@mail.com">
                         <div class="errorTxt"></div>
                     </div>
             </div>
@@ -99,14 +101,14 @@
             <div class="col-md-6">
                     <div class="form-group m-t-2">
                         <label for="customer">Project Leader</label>
-                        <input type="text" class="form-control" id="project_leader" name="project_leader" value="">
+                        <input type="text" class="form-control" id="project_leader" name="project_leader" value="@if(isset($getBookingDraft)){{$getBookingDraft->project_leader}}@endif">
                         <div class="errorTxt"></div>
                     </div>
             </div>
             <div class="col-md-6">
                     <div class="form-group m-t-2">
                         <label for="customer">Other Personal</label>
-                        <input type="text" class="form-control" id="other_personal" name="other_personal" value="">
+                        <input type="text" class="form-control" id="other_personal" name="other_personal" value="@if(isset($getBookingDraft)){{$getBookingDraft->other_personal}}@endif">
                         <div class="errorTxt"></div>
                     </div>
             </div>
@@ -114,13 +116,13 @@
             <div class="col-md-6">
                     <div class="form-group m-t-2">
                         <label for="customer">Sales Person</label>
-                        <input type="text" class="form-control" id="sales_person" name="sales_person" value="" placeholder="free text">
+                        <input type="text" class="form-control" id="sales_person" name="sales_person" value="@if(isset($getBookingDraft)){{$getBookingDraft->sales_person}}@endif" placeholder="free text">
                         <div class="errorTxt"></div>
                     </div>
             </div>
             </div>
             <div class="row">
-                <div class="form-group m-t-2 start-time col-md-6">
+                <div class="form-group m-t-2  col-md-6">
                     <label for="start_datetime">Project Time</label>
                     <input type="text" id="project_time" placeholder="" value="" name="project_time" class="form-control">
                 </div>
@@ -134,7 +136,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="form-group m-t-2 start-time col-md-6">
+                <div class="form-group m-t-2  col-md-6">
                     <label for="start_datetime">Writer Time</label>
                     <input type="text" id="writer_time" placeholder="" value="" name="writer_time" class="form-control">
                 </div>
@@ -148,7 +150,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="form-group m-t-2 start-time col-md-6">
+                <div class="form-group m-t-2  col-md-6">
                     <label for="start_datetime">Clearing Time</label>
                     <input type="text" id="clearing_time" placeholder="" value="" name="clearing_time" class="form-control">
                 </div>
@@ -162,7 +164,7 @@
                 </div>
             </div> 
             <div class="row">
-                <div class="form-group m-t-2 start-time col-md-6">
+                <div class="form-group m-t-2  col-md-6">
                     <label for="start_datetime">Furnishing Time</label>
                     <input type="text" id="furnishing_time" placeholder="" value="" name="furnishing_time" class="form-control">
                 </div>
@@ -176,7 +178,7 @@
                 </div>
             </div>                          
             <div class="row">
-                <div class="form-group m-t-2 start-time col-md-6">
+                <div class="form-group m-t-2  col-md-6">
                     <label for="start_datetime">First Person</label>
                     <input type="text" id="first_person_time" placeholder="" value="" name="first_person_time" class="form-control">
                 </div>
@@ -189,7 +191,7 @@
             </div>
             </div>
             <div class="row">
-                <div class="form-group m-t-2 start-time col-md-6">
+                <div class="form-group m-t-2  col-md-6">
                     <label for="start_datetime">Guest Arrival</label>
                     <input type="text" id="guest_arrival" placeholder="" value="" name="guest_arrival_time" class="form-control">
                 </div>
@@ -202,7 +204,7 @@
             </div>
             </div>            
             <div class="row">
-                <div class="form-group m-t-2 start-time col-md-6">
+                <div class="form-group m-t-2  col-md-6">
                     <label for="start_datetime">Morning Coffee</label>
                     <input type="text" id="morning_coffee" placeholder="" value="" name="morning_coffee_time" class="form-control">
                 </div>
@@ -215,7 +217,7 @@
             </div>
             </div>
             <div class="row">
-                <div class="form-group m-t-2 start-time col-md-6">
+                <div class="form-group m-t-2  col-md-6">
                     <label for="start_datetime">Meeting Start</label>
                     <input type="text" id="meeting_start" placeholder="" value="" name="meeting_start_time" class="form-control">
                 </div>
@@ -228,7 +230,7 @@
             </div>
             </div>
             <div class="row">
-                <div class="form-group m-t-2 start-time col-md-6">
+                <div class="form-group m-t-2  col-md-6">
                     <label for="start_datetime">Lunch</label>
                     <input type="text" id="lunch" placeholder="" value="" name="lunch_time" class="form-control">
                 </div>
@@ -241,7 +243,7 @@
             </div>
             </div>
             <div class="row">
-                <div class="form-group m-t-2 start-time col-md-6">
+                <div class="form-group m-t-2  col-md-6">
                     <label for="start_datetime">After Noon Coffee</label>
                     <input type="text" id="after_noon_coffee" placeholder="" value="" name="afternoon_coffee_time" class="form-control">
                 </div>
@@ -254,7 +256,7 @@
             </div>
             </div>
             <div class="row">
-                <div class="form-group m-t-2 start-time col-md-6">
+                <div class="form-group m-t-2  col-md-6">
                     <label for="start_datetime">Meeting Ends</label>
                     <input type="text" id="meeting_end" placeholder="" value="" name="meeting_end_time" class="form-control">
                 </div>
@@ -267,7 +269,7 @@
             </div>
             </div>
             <div class="row">
-                <div class="form-group m-t-2 start-time col-md-6">
+                <div class="form-group m-t-2  col-md-6">
                     <label for="start_datetime">Dinner</label>
                     <input type="text" id="dinner" placeholder="" value="" name="dinner_time" class="form-control">
                 </div>
@@ -280,7 +282,7 @@
             </div>
             </div>
             <div class="row">
-                <div class="form-group m-t-2 start-time col-md-6">
+                <div class="form-group m-t-2  col-md-6">
                     <label for="start_datetime">Party</label>
                     <input type="text" id="party" placeholder="" value="" name="party_time" class="form-control">
                 </div>
@@ -315,3 +317,11 @@
                         <div class="errorTxt"></div>
                     </div>
             </div> -->
+
+
+
+
+
+@if(isset($getBookingDraft))
+<input type="hidden" name="booking_draft_id" value="{{$getBookingDraft->id}}">
+@endif

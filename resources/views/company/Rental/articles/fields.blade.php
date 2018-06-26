@@ -1,4 +1,5 @@
 <input name="_token" type="hidden" value="{{ csrf_token() }}">
+
 @if(isset($article))
     <input name="_method" type="hidden" value="PATCH">
 @endif
@@ -145,18 +146,18 @@
             <div class="col-md-7">
                 <select class="form-control" id="category" name="category">
                     
-                    <option value="general">General</option>
-                    <option value="food">Food</option>
-                    <option value="equipment">Equipment</option>
-                    <option value="service">Service</option>
-                    <option value="food_package">Food Package</option>
+                    <option <?php if(isset($article) && $article->category == 'general') { echo "selected='selected'"; } ?> value="general">General</option>
+                    <option <?php if(isset($article) && $article->category == 'food') { echo "selected='selected'"; } ?>  value="food">Food</option>
+                    <option <?php if(isset($article) && $article->category == 'equipment') { echo "selected='selected'"; } ?>  value="equipment">Equipment</option>
+                    <option <?php if(isset($article) && $article->category == 'service') { echo "selected='selected'"; } ?>  value="service">Service</option>
+                    <option <?php if(isset($article) && $article->category == 'food_package') { echo "selected='selected'"; } ?>  value="food_package">Food Package</option>
                     
                 </select>
             </div>
         </div>
         <div class="col-md-6 form-group">
             <label class="custom-control custom-checkbox" style="display: inline-block;">
-                <input name="is_multi_units" type="checkbox" class="custom-control-input" value="1">
+                <input name="is_multi_units" type="checkbox" class="custom-control-input" value="1" <?php if(isset($article) && $article->is_multi_units == '1') { echo "checked='checked'"; } ?> >
                 <span class="custom-control-indicator"></span>
                 Is Multi Units
             </label>&nbsp;&nbsp;

@@ -21,8 +21,6 @@
                     <div class="panel-body">
 
 
-
-
                         <ul class="nav nav-tabs">
                           <li class="active">
                             <a href="#BookingFormTab" data-toggle="tab">Booking</a>
@@ -32,6 +30,12 @@
                           </li>
                           <li>
                             <a href="#BillingFormTab" data-toggle="tab">Billing</a>
+                          </li>
+                          <li>
+                            <a href="#ArticlesFormTab" data-toggle="tab">Articles</a>
+                          </li>
+                          <li>
+                            <a href="#draftFormTab" data-toggle="tab">Draft</a>
                           </li>
                         </ul>
 
@@ -47,8 +51,13 @@
                                   </div>
                                   <div class="tab-pane fade" id="BillingFormTab">
                                     @include('company.Conference.conference_bookings.billing_form')
-                                  </div>
-                                  
+                                  </div>  
+                                  <div class="tab-pane fade" id="ArticlesFormTab">
+                                    @include('company.Conference.conference_bookings.articles_form')
+                                  </div>  
+                                  <div class="tab-pane fade" id="draftFormTab">
+                                    @include('company.Conference.conference_bookings.draft_form')
+                                  </div>                              
                                 </div>
 
                                                                 
@@ -172,7 +181,49 @@
                           'payment_reminder': {
                             required: true,
                           },
+                          'remarks': {
+                            required: true,
+                          },
 
+                          'booking_type': {
+                            required: true,
+                          },
+                          'cancellation_policy': {
+                            required: true,
+                          },
+                          'booking_category': {
+                            required: true,
+                          },
+                          'booking_color': {
+                            required: true,
+                          },
+                          'signage': {
+                            required: true,
+                          },
+                          'customer_in_place': {
+                            required: true,
+                          },
+                          'contact_person_in_place': {
+                            required: true,
+                          },
+                          'event_name': {
+                            required: true,
+                          },
+                          'telephone_number': {
+                            required: true,
+                          },
+                          'email_address': {
+                            required: true,
+                          },
+                          'project_leader': {
+                            required: true,
+                          },
+                          'other_personal': {
+                            required: true,
+                          },
+                          'sales_person': {
+                            required: true,
+                          },
                     },
 
                     messages: {
@@ -321,6 +372,110 @@
                 placeholder: 'Select Payment Method',
               })
             });
+
+            $(function() {
+              $('.select2-type').select2({
+                placeholder: 'Select Booking Type',
+              })
+            });
+
+            $(function() {
+              $('.select2-policy').select2({
+                placeholder: 'Select Cancellation Policy',
+              })
+            });
+
+            $(function() {
+              $('.select2-category').select2({
+                placeholder: 'Select Booking Category',
+              })
+            });
+
+            $(function() {
+              $('.select2-agency').select2({
+                placeholder: 'Select Booking Agency',
+              })
+            });
+
+            $(function() {
+              $('.select2-color').select2({
+                placeholder: 'Select Booking Color',
+              })
+            });
+
+            $(function() {
+              $('.select2-signage').select2({
+                placeholder: 'Select Signage',
+              })
+            });
+
+
+            $('#project_time').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#writer_time').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#clearing_time').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#furnishing_time').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#first_person_time').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#guest_arrival').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#morning_coffee').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#meeting_start').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#lunch').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#after_noon_coffee').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#meeting_end').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#dinner').timepicker({
+                      maxHours: 24
+
+                  });
+
+            $('#party').timepicker({
+                      maxHours: 24
+
+                  });
+
+
 
             
           $('#booking_date').daterangepicker({
@@ -953,43 +1108,83 @@
 
 
 
+                // DRAFT FIELDS
+                var booking_type = $('#booking_type').val();
+                var cancellation_policy = $('#cancellation_policy').val();
+                var booking_category = $('#booking_category').val();
+                var booking_color = $('#booking_color').val();
+                var signage = $('#signage').val();
+                var customer_in_place = $('#customer_in_place').val();
+                var contact_person_in_place = $('#contact_person_in_place').val();
+                var event_name = $('#event_name').val();
+                var telephone_number = $('#telephone_number').val();
+                var email_address = $('#email_address').val();
+                var project_leader = $('#project_leader').val();
+                var other_personal = $('#other_personal').val();
+                var sales_person = $('#sales_person').val();
+
+
+
 
                 if(room_id == '' || room_layout_id == '' || booking_status == '' || payment_method_code == '' ) {
 
                     $('ul.nav-tabs li:first-child').addClass('active');
                     $('ul.nav-tabs li:nth-child(2)').removeClass('active');
                     $('ul.nav-tabs li:nth-child(3)').removeClass('active');
+                    $('ul.nav-tabs li:nth-child(4)').removeClass('active');
+                    $('ul.nav-tabs li:nth-child(5)').removeClass('active');
 
                     $('#BookingFormTab').addClass('active in');
                     $('#CustomerFormTab').removeClass('active in');
                     $('#BillingFormTab').removeClass('active in');
+                    $('#ArticlesFormTab').removeClass('active in');
+                    $('#draftFormTab').removeClass('active in');
 
                 } else if (customer_id == '' || customer_address == '' || customer_country == '' || customer_state == '' || customer_city == '' || customer_post_code == '' || customer_telephone == '' || customer_mobile == '' || customer_fax == '' || customer_org_num == '') {
 
                     $('ul.nav-tabs li:first-child').removeClass('active');
                     $('ul.nav-tabs li:nth-child(2)').addClass('active');
                     $('ul.nav-tabs li:nth-child(3)').removeClass('active');
+                    $('ul.nav-tabs li:nth-child(4)').removeClass('active');
+                    $('ul.nav-tabs li:nth-child(5)').removeClass('active');
 
                     $('#BookingFormTab').removeClass('active in');
                     $('#CustomerFormTab').addClass('active in');
                     $('#BillingFormTab').removeClass('active in');
+                    $('#ArticlesFormTab').removeClass('active in');
+                    $('#draftFormTab').removeClass('active in');
 
-                } else if (invoice_send == '' || reference == '' || contact_person == '' || cost == '' || payment_conditions == '' || interest_fees == '' || payment_reminder == '') {
+                } else if (invoice_send == '' || contact_person == '' || cost == '' || payment_conditions == '' || interest_fees == '' || payment_reminder == '') {
 
                     $('ul.nav-tabs li:first-child').removeClass('active');
                     $('ul.nav-tabs li:nth-child(2)').removeClass('active');
                     $('ul.nav-tabs li:nth-child(3)').addClass('active');
+                    $('ul.nav-tabs li:nth-child(4)').removeClass('active');
+                    $('ul.nav-tabs li:nth-child(5)').removeClass('active');
 
                     $('#BookingFormTab').removeClass('active in');
                     $('#CustomerFormTab').removeClass('active in');
                     $('#BillingFormTab').addClass('active in');
+                    $('#ArticlesFormTab').removeClass('active in');
+                    $('#draftFormTab').removeClass('active in');
+
+                } else if (booking_type == '' || cancellation_policy == '' || booking_category == '' || booking_color == '' || signage == '' || customer_in_place == '' || contact_person_in_place == '' || event_name == '' || telephone_number == '' || email_address == '' || project_leader == '' || other_personal == '' || sales_person == '') {
+
+                    $('ul.nav-tabs li:first-child').removeClass('active');
+                    $('ul.nav-tabs li:nth-child(2)').removeClass('active');
+                    $('ul.nav-tabs li:nth-child(3)').removeClass('active');
+                    $('ul.nav-tabs li:nth-child(4)').removeClass('active');
+                    $('ul.nav-tabs li:nth-child(5)').addClass('active');
+
+                    $('#BookingFormTab').removeClass('active in');
+                    $('#CustomerFormTab').removeClass('active in');
+                    $('#BillingFormTab').removeClass('active in');
+                    $('#ArticlesFormTab').removeClass('active in');
+                    $('#draftFormTab').addClass('active in');
 
                 }
 
             });
-
-
-
 
 
 

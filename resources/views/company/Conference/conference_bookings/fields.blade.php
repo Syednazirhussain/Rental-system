@@ -82,7 +82,7 @@
 
         <div class="form-group m-t-2 start-time">
             <label for="start_datetime">Start Datetime</label>
-            <input type="text" id="start_datetime" placeholder="" value="" name="start_datetime" class="form-control">
+            <input type="text" id="start_datetime" placeholder=""  name="start_datetime" class="form-control">
         </div>
 
 
@@ -90,7 +90,7 @@
 
         <div class="form-group m-t-2 end-time">
             <label for="end_datetime">End Datetime</label>
-            <input type="text" id="end_datetime" placeholder="" value="" name="end_datetime" class="form-control">
+            <input type="text" id="end_datetime" placeholder=""  name="end_datetime" class="form-control">
         </div>
 
 

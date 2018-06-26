@@ -123,6 +123,9 @@ class ConferenceBookingController extends AppBaseController
         $getCompanyCustomer = CompanyCustomer::where('company_id', $company_id)->get();
 
 
+
+
+
         $conferenceBookings     = $this->conferenceBookingRepository->all();
         $paymentMethods         = $this->paymentMethodRepository->all();
         $conferenceDurations    = $this->conferenceDurationRepository->all();
@@ -171,6 +174,8 @@ class ConferenceBookingController extends AppBaseController
     {
         $input = $request->all();
 
+        // dd($input);
+
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
 
         $updateCustomer = [
@@ -217,8 +222,8 @@ class ConferenceBookingController extends AppBaseController
             $input['equipment_price'] = 0.00;
         } 
 
-        $conferenceBooking = $this->conferenceBookingRepository->create($input);
 
+        $conferenceBooking = $this->conferenceBookingRepository->create($input);
 
 
         // ==========================================================================
@@ -340,8 +345,7 @@ class ConferenceBookingController extends AppBaseController
      *
      * @return Response
      */
-    public function edit($id)
-    {
+    public function edit($id) {
 
 
         $countries              = $this->countryRepository->all();
@@ -369,6 +373,10 @@ class ConferenceBookingController extends AppBaseController
 
         $bookingAgencies        = $this->bookingAgencyRepository->getCompanyBookingAgencies($company_id);
 
+
+        $getBookingDraft = $this->conferenceBookingDraftRepository->getBookingDraftData($id);
+
+
         if (empty($conferenceBooking)) {
             Flash::error('Conference Booking not found');
 
@@ -378,6 +386,7 @@ class ConferenceBookingController extends AppBaseController
 
 
         $data = [
+                    'getBookingDraft'       => $getBookingDraft,
                     'companyCustomerInfo'   => $companyCustomerInfo,
                     'countries'             => $countries,
                     'states'                => $states,
@@ -416,6 +425,8 @@ class ConferenceBookingController extends AppBaseController
 
 
         $input = $request->all();
+
+        // dd($input);
 
 
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
@@ -570,6 +581,10 @@ class ConferenceBookingController extends AppBaseController
 
         // ==========================================================================
 
+        $input['booking_id'] = $conferenceBooking->id;
+        $this->conferenceBookingDraftRepository->update($input, $input['booking_draft_id']);
+
+        // ==========================================================================
 
 
 

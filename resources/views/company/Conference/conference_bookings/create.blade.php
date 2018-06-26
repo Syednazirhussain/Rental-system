@@ -33,6 +33,9 @@
                           <li>
                             <a href="#draftFormTab" data-toggle="tab">Draft</a>
                           </li>
+                          <li>
+                            <a href="#signageFormTab" data-toggle="tab">Signage</a>
+                          </li>
                         </ul>
 
                             <form action="{{ route('company.conference.conferenceBookings.store') }}" method="POST" id="bookingForm">
@@ -52,6 +55,9 @@
                                   </div>  
                                   <div class="tab-pane fade" id="draftFormTab">
                                     @include('company.Conference.conference_bookings.draft_form')
+                                  </div>      
+                                  <div class="tab-pane fade" id="signageFormTab">
+                                    @include('company.Conference.conference_bookings.signage_form')
                                   </div>                              
                                 </div>
 
@@ -85,7 +91,6 @@
 
 
 <script type="text/javascript">
-
 
 
 
@@ -528,26 +533,27 @@
 
           function generateTimeFields() {
 
-                  $('#start_datetime').remove();
+              $('#start_datetime').remove();
 
-                  var startTime = '<input type="text" id="start_datetime" placeholder="" value="" name="start_datetime" class="form-control">';
+              var startTime = '<input type="text" id="start_datetime" placeholder="" name="start_datetime" class="form-control">';
 
-                  $('.start-time').append(startTime);
+              $('.start-time').append(startTime);
 
-                  $('#start_datetime').timepicker({
-                      maxHours: 24
-                  });
+              $('#start_datetime').timepicker({
+                  maxHours: 24
+              });
 
 
-                  $('#end_datetime').remove();
+              $('#end_datetime').remove();
 
-                  var endTime = '<input type="text" id="end_datetime" placeholder="" value="" name="end_datetime" class="form-control">';
+              var endTime = '<input type="text" id="end_datetime" placeholder=""  name="end_datetime" class="form-control">';
 
-                  $('.end-time').append(endTime);
+              $('.end-time').append(endTime);
 
-                  $('#end_datetime').timepicker({
-                      maxHours: 24
-                  });
+              $('#end_datetime').timepicker({
+                  maxHours: 24
+              });
+
           }
 
 
@@ -1126,7 +1132,7 @@ function formatDate(date) {
                     $('#ArticlesFormTab').removeClass('active in');
                     $('#draftFormTab').removeClass('active in');
 
-                } else if (invoice_send == '' || reference == '' || contact_person == '' || cost == '' || payment_conditions == '' || interest_fees == '' || payment_reminder == '') {
+                } else if (invoice_send == '' || contact_person == '' || cost == '' || payment_conditions == '' || interest_fees == '' || payment_reminder == '') {
 
                     $('ul.nav-tabs li:first-child').removeClass('active');
                     $('ul.nav-tabs li:nth-child(2)').removeClass('active');
