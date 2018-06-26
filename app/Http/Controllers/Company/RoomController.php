@@ -130,7 +130,7 @@ class RoomController extends AppBaseController
     {
         $input = $request->all();
 
-        if (isset($input['note'])) 
+        if ( isset($input['note']) && isset($input['roomId']) ) 
         {
             $roomNotes = RoomNotes::find($id);
             $roomNotes->room_id = $input['roomId'];
@@ -148,6 +148,24 @@ class RoomController extends AppBaseController
         else
         {
             return response()->json(['status' => 0,'msg' => 'There is some problem while updating HR Note']);
+        }
+    }
+
+    public function deleteRoomNotes($id)
+    {
+        if ($id) 
+        {
+            $roomNotes = RoomNotes::find($id);
+            $roomNotes->delete();
+
+            if($roomNotes->deleted_at == null)
+            {
+                return response()->json(['status' => 0,'msg' => 'Room Note are not delete']);
+            }
+        }
+        else
+        {
+            return response()->json(['status' => 0,'msg' => 'There is some problem while deleting HR Note']);   
         }
     }
 
@@ -363,20 +381,8 @@ class RoomController extends AppBaseController
 
         $input = $request->all();
 
-
-
-        /*$actualDate = date('Y-m-d', strtotime($input['start_date']));
-
-        $input['start_date'] = $actualDate;
-
-        $actualDate = date('Y-m-d', strtotime($input['end_date']));
-
-        $input['end_date'] = $actualDate;*/
         $input['services'] = json_encode(array_values($input['services']));
-          // dd($input['services']);
 
-
-        // dd($input['rent_room_type']);
 
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
 
@@ -473,12 +479,17 @@ class RoomController extends AppBaseController
             }
         }
 
+
+
         if($errors)
         {
             return redirect()->back()->withErrors($errors);
         }
 
+
+
         $room_type = $input['room_module_type'];
+
 
 
         $room = new Room;

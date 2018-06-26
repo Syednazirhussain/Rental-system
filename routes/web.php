@@ -645,6 +645,7 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::post('company/rooms/createRoomNotes', ['as'=> 'company.createRoomNotes', 'uses' => 'Company\RoomController@createRoomNotes']);
     Route::get('company/rooms/editRoomNotes/{rooms}', ['as'=> 'company.editRoomNotes', 'uses' => 'Company\RoomController@editRoomNotes']);
     Route::put('company/rooms/updateRoomNotes/{rooms}', ['as'=> 'company.updateRoomNotes', 'uses' => 'Company\RoomController@updateRoomNotes']);
+    Route::delete('company/rooms/deleteRoomNotes/{rooms}', ['as'=> 'company.deleteRoomNotes', 'uses' => 'Company\RoomController@deleteRoomNotes']);
 
     Route::get('company/rooms', ['as'=> 'company.rooms.index', 'uses' => 'Company\RoomController@index']);
     Route::post('company/rooms', ['as'=> 'company.rooms.store', 'uses' => 'Company\RoomController@store']);
