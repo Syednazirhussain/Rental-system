@@ -24,13 +24,11 @@ use App\Models\Company\RoomImages;
 use App\Models\Company\RoomSettingArrangment;
 use App\Models\Company\RoomEquipments;
 use App\Models\Company\RoomNotes;
-<<<<<<< HEAD
 use App\Models\User;
 
-=======
 use App\Repositories\Company\ServiceRepository;
 use Session;
->>>>>>> master
+
 
 class RoomController extends AppBaseController
 {

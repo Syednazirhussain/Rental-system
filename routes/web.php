@@ -1300,7 +1300,7 @@ Route::delete('company/currencies/{currencies}', ['as'=> 'company.currencies.des
 Route::get('company/currencies/{currencies}', ['as'=> 'company.currencies.show', 'uses' => 'Company\CurrencyController@show']);
 Route::get('company/currencies/{currencies}/edit', ['as'=> 'company.currencies.edit', 'uses' => 'Company\CurrencyController@edit']);
 
-<<<<<<< HEAD
+
 
 Route::get('company/leaseAttachments', ['as'=> 'company.leaseAttachments.index', 'uses' => 'Company\LeaseAttachmentController@index']);
 Route::post('company/leaseAttachments', ['as'=> 'company.leaseAttachments.store', 'uses' => 'Company\LeaseAttachmentController@store']);
@@ -1509,7 +1509,7 @@ Route::patch('company/companyHrDocuments/{companyHrDocuments}', ['as'=> 'company
 Route::delete('company/companyHrDocuments/{companyHrDocuments}', ['as'=> 'company.companyHrDocuments.destroy', 'uses' => 'Company\CompanyHrDocumentsController@destroy']);
 Route::get('company/companyHrDocuments/{companyHrDocuments}', ['as'=> 'company.companyHrDocuments.show', 'uses' => 'Company\CompanyHrDocumentsController@show']);
 Route::get('company/companyHrDocuments/{companyHrDocuments}/edit', ['as'=> 'company.companyHrDocuments.edit', 'uses' => 'Company\CompanyHrDocumentsController@edit']);
-=======
+
 # Company Lease attachments routes
 Route::get('company/lease_attachments', ['as'=> 'company.leaseAttachments.index', 'uses' => 'Company\LeaseAttachmentController@index']);
 Route::post('company/lease_attachments', ['as'=> 'company.leaseAttachments.store', 'uses' => 'Company\LeaseAttachmentController@store']);
@@ -1717,4 +1717,4 @@ Route::patch('company/company_hr_document/{companyHrDocuments}', ['as'=> 'compan
 Route::delete('company/company_hr_document/{companyHrDocuments}', ['as'=> 'company.companyHrDocuments.destroy', 'uses' => 'Company\CompanyHrDocumentsController@destroy']);
 Route::get('company/company_hr_document/{companyHrDocuments}', ['as'=> 'company.companyHrDocuments.show', 'uses' => 'Company\CompanyHrDocumentsController@show']);
 Route::get('company/company_hr_document/{companyHrDocuments}/edit', ['as'=> 'company.companyHrDocuments.edit', 'uses' => 'Company\CompanyHrDocumentsController@edit']);
->>>>>>> master
+
