@@ -199,12 +199,7 @@
 
 
     </div> <!-- col-sm-5 -->
-
-
-</div> <!-- row -->
-
-
-
+</div> 
 
 <hr>
 
@@ -304,13 +299,7 @@
         </table>
 
     </div>
-
-
 </div>
-
-
-
-            
 
 <div class="row">
 
@@ -396,17 +385,7 @@
 
         </table>
     </div>
-
 </div>
-
-
-
-
-
-
-
-
-
 
 <div class="row">
 
@@ -422,17 +401,6 @@
             </tr>
 
             @foreach ($packages as $package)
-
-
-
-
-                                    
-
-
-
-
-
-
             <tr>
                 <td>
                      <p>{{ $package->title }} </p>
@@ -498,19 +466,7 @@
 
         </table>
     </div>
-
 </div>
-
-
-
-
-
-
-
-
-
-
-
 
 <div class="row">
 
@@ -526,14 +482,68 @@
             </div>
 
     </div>
-
-
 </div>
 
+<div class="row">
+    <div class="col-sm-12 col-md-12">
+        
+      @if(isset($conferenceBooking))
 
 
+          <div class="panel">
+            <div class="panel-heading">
+              <div class="panel-title">Booking Notes</div>
+            </div>
+            <div class="panel-body">
+                <div class="col-sm-12 col-md-12 form-group">
+                    <span><button type="button" class="btn btn-primary pull-right" data-toggle="modal" id="popup-BookingNotes" data-companyhr="@if(isset($conferenceBooking)){{ $conferenceBooking->id }}@endif" data-target="#popup-modal-BookingNotes"><i class="fa fa-plus"></i>&nbsp;Booking Notes</button></span>
+                    <div class="modal fade" id="popup-modal-BookingNotes" tabindex="-1">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                            <h4 class="modal-title">Booking Notes</h4>
+                          </div>
+                          <div class="modal-body">
+                             <div class="row">
+                                <div class="col-sm-12 col-md-12">
+                                   <textarea name="booking_note" placeholder="write your note here.." id="Editor-bookingNotes" style="width: 100%;height: 100px"></textarea>
+                                   <span class="error"></span>                                          
+                                </div>
+                             </div>                         
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="popup-modalBtnBookingNotes"></button>
+                             <button type="button" class="btn" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Cancel</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                 </div>
+
+                 <div class="col-sm-12 col-md-12 "> 
+                    <div class="table-primary">
+                       <table class="table table-striped table-bordered" id="compnay-BookingNotes">
+                          <thead>
+                             <th>Username</th>
+                             <th>Note</th>
+                             <th>Created at</th>
+                             <th>Last updated</th>
+                             <th>Actions</th>
+                          </thead>
+                          <tbody id="log-BookingNotes">
+                          </tbody>
+                       </table>
+                    </div>
+                 </div>
+            </div>
+        </div>
 
 
+      @endif
+
+    </div>
+</div>
 
 <input type="hidden" id="multiDayHiddenStart" value="">
 <input type="hidden" id="multiDayHiddenEnd" value="">

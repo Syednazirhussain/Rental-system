@@ -95,21 +95,31 @@
             <div class="col-sm-6 col-md-6 form-group">
               <label for="service_id">Services</label>
             <select type="text" name="services[]" id="service_id" class="form-control select2-example" multiple>
-                            @if (isset($room))
+                  @if (isset($room))
 
-                            @foreach($services as $service)
+                    @if(isset($selectedService))
+
+                      @foreach($services as $service)
+                        
                         <option value="{{ $service->id }}" <?php foreach ($selectedService as $selct) { if($service->id == $selct->id){ echo "selected"; }}  ?> >
                           {{$service->name}}
                         </option>
                           
                       @endforeach
 
-                      @else
-                          @foreach($services as $services)
-                          <option value="{{ $services->id }}">{{ ucwords($services->name) }}</option>
-                     @endforeach
+                    @else
 
-                     @endif
+                      <span class="text-info">No services select</span>
+
+                    @endif
+
+                  @else
+                      
+                      @foreach($services as $services)
+                          <option value="{{ $services->id }}">{{ ucwords($services->name) }}</option>
+                      @endforeach
+
+                  @endif
 
            </select>
           <label id="companyId-error" class="error" for="companyId"></label>
@@ -246,11 +256,6 @@
       <div class="row">
         
         <div class="col-sm-12 col-md-12">
-            <!-- <div class="col-sm-6 col-md-6 form-group">
-                <label for="conf_day_price">Day Price</label>
-                <input type="number"  min="0" id="conf_day_price" name="conf_day_price" class="form-control" value="@if(isset($room)){{ $room->conf_day_price }}@endif">
-                <div class="errorTxt"></div>                              
-            </div> -->
             <div class="col-sm-6 col-md-6 form-group">
                 <label for="conf_day_price">Day Price</label>
                 <div class="input-group">
@@ -267,19 +272,9 @@
                 <div class="errorTxt"></div> 
                 </div>
             </div>
-            <!-- <div class="col-sm-6 col-md-6 form-group">
-                <label for="public_name">Half Day Price</label>
-                <input type="number"  min="0" id="conf_half_day_price" name="conf_half_day_price" class="form-control" value="@if(isset($room)){{ $room->conf_half_day_price }}@endif">
-                <div class="errorTxt"></div>
-            </div> -->
         </div>
 
         <div class="col-sm-12 col-md-12">
-            <!-- <div class="col-sm-6 col-md-6 form-group">
-              <label for="conf_cost">Cost</label>
-              <input type="number"  min="0" id="conf_cost" name="conf_cost" class="form-control" value="@if(isset($room)){{ $room->conf_cost }}@endif">
-              <div class="errorTxt"></div>                             
-            </div> -->
             <div class="col-sm-6 col-md-6 form-group">
               <label for="conf_cost">Cost</label>
                 <div class="input-group">
@@ -296,19 +291,9 @@
                     <div class="errorTxt"></div> 
                 </div>
             </div>
-            <!-- <div class="col-sm-6 col-md-6 form-group">
-              <label for="conf_vat">VAT</label>
-              <input type="number"  min="0" id="conf_vat" name="conf_vat" class="form-control" value="@if(isset($room)){{ $room->conf_vat }}@endif">
-              <div class="errorTxt"></div>
-            </div> -->
         </div>
 
         <div class="col-sm-12 col-md-12">
-            <!-- <div class="col-sm-3 col-md-3 form-group">
-                <label for="conf_sm_price">Small Group Price</label>
-                <input type="number"  min="0" id="conf_sm_price" name="conf_sm_price" class="form-control" value="@if(isset($room)){{ $room->conf_small_group_price }}@endif"> 
-                <div class="errorTxt"></div> 
-            </div> -->
             <div class="col-sm-6 col-md-6 form-group">
                 <label for="conf_sm_price">Small Group Price</label>
                   <div class="input-group">
@@ -317,11 +302,6 @@
                     <div class="errorTxt"></div> 
                   </div>
             </div>
-            <!-- <div class="col-sm-3 col-md-3 form-group">
-                <label for="conf_high_price">High</label>
-                <input type="number"  min="0" id="conf_high_price" name="conf_high_price" class="form-control" value="@if(isset($room)){{ $room->conf_high_price }}@endif">
-                <div class="errorTxt"></div>
-            </div> -->
             <div class="col-sm-6 col-md-6 form-group">
                 <label for="conf_high_price">High</label>
                 <div class="input-group">
@@ -330,11 +310,6 @@
                     <div class="errorTxt"></div> 
                 </div>
             </div>
-            <!-- <div class="col-sm-3 col-md-3 form-group">
-                <label for="conf_medium_price">Medium</label>
-                <input type="number"  min="0" id="conf_medium_price" name="conf_medium_price" class="form-control" value="@if(isset($room)){{ $room->conf_medium_price }}@endif">
-                <div class="errorTxt"></div>
-            </div> -->
             <div class="col-sm-6 col-md-6 form-group">
                 <label for="conf_medium_price">Medium</label>
                 <div class="input-group">
@@ -343,11 +318,6 @@
                     <div class="errorTxt"></div> 
                 </div>
             </div>
-            <!-- <div class="col-sm-3 col-md-3 form-group">
-                <label for="conf_low_price">Low</label>
-                <input type="number"  min="0" id="conf_low_price" name="conf_low_price" class="form-control" value="@if(isset($room)){{ $room->conf_low_price }}@endif">
-                <div class="errorTxt"></div>
-            </div> -->
             <div class="col-sm-6 col-md-6 form-group">
                 <label for="conf_low_price">Low</label>
                 <div class="input-group">
@@ -662,11 +632,6 @@
         <div class="row">
           
           <div class="col-sm-12 col-md-12">
-            <!-- <div class="col-sm-6 col-md-6 form-group">
-              <label for="monthly_rent">Montly Rent</label>
-              <input type="number"  min="0" id="rent_monthly_rent" name="rent_monthly_rent" class="form-control" value="@if(isset($room)){{ $room->rent_monthly_rent }}@endif">
-              <div class="errorTxt"></div>          
-            </div> -->
           <div class="col-sm-6 col-md-6 form-group">
             <label for="monthly_rent">Monthly Rent</label>
             <div class="input-group">
@@ -683,11 +648,6 @@
           </div>
 
           <div class="col-sm-12 col-md-12">
-            <!-- <div class="col-sm-6 col-md-6 form-group">
-              <label for="vat">VAT</label>
-              <input type="number"  min="0" id="rent_vat" name="rent_vat" class="form-control" value="@if(isset($room)){{ $room->rent_vat }}@endif">
-              <div class="errorTxt"></div> 
-            </div> -->
           <div class="col-sm-6 col-md-6 form-group">
               <label for="vat">VAT</label>
             <div class="input-group">
@@ -696,11 +656,6 @@
               <div class="errorTxt"></div> 
             </div>
           </div>
-            <!-- <div class="col-sm-6 col-md-6 form-group">
-              <label for="new_price">New Price</label>
-              <input type="number"  min="0" id="rent_new_price" name="rent_new_price" class="form-control" value="@if(isset($room)){{ $room->rent_new_price }}@endif">
-              <div class="errorTxt"></div>
-            </div> -->
           <div class="col-sm-6 col-md-6 form-group">
             <label for="new_price">New Price</label>
             <div class="input-group">
@@ -752,14 +707,6 @@
                           <label for="include_price">Price</label>
                           <input type="number"  min="0" name="include_price_rent[]" id="include_price_rent" class="form-control" value="@if(isset($room)){{ $roomEquipment->price }}@endif">
                         </div>
-                        <!-- <div class="col-sm-2 col-md-2 form-group">
-                          <label for="include_price">Price</label>
-                          <div class="input-group">
-                            <span class="input-group-addon">SEK</span>
-                            <input type="number"  min="0" name="include_price_rent[]" class="form-control" value="@if(isset($room)){{ $roomEquipment->price }}@endif">
-                            <div class="errorTxt"></div> 
-                          </div>
-                        </div> -->
                         <div class="col-sm-4 col-md-4 form-group">
                           <label for="include_info">Notes</label>
                           <input type="text" name="include_info_rent[]" class="form-control" value="@if(isset($room)){{ $roomEquipment->info }}@endif">
@@ -930,16 +877,6 @@
                    </table>
                 </div>
              </div>
-
-<!--             <input type="hidden" id="notes" value="@if(isset($roomNote)){{ $roomNote->note }}@endif">
-            <div class="col-sm-12 col-md-12" id="notes">
-              <div class="col-sm-12 col-md-12 form-group">
-                <label for="rent_notes">Notes</label>
-                <textarea type="text" id="rent_notes" name="rent_notes" class="form-control" required="required"></textarea>
-                <div class="errorTxt" id="errorNotes"></div>
-              </div>
-            </div> -->
-
           @endif
 
         </div>
@@ -973,17 +910,16 @@
 
 
     $('#popup-HrNotes').on("click",function(){
-       $('.errorTxt').empty();
+       $('.error').empty();
        $('#popup-modalBtn').text("Add");
        $('#Editor-hrNote').val("");
     });
-
 
     var popupEditRoomNotesId;
     var currentOperationRoomNotes = 0;
 
     $(document).on('click','.HrNoteEdit-popup',function(){
-       $('.errorTxt').empty();
+       $('.error').empty();
        currentOperationRoomNotes = 1;
        popupEditRoomNotesId = $(this).attr('data-userHrNotes');
 
@@ -1008,6 +944,8 @@
     });
 
     $(document).on('click','#popup-modalBtn',function(){
+       
+       
        if(currentOperationRoomNotes == 1)
        {
           var textEditor = $('#Editor-hrNote').val();
@@ -1015,12 +953,12 @@
           if(isEmpty(textEditor))
           {
              //alert("Please provide some content");
-             $('.errorTxt').text("Please provide some content");
+             $('.error').text("Please provide some content");
           }
-          else if(textEditor.length > 100)
+          else if(textEditor.length > 500)
           {
              // alert("Please enter characters between 1 to 100");
-             $('.errorTxt').text("Please enter characters between 1 to 100");
+             $('.error').text("Please enter characters between 1 to 500");
           }
           else
           {
@@ -1029,13 +967,10 @@
                 'note'   : textEditor
              };
              
-             var url = "{{ route('company.updateHrNotes', array("")) }}/"+popupEditRoomNotesId;
+             var url = "{{ route('company.updateRoomNotes', array("")) }}/"+popupEditRoomNotesId;
 
-             console.log(jsObj);
 
-             console.log(url);
-
-/*             $.ajax({
+             $.ajax({
                 url  : url,
                 type : "PUT",
                 data : jsObj,
@@ -1046,77 +981,79 @@
                    }
                    else
                    {
-                      currentOperationHrNotes = 0;
+                      currentOperationRoomNotes = 0;
                       $('#Editor-hrNote').val("");
 
-                      var jsObjHr = {
-                         'companyHrId' : editCompanyHr,
-                         'code'        : 'hr_note'
-                      };
+                       var url = "{{ route('company.getRoomNotes', array("")) }}/"+editRoom;
 
-                      $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObjHr,function(response){
-                         if(response.hasOwnProperty("status"))
-                         {
-                            var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
-                            $('#log-HRNotes').html(html);
-                         }
-                         else
-                         {
-                            var html = '';
-                            var created_at;
-                            var updated_at;
-                            for(var i = 0 ; i < response.companyHrNotes.length ; i++)
+                       $.ajax({
+                          url  : url,
+                          type : "GET",
+                          success : function(response){
+                            if(response.hasOwnProperty("status"))
                             {
-                               created_at = new Date(response.companyHrNotes[i].created_at);
-                               updated_at = new Date(response.companyHrNotes[i].updated_at);
-
-                               if(user_id == response.companyHrNotes[i].user_id)
-                               {
-                                  html += '<tr>';
-                                  for(var j = 0 ; j < response.users.length ; j++)
-                                  {
-                                     if( response.users[j].id == response.companyHrNotes[i].user_id )
-                                     {
-                                        html += '<td>'+response.users[j].name+'</td>';
-                                        break;
-                                     }
-                                     
-                                  }
-                                  html += '<td>'+response.companyHrNotes[i].note+'</td>';
-                                  html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
-                                  html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
-                                  html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg HrNoteEdit-popup" data-userHrNotes="'+response.companyHrNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg HrNoteDelete-popup" data-userHrNotes="'+response.companyHrNotes[i].id+'"></i></a> </td>';
-                                  html += '</tr>';
-                               }
-                               else
-                               {
-                                  html += '<tr>';
-                                  for(var j = 0 ; j < response.users.length ; j++)
-                                  {
-                                     if( response.users[j].id == response.companyHrNotes[i].user_id )
-                                     {
-                                        html += '<td>'+response.users[j].name+'</td>';
-                                        break;
-                                     }
-                                     
-                                  }
-                                  html += '<td>'+response.companyHrNotes[i].note+'</td>';
-                                  html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
-                                  html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
-                                  html += '</tr>';
-                               }
+                               var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                               $('#log-HRNotes').html(html);
                             }
-                            html += '</tbody>';
-                            html += '</table>'; 
-                            $('#log-HRNotes').html('');               
-                            $('#log-HRNotes').html(html);               
-                         }
-                      });
+                            else
+                            {
+                               var html = '';
+                               var created_at;
+                               var updated_at;
+                               for(var i = 0 ; i < response.roomNotes.length ; i++)
+                               {
+                                  created_at = new Date(response.roomNotes[i].created_at);
+                                  updated_at = new Date(response.roomNotes[i].updated_at);
+
+                                  if(user_id == response.roomNotes[i].user_id)
+                                  {
+                                     html += '<tr>';
+                                     for(var j = 0 ; j < response.users.length ; j++)
+                                     {
+                                        if( response.users[j].id == response.roomNotes[i].user_id )
+                                        {
+                                           html += '<td>'+response.users[j].name+'</td>';
+                                           break;
+                                        }
+                                        
+                                     }
+                                     html += '<td>'+response.roomNotes[i].note+'</td>';
+                                     html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                     html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                     html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg HrNoteEdit-popup" data-userHrNotes="'+response.roomNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg HrNoteDelete-popup" data-userHrNotes="'+response.roomNotes[i].id+'"></i></a> </td>';
+                                     html += '</tr>';
+                                  }
+                                  else
+                                  {
+                                     html += '<tr>';
+                                     for(var j = 0 ; j < response.users.length ; j++)
+                                     {
+                                        if( response.users[j].id == response.roomNotes[i].user_id )
+                                        {
+                                           html += '<td>'+response.users[j].name+'</td>';
+                                           break;
+                                        }
+                                        
+                                     }
+                                     html += '<td>'+response.roomNotes[i].note+'</td>';
+                                     html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                     html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                     html += '</tr>';
+                                  }
+                               }
+                               html += '</tbody>';
+                               html += '</table>'; 
+                               $('#log-HRNotes').html('');               
+                               $('#log-HRNotes').html(html);               
+                            }
+                          }
+                       });
 
                       $("#popup-modal-HrNotes .close").click();
                    }
                 } 
-             });*/
+             });
+
           }
        }
        else
@@ -1128,10 +1065,10 @@
              // alert("Please provide some content");
              $('.error').text("Please provide some content");
           }
-          else if(note.length > 100)
+          else if(note.length > 500)
           {
              // alert("Please enter characters between 1 to 100");
-             $('.error').text("Please enter characters between 1 to 100");
+             $('.error').text("Please enter characters between 1 to 500");
           }
           else
           {
@@ -1234,7 +1171,9 @@
        {
           var hrNoteId = $(this).attr('data-userHrNotes');
 
-          var url = "{{ route('company.deleteHrNote', array("")) }}/"+hrNoteId;
+          console.log(hrNoteId);
+
+          var url = "{{ route('company.deleteRoomNotes', array("")) }}/"+hrNoteId;
 
           $.ajax({
              url : url,
@@ -1246,67 +1185,69 @@
                 }
                 else
                 {
-                   var jsObjHr = {
-                      'companyHrId' : editCompanyHr,
-                      'code'        : 'hr_note'
-                   };
 
-                   $.post("{{ route('company.companyHrs.getHrNotes') }}",jsObjHr,function(response){
-                      if(response.hasOwnProperty("status"))
-                      {
-                         var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
-                         $('#log-HRNotes').html(html);
-                      }
-                      else
-                      {
-                         var html = '';
-                         var created_at;
-                         var updated_at;
-                         for(var i = 0 ; i < response.companyHrNotes.length ; i++)
-                         {
-                            created_at = new Date(response.companyHrNotes[i].created_at);
-                            updated_at = new Date(response.companyHrNotes[i].updated_at);
+                   var url = "{{ route('company.getRoomNotes', array("")) }}/"+editRoom;
 
-                            if(user_id == response.companyHrNotes[i].user_id)
-                            {
-                               html += '<tr>';
-                               for(var j = 0 ; j < response.users.length ; j++)
-                               {
-                                  if( response.users[j].id == response.companyHrNotes[i].user_id )
-                                  {
-                                     html += '<td>'+response.users[j].name+'</td>';
-                                     break;
-                                  }
-                                  
-                               }
-                               html += '<td>'+response.companyHrNotes[i].note+'</td>';
-                               html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
-                               html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
-                               html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg HrNoteEdit-popup" data-userHrNotes="'+response.companyHrNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg HrNoteDelete-popup" data-userHrNotes="'+response.companyHrNotes[i].id+'"></i></a> </td>';
-                               html += '</tr>';
-                            }
-                            else
-                            {
-                               html += '<tr>';
-                               for(var j = 0 ; j < response.users.length ; j++)
-                               {
-                                  if( response.users[j].id == response.companyHrNotes[i].user_id )
-                                  {
-                                     html += '<td>'+response.users[j].name+'</td>';
-                                     break;
-                                  }
-                                  
-                               }
-                               html += '<td>'+response.companyHrNotes[i].note+'</td>';
-                               html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
-                               html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
-                               html += '</tr>';
-                            }
-                         }
-                         html += '</tbody>';
-                         html += '</table>'; 
-                         $('#log-HRNotes').html('');               
-                         $('#log-HRNotes').html(html);               
+                   $.ajax({
+                      url  : url,
+                      type : "GET",
+                      success : function(response){
+                        if(response.hasOwnProperty("status"))
+                        {
+                           var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                           $('#log-HRNotes').html(html);
+                        }
+                        else
+                        {
+                           var html = '';
+                           var created_at;
+                           var updated_at;
+                           for(var i = 0 ; i < response.roomNotes.length ; i++)
+                           {
+                              created_at = new Date(response.roomNotes[i].created_at);
+                              updated_at = new Date(response.roomNotes[i].updated_at);
+
+                              if(user_id == response.roomNotes[i].user_id)
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.roomNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.roomNotes[i].note+'</td>';
+                                 html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg HrNoteEdit-popup" data-userHrNotes="'+response.roomNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg HrNoteDelete-popup" data-userHrNotes="'+response.roomNotes[i].id+'"></i></a> </td>';
+                                 html += '</tr>';
+                              }
+                              else
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.roomNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.roomNotes[i].note+'</td>';
+                                 html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '</tr>';
+                              }
+                           }
+                           html += '</tbody>';
+                           html += '</table>'; 
+                           $('#log-HRNotes').html('');               
+                           $('#log-HRNotes').html(html);               
+                        }
                       }
                    });
                 }
@@ -1382,7 +1323,6 @@
           }
         }
      });
-
     });
 
 

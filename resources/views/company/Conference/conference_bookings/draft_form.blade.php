@@ -295,6 +295,168 @@
             </div>
             </div>
 
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    
+                  @if(isset($conferenceBooking))
+
+
+                    <div class="panel">
+                        <div class="panel-heading">
+                          <div class="panel-title">Internal Communication Notes</div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-sm-12 col-md-12 form-group">
+                                <span><button type="button" class="btn btn-primary pull-right" data-toggle="modal" id="popup-InternalCommunication" data-companyhr="@if(isset($conferenceBooking)){{ $conferenceBooking->id }}@endif" data-target="#popup-modal-InternalCommunication"><i class="fa fa-plus"></i>&nbsp;Internal Communication Notes</button></span>
+                                <div class="modal fade" id="popup-modal-InternalCommunication" tabindex="-1">
+                                  <div class="modal-dialog">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">×</button>
+                                        <h4 class="modal-title">Internal Communication Notes</h4>
+                                      </div>
+                                      <div class="modal-body">
+                                         <div class="row">
+                                            <div class="col-sm-12 col-md-12">
+                                               <textarea name="internal_communication" placeholder="write your note here.." id="Editor-InternalCommunication" style="width: 100%;height: 100px"></textarea>
+                                               <span class="error"></span>                                          
+                                            </div>
+                                         </div>                         
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" id="popup-modalBtnInternalCommunication"></button>
+                                         <button type="button" class="btn" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Cancel</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                             </div>
+
+                             <div class="col-sm-12 col-md-12 "> 
+                                <div class="table-primary">
+                                   <table class="table table-striped table-bordered" id="compnay-InternalCommunicationNotes">
+                                      <thead>
+                                         <th>Username</th>
+                                         <th>Note</th>
+                                         <th>Created at</th>
+                                         <th>Last updated</th>
+                                         <th>Actions</th>
+                                      </thead>
+                                      <tbody id="log-InternalCommunicationNotes">
+                                      </tbody>
+                                   </table>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+
+
+                    <div class="panel">
+                        <div class="panel-heading">
+                          <div class="panel-title">Customer Notes</div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-sm-12 col-md-12 form-group">
+                                <span><button type="button" class="btn btn-primary pull-right" data-toggle="modal" id="popup-Customer" data-companyhr="@if(isset($conferenceBooking)){{ $conferenceBooking->id }}@endif" data-target="#popup-modal-Customer"><i class="fa fa-plus"></i>&nbsp;Customer Notes</button></span>
+                                <div class="modal fade" id="popup-modal-Customer" tabindex="-1">
+                                  <div class="modal-dialog">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">×</button>
+                                        <h4 class="modal-title">Customer Notes</h4>
+                                      </div>
+                                      <div class="modal-body">
+                                         <div class="row">
+                                            <div class="col-sm-12 col-md-12">
+                                               <textarea name="customer" placeholder="write your note here.." id="Editor-Customer" style="width: 100%;height: 100px"></textarea>
+                                               <span class="error"></span>                                          
+                                            </div>
+                                         </div>                         
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" id="popup-modalBtnCustomer"></button>
+                                         <button type="button" class="btn" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Cancel</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                             </div>
+
+                             <div class="col-sm-12 col-md-12 "> 
+                                <div class="table-primary">
+                                   <table class="table table-striped table-bordered" id="compnay-Customer">
+                                      <thead>
+                                         <th>Username</th>
+                                         <th>Note</th>
+                                         <th>Created at</th>
+                                         <th>Last updated</th>
+                                         <th>Actions</th>
+                                      </thead>
+                                      <tbody id="log-Customer">
+                                      </tbody>
+                                   </table>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+
+
+                    <div class="panel">
+                        <div class="panel-heading">
+                          <div class="panel-title">IT Department Notes</div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-sm-12 col-md-12 form-group">
+                                <span><button type="button" class="btn btn-primary pull-right" data-toggle="modal" id="popup-ITDepartment" data-companyhr="@if(isset($conferenceBooking)){{ $conferenceBooking->id }}@endif" data-target="#popup-modal-ITDepartment"><i class="fa fa-plus"></i>&nbsp;IT Department Notes</button></span>
+                                <div class="modal fade" id="popup-modal-ITDepartment" tabindex="-1">
+                                  <div class="modal-dialog">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">×</button>
+                                        <h4 class="modal-title">IT Department Notes</h4>
+                                      </div>
+                                      <div class="modal-body">
+                                         <div class="row">
+                                            <div class="col-sm-12 col-md-12">
+                                               <textarea name="it_department" placeholder="write your note here.." id="Editor-ITDepartment" style="width: 100%;height: 100px"></textarea>
+                                               <span class="error"></span>                                          
+                                            </div>
+                                         </div>                         
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" id="popup-modalBtnITDepartment"></button>
+                                         <button type="button" class="btn" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Cancel</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                             </div>
+
+                             <div class="col-sm-12 col-md-12 "> 
+                                <div class="table-primary">
+                                   <table class="table table-striped table-bordered" id="compnay-ITDepartment">
+                                      <thead>
+                                         <th>Username</th>
+                                         <th>Note</th>
+                                         <th>Created at</th>
+                                         <th>Last updated</th>
+                                         <th>Actions</th>
+                                      </thead>
+                                      <tbody id="log-ITDepartment">
+                                      </tbody>
+                                   </table>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+
+                  @endif
+
+                </div>
+            </div>
+
+
+
 <!-- 
             <div class="col-md-6">
                     <div class="form-group m-t-2">
@@ -322,6 +484,8 @@
 
 
 
+
 @if(isset($getBookingDraft))
 <input type="hidden" name="booking_draft_id" value="{{$getBookingDraft->id}}">
 @endif
+
