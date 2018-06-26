@@ -28,6 +28,7 @@ use DB;
 use Auth;
 use Session;
 use App\Models\CompanyCustomer;
+use App\Models\Rental\CompanyArticle;
 
 use App\Models\User;
 use App\Models\Company\ConferenceBookingNotes;
@@ -245,17 +246,19 @@ class ConferenceBookingController extends AppBaseController
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $getCompanyCustomer = CompanyCustomer::where('company_id', $company_id)->get();
 
+        $equipments = CompanyArticle::where('category', 'equipment')->get();
+        $foodItems  = CompanyArticle::where('category', 'food')->get();
+        $packages   = CompanyArticle::where('category', 'food_package')->get();
 
-
-
+        // dd($equipments);
 
         $conferenceBookings     = $this->conferenceBookingRepository->all();
         $paymentMethods         = $this->paymentMethodRepository->all();
         $conferenceDurations    = $this->conferenceDurationRepository->all();
         $roomLayouts            = $this->roomLayoutRepository->all();
-        $equipments             = $this->equipmentRepository->all();
-        $foodItems              = $this->foodRepository->all();
-        $packages               = $this->packagesRepository->all();
+        // $equipments             = $this->equipmentRepository->all();
+        // $foodItems              = $this->foodRepository->all();
+        // $packages               = $this->packagesRepository->all();
         $generalSetting         = $this->generalSettingRepository->getBookingTaxValue();
         $bookingAgencies        = $this->bookingAgencyRepository->getCompanyBookingAgencies($company_id);
 
@@ -354,6 +357,9 @@ class ConferenceBookingController extends AppBaseController
 
         // ==========================================================================
 
+        // $equipments = CompanyArticle::where('category', 'equipment')->get();
+        // $foodItems  = CompanyArticle::where('category', 'food')->get();
+        // $packages   = CompanyArticle::where('category', 'food_package')->get();
 
         if (!empty($input['packages'])) {
 
@@ -364,13 +370,14 @@ class ConferenceBookingController extends AppBaseController
 
             foreach ($packagesData as $key=>$val) {
 
-                $package = $this->packagesRepository->findWithoutFail($key);
+                // $package = $this->packagesRepository->findWithoutFail($key);
+                $package   = CompanyArticle::where('id', $key)->where('category', 'food_package')->first();
 
                 $packageInput['booking_id']    = $conferenceBooking->id;
                 $packageInput['entity_id']     = $key;
                 $packageInput['entity_type']   = "package";
-                $packageInput['entity_name']   = $package->title;
-                $packageInput['entity_price']  = $package->price;
+                $packageInput['entity_name']   = $package->article_name_english;
+                $packageInput['entity_price']  = $package->in_price;
                 $packageInput['entity_qty']    = $val['qty'];
 
                 $this->conferenceBookingItemRepository->create($packageInput);
@@ -390,13 +397,14 @@ class ConferenceBookingController extends AppBaseController
 
             foreach ($foodsData as $key=>$val) {
 
-                $food = $this->foodRepository->findWithoutFail($key);
+                // $food = $this->foodRepository->findWithoutFail($key);
+                $food  = CompanyArticle::where('id', $key)->where('category', 'food')->first();
 
                 $foodInput['booking_id']    = $conferenceBooking->id;
                 $foodInput['entity_id']     = $key;
                 $foodInput['entity_type']   = "food";
-                $foodInput['entity_name']   = $food->title;
-                $foodInput['entity_price']  = $food->price_per_attendee;
+                $foodInput['entity_name']   = $food->article_name_english;
+                $foodInput['entity_price']  = $food->in_price;
                 $foodInput['entity_qty']    = $val['qty'];
 
                 $this->conferenceBookingItemRepository->create($foodInput);
@@ -416,13 +424,14 @@ class ConferenceBookingController extends AppBaseController
 
             foreach ($equipmentsData as $key=>$val) {
 
-                $equipment = $this->equipmentRepository->findWithoutFail($key);
+                // $equipment = $this->equipmentRepository->findWithoutFail($key);
+                $equipment = CompanyArticle::where('id', $key)->where('category', 'equipment')->first();
 
                 $equipmentInput['booking_id']    = $conferenceBooking->id;
                 $equipmentInput['entity_id']     = $key;
                 $equipmentInput['entity_type']   = "equipments";
-                $equipmentInput['entity_name']   = $equipment->title;
-                $equipmentInput['entity_price']  = $equipment->price;
+                $equipmentInput['entity_name']   = $equipment->article_name_english;
+                $equipmentInput['entity_price']  = $equipment->in_price;
                 $equipmentInput['entity_qty']    = $val['qty'];
 
                 $this->conferenceBookingItemRepository->create($equipmentInput);
@@ -516,9 +525,13 @@ class ConferenceBookingController extends AppBaseController
         $paymentMethods         = $this->paymentMethodRepository->all();
         $conferenceDurations    = $this->conferenceDurationRepository->all();
         $roomLayouts            = $this->roomLayoutRepository->all();
-        $equipments             = $this->equipmentRepository->all();
+        /*$equipments             = $this->equipmentRepository->all();
         $foodItems              = $this->foodRepository->all();
-        $packages               = $this->packagesRepository->all();
+        $packages               = $this->packagesRepository->all();*/
+
+        $equipments = CompanyArticle::where('category', 'equipment')->get();
+        $foodItems  = CompanyArticle::where('category', 'food')->get();
+        $packages   = CompanyArticle::where('category', 'food_package')->get();
 
         $generalSetting         = $this->generalSettingRepository->getBookingTaxValue();
 
@@ -670,13 +683,14 @@ class ConferenceBookingController extends AppBaseController
 
             foreach ($packagesData as $key=>$val) {
 
-                $package = $this->packagesRepository->findWithoutFail($key);
+                // $package = $this->packagesRepository->findWithoutFail($key);
+                $package   = CompanyArticle::where('id', $key)->where('category', 'food_package')->first();
 
                 $packageInput['booking_id']    = $conferenceBooking->id;
                 $packageInput['entity_id']     = $key;
                 $packageInput['entity_type']   = "package";
-                $packageInput['entity_name']   = $package->title;
-                $packageInput['entity_price']  = $package->price;
+                $packageInput['entity_name']   = $package->article_name_english;
+                $packageInput['entity_price']  = $package->in_price;
                 $packageInput['entity_qty']    = $val['qty'];
 
                 $this->conferenceBookingItemRepository->create($packageInput);
@@ -699,13 +713,14 @@ class ConferenceBookingController extends AppBaseController
 
             foreach ($foodsData as $key=>$val) {
 
-                $food = $this->foodRepository->findWithoutFail($key);
+                // $food = $this->foodRepository->findWithoutFail($key);
+                $food  = CompanyArticle::where('id', $key)->where('category', 'food')->first();
 
                 $foodInput['booking_id']    = $conferenceBooking->id;
                 $foodInput['entity_id']     = $key;
                 $foodInput['entity_type']   = "food";
-                $foodInput['entity_name']   = $food->title;
-                $foodInput['entity_price']  = $food->price_per_attendee;
+                $foodInput['entity_name']   = $food->article_name_english;
+                $foodInput['entity_price']  = $food->in_price;
                 $foodInput['entity_qty']    = $val['qty'];
 
                 $this->conferenceBookingItemRepository->create($foodInput);
@@ -727,13 +742,14 @@ class ConferenceBookingController extends AppBaseController
 
             foreach ($equipmentsData as $key=>$val) {
 
-                $equipment = $this->equipmentRepository->findWithoutFail($key);
+                // $equipment = $this->equipmentRepository->findWithoutFail($key);
+                $equipment = CompanyArticle::where('id', $key)->where('category', 'equipment')->first();
 
                 $equipmentInput['booking_id']    = $conferenceBooking->id;
                 $equipmentInput['entity_id']     = $key;
                 $equipmentInput['entity_type']   = "equipments";
-                $equipmentInput['entity_name']   = $equipment->title;
-                $equipmentInput['entity_price']  = $equipment->price;
+                $equipmentInput['entity_name']   = $equipment->article_name_english;
+                $equipmentInput['entity_price']  = $equipment->in_price;
                 $equipmentInput['entity_qty']    = $val['qty'];
 
                 $this->conferenceBookingItemRepository->create($equipmentInput);

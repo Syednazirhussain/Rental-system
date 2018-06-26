@@ -223,7 +223,7 @@
 
             <tr>
                 <td>
-                     <p>{{ $eqp->title }}</p>
+                     <p>{{ $eqp->article_name_english }}</p>
                 </td>
                 <td>
                     @if ($eqp->is_multi_units == 0)
@@ -258,7 +258,7 @@
                                 
 
                             
-                                <input type="checkbox" name="equipments[]" value="{{$eqp->id}}" class="custom-control-input equipment-check-box" data-eqpid="{{$eqp->id}}" data-eqpprice="{{$eqp->price}}" data-isMultiUnits="{{$eqp->is_multi_units}}" 
+                                <input type="checkbox" name="equipments[]" value="{{$eqp->id}}" class="custom-control-input equipment-check-box" data-eqpid="{{$eqp->id}}" data-eqpprice="{{$eqp->in_price}}" data-isMultiUnits="{{$eqp->is_multi_units}}" 
 
                                     <?php  
 
@@ -272,22 +272,22 @@
 
                                 >
                                 <span class="custom-control-indicator"></span>
-                                @if ($eqp->criteria_id == 1)
-                                    SEK {{ $eqp->price }} per booking
+                                @if ($eqp->is_multi_units == 1)
+                                    SEK {{ $eqp->in_price }} per booking
                                 @else
-                                    SEK {{ $eqp->price }} per hour
+                                    SEK {{ $eqp->in_price }} per hour
                                 @endif
                         </label>
 
                     @else
 
                         <label class="custom-control custom-checkbox">
-                                <input type="checkbox" name="equipments[]" value="{{$eqp->id}}" class="custom-control-input equipment-check-box" data-eqpid="{{$eqp->id}}" data-eqpprice="{{$eqp->price}}" data-isMultiUnits="{{$eqp->is_multi_units}}" >
+                                <input type="checkbox" name="equipments[]" value="{{$eqp->id}}" class="custom-control-input equipment-check-box" data-eqpid="{{$eqp->id}}" data-eqpprice="{{$eqp->in_price}}" data-isMultiUnits="{{$eqp->is_multi_units}}" >
                                 <span class="custom-control-indicator"></span>
-                                @if ($eqp->criteria_id == 1)
-                                    SEK {{ $eqp->price }} per booking
+                                @if ($eqp->is_multi_units == 1)
+                                    SEK {{ $eqp->in_price }} per booking
                                 @else
-                                    SEK {{ $eqp->price }} per hour
+                                    SEK {{ $eqp->in_price }} per hour
                                 @endif
                         </label>
 
@@ -318,7 +318,7 @@
 
             <tr>
                 <td>
-                     <p>{{ $food->title }}</p>
+                     <p>{{ $food->article_name_english }}</p>
                 </td>
                 <td>
                     @if(isset($conferenceBooking))
@@ -351,7 +351,7 @@
 
 
 
-                                <input type="checkbox" name="foods[]" value="{{$food->id}}" class="custom-control-input food-check-box" data-foodid="{{$food->id}}" data-foodprice="{{$food->price_per_attendee}}" 
+                                <input type="checkbox" name="foods[]" value="{{$food->id}}" class="custom-control-input food-check-box" data-foodid="{{$food->id}}" data-foodprice="{{$food->in_price}}" 
 
                                     <?php  
 
@@ -365,15 +365,15 @@
 
                                 >
                                 <span class="custom-control-indicator "></span>
-                                SEK {{ $food->price_per_attendee }} per attendee
+                                SEK {{ $food->in_price }} per attendee
                         </label>
 
                     @else
 
                         <label class="custom-control custom-checkbox">
-                                <input type="checkbox" name="foods[]" value="{{$food->id}}" class="custom-control-input food-check-box" data-foodid="{{$food->id}}" data-foodprice="{{$food->price_per_attendee}}"   >
+                                <input type="checkbox" name="foods[]" value="{{$food->id}}" class="custom-control-input food-check-box" data-foodid="{{$food->id}}" data-foodprice="{{$food->in_price}}"   >
                                 <span class="custom-control-indicator "></span>
-                                SEK {{ $food->price_per_attendee }} per attendee
+                                SEK {{ $food->in_price }} per attendee
                         </label>
 
                     @endif
@@ -403,7 +403,7 @@
             @foreach ($packages as $package)
             <tr>
                 <td>
-                     <p>{{ $package->title }} </p>
+                     <p>{{ $package->article_name_english }} </p>
                 </td>
                 <td>
                     @if(isset($conferenceBooking))
@@ -432,7 +432,7 @@
 
                                 
 
-                                <input type="checkbox" name="packages[]" value="{{$package->id}}" class="custom-control-input package-check-box" data-packageid="{{$package->id}}" data-packageprice="{{$package->price}}"
+                                <input type="checkbox" name="packages[]" value="{{$package->id}}" class="custom-control-input package-check-box" data-packageid="{{$package->id}}" data-packageprice="{{$package->in_price}}"
 
 
                                     <?php  
@@ -447,15 +447,15 @@
 
                                 >
                                 <span class="custom-control-indicator "></span>
-                                SEK {{ $package->price }} per attendee
+                                SEK {{ $package->in_price }} per attendee
                         </label>
 
                     @else
 
                         <label class="custom-control custom-checkbox">
-                                <input type="checkbox" name="packages[]" value="{{$package->id}}" class="custom-control-input package-check-box" data-packageid="{{$package->id}}" data-packageprice="{{$package->price}}">
+                                <input type="checkbox" name="packages[]" value="{{$package->id}}" class="custom-control-input package-check-box" data-packageid="{{$package->id}}" data-packageprice="{{$package->in_price}}">
                                 <span class="custom-control-indicator "></span>
-                                SEK {{ $package->price }} per attendee
+                                SEK {{ $package->in_price }} per attendee
                         </label>
 
                     @endif
