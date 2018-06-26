@@ -15,7 +15,7 @@ class AddColumnIsMultiUnitsInCompanyArticles extends Migration
     {
 
         Schema::table('company_articles', function (Blueprint $table) {
-            $table->dropColumn('is_multi_units');
+            // $table->dropColumn('is_multi_units');
             $table->unsignedTinyInteger('is_multi_units')->nullable()->default('0');
         });
 
