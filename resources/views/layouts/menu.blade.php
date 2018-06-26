@@ -247,3 +247,7 @@
     <a href="{!! route('conferenceBookingDrafts.index') !!}"><i class="fa fa-edit"></i><span>Conference Booking Drafts</span></a>
 </li>
 
+<li class="{{ Request::is('conferenceBookingSignages*') ? 'active' : '' }}">
+    <a href="{!! route('conferenceBookingSignages.index') !!}"><i class="fa fa-edit"></i><span>Conference Booking Signages</span></a>
+</li>
+

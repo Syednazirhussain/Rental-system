@@ -19,6 +19,7 @@ use App\Repositories\StateRepository;
 use App\Repositories\CityRepository;
 use App\Repositories\BookingAgencyRepository;
 use App\Repositories\ConferenceBookingDraftRepository;
+use App\Repositories\ConferenceBookingSignageRepository;
 use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -34,6 +35,7 @@ class ConferenceBookingController extends AppBaseController
     private $conferenceBookingRepository;
     private $conferenceBookingItemRepository;
     private $conferenceBookingDraftRepository;
+    private $conferenceBookingSignageRepository;
     private $roomLayoutRepository;
     private $conferenceDurationRepository;
     private $equipmentRepository;
@@ -49,6 +51,7 @@ class ConferenceBookingController extends AppBaseController
     public function __construct(ConferenceBookingRepository $conferenceBookingRepo,
                                 ConferenceBookingItemRepository $conferenceBookingItemRepo,
                                 ConferenceBookingDraftRepository $conferenceBookingDraftRepo,
+                                ConferenceBookingSignageRepository $conferenceBookingSignageRepo,
                                 RoomLayoutRepository $roomLayoutRepo,
                                 EquipmentsRepository $equipmentRepo,
                                 PaymentMethodRepository $paymentMethodRepo,
@@ -65,6 +68,7 @@ class ConferenceBookingController extends AppBaseController
         $this->conferenceBookingRepository      = $conferenceBookingRepo;
         $this->conferenceBookingItemRepository  = $conferenceBookingItemRepo;
         $this->conferenceBookingDraftRepository = $conferenceBookingDraftRepo;
+        $this->conferenceBookingSignageRepository = $conferenceBookingSignageRepo;
         $this->roomLayoutRepository             = $roomLayoutRepo;
         $this->conferenceDurationRepository     = $conferenceDurationRepo;
         $this->equipmentRepository              = $equipmentRepo;
@@ -174,7 +178,7 @@ class ConferenceBookingController extends AppBaseController
     {
         $input = $request->all();
 
-        dd($input);
+        // dd($input);
 
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
 
@@ -312,6 +316,40 @@ class ConferenceBookingController extends AppBaseController
         // ==========================================================================
 
 
+        if ($input['is_signage'] == 'on') { $input['is_signage'] = 1; }
+
+
+        $createSignage = [
+                                'booking_id' => $input['booking_id'],
+                                'is_signage' => $input['is_signage'],
+                                'first_name' => $input['signage_first_name'],
+                                'first_screen_name' => $input['signage_first_screen_name'],
+                                'second_name' => $input['signage_second_name'],
+                                'second_screen_name' => $input['signage_second_screen_name'],
+                        ];
+
+
+        if ($request->hasFile('signage_first_logo')) {
+
+            $path = $request->file('signage_first_logo')->store('public/booking_signage');
+            $path = explode("/", $path);
+            $createSignage['first_logo'] = $path[2];
+        }
+
+
+        if ($request->hasFile('signage_second_logo')) {
+
+            $path = $request->file('signage_second_logo')->store('public/booking_signage');
+            $path = explode("/", $path);
+            $createSignage['second_logo'] = $path[2];
+        }
+
+
+        $this->conferenceBookingSignageRepository->create($createSignage);
+
+        // ==========================================================================
+
+
         Session::flash("successMessage", "The Conference Bookingk has been added successfully.");
         return redirect(route('company.conference.conferenceBookings.index'));
 
@@ -376,6 +414,7 @@ class ConferenceBookingController extends AppBaseController
 
         $getBookingDraft = $this->conferenceBookingDraftRepository->getBookingDraftData($id);
 
+        $getBookingSignage = $this->conferenceBookingSignageRepository->getBookingSignageData($id);
 
         if (empty($conferenceBooking)) {
             Flash::error('Conference Booking not found');
@@ -386,6 +425,7 @@ class ConferenceBookingController extends AppBaseController
 
 
         $data = [
+                    'getBookingSignage'       => $getBookingSignage,
                     'getBookingDraft'       => $getBookingDraft,
                     'companyCustomerInfo'   => $companyCustomerInfo,
                     'countries'             => $countries,
@@ -584,10 +624,42 @@ class ConferenceBookingController extends AppBaseController
         $input['booking_id'] = $conferenceBooking->id;
         $this->conferenceBookingDraftRepository->update($input, $input['booking_draft_id']);
 
+
         // ==========================================================================
 
 
+        if ($input['is_signage'] == 'on') { $input['is_signage'] = 1; }
 
+
+        $createSignage = [
+                                'booking_id' => $input['booking_id'],
+                                'is_signage' => $input['is_signage'],
+                                'first_name' => $input['signage_first_name'],
+                                'first_screen_name' => $input['signage_first_screen_name'],
+                                'second_name' => $input['signage_second_name'],
+                                'second_screen_name' => $input['signage_second_screen_name'],
+                        ];
+
+
+        if ($request->hasFile('signage_first_logo')) {
+
+            $path = $request->file('signage_first_logo')->store('public/booking_signage');
+            $path = explode("/", $path);
+            $createSignage['first_logo'] = $path[2];
+        }
+
+
+        if ($request->hasFile('signage_second_logo')) {
+
+            $path = $request->file('signage_second_logo')->store('public/booking_signage');
+            $path = explode("/", $path);
+            $createSignage['second_logo'] = $path[2];
+        }
+
+
+        $this->conferenceBookingSignageRepository->update($createSignage, $input['booking_signage_id']);
+
+        // ==========================================================================
 
 
         $conferenceBooking = $this->conferenceBookingRepository->findWithoutFail($id);

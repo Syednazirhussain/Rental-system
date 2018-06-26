@@ -95,7 +95,7 @@
 
 
               // Initialize validator
-              $('#bookingForm1').validate({
+              $('#bookingForm').validate({
 
                     ignore: [],
                     

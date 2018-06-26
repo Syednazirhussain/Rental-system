@@ -37,9 +37,12 @@
                           <li>
                             <a href="#draftFormTab" data-toggle="tab">Draft</a>
                           </li>
+                          <li>
+                            <a href="#signageFormTab" data-toggle="tab">Signage</a>
+                          </li>
                         </ul>
 
-                            <form action="{{ route('company.conference.conferenceBookings.update', $conferenceBooking->id) }}" method="POST" id="">
+                            <form action="{{ route('company.conference.conferenceBookings.update', $conferenceBooking->id) }}" method="POST" id=""  enctype="multipart/form-data">
                             <input type="hidden" name="_method" value="PATCH">
 
                                 <div class="tab-content tab-content-bordered">
@@ -57,6 +60,9 @@
                                   </div>  
                                   <div class="tab-pane fade" id="draftFormTab">
                                     @include('company.Conference.conference_bookings.draft_form')
+                                  </div>      
+                                  <div class="tab-pane fade" id="signageFormTab">
+                                    @include('company.Conference.conference_bookings.signage_form')
                                   </div>                              
                                 </div>
 
