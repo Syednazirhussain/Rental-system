@@ -38,7 +38,7 @@
                           </li>
                         </ul>
 
-                            <form action="{{ route('company.conference.conferenceBookings.store') }}" method="POST" id="bookingForm">
+                            <form action="{{ route('company.conference.conferenceBookings.store') }}" method="POST" id="bookingForm"  enctype="multipart/form-data">
 
                                 <div class="tab-content tab-content-bordered">
                                   <div class="tab-pane fade in active" id="BookingFormTab">
@@ -95,7 +95,7 @@
 
 
               // Initialize validator
-              $('#bookingForm').validate({
+              $('#bookingForm1').validate({
 
                     ignore: [],
                     
