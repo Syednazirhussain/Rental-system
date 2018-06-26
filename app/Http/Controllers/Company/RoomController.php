@@ -24,9 +24,7 @@ use App\Models\Company\RoomImages;
 use App\Models\Company\RoomSettingArrangment;
 use App\Models\Company\RoomEquipments;
 use App\Models\Company\RoomNotes;
-
 use App\Models\User;
-
 
 use App\Repositories\Company\ServiceRepository;
 use Session;
@@ -268,20 +266,24 @@ class RoomController extends AppBaseController
     public function edit($id)
     {
 
+
+
         $room = $this->roomRepository->findWithoutFail($id);
         $servicerepo = $this->serviceRepository->findWithoutFail($id);
 
-        $servicejson = json_decode($room->services);
+        if(!is_null($room->services))
+        {
+            $servicejson = json_decode($room->services);
+            $selectedService = Service::whereIn('id', $servicejson)->get();
+        }
 
-         $selectedService = Service::whereIn('id', $servicejson)->get();
-         // dd($servicejson);
-         // dd($selectedService);
-        // dd($room['end_date']);
         if (empty($room)) 
         {
             session()->flash('msg.error','Company Room not found');
             return redirect(route('company.rooms.index'));
         }
+
+
 
         $room_id = $room->id;
         $company_id = $room->company_id;
@@ -299,6 +301,7 @@ class RoomController extends AppBaseController
         $equipments = Equipments::all();
         $roomSittingArrangments =  RoomSettingArrangment::where('room_id',$room_id)->get();
         $roomNote = RoomNotes::where('room_id',$room_id)->first();
+        
 
 
         if($room->room_module_type == 'conference')
@@ -336,15 +339,17 @@ class RoomController extends AppBaseController
                 'equipments' => $equipments,
                 'roomSittingArrangments' => $roomSittingArrangments,
                 'roomImages' => $roomImages,
-                'imageFiles' => $imageFiles,
-                'servicejson'   =>  $servicejson,
-                'selectedService'   =>  $selectedService 
+                'imageFiles' => $imageFiles 
             ];
+
+            if(isset($selectedService))
+            {
+                $data['selectedService'] = $selectedService;
+            }
+
         }
         elseif($room->room_module_type == 'rental')
         {
-              // dd($room->rent_end_date_continue); 
-
 
             $data = [
                 'room'  => $room,
@@ -356,10 +361,13 @@ class RoomController extends AppBaseController
                 'roomEquipments' => $roomEquipments,
                 'equipments' => $equipments,
                 'roomSittingArrangments' => $roomSittingArrangments,
-                'roomNote'      => $roomNote,
-                'servicejson'   =>  $servicejson,
-                'selectedService'   =>  $selectedService 
+                'roomNote'      => $roomNote 
             ];
+
+            if(isset($selectedService))
+            {
+                $data['selectedService'] = $selectedService;
+            }
 
         }
 
