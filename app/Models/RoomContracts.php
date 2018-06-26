@@ -36,14 +36,18 @@ class RoomContracts extends Model
         'company_id',
         'room_id',
         'number',
-        'content',
         'start_date',
         'end_date',
-        'termindation_date',
         'payment_method',
         'payment_cycle',
         'discount',
-        'discount_type'
+        'status',
+        'customer_id',
+        'nr_termination',
+        'nr_landlord',
+        'monthly_rent',
+        'note',
+
     ];
 
     /**

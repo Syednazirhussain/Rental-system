@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Company;
 
 use App\Http\Requests\CreateRoomContractRequest;
 use App\Http\Requests\UpdateRoomContractRequest;
+use App\Model\Company\CompanyTermination;
+use App\Models\Rental\CompanyCustomer;
 use App\Models\CompanyUser;
 use App\Repositories\RoomContractRepository;
 use App\Http\Controllers\AppBaseController;
@@ -69,6 +71,9 @@ class RoomContractController extends AppBaseController
         $modules = Module::all();
         $paymentCycles = PaymentCycle::all();
         $paymentMethods = PaymentMethod::all();
+        $companyBuildings = CompanyBuilding::where('company_id', $company_id)->get();
+        $companyFloors = CompanyFloorRoom::where('company_id', $company_id)->get();
+        $customers = CompanyCustomer::where('company_id', $company_id)->get();
 
         $data = [
             'rooms' => $rooms,
@@ -81,6 +86,9 @@ class RoomContractController extends AppBaseController
             'paymentCycles' => $paymentCycles,
             'paymentMethods' => $paymentMethods,
             'companyUsers' => '',
+            'buildings' => $companyBuildings,
+            'floors' => $companyFloors,
+            'customers' => $customers,
         ];
         //dd($rooms);
 
@@ -106,6 +114,89 @@ class RoomContractController extends AppBaseController
         $roomContract = $this->roomContractRepository->create($input);
 
         return response()->json(['success'=>1, 'msg'=>'Company contract has been generated successfully', 'room_contract_id'=>$roomContract->id]);
+    }
+
+
+    /**
+     * Store a newly created Room in storage.
+     *
+     * @param CreateRoomRequest $request
+     *
+     * @return Response
+     */
+    public function save_termination(Request $request)
+    {
+        $input = $request->all();
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+
+        $termination = [
+            'termination_date' => $input['termination_date'],
+            'termination_issue' => $input['termination_issue'],
+            'contract_end_date' => $input['contract_end_date'],
+            'immigrant_date' => $input['immigrant_date'],
+            'room_can_rented_date' => $input['room_can_rented_date'],
+            'note' => $input['note'],
+            'contract_id' => $input['contract_id'],
+            'company_id' => $company_id,
+        ];
+
+        $landlord_termination = [
+            'termination_date' => $input['lord_termination_date'],
+            'termination_issue' => $input['lord_termination_issue'],
+            'contract_end_date' => $input['lord_contract_end_date'],
+            'note' => $input['lord_note'],
+            'contract_id' => $input['contract_id'],
+            'company_id' => $company_id,
+        ];
+
+        $termination = CompanyTermination::create($termination);
+        $landlord_termination = Company\CompanyLandlordTermination::create($landlord_termination);
+
+        $data = [
+            'termination_id' => $termination->id,
+            'lord_termination_id' => $landlord_termination->id,
+        ];
+
+        return response()->json(['success'=>1, 'msg'=>'Company contract has been generated successfully', 'termination'=>$data]);
+    }
+
+
+    /**
+     * Store a newly created Room in storage.
+     *
+     * @param CreateRoomRequest $request
+     *
+     * @return Response
+     */
+    public function update_termination($id, Request $request)
+    {
+        $input = $request->all();
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+
+        $termination = [
+            'termination_date' => $input['termination_date'],
+            'termination_issue' => $input['termination_issue'],
+            'contract_end_date' => $input['contract_end_date'],
+            'immigrant_date' => $input['immigrant_date'],
+            'room_can_rented_date' => $input['room_can_rented_date'],
+            'note' => $input['note'],
+            'contract_id' => $input['contract_id'],
+            'company_id' => $company_id,
+        ];
+
+        $landlord_termination = [
+            'termination_date' => $input['lord_termination_date'],
+            'termination_issue' => $input['lord_termination_issue'],
+            'contract_end_date' => $input['lord_contract_end_date'],
+            'note' => $input['lord_note'],
+            'contract_id' => $input['contract_id'],
+            'company_id' => $company_id,
+        ];
+
+        CompanyTermination::where('contract_id', $id)->first()->update($termination);
+        Company\CompanyLandlordTermination::where('contract_id', $id)->first()->update($landlord_termination);
+
+        return response()->json(['success'=>1, 'msg'=>'Company contract has been generated successfully']);
     }
 
 
@@ -157,10 +248,20 @@ class RoomContractController extends AppBaseController
         $modules = Module::all();
         $paymentCycles = PaymentCycle::all();
         $paymentMethods = PaymentMethod::all();
-        $companyUsers = CompanyUser::where('company_id', $company->id)->get();
+        $termination = CompanyTermination::where('contract_id', $id)->first();
+        $lord_termination = Company\CompanyLandlordTermination::where('contract_id', $id)->first();
+        $companyBuildings = CompanyBuilding::where('company_id', $company_id)->get();
+        $companyFloors = CompanyFloorRoom::where('company_id', $company_id)->get();
+        $customers = CompanyCustomer::where('company_id', $company_id)->get();
+        if(isset ($company)) {
+            $companyUsers = CompanyUser::where('company_id', $company->id)->get();
+        }else {
+            $companyUsers = [];
+        }
 
         $data = [
             'contract' => $contract,
+            'company_id' => $company_id,
             'company' => $company,
             'rooms' => $rooms,
             'countries' => $countries,
@@ -172,6 +273,11 @@ class RoomContractController extends AppBaseController
             'paymentCycles' => $paymentCycles,
             'paymentMethods' => $paymentMethods,
             'companyUsers' => $companyUsers,
+            'termination' => $termination,
+            'lord_termination' => $lord_termination,
+            'buildings' => $companyBuildings,
+            'floors' => $companyFloors,
+            'customers' => $customers,
         ];
         //dd($rooms);
 
@@ -186,10 +292,13 @@ class RoomContractController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateRoomContractRequest $request)
+    public function update($id, Request $request)
     {
-
         $input = $request->all();
+        echo "<pre>";
+        print_r($input);
+        echo "</pre>";
+
         $room_contract = $this->roomContractRepository->findWithoutFail($id);
 
         if (empty($room_contract)) {
@@ -248,6 +357,8 @@ class RoomContractController extends AppBaseController
         $modules = Module::all();
         $paymentCycles = PaymentCycle::all();
         $paymentMethods = PaymentMethod::all();
+        $companyBuildings = CompanyBuilding::where('company_id', $company_id)->get();
+        $companyFloors = CompanyFloorRoom::where('company_id', $company_id)->get();
 
 
         $contracts = Room::leftJoin('room_contracts', 'rooms.id', '=', 'room_contracts.room_id')
@@ -255,7 +366,7 @@ class RoomContractController extends AppBaseController
             ->join('company_buildings', 'company_floor_rooms.building_id', '=', 'company_buildings.id')
             ->where('rooms.company_id', $company_id)
             ->where('room_contracts.deleted_at', NULL)
-            ->select('rooms.id','rooms.name', 'room_contracts.start_date', 'room_contracts.end_date', 'company_buildings.name as buildingName', 'company_floor_rooms.floor')
+            ->select('rooms.id','rooms.name', 'rooms.area', 'room_contracts.start_date', 'room_contracts.end_date', 'company_buildings.name as buildingName', 'company_floor_rooms.floor')
             ->distinct('rooms.id')->orderBy('rooms.id', 'DESC')->get();
 
 
@@ -270,7 +381,9 @@ class RoomContractController extends AppBaseController
             'paymentCycles' => $paymentCycles,
             'paymentMethods' => $paymentMethods,
             'companyUsers' => '',
-            'data' => $data = json_encode($contracts)
+            'data' => $data = json_encode($contracts),
+            'buildings' => $companyBuildings,
+            'floors' => $companyFloors,
         ];
 
         return view('company.contracts.status', $data);
@@ -286,5 +399,36 @@ class RoomContractController extends AppBaseController
         $input = $request->room_id;
         $contracts = RoomContracts::where('room_id', $input)->get();
         return response()->json(['success'=>1, 'msg'=>'Fetched Room Contract Period successfully', 'data' => $contracts]);
+    }
+
+    public function calendar_filter(Request $request)
+    {
+        $input = $request->all();
+
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+
+        $contracts = Room::leftJoin('room_contracts', 'rooms.id', '=', 'room_contracts.room_id')
+            ->join('company_floor_rooms', 'rooms.floor_id', '=', 'company_floor_rooms.id')
+            ->join('company_buildings', 'company_floor_rooms.building_id', '=', 'company_buildings.id')
+            ->where('rooms.company_id', $company_id)
+            ->where('room_contracts.deleted_at', NULL)
+            ->select('rooms.id','rooms.name', 'rooms.area', 'room_contracts.start_date', 'room_contracts.end_date', 'company_buildings.name as buildingName', 'company_buildings.id as building', 'company_floor_rooms.id as floor_id', 'company_floor_rooms.floor')
+            ->distinct('rooms.id')->orderBy('rooms.id', 'DESC');
+
+        if($input['building']) {
+            $contracts = $contracts->where('company_buildings.id', $input['building']);
+        }
+
+        if($input['floor']) {
+            $contracts = $contracts->where('company_floor_rooms.id', $input['floor']);
+        }
+
+        $contracts = $contracts->get();
+
+        $data = [
+            'data' => json_encode($contracts),
+        ];
+
+        return response()->json(['success'=>1, 'msg'=>'', 'data'=>$data]);
     }
 }

@@ -704,8 +704,8 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::get('company/contracts', ['as'=> 'company.contracts.index', 'uses' => 'Company\RoomContractController@index']);
     Route::post('company/contracts', ['as'=> 'company.contracts.store', 'uses' => 'Company\RoomContractController@store']);
     Route::get('company/contracts/create', ['as'=> 'company.contracts.create', 'uses' => 'Company\RoomContractController@create']);
-    Route::put('company/contracts/{contracts}', ['as'=> 'company.contracts.update', 'uses' => 'Company\RoomContractController@update']);
-    Route::patch('company/contracts/{contracts}', ['as'=> 'company.contracts.update', 'uses' => 'Company\RoomContractController@update']);
+    Route::put('company/contracts/{id}', ['as'=> 'company.contracts.update', 'uses' => 'Company\RoomContractController@update']);
+    Route::patch('company/contracts/{id}', ['as'=> 'company.contracts.update', 'uses' => 'Company\RoomContractController@update']);
     Route::delete('company/contracts/{contracts}', ['as'=> 'company.contracts.destroy', 'uses' => 'Company\RoomContractController@destroy']);
     Route::get('company/contracts/{contracts}', ['as'=> 'company.contracts.show', 'uses' => 'Company\RoomContractController@show']);
     Route::get('company/contracts/{contracts}/edit', ['as'=> 'company.contracts.edit', 'uses' => 'Company\RoomContractController@edit']);
@@ -713,7 +713,10 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::get('company/calendar', ['as'=> 'company.contracts.status', 'uses' => 'Company\RoomContractController@status']);
     
     Route::post('company/periods', ['as'=> 'company.contracts.period', 'uses' => 'Company\RoomContractController@getPeriod']);
-
+    Route::post('company/calendar/advanced_filter', ['as'=> 'company.contracts.filter', 'uses' => 'Company\RoomContractController@calendar_filter']);
+    Route::post('company/contracts/termination', ['as'=> 'company.contracts.save_termination', 'uses' => 'Company\RoomContractController@save_termination']);
+    Route::put('company/contracts/termination/{id}', ['as'=> 'company.contracts.update_termination', 'uses' => 'Company\RoomContractController@update_termination']);
+    Route::patch('company/contracts/termination/{id}', ['as'=> 'company.contracts.update_termination', 'uses' => 'Company\RoomContractController@update_termination']);
 
     # Company Contract Persons Section routes
     Route::post('company/companies', ['as'=> 'company.companies.store', 'uses' => 'Company\CompanyController@store']);
@@ -1303,6 +1306,7 @@ Route::get('company/currencies/{currencies}/edit', ['as'=> 'company.currencies.e
 
 
 
+
 Route::get('company/leaseAttachments', ['as'=> 'company.leaseAttachments.index', 'uses' => 'Company\LeaseAttachmentController@index']);
 Route::post('company/leaseAttachments', ['as'=> 'company.leaseAttachments.store', 'uses' => 'Company\LeaseAttachmentController@store']);
 Route::get('company/leaseAttachments/create', ['as'=> 'company.leaseAttachments.create', 'uses' => 'Company\LeaseAttachmentController@create']);
@@ -1357,6 +1361,7 @@ Route::get('company/companyHrs/editHrNotes/{hrNoteId}', ['as'=> 'company.editHrN
 Route::put('company/companyHrs/updateHrNotes/{hrNoteId}', ['as'=> 'company.updateHrNotes', 'uses' => 'Company\companyHrController@updateHrNotes']);
 Route::post('company/companyHrs/HrNotes/createHrNote', ['as'=> 'company.HrNotes.createHrNote', 'uses' => 'Company\companyHrController@createHrNote']);
 Route::delete('company/companyHrs/deleteHrNote/{hrNoteId}', ['as'=> 'company.deleteHrNote', 'uses' => 'Company\companyHrController@deleteHrNote']);
+
 
 
 
@@ -1510,6 +1515,7 @@ Route::patch('company/companyHrDocuments/{companyHrDocuments}', ['as'=> 'company
 Route::delete('company/companyHrDocuments/{companyHrDocuments}', ['as'=> 'company.companyHrDocuments.destroy', 'uses' => 'Company\CompanyHrDocumentsController@destroy']);
 Route::get('company/companyHrDocuments/{companyHrDocuments}', ['as'=> 'company.companyHrDocuments.show', 'uses' => 'Company\CompanyHrDocumentsController@show']);
 Route::get('company/companyHrDocuments/{companyHrDocuments}/edit', ['as'=> 'company.companyHrDocuments.edit', 'uses' => 'Company\CompanyHrDocumentsController@edit']);
+
 
 # Company Lease attachments routes
 Route::get('company/lease_attachments', ['as'=> 'company.leaseAttachments.index', 'uses' => 'Company\LeaseAttachmentController@index']);
