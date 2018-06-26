@@ -28,6 +28,11 @@ use Auth;
 use Session;
 use App\Models\CompanyCustomer;
 
+use App\Models\User;
+use App\Models\Company\ConferenceBookingNotes;
+
+
+
 class ConferenceBookingController extends AppBaseController
 {
     /** @var  ConferenceBookingRepository */
@@ -106,6 +111,120 @@ class ConferenceBookingController extends AppBaseController
         return view('company.Conference.conference_bookings.index', $data);
     }
 
+    public function getBookingNotes(Request $request)
+    {
+        $input = $request->all();
+
+        if( isset($input['conferenceBookingId']) && isset($input['code']))
+        {
+            $conferenceBookingNotes =  ConferenceBookingNotes::where('conference_booking_id',$input['conferenceBookingId'])->where('code',$input['code'])->orderBy('id', 'DESC')->get();
+            $users = User::all();
+
+            if (!empty($conferenceBookingNotes) && count($conferenceBookingNotes) > 0) 
+            {
+                $data = [
+                    'users' => $users,
+                    'conferenceBookingNotes' => $conferenceBookingNotes
+                ];
+
+                return response()->json($data);
+            }
+            else
+            {
+                return response()->json(['status' => 0 ,'msg' => 'Not enough Notes']);
+            }
+        }
+        else
+        {
+            return response()->json(['status' => 0 ,'msg' => 'There is some problem while getting HR Notes']);
+        }
+    }
+
+    public function createBookingNotes(Request $request)
+    {
+        $input = $request->all();
+
+        $user_id = Auth::guard('company')->user()->id;
+
+        if( isset($input['note']) && isset($input['code']) &&isset($input['conferenceBookingId']) )
+        {
+            $conferenceBookingNotes = new ConferenceBookingNotes;
+            $conferenceBookingNotes->note = $input['note'];
+            $conferenceBookingNotes->code = $input['code'];
+            $conferenceBookingNotes->conference_booking_id = $input['conferenceBookingId'];
+            $conferenceBookingNotes->user_id = $user_id;
+            $conferenceBookingNotes->save();
+            if($conferenceBookingNotes)
+            {
+                return response()->json($conferenceBookingNotes);   
+            }
+            else
+            {
+                return response()->json(['status' => 0 ,'msg' => 'Conference Booking Notes Note are not create']);
+            }
+        }
+        else
+        {
+            return response()->json(['status' => 0,'msg' => 'There is some problem while creating HR Note']);
+        }
+    }
+
+    public function editBookingNotes($id)
+    {
+        $conferenceBookingNotes =  ConferenceBookingNotes::find($id);
+        if (!empty($conferenceBookingNotes)) 
+        {
+            return response()->json($conferenceBookingNotes);
+        }
+        else
+        {
+            return response()->json(['status' => 0,'msg' => 'Conference Booking Note does not exist']);
+        }
+    }
+
+    public function updateBookingNotes($id,Request $request)
+    {
+        $input = $request->all();
+
+        if ( isset($input['note']) && isset($input['conferenceBookingId']) ) 
+        {
+            $conferenceBookingNotes = ConferenceBookingNotes::find($id);
+            $conferenceBookingNotes->conference_booking_id = $input['conferenceBookingId'];
+            $conferenceBookingNotes->note = $input['note'];
+            $conferenceBookingNotes->save();
+            if($conferenceBookingNotes)
+            {
+                return response()->json($conferenceBookingNotes);
+            }
+            else
+            {
+                return response()->json(['status' => 0,'msg' => 'Conference Booking Notes are not update']);
+            }
+        }
+        else
+        {
+            return response()->json(['status' => 0,'msg' => 'There is some problem while updating HR Note']);
+        }
+    }
+
+    public function deleteBookingNotes($id)
+    {
+        if ($id) 
+        {
+            $conferenceBookingNotes = ConferenceBookingNotes::find($id);
+            $conferenceBookingNotes->delete();
+
+            if($conferenceBookingNotes->deleted_at == null)
+            {
+                return response()->json(['status' => 0,'msg' => 'Conference Booking Notes are not delete']);
+            }
+        }
+        else
+        {
+            return response()->json(['status' => 0,'msg' => 'There is some problem while deleting HR Note']);   
+        }
+    }
+
     /**
      * Show the form for creating a new ConferenceBooking.
      *
@@ -171,6 +290,8 @@ class ConferenceBookingController extends AppBaseController
     {
         $input = $request->all();
 
+        dd($input);
+
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
 
         $updateCustomer = [
@@ -204,6 +325,7 @@ class ConferenceBookingController extends AppBaseController
         $input['start_datetime']    = $start_datetime;
         $input['end_datetime']      = $end_datetime;
 
+        // dd($input['start_datetime']);
 
         if (empty($input['packages'])) {
             $input['package_price'] = 0.00;

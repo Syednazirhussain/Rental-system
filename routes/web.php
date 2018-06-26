@@ -979,7 +979,12 @@ Route::group(['middleware' => ['company.auth']], function () {
 	Route::get('company/conference/equipments/{equipments}', ['as'=> 'company.conference.equipments.show', 'uses' => 'Company\Conference\EquipmentsController@show']);
 	Route::get('company/conference/equipments/{equipments}/edit', ['as'=> 'company.conference.equipments.edit', 'uses' => 'Company\Conference\EquipmentsController@edit']);
 
-
+	Route::post('conference/bookings/getBookingNotes', ['as'=> 'company.getBookingNotes', 'uses' => 'Company\Conference\ConferenceBookingController@getBookingNotes']);
+  
+    Route::post('company/conference/bookings/createBookingNotes', ['as'=> 'company.createBookingNotes', 'uses' => 'Company\Conference\ConferenceBookingController@createBookingNotes']);
+	Route::get('company/conference/bookings/editBookingNotes/{conferenceBookings}', ['as'=> 'company.editBookingNotes', 'uses' => 'Company\Conference\ConferenceBookingController@editBookingNotes']);
+	Route::put('company/conference/bookings/updateBookingNotes/{conferenceBookings}', ['as'=> 'company.updateBookingNotes', 'uses' => 'Company\Conference\ConferenceBookingController@updateBookingNotes']);
+    Route::delete('company/conference/bookings/deleteBookingNotes/{conferenceBookings}', ['as'=> 'company.deleteBookingNotes', 'uses' => 'Company\Conference\ConferenceBookingController@deleteBookingNotes']);
 
 	Route::get('company/conference/bookings', ['as'=> 'company.conference.conferenceBookings.index', 'uses' => 'Company\Conference\ConferenceBookingController@index']);
 	Route::post('company/conference/bookings', ['as'=> 'company.conference.conferenceBookings.store', 'uses' => 'Company\Conference\ConferenceBookingController@store']);
@@ -1725,3 +1730,13 @@ Route::delete('company/company_hr_document/{companyHrDocuments}', ['as'=> 'compa
 Route::get('company/company_hr_document/{companyHrDocuments}', ['as'=> 'company.companyHrDocuments.show', 'uses' => 'Company\CompanyHrDocumentsController@show']);
 Route::get('company/company_hr_document/{companyHrDocuments}/edit', ['as'=> 'company.companyHrDocuments.edit', 'uses' => 'Company\CompanyHrDocumentsController@edit']);
 
+
+
+Route::get('company/conferenceBookingNotes', ['as'=> 'company.conferenceBookingNotes.index', 'uses' => 'Company\ConferenceBookingNotesController@index']);
+Route::post('company/conferenceBookingNotes', ['as'=> 'company.conferenceBookingNotes.store', 'uses' => 'Company\ConferenceBookingNotesController@store']);
+Route::get('company/conferenceBookingNotes/create', ['as'=> 'company.conferenceBookingNotes.create', 'uses' => 'Company\ConferenceBookingNotesController@create']);
+Route::put('company/conferenceBookingNotes/{conferenceBookingNotes}', ['as'=> 'company.conferenceBookingNotes.update', 'uses' => 'Company\ConferenceBookingNotesController@update']);
+Route::patch('company/conferenceBookingNotes/{conferenceBookingNotes}', ['as'=> 'company.conferenceBookingNotes.update', 'uses' => 'Company\ConferenceBookingNotesController@update']);
+Route::delete('company/conferenceBookingNotes/{conferenceBookingNotes}', ['as'=> 'company.conferenceBookingNotes.destroy', 'uses' => 'Company\ConferenceBookingNotesController@destroy']);
+Route::get('company/conferenceBookingNotes/{conferenceBookingNotes}', ['as'=> 'company.conferenceBookingNotes.show', 'uses' => 'Company\ConferenceBookingNotesController@show']);
+Route::get('company/conferenceBookingNotes/{conferenceBookingNotes}/edit', ['as'=> 'company.conferenceBookingNotes.edit', 'uses' => 'Company\ConferenceBookingNotesController@edit']);

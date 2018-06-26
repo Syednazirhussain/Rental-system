@@ -539,6 +539,7 @@
                   });
 
 
+
                   $('#end_datetime').remove();
 
                   var endTime = '<input type="text" id="end_datetime" placeholder="" value="" name="end_datetime" class="form-control">';
@@ -1071,7 +1072,6 @@ function formatDate(date) {
 
                 // BILLING FIELDS
                 var invoice_send = $('#invoice_send').val();
-                var reference = $('#reference').val();
                 var contact_person = $('#contact_person').val();
                 var cost = $('#cost').val();
                 var payment_conditions = $('#payment_conditions').val();
@@ -1126,7 +1126,7 @@ function formatDate(date) {
                     $('#ArticlesFormTab').removeClass('active in');
                     $('#draftFormTab').removeClass('active in');
 
-                } else if (invoice_send == '' || reference == '' || contact_person == '' || cost == '' || payment_conditions == '' || interest_fees == '' || payment_reminder == '') {
+                } else if (invoice_send == '' ||  contact_person == '' || cost == '' || payment_conditions == '' || interest_fees == '' || payment_reminder == '') {
 
                     $('ul.nav-tabs li:first-child').removeClass('active');
                     $('ul.nav-tabs li:nth-child(2)').removeClass('active');

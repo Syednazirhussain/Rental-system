@@ -22,7 +22,6 @@
 
 
 
-
                         <ul class="nav nav-tabs">
                           <li class="active">
                             <a href="#BookingFormTab" data-toggle="tab">Booking</a>
@@ -33,7 +32,14 @@
                           <li>
                             <a href="#BillingFormTab" data-toggle="tab">Billing</a>
                           </li>
+                          <li>
+                            <a href="#ArticlesFormTab" data-toggle="tab">Articles</a>
+                          </li>
+                          <li>
+                            <a href="#draftFormTab" data-toggle="tab">Draft</a>
+                          </li>
                         </ul>
+
 
                             <form action="{{ route('company.conference.conferenceBookings.update', $conferenceBooking->id) }}" method="POST" id="">
                             <input type="hidden" name="_method" value="PATCH">
@@ -47,10 +53,14 @@
                                   </div>
                                   <div class="tab-pane fade" id="BillingFormTab">
                                     @include('company.Conference.conference_bookings.billing_form')
-                                  </div>
-                                  
+                                  </div>  
+                                  <div class="tab-pane fade" id="ArticlesFormTab">
+                                    @include('company.Conference.conference_bookings.articles_form')
+                                  </div>  
+                                  <div class="tab-pane fade" id="draftFormTab">
+                                    @include('company.Conference.conference_bookings.draft_form')
+                                  </div>                              
                                 </div>
-
                                                                 
                                 <div class="row">
                                     <div class="col-sm-12 m-t-3">
@@ -58,19 +68,8 @@
                                             <a href="{!! route('company.conference.conferenceBookings.index') !!}" class="btn btn-default"> <i class="fa fa-times"></i> Cancel</a>
                                     </div>
                                 </div>
-
-
-
-
-
-
                             </form>
-
                     </div>
-
-
-
-
                 </div>
             </div>
         </div>
@@ -79,203 +78,176 @@
 @endsection
 
 
-
-
-
-
-
-
-
-
-
 @section('js')
-
-
 
 <script type="text/javascript">
 
+    // Initialize validator
+    $('#bookingForm').validate({
+          ignore: [],
+          
+          rules: {
 
+                'attendees': {
+                  required: true,
+                },
+                'room_id': {
+                  required: true,
+                },
+                'room_layout_id': {
+                  required: true,
+                },
+                'duration_code': {
+                  required: true,
+                },
+                'booking_status': {
+                  required: true,
+                },
+                'payment_method_code': {
+                  required: true,
+                },
 
+                'customer_id': {
+                  required: true,
+                },
+                'customer_address': {
+                  required: true,
+                },
+                'customer_country': {
+                  required: true,
+                },
+                'customer_state': {
+                  required: true,
+                },
+                'customer_city': {
+                  required: true,
+                },
+                'customer_post_code': {
+                  required: true,
+                },
+                'customer_telephone': {
+                  required: true,
+                },
+                'customer_mobile': {
+                  required: true,
+                },
+                'customer_fax': {
+                  required: true,
+                },
+                'customer_org_num': {
+                  required: true,
+                },
 
-              // Initialize validator
-              $('#bookingForm').validate({
-                    ignore: [],
-                    
-                    rules: {
+                'invoice_send': {
+                  required: true,
+                },
+                
+                'contact_person': {
+                  required: true,
+                },
+                'cost': {
+                  required: true,
+                },
+                'payment_conditions': {
+                  required: true,
+                },
+                'interest_fees': {
+                  required: true,
+                },
+                'payment_reminder': {
+                  required: true,
+                },
 
-                          'attendees': {
-                            required: true,
-                          },
-                          'room_id': {
-                            required: true,
-                          },
-                          'room_layout_id': {
-                            required: true,
-                          },
-                          'duration_code': {
-                            required: true,
-                          },
-                          'booking_status': {
-                            required: true,
-                          },
-                          'payment_method_code': {
-                            required: true,
-                          },
+          },
 
-                          'customer_id': {
-                            required: true,
-                          },
-                          'customer_address': {
-                            required: true,
-                          },
-                          'customer_country': {
-                            required: true,
-                          },
-                          'customer_state': {
-                            required: true,
-                          },
-                          'customer_city': {
-                            required: true,
-                          },
-                          'customer_post_code': {
-                            required: true,
-                          },
-                          'customer_telephone': {
-                            required: true,
-                          },
-                          'customer_mobile': {
-                            required: true,
-                          },
-                          'customer_fax': {
-                            required: true,
-                          },
-                          'customer_org_num': {
-                            required: true,
-                          },
+          messages: {
+                'attendees': {
+                  required: "Please enter attendees",
+                },
+                'room_id': {
+                  required: "Please select room",
+                },
+                'room_layout_id': {
+                  required: "Please select room layout",
+                },
+                'duration_code': {
+                  required: "Please select duration",
+                },
+                'booking_status': {
+                  required: "Please select status",
+                },
+                'payment_method_code': {
+                  required: "Please select pay method",
+                },
+          },
 
-                          'invoice_send': {
-                            required: true,
-                          },
-                          
-                          'contact_person': {
-                            required: true,
-                          },
-                          'cost': {
-                            required: true,
-                          },
-                          'payment_conditions': {
-                            required: true,
-                          },
-                          'interest_fees': {
-                            required: true,
-                          },
-                          'payment_reminder': {
-                            required: true,
-                          },
-
-                    },
-
-                    messages: {
-                          'attendees': {
-                            required: "Please enter attendees",
-                          },
-                          'room_id': {
-                            required: "Please select room",
-                          },
-                          'room_layout_id': {
-                            required: "Please select room layout",
-                          },
-                          'duration_code': {
-                            required: "Please select duration",
-                          },
-                          'booking_status': {
-                            required: "Please select status",
-                          },
-                          'payment_method_code': {
-                            required: "Please select pay method",
-                          },
-                    },
-
-                    errorPlacement: function(error, element) {
-                        var placement = $(element).parent().find('.errorTxt');
-                        if (placement) {
-                          $(placement).append(error)
-                        } else {
-                          error.insertAfter(element);
-                        }
-                    }
-
-              });
-
-
-
-
+          errorPlacement: function(error, element) {
+              var placement = $(element).parent().find('.errorTxt');
+              if (placement) {
+                $(placement).append(error)
+              } else {
+                error.insertAfter(element);
+              }
+          }
+    });
 
           // ==============================================
 
+    function totalPriceCalculations() {
 
 
+        var room_price      = $('#room_price').val();
+        var equipment_price = $('#equipment_price').val();
+        var food_price      = $('#food_price').val();
+        var package_price   = $('#package_price').val();
+        var tax             = $('#tax').val();
 
 
-
-          function totalPriceCalculations() {
-
-
-              var room_price      = $('#room_price').val();
-              var equipment_price = $('#equipment_price').val();
-              var food_price      = $('#food_price').val();
-              var package_price   = $('#package_price').val();
-              var tax             = $('#tax').val();
+        if (room_price != '') {
+          room_price = $('#room_price').val();
+        } else {
+          room_price = 0;
+        }
 
 
-              if (room_price != '') {
-                room_price = $('#room_price').val();
-              } else {
-                room_price = 0;
-              }
+        if (equipment_price != '') {
+          equipment_price = $('#equipment_price').val();
+        } else {
+          equipment_price = 0;
+        }
 
 
-              if (equipment_price != '') {
-                equipment_price = $('#equipment_price').val();
-              } else {
-                equipment_price = 0;
-              }
+        if (food_price != '') {
+          food_price = $('#food_price').val();
+        } else {
+          food_price = 0;
+        }
 
 
-              if (food_price != '') {
-                food_price = $('#food_price').val();
-              } else {
-                food_price = 0;
-              }
+        if (package_price != '') {
+          package_price = $('#package_price').val();
+        } else {
+          package_price = 0;
+        }
 
 
-              if (package_price != '') {
-                package_price = $('#package_price').val();
-              } else {
-                package_price = 0;
-              }
+        if (tax != '') {
+          tax = $('#tax').val();
+        } else {
+          tax = 0;
+        }
 
 
-              if (tax != '') {
-                tax = $('#tax').val();
-              } else {
-                tax = 0;
-              }
+        // alert(room_price+ " . "+equipment_price+ " . "+food_price+ " . "+package_price+ " . "+tax);
 
+        var totalPrice = parseFloat(room_price) + parseFloat(equipment_price) + parseFloat(food_price) + parseFloat(package_price);
+        
+        var totalPriceAfterTax = (parseFloat(totalPrice) / 100) * parseFloat(tax);
 
-              // alert(room_price+ " . "+equipment_price+ " . "+food_price+ " . "+package_price+ " . "+tax);
-
-              var totalPrice = parseFloat(room_price) + parseFloat(equipment_price) + parseFloat(food_price) + parseFloat(package_price);
-              
-              var totalPriceAfterTax = (parseFloat(totalPrice) / 100) * parseFloat(tax);
-
-              var finalTotal = parseFloat(totalPriceAfterTax) + parseFloat(totalPrice);
-              
-              $('#total_price').val(parseFloat(finalTotal).toFixed(2));
-          }
-
-
-
+        var finalTotal = parseFloat(totalPriceAfterTax) + parseFloat(totalPrice);
+        
+        $('#total_price').val(parseFloat(finalTotal).toFixed(2));
+    }
           // ==============================================
 
 
@@ -989,7 +961,1689 @@
             });
 
 
+   function isEmpty(val)
+   {
+       return (val === undefined || val == null || val.length <= 0) ? true : false;
+   }
 
+  var editRoom = "{{ isset($conferenceBooking) ? $conferenceBooking->id: 0 }}";
+
+  var user_id = "{{ auth()->guard('company')->user()->id  }}";
+
+
+  if(editRoom != 0)
+  {
+
+
+/* Conference Booking notes works start   */
+
+    $('#popup-BookingNotes').on("click",function(){
+       $('.error').empty();
+       $('#popup-modalBtnBookingNotes').text("Add");
+       $('#Editor-bookingNotes').val("");
+    });
+
+    var popupEditBookingNotesId;
+    var currentOperationBookingNotes = 0;
+
+    $(document).on('click','.BookingNoteEdit-popup',function(){
+       $('.error').empty();
+       currentOperationBookingNotes = 1;
+       popupEditBookingNotesId = $(this).attr('data-userBookingNote');
+
+       var url = "{{ route('company.editBookingNotes', array("")) }}/"+popupEditBookingNotesId;
+
+       $.ajax({
+          url  : url,
+          type : "GET",
+          success : function(response){
+             if(response.hasOwnProperty("status"))
+             {
+                alert(response.msg);
+             }
+             else
+             {
+                $('#popup-modal-BookingNotes').modal('toggle');
+                $('#Editor-bookingNotes').val(response.note);
+                $('#popup-modalBtnBookingNotes').text("Update");
+             }
+          }
+       });
+    });
+
+    $(document).on('click','#popup-modalBtnBookingNotes',function(){
+       
+       
+       if(currentOperationBookingNotes == 1)
+       {
+          var textEditor = $('#Editor-bookingNotes').val();
+
+          if(isEmpty(textEditor))
+          {
+             //alert("Please provide some content");
+             $('.error').text("Please provide some content");
+          }
+          else if(textEditor.length > 500)
+          {
+             // alert("Please enter characters between 1 to 100");
+             $('.error').text("Please enter characters between 1 to 500");
+          }
+          else
+          {
+             var jsObj = {
+                'conferenceBookingId' : editRoom,
+                'note'   : textEditor,
+                'code' : 'booking_note'
+             };
+             
+             var url = "{{ route('company.updateBookingNotes', array("")) }}/"+popupEditBookingNotesId;
+
+
+             $.ajax({
+                url  : url,
+                type : "PUT",
+                data : jsObj,
+                success : function(response){
+                   if(response.hasOwnProperty("status"))
+                   {
+                      alert(response.msg);
+                   }
+                   else
+                   {
+                      currentOperationBookingNotes = 0;
+                      $('#Editor-bookingNotes').val("");
+
+                       var jsObjB = {
+                          'conferenceBookingId' : editRoom,
+                          'code'        : 'booking_note'
+                       };
+
+                       $.post("{{ route('company.getBookingNotes') }}",jsObjB,function(response){
+                          if(response.hasOwnProperty("status"))
+                          {
+                             var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                             $('#log-BookingNotes').html(html);
+                          }
+                          else
+                          {
+                             var html = '';
+                             var created_at;
+                             var updated_at;
+                             for(var i = 0 ; i < response.conferenceBookingNotes.length ; i++)
+                             {
+                                created_at = new Date(response.conferenceBookingNotes[i].created_at);
+                                updated_at = new Date(response.conferenceBookingNotes[i].updated_at);
+
+                                if(user_id == response.conferenceBookingNotes[i].user_id)
+                                {
+                                   html += '<tr>';
+                                   for(var j = 0 ; j < response.users.length ; j++)
+                                   {
+                                      if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                                      {
+                                         html += '<td>'+response.users[j].name+'</td>';
+                                         break;
+                                      }
+                                      
+                                   }
+                                   html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                                   html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                   html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                   html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg BookingNoteEdit-popup" data-userBookingNote="'+response.conferenceBookingNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg BookingNoteDelete-popup" data-userBookingNote="'+response.conferenceBookingNotes[i].id+'"></i></a> </td>';
+                                   html += '</tr>';
+                                }
+                                else
+                                {
+                                   html += '<tr>';
+                                   for(var j = 0 ; j < response.users.length ; j++)
+                                   {
+                                      if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                                      {
+                                         html += '<td>'+response.users[j].name+'</td>';
+                                         break;
+                                      }
+                                      
+                                   }
+                                   html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                                   html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                   html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                   html += '</tr>';
+                                }
+                             }
+                             html += '</tbody>';
+                             html += '</table>'; 
+                             $('#log-BookingNotes').html('');               
+                             $('#log-BookingNotes').html(html);               
+                          }
+                       });
+
+                      $("#popup-modal-BookingNotes .close").click();
+                   }
+                } 
+             });
+
+          }
+       }
+       else
+       {
+          var note = $('#Editor-bookingNotes').val();
+
+          if(isEmpty(note))
+          {
+             // alert("Please provide some content");
+             $('.error').text("Please provide some content");
+          }
+          else if(note.length > 500)
+          {
+             // alert("Please enter characters between 1 to 100");
+             $('.error').text("Please enter characters between 1 to 500");
+          }
+          else
+          {
+             var jsObj = {
+                'conferenceBookingId' : editRoom,
+                'note' : note,
+                'code' : 'booking_note' 
+             };
+
+             $.ajax({
+                url : "{{ route('company.createBookingNotes') }}",
+                type : "POST",
+                data : jsObj,
+                dataType : "json",
+                success : function(response){
+                   if(response.hasOwnProperty("status"))
+                   {
+                      alert(response.msg);
+                   }
+                   else
+                   {
+                      $('#Editor-bookingNotes').val("");
+
+                       var jsObjB = {
+                          'conferenceBookingId' : editRoom,
+                          'code'        : 'booking_note'
+                       };
+
+                       $.post("{{ route('company.getBookingNotes') }}",jsObjB,function(response){
+                          if(response.hasOwnProperty("status"))
+                          {
+                             var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                             $('#log-BookingNotes').html(html);
+                          }
+                          else
+                          {
+                             var html = '';
+                             var created_at;
+                             var updated_at;
+                             for(var i = 0 ; i < response.conferenceBookingNotes.length ; i++)
+                             {
+                                created_at = new Date(response.conferenceBookingNotes[i].created_at);
+                                updated_at = new Date(response.conferenceBookingNotes[i].updated_at);
+
+                                if(user_id == response.conferenceBookingNotes[i].user_id)
+                                {
+                                   html += '<tr>';
+                                   for(var j = 0 ; j < response.users.length ; j++)
+                                   {
+                                      if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                                      {
+                                         html += '<td>'+response.users[j].name+'</td>';
+                                         break;
+                                      }
+                                      
+                                   }
+                                   html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                                   html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                   html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                   html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg BookingNoteEdit-popup" data-userBookingNote="'+response.conferenceBookingNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg BookingNoteDelete-popup" data-userBookingNote="'+response.conferenceBookingNotes[i].id+'"></i></a> </td>';
+                                   html += '</tr>';
+                                }
+                                else
+                                {
+                                   html += '<tr>';
+                                   for(var j = 0 ; j < response.users.length ; j++)
+                                   {
+                                      if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                                      {
+                                         html += '<td>'+response.users[j].name+'</td>';
+                                         break;
+                                      }
+                                      
+                                   }
+                                   html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                                   html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                   html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                   html += '</tr>';
+                                }
+                             }
+                             html += '</tbody>';
+                             html += '</table>'; 
+                             $('#log-BookingNotes').html('');               
+                             $('#log-BookingNotes').html(html);               
+                          }
+                       });
+
+                      $("#popup-modal-BookingNotes .close").click();
+
+                   }
+                }
+             });
+          }
+       }
+    });
+
+    $(document).on('click','.BookingNoteDelete-popup',function(){
+
+       if( confirm("Are you sure you want to delete this record!") ) 
+       {
+          var bookingNoteId = $(this).attr('data-userBookingNote');
+
+          var url = "{{ route('company.deleteBookingNotes', array("")) }}/"+bookingNoteId;
+
+          $.ajax({
+             url : url,
+             type : "DELETE",
+             success : function(response){
+                if(response.hasOwnProperty("status"))
+                {
+                   alert(response.msg);
+                }
+                else
+                {
+
+                   var jsObjB = {
+                      'conferenceBookingId' : editRoom,
+                      'code'        : 'booking_note'
+                   };
+
+                   $.post("{{ route('company.getBookingNotes') }}",jsObjB,function(response){
+                      if(response.hasOwnProperty("status"))
+                      {
+                         var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                         $('#log-BookingNotes').html(html);
+                      }
+                      else
+                      {
+                         var html = '';
+                         var created_at;
+                         var updated_at;
+                         for(var i = 0 ; i < response.conferenceBookingNotes.length ; i++)
+                         {
+                            created_at = new Date(response.conferenceBookingNotes[i].created_at);
+                            updated_at = new Date(response.conferenceBookingNotes[i].updated_at);
+
+                            if(user_id == response.conferenceBookingNotes[i].user_id)
+                            {
+                               html += '<tr>';
+                               for(var j = 0 ; j < response.users.length ; j++)
+                               {
+                                  if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                                  {
+                                     html += '<td>'+response.users[j].name+'</td>';
+                                     break;
+                                  }
+                                  
+                               }
+                               html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                               html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                               html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                               html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg BookingNoteEdit-popup" data-userBookingNote="'+response.conferenceBookingNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg BookingNoteDelete-popup" data-userBookingNote="'+response.conferenceBookingNotes[i].id+'"></i></a> </td>';
+                               html += '</tr>';
+                            }
+                            else
+                            {
+                               html += '<tr>';
+                               for(var j = 0 ; j < response.users.length ; j++)
+                               {
+                                  if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                                  {
+                                     html += '<td>'+response.users[j].name+'</td>';
+                                     break;
+                                  }
+                                  
+                               }
+                               html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                               html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                               html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                               html += '</tr>';
+                            }
+                         }
+                         html += '</tbody>';
+                         html += '</table>'; 
+                         $('#log-BookingNotes').html('');               
+                         $('#log-BookingNotes').html(html);               
+                      }
+                   });
+
+                }
+             }
+          });
+       } 
+    });
+
+
+/* Conference Booking notes works end   */
+
+
+
+/* Internal Communication Notes work start */
+
+
+    $('#popup-InternalCommunication').on("click",function(){
+       $('.error').empty();
+       $('#popup-modalBtnInternalCommunication').text("Add");
+       $('#Editor-InternalCommunication').val("");
+    });
+
+    var popupEditICNotesId;
+    var currentOperationICNotes = 0;
+
+    $(document).on('click','.InternalCommunicationNotesEdit-popup',function(){
+       $('.error').empty();
+       currentOperationICNotes = 1;
+       popupEditICNotesId = $(this).attr('data-userInternalCommunicationNotes');
+
+       var url = "{{ route('company.editBookingNotes', array("")) }}/"+popupEditICNotesId;
+
+       $.ajax({
+          url  : url,
+          type : "GET",
+          success : function(response){
+             if(response.hasOwnProperty("status"))
+             {
+                alert(response.msg);
+             }
+             else
+             {
+                $('#popup-modal-InternalCommunication').modal('toggle');
+                $('#Editor-InternalCommunication').val(response.note);
+                $('#popup-modalBtnInternalCommunication').text("Update");
+             }
+          }
+       });
+    });
+
+    $(document).on('click','#popup-modalBtnInternalCommunication',function(){
+       
+       
+       if(currentOperationICNotes == 1)
+       {
+          var textEditor = $('#Editor-InternalCommunication').val();
+
+          if(isEmpty(textEditor))
+          {
+             //alert("Please provide some content");
+             $('.error').text("Please provide some content");
+          }
+          else if(textEditor.length > 500)
+          {
+             // alert("Please enter characters between 1 to 100");
+             $('.error').text("Please enter characters between 1 to 500");
+          }
+          else
+          {
+             var jsObj = {
+                'conferenceBookingId' : editRoom,
+                'note'   : textEditor,
+                'code' : 'internal_communication'
+             };
+             
+             var url = "{{ route('company.updateBookingNotes', array("")) }}/"+popupEditICNotesId;
+
+
+             $.ajax({
+                url  : url,
+                type : "PUT",
+                data : jsObj,
+                success : function(response){
+                   if(response.hasOwnProperty("status"))
+                   {
+                      alert(response.msg);
+                   }
+                   else
+                   {
+                      currentOperationICNotes = 0;
+                      $('#Editor-InternalCommunication').val("");
+
+                       var jsObj = {
+                          'conferenceBookingId' : editRoom,
+                          'code'        : 'internal_communication'
+                       };
+
+                       $.post("{{ route('company.getBookingNotes') }}",jsObj,function(response){
+                          if(response.hasOwnProperty("status"))
+                          {
+                             var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                             $('#log-InternalCommunicationNotes').html(html);
+                          }
+                          else
+                          {
+                             var html = '';
+                             var created_at;
+                             var updated_at;
+                             for(var i = 0 ; i < response.conferenceBookingNotes.length ; i++)
+                             {
+                                created_at = new Date(response.conferenceBookingNotes[i].created_at);
+                                updated_at = new Date(response.conferenceBookingNotes[i].updated_at);
+
+                                if(user_id == response.conferenceBookingNotes[i].user_id)
+                                {
+                                   html += '<tr>';
+                                   for(var j = 0 ; j < response.users.length ; j++)
+                                   {
+                                      if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                                      {
+                                         html += '<td>'+response.users[j].name+'</td>';
+                                         break;
+                                      }
+                                      
+                                   }
+                                   html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                                   html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                   html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                   html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg InternalCommunicationNotesEdit-popup" data-userInternalCommunicationNotes="'+response.conferenceBookingNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg InternalCommunicationNotesDelete-popup" data-userInternalCommunicationNotes="'+response.conferenceBookingNotes[i].id+'"></i></a> </td>';
+                                   html += '</tr>';
+                                }
+                                else
+                                {
+                                   html += '<tr>';
+                                   for(var j = 0 ; j < response.users.length ; j++)
+                                   {
+                                      if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                                      {
+                                         html += '<td>'+response.users[j].name+'</td>';
+                                         break;
+                                      }
+                                      
+                                   }
+                                   html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                                   html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                   html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                   html += '</tr>';
+                                }
+                             }
+                             html += '</tbody>';
+                             html += '</table>'; 
+                             $('#log-InternalCommunicationNotes').html('');               
+                             $('#log-InternalCommunicationNotes').html(html);               
+                          }
+                       });
+
+                      $("#popup-modal-InternalCommunication .close").click();
+                   }
+                } 
+             });
+
+          }
+       }
+       else
+       {
+          var note = $('#Editor-InternalCommunication').val();
+
+          if(isEmpty(note))
+          {
+             // alert("Please provide some content");
+             $('.error').text("Please provide some content");
+          }
+          else if(note.length > 500)
+          {
+             // alert("Please enter characters between 1 to 100");
+             $('.error').text("Please enter characters between 1 to 500");
+          }
+          else
+          {
+             var jsObj = {
+                'conferenceBookingId' : editRoom,
+                'note' : note,
+                'code' : 'internal_communication' 
+             };
+
+             $.ajax({
+                url : "{{ route('company.createBookingNotes') }}",
+                type : "POST",
+                data : jsObj,
+                dataType : "json",
+                success : function(response){
+                   if(response.hasOwnProperty("status"))
+                   {
+                      alert(response.msg);
+                   }
+                   else
+                   {
+                      $('#Editor-InternalCommunication').val("");
+
+                       var jsObj = {
+                          'conferenceBookingId' : editRoom,
+                          'code'        : 'internal_communication'
+                       };
+
+                       $.post("{{ route('company.getBookingNotes') }}",jsObj,function(response){
+                          if(response.hasOwnProperty("status"))
+                          {
+                             var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                             $('#log-InternalCommunicationNotes').html(html);
+                          }
+                          else
+                          {
+                             var html = '';
+                             var created_at;
+                             var updated_at;
+                             for(var i = 0 ; i < response.conferenceBookingNotes.length ; i++)
+                             {
+                                created_at = new Date(response.conferenceBookingNotes[i].created_at);
+                                updated_at = new Date(response.conferenceBookingNotes[i].updated_at);
+
+                                if(user_id == response.conferenceBookingNotes[i].user_id)
+                                {
+                                   html += '<tr>';
+                                   for(var j = 0 ; j < response.users.length ; j++)
+                                   {
+                                      if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                                      {
+                                         html += '<td>'+response.users[j].name+'</td>';
+                                         break;
+                                      }
+                                      
+                                   }
+                                   html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                                   html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                   html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                   html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg InternalCommunicationNotesEdit-popup" data-userInternalCommunicationNotes="'+response.conferenceBookingNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg InternalCommunicationNotesDelete-popup" data-userInternalCommunicationNotes="'+response.conferenceBookingNotes[i].id+'"></i></a> </td>';
+                                   html += '</tr>';
+                                }
+                                else
+                                {
+                                   html += '<tr>';
+                                   for(var j = 0 ; j < response.users.length ; j++)
+                                   {
+                                      if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                                      {
+                                         html += '<td>'+response.users[j].name+'</td>';
+                                         break;
+                                      }
+                                      
+                                   }
+                                   html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                                   html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                   html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                   html += '</tr>';
+                                }
+                             }
+                             html += '</tbody>';
+                             html += '</table>'; 
+                             $('#log-InternalCommunicationNotes').html('');               
+                             $('#log-InternalCommunicationNotes').html(html);               
+                          }
+                       });
+
+
+                      $("#popup-modal-InternalCommunication .close").click();
+
+                   }
+                }
+             });
+          }
+       }
+    });
+
+    $(document).on('click','.InternalCommunicationNotesDelete-popup',function(){
+
+       if( confirm("Are you sure you want to delete this record!") ) 
+       {
+          var NoteId = $(this).attr('data-userInternalCommunicationNotes');
+
+          var url = "{{ route('company.deleteBookingNotes', array("")) }}/"+NoteId;
+
+          $.ajax({
+             url : url,
+             type : "DELETE",
+             success : function(response){
+                if(response.hasOwnProperty("status"))
+                {
+                   alert(response.msg);
+                }
+                else
+                {
+
+                 var jsObj = {
+                    'conferenceBookingId' : editRoom,
+                    'code'        : 'internal_communication'
+                 };
+
+                 $.post("{{ route('company.getBookingNotes') }}",jsObj,function(response){
+                    if(response.hasOwnProperty("status"))
+                    {
+                       var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                       $('#log-InternalCommunicationNotes').html(html);
+                    }
+                    else
+                    {
+                       var html = '';
+                       var created_at;
+                       var updated_at;
+                       for(var i = 0 ; i < response.conferenceBookingNotes.length ; i++)
+                       {
+                          created_at = new Date(response.conferenceBookingNotes[i].created_at);
+                          updated_at = new Date(response.conferenceBookingNotes[i].updated_at);
+
+                          if(user_id == response.conferenceBookingNotes[i].user_id)
+                          {
+                             html += '<tr>';
+                             for(var j = 0 ; j < response.users.length ; j++)
+                             {
+                                if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                                {
+                                   html += '<td>'+response.users[j].name+'</td>';
+                                   break;
+                                }
+                                
+                             }
+                             html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                             html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                             html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                             html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg InternalCommunicationNotesEdit-popup" data-userInternalCommunicationNotes="'+response.conferenceBookingNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg InternalCommunicationNotesDelete-popup" data-userInternalCommunicationNotes="'+response.conferenceBookingNotes[i].id+'"></i></a> </td>';
+                             html += '</tr>';
+                          }
+                          else
+                          {
+                             html += '<tr>';
+                             for(var j = 0 ; j < response.users.length ; j++)
+                             {
+                                if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                                {
+                                   html += '<td>'+response.users[j].name+'</td>';
+                                   break;
+                                }
+                                
+                             }
+                             html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                             html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                             html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                             html += '</tr>';
+                          }
+                       }
+                       html += '</tbody>';
+                       html += '</table>'; 
+                       $('#log-InternalCommunicationNotes').html('');               
+                       $('#log-InternalCommunicationNotes').html(html);               
+                    }
+                 });
+
+                }
+             }
+          });
+       } 
+    });
+
+
+/* Internal Communication notes works end  */
+
+
+
+    $('#popup-Customer').on("click",function(){
+       $('.error').empty();
+       $('#popup-modalBtnCustomer').text("Add");
+       $('#Editor-Customer').val("");
+    });
+
+    var popupEditCNotesId;
+    var currentOperationCNotes = 0;
+
+    $(document).on('click','.CustomerNotesEdit-popup',function(){
+       $('.error').empty();
+       currentOperationCNotes = 1;
+       popupEditCNotesId = $(this).attr('data-userCustomerNotes');
+
+       var url = "{{ route('company.editBookingNotes', array("")) }}/"+popupEditCNotesId;
+
+       $.ajax({
+          url  : url,
+          type : "GET",
+          success : function(response){
+             if(response.hasOwnProperty("status"))
+             {
+                alert(response.msg);
+             }
+             else
+             {
+                $('#popup-modal-Customer').modal('toggle');
+                $('#Editor-Customer').val(response.note);
+                $('#popup-modalBtnCustomer').text("Update");
+             }
+          }
+       });
+    });
+
+    $(document).on('click','#popup-modalBtnCustomer',function(){
+       
+       
+       if(currentOperationCNotes == 1)
+       {
+          var textEditor = $('#Editor-Customer').val();
+
+          if(isEmpty(textEditor))
+          {
+             //alert("Please provide some content");
+             $('.error').text("Please provide some content");
+          }
+          else if(textEditor.length > 500)
+          {
+             // alert("Please enter characters between 1 to 100");
+             $('.error').text("Please enter characters between 1 to 500");
+          }
+          else
+          {
+             var jsObj = {
+                'conferenceBookingId' : editRoom,
+                'note'   : textEditor,
+                'code' : 'customer'
+             };
+             
+             var url = "{{ route('company.updateBookingNotes', array("")) }}/"+popupEditCNotesId;
+
+
+             $.ajax({
+                url  : url,
+                type : "PUT",
+                data : jsObj,
+                success : function(response){
+                   if(response.hasOwnProperty("status"))
+                   {
+                      alert(response.msg);
+                   }
+                   else
+                   {
+                      currentOperationCNotes = 0;
+                      $('#Editor-Customer').val("");
+
+                      var jsObjC = {
+                        'conferenceBookingId' : editRoom,
+                        'code'        : 'customer'
+                     };
+
+                     $.post("{{ route('company.getBookingNotes') }}",jsObjC,function(response){
+                        if(response.hasOwnProperty("status"))
+                        {
+                           var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                           $('#log-Customer').html(html);
+                        }
+                        else
+                        {
+                           var html = '';
+                           var created_at;
+                           var updated_at;
+                           for(var i = 0 ; i < response.conferenceBookingNotes.length ; i++)
+                           {
+                              created_at = new Date(response.conferenceBookingNotes[i].created_at);
+                              updated_at = new Date(response.conferenceBookingNotes[i].updated_at);
+
+                              if(user_id == response.conferenceBookingNotes[i].user_id)
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                                 html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg CustomerNotesEdit-popup" data-userCustomerNotes="'+response.conferenceBookingNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg CustomerNotesDelete-popup" data-userCustomerNotes="'+response.conferenceBookingNotes[i].id+'"></i></a> </td>';
+                                 html += '</tr>';
+                              }
+                              else
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                                 html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '</tr>';
+                              }
+                           }
+                           html += '</tbody>';
+                           html += '</table>'; 
+                           $('#log-Customer').html('');               
+                           $('#log-Customer').html(html);               
+                        }
+                     });
+
+                      $("#popup-modal-Customer .close").click();
+                   }
+                } 
+             });
+
+          }
+       }
+       else
+       {
+          var note = $('#Editor-Customer').val();
+
+          if(isEmpty(note))
+          {
+             // alert("Please provide some content");
+             $('.error').text("Please provide some content");
+          }
+          else if(note.length > 500)
+          {
+             // alert("Please enter characters between 1 to 100");
+             $('.error').text("Please enter characters between 1 to 500");
+          }
+          else
+          {
+             var jsObj = {
+                'conferenceBookingId' : editRoom,
+                'note' : note,
+                'code' : 'customer' 
+             };
+
+             $.ajax({
+                url : "{{ route('company.createBookingNotes') }}",
+                type : "POST",
+                data : jsObj,
+                dataType : "json",
+                success : function(response){
+                   if(response.hasOwnProperty("status"))
+                   {
+                      alert(response.msg);
+                   }
+                   else
+                   {
+                      $('#Editor-Customer').val("");
+
+                      var jsObjC = {
+                        'conferenceBookingId' : editRoom,
+                        'code'        : 'customer'
+                     };
+
+                     $.post("{{ route('company.getBookingNotes') }}",jsObjC,function(response){
+                        if(response.hasOwnProperty("status"))
+                        {
+                           var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                           $('#log-Customer').html(html);
+                        }
+                        else
+                        {
+                           var html = '';
+                           var created_at;
+                           var updated_at;
+                           for(var i = 0 ; i < response.conferenceBookingNotes.length ; i++)
+                           {
+                              created_at = new Date(response.conferenceBookingNotes[i].created_at);
+                              updated_at = new Date(response.conferenceBookingNotes[i].updated_at);
+
+                              if(user_id == response.conferenceBookingNotes[i].user_id)
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                                 html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg CustomerNotesEdit-popup" data-userCustomerNotes="'+response.conferenceBookingNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg CustomerNotesDelete-popup" data-userCustomerNotes="'+response.conferenceBookingNotes[i].id+'"></i></a> </td>';
+                                 html += '</tr>';
+                              }
+                              else
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                                 html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '</tr>';
+                              }
+                           }
+                           html += '</tbody>';
+                           html += '</table>'; 
+                           $('#log-Customer').html('');               
+                           $('#log-Customer').html(html);               
+                        }
+                     });
+
+
+                      $("#popup-modal-Customer .close").click();
+
+                   }
+                }
+             });
+          }
+       }
+    });
+
+    $(document).on('click','.CustomerNotesDelete-popup',function(){
+
+       if( confirm("Are you sure you want to delete this record!") ) 
+       {
+          var NoteId = $(this).attr('data-userCustomerNotes');
+
+          var url = "{{ route('company.deleteBookingNotes', array("")) }}/"+NoteId;
+
+          $.ajax({
+             url : url,
+             type : "DELETE",
+             success : function(response){
+                if(response.hasOwnProperty("status"))
+                {
+                   alert(response.msg);
+                }
+                else
+                {
+
+                  var jsObjC = {
+                    'conferenceBookingId' : editRoom,
+                    'code'        : 'customer'
+                 };
+
+                 $.post("{{ route('company.getBookingNotes') }}",jsObjC,function(response){
+                    if(response.hasOwnProperty("status"))
+                    {
+                       var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                       $('#log-Customer').html(html);
+                    }
+                    else
+                    {
+                       var html = '';
+                       var created_at;
+                       var updated_at;
+                       for(var i = 0 ; i < response.conferenceBookingNotes.length ; i++)
+                       {
+                          created_at = new Date(response.conferenceBookingNotes[i].created_at);
+                          updated_at = new Date(response.conferenceBookingNotes[i].updated_at);
+
+                          if(user_id == response.conferenceBookingNotes[i].user_id)
+                          {
+                             html += '<tr>';
+                             for(var j = 0 ; j < response.users.length ; j++)
+                             {
+                                if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                                {
+                                   html += '<td>'+response.users[j].name+'</td>';
+                                   break;
+                                }
+                                
+                             }
+                             html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                             html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                             html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                             html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg CustomerNotesEdit-popup" data-userCustomerNotes="'+response.conferenceBookingNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg CustomerNotesDelete-popup" data-userCustomerNotes="'+response.conferenceBookingNotes[i].id+'"></i></a> </td>';
+                             html += '</tr>';
+                          }
+                          else
+                          {
+                             html += '<tr>';
+                             for(var j = 0 ; j < response.users.length ; j++)
+                             {
+                                if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                                {
+                                   html += '<td>'+response.users[j].name+'</td>';
+                                   break;
+                                }
+                                
+                             }
+                             html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                             html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                             html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                             html += '</tr>';
+                          }
+                       }
+                       html += '</tbody>';
+                       html += '</table>'; 
+                       $('#log-Customer').html('');               
+                       $('#log-Customer').html(html);               
+                    }
+                 });
+
+                }
+             }
+          });
+       } 
+    });
+
+
+    $('#popup-ITDepartment').on("click",function(){
+       $('.error').empty();
+       $('#popup-modalBtnITDepartment').text("Add");
+       $('#Editor-ITDepartment').val("");
+    });
+
+    var popupEditITDNotesId;
+    var currentOperationITDNotes = 0;
+
+    $(document).on('click','.ITDepartmentNotesEdit-popup',function(){
+       $('.error').empty();
+       currentOperationITDNotes = 1;
+       popupEditITDNotesId = $(this).attr('data-userITDepartmentNotes');
+
+       var url = "{{ route('company.editBookingNotes', array("")) }}/"+popupEditITDNotesId;
+
+       $.ajax({
+          url  : url,
+          type : "GET",
+          success : function(response){
+             if(response.hasOwnProperty("status"))
+             {
+                alert(response.msg);
+             }
+             else
+             {
+                $('#popup-modal-ITDepartment').modal('toggle');
+                $('#Editor-ITDepartment').val(response.note);
+                $('#popup-modalBtnITDepartment').text("Update");
+             }
+          }
+       });
+    });
+
+    $(document).on('click','#popup-modalBtnITDepartment',function(){
+       
+       
+       if(currentOperationITDNotes == 1)
+       {
+          var textEditor = $('#Editor-ITDepartment').val();
+
+          if(isEmpty(textEditor))
+          {
+             //alert("Please provide some content");
+             $('.error').text("Please provide some content");
+          }
+          else if(textEditor.length > 500)
+          {
+             // alert("Please enter characters between 1 to 100");
+             $('.error').text("Please enter characters between 1 to 500");
+          }
+          else
+          {
+             var jsObj = {
+                'conferenceBookingId' : editRoom,
+                'note'   : textEditor,
+                'code' : 'it_department'
+             };
+             
+             var url = "{{ route('company.updateBookingNotes', array("")) }}/"+popupEditITDNotesId;
+
+
+             $.ajax({
+                url  : url,
+                type : "PUT",
+                data : jsObj,
+                success : function(response){
+                   if(response.hasOwnProperty("status"))
+                   {
+                      alert(response.msg);
+                   }
+                   else
+                   {
+                      currentOperationITDNotes = 0;
+                      $('#Editor-ITDepartment').val("");
+
+                      var jsObj = {
+                        'conferenceBookingId' : editRoom,
+                        'code'        : 'it_department'
+                     };
+
+                     $.post("{{ route('company.getBookingNotes') }}",jsObj,function(response){
+                        if(response.hasOwnProperty("status"))
+                        {
+                           var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                           $('#log-ITDepartment').html(html);
+                        }
+                        else
+                        {
+                           var html = '';
+                           var created_at;
+                           var updated_at;
+                           for(var i = 0 ; i < response.conferenceBookingNotes.length ; i++)
+                           {
+                              created_at = new Date(response.conferenceBookingNotes[i].created_at);
+                              updated_at = new Date(response.conferenceBookingNotes[i].updated_at);
+
+                              if(user_id == response.conferenceBookingNotes[i].user_id)
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                                 html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg ITDepartmentNotesEdit-popup" data-userITDepartmentNotes="'+response.conferenceBookingNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg ITDepartmentNotesDelete-popup" data-userITDepartmentNotes="'+response.conferenceBookingNotes[i].id+'"></i></a> </td>';
+                                 html += '</tr>';
+                              }
+                              else
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                                 html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '</tr>';
+                              }
+                           }
+                           html += '</tbody>';
+                           html += '</table>'; 
+                           $('#log-ITDepartment').html('');               
+                           $('#log-ITDepartment').html(html);               
+                        }
+                     });
+
+                      $("#popup-modal-ITDepartment .close").click();
+                   }
+                } 
+             });
+
+          }
+       }
+       else
+       {
+          var note = $('#Editor-ITDepartment').val();
+
+          if(isEmpty(note))
+          {
+             // alert("Please provide some content");
+             $('.error').text("Please provide some content");
+          }
+          else if(note.length > 500)
+          {
+             // alert("Please enter characters between 1 to 100");
+             $('.error').text("Please enter characters between 1 to 500");
+          }
+          else
+          {
+             var jsObj = {
+                'conferenceBookingId' : editRoom,
+                'note' : note,
+                'code' : 'it_department' 
+             };
+
+             $.ajax({
+                url : "{{ route('company.createBookingNotes') }}",
+                type : "POST",
+                data : jsObj,
+                dataType : "json",
+                success : function(response){
+                   if(response.hasOwnProperty("status"))
+                   {
+                      alert(response.msg);
+                   }
+                   else
+                   {
+                      $('#Editor-ITDepartment').val("");
+
+
+                      var jsObjIT = {
+                        'conferenceBookingId' : editRoom,
+                        'code'        : 'it_department'
+                     };
+
+                     $.post("{{ route('company.getBookingNotes') }}",jsObjIT,function(response){
+                        if(response.hasOwnProperty("status"))
+                        {
+                           var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                           $('#log-ITDepartment').html(html);
+                        }
+                        else
+                        {
+                           var html = '';
+                           var created_at;
+                           var updated_at;
+                           for(var i = 0 ; i < response.conferenceBookingNotes.length ; i++)
+                           {
+                              created_at = new Date(response.conferenceBookingNotes[i].created_at);
+                              updated_at = new Date(response.conferenceBookingNotes[i].updated_at);
+
+                              if(user_id == response.conferenceBookingNotes[i].user_id)
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                                 html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg ITDepartmentNotesEdit-popup" data-userITDepartmentNotes="'+response.conferenceBookingNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg ITDepartmentNotesDelete-popup" data-userITDepartmentNotes="'+response.conferenceBookingNotes[i].id+'"></i></a> </td>';
+                                 html += '</tr>';
+                              }
+                              else
+                              {
+                                 html += '<tr>';
+                                 for(var j = 0 ; j < response.users.length ; j++)
+                                 {
+                                    if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                                    {
+                                       html += '<td>'+response.users[j].name+'</td>';
+                                       break;
+                                    }
+                                    
+                                 }
+                                 html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                                 html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                                 html += '</tr>';
+                              }
+                           }
+                           html += '</tbody>';
+                           html += '</table>'; 
+                           $('#log-ITDepartment').html('');               
+                           $('#log-ITDepartment').html(html);               
+                        }
+                     });
+
+                      $("#popup-modal-ITDepartment .close").click();
+
+                   }
+                }
+             });
+          }
+       }
+    });
+
+    $(document).on('click','.ITDepartmentNotesDelete-popup',function(){
+
+       if( confirm("Are you sure you want to delete this record!") ) 
+       {
+          var NoteId = $(this).attr('data-userITDepartmentNotes');
+
+          var url = "{{ route('company.deleteBookingNotes', array("")) }}/"+NoteId;
+
+          $.ajax({
+             url : url,
+             type : "DELETE",
+             success : function(response){
+                if(response.hasOwnProperty("status"))
+                {
+                   alert(response.msg);
+                }
+                else
+                {
+                    var jsObj = {
+                      'conferenceBookingId' : editRoom,
+                      'code'        : 'it_department'
+                   };
+
+                   $.post("{{ route('company.getBookingNotes') }}",jsObj,function(response){
+                      if(response.hasOwnProperty("status"))
+                      {
+                         var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+                         $('#log-ITDepartment').html(html);
+                      }
+                      else
+                      {
+                         var html = '';
+                         var created_at;
+                         var updated_at;
+                         for(var i = 0 ; i < response.conferenceBookingNotes.length ; i++)
+                         {
+                            created_at = new Date(response.conferenceBookingNotes[i].created_at);
+                            updated_at = new Date(response.conferenceBookingNotes[i].updated_at);
+
+                            if(user_id == response.conferenceBookingNotes[i].user_id)
+                            {
+                               html += '<tr>';
+                               for(var j = 0 ; j < response.users.length ; j++)
+                               {
+                                  if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                                  {
+                                     html += '<td>'+response.users[j].name+'</td>';
+                                     break;
+                                  }
+                                  
+                               }
+                               html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                               html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                               html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                               html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg ITDepartmentNotesEdit-popup" data-userITDepartmentNotes="'+response.conferenceBookingNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg ITDepartmentNotesDelete-popup" data-userITDepartmentNotes="'+response.conferenceBookingNotes[i].id+'"></i></a> </td>';
+                               html += '</tr>';
+                            }
+                            else
+                            {
+                               html += '<tr>';
+                               for(var j = 0 ; j < response.users.length ; j++)
+                               {
+                                  if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                                  {
+                                     html += '<td>'+response.users[j].name+'</td>';
+                                     break;
+                                  }
+                                  
+                               }
+                               html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                               html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                               html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                               html += '</tr>';
+                            }
+                         }
+                         html += '</tbody>';
+                         html += '</table>'; 
+                         $('#log-ITDepartment').html('');               
+                         $('#log-ITDepartment').html(html);               
+                      }
+                   });
+                 
+                }
+             }
+          });
+       } 
+    });
+
+
+
+    $(document).ready(function(){
+
+       var jsObjB = {
+          'conferenceBookingId' : editRoom,
+          'code'        : 'booking_note'
+       };
+
+       $.post("{{ route('company.getBookingNotes') }}",jsObjB,function(response){
+          if(response.hasOwnProperty("status"))
+          {
+             var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+             $('#log-BookingNotes').html(html);
+          }
+          else
+          {
+             var html = '';
+             var created_at;
+             var updated_at;
+             for(var i = 0 ; i < response.conferenceBookingNotes.length ; i++)
+             {
+                created_at = new Date(response.conferenceBookingNotes[i].created_at);
+                updated_at = new Date(response.conferenceBookingNotes[i].updated_at);
+
+                if(user_id == response.conferenceBookingNotes[i].user_id)
+                {
+                   html += '<tr>';
+                   for(var j = 0 ; j < response.users.length ; j++)
+                   {
+                      if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                      {
+                         html += '<td>'+response.users[j].name+'</td>';
+                         break;
+                      }
+                      
+                   }
+                   html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                   html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                   html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                   html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg BookingNoteEdit-popup" data-userBookingNote="'+response.conferenceBookingNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg BookingNoteDelete-popup" data-userBookingNote="'+response.conferenceBookingNotes[i].id+'"></i></a> </td>';
+                   html += '</tr>';
+                }
+                else
+                {
+                   html += '<tr>';
+                   for(var j = 0 ; j < response.users.length ; j++)
+                   {
+                      if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                      {
+                         html += '<td>'+response.users[j].name+'</td>';
+                         break;
+                      }
+                      
+                   }
+                   html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                   html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                   html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                   html += '</tr>';
+                }
+             }
+             html += '</tbody>';
+             html += '</table>'; 
+             $('#log-BookingNotes').html('');               
+             $('#log-BookingNotes').html(html);               
+          }
+       });
+
+
+
+       var jsObjIC = {
+          'conferenceBookingId' : editRoom,
+          'code'        : 'internal_communication'
+       };
+
+       $.post("{{ route('company.getBookingNotes') }}",jsObjIC,function(response){
+          if(response.hasOwnProperty("status"))
+          {
+             var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+             $('#log-InternalCommunicationNotes').html(html);
+          }
+          else
+          {
+             var html = '';
+             var created_at;
+             var updated_at;
+             for(var i = 0 ; i < response.conferenceBookingNotes.length ; i++)
+             {
+                created_at = new Date(response.conferenceBookingNotes[i].created_at);
+                updated_at = new Date(response.conferenceBookingNotes[i].updated_at);
+
+                if(user_id == response.conferenceBookingNotes[i].user_id)
+                {
+                   html += '<tr>';
+                   for(var j = 0 ; j < response.users.length ; j++)
+                   {
+                      if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                      {
+                         html += '<td>'+response.users[j].name+'</td>';
+                         break;
+                      }
+                      
+                   }
+                   html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                   html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                   html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                   html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg InternalCommunicationNotesEdit-popup" data-userInternalCommunicationNotes="'+response.conferenceBookingNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg InternalCommunicationNotesDelete-popup" data-userInternalCommunicationNotes="'+response.conferenceBookingNotes[i].id+'"></i></a> </td>';
+                   html += '</tr>';
+                }
+                else
+                {
+                   html += '<tr>';
+                   for(var j = 0 ; j < response.users.length ; j++)
+                   {
+                      if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                      {
+                         html += '<td>'+response.users[j].name+'</td>';
+                         break;
+                      }
+                      
+                   }
+                   html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                   html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                   html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                   html += '</tr>';
+                }
+             }
+             html += '</tbody>';
+             html += '</table>'; 
+             $('#log-InternalCommunicationNotes').html('');               
+             $('#log-InternalCommunicationNotes').html(html);               
+          }
+       });
+
+
+
+        var jsObjC = {
+          'conferenceBookingId' : editRoom,
+          'code'        : 'customer'
+       };
+
+       $.post("{{ route('company.getBookingNotes') }}",jsObjC,function(response){
+          if(response.hasOwnProperty("status"))
+          {
+             var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+             $('#log-Customer').html(html);
+          }
+          else
+          {
+             var html = '';
+             var created_at;
+             var updated_at;
+             for(var i = 0 ; i < response.conferenceBookingNotes.length ; i++)
+             {
+                created_at = new Date(response.conferenceBookingNotes[i].created_at);
+                updated_at = new Date(response.conferenceBookingNotes[i].updated_at);
+
+                if(user_id == response.conferenceBookingNotes[i].user_id)
+                {
+                   html += '<tr>';
+                   for(var j = 0 ; j < response.users.length ; j++)
+                   {
+                      if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                      {
+                         html += '<td>'+response.users[j].name+'</td>';
+                         break;
+                      }
+                      
+                   }
+                   html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                   html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                   html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                   html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg CustomerNotesEdit-popup" data-userCustomerNotes="'+response.conferenceBookingNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg CustomerNotesDelete-popup" data-userCustomerNotes="'+response.conferenceBookingNotes[i].id+'"></i></a> </td>';
+                   html += '</tr>';
+                }
+                else
+                {
+                   html += '<tr>';
+                   for(var j = 0 ; j < response.users.length ; j++)
+                   {
+                      if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                      {
+                         html += '<td>'+response.users[j].name+'</td>';
+                         break;
+                      }
+                      
+                   }
+                   html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                   html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                   html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                   html += '</tr>';
+                }
+             }
+             html += '</tbody>';
+             html += '</table>'; 
+             $('#log-Customer').html('');               
+             $('#log-Customer').html(html);               
+          }
+       });
+
+
+        var jsObjIT = {
+          'conferenceBookingId' : editRoom,
+          'code'        : 'it_department'
+       };
+
+       $.post("{{ route('company.getBookingNotes') }}",jsObjIT,function(response){
+          if(response.hasOwnProperty("status"))
+          {
+             var html =  '<span class="text-primary text-info">'+response.msg+'</span>';
+             $('#log-ITDepartment').html(html);
+          }
+          else
+          {
+             var html = '';
+             var created_at;
+             var updated_at;
+             for(var i = 0 ; i < response.conferenceBookingNotes.length ; i++)
+             {
+                created_at = new Date(response.conferenceBookingNotes[i].created_at);
+                updated_at = new Date(response.conferenceBookingNotes[i].updated_at);
+
+                if(user_id == response.conferenceBookingNotes[i].user_id)
+                {
+                   html += '<tr>';
+                   for(var j = 0 ; j < response.users.length ; j++)
+                   {
+                      if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                      {
+                         html += '<td>'+response.users[j].name+'</td>';
+                         break;
+                      }
+                      
+                   }
+                   html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                   html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                   html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                   html += '<td> <a href="javascript:void(0)"><i class="fa fa-edit text-primary fa-lg ITDepartmentNotesEdit-popup" data-userITDepartmentNotes="'+response.conferenceBookingNotes[i].id+'"></i></a>&nbsp;&nbsp;<a href="javascript:void(0)"><i class="fa fa-trash text-danger fa-lg ITDepartmentNotesDelete-popup" data-userITDepartmentNotes="'+response.conferenceBookingNotes[i].id+'"></i></a> </td>';
+                   html += '</tr>';
+                }
+                else
+                {
+                   html += '<tr>';
+                   for(var j = 0 ; j < response.users.length ; j++)
+                   {
+                      if( response.users[j].id == response.conferenceBookingNotes[i].user_id )
+                      {
+                         html += '<td>'+response.users[j].name+'</td>';
+                         break;
+                      }
+                      
+                   }
+                   html += '<td>'+response.conferenceBookingNotes[i].note+'</td>';
+                   html += '<td>'+dateFormat(created_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                   html += '<td>'+dateFormat(updated_at, "dddd, mmmm dS, yyyy, h:MM:ss TT")+'</td>';
+                   html += '</tr>';
+                }
+             }
+             html += '</tbody>';
+             html += '</table>'; 
+             $('#log-ITDepartment').html('');               
+             $('#log-ITDepartment').html(html);               
+          }
+       });
+
+
+    });
+
+
+
+}
 
 
 

@@ -915,7 +915,6 @@
        $('#Editor-hrNote').val("");
     });
 
-
     var popupEditRoomNotesId;
     var currentOperationRoomNotes = 0;
 
@@ -1324,7 +1323,6 @@
           }
         }
      });
-
     });
 
 
