@@ -202,11 +202,48 @@ class CompanySurveyController extends AppBaseController
             ->where('survey_questions.company_id', $company_id)
             ->where('survey_questions.survey_id', $id)->get();;
         $options = QuestionOption::where('company_id', $company_id)->where('survey_id', $id)->pluck('name', 'code');
+        $questions = SurveyQuestion::where('company_id', $company_id)->where('survey_id', $id)->get();
+
+        $statistic = [];
+        $st_count = 0;
+        foreach($questions as $question) {
+            if($question->answer_type == 'yes_no') {
+                $yes_count = SurveyAnswer::where('question_id', $question->id)->where('answer_type', 'yes_no')->where('answer', 'yes')->count();
+                $no_count = SurveyAnswer::where('question_id', $question->id)->where('answer_type', 'yes_no')->where('answer', 'no')->count();
+                $st_count += 1;
+                array_push($statistic, (Object) array('answer_type' => 'yes_no', 'yes' => $yes_count, 'no' => $no_count, 'title' => $question->topic));
+            }else if ($question->answer_type == 'rating') {
+                $sAnswer = SurveyAnswer::where('question_id', $question->id)->where('answer_type', 'rating')->get();
+                $count = SurveyAnswer::where('question_id', $question->id)->where('answer_type', 'rating')->count();;
+                $rating = 0;
+                foreach($sAnswer as $answer) {
+                    $rating += $answer->answer;
+                }
+
+                if($count > 0) {
+                    $rating = $rating/$count;
+                }
+                $st_count += 1;
+                array_push($statistic, (Object) array('answer_type' => 'rating', 'rating' => $rating, 'title' => $question->topic));
+            }else if ($question->answer_type == 'optional') {
+                $q_options = QuestionOption::where('question_id', $question->id)->get();
+                $q_answer = [];
+                foreach($q_options as $option) {
+                    $count = SurveyAnswer::where('question_id', $question->id)->where('answer_type', 'optional')->where('answer', $option->code)->count();
+                    array_push($q_answer, (Object) array('option' => $option->name, 'count' => $count));
+                }
+                $st_count += 1;
+                array_push($statistic, (Object) array('answer_type' => 'optional', 'data' => $q_answer, 'title' => $question->topic));
+            }
+        }
+
         $data = [
             'surveys' => $surveys,
             'answer_types' => $answer_types,
             'answers' => $answers,
             'options' => $options,
+            'statistic' => json_encode($statistic),
+            'count' => $st_count
         ];
 
         return view('company.Survey.survey.dashboard', $data);

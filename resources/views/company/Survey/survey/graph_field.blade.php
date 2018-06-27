@@ -1,14 +1,11 @@
-
-<table class="table table-striped table-bordered" id="datatables">
-    <thead>
-    <tr>
-        <th>#</th>
-        <th>Topic</th>
-        <th>Answer</th>
-        <th>Answer Type</th>
-        <th>Feedback By</th>
-    </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
+<input type="hidden" id="statistic_data" value="@if(isset($statistic)) {{ $statistic }} @endif">
+<div class="row">
+    @for($i = 0; $i< $count; $i++)
+        <div class="col-md-12 form-group chart_container" >
+            <h3 id="header{{ $i }}"></h3>
+            <div style="height: 350px !important;">
+                <canvas id="statistic{{ $i }}"></canvas>
+            </div>
+        </div>
+    @endfor
+</div>

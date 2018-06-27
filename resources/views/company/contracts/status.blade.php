@@ -225,6 +225,9 @@
         if(data) {
             data = JSON.parse(data);
         }
+        var event_data = [];
+        var resource_data = [];
+        calculate_events();
 
         $('#calendar_filter').on('click', function() {
             var building = document.getElementById('building').value;
@@ -242,8 +245,10 @@
                         document.getElementById('calendar_data').value = return_data.data.data;
                         data = JSON.parse(return_data.data.data);
                         calculate_events();
+                        console.log(event_data);
                         $('#calendar').fullCalendar( 'removeEvents');
                         $('#calendar').fullCalendar( 'addEventSource', event_data);
+                        $('#calendar').fullCalendar('refetchEvents');
                     }
                 },
                 error: function (xhr, status, error) {
@@ -254,16 +259,9 @@
 
         });
 
-        var event_data = [];
-        var resource_data = [];
-        calculate_events();
-
         function calculate_events() {
-            if(data.length == 0) {
-                event_data = [];
-                resource_data = [];
-            }
-
+            event_data = [];
+            resource_data = [];
             for(var i=0; i< data.length; i++) {
                 event_data.push({'title' : data[i].name, 'start' : data[i].start_date ? data[i].start_date : '', 'end' : data[i].end_date ? data[i].end_date : '', 'color' : colors[i % 7], 'resourceId' : data[i].id});
                 resource_data.push({'id': data[i].id, 'room' : data[i].buildingName + ' - ' + data[i].floor + ' - ' + data[i].name, 'kvm': data[i].area});
