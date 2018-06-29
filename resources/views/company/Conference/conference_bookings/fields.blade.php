@@ -82,7 +82,7 @@
 
         <div class="form-group m-t-2 start-time">
             <label for="start_datetime">Start Datetime</label>
-            <input type="text" id="start_datetime" placeholder="" value="" name="start_datetime" class="form-control">
+            <input type="text" id="start_datetime" placeholder=""  name="start_datetime" class="form-control">
         </div>
 
 
@@ -90,7 +90,7 @@
 
         <div class="form-group m-t-2 end-time">
             <label for="end_datetime">End Datetime</label>
-            <input type="text" id="end_datetime" placeholder="" value="" name="end_datetime" class="form-control">
+            <input type="text" id="end_datetime" placeholder=""  name="end_datetime" class="form-control">
         </div>
 
 
@@ -199,12 +199,7 @@
 
 
     </div> <!-- col-sm-5 -->
-
-
-</div> <!-- row -->
-
-
-
+</div> 
 
 <hr>
 
@@ -228,7 +223,7 @@
 
             <tr>
                 <td>
-                     <p>{{ $eqp->title }}</p>
+                     <p>{{ $eqp->article_name_english }}</p>
                 </td>
                 <td>
                     @if ($eqp->is_multi_units == 0)
@@ -263,7 +258,7 @@
                                 
 
                             
-                                <input type="checkbox" name="equipments[]" value="{{$eqp->id}}" class="custom-control-input equipment-check-box" data-eqpid="{{$eqp->id}}" data-eqpprice="{{$eqp->price}}" data-isMultiUnits="{{$eqp->is_multi_units}}" 
+                                <input type="checkbox" name="equipments[]" value="{{$eqp->id}}" class="custom-control-input equipment-check-box" data-eqpid="{{$eqp->id}}" data-eqpprice="{{$eqp->in_price}}" data-isMultiUnits="{{$eqp->is_multi_units}}" 
 
                                     <?php  
 
@@ -277,22 +272,22 @@
 
                                 >
                                 <span class="custom-control-indicator"></span>
-                                @if ($eqp->criteria_id == 1)
-                                    SEK {{ $eqp->price }} per booking
+                                @if ($eqp->is_multi_units == 1)
+                                    SEK {{ $eqp->in_price }} per booking
                                 @else
-                                    SEK {{ $eqp->price }} per hour
+                                    SEK {{ $eqp->in_price }} per hour
                                 @endif
                         </label>
 
                     @else
 
                         <label class="custom-control custom-checkbox">
-                                <input type="checkbox" name="equipments[]" value="{{$eqp->id}}" class="custom-control-input equipment-check-box" data-eqpid="{{$eqp->id}}" data-eqpprice="{{$eqp->price}}" data-isMultiUnits="{{$eqp->is_multi_units}}" >
+                                <input type="checkbox" name="equipments[]" value="{{$eqp->id}}" class="custom-control-input equipment-check-box" data-eqpid="{{$eqp->id}}" data-eqpprice="{{$eqp->in_price}}" data-isMultiUnits="{{$eqp->is_multi_units}}" >
                                 <span class="custom-control-indicator"></span>
-                                @if ($eqp->criteria_id == 1)
-                                    SEK {{ $eqp->price }} per booking
+                                @if ($eqp->is_multi_units == 1)
+                                    SEK {{ $eqp->in_price }} per booking
                                 @else
-                                    SEK {{ $eqp->price }} per hour
+                                    SEK {{ $eqp->in_price }} per hour
                                 @endif
                         </label>
 
@@ -304,13 +299,7 @@
         </table>
 
     </div>
-
-
 </div>
-
-
-
-            
 
 <div class="row">
 
@@ -329,7 +318,7 @@
 
             <tr>
                 <td>
-                     <p>{{ $food->title }}</p>
+                     <p>{{ $food->article_name_english }}</p>
                 </td>
                 <td>
                     @if(isset($conferenceBooking))
@@ -362,7 +351,7 @@
 
 
 
-                                <input type="checkbox" name="foods[]" value="{{$food->id}}" class="custom-control-input food-check-box" data-foodid="{{$food->id}}" data-foodprice="{{$food->price_per_attendee}}" 
+                                <input type="checkbox" name="foods[]" value="{{$food->id}}" class="custom-control-input food-check-box" data-foodid="{{$food->id}}" data-foodprice="{{$food->in_price}}" 
 
                                     <?php  
 
@@ -376,15 +365,15 @@
 
                                 >
                                 <span class="custom-control-indicator "></span>
-                                SEK {{ $food->price_per_attendee }} per attendee
+                                SEK {{ $food->in_price }} per attendee
                         </label>
 
                     @else
 
                         <label class="custom-control custom-checkbox">
-                                <input type="checkbox" name="foods[]" value="{{$food->id}}" class="custom-control-input food-check-box" data-foodid="{{$food->id}}" data-foodprice="{{$food->price_per_attendee}}"   >
+                                <input type="checkbox" name="foods[]" value="{{$food->id}}" class="custom-control-input food-check-box" data-foodid="{{$food->id}}" data-foodprice="{{$food->in_price}}"   >
                                 <span class="custom-control-indicator "></span>
-                                SEK {{ $food->price_per_attendee }} per attendee
+                                SEK {{ $food->in_price }} per attendee
                         </label>
 
                     @endif
@@ -396,17 +385,7 @@
 
         </table>
     </div>
-
 </div>
-
-
-
-
-
-
-
-
-
 
 <div class="row">
 
@@ -422,20 +401,9 @@
             </tr>
 
             @foreach ($packages as $package)
-
-
-
-
-                                    
-
-
-
-
-
-
             <tr>
                 <td>
-                     <p>{{ $package->title }} </p>
+                     <p>{{ $package->article_name_english }} </p>
                 </td>
                 <td>
                     @if(isset($conferenceBooking))
@@ -464,7 +432,7 @@
 
                                 
 
-                                <input type="checkbox" name="packages[]" value="{{$package->id}}" class="custom-control-input package-check-box" data-packageid="{{$package->id}}" data-packageprice="{{$package->price}}"
+                                <input type="checkbox" name="packages[]" value="{{$package->id}}" class="custom-control-input package-check-box" data-packageid="{{$package->id}}" data-packageprice="{{$package->in_price}}"
 
 
                                     <?php  
@@ -479,15 +447,15 @@
 
                                 >
                                 <span class="custom-control-indicator "></span>
-                                SEK {{ $package->price }} per attendee
+                                SEK {{ $package->in_price }} per attendee
                         </label>
 
                     @else
 
                         <label class="custom-control custom-checkbox">
-                                <input type="checkbox" name="packages[]" value="{{$package->id}}" class="custom-control-input package-check-box" data-packageid="{{$package->id}}" data-packageprice="{{$package->price}}">
+                                <input type="checkbox" name="packages[]" value="{{$package->id}}" class="custom-control-input package-check-box" data-packageid="{{$package->id}}" data-packageprice="{{$package->in_price}}">
                                 <span class="custom-control-indicator "></span>
-                                SEK {{ $package->price }} per attendee
+                                SEK {{ $package->in_price }} per attendee
                         </label>
 
                     @endif
@@ -498,19 +466,7 @@
 
         </table>
     </div>
-
 </div>
-
-
-
-
-
-
-
-
-
-
-
 
 <div class="row">
 
@@ -526,14 +482,68 @@
             </div>
 
     </div>
-
-
 </div>
 
+<div class="row">
+    <div class="col-sm-12 col-md-12">
+        
+      @if(isset($conferenceBooking))
 
 
+          <div class="panel">
+            <div class="panel-heading">
+              <div class="panel-title">Booking Notes</div>
+            </div>
+            <div class="panel-body">
+                <div class="col-sm-12 col-md-12 form-group">
+                    <span><button type="button" class="btn btn-primary pull-right" data-toggle="modal" id="popup-BookingNotes" data-companyhr="@if(isset($conferenceBooking)){{ $conferenceBooking->id }}@endif" data-target="#popup-modal-BookingNotes"><i class="fa fa-plus"></i>&nbsp;Booking Notes</button></span>
+                    <div class="modal fade" id="popup-modal-BookingNotes" tabindex="-1">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                            <h4 class="modal-title">Booking Notes</h4>
+                          </div>
+                          <div class="modal-body">
+                             <div class="row">
+                                <div class="col-sm-12 col-md-12">
+                                   <textarea name="booking_note" placeholder="write your note here.." id="Editor-bookingNotes" style="width: 100%;height: 100px"></textarea>
+                                   <span class="error"></span>                                          
+                                </div>
+                             </div>                         
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="popup-modalBtnBookingNotes"></button>
+                             <button type="button" class="btn" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Cancel</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                 </div>
+
+                 <div class="col-sm-12 col-md-12 "> 
+                    <div class="table-primary">
+                       <table class="table table-striped table-bordered" id="compnay-BookingNotes">
+                          <thead>
+                             <th>Username</th>
+                             <th>Note</th>
+                             <th>Created at</th>
+                             <th>Last updated</th>
+                             <th>Actions</th>
+                          </thead>
+                          <tbody id="log-BookingNotes">
+                          </tbody>
+                       </table>
+                    </div>
+                 </div>
+            </div>
+        </div>
 
 
+      @endif
+
+    </div>
+</div>
 
 <input type="hidden" id="multiDayHiddenStart" value="">
 <input type="hidden" id="multiDayHiddenEnd" value="">

@@ -19,6 +19,7 @@ use App\Repositories\StateRepository;
 use App\Repositories\CityRepository;
 use App\Repositories\BookingAgencyRepository;
 use App\Repositories\ConferenceBookingDraftRepository;
+use App\Repositories\ConferenceBookingSignageRepository;
 use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -27,6 +28,12 @@ use DB;
 use Auth;
 use Session;
 use App\Models\CompanyCustomer;
+use App\Models\Rental\CompanyArticle;
+
+use App\Models\User;
+use App\Models\Company\ConferenceBookingNotes;
+
+
 
 class ConferenceBookingController extends AppBaseController
 {
@@ -34,6 +41,7 @@ class ConferenceBookingController extends AppBaseController
     private $conferenceBookingRepository;
     private $conferenceBookingItemRepository;
     private $conferenceBookingDraftRepository;
+    private $conferenceBookingSignageRepository;
     private $roomLayoutRepository;
     private $conferenceDurationRepository;
     private $equipmentRepository;
@@ -49,6 +57,7 @@ class ConferenceBookingController extends AppBaseController
     public function __construct(ConferenceBookingRepository $conferenceBookingRepo,
                                 ConferenceBookingItemRepository $conferenceBookingItemRepo,
                                 ConferenceBookingDraftRepository $conferenceBookingDraftRepo,
+                                ConferenceBookingSignageRepository $conferenceBookingSignageRepo,
                                 RoomLayoutRepository $roomLayoutRepo,
                                 EquipmentsRepository $equipmentRepo,
                                 PaymentMethodRepository $paymentMethodRepo,
@@ -65,6 +74,7 @@ class ConferenceBookingController extends AppBaseController
         $this->conferenceBookingRepository      = $conferenceBookingRepo;
         $this->conferenceBookingItemRepository  = $conferenceBookingItemRepo;
         $this->conferenceBookingDraftRepository = $conferenceBookingDraftRepo;
+        $this->conferenceBookingSignageRepository = $conferenceBookingSignageRepo;
         $this->roomLayoutRepository             = $roomLayoutRepo;
         $this->conferenceDurationRepository     = $conferenceDurationRepo;
         $this->equipmentRepository              = $equipmentRepo;
@@ -106,6 +116,120 @@ class ConferenceBookingController extends AppBaseController
         return view('company.Conference.conference_bookings.index', $data);
     }
 
+    public function getBookingNotes(Request $request)
+    {
+        $input = $request->all();
+
+        if( isset($input['conferenceBookingId']) && isset($input['code']))
+        {
+            $conferenceBookingNotes =  ConferenceBookingNotes::where('conference_booking_id',$input['conferenceBookingId'])->where('code',$input['code'])->orderBy('id', 'DESC')->get();
+            $users = User::all();
+
+            if (!empty($conferenceBookingNotes) && count($conferenceBookingNotes) > 0) 
+            {
+                $data = [
+                    'users' => $users,
+                    'conferenceBookingNotes' => $conferenceBookingNotes
+                ];
+
+                return response()->json($data);
+            }
+            else
+            {
+                return response()->json(['status' => 0 ,'msg' => 'Not enough Notes']);
+            }
+        }
+        else
+        {
+            return response()->json(['status' => 0 ,'msg' => 'There is some problem while getting HR Notes']);
+        }
+    }
+
+    public function createBookingNotes(Request $request)
+    {
+        $input = $request->all();
+
+        $user_id = Auth::guard('company')->user()->id;
+
+        if( isset($input['note']) && isset($input['code']) &&isset($input['conferenceBookingId']) )
+        {
+            $conferenceBookingNotes = new ConferenceBookingNotes;
+            $conferenceBookingNotes->note = $input['note'];
+            $conferenceBookingNotes->code = $input['code'];
+            $conferenceBookingNotes->conference_booking_id = $input['conferenceBookingId'];
+            $conferenceBookingNotes->user_id = $user_id;
+            $conferenceBookingNotes->save();
+            if($conferenceBookingNotes)
+            {
+                return response()->json($conferenceBookingNotes);   
+            }
+            else
+            {
+                return response()->json(['status' => 0 ,'msg' => 'Conference Booking Notes Note are not create']);
+            }
+        }
+        else
+        {
+            return response()->json(['status' => 0,'msg' => 'There is some problem while creating HR Note']);
+        }
+    }
+
+    public function editBookingNotes($id)
+    {
+        $conferenceBookingNotes =  ConferenceBookingNotes::find($id);
+        if (!empty($conferenceBookingNotes)) 
+        {
+            return response()->json($conferenceBookingNotes);
+        }
+        else
+        {
+            return response()->json(['status' => 0,'msg' => 'Conference Booking Note does not exist']);
+        }
+    }
+
+    public function updateBookingNotes($id,Request $request)
+    {
+        $input = $request->all();
+
+        if ( isset($input['note']) && isset($input['conferenceBookingId']) ) 
+        {
+            $conferenceBookingNotes = ConferenceBookingNotes::find($id);
+            $conferenceBookingNotes->conference_booking_id = $input['conferenceBookingId'];
+            $conferenceBookingNotes->note = $input['note'];
+            $conferenceBookingNotes->save();
+            if($conferenceBookingNotes)
+            {
+                return response()->json($conferenceBookingNotes);
+            }
+            else
+            {
+                return response()->json(['status' => 0,'msg' => 'Conference Booking Notes are not update']);
+            }
+        }
+        else
+        {
+            return response()->json(['status' => 0,'msg' => 'There is some problem while updating HR Note']);
+        }
+    }
+
+    public function deleteBookingNotes($id)
+    {
+        if ($id) 
+        {
+            $conferenceBookingNotes = ConferenceBookingNotes::find($id);
+            $conferenceBookingNotes->delete();
+
+            if($conferenceBookingNotes->deleted_at == null)
+            {
+                return response()->json(['status' => 0,'msg' => 'Conference Booking Notes are not delete']);
+            }
+        }
+        else
+        {
+            return response()->json(['status' => 0,'msg' => 'There is some problem while deleting HR Note']);   
+        }
+    }
+
     /**
      * Show the form for creating a new ConferenceBooking.
      *
@@ -122,14 +246,19 @@ class ConferenceBookingController extends AppBaseController
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $getCompanyCustomer = CompanyCustomer::where('company_id', $company_id)->get();
 
+        $equipments = CompanyArticle::where('category', 'equipment')->get();
+        $foodItems  = CompanyArticle::where('category', 'food')->get();
+        $packages   = CompanyArticle::where('category', 'food_package')->get();
+
+        // dd($equipments);
 
         $conferenceBookings     = $this->conferenceBookingRepository->all();
         $paymentMethods         = $this->paymentMethodRepository->all();
         $conferenceDurations    = $this->conferenceDurationRepository->all();
         $roomLayouts            = $this->roomLayoutRepository->all();
-        $equipments             = $this->equipmentRepository->all();
-        $foodItems              = $this->foodRepository->all();
-        $packages               = $this->packagesRepository->all();
+        // $equipments             = $this->equipmentRepository->all();
+        // $foodItems              = $this->foodRepository->all();
+        // $packages               = $this->packagesRepository->all();
         $generalSetting         = $this->generalSettingRepository->getBookingTaxValue();
         $bookingAgencies        = $this->bookingAgencyRepository->getCompanyBookingAgencies($company_id);
 
@@ -171,6 +300,10 @@ class ConferenceBookingController extends AppBaseController
     {
         $input = $request->all();
 
+
+        // dd($input);
+
+
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
 
         $updateCustomer = [
@@ -204,6 +337,7 @@ class ConferenceBookingController extends AppBaseController
         $input['start_datetime']    = $start_datetime;
         $input['end_datetime']      = $end_datetime;
 
+        // dd($input['start_datetime']);
 
         if (empty($input['packages'])) {
             $input['package_price'] = 0.00;
@@ -217,12 +351,15 @@ class ConferenceBookingController extends AppBaseController
             $input['equipment_price'] = 0.00;
         } 
 
-        $conferenceBooking = $this->conferenceBookingRepository->create($input);
 
+        $conferenceBooking = $this->conferenceBookingRepository->create($input);
 
 
         // ==========================================================================
 
+        // $equipments = CompanyArticle::where('category', 'equipment')->get();
+        // $foodItems  = CompanyArticle::where('category', 'food')->get();
+        // $packages   = CompanyArticle::where('category', 'food_package')->get();
 
         if (!empty($input['packages'])) {
 
@@ -233,13 +370,14 @@ class ConferenceBookingController extends AppBaseController
 
             foreach ($packagesData as $key=>$val) {
 
-                $package = $this->packagesRepository->findWithoutFail($key);
+                // $package = $this->packagesRepository->findWithoutFail($key);
+                $package   = CompanyArticle::where('id', $key)->where('category', 'food_package')->first();
 
                 $packageInput['booking_id']    = $conferenceBooking->id;
                 $packageInput['entity_id']     = $key;
                 $packageInput['entity_type']   = "package";
-                $packageInput['entity_name']   = $package->title;
-                $packageInput['entity_price']  = $package->price;
+                $packageInput['entity_name']   = $package->article_name_english;
+                $packageInput['entity_price']  = $package->in_price;
                 $packageInput['entity_qty']    = $val['qty'];
 
                 $this->conferenceBookingItemRepository->create($packageInput);
@@ -259,13 +397,14 @@ class ConferenceBookingController extends AppBaseController
 
             foreach ($foodsData as $key=>$val) {
 
-                $food = $this->foodRepository->findWithoutFail($key);
+                // $food = $this->foodRepository->findWithoutFail($key);
+                $food  = CompanyArticle::where('id', $key)->where('category', 'food')->first();
 
                 $foodInput['booking_id']    = $conferenceBooking->id;
                 $foodInput['entity_id']     = $key;
                 $foodInput['entity_type']   = "food";
-                $foodInput['entity_name']   = $food->title;
-                $foodInput['entity_price']  = $food->price_per_attendee;
+                $foodInput['entity_name']   = $food->article_name_english;
+                $foodInput['entity_price']  = $food->in_price;
                 $foodInput['entity_qty']    = $val['qty'];
 
                 $this->conferenceBookingItemRepository->create($foodInput);
@@ -285,13 +424,14 @@ class ConferenceBookingController extends AppBaseController
 
             foreach ($equipmentsData as $key=>$val) {
 
-                $equipment = $this->equipmentRepository->findWithoutFail($key);
+                // $equipment = $this->equipmentRepository->findWithoutFail($key);
+                $equipment = CompanyArticle::where('id', $key)->where('category', 'equipment')->first();
 
                 $equipmentInput['booking_id']    = $conferenceBooking->id;
                 $equipmentInput['entity_id']     = $key;
                 $equipmentInput['entity_type']   = "equipments";
-                $equipmentInput['entity_name']   = $equipment->title;
-                $equipmentInput['entity_price']  = $equipment->price;
+                $equipmentInput['entity_name']   = $equipment->article_name_english;
+                $equipmentInput['entity_price']  = $equipment->in_price;
                 $equipmentInput['entity_qty']    = $val['qty'];
 
                 $this->conferenceBookingItemRepository->create($equipmentInput);
@@ -303,6 +443,40 @@ class ConferenceBookingController extends AppBaseController
 
         $input['booking_id'] = $conferenceBooking->id;
         $this->conferenceBookingDraftRepository->create($input);
+
+        // ==========================================================================
+
+
+        if ($input['is_signage'] == 'on') { $input['is_signage'] = 1; }
+
+
+        $createSignage = [
+                                'booking_id' => $input['booking_id'],
+                                'is_signage' => $input['is_signage'],
+                                'first_name' => $input['signage_first_name'],
+                                'first_screen_name' => $input['signage_first_screen_name'],
+                                'second_name' => $input['signage_second_name'],
+                                'second_screen_name' => $input['signage_second_screen_name'],
+                        ];
+
+
+        if ($request->hasFile('signage_first_logo')) {
+
+            $path = $request->file('signage_first_logo')->store('public/booking_signage');
+            $path = explode("/", $path);
+            $createSignage['first_logo'] = $path[2];
+        }
+
+
+        if ($request->hasFile('signage_second_logo')) {
+
+            $path = $request->file('signage_second_logo')->store('public/booking_signage');
+            $path = explode("/", $path);
+            $createSignage['second_logo'] = $path[2];
+        }
+
+
+        $this->conferenceBookingSignageRepository->create($createSignage);
 
         // ==========================================================================
 
@@ -340,8 +514,7 @@ class ConferenceBookingController extends AppBaseController
      *
      * @return Response
      */
-    public function edit($id)
-    {
+    public function edit($id) {
 
 
         $countries              = $this->countryRepository->all();
@@ -352,9 +525,13 @@ class ConferenceBookingController extends AppBaseController
         $paymentMethods         = $this->paymentMethodRepository->all();
         $conferenceDurations    = $this->conferenceDurationRepository->all();
         $roomLayouts            = $this->roomLayoutRepository->all();
-        $equipments             = $this->equipmentRepository->all();
+        /*$equipments             = $this->equipmentRepository->all();
         $foodItems              = $this->foodRepository->all();
-        $packages               = $this->packagesRepository->all();
+        $packages               = $this->packagesRepository->all();*/
+
+        $equipments = CompanyArticle::where('category', 'equipment')->get();
+        $foodItems  = CompanyArticle::where('category', 'food')->get();
+        $packages   = CompanyArticle::where('category', 'food_package')->get();
 
         $generalSetting         = $this->generalSettingRepository->getBookingTaxValue();
 
@@ -369,6 +546,11 @@ class ConferenceBookingController extends AppBaseController
 
         $bookingAgencies        = $this->bookingAgencyRepository->getCompanyBookingAgencies($company_id);
 
+
+        $getBookingDraft = $this->conferenceBookingDraftRepository->getBookingDraftData($id);
+
+        $getBookingSignage = $this->conferenceBookingSignageRepository->getBookingSignageData($id);
+
         if (empty($conferenceBooking)) {
             Flash::error('Conference Booking not found');
 
@@ -378,6 +560,8 @@ class ConferenceBookingController extends AppBaseController
 
 
         $data = [
+                    'getBookingSignage'       => $getBookingSignage,
+                    'getBookingDraft'       => $getBookingDraft,
                     'companyCustomerInfo'   => $companyCustomerInfo,
                     'countries'             => $countries,
                     'states'                => $states,
@@ -416,6 +600,8 @@ class ConferenceBookingController extends AppBaseController
 
 
         $input = $request->all();
+
+        // dd($input);
 
 
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
@@ -497,13 +683,14 @@ class ConferenceBookingController extends AppBaseController
 
             foreach ($packagesData as $key=>$val) {
 
-                $package = $this->packagesRepository->findWithoutFail($key);
+                // $package = $this->packagesRepository->findWithoutFail($key);
+                $package   = CompanyArticle::where('id', $key)->where('category', 'food_package')->first();
 
                 $packageInput['booking_id']    = $conferenceBooking->id;
                 $packageInput['entity_id']     = $key;
                 $packageInput['entity_type']   = "package";
-                $packageInput['entity_name']   = $package->title;
-                $packageInput['entity_price']  = $package->price;
+                $packageInput['entity_name']   = $package->article_name_english;
+                $packageInput['entity_price']  = $package->in_price;
                 $packageInput['entity_qty']    = $val['qty'];
 
                 $this->conferenceBookingItemRepository->create($packageInput);
@@ -526,13 +713,14 @@ class ConferenceBookingController extends AppBaseController
 
             foreach ($foodsData as $key=>$val) {
 
-                $food = $this->foodRepository->findWithoutFail($key);
+                // $food = $this->foodRepository->findWithoutFail($key);
+                $food  = CompanyArticle::where('id', $key)->where('category', 'food')->first();
 
                 $foodInput['booking_id']    = $conferenceBooking->id;
                 $foodInput['entity_id']     = $key;
                 $foodInput['entity_type']   = "food";
-                $foodInput['entity_name']   = $food->title;
-                $foodInput['entity_price']  = $food->price_per_attendee;
+                $foodInput['entity_name']   = $food->article_name_english;
+                $foodInput['entity_price']  = $food->in_price;
                 $foodInput['entity_qty']    = $val['qty'];
 
                 $this->conferenceBookingItemRepository->create($foodInput);
@@ -554,13 +742,14 @@ class ConferenceBookingController extends AppBaseController
 
             foreach ($equipmentsData as $key=>$val) {
 
-                $equipment = $this->equipmentRepository->findWithoutFail($key);
+                // $equipment = $this->equipmentRepository->findWithoutFail($key);
+                $equipment = CompanyArticle::where('id', $key)->where('category', 'equipment')->first();
 
                 $equipmentInput['booking_id']    = $conferenceBooking->id;
                 $equipmentInput['entity_id']     = $key;
                 $equipmentInput['entity_type']   = "equipments";
-                $equipmentInput['entity_name']   = $equipment->title;
-                $equipmentInput['entity_price']  = $equipment->price;
+                $equipmentInput['entity_name']   = $equipment->article_name_english;
+                $equipmentInput['entity_price']  = $equipment->in_price;
                 $equipmentInput['entity_qty']    = $val['qty'];
 
                 $this->conferenceBookingItemRepository->create($equipmentInput);
@@ -570,9 +759,45 @@ class ConferenceBookingController extends AppBaseController
 
         // ==========================================================================
 
+        $input['booking_id'] = $conferenceBooking->id;
+        $this->conferenceBookingDraftRepository->update($input, $input['booking_draft_id']);
 
 
+        // ==========================================================================
 
+
+        if ($input['is_signage'] == 'on') { $input['is_signage'] = 1; }
+
+
+        $createSignage = [
+                                'booking_id' => $input['booking_id'],
+                                'is_signage' => $input['is_signage'],
+                                'first_name' => $input['signage_first_name'],
+                                'first_screen_name' => $input['signage_first_screen_name'],
+                                'second_name' => $input['signage_second_name'],
+                                'second_screen_name' => $input['signage_second_screen_name'],
+                        ];
+
+
+        if ($request->hasFile('signage_first_logo')) {
+
+            $path = $request->file('signage_first_logo')->store('public/booking_signage');
+            $path = explode("/", $path);
+            $createSignage['first_logo'] = $path[2];
+        }
+
+
+        if ($request->hasFile('signage_second_logo')) {
+
+            $path = $request->file('signage_second_logo')->store('public/booking_signage');
+            $path = explode("/", $path);
+            $createSignage['second_logo'] = $path[2];
+        }
+
+
+        $this->conferenceBookingSignageRepository->update($createSignage, $input['booking_signage_id']);
+
+        // ==========================================================================
 
 
         $conferenceBooking = $this->conferenceBookingRepository->findWithoutFail($id);

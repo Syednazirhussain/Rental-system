@@ -15,9 +15,9 @@ class CreateConferenceBookingsTable extends Migration {
 		Schema::create('conference_bookings', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('customer_id')->unsigned()->index('customer_id');
+			$table->integer('company_customer_id')->unsigned()->index('company_customer_id');
 			$table->date('booking_date')->nullable();
-			$table->dateTime('start_dateime')->nullable();
+			$table->dateTime('start_datetime')->nullable();
 			$table->dateTime('end_datetime')->nullable();
 			$table->integer('attendees')->unsigned()->nullable();
 			$table->integer('room_id')->unsigned()->nullable()->index('room_id');

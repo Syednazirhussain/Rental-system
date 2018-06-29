@@ -77,6 +77,7 @@ class ConferenceBooking extends Model
     protected $casts = [
         'id' => 'integer',
         'company_customer_id' => 'integer',
+        'start_datetime' => 'date',
         'booking_date' => 'date',
         'attendees' => 'integer',
         'room_id' => 'integer',

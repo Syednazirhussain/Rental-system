@@ -69,4 +69,12 @@ class ConferenceBookingDraftRepository extends BaseRepository
     {
         return ConferenceBookingDraft::class;
     }
+
+    public function getBookingDraftData($id)
+    {
+        return ConferenceBookingDraft::where('booking_id', $id)->first();
+    }
+
+
+
 }

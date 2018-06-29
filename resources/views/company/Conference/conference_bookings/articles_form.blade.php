@@ -1,3 +1,12 @@
+
+<div class="text-center m-t-3">
+
+<a href="{{ route('company.rarticle.create') }}" target="_blank" class="btn btn-lg btn-primary">SHOW ARTICLE FORM</a>
+    
+</div>
+
+<!-- 
+
 <table class="table table-responsive" id="conferenceBookings-table">
     <thead>
         <tr>
@@ -147,3 +156,5 @@
             </tr>
     </tbody>
 </table>
+
+ -->
