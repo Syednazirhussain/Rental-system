@@ -872,6 +872,8 @@ Route::group(['middleware' => ['company.auth']], function () {
     Route::get('company/survey_answers/list', ['as'=> 'company.survey_answers.list', 'uses' => 'Company\Survey\SurveyAnswerController@lists']);
     Route::get('company/answer/{answer}/show/{user}', ['as'=> 'company.survey_answers.show', 'uses' => 'Company\Survey\SurveyAnswerController@show']);
     Route::post('company/feedback', ['as'=> 'company.feedback.store', 'uses' => 'Company\Survey\SurveyAnswerController@store']);
+    Route::get('company/feedback/send', ['as'=> 'company.send_feedback.index', 'uses' => 'Company\Survey\SurveyAnswerController@send_feedback']);
+    Route::post('company/feedback/send', ['as'=> 'company.send_feedback.store', 'uses' => 'Company\Survey\SurveyAnswerController@store_feedback']);
     //Survey Question Option
     Route::delete('company/question_option/delete', ['as'=> 'company.question_option.destroy', 'uses' => 'Company\Survey\QuestionOptionController@destroy']);
 

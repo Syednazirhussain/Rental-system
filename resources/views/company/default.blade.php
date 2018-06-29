@@ -264,6 +264,9 @@
                                 <li>
                                     <a href="{{ route('company.feedback.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Feedback</a>
                                 </li>
+                                <li>
+                                    <a href="{{ route('company.send_feedback.index') }}"><i class="fa fa-cubes"></i>&nbsp;&nbsp;Send Feedback</a>
+                                </li>
                             </ul>
                         </li>
            

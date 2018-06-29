@@ -8,8 +8,10 @@ use App\Model\Survey\CompanySurvey;
 use App\Model\Survey\QuestionOption;
 use App\Model\Survey\SurveyAnswer;
 use App\Model\Survey\SurveyQuestion;
+use App\Models\Rental\CompanyCustomer;
 use App\Models\CompanyService;
 use App\Models\Survey\AnswerType;
+use App\Models\Survey\CustomerFeedback;
 use App\Repositories\Company\RoomRepository;
 use App\Http\Controllers\AppBaseController;
 use App\Models\Survey\SurveyCategory;
@@ -20,6 +22,7 @@ use Response;
 use Auth;
 use App\Models\Company;
 use App\Models\User;
+use Mail;
 
 
 class SurveyAnswerController extends AppBaseController
@@ -193,4 +196,55 @@ class SurveyAnswerController extends AppBaseController
     {
 
     }
+
+    /**
+     * Assign survey to customer view.
+     */
+    public function send_feedback()
+    {
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        $surveys = CompanySurvey::where('company_id', $company_id)->get();
+        $customers = CompanyCustomer::where('company_id', $company_id)->get();
+
+        $data = [
+            'company_id' => $company_id,
+            'surveys' => $surveys,
+            'customers' => $customers,
+        ];
+
+        return view('company.Survey.survey_answers.send_feedback', $data);
+    }
+
+    /**
+     * Send Email to Customer to fill the feedback.
+     */
+    public function store_feedback(Request $request)
+    {
+        $input = $request->except('_token');
+        $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
+        $input['company_id'] = $company_id;
+
+        $feedback = CustomerFeedback::where('company_id', $company_id)->where('customer_id', $input['customer_id'])
+            ->where('survey_id', $input['survey_id'])->where('status', 'publish')->get();
+
+        if($feedback->isEmpty()) {
+            CustomerFeedback::insert($input);
+
+            ini_set('max_execution_time', 300);
+
+            $data = route('company.feedback.index');
+            $customer = CompanyCustomer::find($input['customer_id']);
+            $from_email = Auth::guard('company')->user()->email;
+
+            Mail::send('emails.sendFeedback', ['data'=> $data], function($message) use ($from_email, $customer) {
+                $message->from ($from_email);
+                $message->to($customer->email);
+                $message->subject("Please fill the feedback !");
+                $message->sender('email@example.com', 'Mr. Example');
+            });
+        }
+
+        return redirect(route('company.survey.index'));
+    }
+
 }
