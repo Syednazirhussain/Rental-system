@@ -422,7 +422,7 @@
 
     // Initialize Summernote
     $(function() {
-      $('#summernote-base2').summernote({
+      $('#description').summernote({
         height: 200,
         toolbar: [
           ['parastyle', ['style']],

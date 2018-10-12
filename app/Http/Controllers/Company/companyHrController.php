@@ -260,6 +260,8 @@ class companyHrController extends AppBaseController
     {
         $input = $request->all();
 
+        print_r($input);exit;
+
         $company_id = Auth::guard('company')->user()->companyUser()->first()->company_id;
         $user_id = Auth::guard('company')->user()->id;
 

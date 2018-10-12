@@ -66,6 +66,6 @@ class Kernel extends HttpKernel
         'newsletter.auth' => \App\Http\Middleware\NewsLetterAuthMiddleware::class,
         'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
-        'admin.permissions' => \App\Http\Middleware\AdminPermissionsMiddleware::class,
+        'admin.permissions' => \App\Http\Middleware\AdminPermissionsMiddleware::class
     ];
 }

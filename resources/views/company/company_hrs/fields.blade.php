@@ -4,7 +4,7 @@
          <div class="wizard panel-wizard" id="wizard-validation">
             <div class="wizard-wrapper">
                <ul class="wizard-steps">
-                  <li data-target="#wizard-1" class="active">
+                  <li data-target="#wizard-1" >
                      <span class="wizard-step-number">1</span>
                      <span class="wizard-step-complete"><i class="fa fa-check"></i></span>
                      <span class="wizard-step-caption">
@@ -25,7 +25,7 @@
                      Salary and vacation
                      </span>
                   </li>
-                  <li data-target="#wizard-4">
+                  <li data-target="#wizard-4" class="active">
                      <span class="wizard-step-number">4</span>
                      <span class="wizard-step-complete"><i class="fa fa-check"></i></span>
                      <span class="wizard-step-caption">
@@ -3366,8 +3366,8 @@
    }
 
 
-      $('input[name="docFiles"]').fileuploader({
-           extensions: ['jpg', 'jpeg', 'png', 'gif', 'bmp'],
+   $('input[name="docFiles"]').fileuploader({
+         extensions: ['jpg', 'jpeg', 'png', 'gif', 'bmp'],
          changeInput: ' ',
          theme: 'thumbnails',
            enableApi: true,
@@ -3552,7 +3552,6 @@
           }
       });
 
-
       $('#wizard-1').on('submit', function(e) {
 
             e.preventDefault();
@@ -3563,7 +3562,6 @@
 
             }
       });
-
 
       $('#wizard-2').validate({
           rules: {
@@ -3628,8 +3626,6 @@
 
             }
         });
-
-
 
       $('#wizard-3').validate({
           rules: {

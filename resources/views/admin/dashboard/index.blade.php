@@ -31,7 +31,7 @@
                             <a href="#" class="box bg-info">
                                 <div class="box-cell p-a-3 valign-middle">
                                     <i class="box-bg-icon middle right ion-ios-briefcase"></i>
-                                    <span class="font-size-24"><strong>{{$companyCount}}</strong></span><br>
+                                    <span class="font-size-24"><strong>45</strong></span><br>
                                     <span class="font-size-15">Companies</span>
                                 </div>
                             </a>
@@ -41,7 +41,7 @@
                             <a href="#" class="box bg-warning">
                                 <div class="box-cell p-a-3 valign-middle">
                                     <i class="box-bg-icon middle right  ion-android-film"></i>
-                                    <span class="font-size-24"><strong>{{$companyBuildingCount}}</strong></span><br>
+                                    <span class="font-size-24"><strong>34</strong></span><br>
                                     <span class="font-size-15">Buildings</span>
                                 </div>
                             </a>
@@ -100,16 +100,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="valign-middle">
-                                    @foreach($companyRecent as $company)
-                                    <tr>
-                                        <td>{{$company->id}}</td>
-                                        <td>{{$company->name}}</td>
-                                        <td>{{$company->phone}}</td>
-                                        <td>{{$company->address}}</td>
-                                        <td>{{$company->zipcode}}</td>
-                                        <td>{{ date('F d, Y', strtotime($company->created_at)) }}</td>
-                                    </tr>
-                                    @endforeach
+
                                 </tbody>
                             </table>
                         </div>

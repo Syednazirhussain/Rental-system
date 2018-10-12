@@ -65,6 +65,23 @@
     <script type="text/javascript">
 
 
+        checkField = function(response) {
+          switch ($.parseJSON(response).code) {
+              case 200:
+                  return "true"; // <-- the quotes are important!
+              case 401:
+                  //alert("Sorry, our system has detected that an account with this email address already exists.");
+                  break;
+              case 404:
+                  console.log('missing code');
+                  break;
+              default:
+                  alert("An undefined error occurred");
+                  break;
+          }
+          return false;
+        };
+
 
         // Initialize validator
         $('#userForm').pxValidate({
@@ -121,23 +138,6 @@
             placeholder: 'Select value',
           });
         });
-
-        checkField = function(response) {
-          switch ($.parseJSON(response).code) {
-              case 200:
-                  return "true"; // <-- the quotes are important!
-              case 401:
-                  //alert("Sorry, our system has detected that an account with this email address already exists.");
-                  break;
-              case 404:
-                  console.log('missing code');
-                  break;
-              default:
-                  alert("An undefined error occurred");
-                  break;
-          }
-          return false;
-        };
 
     </script>
 
